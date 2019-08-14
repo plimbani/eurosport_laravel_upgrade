@@ -16,20 +16,22 @@
   <table class="table table-hover table-bordered table-sm matchSchedule" v-if="matchData.length > 0 && isDivExist == 0">
       <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
       
-      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="getMatchList()" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
   </table>
+  
+  <div v-if="matchData.length > 0 && isDivExist == 1">
+    <div v-for="(matches,index) in isDivExistData">
+      <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
+      <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 
-  <div v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
-    <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
-    <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
+      <table class="table table-hover table-bordered table-sm matchSchedule">
 
-    <table class="table table-hover table-bordered table-sm matchSchedule">
+        <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-      <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
+        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="getMatchList()" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 
 
-      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 
-
-    </table>
+      </table>
+    </div>
   </div>
 
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
@@ -100,8 +102,8 @@ export default {
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
-      isDivExist: false,
-      isDivExistData: [],
+      isDivExist: 0,
+      isDivExistData: new Array(),
       no_of_records: 20,
       recordCounts: [5,10,20,50,100],
       unChangedMatchScoresInfoModalOpen: false,
@@ -115,6 +117,7 @@ export default {
         this.dispLocation = false
         return this.dispLocation
       }
+      return true;
     },
     isUserDataExist() {
       return this.$store.state.isAdmin
@@ -206,8 +209,8 @@ export default {
         }
         else
         {
-          vm.isDivExist = false;
-          vm.isDivExistData = [];
+          vm.isDivExist = 0;
+          vm.isDivExistData = new Array();
         }
       },
       deep: true,
@@ -409,8 +412,8 @@ export default {
         }
         else
         {
-          vm.isDivExist = false;
-          vm.isDivExistData = [];
+          vm.isDivExist = 0;
+          vm.isDivExistData = new Array();
           return vm.matchData;  
         }
       }
