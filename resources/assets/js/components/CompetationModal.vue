@@ -34,19 +34,14 @@
                       <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
                   </p>
-                  <p class="row no-gutters">
+                  <p class="row no-gutters" v-if="templateData['tournament_min_match'] != null">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_min_match'] }}</label>
                   </p>
                   <p class="row no-gutters mb-0">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
                       <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
-<<<<<<< HEAD
-                      <!-- <label class="col-md-6">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label> -->
-                      <label class="col-md-6">{{ displayRoundSchedule() }}</label>
-=======
-                      <label class="col-md-5 pl-2">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
->>>>>>> 05acfd32c419a97575bad537a692941e6987d910
+                      <label class="col-md-5 pl-2">{{ displayRoundSchedule() }}</label>
                   </p>
                 </div>
               </div>

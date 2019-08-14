@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin || isInternalAdmin ? 'col-sm-6' : 'col-sm-4'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'" v-if="!isInternalAdmin">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
@@ -51,14 +51,14 @@
               <div class="form-group" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator' || userDetails.role_slug == 'tournament.administrator')">
                 <button class="btn btn-primary col-sm-10 btn-theme" @click="userList()">{{$lang.welcome_add_new_user}}</button>
               </div>
-              
-              <div class="form-group" v-if="(userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'tournament.administrator' || userDetails.role_slug == 'Internal.administrator')">
+
+              <div class="form-group" v-if="(userDetails.role_slug == 'Super.administrator')">
                 <button class="btn btn-primary col-sm-10 btn-theme" @click="templateList()">{{$lang.welcome_manage_templates}}</button>
               </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-4 d-flex mb-4" v-if="userDetails.role_slug != 'Results.administrator'">
+      <div class="d-flex mb-4" :class="isInternalAdmin ? 'col-sm-6' : 'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
         <div :class="{ 'card mb-0 w-100': true, 'is-disabled': currentLayout === 'commercialisation' }">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>

@@ -253,6 +253,7 @@ class MatchController extends BaseController
             $pitchAvailability = $pitch->pitchAvailability;
             $pitchAvailabilityIndex = 0;
             $stageMinutes = 0;
+            $allCompetitions = [];
 
             foreach($tournamentFixtures as $fixture) {
                 $stageStartDate = $pitchAvailability[$pitchAvailabilityIndex]->stage_start_date;
@@ -320,7 +321,14 @@ class MatchController extends BaseController
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
+                $allCompetitions[] = $fixture->competition_id;
                 $competationId = $matchServiceObj->calculateCupLeagueTable($fixture);
+            }
+            $allCompetitions = array_unique($allCompetitions);
+            sort($allCompetitions);
+            foreach ($allCompetitions as $id) {
+                $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
+                $this->matchObj->refreshCompetitionStandings($data);
             }
         } catch(\Exception $e) {
             $status = 'error';

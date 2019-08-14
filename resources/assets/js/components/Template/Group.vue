@@ -2,19 +2,28 @@
 	<div>
 	    <div class="card mb-3">
 	    	<div class="card-block">
-		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
 		        <div class="form-group">
-		            <div class="radio">
+		        	<div class="radio">
+	                    <div class="c-input">
+	                        <input type="radio" :id="'round_robin' + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'round_robin' + index" class="d-inline-flex mr-5">Round robin</label>
+	                        <input type="radio" :id="'placing_match' + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'placing_match' + index" class="d-inline-flex">Placing match</label>
+	                    </div>
+	                </div>
+
+		            <!-- <div class="radio">
 		                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
 		                <label><input type="radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()"> Placing match</label>
-		            </div>
+		            </div> -->
 		        </div>
 		        <div class="row">
 		            <div class="col-md-6">
 		                <div class="form-group mb-0">
-		                    <label>Number of teams in group</label>
+		                    <label>Number of teams</label>
 		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
-		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
+		                    	<option v-for="n in groupTeamsToDisplay" v-if="n >= 2" :value="n">{{ n }}</option>
 		                    </select>
 		                </div>
 		            </div>
@@ -33,17 +42,24 @@
 		        </div>
 		        <div class="row align-items-center mt-3" v-if="!(roundIndex === 0 && groupData.type === 'round_robin' && divisionIndex === -1)" v-for="(team, teamIndex) in groupData.teams">
 		        	<div class="col-md-12 mb-3" v-if="teamIndex % 2 === 0 && groupData.type === 'placing_match'">
-		        		<div class="row">
+		        		<div class="row align-items-center">
 		        			<div class="col-md-3">
 				        		<strong>Match {{ teamIndex/2 + 1 }}</strong>
 				        	</div>
 				        	<div class="col-md-9" v-if="showHideIsFinal((teamIndex/2))">
-				        		<input type="checkbox" v-model="groupData.matches[teamIndex/2].is_final" /> Final
+				        		<div class="checkbox">
+                                  	<div class="c-input">
+                                    	<input type="checkbox" :id="'match_status' + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
+                                    	<label :for="'match_status' + index + teamIndex">Final </label>
+                                  	</div>
+                                </div>
+
+				        		<!-- <input type="checkbox" v-model="groupData.matches[teamIndex/2].is_final" /> Final -->
 				        	</div>
 		        		</div>
 		        	</div>
 		        	<div class="col-md-12">
-		        		<div class="row">
+		        		<div class="row align-items-center">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
 				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Home' : 'Away') )  }}
@@ -111,8 +127,39 @@
 		    getGroupName() {
 		    	return this.getGroupNameByRoundAndGroupIndex(this.divisionIndex, this.roundIndex, this.index);
 		    },
+		    groupTeamsToDisplay() {
+		    	let teams = [];
+		    	let roundTeams = this.roundData.no_of_teams;
+		    	let roundGroups = this.roundData.groups;
+		    	let totalTeams = this.getRoundTillNowTotalTeams(false);
+		    	let currentGroupSize = 0;
+
+		    	currentGroupSize = roundTeams - totalTeams;
+
+	    		for (var i = 2; i <= currentGroupSize; i++) {
+	    			if(this.groupData.type == 'placing_match') {
+		    			if(i % 2 == 0) {
+		    				teams.push(i);
+		    			}
+		    		}
+		    		teams.push(i);
+	    		}
+
+		    	return teams;
+		    }
         },
         methods: {
+        	getRoundTillNowTotalTeams(countTillCurrentGroup) {
+        		let roundGroups = this.roundData.groups;
+        		let totalTeams = 0;
+        		let countTillGroup = countTillCurrentGroup === true ? (parseInt(this.index) + 1) : this.index;
+
+		    	for(let i=0; i<countTillGroup; i++) {
+		    		totalTeams += roundGroups[i].no_of_teams;
+		    	}
+
+		    	return totalTeams;
+        	},
         	removeGroup() {
         		this.$parent.removeGroup(this.index, this.roundIndex);
         		this.$root.$emit('updateGroupCount');
@@ -120,13 +167,20 @@
         	},
         	onTeamChange() {
  				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
+ 				let roundTeams = this.roundData.no_of_teams;
+ 				let totalTeams = this.getRoundTillNowTotalTeams(true);
                 if(this.roundIndex === 0 && groupTotalTeams > this.roundData.no_of_teams) {
-                    toastr['error']('Round team count get exceeds.', 'Error');
+                    toastr['error']('The number of teams selected exceeds total teams in the round.', 'Error');
                     this.groupData.no_of_teams = this.last_selected_teams;
                     return false;
                 }
                 if(this.groupData.type == 'placing_match' && this.groupData.no_of_teams % 2 != 0) {
                 	toastr['error']('Placing match teams should be in even numbers.', 'Error');
+                	this.groupData.no_of_teams = this.last_selected_teams;
+                	return false;
+                }
+                if((roundTeams - totalTeams) === 1 || (roundTeams - totalTeams) < 0) {
+                	toastr['error']('The selected number of teams is invalid.', 'Error');
                 	this.groupData.no_of_teams = this.last_selected_teams;
                 	return false;
                 }
@@ -186,6 +240,9 @@
 		    },
 		    onChangeGroupType() {
 		    	let vm = this;
+		    	if(this.groupData.type == 'placing_match' && this.groupData.no_of_teams % 2 != 0) {
+		    		this.groupData.no_of_teams = this.groupData.no_of_teams - 1;
+		    	}
 		    	this.$root.$emit('updateGroupCount');
 		    	this.$root.$emit('updatePositions');
 		    	this.updateTeamPositions();
@@ -222,7 +279,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
@@ -260,7 +317,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': vm.divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
@@ -296,7 +353,7 @@
 				    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[2]);
 				    			if(team.position_type === 'winner') {
 				    				name += ' WR';
-				    			} else if(team.position_type === 'looser') {
+				    			} else if(team.position_type === 'loser') {
 				    				name += ' LR';
 				    			}
 				    			
@@ -341,13 +398,13 @@
 			    		}
 
 				    	// for placing
-						if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
+						if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 							let matches = numberOfTeams / 2;
 							if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
 								this.groupData.teams[teamIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
 							}
 						}
 					}
@@ -385,7 +442,7 @@
 
 				if(!(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())  || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'winner', 'value': 'Winner'});
-					positionTypes.push({'key': 'looser', 'value': 'Looser'});
+					positionTypes.push({'key': 'loser', 'value': 'Loser'});
 				}
 
 				return positionTypes;
@@ -546,7 +603,7 @@
 		    		return true;
 		    	}
 		    	return false;
-		    },
+		    }
         }
     }
 </script>
