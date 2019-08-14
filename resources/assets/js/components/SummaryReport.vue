@@ -270,7 +270,7 @@
 								<div class="row align-items-center">
 									<div class="col-md-6">
 										<div class="row align-items-center">
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
 											</div>
 											<div class="col-md-5">

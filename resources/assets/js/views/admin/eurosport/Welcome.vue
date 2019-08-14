@@ -57,9 +57,9 @@
               </div>
           </div>
         </div>
-      </div>     
-      <div class="d-flex mb-4" :class="'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
-        <div class="card mb-0 w-100">
+      </div>
+      <div class="col-sm-4 d-flex mb-4" v-if="userDetails.role_slug != 'Results.administrator'">
+        <div :class="{ 'card mb-0 w-100': true, 'is-disabled': currentLayout === 'commercialisation' }">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
           </div>
@@ -84,6 +84,11 @@ import Ls from '../../../services/ls'
 import Tournament from '../../../api/tournament.js'
 
 export default {
+  data() {
+    return {
+      currentLayout: this.$store.state.Configuration.currentLayout,
+    }
+  },
   components : {
     WebsiteDropDown,
     TournamentDropDown,
@@ -122,7 +127,7 @@ computed: {
 
       this.$store.dispatch('SetTournamentName', tournamentAdd)
       this.$router.push({name: 'tournament_add'})
-      
+
       this.$store.dispatch('setCompetationList','');
       this.$store.dispatch('SetTeams','');
       this.$store.dispatch('SetPitches','');
@@ -157,8 +162,7 @@ computed: {
     duplicateTournament() {
       let currentNavigationData = {currentPage:'Tournaments'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
-      
-      this.$router.push({ name: 'duplicate_tournament_copy' });
+      this.$router.push({ name: 'duplicate_tournament_copy' })
     }
   }
 }
