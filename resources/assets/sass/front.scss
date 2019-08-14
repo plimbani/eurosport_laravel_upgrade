@@ -1434,35 +1434,22 @@ a.active-view:hover {
         .round-matches{
             span{
                 display: inline-block; 
-            }
-            .w-130{
-                width: 130px;
-            }  
-            .w-33{
-                width: 33%;
-            }  
-            .match-detail,.w-220{
-                width: 220px;
-            }  
-            .position-number{
-                width: 50px;
-            } 
-            div{     
-                >span {    
-                    &:nth-child(2){
-                        width: 7%;
-                    } 
-                }           
-            }
-            .round-matches-placings{
-                >span{
-                    text-align: left;
-                    width: 45%;
-                    &:first-child{
-                        width: 10%;
-                    }
+                &.w-7{
+                    width: 7%;
+                } 
+                &.w-80{
+                    width: 80px;
                 }
-            }  
+                &.w-250{
+                    width: 250px;
+                }
+                &.w-33{
+                    width: 33%;
+                }  
+                &.position-number{
+                    width: 40px;
+                } 
+            }
         }
     }
 }

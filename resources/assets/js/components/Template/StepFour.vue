@@ -25,15 +25,26 @@
 								<div class="col-6" v-for="(group, groupIndex) in round.groups">
 									<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, -1) }}</h6>
 									<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ getTeamPlayEachOther(group.teams_play_each_other) }}</p>
-									<ul class="list-unstyled mb-4">
+									<ul class="list-unstyled mb-4 round-details">
 										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
-											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) }}</span>
+											<div class="round-matches">
+												<span class="w-80" v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+												<span v-if="roundIndex > 0" :class="{'w-250': groupPositionType(group.teams)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
+											</div>
 										</li>
 										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
 											<div v-if="teamIndex % 2 === 0">
-												<span v-if="roundIndex == 0">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) + ' vs ' + 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
-												<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+												<div class="round-matches" v-if="roundIndex == 0">
+													<span class="w-80">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) }}</span>
+													<span class="w-7">vs</span>
+													<span class="w-80">{{ 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
+												</div>
+												<div v-if="roundIndex > 0" class="round-matches">
+													<span :class="{'w-250': groupPositionType(team.position_type)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
+													<span class="w-7">vs</span>
+													<span v-if="roundIndex > 0" :class="{'w-250': groupPositionType(group.teams)}" v-html="getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type)"></span>
+												</div>
+												<!-- <span v-if="roundIndex > 0" class="round-matches">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span> -->
 											</div>
 										</li>
 									</ul>
@@ -51,9 +62,13 @@
 							</div>
 							<div class="row align-items-center">
 								<div class="col-12">
-									<ul class="list-unstyled mb-4">
+									<ul class="list-unstyled mb-4 round-details">
 										<li v-for="(team, teamIndex) in division.teams">
-											<span>{{ (teamIndex + 1) + '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + getMatchDetail(team.position, team.position_type) }}</span>
+											<div class="round-matches">
+												<span class="mr-1">{{ (teamIndex + 1) + '.' }}</span>
+												<!-- <span>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> -->
+												<span v-html="getMatchDetail(team.position, team.position_type)"></span>
+											</div>
 										</li>
 									</ul>
 								</div>
@@ -71,15 +86,25 @@
 												<div class="col-6" v-for="(group, groupIndex) in round.groups">
 													<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, divisionIndex) }}</h6>
 													<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ group.teams_play_each_other }}</p>
-													<ul class="list-unstyled mb-4">
+													<ul class="list-unstyled mb-4 round-details">
 														<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
 															<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-															<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) }}</span>
+															<span v-if="roundIndex > 0" v-html="getMatchDetail(team.position, team.position_type)"></span>
 														</li>
 														<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
-															<div v-if="teamIndex % 2 === 0">
-																<span v-if="roundIndex == 0">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) + ' vs ' + 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
-																<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+															<div v-if="teamIndex % 2 === 0" class="round-matches">
+																<div v-if="roundIndex == 0">
+																	<span class="w-80">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) }}</span>
+																	<span class="w-7">vs</span>
+																	<span class="w-80">{{ 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
+																</div>
+																<div v-if="roundIndex > 0">
+																	<span :class="{'w-250': groupPositionType(group.teams)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
+																	<span class="w-7">vs</span>
+																	<span :class="{'w-250': groupPositionType(group.teams)}" 
+																	v-html="getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type)"></span>
+																	<!-- <span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span> -->
+																</div>
 																<span v-if="group.matches[teamIndex % 2].is_final === true">
 																	<i class="fa fa-igloo"></i> (final)
 																</span>
@@ -104,8 +129,14 @@
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<ul class="list-unstyled mb-4">
-										<li v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings"><span>{{ getSuffixForPosition((placingIndex + 1)) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + getMatchDetail(placing.position, placing.position_type) }}</span></li>
+									<ul class="list-unstyled mb-4 round-details">
+										<li v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
+											<div class="round-matches">
+												<span class="position-number d-inline-block">{{ getSuffixForPosition((placingIndex + 1)) }}</span>
+												<span class="w-250" v-html="getMatchDetail(placing.position, placing.position_type)"></span>
+												<!-- <span>{{ getSuffixForPosition((placingIndex + 1)) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + getMatchDetail(placing.position, placing.position_type) }}</span> -->
+											</div>
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -249,12 +280,14 @@
 			    	if(groupData) {
 				    	if(groupData.type === 'round_robin') {
 				    		groupName = 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
-				    		return this.getSuffixForPosition(position) + ' - ' +  groupName;
+				    		// return this.getSuffixForPosition(position) + ' - ' +  groupName;
+				    		return '<span class="position-number d-inline-block">' + this.getSuffixForPosition(position) + '</span><span class="w-80">' + groupName +  '</span>';
 				    	}
 
 				    	if(groupData.type === 'placing_match') {
 				    		groupName = 'PM ' + this.getPlacingMatchGroupName(roundData, groupIndex);
-				    		return (positionType.charAt(0).toUpperCase() + positionType.slice(1)) + ' ' + groupName + ' Match ' + position;
+				    		// return (positionType.charAt(0).toUpperCase() + positionType.slice(1)) + ' ' + groupName + ' Match ' + position;
+				    		return '<span class="w-33 d-inline-block">' + positionType.charAt(0).toUpperCase() + positionType.slice(1) + '</span><span class="w-33 d-inline-block">' + groupName +  '</span><span class="w-33 d-inline-block">Match '+ position +'</span>';
 				    	}
 				    }
 			    }
@@ -274,6 +307,12 @@
 				}
 				return teamPlayEachOther[times];
 			},
+			groupPositionType(positionType) {
+				if (positionType != 'placed') {
+					return true;
+				}
+				return false;
+			}
         }
     }
 </script>
