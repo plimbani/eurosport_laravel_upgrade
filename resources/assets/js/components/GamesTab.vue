@@ -2,10 +2,10 @@
   <div class="tab-content planner_list_content">
     <div class="row">
       <div class="col-md-12" v-if= "matchStatus == true">
-        <div v-if="gamesMatchListRecord.length == 0">
+        <div v-if="competitionWithGames.length == 0">
               {{$lang.pitch_planner_no_games}}
         </div>
-        <div class="text-center" v-else v-for="(competition,index) in gamesMatchListRecord">
+        <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
           <div v-if="competition.matchList &&  competition.matchList.length > 0" >
             <h6 class="mb-1 mt-1"><strong>{{competition.group_name}}</strong></h6>
             <div v-if="competition.matchCount == 0">
@@ -44,17 +44,11 @@ export default {
       matchCompetition:{'matchList':''},
       'filterStatus': true,
       'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
-      'gamesMatchListRecord': _.cloneDeep(this.$store.getters.getAllCompetitionWithGames),
     }
   },
   computed: {
     competitionWithGames(){
-      if(this.$store.state.Tournament.totalMatch > 0){
-        // this.matchStatus = true
-        return this.$store.getters.getAllCompetitionWithGames
-      }else{
-        return [];
-      }
+      return _.cloneDeep(this.$store.getters.getAllCompetitionWithGames)
     },
 
     matches(){
