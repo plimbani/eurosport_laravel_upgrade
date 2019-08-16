@@ -28,6 +28,7 @@ class AddIsPublishedPreviewOnceToTournamentsTable extends Migration
     public function down()
     {
         Schema::table('tournaments', function($table) {
+            $table->dropForeign('tournaments_duplicated_from_foreign');
             $table->dropColumn(['is_published_preview_once', 'duplicated_from']);
         });
     }
