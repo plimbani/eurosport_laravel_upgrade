@@ -69,17 +69,25 @@
               <div class="form">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group row">
+                        <div class="form-group row" :class="{'has-error': errors.has('tournament.website') }">
                             <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
-                            <input type="text" class="col-md-7 form-control" v-model="tournament.website">
+                            <div class="col-md-7">
+                              <input type="text" name="website" class="form-control" v-model="tournament.website" v-validate="{url: {require_protocol: true }}" :class="{'is-danger': errors.has('website') }">
+                              <i v-show="errors.has('website')" class="fas fa-warning"></i>
+                              <span class="help is-danger" v-show="errors.has('website')">Please enter valid URL</span>
+                            </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
-                            <input type="text" class="col-md-7 form-control" v-model="tournament.facebook">
+                            <div class="col-md-7">
+                              <input type="text" class="form-control" v-model="tournament.facebook">
+                            </div>
                         </div>
                         <div class="form-group row mb-0">
                             <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
-                            <input type="text" v-model="tournament.twitter" class="col-md-7 form-control">
+                            <div class="col-md-7">
+                              <input type="text" v-model="tournament.twitter" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
