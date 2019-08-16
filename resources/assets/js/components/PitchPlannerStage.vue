@@ -35,7 +35,7 @@ import _ from 'lodash'
                 'isAnotherMatchScheduled': false,
             }
         },
-        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex'],
+        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex', 'enableScheduleFeatureAsDefault'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -238,7 +238,7 @@ import _ from 'lodash'
                         // $(this).remove();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
-                        if(vm.isMatchScheduleInEdit === true) {
+                        if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
                         }
@@ -316,17 +316,23 @@ import _ from 'lodash'
                             let data = {
                                 matchData: matchData,
                                 scheduleMatchesArray: vm.scheduleMatchesArray,
-                                isMultiSchedule: vm.isMatchScheduleInEdit,
+                                isMultiSchedule: (vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)),
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
+                                        let enableScheduleFeatureAsDefault = false;
                                         vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
                                         if(response.data.data.is_another_match_scheduled == true) {
                                             vm.isAnotherMatchScheduled = true;
                                             vm.$emit('conflicted-for-same-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
                                         }
                                         if(response.data.data != -1 && response.data.data != -2){
+                                            if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
+                                                enableScheduleFeatureAsDefault = true;
+                                                vm.$emit('make-schedule-matches-as-default');
+                                            }
+
                                             if(vm.unChangedMatchFixtures.length > 0 && response.data.data.is_another_match_scheduled == false) {
                                                 vm.isAnotherMatchScheduled = false;
                                                 vm.$emit('conflicted-for-another-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
@@ -334,7 +340,7 @@ import _ from 'lodash'
 
                                             vm.currentScheduledMatch.remove();
                                             vm.currentScheduledMatch = null;
-                                            if(vm.isMatchScheduleInEdit === true) {
+                                            if(vm.isMatchScheduleInEdit === true || enableScheduleFeatureAsDefault === true) {
                                                 vm.$emit('schedule-match-result', matchData);
                                             } else {
                                                 vm.$store.dispatch('setMatches');
