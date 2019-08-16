@@ -1306,3 +1306,10 @@ a.active-view:hover {
 .pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
   color: $base-font-color;
 }
+
+.pitch-planner-item {
+    .btn {
+        @extend .text-capitalize;
+        @extend .font-weight-normal;
+    }
+}
