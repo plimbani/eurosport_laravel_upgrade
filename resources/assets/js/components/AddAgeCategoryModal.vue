@@ -519,23 +519,6 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
-                <label class="col-sm-4 form-control-label">Template key*
-                <span class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span>
-                </label>
-                <div class="col-sm-8">
-                  <div class="row align-items-center">
-                    <div class="col-sm-12">
-                      <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' :template_font_color == color }"></div>
-                      <input type="hidden" name="template_font_color" v-model="template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color" key="template_font_color">
-                    </div>
-                    <div class="col-12">
-                      <i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
-                      <span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>                        
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
                 <div class="col-sm-4 form-control-label">Remarks</div>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
@@ -599,7 +582,6 @@ export default {
       tournament_format: 'advance',
       competition_type: 'league',
       group_size: '',
-      template_font_color:'',
       remarks: '',
       templateGraphicImageName: '',
       templateGraphicImagePath: '',
@@ -920,7 +902,6 @@ export default {
             this.competition_type = resp.competition_type;
             this.group_size = resp.group_size != null ? resp.group_size : '';
             this.remarks = resp.remarks;
-            this.template_font_color = resp.template_font_color;
 
             this.validateTemplate();
           },
@@ -980,7 +961,6 @@ export default {
      this.competation_format.tournament_format = this.tournament_format;
      this.competation_format.competition_type = this.tournament_format == 'basic' ? this.competition_type : null;
      this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : null;
-     this.competation_format.template_font_color = this.template_font_color ? this.template_font_color : null;
      this.competation_format.remarks = this.remarks ? this.remarks : null;
 
      this.$validator.validateAll().then(
@@ -1136,9 +1116,6 @@ export default {
         return false;
       }
       return true;
-    },
-    setTemplateFontColor(color) {
-      this.template_font_color = color;
     },
     validateTemplate() {
       let vm = this;

@@ -1,11 +1,13 @@
 <template>
     <div class="template-container">
-        <site-header></site-header>
+        <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
+        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
             <TemplateListBreadCrumb></TemplateListBreadCrumb>
             <TemplateManagementTabbed></TemplateManagementTabbed>                 
         </div>       
-        <site-footer></site-footer>
+        <site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
+        <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
     </div>
 </template>
 
@@ -13,6 +15,9 @@
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
     import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
+
+    import SiteCommercialisationHeader from './partials/Commercialisation/Backend/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/Backend/SiteFooter.vue'    
 
     import Layout from '../../helpers/layout'
     import TemplateListBreadCrumb from '../../components/TemplateListBreadCrumb.vue'
@@ -25,10 +30,15 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, TemplateListBreadCrumb, TemplateManagementTabbed
+            SiteHeader , SiteHeaderBottom , SiteFooter, TemplateListBreadCrumb, TemplateManagementTabbed, SiteCommercialisationHeader, SiteCommercialisationFooter
         },
         mounted() {
             Layout.set('layout-horizontal')
-        }
+        },
+        computed: {
+            getCurrentLayout() {
+                return this.$store.state.Configuration.currentLayout;
+            }
+        }        
     }
 </script>
