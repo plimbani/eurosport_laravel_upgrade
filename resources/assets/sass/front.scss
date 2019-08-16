@@ -1469,3 +1469,14 @@ a.active-view:hover {
     position: absolute;
     font-size: 0.75rem;
 }
+
+.pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
+  color: $base-font-color;
+}
+
+.pitch-planner-item {
+    .btn {
+        @extend .text-capitalize;
+        @extend .font-weight-normal;
+    }
+}
