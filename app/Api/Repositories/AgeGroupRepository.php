@@ -150,7 +150,6 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['competition_type']= ($data['tournament_format'] == 'basic' && $data['competition_type']) ? $data['competition_type'] : null;
       $tournamentCompeationTemplate['group_size']= $data['group_size'] ? $data['group_size'] : null;
       $tournamentCompeationTemplate['remarks']= $data['remarks'] ? $data['remarks'] : null;
-      $tournamentCompeationTemplate['template_font_color']= $data['template_font_color'] ? $data['template_font_color'] : null;
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
