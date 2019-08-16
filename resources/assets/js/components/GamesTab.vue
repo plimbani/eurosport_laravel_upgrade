@@ -49,7 +49,6 @@ export default {
   },
   computed: {
     competitionWithGames(){
-      
       if(this.$store.state.Tournament.totalMatch > 0){
         // this.matchStatus = true
         return this.$store.getters.getAllCompetitionWithGames
