@@ -43,7 +43,7 @@
                     <form>
                         <div class="form-group" :class="{'has-error': errors.has('minimum_match') }">
                             <label for="remarks">Tournament minimum matches</label>
-                            <input name="minimum_match" type="text" class="form-control" v-model="templateFormDetail.stepone.minimum_match" placeholder="Minimum match" v-validate="'required|numeric'" :class="{'is-danger': errors.has('minimum_match') }" data-vv-as="Minmum matches">
+                            <input name="minimum_match" type="text" class="form-control" v-model="templateFormDetail.stepone.minimum_match" placeholder="Minimum match" v-validate="'required|numeric'" :class="{'is-danger': errors.has('minimum_match') }" data-vv-as="minimum matches">
                             <i v-show="errors.has('minimum_match')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('minimum_match')">{{ errors.first('minimum_match') }}</span>
                         </div>
@@ -59,7 +59,7 @@
                             <div v-for="(roundSchedule, index) in templateFormDetail.stepone.roundSchedules" class="row">
                                 <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
                                     <div class="form-group" :class="{'has-error': errors.has('round_schedule'+index) }">
-                                        <input :name="'round_schedule'+index" type="text" v-model="templateFormDetail.stepone.roundSchedules[index]" class="form-control" placeholder="Round schedule" :class="{'is-danger': errors.has('round_schedule'+index) }" v-validate="'required'" data-vv-as="Round schedule">
+                                        <input :name="'round_schedule'+index" type="text" v-model="templateFormDetail.stepone.roundSchedules[index]" class="form-control" placeholder="Round schedule" :class="{'is-danger': errors.has('round_schedule'+index) }" v-validate="'required'" data-vv-as="round schedule">
                                         <div class="error-block">
                                             <i v-show="errors.has('round_schedule'+index)" class="fas fa-warning"></i>
                                             <span class="help is-danger" v-show="errors.has('round_schedule'+index)">{{ errors.first('round_schedule'+index) }}</span>
