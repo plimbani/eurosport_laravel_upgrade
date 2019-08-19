@@ -150,7 +150,6 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['competition_type']= ($data['tournament_format'] == 'basic' && $data['competition_type']) ? $data['competition_type'] : null;
       $tournamentCompeationTemplate['group_size']= $data['group_size'] ? $data['group_size'] : null;
       $tournamentCompeationTemplate['remarks']= $data['remarks'] ? $data['remarks'] : null;
-      $tournamentCompeationTemplate['template_font_color']= $data['template_font_color'] ? $data['template_font_color'] : null;
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
@@ -189,11 +188,15 @@ class AgeGroupRepository
 
         $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
 
-        if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'])) {
+        if($data['tournament_format'] != 'basic') {
+          $tournamentCompeationTemplate['template_json_data'] = null;
+        }
+
+        if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'] || $tournamentCompetitionTemplate->tournament_format != $data['tournament_format'] || $tournamentCompetitionTemplate->competition_type != $data['competition_type'])) {
           $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         }
 
-        if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'knockout') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'] || $tournamentCompetitionTemplate->group_size !== $data['group_size'])) {
+        if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'knockout') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'] || $tournamentCompetitionTemplate->group_size !== $data['group_size'] || $tournamentCompetitionTemplate->tournament_format != $data['tournament_format'] || $tournamentCompetitionTemplate->competition_type != $data['competition_type'])) {
           $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         }
 

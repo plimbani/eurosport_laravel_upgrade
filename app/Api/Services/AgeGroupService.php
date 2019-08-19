@@ -142,7 +142,7 @@ class AgeGroupService implements AgeGroupContract
         // First we check if its Edit or Update
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0)
         {
-            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] ) {
+            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] || $tournamentTemplateObj->tournament_format != $data['tournament_format'] || ($data['tournament_format'] === 'basic' && ($tournamentTemplateObj->competition_type != $data['competition_type'] || $tournamentTemplateObj->total_teams != $data['total_teams']))) {
                 $this->ageGroupObj->deleteCompetationData($data);
 
                 $id = $data['competation_format_id'];
@@ -536,7 +536,6 @@ class AgeGroupService implements AgeGroupContract
       $finalArray = [];
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['remark'] = $data['remarks'];
-      $finalArray['template_font_color'] = $data['template_font_color'];
       $finalArray['tournament_name'] = $totalTeams. ' team league';
       $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
       $finalArray['tournament_min_match'] = $data['min_matches'];
@@ -605,7 +604,6 @@ class AgeGroupService implements AgeGroupContract
       $finalArray = [];
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['tournament_name'] = $totalTeams. ' team knockout';
-      $finalArray['template_font_color'] = $data['template_font_color'];
       $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
       $finalArray['tournament_min_match'] = $data['min_matches'];
       $finalArray['remark'] = $data['remarks'];
@@ -658,8 +656,8 @@ class AgeGroupService implements AgeGroupContract
           'in_between' => $group1[$i]. "-" .$group2[$i],
           'match_number' => "CAT.PM$currentRound.G$currentMatchIndex.$group1[$i]-$group2[$i]",
           'display_match_number' => "CAT.$currentRound.$currentMatchIndex.@HOME-@AWAY",
-          'display_home_team_placeholder_name' => "#$group1[$i]",
-          'display_away_team_placeholder_name' => "#$group2[$i]",
+          'display_home_team_placeholder_name' => "$group1[$i]",
+          'display_away_team_placeholder_name' => "$group2[$i]",
         ];
       }
 
@@ -783,7 +781,7 @@ class AgeGroupService implements AgeGroupContract
       $teamsForRoundTwo = [];
       $totalTeams = 0;
       for($i = 0; $i<$totalGroups; $i++){
-        $teamsForRoundTwo[] = '1' .chr(65 + $i);
+        $teamsForRoundTwo[] = '#1' .chr(65 + $i);
         $totalTeams++;
       }
 
@@ -791,13 +789,13 @@ class AgeGroupService implements AgeGroupContract
         if(($totalTeams + $totalGroups) > $roundSizeData) {
           for($j=1; $j<=$totalGroups; $j++) {
             if($totalTeams < $roundSizeData) {
-              $teamsForRoundTwo[] = $j. '#' .$i;
+              $teamsForRoundTwo[] = $this->getOrdinal($j). '#' .$i;
               $totalTeams++;
             }
           }
         } else {
           for($j=0; $j<$totalGroups; $j++) {
-            $teamsForRoundTwo[] = $i .chr(65 + $j);
+            $teamsForRoundTwo[] = '#' . $i .chr(65 + $j);
             $totalTeams++;
           }
         }
@@ -918,5 +916,13 @@ class AgeGroupService implements AgeGroupContract
       if ($data) {
         return ['data' => $data, 'status_code' => '200', 'message' => 'Teams has been deleted Successfully'];
       }
+    }
+
+    public function getOrdinal($number) {
+      $ends = array('th','st','nd','rd','th','th','th','th','th','th');
+      if ((($number % 100) >= 11) && (($number % 100) <= 13))
+          return $number. 'th';
+      else
+          return $number. $ends[$number % 10];
     }
 }
