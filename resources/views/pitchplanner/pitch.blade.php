@@ -37,7 +37,7 @@
 
 <center>
   <?php 
-    $logo = ($currentLayout == 'tmp') ? 'assets/img/tmplogo.svg' : 'images/logo-emm.png';
+    $logo = ($currentLayout == 'tmp') ? 'assets/img/tmplogo.svg' : 'assets/img/easy-match-manager/emm.svg';
   ?>
   <img  src="{{ asset($logo)}}" id="logo-desk" alt="Laraspace Logo" width="auto" height="auto">
 </center>
