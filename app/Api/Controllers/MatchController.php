@@ -324,12 +324,12 @@ class MatchController extends BaseController
                 $allCompetitions[] = $fixture->competition_id;
                 $competationId = $matchServiceObj->calculateCupLeagueTable($fixture);
             }
-            $allCompetitions = array_unique($allCompetitions);
-            sort($allCompetitions);
-            foreach ($allCompetitions as $id) {
-                $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
-                $this->matchObj->refreshCompetitionStandings($data);
-            }
+            // $allCompetitions = array_unique($allCompetitions);
+            // sort($allCompetitions);
+            // foreach ($allCompetitions as $id) {
+            //     $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
+            //     $this->matchObj->refreshCompetitionStandings($data);
+            // }
         } catch(\Exception $e) {
             $status = 'error';
         }
