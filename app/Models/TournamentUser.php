@@ -17,6 +17,7 @@ class TournamentUser extends Model
 
     public function filter_tournaments_with_endate()
     {
-        return $this->hasOne('Laraspace\Models\Tournament','id','tournament_id')->where('end_date','>=',date('Y-m-d'));
+        $prevDay = date('Y-m-d',strtotime("-1 days"));
+        return $this->hasOne('Laraspace\Models\Tournament','id','tournament_id')->whereDate('end_date',$prevDay);
     }
 }
