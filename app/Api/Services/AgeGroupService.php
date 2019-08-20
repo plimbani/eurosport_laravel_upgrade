@@ -560,7 +560,7 @@ class AgeGroupService implements AgeGroupContract
           $averageMatches = $totalMatchesCount / ($totalTeams/2);
 
           $finalArray['total_matches'] = $totalMatchesCount;
-          $finalArray['avg_game_team'] = $averageMatches;
+          $finalArray['avg_game_team'] = number_format($averageMatches, 1);
 
           $matchTypeDetail = [
             'name' => 'RR-1*' .$totalTeams,
@@ -627,7 +627,7 @@ class AgeGroupService implements AgeGroupContract
       // $averageMatches = $totalMatchesCount / ($totalTeams/2);
       $averageMatches = $totalMatches / ($totalTeams/2);
       $finalArray['total_matches'] = $totalMatches;
-      $finalArray['avg_game_team'] = $averageMatches;
+      $finalArray['avg_game_team'] = number_format($averageMatches, 1);
 
       return json_encode($finalArray);
     }
