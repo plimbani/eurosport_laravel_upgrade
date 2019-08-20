@@ -4,9 +4,8 @@
    <div class="page-header">
      <ol class="breadcrumb">
        <li><a href="/admin">Home</a></li>
-       <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
-       <li class="active" v-if="$route.name == 'templates_list'"><span>{{currentPage}}</span></li>
-       <li class="active" v-else><a href="javascript:void(0)" @click="redirectToTournamentList()">{{currentPage}}</a></li>
+       <li class="active" v-if="$route.name == 'templates_list'"><span>Templates</span></li>
+       <li class="active" v-else><a href="javascript:void(0)" @click="redirectToTemplateList()">Templates</a></li>       
        <li v-if="$route.name == 'add_new_template'"><span>Add New Template</span></li>
        <li v-if="$route.name == 'edit_template'"><span>Edit Template</span></li>
      </ol>
@@ -20,17 +19,9 @@ export default  {
   	return {
   		'breadCrum' : 'breadCrum'
   	}
-  },  
-  computed: {
-  	TournamentName() {
-  		return this.$store.getters.getTournamentName;
-  	},
-    currentPage() {
-      return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
-    }
   },
   methods:{
-    redirectToTournamentList() {
+    redirectToTemplateList() {
       return this.$router.push({name: 'templates_list'})
     }
   }
