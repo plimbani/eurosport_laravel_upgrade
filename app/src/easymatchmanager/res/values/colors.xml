@@ -2,6 +2,7 @@
 <resources>
     <color name="appColorPrimary">#0588c1</color>
     <color name="colorPrimaryDark">#0191d0</color>
+    <color name="colorAccent">#074C84</color>
     <color name="red">#D40523</color>
     <color name="red_bottom">#0191d0</color>
     <color name="error_red">#FF0000</color>

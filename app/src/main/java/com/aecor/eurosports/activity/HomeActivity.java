@@ -525,7 +525,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             mEuroSportsContactDetails = mEuroSportsContactDetails + "<br><br>" + getString(R.string.contact_number) + " <a href=tel:" + mTournamentList.get(tournamentPosition).getTelephone() + ">" + mTournamentList.get(tournamentPosition).getTelephone() + "</a>";
         }
 
-        ViewDialog.showContactDialog((Activity) mContext, getString(R.string.euro_sportring_contact), mEuroSportsContactDetails, getString(R.string.close), getString(R.string.cancel), new ViewDialog.CustomDialogInterface() {
+        ViewDialog.showContactDialog((Activity) mContext, getString(R.string.tournament_contact), mEuroSportsContactDetails, getString(R.string.close), getString(R.string.cancel), new ViewDialog.CustomDialogInterface() {
             @Override
             public void onPositiveButtonClicked() {
 
