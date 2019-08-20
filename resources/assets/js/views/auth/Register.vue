@@ -40,29 +40,6 @@
                                         <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                                     </div>
 
-                                    <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="divider mb-5"></div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-9 col-lg-6">
-                                    <label>Organisation or Company name</label>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control " placeholder="Company name" id="company-name" name="organisation"  v-model="registerData.organisation" v-validate="{ rules: { required: true } }">
-                                        <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span>
-                                    </div>
-
-                                    <label>Your Job title</label>
-                                    <div class="form-group">           
-                                        <input type="text" class="form-control " placeholder="Job title" id="job-title" name="job_title" v-model="registerData.job_title">
-                                    </div>
-
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your address</h3>
                                 </div>
                             </div>
@@ -136,8 +113,6 @@
                     first_name: '',
                     last_name: '',
                     email: '',
-                    organisation: '',
-                    job_title: '',
                     address: '',
                     address_2: '',
                     city: '',

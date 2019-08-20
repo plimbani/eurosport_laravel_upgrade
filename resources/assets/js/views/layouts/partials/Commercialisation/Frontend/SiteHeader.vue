@@ -3,7 +3,7 @@
     	<div class="container-fluid">
     		<div class="row align-items-center">
     			<div class="col-5 col-md-4 pl-0">
-    				<a href="#"><img src="/images/logo-emm.png" class="" alt="Easy Match Manager"></a>
+    				<a class="d-inline-block" href="#"><img src="/assets/img/easy-match-manager/emm.svg" class="" alt="Easy Match Manager"></a>
     			</div>
     			<div class="col-7 col-md-8 text-right">
                     <div v-if="isUserLoggedIn && userRole == 'customer'">

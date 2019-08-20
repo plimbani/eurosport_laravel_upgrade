@@ -31,20 +31,6 @@
                                 <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                             </div>
 
-                            <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
-
-                            <div class="divider mb-5"></div>
-
-                            <div class="form-group">
-                                <label for="company-name">Organisation or Company name</label>
-                                 <input type="text" class="form-control " placeholder="Company Name" id="company-name" name="organisation"  v-model="userProfileDetail.organisation">
-                            </div>
-
-                            <div v-if="isCustomer" class="form-group">
-                                <label for="job-title">Your Job title</label>
-                                <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="userProfileDetail.job_title"> 
-                            </div>
-
                             <h3 v-if="isCustomer" class="text-uppercase font-weight-bold mt-5">Your address</h3>
 
                             <div v-if="isCustomer" class="divider mb-5"></div>
@@ -101,9 +87,7 @@
                 userProfileDetail: {
                     first_name: '',
                     last_name: '',
-                    email: '',                     
-                    organisation: '',
-                    job_title: '',
+                    email: '',
                     address: '',
                     address_2: '',
                     city: '',
@@ -151,7 +135,6 @@
                         } 
                         this.userProfileDetail = response.data.data.person_detail;
                         this.userProfileDetail.email = response.data.data.email;
-                        this.userProfileDetail.organisation = response.data.data.organisation;
                         this.userProfileDetail.country = response.data.data.country_id;
                         this.userProfileDetail.zip = response.data.data.person_detail.zipcode;  
                     }
