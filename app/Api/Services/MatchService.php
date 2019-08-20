@@ -961,7 +961,6 @@ class MatchService implements MatchContract
           $processFixtures[] = $match->id;
         }
       }
-
       $this->processFixtures($processFixtures);
       return $singleFixture->competition_id;
     }
