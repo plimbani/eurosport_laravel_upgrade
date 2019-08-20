@@ -16,6 +16,11 @@
 
                                     <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
                                     <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
+                                    
+                                    <div v-if="tournamentData.website">
+                                    <h6 class="text-uppercase mb-0 font-weight-bold">WEBSITE</h6>
+                                    <p class="mb-4"><a :href="tournamentData.website" target="_blank">Click here</a> to view the tournament website.</p>
+                                    </div>
 
                                      <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold mb-1">Sponsored by</h6>
 

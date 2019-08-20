@@ -3,8 +3,8 @@
     <header class="site-header">
         <div class="container-fluid w-100 pl-0">
             <a href="#" class="" @click="home">
-                <img src="/images/logo-emm.png" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
-                <img src="/images/logo-emm.png" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
+                <img src="/assets/img/easy-match-manager/emm.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
+                <img src="/assets/img/easy-match-manager/emm.svg" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
             </a>
             <a href="#" class="nav-toggle" @click="onNavToggle">
                 <div class="hamburger hamburger--htla">
