@@ -1480,3 +1480,7 @@ a.active-view:hover {
         @extend .font-weight-normal;
     }
 }
+
+.tbl-template tr td:first-child, .tbl-template tr td:nth-child(9), .tbl-template tr td:nth-child(10) {
+    white-space: nowrap;
+}
