@@ -961,8 +961,6 @@ class MatchService implements MatchContract
           $processFixtures[] = $match->id;
         }
       }
-      \Log::info('calculateEliminationTeams');
-      \Log::info($processFixtures);
       $this->processFixtures($processFixtures);
       return $singleFixture->competition_id;
     }
@@ -1364,7 +1362,6 @@ class MatchService implements MatchContract
         // print_r($matches);exit;
         //print_r($matches);exit;
         // dd($calculatedArray[$cupId]);
-        \Log::info($calculatedArray);
         if($matches) {
            foreach($matches as $key=>$match) {
             //$templateData = json_decode($match->JsonData,true);
@@ -1438,8 +1435,6 @@ class MatchService implements MatchContract
             }
             // else check if its new change
           }
-          \Log::info('TeamPMAssignKp');
-          \Log::info($processFixtures);
           $this->processFixtures($processFixtures);
         }
         return ;

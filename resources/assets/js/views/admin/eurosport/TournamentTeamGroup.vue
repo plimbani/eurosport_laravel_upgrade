@@ -454,7 +454,6 @@
         });
       },
       getTeams() {
-        console.log('getTeams');
         // if(this.age_category === '') {
         //   this.teams = [];
         //   return;
