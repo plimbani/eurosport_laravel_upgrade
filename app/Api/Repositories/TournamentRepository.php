@@ -1538,28 +1538,9 @@ class TournamentRepository
 
     public function getTournamentExpireTime($tid,$endDate,$matchCount)
     {
-        if ( $matchCount == 0 )
-        {
-            $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
 
-            $finalDate = Carbon::parse($tournamentEndDate);
-        }
-        else
-        {
-            $lastMatchEndTime = TempFixture::where('tournament_id',$tid)
-                    ->select('match_endtime')->orderBy('match_endtime', 'desc')->first();
-
-            if ( !empty( $lastMatchEndTime->match_endtime ))
-            {
-                $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
-            }
-            else
-            {
-                $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
-
-                $finalDate = Carbon::parse($tournamentEndDate);
-            }
-        } 
+        $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
+        $finalDate = Carbon::parse($tournamentEndDate);
 
         $configHours = env('CUSTOMER_SEND_MAIL_AFTER_MATCH_FINISHED');
         $finalDate->addHours($configHours);
