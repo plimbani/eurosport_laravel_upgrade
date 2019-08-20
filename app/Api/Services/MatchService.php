@@ -1071,6 +1071,7 @@ class MatchService implements MatchContract
         $processFixtures = [];
         $competition = Competition::find($compId);
         $tournament_id =  $competition->tournament_id;
+        $ageCategoryId = $competition->tournament_competation_template_id;
 
         $cupId = $compId;
 
@@ -1359,6 +1360,12 @@ class MatchService implements MatchContract
         ->where('temp_fixtures.tournament_id','=',$temptournamentId)
         ->get();
         $matches = $reportQuery;
+
+        $tournamentCompetationTemplates = TournamentCompetationTemplates::find($ageCategoryId);
+        if($tournamentCompetationTemplates->competition_type === 'knockout') {
+          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId);
+        }
+
         // print_r($matches);exit;
         //print_r($matches);exit;
         // dd($calculatedArray[$cupId]);
@@ -1372,14 +1379,21 @@ class MatchService implements MatchContract
             //$homeTeam = $match->HomeTeam;
             if($homeTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
+                $isRankingPosition = false;
+                if($tournamentCompetationTemplates->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true) {
+                  if(strpos($homeTeam, '#') > 0) {
+                    $this->updateRankingPositionInMatchForKnockout($homeTeam, $firstRoundPositionWiseStandings, $match, 'home');
+                    $processFixtures[] = $match->matchID;
+                    $isRankingPosition = true;
+                  }
+                }
 
-                if($homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                if(!$isRankingPosition && $homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
                   $processFixtures[] = $match->matchID;
                   //echo $matchId = $match->matchID;
                   //echo $matchNumber = $match->MatchNumber;
 
 
-                  $updatedMatchNumer =  str_replace($homeTeam,$dd1['teamName'],$match->MatchNumber);
                   $homeTeamId = $dd1['teamid'];
                   $updateArray = [
                   'home_team_name'=> $dd1['teamName'],
@@ -1408,10 +1422,18 @@ class MatchService implements MatchContract
             //$awayTeam = $match->AwayTeam;
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
-                if($awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                $isRankingPosition = false;
+                if($tournamentCompetationTemplates->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true) {
+                  if(strpos($awayTeam, '#') > 0) {
+                    $this->updateRankingPositionInMatchForKnockout($awayTeam, $firstRoundPositionWiseStandings, $match, 'away');
+                    $processFixtures[] = $match->matchID;
+                    $isRankingPosition = true;
+                  }
+                }
+
+                if(!$isRankingPosition && $awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
                   $processFixtures[] = $match->matchID;
 
-                  $updatedMatchNumer =  str_replace($awayTeam,$dd1['teamName'],$match->MatchNumber);
                   $awayTeamId = $dd1['teamid'];
                   $updateArray = [
                   'away_team_name'=> $dd1['teamName'],
@@ -2585,5 +2607,105 @@ class MatchService implements MatchContract
                       ->where('match_standing.tournament_id','=',$tournamentId)
                       ->where('match_standing.competition_id','>',$competitionId)
                       ->where('competitions.tournament_competation_template_id', '=', $ageCategoryId)->delete();
+    }
+
+    public function getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId)
+    {
+      $standingResData = [];
+      $standingsPositionWise = [];
+      $competitions = Competition::where('tournament_competation_template_id', $ageCategoryId)->where('competation_round_no', 'Round 1')->get();
+      $areAllCompetitionEnded = true;
+      foreach($competitions as $competition) {
+        if(!$this->checkForCompetitionEnd($competition->id)) {
+          $areAllCompetitionEnded = false;
+          break;
+        }
+      }
+
+      if($areAllCompetitionEnded) {      
+        foreach($competitions as $competition) {
+          $data['tournamentId'] = $competition->tournament_id;
+          $data['competitionId'] = $competition->id;
+          $tournamentData['tournamentData'] = $data;
+          $standingResData[$competition->id] = $this->getStanding(collect($tournamentData), 'yes')['data']->toArray();
+        }
+        $pointsTeamWise = [];
+        $gdTeamWise = [];
+        $gfTeamWise = [];
+        foreach ($standingResData as $competitionId => $standings) {
+          $index = 1;
+          foreach($standings as $standing) {
+            $standing = (array) $standing;
+            $standingsPositionWise[$index][$standing['team_id']] = $standing;
+            $pointsTeamWise[$index][$standing['team_id']] = (int)$standing['points'];
+            $gdTeamWise[$index][$standing['team_id']] = (int)$standing['GoalDifference'];
+            $gfTeamWise[$index][$standing['team_id']] = (int)$standing['goal_for'];
+            $index++;
+          }
+        }
+        foreach ($standingsPositionWise as $position => $teamStandings) {
+          $standings = $teamStandings;
+          $params = [];
+          $params[] = $pointsTeamWise[$position];
+          $params[] = SORT_DESC;
+          $params[] = $gdTeamWise[$position];
+          $params[] = SORT_DESC;
+          $params[] = $gfTeamWise[$position];
+          $params[] = SORT_DESC;
+          $params[] = &$standings;
+          array_multisort(...$params);
+          $standingsPositionWise[$position] = array_values($standings);
+        }
+      } else {
+        $allMatches = TempFixture::where('age_group_id', $ageCategoryId)->get();
+        foreach($allMatches as $match) {
+          $updateMatchDetails = false;
+          $matchNumber = explode('.', $match->match_number);
+          $homeAwayTeams = explode('-', $matchNumber[2]);
+          $homeTeam = $value[0];
+          $awayTeam = $value[1];
+          if($homeTeam && strpos($homeTeam, '#') > 0) {
+            DB::table('temp_fixtures')->where('id', $match->matchID)->update(
+              [
+                'home_team_name' => $match->home_team_placeholder_name,
+                'home_team' => 0,
+              ]
+            );
+          }
+
+          if($awayTeam && strpos($awayTeam, '#') > 0) {
+            DB::table('temp_fixtures')->where('id', $match->matchID)->update(
+              [
+                'home_team_name' => $match->away_team_placeholder_name,
+                'home_team' => 0,
+              ]
+            );
+          }
+        }
+      }
+      return ['areAllCompetitionEnded' => $areAllCompetitionEnded, 'standingsPositionWise' => $standingsPositionWise];
+    }
+
+    public function updateRankingPositionInMatchForKnockout($team, $firstRoundPositionWiseStandings, $match, $homeAway) {
+      $rankingPosition = explode('#', $team);
+      $teamStandingDetail = $firstRoundPositionWiseStandings['standingsPositionWise'][$rankingPosition[1]][(int)$rankingPosition[0] - 1];
+
+      $updateArray = [];
+
+      if($homeAway === 'home') {
+        $updateArray = [
+          'home_team_name'=> $teamStandingDetail['name'],
+          'home_team'=> $teamStandingDetail['team_id']
+        ];  
+      }
+
+      if($homeAway === 'away') {
+        $updateArray = [
+          'away_team_name'=> $teamStandingDetail['name'],
+          'away_team'=> $teamStandingDetail['team_id']
+        ];  
+      }
+      
+      DB::table('temp_fixtures')->where('id', $match->matchID)->update($updateArray);
     }
 }
