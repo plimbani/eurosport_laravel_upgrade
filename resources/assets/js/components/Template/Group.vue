@@ -6,10 +6,10 @@
 		        <div class="form-group">
 		        	<div class="radio">
 	                    <div class="c-input">
-	                        <input type="radio" :id="'round_robin' + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label :for="'round_robin' + index" class="d-inline-flex mr-5">Round robin</label>
-	                        <input type="radio" :id="'placing_match' + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label :for="'placing_match' + index" class="d-inline-flex">Placing match</label>
+	                        <input type="radio" :id="'round_robin' + roundIndex + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'round_robin' + roundIndex + index" class="d-inline-flex mr-5">Round robin</label>
+	                        <input type="radio" :id="'placing_match' + roundIndex + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'placing_match' + roundIndex + index" class="d-inline-flex">Placing match</label>
 	                    </div>
 	                </div>
 
@@ -141,8 +141,9 @@
 		    			if(i % 2 == 0) {
 		    				teams.push(i);
 		    			}
+		    		} else {
+		    			teams.push(i);
 		    		}
-		    		teams.push(i);
 	    		}
 
 		    	return teams;

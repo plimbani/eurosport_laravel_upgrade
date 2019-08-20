@@ -560,7 +560,7 @@ class AgeGroupService implements AgeGroupContract
           $averageMatches = $totalMatchesCount / ($totalTeams/2);
 
           $finalArray['total_matches'] = $totalMatchesCount;
-          $finalArray['avg_game_team'] = $averageMatches;
+          $finalArray['avg_game_team'] = number_format($averageMatches, 1);
 
           $matchTypeDetail = [
             'name' => 'RR-1*' .$totalTeams,
@@ -627,7 +627,7 @@ class AgeGroupService implements AgeGroupContract
       // $averageMatches = $totalMatchesCount / ($totalTeams/2);
       $averageMatches = $totalMatches / ($totalTeams/2);
       $finalArray['total_matches'] = $totalMatches;
-      $finalArray['avg_game_team'] = $averageMatches;
+      $finalArray['avg_game_team'] = number_format($averageMatches, 1);
 
       return json_encode($finalArray);
     }
@@ -652,9 +652,15 @@ class AgeGroupService implements AgeGroupContract
       $secondRoundMatches = [];
       for ($i=0; $i < sizeof($group1); $i++) {
         $currentMatchIndex = $i + 1;
+        $matchNumberGroup1 = strpos($group1[$i], '#') === 0 ? str_replace('#', '', $group1[$i]) : $group1[$i];
+        $matchNumberGroup2 = strpos($group2[$i], '#') === 0 ? str_replace('#', '', $group2[$i]) : $group2[$i];
+
+        $matchNumberGroup1 = strpos($matchNumberGroup1, '#') > 0 ? str_replace(array('th','st','nd','rd'), array('', '', '', ''), $matchNumberGroup1) : $matchNumberGroup1;
+        $matchNumberGroup2 = strpos($matchNumberGroup2, '#') > 0 ? str_replace(array('th','st','nd','rd'), array('', '', '', ''), $matchNumberGroup2) : $matchNumberGroup2;
+
         $secondRoundMatches[] = [
-          'in_between' => $group1[$i]. "-" .$group2[$i],
-          'match_number' => "CAT.PM$currentRound.G$currentMatchIndex.$group1[$i]-$group2[$i]",
+          'in_between' => $matchNumberGroup1 . "-" . $matchNumberGroup2,
+          'match_number' => "CAT.PM" . $currentRound . ".G" . $currentMatchIndex . "." . $matchNumberGroup1 . "-" . $matchNumberGroup2,
           'display_match_number' => "CAT.$currentRound.$currentMatchIndex.@HOME-@AWAY",
           'display_home_team_placeholder_name' => "$group1[$i]",
           'display_away_team_placeholder_name' => "$group2[$i]",

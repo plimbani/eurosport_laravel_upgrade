@@ -50,7 +50,7 @@
                   </div>
                   <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
                     <button type="button" class="btn btn-primary w-100" @click="printAllocatedTeams()">Download groups</button>
-                  </div>                  
+                  </div>
                 </div>
               </div>
             </div>
@@ -568,6 +568,8 @@
         if(this.age_category!= '' && this.age_category.tournament_template_id == null) {
           let ageCategoryTemplateJson = this.age_category.template_json_data;
           this.getTournamentTemplate(ageCategoryTemplateJson);
+          this.beforeChangeGroupName = ''
+          this.getTeams()
           return true;
         }
 
