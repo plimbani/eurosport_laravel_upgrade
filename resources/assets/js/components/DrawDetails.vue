@@ -196,9 +196,10 @@ export default {
                 });
 
                 vm.onChangeDrawDetails();
-                if ( currDId != undefined){
-                  vm.refreshStanding();
-                }
+                vm.teamStatus = true;
+                // if ( currDId != undefined){
+                //   vm.refreshStanding();
+                // }
               });
 
               $("#drawName").val(currDId).trigger('change');

@@ -213,7 +213,7 @@ class MatchController extends BaseController
             abort(404);
         }
         $status = 'success';
-        try {
+        // try {
             if($tournamentId === null) {
                 $publishedTournaments = Tournament::where('status', 'Published')->get();
                 $unpublishedTournaments = Tournament::where('status', 'Unpublished')->get();
@@ -330,9 +330,9 @@ class MatchController extends BaseController
                 $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
                 $this->matchObj->refreshCompetitionStandings($data);
             }
-        } catch(\Exception $e) {
-            $status = 'error';
-        }
+        // } catch(\Exception $e) {
+        //     $status = 'error';
+        // }
 
         return view('automate_tournament.success_match_scheduled', compact('status') );
     }

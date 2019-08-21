@@ -792,7 +792,7 @@ class AgeGroupService implements AgeGroupContract
       }
 
       for($i = 2; $i<=$teamsPerGroup; $i++) {
-        if(($totalTeams + $totalGroups) > $roundSizeData) {
+        if($i > 2 || ($totalTeams + $totalGroups) > $roundSizeData) {
           for($j=1; $j<=$totalGroups; $j++) {
             if($totalTeams < $roundSizeData) {
               $teamsForRoundTwo[] = $this->getOrdinal($j). '#' .$i;

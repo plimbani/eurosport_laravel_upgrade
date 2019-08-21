@@ -1352,7 +1352,7 @@ class MatchService implements MatchContract
         $reportQuery = DB::table('temp_fixtures')
         ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
           'temp_fixtures.home_team_placeholder_name as HomeTeamPlaceHolderName','temp_fixtures.away_team_placeholder_name as AwayTeamPlaceHolderName',
-          'temp_fixtures.away_team as AwayTeamId')
+          'temp_fixtures.away_team as AwayTeamId', 'competitions.competation_round_no as competition_round')
         ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
         ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
         ->leftJoin('tournament_template','tournament_template.id','=','tournament_competation_template.tournament_template_id')
@@ -1361,9 +1361,9 @@ class MatchService implements MatchContract
         ->get();
         $matches = $reportQuery;
 
-        $tournamentCompetationTemplates = TournamentCompetationTemplates::find($ageCategoryId);
-        if($tournamentCompetationTemplates->competition_type === 'knockout') {
-          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId);
+        $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageCategoryId);
+        if($tournamentCompetationTemplate->competition_type === 'knockout') {
+          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id);
         }
 
         // print_r($matches);exit;
@@ -1380,7 +1380,7 @@ class MatchService implements MatchContract
             if($homeTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 $isRankingPosition = false;
-                if($tournamentCompetationTemplates->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true) {
+                if($tournamentCompetationTemplate->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
                   if(strpos($homeTeam, '#') > 0) {
                     $this->updateRankingPositionInMatchForKnockout($homeTeam, $firstRoundPositionWiseStandings, $match, 'home');
                     $processFixtures[] = $match->matchID;
@@ -1423,7 +1423,7 @@ class MatchService implements MatchContract
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 $isRankingPosition = false;
-                if($tournamentCompetationTemplates->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true) {
+                if($tournamentCompetationTemplate->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
                   if(strpos($awayTeam, '#') > 0) {
                     $this->updateRankingPositionInMatchForKnockout($awayTeam, $firstRoundPositionWiseStandings, $match, 'away');
                     $processFixtures[] = $match->matchID;
@@ -2609,7 +2609,7 @@ class MatchService implements MatchContract
                       ->where('competitions.tournament_competation_template_id', '=', $ageCategoryId)->delete();
     }
 
-    public function getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId)
+    public function getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentId)
     {
       $standingResData = [];
       $standingsPositionWise = [];
@@ -2621,8 +2621,7 @@ class MatchService implements MatchContract
           break;
         }
       }
-
-      if($areAllCompetitionEnded) {      
+      if($areAllCompetitionEnded) {
         foreach($competitions as $competition) {
           $data['tournamentId'] = $competition->tournament_id;
           $data['competitionId'] = $competition->id;
@@ -2657,17 +2656,25 @@ class MatchService implements MatchContract
           $standingsPositionWise[$position] = array_values($standings);
         }
       } else {
-        $allMatches = TempFixture::where('age_group_id', $ageCategoryId)->get();
+        $allMatches = DB::table('temp_fixtures')
+        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber',
+          'temp_fixtures.home_team_placeholder_name as HomeTeamPlaceHolderName','temp_fixtures.away_team_placeholder_name as AwayTeamPlaceHolderName')
+        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
+        ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+        ->where('competitions.tournament_competation_template_id', '=', $ageCategoryId)
+        ->where('competitions.competation_round_no', '=', 'Round 2')
+        ->where('temp_fixtures.tournament_id', '=', $tournamentId)
+        ->get();
         foreach($allMatches as $match) {
           $updateMatchDetails = false;
-          $matchNumber = explode('.', $match->match_number);
+          $matchNumber = explode('.', $match->MatchNumber);
           $homeAwayTeams = explode('-', $matchNumber[2]);
-          $homeTeam = $value[0];
-          $awayTeam = $value[1];
+          $homeTeam = $homeAwayTeams[0];
+          $awayTeam = $homeAwayTeams[1];
           if($homeTeam && strpos($homeTeam, '#') > 0) {
             DB::table('temp_fixtures')->where('id', $match->matchID)->update(
               [
-                'home_team_name' => $match->home_team_placeholder_name,
+                'home_team_name' => $match->HomeTeamPlaceHolderName,
                 'home_team' => 0,
               ]
             );
@@ -2676,8 +2683,8 @@ class MatchService implements MatchContract
           if($awayTeam && strpos($awayTeam, '#') > 0) {
             DB::table('temp_fixtures')->where('id', $match->matchID)->update(
               [
-                'home_team_name' => $match->away_team_placeholder_name,
-                'home_team' => 0,
+                'away_team_name' => $match->AwayTeamPlaceHolderName,
+                'away_team' => 0,
               ]
             );
           }
