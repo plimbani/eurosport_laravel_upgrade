@@ -97,16 +97,20 @@ class TournamentRepository
     }
     public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
+
         $tournamentTemplateData              = [];
         $tournamentTemplateData['json_data'] = '';        
+        $tempFixtures = TempFixture::where('age_group_id', $ageCategoryId)->get()->keyBy('match_number')->toArray();
         if($tournamentTemplateId != NULL) {
             $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
             $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+            $tournamentTemplateData['temp_fixtures'] = $tempFixtures;
         } else {
             $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
+            $tournamentTemplateData['temp_fixtures'] = $tempFixtures;
         }
 
         return $tournamentTemplateData;
