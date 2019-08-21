@@ -195,8 +195,7 @@ export default {
                   }
                 });
 
-                vm.onChangeDrawDetails();
-                vm.teamStatus = true;
+                vm.initializeStandings();
                 // if ( currDId != undefined){
                 //   vm.refreshStanding();
                 // }
@@ -342,6 +341,17 @@ export default {
           let Name = this.DrawName.name
           if(Id != undefined && Name != undefined)
             this.$root.$emit('changeDrawListComp',Id, Name); */
+        },
+        initializeStandings() {
+          this.$store.dispatch('setCurrentScheduleView','drawDetails');
+          window.competitionChange = this.DrawName;
+          let Id = this.DrawName.id
+          let Name = this.DrawName.name
+          let CompetationType = this.DrawName.actual_competition_type
+          this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+          this.refreshStanding();
+          this.setTeamData()
+          this.currentCompetationId = Id
         },
         checkTeamId(teamId) {
             return teamId.Home_id
