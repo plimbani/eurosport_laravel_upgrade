@@ -488,7 +488,7 @@ class TemplateRepository
     public function getAverageMatches($totalMatches, $numTeams)
     {
        $averageMatches = $totalMatches / ($numTeams / 2);
-       return round($averageMatches, 1);
+       return number_format($averageMatches, 1);
     }
 
     // public function getMinimumMatches($templateFormDetail)

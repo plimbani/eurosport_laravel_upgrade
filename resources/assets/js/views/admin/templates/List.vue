@@ -66,6 +66,7 @@
                             <td>{{ template.created_at | createdAtFilter }}</td>
                             <td>{{ template.userEmail }}</td>
                             <td>
+                              <div class="d-flex align-items-center">
                                 <a class="text-primary" href="javascript:void(0)"
                                  @click="openTemplateInfoModal(template)">
                                   <i class="fa fa-info-circle"></i>
@@ -78,6 +79,7 @@
                                   @click="deleteTemplate(template)">
                                   <i class="fas fa-trash text-danger"></i>
                                 </a>
+                              </div>
                             </td>
                           </tr>
                           <tr><td colspan="10"></td></tr>
