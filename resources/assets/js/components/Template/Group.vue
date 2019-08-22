@@ -6,10 +6,10 @@
 		        <div class="form-group">
 		        	<div class="radio">
 	                    <div class="c-input">
-	                        <input type="radio" :id="'round_robin' + roundIndex + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label :for="'round_robin' + roundIndex + index" class="d-inline-flex mr-5">Round robin</label>
-	                        <input type="radio" :id="'placing_match' + roundIndex + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label :for="'placing_match' + roundIndex + index" class="d-inline-flex">Placing match</label>
+	                        <input :name="'group_type' + divisionIndex + roundIndex + index" type="radio" :id="'round_robin' + divisionIndex + roundIndex + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'round_robin' + divisionIndex + roundIndex + index" class="d-inline-flex mr-5">Round robin</label>
+	                        <input :name="'group_type' + divisionIndex + roundIndex + index" type="radio" :id="'placing_match' + divisionIndex + roundIndex + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'placing_match' + divisionIndex + roundIndex + index" class="d-inline-flex">Placing match</label>
 	                    </div>
 	                </div>
 
@@ -49,8 +49,8 @@
 				        	<div class="col-md-9" v-if="showHideIsFinal((teamIndex/2))">
 				        		<div class="checkbox">
                                   	<div class="c-input">
-                                    	<input type="checkbox" :id="'match_status' + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
-                                    	<label :for="'match_status' + index + teamIndex">Final </label>
+                                    	<input type="checkbox" :id="'match_final' + divisionIndex + roundIndex + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
+                                    	<label :for="'match_final' + divisionIndex + roundIndex + index + teamIndex">Final </label>
                                   	</div>
                                 </div>
 
@@ -62,7 +62,7 @@
 		        		<div class="row align-items-center">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
-				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Home' : 'Away') )  }}
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Team 1' : 'Team 2') )  }}
 				        		</label>
 				        	</div>
 				        	<div class="col-md-9">

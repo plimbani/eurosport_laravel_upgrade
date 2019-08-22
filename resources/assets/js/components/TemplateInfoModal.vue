@@ -12,10 +12,7 @@
                 <p v-show="templateData.length != 0">{{ $lang.template_modal_message }}</p>
                 <div v-for="(template, key) in templateData">   
                     <span class="font-weight-bold">{{ key }}</span>
-                    (<span>        
-                        <span class="py-2">{{ displayGroupName(template) }}  
-                        </span>
-                    </span>)
+                    (<span><span class="py-2">{{ displayGroupName(template) }}</span></span>)
                 </div>
                 <span v-show="templateData.length == 0">{{ $lang.no_template_in_use_message }}</span>
             </div>
