@@ -69,15 +69,14 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
 
                     if ( $anyUnscheduleMatchInTournament == 0) 
                     {
-                        // Get maximum match date end time of tournament  
-                        $lastMatchEndTime = TempFixture::where('tournament_id',$tournamentId)
-                        ->select('match_endtime')->orderBy('match_endtime', 'desc')->first();
 
-                        if ( !empty( $lastMatchEndTime->match_endtime ))
+                        if ( isset( $tournamentData['filter_tournaments_with_endate']['end_date'] ))
                         {
 
+                            $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $tournamentData['filter_tournaments_with_endate']['end_date'])->addDay()->format('Y-m-d');
+
                             // Add 8 hours in date end time
-                            $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
+                            $finalDate = Carbon::parse($tournamentEndDate);
                             //$deleteDate = Carbon::parse($lastMatchEndTime->match_endtime);
                             $configHours = env('CUSTOMER_SEND_MAIL_AFTER_MATCH_FINISHED');
                             $finalDate->addHours($configHours); 
