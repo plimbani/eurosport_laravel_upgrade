@@ -1404,8 +1404,9 @@ a.active-view:hover {
                 width: auto;
 
                 a {
-                    margin-right: 5px;
-
+                    margin-right: 8px;
+                    display: inline-flex;
+                    align-items: center;
                     &:last-child {
                         margin-right: 0;
                     }
