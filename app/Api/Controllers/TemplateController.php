@@ -289,17 +289,20 @@ class TemplateController extends BaseController
     public function scriptForDivisionsAndMinimumMatches()
     {
         $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
-
         foreach($templates as $template) {
             $jsonData = json_decode($template->json_data, true);
-            $templateFormDetail = json_decode($template->template_form_detail, true);
-            
-            $totalDivisions = isset($jsonData['tournament_competation_format']['divisions']) ? sizeof($jsonData['tournament_competation_format']['divisions']) : 0;
-            $jsonData['tournament_min_match'] = $template->minimum_matches;
-
+            // for average games
+            $jsonData['avg_game_team'] = number_format($jsonData['avg_game_team'], 1);
             $template->json_data = json_encode($jsonData);
-            $template->no_of_divisions = $totalDivisions;
             $template->save();
+
+            // $templateFormDetail = json_decode($template->template_form_detail, true);
+            // $totalDivisions = isset($jsonData['tournament_competation_format']['divisions']) ? sizeof($jsonData['tournament_competation_format']['divisions']) : 0;
+            // $jsonData['tournament_min_match'] = $template->minimum_matches;
+
+            // $template->json_data = json_encode($jsonData);
+            // $template->no_of_divisions = $totalDivisions;
+            // $template->save();
         }
 
         echo "<pre>";print_r('script executed.');echo "</pre>";exit;
