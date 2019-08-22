@@ -49,8 +49,8 @@
 				        	<div class="col-md-9" v-if="showHideIsFinal((teamIndex/2))">
 				        		<div class="checkbox">
                                   	<div class="c-input">
-                                    	<input type="checkbox" :id="'match_status' + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
-                                    	<label :for="'match_status' + index + teamIndex">Final </label>
+                                    	<input type="checkbox" :id="'match_final' + divisionIndex + roundIndex + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
+                                    	<label :for="'match_final' + divisionIndex + roundIndex + index + teamIndex">Final </label>
                                   	</div>
                                 </div>
 
@@ -62,7 +62,7 @@
 		        		<div class="row align-items-center">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
-				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Home' : 'Away') )  }}
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Team 1' : 'Team 2') )  }}
 				        		</label>
 				        	</div>
 				        	<div class="col-md-9">
