@@ -106,12 +106,11 @@ class TournamentRepository
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
             $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
-            $tournamentTemplateData['temp_fixtures'] = $tempFixtures;
         } else {
             $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
-            $tournamentTemplateData['temp_fixtures'] = $tempFixtures;
         }
+        $tournamentTemplateData['temp_fixtures'] = $tempFixtures;
 
         return $tournamentTemplateData;
     }

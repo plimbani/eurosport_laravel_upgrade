@@ -145,19 +145,19 @@
                   <div v-for="(group, groupIndex) in round.match_type">
                     
                     <!-- round 1 -->
-                    <div class="group-listing" v-if="roundIndex == 0">
+                    <div class="group-listing" v-if="roundIndex == 0 && getGroupType(group) == 'RR'">
                         <div class="row-round">
                             <div class="group-column">
                                 <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
                                 <div class="bordered-box" v-for="team in group.group_count">
-                                    <span class="font-weight-bold"># {{ team }}</span>
+                                    <span class="font-weight-bold">#{{ team }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- round 2 - PM -->
-                    <div class="row-round" v-if="roundIndex == 1 && getGroupType(group) == 'PM' && roundIndex != lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
+                    <div class="row-round" v-if="roundIndex <= 1 && getGroupType(group) == 'PM' && roundIndex != lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
                       <div class="bordered-box"><span class="font-weight-bold small">Match {{ roundIndex + 1 }}.{{ matchIndex + 1 }}</span></div>
                       <div class="bordered-box"><span class="small">{{ match.display_home_team_placeholder_name }}-{{ match.display_away_team_placeholder_name }}</span></div>
                     </div>
@@ -192,7 +192,7 @@
                     </div>
                     
                     <!-- for last round -->
-                    <div v-if="roundIndex == lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
+                    <!-- <div v-if="roundIndex == lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
                       <div class="row-round">
                         <div class="bordered-box"><span class="font-weight-bold small">Final</span></div>
                         <div class="bordered-box" v-if="getGroupType(group) == 'PM' && getMatchesWithWinnerOrLooser(match) == '#'">
@@ -207,12 +207,7 @@
                           <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_away_team_placeholder_name }}</span>
                         </div>
                       </div>
-                      <!-- <div class="row-round">
-                          <div class="bordered-box"><span class="font-weight-bold small">Place 3-4</span></div>
-                          <div class="bordered-box" v-if="roundIndex == 1"><span class="font-weight-bold small">Loser 3.1</span></div>
-                          <div class="bordered-box" v-if="roundIndex != 1"><span class="font-weight-bold small">Loser 3.2</span></div>
-                      </div> -->
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
