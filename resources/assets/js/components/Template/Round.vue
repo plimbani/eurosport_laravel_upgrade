@@ -6,7 +6,7 @@
                 <label>Number of teams</label>
                 <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="isRoundDisabled" @change="onTeamChange()">
                     <option value="">Number of teams</option>
-                    <option v-for="n in 60" v-if="n >= 2" :value="n">{{ n }}</option>
+                    <option v-for="n in templateFormDetail.stepone.no_of_teams" v-if="n >= 2" :value="n">{{ n }}</option>
                 </select>
                 <p class="text-danger" v-if="isSeletedRoundTeamsAndGroupTeamsNotSame">Round teams and group teams count should match.</p>
             </div>

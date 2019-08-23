@@ -69,7 +69,7 @@
 				        		<div class="row">
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
+					        				<select :class="getPositionTypeClassNames(teamIndex)" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
 					        					<option :value="position.key" v-for="position in getPositionTypes()">{{ position.value }}</option>
 						                    </select>
 						                </div>
@@ -83,8 +83,8 @@
 				        			</div>
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
-					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group)">{{ position.name }}</option>
+					        				<select :data-team-index="teamIndex" :class="getPositionClassNames()" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
+					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group, team.position, team.position_type)">{{ position.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
@@ -335,10 +335,27 @@
 				}
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection(teamIndex, group) {
+		    getPositionsForSelection(teamIndex, group, selectedPosition, selectedPositionType) {
 		    	let vm = this;
 			    var positionsForSelection = [];
 
+			    let alreadySelectedValuesInPosition = {};
+			    alreadySelectedValuesInPosition.team = [];
+			    alreadySelectedValuesInPosition.placed = [];
+			    alreadySelectedValuesInPosition.winner = [];
+			    alreadySelectedValuesInPosition.loser = [];
+			    let alreadySelectedValuesInPositionType = [];
+		    	$(".js-select-position-" + this.divisionIndex + this.roundIndex + this.index).each(function() {
+		    		let teamIndex = $(this).data('team-index');
+		    		let position = $(this).val();
+		    		let positionType = $(".js-select-position-type-" + vm.divisionIndex + vm.roundIndex + vm.index + vm.teamIndex).val();
+		    		console.log('positionType', positionType);
+		    		if(position !== '' && typeof position !== 'undefined' && positionType !== '' && typeof positionType !== 'undefined') {
+		    			console.log('inside');
+		    			alreadySelectedValuesInPosition[positionType].push(position);
+		    		}
+		    	});
+		    	console.log('alreadySelectedValuesInPosition', alreadySelectedValuesInPosition);
 			    if(this.divisionIndex !== -1 && this.roundIndex === 0) {
 			    	_.forEach(vm.templateFormDetail.steptwo.divisions[vm.divisionIndex].teams, function(team, teamIndex) {
 			    		let position = team.position.split(',');
@@ -359,7 +376,10 @@
 				    			}
 				    			
 				    			name += ' Match ' + (parseInt(position[3]) + 1) + ')';
-				    			positionsForSelection.push({'name': name, 'value': teamIndex});
+				    			console.log('teamIndex', _.indexOf(alreadySelectedValuesInPosition, teamIndex.toString()));
+				    			if(_.indexOf(alreadySelectedValuesInPosition[selectedPositionType], teamIndex.toString()) === -1 || selectedPosition === teamIndex.toString()) {
+				    				positionsForSelection.push({'name': name, 'value': teamIndex});
+				    			}
 				    		}
 				    	}
 		    		});
@@ -368,7 +388,10 @@
 
 			    if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
 			    	_.forEach(this.groupData.teams, function(team, teamIndex) {
-		    			positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
+			    		console.log('teamIndex', _.indexOf(alreadySelectedValuesInPosition, teamIndex.toString()));
+			    		if(_.indexOf(alreadySelectedValuesInPosition[selectedPositionType], teamIndex.toString()) === -1 || selectedPosition === teamIndex.toString()) {
+		    				positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
+		    			}
 		    		});
 		    		return positionsForSelection;
 			    }
@@ -405,7 +428,10 @@
 								this.groupData.teams[teamIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
+								console.log('teamIndex', _.indexOf(alreadySelectedValuesInPosition, (group + ',' + (i - 1)).toString()));
+								if(_.indexOf(alreadySelectedValuesInPosition[selectedPositionType], (group + ',' + (i - 1)).toString()) === -1 || selectedPosition === (group + ',' + (i - 1)).toString()) {
+									positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
+								}
 							}
 						}
 					}
@@ -604,7 +630,13 @@
 		    		return true;
 		    	}
 		    	return false;
-		    }
+		    },
+		    getPositionClassNames() {
+		    	return "form-control ls-select2 js-select-position js-select-position-" + this.divisionIndex + this.roundIndex + this.index;
+		    },
+		    getPositionTypeClassNames(teamIndex) {
+		    	return 'form-control ls-select2 js-select-position-type-' + this.divisionIndex + this.roundIndex + this.index + this.teamIndex;
+		    },
         }
     }
 </script>
