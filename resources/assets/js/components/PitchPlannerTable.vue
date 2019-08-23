@@ -35,7 +35,8 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex" @conflicted-for-same-match-fixutres="showConflictedForSameMatchFixtures" @conflicted-for-another-match-fixutres="showConflictedForAnotherMatchFixtures"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" 
+                                    :enableScheduleFeatureAsDefault="enableScheduleFeatureAsDefault" :stageIndex="stageIndex" @conflicted-for-same-match-fixutres="showConflictedForSameMatchFixtures" @conflicted-for-another-match-fixutres="showConflictedForAnotherMatchFixtures" @make-schedule-matches-as-default="makeScheduleMatchesAsDefault()"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +188,8 @@
                 'scheduleMatchesArray': [],
                 'isMatchScheduleInEdit': false,
                 'conflictedMatchFixtures': [],
-                'isAnotherMatchScheduled': false
+                'isAnotherMatchScheduled': false,
+                'enableScheduleFeatureAsDefault': true,
             };
         },
         mounted() {
@@ -758,7 +760,11 @@
                 this.conflictedMatchFixtures = matchFixtureData;
                 this.isAnotherMatchScheduled = anotherMatchScheduled;
                 $('#unChangedMatchFixtureModal').modal('show');
-            }            
+            },
+            makeScheduleMatchesAsDefault() {
+                this.enableScheduleFeatureAsDefault = true;
+                this.scheduleMatches();
+            },
         }
     }
 </script>
