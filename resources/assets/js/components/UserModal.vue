@@ -103,17 +103,7 @@
                         <span class="help is-danger" v-show="errors.has('status')">{{$lang.user_management_status_required}}</span>
                      </div>
                 </div>
-                
-                <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">
-                      {{$lang.user_management_job_title}}                      
-                    </label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.job_title" v-validate="'alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
-                        <i v-show="errors.has('job_title')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('job_title')">{{ errors.first('job_title') }}</span>
-                    </div>
-                </div>
+            
                 <div v-if="isCustomer" class="form-group row">
                      <label class="col-sm-5 form-control-label">{{$lang.user_management_address}}</label> 
                      <div class="col-sm-6">
@@ -447,7 +437,7 @@ import { ErrorBag } from 'vee-validate';
               }
 
               this.showOrganisation = false;
-              if(roleData && roleData.slug !== 'mobile.user') {
+              if(roleData && roleData.slug !== 'mobile.user' && roleData.slug !== 'customer') {
                 this.showOrganisation = true;
               }
 

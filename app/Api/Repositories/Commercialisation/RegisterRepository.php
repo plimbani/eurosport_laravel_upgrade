@@ -34,7 +34,6 @@ class RegisterRepository
             'primary_email' => $data['email'],
             'address' => $data['address'],
             'address_2' => $data['address_2'],
-            'job_title' => $data['job_title'],
             'city' => $data['city'],
             'zipcode' => $data['zip'],
         ];        
@@ -52,7 +51,6 @@ class RegisterRepository
                 'username' => $data['email'],
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
-                'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
                 'is_mobile_user' => 1,
                 'is_desktop_user' => 1,
                 'registered_from' => 1,
