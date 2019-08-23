@@ -4,7 +4,7 @@
     <div class="page-header">
       <ol class="breadcrumb">
         <li><a href="/admin">Home</a></li>
-        <li><a href="/users">{{currentPage}}</a></li>
+        <li><a href="/users">Users</a></li>
         <li><a href="javascript:void(0)" @click="redirectToTournamentList()">Tournament</a></li>
         <li class="active"><span>Transaction history</span></li>
       </ol>
@@ -21,9 +21,6 @@ export default  {
   },  
   
   computed: {
-    currentPage() {
-        return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
-    },
   },
   methods:{
     redirectToTournamentList(){

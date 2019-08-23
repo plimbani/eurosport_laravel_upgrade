@@ -29,8 +29,9 @@
                                         <th>Name</th>
                                         <th>Start</th>
                                         <th>End</th>
+                                        <th>Tournament</th>
+                                        <th>Custom</th>
                                         <th>Teams</th>
-                                        
                                         <th>Purchase date</th>
                                         <th>Edit</th>
                                         
@@ -42,6 +43,8 @@
                                     <a href="javascript:void(0)" class="text-primary"><u>{{ tournament.name }}</u></a></td>
                                     <td>{{ tournament.start_date }}</td>
                                     <td>{{ tournament.end_date }}</td>
+                                    <td>{{ getTournamentType(tournament.tournament_type) }}</td>
+                                    <td>{{ getTournamentFormat(tournament.custom_tournament_format) }}</td>
                                     <td>{{ tournament.maximum_teams }}</td>
                                     <!-- <td>TEA</td> -->
                                     <td v-on:click="redirectToTransactionListPage(tournament)" >
@@ -110,11 +113,9 @@
                 this.$store.dispatch('setActiveTab', currentNavigationData);
                 this.$router.push({name:'tournament_add'});
             },
-
             redirectToTransactionListPage(tournament){
                  this.$router.push({name: 'tournamentstransaction', query: {id:tournament.id, customer_id:this.customer_id}}); 
-            }, 
-
+            },
             getTournamentRecord() {
                 if(Object.keys(this.$route.query).length === 0) {
                     this.$router.push({name: 'users_list'});
@@ -126,7 +127,13 @@
                         this.$router.push({name: 'users_list'});
                     }
                 }
-            }
+            },
+            getTournamentType(type) {
+                return type.charAt(0).toUpperCase() + type.slice(1);
+            },
+            getTournamentFormat(format) {
+                return format === 1 ? "Yes" : "No";
+            },
         },
         beforeMount(){  
             this.getTournamentRecord();
