@@ -810,19 +810,19 @@ class TournamentRepository
         $tournament->start_date = $tournamentDetailData['tournament_start_date'];
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
-        if($currentLayout == 'commercialisation') {
-            $customTournamentFormat = '';
+        if($currentLayout == 'commercialisation' && $authUser->hasRole('customer')) {
+            $customTournamentFormat = NULL;
 
-            if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
-                $customTournamentFormat = 0;
-            }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
-                $customTournamentFormat = 1;
-            } else {
-                $customTournamentFormat = NULL;   
+            if(isset($tournamentDetailData['tournament_type']) && isset($tournamentDetailData['custom_tournament_format'])) {
+                if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
+                    $customTournamentFormat = 0;
+                }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
+                    $customTournamentFormat = 1;
+                }
             }
 
             $tournament->access_code = Str::random(4);
-            $tournament->tournament_type = $tournamentDetailData['tournament_type'];
+            $tournament->tournament_type = isset($tournamentDetailData['tournament_type']) ? $tournamentDetailData['tournament_type'] : null;
             $tournament->custom_tournament_format = $customTournamentFormat;
         }
         
