@@ -89,11 +89,13 @@ class GroupListVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
-                if let data = result.value(forKey: "data") as? NSArray {
-                    
-                    let descriptor: NSSortDescriptor = NSSortDescriptor(key: "display_name", ascending: true)
-                    self.ageCategoriesGroupsList = NSMutableArray.init(array: data.sortedArray(using: [descriptor]))
-                    ApplicationData.groupsList = self.ageCategoriesGroupsList
+                if let dataObj = result.value(forKey: "data") as? NSDictionary {
+                    if let data = dataObj.value(forKey: "mainData") as? NSArray {
+                        
+                        let descriptor: NSSortDescriptor = NSSortDescriptor(key: "display_name", ascending: true)
+                        self.ageCategoriesGroupsList = NSMutableArray.init(array: data.sortedArray(using: [descriptor]))
+                        ApplicationData.groupsList = self.ageCategoriesGroupsList
+                    }
                 }
                 
                 self.table.reloadData()

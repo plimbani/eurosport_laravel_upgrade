@@ -65,7 +65,6 @@ class CreateAccountVC: SuperViewController {
     }
     
     func initialize(){
-        
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnBack.setImageColor(color: UIColor.AppColor(), image: UIImage.init(named: "back_white")!, state: .normal)
         }
@@ -477,6 +476,7 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             btnCreateNewAccount.isEnabled = true
                             cell = buttonCell
                             cellList.add(cell)
+                            updateCreateAccountBtn()
                         case .TextViewCell:
                             _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TextViewCell)
                             let textViewCell = cellOwner.cell as! TextViewCell

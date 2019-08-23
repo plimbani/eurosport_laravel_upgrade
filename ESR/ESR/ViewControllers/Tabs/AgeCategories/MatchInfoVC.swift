@@ -254,7 +254,7 @@ class MatchInfoVC: SuperViewController {
 //            dateFormatter.dateFormat = kDateFormat.hhmm
 //            let strTime = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
             
-            dateFormatter.dateFormat = kDateFormat.format6
+            dateFormatter.dateFormat = kDateFormat.HHmmddMMMMyyyy
             let formattedDate = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
             
             //lblDate.text = dateOfMonth + " " + nameOfMonth

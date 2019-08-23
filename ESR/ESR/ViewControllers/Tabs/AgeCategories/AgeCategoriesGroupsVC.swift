@@ -78,9 +78,11 @@ class AgeCategoriesGroupsVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
-                if let data = result.value(forKey: "data") as? NSArray {
-                    self.ageCategoriesGroupsList = data
-                    ApplicationData.groupsList = data
+                if let dataObj = result.value(forKey: "data") as? NSDictionary {
+                    if let data = dataObj.value(forKey: "mainData") as? NSArray {
+                        self.ageCategoriesGroupsList = data
+                        ApplicationData.groupsList = data
+                    }
                 }
                 
                 self.table.reloadData()

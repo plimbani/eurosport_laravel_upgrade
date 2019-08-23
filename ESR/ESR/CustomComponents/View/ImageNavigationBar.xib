@@ -20,18 +20,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navigation_logo" translatesAutoresizingMaskIntoConstraints="NO" id="mEA-87-a54">
-                    <rect key="frame" x="61" y="6" width="198" height="32"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="32" id="82h-ze-yJQ"/>
-                    </constraints>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navigation_logo" translatesAutoresizingMaskIntoConstraints="NO" id="mEA-87-a54">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.89803921568627454" green="0.97254901960784312" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="mEA-87-a54" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="BWH-GX-yMa"/>
-                <constraint firstItem="mEA-87-a54" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.62" id="aXA-xc-4LX"/>
-                <constraint firstItem="mEA-87-a54" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="gMV-tN-Jwe"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="leading" secondItem="mEA-87-a54" secondAttribute="leading" id="ChZ-14-yIA"/>
+                <constraint firstItem="mEA-87-a54" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="NKQ-BB-4nx"/>
+                <constraint firstItem="mEA-87-a54" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="NLu-Pc-UPa"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="mEA-87-a54" secondAttribute="top" id="Y4J-oj-7YO"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
@@ -40,6 +38,6 @@
         </view>
     </objects>
     <resources>
-        <image name="navigation_logo" width="300" height="47"/>
+        <image name="navigation_logo" width="1500" height="414"/>
     </resources>
 </document>

@@ -175,6 +175,7 @@ struct kDateFormat {
     static let MMM                              = "MMM"
     static let dd                               = "dd"
     static let hhmm                             = "hh:mm"
+    static let HHmmddMMMMyyyy                   = "HH:mm dd MMMM yyyy"
 }
 
 struct kNiB {
