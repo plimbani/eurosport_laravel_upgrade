@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ updateDivExistData }}
     <div>
         <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
             <div class="col-sm-6 col-xl-6">
@@ -88,7 +89,7 @@
         </div>
         <div class="text-center view-full-information" v-if="showGroupInfo"  v-on:click.capture="showCompetitionDetailPage()">Please <a href="javascript: void(0);"><u>click here</u></a> to view full standings, results and schedule for {{ selectedOption.data.name }} </div>
     </div>
-    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :tournamentData="tournamentData"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :tournamentData="tournamentData" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></component>
   </div>
 </template>
 
@@ -114,6 +115,8 @@
         filterBy: 'category_and_competition',
         currentCategoryId: '',
         matchScoreFilter: 'all',
+        isDivExist: false,
+        isDivExistData: [],
       };
     },
     props: ['tournamentData'],
@@ -135,6 +138,19 @@
     computed: {
       showGroupInfo() {
         return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
+      },
+      updateDivExistData:function(){
+        var getFirstMatch = _.head(this.matches);
+        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+        {
+          this.isDivExist = getFirstMatch.isDivExist;
+          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+        }
+        else
+        {
+          this.isDivExist = 0;
+          this.isDivExistData = [];
+        }
       }
     },
     components: {
