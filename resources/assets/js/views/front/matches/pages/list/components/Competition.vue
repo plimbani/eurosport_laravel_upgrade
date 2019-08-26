@@ -195,6 +195,41 @@
 
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
+
+              setTimeout(function(){
+                $('#competition-overview optgroup .rounds').each(function() {
+                  var insideOptions = $(this).html();
+                  $(this).html('');
+                  $(insideOptions).insertAfter($(this));
+
+                  $(this).html($(this).attr('rel'));
+                });
+
+                $("#competition-overview").select2({
+                  templateResult: function (data, container) {
+                    if (data.element) {
+                      $(container).addClass($(data.element).attr("class"));
+                    }
+                    return data.text;
+                  }
+                })
+                .on('change', function () {
+                  let curreId = $(this).val();
+                  let drawnameChange = [];
+                  vm.competitionList.map(function(value, key) {
+                    if(value.id == curreId) {
+                      vm.currentCompetition = value;
+                    }
+                  });
+
+                  //vm.initializeStandings();
+                  // if ( currDId != undefined){
+                  //   vm.refreshStanding();
+                  // }
+                });
+
+                //$("#competition-overview").val(curreId).trigger('change');
+              },500);
               // vm.refreshStanding();
             }
           },
