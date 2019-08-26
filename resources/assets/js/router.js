@@ -179,7 +179,7 @@ const routes = [
                 name: 'pitch_capacity'
             },
             {
-                path: 'pitch_planner',
+                path: 'match_planner',
                 component: PitchPlanner,
                 name: 'pitch_planner'
 
@@ -192,7 +192,7 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: 'enlarge_pitch_planner',
+                path: 'enlarge_match_planner',
                 component: PitchPlanner,
                 name: 'enlarge_pitch_planner'
 
@@ -204,7 +204,7 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: 'print_pitch_planner',
+                path: 'print_match_planner',
                 component: PitchPlanner,
                 name: 'print_pitch_planner'
 

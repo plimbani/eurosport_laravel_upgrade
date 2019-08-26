@@ -65,10 +65,10 @@ class TemplateRepository
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTemplateDetail($data)
+    public function getTemplateDetail($templateId)
     {
         $tournamentTemplates = TournamentCompetationTemplates::leftjoin('tournaments', 'tournament_competation_template.tournament_id', '=', 'tournaments.id')
-                                                            ->where('tournament_template_id', $data['templateData']['id'])
+                                                            ->where('tournament_template_id', $templateId)
                                                             ->select('tournament_competation_template.*', 'tournaments.name as templateName')
                                                             ->get();
 

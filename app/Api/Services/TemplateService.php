@@ -39,7 +39,7 @@ class TemplateService implements TemplateContract
      */
     public function getTemplateDetail($data)
     {
-        $data = $this->templateRepoObj->getTemplateDetail($data);
+        $data = $this->templateRepoObj->getTemplateDetail($data['templateData']['id']);
         return ['data' => $data, 'status_code' => '200'];
     }
 
@@ -89,8 +89,9 @@ class TemplateService implements TemplateContract
      */
     public function editTemplate($id)
     {
-        $data = $this->templateRepoObj->editTemplate($id);
-        return ['data' => $data, 'status_code' => '200'];
+        $templateData = $this->templateRepoObj->editTemplate($id);
+        $tournamentsUsingTemplate = $this->templateRepoObj->getTemplateDetail($id);
+        return ['data' => $templateData, 'isTemplateInUse' => (count($tournamentsUsingTemplate) === 0 ? false : true),'status_code' => '200'];
     }
 
     /*
