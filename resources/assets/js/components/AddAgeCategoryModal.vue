@@ -725,30 +725,26 @@ export default {
       return this.$store.state.Tournament;
     },
     displayTournamentFormatAndType() {
-      if(this.userDetails.role_slug == 'customer') {
-        if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 0) {
-          this.isTournamentTypeShown = false;
-          this.tournament_format = 'basic';
+      if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 0) {
+        this.isTournamentTypeShown = false;
+        this.tournament_format = 'basic';
+        this.competition_type = 'knockout';
+        this.dispTempl = false;
+        return false;
+      }
+      if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 1) {
+        this.dispTempl = false;
+        this.isTournamentTypeShown = false;
+        if(this.tournament_format == 'basic') {
           this.competition_type = 'knockout';
-          this.dispTempl = false;
-          return false;
         }
-
-        if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 1) {
-          this.dispTempl = false;
-          this.isTournamentTypeShown = false;
-          if(this.tournament_format == 'basic') {
-            this.competition_type = 'knockout';
-          }
-        }
-
-        if(this.currentTournamentDetail.tournament_type == 'league') {
-          this.isTournamentTypeShown = false;
-          this.tournament_format = 'basic';
-          this.competition_type = 'league';
-          this.dispTempl = false;
-          return false;
-        }
+      }
+      if(this.currentTournamentDetail.tournament_type == 'league') {
+        this.isTournamentTypeShown = false;
+        this.tournament_format = 'basic';
+        this.competition_type = 'league';
+        this.dispTempl = false;
+        return false;
       }
       return true;
     }    

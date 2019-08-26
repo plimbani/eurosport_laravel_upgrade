@@ -65,7 +65,9 @@
 			        facebook:this.tournament.facebook,
 			        website:this.tournament.website,
 			        twitter:this.tournament.twitter,
-			        access_code:this.tournament.access_code
+			        access_code:this.tournament.access_code,
+			        tournament_type: this.tournament.tournament_type,
+			        custom_tournament_format: this.tournament.custom_tournament_format,
 		      	}
 		    	this.$store.dispatch('SetTournamentName', tournamentSel)
 
