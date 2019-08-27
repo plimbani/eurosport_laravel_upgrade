@@ -339,23 +339,6 @@
 		    	let vm = this;
 			    var positionsForSelection = [];
 
-			    let alreadySelectedValuesInPosition = {};
-			    alreadySelectedValuesInPosition.team = [];
-			    alreadySelectedValuesInPosition.placed = [];
-			    alreadySelectedValuesInPosition.winner = [];
-			    alreadySelectedValuesInPosition.loser = [];
-			    let alreadySelectedValuesInPositionType = [];
-		    	$(".js-select-position-" + this.divisionIndex + this.roundIndex + this.index).each(function() {
-		    		let teamIndex = $(this).data('team-index');
-		    		let position = $(this).val();
-		    		let positionType = $(".js-select-position-type-" + vm.divisionIndex + vm.roundIndex + vm.index + vm.teamIndex).val();
-		    		console.log('positionType', positionType);
-		    		if(position !== '' && typeof position !== 'undefined' && positionType !== '' && typeof positionType !== 'undefined') {
-		    			console.log('inside');
-		    			alreadySelectedValuesInPosition[positionType].push(position);
-		    		}
-		    	});
-		    	console.log('alreadySelectedValuesInPosition', alreadySelectedValuesInPosition);
 			    if(this.divisionIndex !== -1 && this.roundIndex === 0) {
 			    	_.forEach(vm.templateFormDetail.steptwo.divisions[vm.divisionIndex].teams, function(team, teamIndex) {
 			    		let position = team.position.split(',');
@@ -376,10 +359,7 @@
 				    			}
 				    			
 				    			name += ' Match ' + (parseInt(position[3]) + 1) + ')';
-				    			console.log('teamIndex', _.indexOf(alreadySelectedValuesInPosition, teamIndex.toString()));
-				    			if(_.indexOf(alreadySelectedValuesInPosition[selectedPositionType], teamIndex.toString()) === -1 || selectedPosition === teamIndex.toString()) {
-				    				positionsForSelection.push({'name': name, 'value': teamIndex});
-				    			}
+				    			positionsForSelection.push({'name': name, 'value': teamIndex});
 				    		}
 				    	}
 		    		});
@@ -388,10 +368,7 @@
 
 			    if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
 			    	_.forEach(this.groupData.teams, function(team, teamIndex) {
-			    		console.log('teamIndex', _.indexOf(alreadySelectedValuesInPosition, teamIndex.toString()));
-			    		if(_.indexOf(alreadySelectedValuesInPosition[selectedPositionType], teamIndex.toString()) === -1 || selectedPosition === teamIndex.toString()) {
-		    				positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
-		    			}
+			    		positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
 		    		});
 		    		return positionsForSelection;
 			    }
@@ -428,10 +405,7 @@
 								this.groupData.teams[teamIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								console.log('teamIndex', _.indexOf(alreadySelectedValuesInPosition, (group + ',' + (i - 1)).toString()));
-								if(_.indexOf(alreadySelectedValuesInPosition[selectedPositionType], (group + ',' + (i - 1)).toString()) === -1 || selectedPosition === (group + ',' + (i - 1)).toString()) {
-									positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
-								}
+								positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
 							}
 						}
 					}

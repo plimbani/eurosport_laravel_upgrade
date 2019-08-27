@@ -1,7 +1,8 @@
 <template>
     <div class="template-container">
         <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
-        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
+        <site-commercialisation-front-header v-if="getCurrentLayout === 'commercialisation' && $store.state.Users.userDetails.role_slug === 'customer'"></site-commercialisation-front-header>
+        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation' && $store.state.Users.userDetails.role_slug !== 'customer'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
             <TemplateListBreadCrumb></TemplateListBreadCrumb>
             <TemplateManagementTabbed></TemplateManagementTabbed>                 
@@ -18,6 +19,7 @@
 
     import SiteCommercialisationHeader from './partials/Commercialisation/Backend/SiteHeader.vue'
     import SiteCommercialisationFooter from './partials/Commercialisation/Backend/SiteFooter.vue'    
+    import SiteCommercialisationFrontHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
 
     import Layout from '../../helpers/layout'
     import TemplateListBreadCrumb from '../../components/TemplateListBreadCrumb.vue'
@@ -30,7 +32,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, TemplateListBreadCrumb, TemplateManagementTabbed, SiteCommercialisationHeader, SiteCommercialisationFooter
+            SiteHeader , SiteHeaderBottom , SiteFooter, TemplateListBreadCrumb, TemplateManagementTabbed, SiteCommercialisationHeader, SiteCommercialisationFooter, SiteCommercialisationFrontHeader
         },
         mounted() {
             Layout.set('layout-horizontal')
