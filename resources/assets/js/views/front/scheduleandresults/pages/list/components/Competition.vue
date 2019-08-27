@@ -114,7 +114,7 @@
       var currentComp = this.currentCompetitionId;
       var vm = this;
       setTimeout(function(){
-        $('#competition-overview optgroup .rounds').each(function() {
+        /*$('#competition-overview optgroup .rounds').each(function() {
           var insideOptions = $(this).html();
           $(this).html('');
           $(insideOptions).insertAfter($(this));
@@ -139,9 +139,10 @@
             }
           });
           vm.onCompetitionChange();
-        });
-        $("#competition-overview").val(currentComp).trigger('ccurrentComphange');
-      },100);
+        });*/
+        $("#competition-overview").val(currentComp).trigger('change');
+      },1500);
+
 
       //$('#select2-competition-overview-container').html($('#select2-competition-overview-container').attr('title'));
     },
@@ -199,7 +200,7 @@
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
 
-              /*setTimeout(function(){
+              setTimeout(function(){
                 $('#competition-overview optgroup .rounds').each(function() {
                   var insideOptions = $(this).html();
                   $(this).html('');
@@ -229,7 +230,7 @@
                   // if ( currDId != undefined){
                   //   vm.refreshStanding();
                   // }
-                });*/
+                });
 
                 //$("#competition-overview").val(currentCompetition).trigger('change');
               },500);
