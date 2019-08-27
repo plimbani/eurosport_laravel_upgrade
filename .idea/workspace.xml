@@ -6,16 +6,25 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+<<<<<<< HEAD
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+=======
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7e54537-3a96-43b7-966b-eae3020df760" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/app/src/easymatchmanager/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/easymatchmanager/res/values/colors.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" afterDir="false" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,6 +96,7 @@
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java">
+<<<<<<< HEAD
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="137">
               <caret line="14" column="58" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
@@ -130,6 +140,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
               <caret line="14" selection-start-line="14" selection-end-line="14" />
+=======
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1">
+              <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
             </state>
           </provider>
         </entry>
@@ -145,6 +160,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+<<<<<<< HEAD
+=======
+      <find>Sign in response</find>
+      <find>res</find>
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <find>re</find>
       <find>rese</find>
       <find>@drawable/icon_calendar</find>
@@ -161,6 +181,7 @@
       <find>input_email</find>
       <find>Log.e</find>
       <find>ApiConstants.</find>
+<<<<<<< HEAD
       <find>BuildConfig.isEasyMatchManager</find>
       <find>setBoolean(AppConstants.IS_LOGIN_USI</find>
       <find>this tournam</find>
@@ -175,6 +196,20 @@
       <find>bear</find>
       <find>userTournamentCount</find>
       <find>cont</find>
+=======
+      <find>getCurrentAccessToken</find>
+      <find>facebook</find>
+      <find>oncreate</find>
+      <find>BuildC</find>
+      <find>mFacebookCallbackManager</find>
+      <find>mFacebookCallBack</find>
+      <find>socialLogin</find>
+      <find>getStanding</find>
+      <find>callAccessCodeApi</find>
+      <find>Login</find>
+      <find>enable_logs_android</find>
+      <find>TestFa</find>
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -205,6 +240,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_favourites.xml" />
         <option value="$PROJECT_DIR$/app/src/easymatchmanager/res/layout/activity_favourites.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/src/main/res/layout/row_follow_another_tournament.xml" />
         <option value="$PROJECT_DIR$/app/src/easymatchmanager/res/layout/layout_access_code.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/GetStartedActivity.java" />
@@ -234,6 +270,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/easymatchmanager/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" />
+=======
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AppConstants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SignInActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       </list>
     </option>
   </component>
@@ -249,6 +294,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+<<<<<<< HEAD
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -319,6 +365,8 @@
           <select />
         </subPane>
       </pane>
+=======
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
@@ -346,8 +394,36 @@
               <item name="fragment" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
+<<<<<<< HEAD
               <item name="EuroSport_28Feb19" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+=======
+              <item name="EuroSportsWorkspace" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="eurosports" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EuroSportsWorkspace" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="EuroSport_28Feb19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EuroSport_28Feb19" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="EuroSport_28Feb19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EuroSport_28Feb19" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
             </path>
           </expand>
           <select />
@@ -364,11 +440,19 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+<<<<<<< HEAD
     <property name="device.picker.selection" value="Pixel_2_API_27" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../ESR_30April19" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="sync.plugin.last.upgrade.timestamp" value="1566286392016" />
+=======
+    <property name="device.picker.selection" value="4d0094da4cc8413b" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Projects Data/KeyStroke/ESRKeystore/esr_keystore.jks" />
+    <property name="not.eligible.for.single.variant.sync" value="true" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="sync.plugin.last.upgrade.timestamp" value="1561454632795" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -510,16 +594,25 @@
   <component name="ToolWindowManager">
     <frame x="128" y="66" width="1312" height="763" extended-state="0" />
     <layout>
+<<<<<<< HEAD
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.43023255" visible="true" weight="0.25826773" />
       <window_info id="Structure" order="2" sideWeight="0.52459013" side_tool="true" weight="0.30257186" />
       <window_info id="Favorites" order="3" sideWeight="0.52459013" side_tool="true" weight="0.30257186" />
       <window_info id="Build Variants" order="4" sideWeight="0.5697674" side_tool="true" visible="true" weight="0.25826773" />
+=======
+      <window_info id="Captures" order="0" sideWeight="0.5515548" side_tool="true" weight="0.23524962" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.44026187" visible="true" weight="0.23524962" />
+      <window_info id="Structure" order="2" sideWeight="0.52459013" side_tool="true" weight="0.30257186" />
+      <window_info id="Favorites" order="3" sideWeight="0.52459013" side_tool="true" weight="0.30257186" />
+      <window_info id="Build Variants" order="4" sideWeight="0.55973816" side_tool="true" weight="0.23524962" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <window_info id="Image Layers" order="5" />
       <window_info id="Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Resources Explorer" order="8" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.3295082" />
+<<<<<<< HEAD
       <window_info active="true" anchor="bottom" id="Logcat" order="1" sideWeight="0.49924356" visible="true" weight="0.48733234" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.32882273" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.33423546" />
@@ -528,6 +621,16 @@
       <window_info anchor="bottom" id="Build" order="6" weight="0.6467958" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.45872802" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.36941814" />
+=======
+      <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.49848714" weight="0.7626841" />
+      <window_info anchor="bottom" id="TODO" order="2" weight="0.3289689" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.33387887" />
+      <window_info anchor="bottom" id="Terminal" order="4" weight="0.3295082" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.5015129" side_tool="true" weight="0.7626841" />
+      <window_info anchor="bottom" id="Build" order="6" weight="0.58428806" />
+      <window_info anchor="bottom" id="Find" order="7" weight="0.33060557" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3704918" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <window_info anchor="bottom" id="Android Profiler" order="9" weight="0.3295082" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -1124,6 +1227,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/easymatchmanager/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1139,6 +1243,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/Utility.java">
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/AgeGroupActivity.java">
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2025">
           <caret line="189" column="67" selection-start-line="189" selection-start-column="67" selection-end-line="189" selection-end-column="67" />
@@ -1220,6 +1327,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/BaseAppCompactActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="355">
@@ -1229,6 +1337,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_clubs.xml">
       <provider editor-type-id="android-designer2" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="20" column="49" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
@@ -1242,6 +1353,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/ClubsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2">
@@ -1251,6 +1363,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_team.xml">
       <provider editor-type-id="android-designer2" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java">
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="645">
           <caret line="43" column="35" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
@@ -1264,6 +1379,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SignInActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
@@ -1285,6 +1401,48 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
           <caret line="14" column="58" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="273" column="29" lean-forward="true" selection-start-line="273" selection-start-column="29" selection-end-line="273" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="66" column="46" selection-start-line="66" selection-start-column="46" selection-end-line="66" selection-end-column="46" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/AgeCategoriesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="131" column="100" selection-start-line="131" selection-start-column="100" selection-end-line="131" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="35" column="27" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+>>>>>>> e97e21dde782eb59e2cc9a425d94cab899afd256
         </state>
       </provider>
     </entry>
