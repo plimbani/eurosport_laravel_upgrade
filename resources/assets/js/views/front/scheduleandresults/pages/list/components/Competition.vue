@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ updateDivExistData }}
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to match list
     </button>
@@ -121,8 +120,7 @@
           $(insideOptions).insertAfter($(this));
 
           $(this).html($(this).attr('rel'));
-        });
-
+        })
 
         $("#competition-overview").select2({
           templateResult: function (data, container) {
@@ -140,13 +138,31 @@
               vm.currentCompetitionId = curreId;
             }
           });
-
           vm.onCompetitionChange();
         });
-        $("#competition-overview").val(currentComp).trigger('change');
-      },500);
-    },
+        $("#competition-overview").val(currentComp).trigger('ccurrentComphange');
+      },100);
 
+      //$('#select2-competition-overview-container').html($('#select2-competition-overview-container').attr('title'));
+    },
+    watch: {
+      matches: {
+        handler: function (val, oldVal) {
+          var getFirstMatch = _.head(this.matches);
+          if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+          {
+            this.isDivExist = getFirstMatch.isDivExist;
+            this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+          }
+          else
+          {
+            this.isDivExist = 0;
+            this.isDivExistData = [];
+          }
+        },
+        deep: true,
+      },
+    },
     filters: {
       formatDate: function(date) {
         if (date != null) {
@@ -155,21 +171,6 @@
           return "";
         }
       },
-    },
-    computed: {
-      updateDivExistData:function(){
-        var getFirstMatch = _.head(this.matches);
-        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
-        {
-          this.isDivExist = getFirstMatch.isDivExist;
-          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
-        }
-        else
-        {
-          this.isDivExist = 0;
-          this.isDivExistData = [];
-        }
-      }
     },
     components: {
       Matches,
@@ -198,7 +199,7 @@
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
 
-               setTimeout(function(){
+              /*setTimeout(function(){
                 $('#competition-overview optgroup .rounds').each(function() {
                   var insideOptions = $(this).html();
                   $(this).html('');
@@ -228,9 +229,9 @@
                   // if ( currDId != undefined){
                   //   vm.refreshStanding();
                   // }
-                });
+                });*/
 
-                //$("#competition-overview").val(currDId).trigger('change');
+                //$("#competition-overview").val(currentCompetition).trigger('change');
               },500);
             }
           },

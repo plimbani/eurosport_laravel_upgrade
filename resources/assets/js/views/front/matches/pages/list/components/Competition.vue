@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ updateDivExistData }}
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fas fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
     </button>
@@ -154,20 +153,23 @@
         }
       },
     },
-    computed: {
-      updateDivExistData:function(){
-        var getFirstMatch = _.head(this.matches);
-        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
-        {
-          this.isDivExist = getFirstMatch.isDivExist;
-          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
-        }
-        else
-        {
-          this.isDivExist = 0;
-          this.isDivExistData = [];
-        }
-      }
+    watch: {
+      matches: {
+        handler: function (val, oldVal) {
+          var getFirstMatch = _.head(this.matches);
+          if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+          {
+            this.isDivExist = getFirstMatch.isDivExist;
+            this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+          }
+          else
+          {
+            this.isDivExist = 0;
+            this.isDivExistData = [];
+          }
+        },
+        deep: true,
+      },
     },
     components: {
       Matches,

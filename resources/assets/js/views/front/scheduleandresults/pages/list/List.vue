@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ updateDivExistData }}
     <div>
         <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
             <div class="col-sm-6 col-xl-6">
@@ -135,22 +134,27 @@
       this.$root.$on('showCompetitionData', this.showCompetitionData);
       this.$root.$on('showMatchesList', this.showMatchesList);
     },
+    watch: {
+      matches: {
+        handler: function (val, oldVal) {
+          var getFirstMatch = _.head(this.matches);
+          if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+          {
+            this.isDivExist = getFirstMatch.isDivExist;
+            this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+          }
+          else
+          {
+            this.isDivExist = 0;
+            this.isDivExistData = [];
+          }
+        },
+        deep: true,
+      },
+    },
     computed: {
       showGroupInfo() {
         return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
-      },
-      updateDivExistData:function(){
-        var getFirstMatch = _.head(this.matches);
-        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
-        {
-          this.isDivExist = getFirstMatch.isDivExist;
-          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
-        }
-        else
-        {
-          this.isDivExist = 0;
-          this.isDivExistData = [];
-        }
       }
     },
     components: {
