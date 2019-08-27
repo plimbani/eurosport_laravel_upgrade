@@ -19,6 +19,14 @@ public class ClubGroupModel implements Parcelable {
     private String group_name;
     private String actual_competition_type;
     private String display_name;
+    private String age_category_division_id;
+    private String actual_name;
+    private String is_manual_override_standing;
+    private String color_code;
+    private String competation_round_no;
+    private String divisionName;
+    private String divisionId;
+
 
     protected ClubGroupModel(Parcel in) {
         id = in.readString();
@@ -32,6 +40,13 @@ public class ClubGroupModel implements Parcelable {
         group_name = in.readString();
         actual_competition_type = in.readString();
         display_name = in.readString();
+        age_category_division_id = in.readString();
+        actual_name = in.readString();
+        is_manual_override_standing = in.readString();
+        color_code = in.readString();
+        competation_round_no = in.readString();
+        divisionName = in.readString();
+        divisionId = in.readString();
     }
 
     public static final Creator<ClubGroupModel> CREATOR = new Creator<ClubGroupModel>() {
@@ -118,11 +133,6 @@ public class ClubGroupModel implements Parcelable {
         this.group_name = group_name;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     public String getActual_competition_type() {
         return actual_competition_type;
     }
@@ -139,6 +149,67 @@ public class ClubGroupModel implements Parcelable {
         this.display_name = display_name;
     }
 
+    public String getAge_category_division_id() {
+        return age_category_division_id;
+    }
+
+    public void setAge_category_division_id(String age_category_division_id) {
+        this.age_category_division_id = age_category_division_id;
+    }
+
+    public String getActual_name() {
+        return actual_name;
+    }
+
+    public void setActual_name(String actual_name) {
+        this.actual_name = actual_name;
+    }
+
+    public String getIs_manual_override_standing() {
+        return is_manual_override_standing;
+    }
+
+    public void setIs_manual_override_standing(String is_manual_override_standing) {
+        this.is_manual_override_standing = is_manual_override_standing;
+    }
+
+    public String getColor_code() {
+        return color_code;
+    }
+
+    public void setColor_code(String color_code) {
+        this.color_code = color_code;
+    }
+
+    public String getCompetation_round_no() {
+        return competation_round_no;
+    }
+
+    public void setCompetation_round_no(String competation_round_no) {
+        this.competation_round_no = competation_round_no;
+    }
+
+    public String getDivisionName() {
+        return divisionName;
+    }
+
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
+    }
+
+    public String getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(String divisionId) {
+        this.divisionId = divisionId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
@@ -152,5 +223,12 @@ public class ClubGroupModel implements Parcelable {
         dest.writeString(group_name);
         dest.writeString(actual_competition_type);
         dest.writeString(display_name);
+        dest.writeString(age_category_division_id);
+        dest.writeString(actual_name);
+        dest.writeString(is_manual_override_standing);
+        dest.writeString(color_code);
+        dest.writeString(competation_round_no);
+        dest.writeString(divisionName);
+        dest.writeString(divisionId);
     }
 }
