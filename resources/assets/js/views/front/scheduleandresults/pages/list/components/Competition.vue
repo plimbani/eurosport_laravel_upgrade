@@ -11,7 +11,7 @@
     </button>
     <div>
         <div class="row align-items-center my-4">
-          <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+          <div class="col-10 col-sm-6 col-md-4 col-lg-4">
             <label class="custom_select_box d-block mb-0" for="match_overview">
               <select v-on:change="onCompetitionChange" id="competition-overview" class="border-0" name="competition-options">
                   <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
@@ -200,7 +200,7 @@
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
 
-              setTimeout(function(){
+              this.$nextTick(() => {
                 $('#competition-overview optgroup .rounds').each(function() {
                   var insideOptions = $(this).html();
                   $(this).html('');
@@ -226,6 +226,8 @@
                     }
                   });
 
+                  vm.onCompetitionChange();
+
                   //vm.initializeStandings();
                   // if ( currDId != undefined){
                   //   vm.refreshStanding();
@@ -233,7 +235,7 @@
                 });
 
                 //$("#competition-overview").val(currentCompetition).trigger('change');
-              },500);
+              });
             }
           },
           (error) => {
