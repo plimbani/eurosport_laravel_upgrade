@@ -17,7 +17,7 @@
         <table class="table">
           <MatchListTableHead :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="getMatchList()" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
+          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="matches" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
 
         </table>
       </div>

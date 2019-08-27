@@ -1,12 +1,12 @@
 <template>
     <div>
       <!-- <hr class="hr m-0"> -->
-      <div class="table-responsive custom-table" v-if="matchData.length > 0 && isDivExist == 0">
-        <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0 && isDivExist == 0">
+      <div class="table-responsive custom-table" v-if="matchData.length > 0  && isDivExist == 0">
+        <table id="matchSchedule" class="table table-sm">
 
-          <MatchListTableHead :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
+          <MatchListTableHead :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
     
-          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="matchData" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
+          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="getMatchList()" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
 
         </table>
       </div>
@@ -80,10 +80,11 @@
         return true;
       },
       getMatchList() {
-        if(this.currentView != 'Competition') {
-          return this.paginated('matchlist');
+        let vm = this;
+        if(vm.currentView != 'Competition') {
+          return vm.paginated('matchlist');
         } else {
-          return this.matchData;
+          return vm.matchData;
         }
       },
       setMatchesForMatchList(matchData) {
