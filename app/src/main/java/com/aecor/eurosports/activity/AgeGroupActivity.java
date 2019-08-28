@@ -98,6 +98,8 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         rv_divisions.setLayoutManager(new LinearLayoutManager(mContext));
         rv_divisions.setItemAnimator(new DefaultItemAnimator());
         rv_divisions.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+        rv_groups.setNestedScrollingEnabled(false);
+        rv_divisions.setNestedScrollingEnabled(false);
         showBackButton(getString(R.string.GROUPS));
     }
 
