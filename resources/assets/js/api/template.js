@@ -21,5 +21,8 @@ export default {
 	},
 	updateTemplateDetail(templateData) {
 		return api.post('updateTemplateDetail', templateData)	
+	},
+	canManageTemplateSection() {
+		return api.post('v1/canManageTemplateSection')
 	}
 }

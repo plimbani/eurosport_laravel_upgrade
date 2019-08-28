@@ -37,6 +37,8 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('getSignedUrlForBuyLicensePrint', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getSignedUrlForBuyLicensePrint');
 
     Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
+
+    Route::post('v1/canManageTemplateSection', '\Laraspace\Api\Controllers\Commercialisation\TemplateController@canManageTemplateSection');
 });
 
 $api->version('v1', ['middleware' => 'signedurl'], function($api) {

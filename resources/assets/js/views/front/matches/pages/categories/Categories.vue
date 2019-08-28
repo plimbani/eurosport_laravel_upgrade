@@ -29,8 +29,11 @@
 		<div class="" v-if="showView == 'groups'">
       <button @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
       <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to category list</button>
-      <div class="table-responsive" v-if="groupsData.length > 0">
-        <table class="table table-hover table-bordered mt-2">
+      <div v-for="(drawData,index) in groupsFilter">
+        <h6 class="mt-2">
+          <strong>{{ index }}</strong>
+        </h6>
+        <table class="table table-hover table-bordered mt-2" v-if="drawData.length > 0">
           <thead class="no-border">
               <tr>
                 <th>{{ $t('matches.categories') }}</th>
@@ -39,7 +42,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="group in groupsData">
+              <tr v-for="group in drawData">
                 <td>
                   <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)"><u>{{ group.name }}</u> </a>
                 </td>
@@ -51,11 +54,11 @@
       </div>
 
       <div class="row">
-        <div v-for="(roundData,index) in divData" class="col-md-6">
+        <div v-for="(divData,index) in divFilter" class="col-md-6">
           <h6 class="mt-2">
             <strong>{{ index | getDivName}}</strong>
           </h6>
-          <div v-for="(draw1,index1) in roundData">
+          <div v-for="(draw1,index1) in divData">
             <h6 class="mt-2">
               <strong>{{ index1 }}</strong>
             </h6>
@@ -133,6 +136,10 @@
         divData: [],
         templateGraphicImageName: '',
         templateGraphicImagePath: '',
+        divisionName:'',
+        divisionId:'',
+        groupsFilter: {},
+        divFilter: {},
       };
   	},
   	computed: {
@@ -167,9 +174,14 @@
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
-	          this.groupsData = response.data.competitions.round_robin;
-            this.divData = response.data.competitions.division;
-	          this.showView = 'groups';
+
+            let filterData = response.data.competitions.round_robin;
+            let filter = _.groupBy(filterData, 'competation_round_no');
+            this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
+            this.groupsData = response.data.competitions.round_robin;
+            this.showView = "groups"
+
+            this.divFilter = response.data.competitions.division;
 	        },
 	        (error) => {
 	        }

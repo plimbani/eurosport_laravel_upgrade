@@ -67,44 +67,46 @@
 
                         <button class="btn btn-success" v-on:click="redirectToAddTournament()">Add Tournament</button>
 
-                        <h3 class="text-uppercase font-weight-bold mb-4 mt-5">Manage Templates</h3>
-                        <div class="row" v-for="template in templates">
-                            <div class="col-md-6 col-lg-12 d-flex">
-                                <div class="card w-100">
-                                    <div class="card-block">
-                                        <div class="row align-items-center">
-                                            <div class="col-xl-7">
-                                                <p class="h7 mb-0 text-uppercase">Version {{ template.version }}</p>
-                                                <h3 class="font-weight-bold mb-2">{{ template.name }}</h3>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/team.png" alt=""> &nbsp;{{ template.total_teams }} Teams</li>
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/match.png" alt=""> &nbsp;{{ template.total_matches }} Matches</li>
-                                                    <!-- <li class="d-block d-lg-inline"><img src="/images/date.png" alt=""> &nbsp;19th - 22nd October 2018</li> -->
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
-                                                <div class="btn-group">
-                                                    <button class="btn btn-link" @click="deleteTemplate(template)"><img src="/images/delete.png" alt=""> Delete</button>
-                                                    <button class="btn btn-outline ml-2" @click="checkForEditTemplate(template)"><img src="/images/edit.png" alt=""> Edit</button>
+                        <div v-if="isToShowTemplateSection" :class="{'is-disabled': !isTemplateSectionAccessible}">
+                            <h3 class="text-uppercase font-weight-bold mb-4 mt-5">Manage Templates</h3>
+                            <div class="row" v-for="template in templates">
+                                <div class="col-md-6 col-lg-12 d-flex">
+                                    <div class="card w-100">
+                                        <div class="card-block">
+                                            <div class="row align-items-center">
+                                                <div class="col-xl-7">
+                                                    <p class="h7 mb-0 text-uppercase">Version {{ template.version }}</p>
+                                                    <h3 class="font-weight-bold mb-2">{{ template.name }}</h3>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/team.png" alt=""> &nbsp;{{ template.total_teams }} Teams</li>
+                                                        <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/match.png" alt=""> &nbsp;{{ template.total_matches }} Matches</li>
+                                                        <!-- <li class="d-block d-lg-inline"><img src="/images/date.png" alt=""> &nbsp;19th - 22nd October 2018</li> -->
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-link" @click="deleteTemplate(template)"><img src="/images/delete.png" alt=""> Delete</button>
+                                                        <button class="btn btn-outline ml-2" @click="checkForEditTemplate(template)"><img src="/images/edit.png" alt=""> Edit</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row" v-if="templates.length == 0">
-                            <div class="col-md-6 col-lg-12 d-flex">
-                                <div class="card w-100">
-                                    <div class="card-block">
-                                        <h4 class="mb-0">No templates found.</h4>
+                            
+                            <div class="row" v-if="templates.length == 0">
+                                <div class="col-md-6 col-lg-12 d-flex">
+                                    <div class="card w-100">
+                                        <div class="card-block">
+                                            <h4 class="mb-0">No templates found.</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <button class="btn btn-success" @click="addTemplate()">Add Template</button>
+                            <button class="btn btn-success" @click="addTemplate()">Add Template</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,6 +140,8 @@
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
                 templateEditModal: false,
                 templateEdit: null,
+                isToShowTemplateSection: false,
+                isTemplateSectionAccessible: false,
             }
         },
         components: {
@@ -154,9 +158,12 @@
         },
         methods: {
             getTournamentList(){
+                let vm = this;
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {
                         if (response.data.success) { 
-                            this.tournaments = response.data.data;
+                            vm.tournaments = response.data.data;
+                            vm.showTemplateSection();
+                            vm.checkAccessiblityOfTemplateSection();
                         }else{ 
                             toastr['error'](response.data.message, 'Error');
                         }
@@ -296,7 +303,7 @@
                 )
             },
             addTemplate() {
-                this.$router.push({name: 'templates_list', query: {from: 'add'}});
+                this.$router.push({ name: 'add_new_template' })
             },
             checkForEditTemplate(template){
                 this.templateEdit = null;
@@ -321,7 +328,7 @@
                 this.templateEdit = null;
             },
             editTemplate(templateId) {
-                this.$router.push({name: 'templates_list', query: {templateId: templateId, from: 'edit'}});
+                this.$router.push({ name: 'edit_template', params: {id:templateId}})
             },
             deleteTemplate(template) {
                 Template.getTemplateDetail(template).then(
@@ -351,9 +358,29 @@
                   }
                 )
             },
+            showTemplateSection() {
+                let vm = this;
+                let customTournaments = _.filter(_.cloneDeep(this.tournaments), function(o) {
+                    if(o.tournament_type === 'cup' && o.custom_tournament_format == 1) {
+                        return true;
+                    }
+                    return false;
+                });
+                this.isToShowTemplateSection = customTournaments.length > 0 ? true : false;
+            },
+            checkAccessiblityOfTemplateSection() {
+                let vm = this;
+                let customActiveTournaments = _.filter(_.cloneDeep(this.tournaments), function(o) {
+                    if(o.tournament_type === 'cup' && o.custom_tournament_format == 1 && !vm.tournamentDashboardEdit(o.tournamentExpireTime)) {
+                        return true;
+                    }
+                    return false;
+                });
+                this.isTemplateSectionAccessible = customActiveTournaments.length > 0 ? true : false;
+            },
         },
         beforeMount(){  
-             this.getTournamentList();
+            this.getTournamentList();
         }
     }
 </script>

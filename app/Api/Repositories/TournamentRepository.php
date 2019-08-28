@@ -98,12 +98,6 @@ class TournamentRepository
         }
         
         return $data;
-        /* if($status == '') {
-          return Tournament::get();
-          }
-          else{
-          return Tournament::where('status','=','Published')->get();
-          } */
     }
 
     public function getAuthUserCreatedTournaments($status = '')
@@ -159,7 +153,15 @@ class TournamentRepository
     public function getAllTemplatesFromMatches($data = array())
     {
         if (is_array($data) && count($data['tournamentData']) > 0 && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
-            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
+            $tournamentTemplates = TournamentTemplates::where(function ($query) use($data) {
+                $query->where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])
+                ->where('editor_type', $data['tournamentData']['tournament_format'])
+                ->where('is_latest', 1);
+            });
+            if(isset($data['tournamentData']['tournament_template_id']) && $data['tournamentData']['tournament_template_id']) {
+                $tournamentTemplates = $tournamentTemplates->orWhere('id', $data['tournamentData']['tournament_template_id']);
+            }
+            return $tournamentTemplates->orderBy('name')->get();
         } else {
             return;
         }
@@ -810,19 +812,19 @@ class TournamentRepository
         $tournament->start_date = $tournamentDetailData['tournament_start_date'];
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
-        if($currentLayout == 'commercialisation') {
-            $customTournamentFormat = '';
+        if($currentLayout == 'commercialisation' && $authUser->hasRole('customer')) {
+            $customTournamentFormat = NULL;
 
-            if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
-                $customTournamentFormat = 0;
-            }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
-                $customTournamentFormat = 1;
-            } else {
-                $customTournamentFormat = NULL;   
+            if(isset($tournamentDetailData['tournament_type']) && isset($tournamentDetailData['custom_tournament_format'])) {
+                if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
+                    $customTournamentFormat = 0;
+                }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
+                    $customTournamentFormat = 1;
+                }
             }
 
             $tournament->access_code = Str::random(4);
-            $tournament->tournament_type = $tournamentDetailData['tournament_type'];
+            $tournament->tournament_type = isset($tournamentDetailData['tournament_type']) ? $tournamentDetailData['tournament_type'] : null;
             $tournament->custom_tournament_format = $customTournamentFormat;
         }
         

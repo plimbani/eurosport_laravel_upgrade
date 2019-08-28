@@ -39,6 +39,8 @@ const state = {
   matchResultChange:false,
   setRedirectPage:'',
   access_code:'',
+  tournament_type: '',
+  custom_tournament_format: '',
 }
 // getters
 const getters = {

@@ -616,6 +616,7 @@
                             });
                             $("body .js-loader").addClass('d-none');
                             vm.isMatchScheduleInEdit = false;
+                            vm.enableScheduleFeatureAsDefault = false;
                         }
                     },  
                     (error) => {
