@@ -42,8 +42,8 @@
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
-                          <div class="table-responsive">
-                            <table class="table add-category-table users-table" style="border-bottom: 1px solid #eceeef">
+                          <div class="table-responsive mb-3">
+                            <table class="table add-category-table users-table mb-0" style="border-bottom: 1px solid #eceeef">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
@@ -143,7 +143,7 @@
                                 </span>
                               </div>
                               <div class="col-md-6">
-                                <pagination :align="'right'" :show-disabled="true" :limit="1" :data="userList" @pagination-change-page="getResults"></pagination>
+                                <pagination :align="'right'" :class="'mb-0'" :show-disabled="true" :limit="1" :data="userList" @pagination-change-page="getResults"></pagination>
                               </div>
                             </div>
                           </div>
@@ -265,7 +265,7 @@
             toastr['error']('Permission denied', 'Error');
             this.$router.push({name: 'welcome'});
           }
-          
+
           this.getRolesWithData();
           this.getPublishedTournaments();
           this.getLanguageData();
