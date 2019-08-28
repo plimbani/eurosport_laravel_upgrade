@@ -303,7 +303,7 @@
                 )
             },
             addTemplate() {
-                this.$router.push({name: 'templates_list', query: {from: 'add'}});
+                this.$router.push({ name: 'add_new_template' })
             },
             checkForEditTemplate(template){
                 this.templateEdit = null;
@@ -328,7 +328,7 @@
                 this.templateEdit = null;
             },
             editTemplate(templateId) {
-                this.$router.push({name: 'templates_list', query: {templateId: templateId, from: 'edit'}});
+                this.$router.push({ name: 'edit_template', params: {id:templateId}})
             },
             deleteTemplate(template) {
                 Template.getTemplateDetail(template).then(

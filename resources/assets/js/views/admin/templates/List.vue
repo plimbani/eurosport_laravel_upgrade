@@ -165,13 +165,9 @@
           this.getUsersForFilter();
         },
         mounted() {
-          if(this.userDetails.role_slug == 'customer' && this.$route.query.from == 'add') {
-            this.addTemplate();
-          }
-
-          if(this.userDetails.role_slug == 'customer' && this.$route.query.from == 'edit') {
-            let templateId = this.$route.query.templateId;
-            this.editTemplate(templateId);
+          if(this.userDetails.role_slug == 'customer') {
+            toastr['error']('This action is unauthorized.', 'Error');
+            this.$router.push({name: 'dashboard'});
           }
 
           setTimeout( function(){

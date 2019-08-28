@@ -26,6 +26,7 @@
     import StepTwo from './StepTwo.vue'
     import StepThree from './StepThree.vue'
     import StepFour from './StepFour.vue'
+    import Template from '../../api/template.js'
 
 	export default {
 		data() {
@@ -46,6 +47,7 @@
         },
 		mounted() {
             let vm = this;
+            this.canManageTemplateSection();
 		},
 		methods: {
             intialState() {
@@ -97,7 +99,19 @@
                 this.templateFormDetail = _.cloneDeep(this.intialState());
                 this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
                 this.errors.clear();
-            }
+            },
+            canManageTemplateSection() {
+                Template.canManageTemplateSection().then(
+                  (response)=> {
+                    if(response.data.can_access === false) {
+                        toastr['error']('This action is unauthorized.', 'Error');
+                        this.$router.push({name: 'dashboard'});
+                    }
+                  },
+                  (error)=> {
+                  }
+                );
+            },
 		}
 	}
 </script>
