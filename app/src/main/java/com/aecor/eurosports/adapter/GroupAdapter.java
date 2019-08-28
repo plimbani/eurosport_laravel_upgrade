@@ -64,6 +64,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 holder.individual_list_item.setText(mGroupModel.getDisplay_name());
             }
         }
+
+
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +75,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList(AppConstants.ARG_ALL_GROUP_LIST, (ArrayList<? extends Parcelable>) mGroupList);
                     mGroupSummary.putExtras(bundle);
-                     mContext.startActivity(mGroupSummary);
+                    mContext.startActivity(mGroupSummary);
                 } else {
                     Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
                     mTeamListIntent.putExtra(AppConstants.ARG_GROUP_ID, mGroupModel.getId());
