@@ -22,7 +22,7 @@
       </div>
 
       <div class="no-data h6 text-muted" v-if="matchData.length == 0">No matches found.</div>
-      <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
+      <paginate v-if="currentView != 'Competition' && matchData.length > 0" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
       <div class="match-pagination-list" v-if="matchData.length > 0">
         <paginate-links for="matchlist" :show-step-links="true" :limit="2" :async="true"></paginate-links>
@@ -64,7 +64,7 @@
     },
     mounted() {
       this.$root.$on('setMatchesForMatchList', this.setMatchesForMatchList);
-      //this.matchData = _.sortBy(_.cloneDeep(this.matches), ['match_datetime']);
+      this.matchData = _.sortBy(_.cloneDeep(this.matches), ['match_datetime']);
     },
     created() {
     },
@@ -88,16 +88,12 @@
         }
       },
       setMatchesForMatchList(matchData) {
-        let vm = this;
-        vm.matchData = _.orderBy(_.cloneDeep(matchData), ['match_datetime'], ['asc']);
-       _.delay(function() {
-
-          if(vm.currentView != 'Competition') {
-            return vm.paginated('matchlist');
-          } else {
-            return vm.matchData;
-          } 
-       }, 1000);
+        this.matchData = _.orderBy(_.cloneDeep(matchData), ['match_datetime'], ['asc']);
+        if(this.currentView != 'Competition') {
+          return this.paginated('matchlist');
+        } else {
+          return this.matchData;
+        } 
       },
       showCompetitionData(match) {
         var id = match.competitionId;
