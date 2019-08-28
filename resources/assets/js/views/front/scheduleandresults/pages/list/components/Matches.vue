@@ -64,7 +64,6 @@
     },
     mounted() {
       this.$root.$on('setMatchesForMatchList', this.setMatchesForMatchList);
-      this.matchData = _.sortBy(_.cloneDeep(this.matches), ['match_datetime']);
     },
     created() {
     },
