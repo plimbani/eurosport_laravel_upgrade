@@ -98,12 +98,6 @@ class TournamentRepository
         }
         
         return $data;
-        /* if($status == '') {
-          return Tournament::get();
-          }
-          else{
-          return Tournament::where('status','=','Published')->get();
-          } */
     }
 
     public function getAuthUserCreatedTournaments($status = '')
@@ -159,7 +153,15 @@ class TournamentRepository
     public function getAllTemplatesFromMatches($data = array())
     {
         if (is_array($data) && count($data['tournamentData']) > 0 && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
-            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
+            $tournamentTemplates = TournamentTemplates::where(function ($query) use($data) {
+                $query->where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])
+                ->where('editor_type', $data['tournamentData']['tournament_format'])
+                ->where('is_latest', 1);
+            });
+            if(isset($data['tournamentData']['tournament_template_id']) && $data['tournamentData']['tournament_template_id']) {
+                $tournamentTemplates = $tournamentTemplates->orWhere('id', $data['tournamentData']['tournament_template_id']);
+            }
+            return $tournamentTemplates->orderBy('name')->get();
         } else {
             return;
         }

@@ -6,7 +6,7 @@
     				<a class="d-inline-block" href="#"><img src="/assets/img/easy-match-manager/emm.svg" class="" alt="Easy Match Manager"></a>
     			</div>
     			<div class="col-7 col-md-8 text-right">
-                    <div v-if="isUserLoggedIn && userRole == 'customer'">
+                    <div v-if="isUserLoggedIn && userDetail.role_slug == 'customer'">
                         <ul class="header-list list-unstyled mb-0 text-uppercase">
                             <li class="d-inline">
                                 <a href="#"  v-if="!isProfilePage" @click.prevent="redirectToProfilePage">User Profile <i class="fas fa-user"></i></a>
@@ -39,7 +39,8 @@
                 isDashboarPage : false,
                 isProfilePage:false,
                 userRole:"",
-                isUserLoggedIn:false
+                isUserLoggedIn:false,
+                userDetail:this.$store.state.Users.userDetails,
             }
         },
         mounted() {
