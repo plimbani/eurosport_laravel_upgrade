@@ -26,6 +26,7 @@ import com.aecor.eurosports.adapter.GroupsSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.AgeGroupModel;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.model.TeamFixturesModel;
@@ -100,8 +101,10 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     @BindView(R.id.sp_groups)
     protected Spinner sp_groups;
     private List<ClubGroupModel> mGroupList;
+    private AgeGroupModel mAgeGroupData;
     private boolean isApiAlreadyCalled = false;
     private boolean isFixApiAlreadyCalled = false;
+    private boolean isShowDivisionAlso = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,6 +118,10 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             Bundle bundle = getIntent().getExtras();
             if (bundle.containsKey(AppConstants.ARG_ALL_GROUP_LIST)) {
                 mGroupList = bundle.getParcelableArrayList(AppConstants.ARG_ALL_GROUP_LIST);
+            }
+            if (bundle.containsKey(AppConstants.ARG_GROUP_DETAIL_WITH_DIVISION)) {
+                mAgeGroupData = bundle.getParcelable(AppConstants.ARG_GROUP_DETAIL_WITH_DIVISION);
+                isShowDivisionAlso = true;
             }
         }
         initView();
@@ -205,7 +212,25 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
         initUI();
-
+        if (isShowDivisionAlso) {
+            if (mAgeGroupData != null) {
+                mGroupList = new ArrayList<>();
+                if (mAgeGroupData.getRound_robin_groups() != null
+                        && mAgeGroupData.getRound_robin_groups().size() > 0) {
+                    mGroupList.addAll(mAgeGroupData.getRound_robin_groups());
+                }
+                if (mAgeGroupData.getDivision_groups() != null
+                        && mAgeGroupData.getDivision_groups().size() > 0) {
+                    for (int i = 0; i < mAgeGroupData.getDivision_groups().size(); i++) {
+                        ClubGroupModel mDivisionModel = new ClubGroupModel();
+                        mDivisionModel.setShowDivisionOnly(true);
+                        mDivisionModel.setDivisionName(mAgeGroupData.getDivision_groups().get(i).getTitle());
+                        mGroupList.add(mDivisionModel);
+                        mGroupList.addAll(mAgeGroupData.getDivision_groups().get(i).getData());
+                    }
+                }
+            }
+        }
         if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
             ll_standing_tab.setBackgroundColor(Color.GRAY);
             ll_standing_tab.setEnabled(false);
@@ -219,7 +244,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             int selectedGroupPos = 0;
 
             for (int i = 0; i < mGroupList.size(); i++) {
-                if (mGroupList.get(i).getId().equalsIgnoreCase(mGroupModel.getId())) {
+                if (!Utility.isNullOrEmpty(mGroupList.get(i).getId()) &&
+                        mGroupList.get(i).getId().equalsIgnoreCase(mGroupModel.getId())) {
                     AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
                     selectedGroupPos = i;
                     break;
@@ -285,18 +311,21 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         sp_groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mGroupList != null && mGroupList.get(position) != null) {
+                if (mGroupList != null && mGroupList.get(position) != null
+                        && !mGroupList.get(position).isShowDivisionOnly()) {
                     mGroupModel = mGroupList.get(position);
                 }
-                if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
-                    ll_standing_tab.setBackgroundColor(Color.GRAY);
-                    ll_standing_tab.setEnabled(false);
-                } else {
-                    ll_standing_tab.setBackgroundColor(Color.WHITE);
-                    ll_standing_tab.setEnabled(true);
-                }
+                if (!mGroupList.get(position).isShowDivisionOnly()) {
+                    if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+                        ll_standing_tab.setBackgroundColor(Color.GRAY);
+                        ll_standing_tab.setEnabled(false);
+                    } else {
+                        ll_standing_tab.setBackgroundColor(Color.WHITE);
+                        ll_standing_tab.setEnabled(true);
+                    }
 
-                initUI();
+                    initUI();
+                }
             }
 
             @Override

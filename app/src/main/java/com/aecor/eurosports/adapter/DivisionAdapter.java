@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.model.AgeGroupModel;
 import com.aecor.eurosports.model.DivisionGroupModel;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.Utility;
@@ -26,10 +27,12 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.ViewHo
     private final String TAG = GroupAdapter.class.getSimpleName();
     private Context mContext;
     private List<DivisionGroupModel> division_groups;
+    private AgeGroupModel mAgeGroupData;
 
-    public DivisionAdapter(Activity context, List<DivisionGroupModel> division_groups) {
+    public DivisionAdapter(Activity context, List<DivisionGroupModel> division_groups, AgeGroupModel mAgeGroupData) {
         mContext = context;
         this.division_groups = division_groups;
+        this.mAgeGroupData = mAgeGroupData;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.ViewHo
             holder.rv_divisions_list.setLayoutManager(new LinearLayoutManager(mContext));
             holder.rv_divisions_list.setItemAnimator(new DefaultItemAnimator());
             holder.rv_divisions_list.addItemDecoration(new SimpleDividerItemDecoration(mContext));
-            GroupAdapter mDivisionGroupAdapter = new GroupAdapter((Activity) mContext, division_groups.get(position).getData());
+            DivisionGroupAdapter mDivisionGroupAdapter = new DivisionGroupAdapter((Activity) mContext, division_groups.get(position).getData(), mAgeGroupData);
             holder.rv_divisions_list.setAdapter(mDivisionGroupAdapter);
             holder.iv_arrow_right.setRotation(90);
             division_groups.get(position).setRowExpanded(true);

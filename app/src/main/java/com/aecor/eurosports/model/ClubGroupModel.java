@@ -26,7 +26,11 @@ public class ClubGroupModel implements Parcelable {
     private String competation_round_no;
     private String divisionName;
     private String divisionId;
+    private boolean isShowDivisionOnly;
 
+    public ClubGroupModel() {
+
+    }
 
     protected ClubGroupModel(Parcel in) {
         id = in.readString();
@@ -47,6 +51,7 @@ public class ClubGroupModel implements Parcelable {
         competation_round_no = in.readString();
         divisionName = in.readString();
         divisionId = in.readString();
+        isShowDivisionOnly = in.readByte() != 0;
     }
 
     public static final Creator<ClubGroupModel> CREATOR = new Creator<ClubGroupModel>() {
@@ -205,6 +210,14 @@ public class ClubGroupModel implements Parcelable {
         this.divisionId = divisionId;
     }
 
+    public boolean isShowDivisionOnly() {
+        return isShowDivisionOnly;
+    }
+
+    public void setShowDivisionOnly(boolean showDivisionOnly) {
+        isShowDivisionOnly = showDivisionOnly;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -230,5 +243,6 @@ public class ClubGroupModel implements Parcelable {
         dest.writeString(competation_round_no);
         dest.writeString(divisionName);
         dest.writeString(divisionId);
+        dest.writeByte((byte) (isShowDivisionOnly ? 1 : 0));
     }
 }
