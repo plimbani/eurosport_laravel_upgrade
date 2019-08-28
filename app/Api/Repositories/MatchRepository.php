@@ -87,6 +87,7 @@ class MatchRepository
           foreach ($divisionData as $roundKey => $groups) {
             $divisionGroups[$divisionIndex]['data'] = array_merge($divisionGroups[$divisionIndex]['data'], $groups);
           }
+          $divisionIndex++;
         }
       }
 
