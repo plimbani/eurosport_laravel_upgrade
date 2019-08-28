@@ -69,7 +69,7 @@
 				        		<div class="row">
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
+					        				<select :class="getPositionTypeClassNames(teamIndex)" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
 					        					<option :value="position.key" v-for="position in getPositionTypes()">{{ position.value }}</option>
 						                    </select>
 						                </div>
@@ -83,8 +83,8 @@
 				        			</div>
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
-					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group)">{{ position.name }}</option>
+					        				<select :data-team-index="teamIndex" :class="getPositionClassNames()" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
+					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group, team.position, team.position_type)">{{ position.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
@@ -335,7 +335,7 @@
 				}
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection(teamIndex, group) {
+		    getPositionsForSelection(teamIndex, group, selectedPosition, selectedPositionType) {
 		    	let vm = this;
 			    var positionsForSelection = [];
 
@@ -368,7 +368,7 @@
 
 			    if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
 			    	_.forEach(this.groupData.teams, function(team, teamIndex) {
-		    			positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
+			    		positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
 		    		});
 		    		return positionsForSelection;
 			    }
@@ -604,7 +604,13 @@
 		    		return true;
 		    	}
 		    	return false;
-		    }
+		    },
+		    getPositionClassNames() {
+		    	return "form-control ls-select2 js-select-position js-select-position-" + this.divisionIndex + this.roundIndex + this.index;
+		    },
+		    getPositionTypeClassNames(teamIndex) {
+		    	return 'form-control ls-select2 js-select-position-type-' + this.divisionIndex + this.roundIndex + this.index + this.teamIndex;
+		    },
         }
     }
 </script>
