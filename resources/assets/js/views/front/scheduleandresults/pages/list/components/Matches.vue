@@ -64,6 +64,7 @@
     },
     mounted() {
       this.$root.$on('setMatchesForMatchList', this.setMatchesForMatchList);
+      //this.matchData = _.sortBy(_.cloneDeep(this.matches), ['match_datetime']);
     },
     created() {
     },
@@ -87,12 +88,16 @@
         }
       },
       setMatchesForMatchList(matchData) {
-        this.matchData = _.orderBy(_.cloneDeep(matchData), ['match_datetime'], ['asc']);
-        if(this.currentView != 'Competition') {
-          return this.paginated('matchlist');
-        } else {
-          return this.matchData;
-        }
+        let vm = this;
+        vm.matchData = _.orderBy(_.cloneDeep(matchData), ['match_datetime'], ['asc']);
+       _.delay(function() {
+
+          if(vm.currentView != 'Competition') {
+            return vm.paginated('matchlist');
+          } else {
+            return vm.matchData;
+          } 
+       }, 1000);
       },
       showCompetitionData(match) {
         var id = match.competitionId;
