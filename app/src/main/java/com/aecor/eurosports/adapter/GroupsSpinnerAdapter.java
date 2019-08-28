@@ -68,12 +68,14 @@ public class GroupsSpinnerAdapter extends ArrayAdapter<ClubGroupModel> {
             if (!Utility.isNullOrEmpty(rowItem.getDisplay_name())) {
                 holder.tv_spinner.setText(rowItem.getDisplay_name());
             }
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             if (!Utility.isNullOrEmpty(rowItem.getDivisionName())) {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(40,0,0,0);
+                params.setMargins(40, 0, 0, 0);
                 holder.tv_spinner.setLayoutParams(params);
-
+            } else {
+                params.setMargins(0, 0, 0, 0);
+                holder.tv_spinner.setLayoutParams(params);
             }
         }
         holder.tv_spinner.setTextColor(Color.BLACK);
