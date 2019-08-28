@@ -110,12 +110,6 @@
       this.currentCompetitionId = this.competitionDetail.id;
       this.getCompetitions();
       this.generateDrawTable();
-
-      var currentComp = this.currentCompetitionId;
-      var vm = this;
-      setTimeout(function(){
-        $("#competition-overview").val(currentComp).trigger('change');
-      },1500);
     },
     watch: {
       matches: {
@@ -179,6 +173,8 @@
 
                   $(this).html($(this).attr('rel'));
                 });
+
+                $('#competition-overview').val(vm.currentCompetitionId);
 
                 $("#competition-overview").select2({
                   templateResult: function (data, container) {
