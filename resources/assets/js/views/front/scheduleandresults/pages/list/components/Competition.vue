@@ -11,14 +11,18 @@
     </button>
     <div>
         <div class="row align-items-center my-4">
-          <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+          <div class="col-10 col-sm-6 col-md-4 col-lg-4">
             <label class="custom_select_box d-block mb-0" for="match_overview">
-              <select v-on:change="onCompetitionChange()"
-                v-model="currentCompetition" id="competition-overview" class="form-control" name="competition-options">
-                  <option v-for="competition in competitionList"
-                  v-bind:value="competition">
-                  {{ competition.name }}
-                  </option>
+              <select v-on:change="onCompetitionChange" id="competition-overview" class="border-0" name="competition-options">
+                  <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
+                    <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
+                  </optgroup>
+
+                  <optgroup :label="index" class="division" v-for="(division, index) in dropdownDrawName.divisions">
+                    <option class="rounds" disabled="true" :rel="roundIndex" :label="roundIndex" v-for="(divRound, roundIndex) in division">
+                    <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" :rel="divGroup.actual_competition_type" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
+                    </option>
+                  </optgroup>
               </select>
             </label>
           </div>
@@ -76,8 +80,8 @@
       </div>
     </div>
 
-    <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :tournamentData="tournamentData"></matches>
+    <h6 class="mt-3 font-weight-bold" v-if="matches.length > 0 && isDivExist == 0">{{ competitionDetail.name }} matches</h6>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :tournamentData="tournamentData" :isDivExist="isDivExist" :isDivExistData="isDivExistData" :categoryId="categoryId"></matches>
   </div>
 </template>
 
@@ -95,6 +99,9 @@
         competitionRound: 'Round Robin',
         currentCompetitionId: 0,
         matchesGrid: [],
+        isDivExist: false,
+        isDivExistData: [],
+        dropdownDrawName:[],
       };
     },
     created() {
@@ -104,7 +111,24 @@
       this.getCompetitions();
       this.generateDrawTable();
     },
-
+    watch: {
+      matches: {
+        handler: function (val, oldVal) {
+          var getFirstMatch = _.head(this.matches);
+          if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+          {
+            this.isDivExist = getFirstMatch.isDivExist;
+            this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+          }
+          else
+          {
+            this.isDivExist = 0;
+            this.isDivExistData = [];
+          }
+        },
+        deep: true,
+      },
+    },
     filters: {
       formatDate: function(date) {
         if (date != null) {
@@ -113,8 +137,6 @@
           return "";
         }
       },
-    },
-    computed: {
     },
     components: {
       Matches,
@@ -125,11 +147,13 @@
         var vm = this;
         var currentCompetition;
         var competitionRound;
+        let currentAgeCategoryId =  this.categoryId;
 
-        MatchList.getAllDraws(vm.tournamentData.id).then(
+        MatchList.getAllDraws(vm.tournamentData.id,currentAgeCategoryId).then(
           (response)=> {
             if(response.data.status_code == 200) {
-              vm.competitionList = response.data.data;
+              vm.competitionList = response.data.data.mainData;
+              vm.dropdownDrawName = response.data.data.ageCategoryData;
               vm.competitionList.map(function(competition, key) {
                 if(competition.actual_competition_type == 'Elimination') {
                   competition.name = _.replace(competition.name, '-Group', '');
@@ -137,9 +161,41 @@
                 }
               });
 
-              currentCompetition = _.find(response.data.data, function(o) { return o.id == vm.currentCompetitionId; });
+              currentCompetition = _.find(response.data.data.mainData, function(o) { return o.id == vm.currentCompetitionId; });
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
+
+              this.$nextTick(() => {
+                $('#competition-overview optgroup .rounds').each(function() {
+                  var insideOptions = $(this).html();
+                  $(this).html('');
+                  $(insideOptions).insertAfter($(this));
+
+                  $(this).html($(this).attr('rel'));
+                });
+
+                $('#competition-overview').val(vm.currentCompetitionId);
+
+                $("#competition-overview").select2({
+                  templateResult: function (data, container) {
+                    if (data.element) {
+                      $(container).addClass($(data.element).attr("class"));
+                    }
+                    return data.text;
+                  }
+                })
+                .on('change', function () {
+                  let curreId = $(this).val();
+                  let drawnameChange = [];
+                  vm.competitionList.map(function(value, key) {
+                    if(value.id == curreId) {
+                      vm.currentCompetition = value;
+                    }
+                  });
+
+                  vm.onCompetitionChange();
+                });
+              });
             }
           },
           (error) => {

@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ updateDivExistData }}
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fas fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
     </button>
@@ -111,39 +110,6 @@
       this.currentCompetitionId = this.competitionDetail.id;
       this.getCompetitions();
       this.generateDrawTable();
-
-      var currentComp = this.currentCompetitionId;
-      var vm = this;
-      setTimeout(function(){
-        $('#competition-overview optgroup .rounds').each(function() {
-          var insideOptions = $(this).html();
-          $(this).html('');
-          $(insideOptions).insertAfter($(this));
-
-          $(this).html($(this).attr('rel'));
-        });
-
-
-        $("#competition-overview").select2({
-          templateResult: function (data, container) {
-            if (data.element) {
-              $(container).addClass($(data.element).attr("class"));
-            }
-            return data.text;
-          }
-        }) 
-        .on('change', function () {
-          let curreId = $(this).val();
-          vm.competitionList.map(function(value, key) {
-            if(value.id == curreId) {
-              vm.currentCompetition = value;
-              vm.currentCompetitionId = curreId;
-            }
-          });
-          vm.onCompetitionChange();
-        });
-        $("#competition-overview").val(currentComp).trigger('change');
-      },500);
     },
     filters: {
       formatDate: function(date) {
@@ -154,20 +120,23 @@
         }
       },
     },
-    computed: {
-      updateDivExistData:function(){
-        var getFirstMatch = _.head(this.matches);
-        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
-        {
-          this.isDivExist = getFirstMatch.isDivExist;
-          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
-        }
-        else
-        {
-          this.isDivExist = 0;
-          this.isDivExistData = [];
-        }
-      }
+    watch: {
+      matches: {
+        handler: function (val, oldVal) {
+          var getFirstMatch = _.head(this.matches);
+          if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+          {
+            this.isDivExist = getFirstMatch.isDivExist;
+            this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+          }
+          else
+          {
+            this.isDivExist = 0;
+            this.isDivExistData = [];
+          }
+        },
+        deep: true,
+      },
     },
     components: {
       Matches,
@@ -195,7 +164,37 @@
 
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
-              // vm.refreshStanding();
+
+              this.$nextTick(() => {
+                $('#competition-overview optgroup .rounds').each(function() {
+                  var insideOptions = $(this).html();
+                  $(this).html('');
+                  $(insideOptions).insertAfter($(this));
+
+                  $(this).html($(this).attr('rel'));
+                });
+
+                $('#competition-overview').val(vm.currentCompetitionId);
+
+                $("#competition-overview").select2({
+                  templateResult: function (data, container) {
+                    if (data.element) {
+                      $(container).addClass($(data.element).attr("class"));
+                    }
+                    return data.text;
+                  }
+                })
+                .on('change', function () {
+                  let curreId = $(this).val();
+                  let drawnameChange = [];
+                  vm.competitionList.map(function(value, key) {
+                    if(value.id == curreId) {
+                      vm.currentCompetition = value;
+                    }
+                  });
+                  vm.onCompetitionChange();
+                });
+              });
             }
           },
           (error) => {

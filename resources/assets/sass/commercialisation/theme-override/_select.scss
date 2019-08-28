@@ -11,3 +11,11 @@ select {
         }
     }
 }
+
+.custom-tabbing {
+    .custom_select_box {
+        .select2-container {
+            width: 100% !important;
+        }
+    }
+}
