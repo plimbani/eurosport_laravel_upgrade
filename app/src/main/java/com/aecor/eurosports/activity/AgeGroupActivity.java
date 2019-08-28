@@ -113,14 +113,14 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         });
     }
 
-    private void setClubGroupAdapter(List<ClubGroupModel> list) {
-        adapter = new GroupAdapter((Activity) mContext, list);
+    private void setClubGroupAdapter(List<ClubGroupModel> list, AgeGroupModel mAgeGroupData) {
+        adapter = new GroupAdapter((Activity) mContext, list, mAgeGroupData);
         rv_groups.setAdapter(adapter);
         rv_groups.setVisibility(View.VISIBLE);
     }
 
-    private void setDivisionAdapter(List<DivisionGroupModel> list) {
-        DivisionAdapter adapter = new DivisionAdapter((Activity) mContext, list);
+    private void setDivisionAdapter(List<DivisionGroupModel> list, AgeGroupModel mAgeGroupData) {
+        DivisionAdapter adapter = new DivisionAdapter((Activity) mContext, list, mAgeGroupData);
         rv_divisions.setAdapter(adapter);
         rv_divisions.setVisibility(View.VISIBLE);
     }
@@ -163,11 +163,11 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                                 if (mAgeGroupData != null) {
                                     if (mAgeGroupData.getRound_robin_groups() != null
                                             && mAgeGroupData.getRound_robin_groups().size() > 0) {
-                                        setClubGroupAdapter(mAgeGroupData.getRound_robin_groups());
+                                        setClubGroupAdapter(mAgeGroupData.getRound_robin_groups(), mAgeGroupData);
                                     }
                                     if (mAgeGroupData.getDivision_groups() != null
                                             && mAgeGroupData.getDivision_groups().size() > 0) {
-                                        setDivisionAdapter(mAgeGroupData.getDivision_groups());
+                                        setDivisionAdapter(mAgeGroupData.getDivision_groups(), mAgeGroupData);
                                     }
                                 } else {
                                     showNoItemView();
