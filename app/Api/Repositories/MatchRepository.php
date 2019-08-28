@@ -74,7 +74,7 @@ class MatchRepository
         if($data->age_category_division_id != '') {
           $divisionsData[$data->divisionName][$data->competation_round_no][] = $data;
         } else {
-          $roundRobinData[$data->competation_round_no][] = $data; 
+          $roundRobinData[$data->competation_round_no][] = $data;
           $roundRobinGroups[] = $data;
         }
       }
