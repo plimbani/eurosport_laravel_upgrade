@@ -182,10 +182,6 @@
             this.showView = "groups"
 
             this.divFilter = response.data.competitions.division;
-
-	          /*this.groupsData = response.data.competitions.round_robin;
-            this.divData = response.data.competitions.division;
-	          this.showView = 'groups';*/
 	        },
 	        (error) => {
 	        }
