@@ -114,37 +114,8 @@
       var currentComp = this.currentCompetitionId;
       var vm = this;
       setTimeout(function(){
-        /*$('#competition-overview optgroup .rounds').each(function() {
-          var insideOptions = $(this).html();
-          $(this).html('');
-          $(insideOptions).insertAfter($(this));
-
-          $(this).html($(this).attr('rel'));
-        })
-
-        $("#competition-overview").select2({
-          templateResult: function (data, container) {
-            if (data.element) {
-              $(container).addClass($(data.element).attr("class"));
-            }
-            return data.text;
-          }
-        }) 
-        .on('change', function () {
-          let curreId = $(this).val();
-          vm.competitionList.map(function(value, key) {
-            if(value.id == curreId) {
-              vm.currentCompetition = value;
-              vm.currentCompetitionId = curreId;
-            }
-          });
-          vm.onCompetitionChange();
-        });*/
         $("#competition-overview").val(currentComp).trigger('change');
       },1500);
-
-
-      //$('#select2-competition-overview-container').html($('#select2-competition-overview-container').attr('title'));
     },
     watch: {
       matches: {
@@ -227,14 +198,7 @@
                   });
 
                   vm.onCompetitionChange();
-
-                  //vm.initializeStandings();
-                  // if ( currDId != undefined){
-                  //   vm.refreshStanding();
-                  // }
                 });
-
-                //$("#competition-overview").val(currentCompetition).trigger('change');
               });
             }
           },

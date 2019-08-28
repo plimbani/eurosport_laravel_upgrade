@@ -223,16 +223,8 @@
                       vm.currentCompetition = value;
                     }
                   });
-
-                  //vm.initializeStandings();
-                  // if ( currDId != undefined){
-                  //   vm.refreshStanding();
-                  // }
                 });
-
-                //$("#competition-overview").val(curreId).trigger('change');
               },500);
-              // vm.refreshStanding();
             }
           },
           (error) => {
