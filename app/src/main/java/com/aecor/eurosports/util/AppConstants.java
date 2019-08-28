@@ -49,6 +49,7 @@ public class AppConstants {
     public static final String ARG_AGE_CATEGORY = "age_category";
     public static final String ARG_AGE_CATEGORY_ID = "age_category_id";
     public static final String ARG_GROUP_DETAIL = "group_detail";
+    public static final String ARG_GROUP_DETAIL_WITH_DIVISION = "group_detail_with_division";
     public static final String ARG_ALL_GROUP_LIST = "all_group_list";
     public static final String ARG_ALL_TEAM_LIST = "all_team_list";
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
