@@ -391,7 +391,7 @@ import _ from 'lodash'
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
-                        if(vm.isMatchScheduleInEdit === true) {
+                        if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
                         }
@@ -404,6 +404,7 @@ import _ from 'lodash'
                             revertFunc();
 
                         }else{
+                            let enableScheduleFeatureAsDefault = false;
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -417,6 +418,10 @@ import _ from 'lodash'
                                 matchData: matchData,
                                 scheduleMatchesArray: vm.scheduleMatchesArray,
                                 isMultiSchedule: vm.isMatchScheduleInEdit,
+                            }
+                            if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
+                                enableScheduleFeatureAsDefault = true;
+                                vm.$emit('make-schedule-matches-as-default');
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
