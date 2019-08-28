@@ -405,6 +405,10 @@ import _ from 'lodash'
 
                         }else{
                             let enableScheduleFeatureAsDefault = false;
+                            if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
+                                enableScheduleFeatureAsDefault = true;
+                                vm.$emit('make-schedule-matches-as-default');
+                            }
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -417,11 +421,7 @@ import _ from 'lodash'
                             let data = {
                                 matchData: matchData,
                                 scheduleMatchesArray: vm.scheduleMatchesArray,
-                                isMultiSchedule: vm.isMatchScheduleInEdit,
-                            }
-                            if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
-                                enableScheduleFeatureAsDefault = true;
-                                vm.$emit('make-schedule-matches-as-default');
+                                isMultiSchedule: enableScheduleFeatureAsDefault ? true : vm.isMatchScheduleInEdit,
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
