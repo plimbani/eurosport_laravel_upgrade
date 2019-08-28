@@ -25,7 +25,7 @@ class EditRequest extends FormRequest
 
         if($loggedInUser->hasRole('customer')) {
             $isTemplateAccessible = $this->checkForTemplateAccess($templateId);
-            if($isTemplateAccessible) {
+            if($this->canUserManageTemplate() && $this->isManageTemplateAccessible() && $isTemplateAccessible) {
                 return true;
             }
         }
