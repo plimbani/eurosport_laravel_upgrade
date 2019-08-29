@@ -11,7 +11,10 @@ class AgeCategoriesGroupsVC: SuperViewController {
 
     @IBOutlet var table: UITableView!
     
-    var ageCategoriesGroupsList = NSArray()
+    var ageCategoriesGroupsList = NSMutableArray()
+    
+    var ageCategoriesGroupsDropDownList = NSMutableArray()
+    
     var heightAgeCategoryCell: CGFloat = 0
     var ageCategoryId: Int = NULL_ID
     
@@ -31,6 +34,9 @@ class AgeCategoriesGroupsVC: SuperViewController {
     }
     
     func initialize() {
+        table.estimatedRowHeight = 200
+        table.rowHeight = UITableViewAutomaticDimension
+        
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups")
         titleNavigationBar.delegate = self
         titleNavigationBar.isFinalPlacings = true
@@ -74,13 +80,46 @@ class AgeCategoriesGroupsVC: SuperViewController {
             parameters["competationFormatId"] = ageCategoryId
         }
         
+        ageCategoriesGroupsDropDownList.removeAllObjects()
+        
         ApiManager().getAgeCategoriesGroups(parameters, success: { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
-                if let data = result.value(forKey: "data") as? NSArray {
-                    self.ageCategoriesGroupsList = data
-                    ApplicationData.groupsList = data
+                if let data = result.value(forKey: "data") as? NSDictionary {
+                    
+                    if let mainList = data.value(forKey: "round_robin_groups") as? NSArray {
+                        
+                        for roundRobinObj in mainList {
+                            let mutableDic = NSMutableDictionary.init(dictionary: roundRobinObj as! NSDictionary)
+                            mutableDic[ApplicationData.dicKeyDivision] = false
+                            self.ageCategoriesGroupsList.add(mutableDic)
+                            self.ageCategoriesGroupsDropDownList.add(mutableDic)
+                        }
+                    }
+                    
+                    if let mainList = data.value(forKey: "division_groups") as? NSArray {
+                        for divisionObj in mainList {
+                            
+                            let mutableDic = NSMutableDictionary.init(dictionary: divisionObj as! NSDictionary)
+                            mutableDic[ApplicationData.dicKeyDivision] = true
+                            
+                            self.ageCategoriesGroupsDropDownList.add(mutableDic)
+                            
+                            if let divisionDataList = (divisionObj as! NSDictionary).value(forKey: "data") as? NSArray {
+                                
+                                for divisionObj in divisionDataList {
+                                    let mutableDivisionDic = NSMutableDictionary.init(dictionary: divisionObj as! NSDictionary)
+                                    mutableDivisionDic[ApplicationData.dicKeyDivision] = false
+                                    self.ageCategoriesGroupsDropDownList.add(mutableDivisionDic)
+                                }
+                                
+                                mutableDic["divisionArray"] = divisionDataList
+                            }
+                            
+                            self.ageCategoriesGroupsList.add(mutableDic)
+                        }
+                    }
                 }
                 
                 self.table.reloadData()
@@ -141,26 +180,64 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightAgeCategoryCell
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let dic = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        
+        if (dic[ApplicationData.dicKeyDivision] as! Bool) {
+            var cell = tableView.dequeueReusableCell(withIdentifier: "AgeCategoryDivisionCell") as? AgeCategoryDivisionCell
+            if cell == nil {
+                _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryDivisionCell")
+                cell = cellOwner.cell as? AgeCategoryDivisionCell
+            }
+            cell?.record = dic
+            cell?.divisionObjList = dic["divisionArray"] as! NSArray
+            cell?.cellIndexPath = indexPath
+            cell?.didTapView = { [weak self] dic in
+                guard let selfValue = self else { return }
+                selfValue.goToAgeCategoriesGroupsList(dic)
+            }
+            cell?.didUpdateTableView = { [weak self] cellIndexPath in
+                guard let selfValue = self else { return }
+                selfValue.table.beginUpdates()
+                selfValue.table.endUpdates()
+                selfValue.table.scrollToRow(at: cellIndexPath, at: .middle, animated: true)
+            }
+            cell?.reloadCell()
+            return cell!
+        }
+        
         var cell = tableView.dequeueReusableCell(withIdentifier: "AgeCategoryCell") as? AgeCategoryCell
         if cell == nil {
             _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryCell")
             cell = cellOwner.cell as? AgeCategoryCell
             cell?.isAgeGroup = true
         }
-        cell?.record = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        cell?.record = dic
         cell?.reloadCell()
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         TestFairy.log(String(describing: self) + " didSelectRowAt")
+        let dic = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        if (dic[ApplicationData.dicKeyDivision] as! Bool) {
+            if let cell = tableView.cellForRow(at: indexPath) as? AgeCategoryDivisionCell {
+                cell.showHideDivisions()
+            }
+            return
+        }
+        
+        goToAgeCategoriesGroupsList(dic)
+    }
+    
+    func goToAgeCategoriesGroupsList(_ dic: NSDictionary) {
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
-        viewController.dicGroup = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
-        viewController.selectedPickerPosition = indexPath.row
+        viewController.dicGroup = dic
+        // viewController.selectedPickerPosition = indexPath.row
+        viewController.ageCategoriesGroupsDropDownList = ageCategoriesGroupsDropDownList
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

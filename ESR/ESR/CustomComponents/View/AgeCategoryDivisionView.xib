@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TableCellOwner" customModule="ESR" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="ajr-HY-jCR"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AgeCategoryDivisionView" customModule="ESR" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="long text text long long long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pht-ZN-EKn">
+                    <rect key="frame" x="25" y="10" width="344" height="20"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right_green_agecat" translatesAutoresizingMaskIntoConstraints="NO" id="zDf-vL-Wu2">
+                    <rect key="frame" x="384" y="11" width="12" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="12" id="Jju-yR-jRg"/>
+                        <constraint firstAttribute="height" constant="18" id="kal-5X-Rub"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XU6-dT-xHe">
+                    <rect key="frame" x="0.0" y="39" width="414" height="1"/>
+                    <color key="backgroundColor" red="0.87450980392156863" green="0.8784313725490196" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="42C-Di-nwd"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="zDf-vL-Wu2" firstAttribute="leading" secondItem="pht-ZN-EKn" secondAttribute="trailing" constant="15" id="Afp-z9-GQx"/>
+                <constraint firstAttribute="bottom" secondItem="XU6-dT-xHe" secondAttribute="bottom" id="TKc-0I-Jkz"/>
+                <constraint firstAttribute="trailing" secondItem="XU6-dT-xHe" secondAttribute="trailing" id="YyI-cV-tue"/>
+                <constraint firstItem="zDf-vL-Wu2" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="mz0-e8-UKA"/>
+                <constraint firstItem="pht-ZN-EKn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="25" id="pRG-na-dW6"/>
+                <constraint firstItem="pht-ZN-EKn" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qgI-sv-Mqb"/>
+                <constraint firstItem="XU6-dT-xHe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qiK-Hf-I4Z"/>
+                <constraint firstAttribute="trailing" secondItem="zDf-vL-Wu2" secondAttribute="trailing" constant="18" id="x8t-ev-6xx"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="lblTitle" destination="pht-ZN-EKn" id="lR7-sd-w2u"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="arrow_right_green_agecat" width="20" height="36"/>
+    </resources>
+</document>

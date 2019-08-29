@@ -19,7 +19,6 @@ class ApplicationData: NSObject {
     
     static let rolesList = ["Player", "Coach/Manager/Trainer", "Other"]
     
-    static var groupsList = NSArray()
     static var countriesList = NSArray()
     
     static var isAppUpdateDispalyed = false
@@ -27,6 +26,8 @@ class ApplicationData: NSObject {
     static var accessCodeFromURL = NULL_STRING
     
     static var facebookDetailsPending = false
+    
+    static let dicKeyDivision = "isDivision"
     
     // For maintaining targets
     enum CurrentTargetList: String {
