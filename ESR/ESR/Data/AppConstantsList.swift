@@ -307,6 +307,7 @@ extension UIColor {
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
     
+    // #C70A20
     static func AppColor() -> UIColor {
         return UIColor(named: "navigationbarcolor") ?? UIColor(R: 199, G: 10, B: 32)
     }

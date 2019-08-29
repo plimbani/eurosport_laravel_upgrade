@@ -86,6 +86,12 @@ class AgeCategoriesGroupsVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
+<<<<<<< HEAD
+                if let dataObj = result.value(forKey: "data") as? NSDictionary {
+                    if let data = dataObj.value(forKey: "mainData") as? NSArray {
+                        self.ageCategoriesGroupsList = data
+                        ApplicationData.groupsList = data
+=======
                 if let data = result.value(forKey: "data") as? NSDictionary {
                     
                     if let mainList = data.value(forKey: "round_robin_groups") as? NSArray {
@@ -119,6 +125,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
                             
                             self.ageCategoriesGroupsList.add(mutableDic)
                         }
+>>>>>>> 68c25701e... Changes Age group category - Divisions
                     }
                 }
                 

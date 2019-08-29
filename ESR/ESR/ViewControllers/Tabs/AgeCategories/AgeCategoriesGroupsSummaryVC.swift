@@ -30,14 +30,25 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     var teamFixuteuresList = [TeamFixture]()
     var groupStandingsList = [GroupStanding]()
     
-    var titleList = [String]()
+    var ageCategoriesGroupsDropDownList = NSMutableArray()
+    // var titleList = [String]()
     
     var selectedTab = 0
     var rotateToPortrait = false
     
-    var selectedPickerPosition = -1
+    var dropDownCellHeight: CGFloat = 40
+    
+    @IBOutlet var dropdownTableView: UITableView!
+    
+    // var selectedPickerPosition = -1
     
     @IBOutlet var stackViewTab: UIStackView!
+    
+    var hideDropDownTableView: Bool = true {
+        didSet {
+            dropdownTableView.isHidden = hideDropDownTableView
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +56,23 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         initialize()
     }
     
+    override func viewDidLayoutSubviews() {
+        var dropDownViewHeight = CGFloat(ageCategoriesGroupsDropDownList.count) * dropDownCellHeight
+        
+        let remainingHeight: CGFloat =  UIScreen.main.bounds.size.height - (64 + 50 + 44 + 40 + 45)
+        
+        if dropDownViewHeight > remainingHeight {
+            dropDownViewHeight = remainingHeight
+        }
+        
+        var frame = dropdownTableView.frame
+        frame.size.height = CGFloat(dropDownViewHeight)
+        dropdownTableView.frame = frame
+    }
+    
     func initialize() {
+        dropdownTableView.reloadData()
+        hideDropDownTableView = true
         let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
         table.contentInset = adjustForTabbarInsets
         table.scrollIndicatorInsets = adjustForTabbarInsets
@@ -72,12 +99,6 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.GroupSummaryMatchesCell)
         heightGroupSummaryMatchesCell = (cellOwner.cell as! GroupSummaryMatchesCell).getCellHeight()
         
-        for group in ApplicationData.groupsList {
-            if let name = (group as! NSDictionary).value(forKey: "display_name") as? String {
-                titleList.append(name)
-            }
-        }
-        
         if let name = dicGroup.value(forKey: "display_name") as? String {
             lblGroupName.text = name
         }
@@ -94,7 +115,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             footerGroupStandingView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 50)
         }
         
-        refreshListByGroup(false)
+        refreshListByGroup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,6 +147,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     
     @objc func onTabStandingViewPressed(sender : UITapGestureRecognizer) {
         TestFairy.log(String(describing: self) + " onTabStandingViewPressed")
+        hideDropDownTableView = true
         tabStandingsSeparator.backgroundColor = UIColor.AppColor()
         tabMatchesSeparator.backgroundColor = UIColor.clear
         selectedTab = 0
@@ -139,6 +161,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     
     @objc func onTabMatchViewPressed(sender : UITapGestureRecognizer) {
         TestFairy.log(String(describing: self) + " onTabMatchViewPressed")
+        hideDropDownTableView = true
         tabMatchesSeparator.backgroundColor = UIColor.AppColor()
         tabStandingsSeparator.backgroundColor = UIColor.clear
         selectedTab = 1
@@ -152,7 +175,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     
     @objc func onGroupViewPressed(sender : UITapGestureRecognizer) {
         TestFairy.log(String(describing: self) + " onGroupViewPressed")
-        showPickerVC(selectedPosition: selectedPickerPosition, titleList: titleList, delegate: self)
+        hideDropDownTableView = !hideDropDownTableView
     }
     
     @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
@@ -283,19 +306,15 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         })
     }
     
-    func refreshListByGroup(_ flag: Bool) {
+    func refreshListByGroup() {
         
-        var groupDic = NSDictionary()
-        
-        if flag {
-            groupDic = ApplicationData.groupsList[selectedPickerPosition] as! NSDictionary
-        } else {
-            groupDic = dicGroup
+        if let title = dicGroup.value(forKey: "display_name") as? String {
+            lblGroupName.text = title
         }
         
-        groupId = groupDic.value(forKey: "id") as! Int
+        groupId = dicGroup.value(forKey: "id") as! Int
         
-        if let type = groupDic.value(forKey: "competation_type") as? String {
+        if let type = dicGroup.value(forKey: "competation_type") as? String {
             if type == "Elimination" {
                 tabStandingsSeparator.backgroundColor = .clear
                 tabStandingView.backgroundColor = .gray
@@ -331,18 +350,9 @@ extension AgeCategoriesGroupsSummaryVC: CustomAlertVCDelegate {
     }
 }
 
-extension AgeCategoriesGroupsSummaryVC: PickerVCDelegate {
-    func pickerVCDoneBtnPressed(title: String, lastPosition: Int) {
-        selectedPickerPosition = lastPosition
-        lblGroupName.text = title
-        refreshListByGroup(true)
-    }
-    
-    func pickerVCCancelBtnPressed() {}
-}
-
 extension AgeCategoriesGroupsSummaryVC : TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed() {
+        hideDropDownTableView = true
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -350,83 +360,144 @@ extension AgeCategoriesGroupsSummaryVC : TitleNavigationBarDelegate {
 extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if selectedTab == 0 {
-            return groupStandingsList.count
-        }
         
-        return teamFixuteuresList.count
+        if tableView == dropdownTableView {
+            return ageCategoriesGroupsDropDownList.count
+        } else {
+            if selectedTab == 0 {
+                return groupStandingsList.count
+            }
+            
+            return teamFixuteuresList.count
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if selectedTab == 0 {
-            return heightGroupSummaryStandingsCell
-        }
         
-        return heightGroupSummaryMatchesCell
+        if tableView == dropdownTableView {
+            return dropDownCellHeight
+        } else {
+            if selectedTab == 0 {
+                return heightGroupSummaryStandingsCell
+            }
+            
+            return heightGroupSummaryMatchesCell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if selectedTab == 0 {
-            return 60
+        
+        if tableView == dropdownTableView {
+            return 0
         } else {
-            return 40
+            if selectedTab == 0 {
+                return 60
+            } else {
+                return 40
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if selectedTab == 0 {
-            return 50
-        } else {
+        if tableView == dropdownTableView {
             return 0
+        } else {
+            if selectedTab == 0 {
+                return 50
+            } else {
+                return 0
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if selectedTab == 0 {
-           return headerGroupStandingView
+        if tableView == dropdownTableView {
+            return UIView()
         } else {
-           return headerGroupMatchesView
+            if selectedTab == 0 {
+                return headerGroupStandingView
+            } else {
+                return headerGroupMatchesView
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if selectedTab == 0 {
-            return footerGroupStandingView
-        } else {
+        if tableView == dropdownTableView {
             return UIView()
+        } else {
+            if selectedTab == 0 {
+                return footerGroupStandingView
+            } else {
+                return UIView()
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if selectedTab == 0 {
-            var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryStandingsCell") as? GroupSummaryStandingsCell
+        if tableView == dropdownTableView {
+            var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryDropdownCell") as? GroupSummaryDropdownCell
             if cell == nil {
-                _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryStandingsCell")
-                cell = cellOwner.cell as? GroupSummaryStandingsCell
+                _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryDropdownCell")
+                cell = cellOwner.cell as? GroupSummaryDropdownCell
             }
-            cell?.record = groupStandingsList[indexPath.row]
-            cell?.isFromAgecategory = true
-            cell?.reloadCell()
+            let dic = ageCategoriesGroupsDropDownList[indexPath.row] as! NSDictionary
+            
+            if dic[ApplicationData.dicKeyDivision] as! Bool {
+                if let title = dic.value(forKey: "title") as? String {
+                    cell?.lblTitle.text = title
+                }
+            } else {
+                if let title = dic.value(forKey: "display_name") as? String {
+                    cell?.lblTitle.text = title
+                }
+                cell?.leadingConstraintLblTitle.constant = 25
+            }
+            
             return cell!
         } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryMatchesCell") as? GroupSummaryMatchesCell
-            if cell == nil {
-                _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryMatchesCell")
-                cell = cellOwner.cell as? GroupSummaryMatchesCell
+            if selectedTab == 0 {
+                var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryStandingsCell") as? GroupSummaryStandingsCell
+                if cell == nil {
+                    _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryStandingsCell")
+                    cell = cellOwner.cell as? GroupSummaryStandingsCell
+                }
+                cell?.record = groupStandingsList[indexPath.row]
+                cell?.isFromAgecategory = true
+                cell?.reloadCell()
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryMatchesCell") as? GroupSummaryMatchesCell
+                if cell == nil {
+                    _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryMatchesCell")
+                    cell = cellOwner.cell as? GroupSummaryMatchesCell
+                }
+                cell?.record = teamFixuteuresList[indexPath.row]
+                cell?.reloadCell()
+                return cell!
             }
-            cell?.record = teamFixuteuresList[indexPath.row]
-            cell?.reloadCell()
-            return cell!
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         TestFairy.log(String(describing: self) + " didSelectRowAt")
-        if selectedTab == 1 {
-            let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
-            viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
-            self.navigationController?.pushViewController(viewController, animated: true)
+        
+        if tableView == dropdownTableView {
+            dicGroup = ageCategoriesGroupsDropDownList[indexPath.row] as! NSDictionary
+            
+            let isDivision = dicGroup[ApplicationData.dicKeyDivision]! as! Bool
+            
+            if !isDivision {
+                hideDropDownTableView = true
+                refreshListByGroup()
+            }
+        } else {
+            if selectedTab == 1 {
+                let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
+                viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
         }
     }
 }

@@ -38,6 +38,6 @@
         </view>
     </objects>
     <resources>
-        <image name="navigation_logo" width="1500" height="414"/>
+        <image name="navigation_logo" width="300" height="47"/>
     </resources>
 </document>

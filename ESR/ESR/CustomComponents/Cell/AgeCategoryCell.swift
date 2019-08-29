@@ -24,6 +24,8 @@ class AgeCategoryCell: UITableViewCell {
     
     @IBOutlet var widthConstraintBtnViewSchedule: NSLayoutConstraint!
     
+    @IBOutlet var leadingConstraintLblTitle: NSLayoutConstraint!
+    
     let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
         NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
         NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
@@ -69,6 +71,16 @@ class AgeCategoryCell: UITableViewCell {
                     }
                 //}
            // }
+            
+            if let isDivision = record.value(forKey: "isDivision") as? Bool {
+                if !isDivision {
+                    leadingConstraintLblTitle.constant = 25
+                } else {
+                    if let text = record.value(forKey: "title") as? String {
+                        ageCategory = text
+                    }
+                }
+            }
         } else {
             if let text = record.value(forKey: "group_name") as? String {
                 ageCategory = text

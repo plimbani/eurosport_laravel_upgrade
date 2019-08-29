@@ -57,12 +57,6 @@
 		301D9C062225228D00EF8E76 /* ViewScheduleImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */; };
 		30239DC02317F6720027EC2C /* GroupSummaryDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */; };
 		30239DC12317F6720027EC2C /* GroupSummaryDropdownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */; };
-		30239DC223181D010027EC2C /* AgeCategoryDivisionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306B80F32316826E005634C2 /* AgeCategoryDivisionCell.xib */; };
-		30239DC323181D080027EC2C /* AgeCategoryDivisionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B80F22316826E005634C2 /* AgeCategoryDivisionCell.swift */; };
-		30239DC423181D130027EC2C /* AgeCategoryDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B80F6231697E5005634C2 /* AgeCategoryDivisionView.swift */; };
-		30239DC523181D160027EC2C /* AgeCategoryDivisionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306B80F8231697F1005634C2 /* AgeCategoryDivisionView.xib */; };
-		30239DC623181D8E0027EC2C /* GroupSummaryDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */; };
-		30239DC723181D970027EC2C /* GroupSummaryDropdownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */; };
 		30371E09220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		3044DE5B223F9E99005E8C86 /* TabFollowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */; };
 		3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */; };
@@ -988,7 +982,11 @@
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
+<<<<<<< HEAD
+=======
 				30239DC12317F6720027EC2C /* GroupSummaryDropdownCell.xib in Resources */,
+				30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */,
+>>>>>>> 68c25701e... Changes Age group category - Divisions
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */,
@@ -1007,7 +1005,6 @@
 				30F180B02272F76600301C6F /* FollowTournamentCell.xib in Resources */,
 				30F180B12272F76600301C6F /* VenueFieldList.plist in Resources */,
 				30F180B22272F76600301C6F /* TournamentClubCell.xib in Resources */,
-				30239DC723181D970027EC2C /* GroupSummaryDropdownCell.xib in Resources */,
 				30F180B32272F76600301C6F /* GroupDetailsCell.xib in Resources */,
 				30F180B42272F76600301C6F /* GoogleService-Info.plist in Resources */,
 				30F180B52272F76600301C6F /* AgeCategoryCell.xib in Resources */,
@@ -1021,7 +1018,6 @@
 				30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */,
 				30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */,
 				30F180BF2272F76600301C6F /* Main.storyboard in Resources */,
-				30239DC223181D010027EC2C /* AgeCategoryDivisionCell.xib in Resources */,
 				30F180C02272F76600301C6F /* ProfileList.plist in Resources */,
 				30F180C12272F76600301C6F /* easymm.plist in Resources */,
 				30F180C22272F76600301C6F /* CreateAccountFieldList.plist in Resources */,
@@ -1036,7 +1032,6 @@
 				30F180C92272F76600301C6F /* GroupSummaryMatchesCell.xib in Resources */,
 				30F180CA2272F76600301C6F /* ButtonCell.xib in Resources */,
 				30F180CB2272F76600301C6F /* ImageNavigationBar.xib in Resources */,
-				30239DC523181D160027EC2C /* AgeCategoryDivisionView.xib in Resources */,
 				30F180CC2272F76600301C6F /* LaunchScreen.storyboard in Resources */,
 				30F180CD2272F76600301C6F /* TabAgeCategoriesCell.xib in Resources */,
 				30F180CE2272F76600301C6F /* GroupSummaryMatchesHeader.xib in Resources */,
@@ -1317,7 +1312,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30239DC323181D080027EC2C /* AgeCategoryDivisionCell.swift in Sources */,
 				30F1805E2272F76600301C6F /* GroupDetailsVC.swift in Sources */,
 				30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30F1805F2272F76600301C6F /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
@@ -1364,13 +1358,11 @@
 				30F180882272F76600301C6F /* ImageNavigationBar.swift in Sources */,
 				30F180892272F76600301C6F /* TextFieldCell.swift in Sources */,
 				30F1808A2272F76600301C6F /* TournamentDetailsView.swift in Sources */,
-				30239DC423181D130027EC2C /* AgeCategoryDivisionView.swift in Sources */,
 				30F1808B2272F76600301C6F /* Tournament.swift in Sources */,
 				30F1808C2272F76600301C6F /* GroupSummaryMatchesCell.swift in Sources */,
 				30F1808D2272F76600301C6F /* BundleExtension.swift in Sources */,
 				30F1808E2272F76600301C6F /* PickerVC.swift in Sources */,
 				30F1808F2272F76600301C6F /* LandingVC.swift in Sources */,
-				30239DC623181D8E0027EC2C /* GroupSummaryDropdownCell.swift in Sources */,
 				30F180902272F76600301C6F /* FollowTournamentCell.swift in Sources */,
 				30F180912272F76600301C6F /* ButtonCell.swift in Sources */,
 				30F180922272F76600301C6F /* TabTournamentVC.swift in Sources */,

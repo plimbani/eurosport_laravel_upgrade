@@ -27,9 +27,11 @@ class ApplicationData: NSObject {
     
     static var facebookDetailsPending = false
     
-    static let dicKeyDivision = "isDivision"
-    
+<<<<<<< HEAD
     static var temLoginFlag = false
+=======
+    static let dicKeyDivision = "isDivision"
+>>>>>>> 68c25701e... Changes Age group category - Divisions
     
     // For maintaining targets
     enum CurrentTargetList: String {

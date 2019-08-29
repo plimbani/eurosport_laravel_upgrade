@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -275,6 +276,17 @@
                                     <outlet property="delegate" destination="QjD-d5-ObF" id="7Wp-JU-IbY"/>
                                 </connections>
                             </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="8IO-TI-eI2">
+                                <rect key="frame" x="15" y="184" width="290" height="40"/>
+                                <color key="backgroundColor" name="navigationbarcolor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="bNH-OA-yTu"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="QjD-d5-ObF" id="f7C-uy-eUL"/>
+                                    <outlet property="delegate" destination="QjD-d5-ObF" id="hO9-ok-HA9"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -290,14 +302,18 @@
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="trailing" secondItem="lVu-Ka-k2N" secondAttribute="trailing" id="fsT-GI-cPW"/>
                             <constraint firstItem="INd-7d-fjC" firstAttribute="top" secondItem="l0o-DG-8VW" secondAttribute="bottom" constant="15" id="ia0-gi-I2R"/>
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="bottom" secondItem="INd-7d-fjC" secondAttribute="bottom" id="j5Y-rb-Rdz"/>
+                            <constraint firstItem="8IO-TI-eI2" firstAttribute="leading" secondItem="l0o-DG-8VW" secondAttribute="leading" id="qsg-Os-ZKa"/>
                             <constraint firstItem="qDg-JK-44B" firstAttribute="leading" secondItem="yvd-yL-Jvp" secondAttribute="leading" id="s2V-o0-R1U"/>
+                            <constraint firstItem="8IO-TI-eI2" firstAttribute="trailing" secondItem="l0o-DG-8VW" secondAttribute="trailing" id="s9D-7i-Yfv"/>
                             <constraint firstItem="INd-7d-fjC" firstAttribute="leading" secondItem="yvd-yL-Jvp" secondAttribute="leading" id="u3O-e8-zcz"/>
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="trailing" secondItem="myr-nf-UFp" secondAttribute="trailing" id="uNi-fh-32D"/>
+                            <constraint firstItem="8IO-TI-eI2" firstAttribute="top" secondItem="l0o-DG-8VW" secondAttribute="bottom" id="xeL-sW-oo5"/>
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="trailing" secondItem="INd-7d-fjC" secondAttribute="trailing" id="yqT-3H-MJZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yvd-yL-Jvp"/>
                     </view>
                     <connections>
+                        <outlet property="dropdownTableView" destination="8IO-TI-eI2" id="aNF-jO-kIB"/>
                         <outlet property="footerGroupStandingView" destination="MMU-w4-zlm" id="jwq-0C-Uem"/>
                         <outlet property="groupSelectionView" destination="l0o-DG-8VW" id="ekq-lJ-Qud"/>
                         <outlet property="headerGroupMatchesView" destination="V9j-zd-zUA" id="rZR-Lr-v0j"/>
@@ -1046,5 +1062,8 @@ league table</string>
         <image name="map_marker" width="28" height="28"/>
         <image name="short" width="195" height="65"/>
         <image name="tshirt" width="195" height="122"/>
+        <namedColor name="navigationbarcolor">
+            <color red="0.0" green="0.5725490196078431" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

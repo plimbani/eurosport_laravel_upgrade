@@ -80,6 +80,7 @@
             <connections>
                 <outlet property="btnViewSchedule" destination="ffW-jb-5cL" id="STB-uW-zO3"/>
                 <outlet property="lblTitle" destination="Npq-wa-rdP" id="0sm-8d-7eH"/>
+                <outlet property="leadingConstraintLblTitle" destination="Qqi-rp-iYE" id="BmV-cB-8tS"/>
                 <outlet property="widthConstraintBtnViewSchedule" destination="zZg-79-Z34" id="fWS-uj-jyC"/>
             </connections>
         </tableViewCell>

@@ -1,22 +1,23 @@
 //
-//  AgeCategoriesGroupsVC.swift
+//  GroupListVC.swift
 //  ESR
 //
-//  Created by Pratik Patel on 28/08/18.
+//  Created by Pratik Patel on 07/12/18.
 //
 
 import UIKit
 
-class AgeCategoriesGroupsVC: SuperViewController {
+class GroupListVC: SuperViewController {
 
+    @IBOutlet var txtSearch: UITextField!
     @IBOutlet var table: UITableView!
     
     var ageCategoriesGroupsList = NSMutableArray()
-    
-    var ageCategoriesGroupsDropDownList = NSMutableArray()
-    
+    var ageCategoriesGroupsFilterList = NSMutableArray()
+    var ageCategoriesGroupsMainFilterList = NSMutableArray()
     var heightAgeCategoryCell: CGFloat = 0
-    var ageCategoryId: Int = NULL_ID
+    
+    var isSearch = false
     
     @IBOutlet var lblNoData: UILabel!
     
@@ -33,38 +34,55 @@ class AgeCategoriesGroupsVC: SuperViewController {
         initialize()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        sendAgeCategoriesGroupRequest()
+    }
+    
     func initialize() {
         table.estimatedRowHeight = 200
         table.rowHeight = UITableViewAutomaticDimension
+        table.tableHeaderView = UIView()
         
-        titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups")
-        titleNavigationBar.delegate = self
-        titleNavigationBar.isFinalPlacings = true
-        titleNavigationBar.setBackgroundColor()
-        
-        // Checks internet connectivity
-        setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
-        
-        // To show/hide internet view in Navigation bar
-        NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
+        txtSearch.placeholder = String.localize(key: "placeholder_search_tab_group")
+        txtSearch.setLeftPaddingPoints(35)
+        txtSearch.delegate = self
+        txtSearch.returnKeyType = .done
+        txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
+        txtSearch.clipsToBounds = true
+        txtSearch.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
+        txtSearch.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
         heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
         
-        sendAgeCategoriesGroupRequest()
+        hideKeyboardWhenTappedAround()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
-    }
-    
-    @objc func showHideNoInternetView(_ notification: NSNotification) {
-        if notification.userInfo != nil {
-            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
-                setConstraintLblNoInternet(isShow)
+    @objc func textFieldDidChange(textField: UITextField) {
+        if let text = txtSearch.text {
+            if text.isEmpty {
+                isSearch = false
+                table.reloadData()
+                return
             }
+            
+            isSearch = true
+            
+            ageCategoriesGroupsFilterList = NSMutableArray.init(array: ageCategoriesGroupsMainFilterList.filter({
+                let searchDic = ($0 as! NSDictionary)
+                
+                return (searchDic.value(forKey: "display_name") as! String).contains(text) ||
+                (searchDic.value(forKey: "display_name") as! String).lowercased().contains(text)
+            }))
+            
+            table.reloadData()
         }
+    }
+    
+    func sortByDisplayName(dataArray: NSArray) -> NSMutableArray {
+        let descriptor: NSSortDescriptor = NSSortDescriptor(key: "display_name", ascending: true)
+        return NSMutableArray.init(array: dataArray.sortedArray(using: [descriptor]))
     }
     
     func sendAgeCategoriesGroupRequest() {
@@ -74,51 +92,60 @@ class AgeCategoriesGroupsVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-
+        
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             parameters["tournamentId"] = selectedTournament.id
-            parameters["competationFormatId"] = ageCategoryId
         }
         
-        ageCategoriesGroupsDropDownList.removeAllObjects()
+        self.ageCategoriesGroupsList.removeAllObjects()
+        self.ageCategoriesGroupsMainFilterList.removeAllObjects()
+        self.table.reloadData()
         
         ApiManager().getAgeCategoriesGroups(parameters, success: { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
+<<<<<<< HEAD
+                if let dataObj = result.value(forKey: "data") as? NSDictionary {
+                    if let data = dataObj.value(forKey: "mainData") as? NSArray {
+                        
+                        let descriptor: NSSortDescriptor = NSSortDescriptor(key: "display_name", ascending: true)
+                        self.ageCategoriesGroupsList = NSMutableArray.init(array: data.sortedArray(using: [descriptor]))
+                        ApplicationData.groupsList = self.ageCategoriesGroupsList
+=======
                 if let data = result.value(forKey: "data") as? NSDictionary {
                     
                     if let mainList = data.value(forKey: "round_robin_groups") as? NSArray {
                         
                         for roundRobinObj in mainList {
                             let mutableDic = NSMutableDictionary.init(dictionary: roundRobinObj as! NSDictionary)
-                            mutableDic[ApplicationData.dicKeyDivision] = false
+                            mutableDic["isDivision"] = false
                             self.ageCategoriesGroupsList.add(mutableDic)
-                            self.ageCategoriesGroupsDropDownList.add(mutableDic)
+                            self.ageCategoriesGroupsMainFilterList.add(mutableDic)
                         }
+                        
+                        self.ageCategoriesGroupsList = self.sortByDisplayName(dataArray: self.ageCategoriesGroupsList)
                     }
                     
                     if let mainList = data.value(forKey: "division_groups") as? NSArray {
                         for divisionObj in mainList {
                             
                             let mutableDic = NSMutableDictionary.init(dictionary: divisionObj as! NSDictionary)
-                            mutableDic[ApplicationData.dicKeyDivision] = true
-                            
-                            self.ageCategoriesGroupsDropDownList.add(mutableDic)
+                            mutableDic["isDivision"] = true
                             
                             if let divisionDataList = (divisionObj as! NSDictionary).value(forKey: "data") as? NSArray {
-                                
-                                for divisionObj in divisionDataList {
-                                    let mutableDivisionDic = NSMutableDictionary.init(dictionary: divisionObj as! NSDictionary)
-                                    mutableDivisionDic[ApplicationData.dicKeyDivision] = false
-                                    self.ageCategoriesGroupsDropDownList.add(mutableDivisionDic)
-                                }
-                                
                                 mutableDic["divisionArray"] = divisionDataList
+                                
+                                for obj in divisionDataList {
+                                    let mutableDic = NSMutableDictionary.init(dictionary: obj as! NSDictionary)
+                                    mutableDic["isDivision"] = false
+                                    self.ageCategoriesGroupsMainFilterList.add(mutableDic)
+                                }
                             }
                             
                             self.ageCategoriesGroupsList.add(mutableDic)
                         }
+>>>>>>> 68c25701e... Changes Age group category - Divisions
                     }
                 }
                 
@@ -151,7 +178,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
     }
 }
 
-extension AgeCategoriesGroupsVC: CustomAlertVCDelegate {
+extension GroupListVC: CustomAlertVCDelegate {
     func customAlertVCOkBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.tournamentExpire.rawValue {
             NotificationCenter.default.post(name: .goToTabFollow, object: nil)
@@ -159,23 +186,18 @@ extension AgeCategoriesGroupsVC: CustomAlertVCDelegate {
     }
 }
 
-extension AgeCategoriesGroupsVC: TitleNavigationBarDelegate {
-    func titleNavBarBackBtnPressed() {
-        TestFairy.log(String(describing: self) + " titleNavBarBackBtnPressed")
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func titleNavBarBtnFinalPlacingsPressed() {
-        TestFairy.log(String(describing: self) + " titleNavBarBtnFinalPlacingsPressed")
-        let viewController = Storyboards.Tournament.instantiateFinalPlacingsVC()
-        viewController.ageCategoryId = ageCategoryId
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
+extension GroupListVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {}
 }
 
-extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
+extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if isSearch {
+            return ageCategoriesGroupsFilterList.count
+        }
+        
         return ageCategoriesGroupsList.count
     }
     
@@ -184,20 +206,25 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dic = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        var dic: NSDictionary!
+        if isSearch {
+            dic = ageCategoriesGroupsFilterList[indexPath.row] as! NSDictionary
+        } else {
+            dic = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        }
         
-        if (dic[ApplicationData.dicKeyDivision] as! Bool) {
+        if (dic["isDivision"] as! Bool) {
             var cell = tableView.dequeueReusableCell(withIdentifier: "AgeCategoryDivisionCell") as? AgeCategoryDivisionCell
             if cell == nil {
                 _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryDivisionCell")
                 cell = cellOwner.cell as? AgeCategoryDivisionCell
             }
+            cell?.cellIndexPath = indexPath
             cell?.record = dic
             cell?.divisionObjList = dic["divisionArray"] as! NSArray
-            cell?.cellIndexPath = indexPath
             cell?.didTapView = { [weak self] dic in
                 guard let selfValue = self else { return }
-                selfValue.goToAgeCategoriesGroupsList(dic)
+                selfValue.goToTeamListingVCList(dic)
             }
             cell?.didUpdateTableView = { [weak self] cellIndexPath in
                 guard let selfValue = self else { return }
@@ -222,22 +249,26 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         TestFairy.log(String(describing: self) + " didSelectRowAt")
-        let dic = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
-        if (dic[ApplicationData.dicKeyDivision] as! Bool) {
+        self.view.endEditing(true)
+        txtSearch.resignFirstResponder()
+        
+        let dic = isSearch ? (ageCategoriesGroupsFilterList[indexPath.row] as! NSDictionary) :
+        (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
+        
+        if (dic["isDivision"] as! Bool) {
             if let cell = tableView.cellForRow(at: indexPath) as? AgeCategoryDivisionCell {
                 cell.showHideDivisions()
             }
             return
         }
         
-        goToAgeCategoriesGroupsList(dic)
+        goToTeamListingVCList(dic)
     }
     
-    func goToAgeCategoriesGroupsList(_ dic: NSDictionary) {
-        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
-        viewController.dicGroup = dic
-        // viewController.selectedPickerPosition = indexPath.row
-        viewController.ageCategoriesGroupsDropDownList = ageCategoriesGroupsDropDownList
+    func goToTeamListingVCList(_ dic: NSDictionary) {
+        let viewController = Storyboards.Teams.instantiateTeamListingVC()
+        viewController.isClubsGroupTeam = true
+        viewController.dic = dic
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
