@@ -71,7 +71,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.acticity_age_group);
+        setContentView(R.layout.age_categories_with_division);
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
