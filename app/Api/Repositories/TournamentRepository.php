@@ -83,9 +83,13 @@ class TournamentRepository
         if ($user) {
             $tournaments = $user->tournaments()->pluck('id');
             $data = $data->whereIn('id', $tournaments);
+            $data = $data->orderBy('created_at', 'desc')->get();
         }
-        $data = $data->orderBy('name', 'asc')->get();
-
+        else
+        {
+            $data = $data->orderBy('name', 'asc')->get();
+        }
+        
         // Dashboard page matchList count
         $tournamentListCount = array();
         foreach ($data as $key => $tournament) {
