@@ -57,6 +57,7 @@
                         no_of_teams: '',
                         editor: 'advance',
                         remarks: '',
+                        template_font_color: '',
                         roundSchedules: [''],
                         graphic_image: '',
                         image:'',

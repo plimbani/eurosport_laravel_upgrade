@@ -93,7 +93,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group row">
+                        <div class="form-group row">
                             <label class="col-12 form-control-label">Template key* <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span></label>
                             
                             <div class="col-12">
@@ -102,9 +102,9 @@
                             </div>
                             <div class="col-12">
                                 <i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
-                                <span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>                        
+                                <span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>
                             </div>
-                        </div> -->
+                        </div>
                     </form>
             		<div class="form-group">
             			<button type="button" class="btn btn-primary" @click="next()">{{$lang.add_template_modal_next_button}}</button>
@@ -198,9 +198,9 @@
                 this.image = '';
                 e.preventDefault();
             },
-            // setTemplateFontColor(color) {
-            //     this.templateFormDetail.stepone.template_font_color = color;
-            // },
+            setTemplateFontColor(color) {
+                this.templateFormDetail.stepone.template_font_color = color;
+            },
 		}
 	}
 </script>
