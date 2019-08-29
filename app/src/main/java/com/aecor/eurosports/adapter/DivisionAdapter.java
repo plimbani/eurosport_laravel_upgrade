@@ -8,30 +8,37 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.AgeGroupModel;
+import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.model.DivisionGroupModel;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.Utility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.ViewHolder> {
+public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.ViewHolder> implements Filterable {
 
     private final String TAG = GroupAdapter.class.getSimpleName();
     private Context mContext;
     private List<DivisionGroupModel> division_groups;
+    private List<DivisionGroupModel> originalList;
     private AgeGroupModel mAgeGroupData;
+    private DivisionFilter mDivisionFilter;
 
     public DivisionAdapter(Activity context, List<DivisionGroupModel> division_groups, AgeGroupModel mAgeGroupData) {
         mContext = context;
         this.division_groups = division_groups;
+        this.originalList = division_groups;
         this.mAgeGroupData = mAgeGroupData;
     }
 
@@ -103,5 +110,56 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.ViewHo
             });
         }
 
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        if (mDivisionFilter == null)
+            mDivisionFilter = new DivisionFilter();
+
+        return mDivisionFilter;
+    }
+
+    private class DivisionFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            // We implement here the filter logic
+            if (constraint == null || constraint.length() == 0) {
+                // No filter implemented we return all the list
+                results.values = originalList;
+                results.count = division_groups.size();
+            } else {
+                // We perform filtering operation
+                List<DivisionGroupModel> mGroupList = new ArrayList<>();
+                for (int i = 0; i < originalList.size(); i++) {
+                    for (int j = 0; j < originalList.get(i).getData().size(); j++) {
+                        if (originalList.get(i).getTitle().toUpperCase().contains(constraint.toString().toUpperCase())) {
+                            mGroupList.add(originalList.get(i));
+                        }
+                        if (originalList.get(i).getData().get(j).getName().toUpperCase().contains(constraint.toString().toUpperCase())) {
+                            mGroupList.add(originalList.get(i));
+
+                        }
+                    }
+                }
+
+                results.values = mGroupList;
+                results.count = mGroupList.size();
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            // Now we have to inform the adapter about the new list filtered
+//            if (results.count == 0) {
+//                notifyDataSetInvalidated();
+//            } else {
+            division_groups = (List<DivisionGroupModel>) results.values;
+            notifyDataSetChanged();
+//            }
+        }
     }
 }
