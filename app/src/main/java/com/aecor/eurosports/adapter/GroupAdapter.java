@@ -102,13 +102,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         return mGroupList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        if (mClubGroupFilter == null)
-            mClubGroupFilter = new ClubGroupFilter();
-
-        return mClubGroupFilter;
-    }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.individual_list_item)
@@ -123,6 +116,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     }
 
+    @Override
+    public Filter getFilter() {
+        if (mClubGroupFilter == null)
+            mClubGroupFilter = new ClubGroupFilter();
+
+        return mClubGroupFilter;
+    }
     private class ClubGroupFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {

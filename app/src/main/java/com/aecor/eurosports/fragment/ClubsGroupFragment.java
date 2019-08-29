@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,11 +23,14 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.HomeActivity;
+import com.aecor.eurosports.adapter.DivisionAdapter;
 import com.aecor.eurosports.adapter.GroupAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.AgeGroupModel;
 import com.aecor.eurosports.model.ClubGroupModel;
+import com.aecor.eurosports.model.DivisionGroupModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.ui.ViewDialog;
@@ -43,8 +47,6 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -65,8 +67,11 @@ public class ClubsGroupFragment extends Fragment {
     protected EditText et_age_search;
     @BindView(R.id.age_categories_list)
     protected RecyclerView rv_groupList;
+    @BindView(R.id.rv_divisions)
+    protected RecyclerView rv_divisions;
     private AppPreference mPreference;
-    private GroupAdapter adapter;
+    private GroupAdapter mGroupAdapter;
+    private DivisionAdapter mDivisionAdapter;
     @BindView(R.id.ll_no_item_view)
     protected LinearLayout ll_no_item_view;
     @BindView(R.id.tv_no_item)
@@ -82,20 +87,27 @@ public class ClubsGroupFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && getActivity()!=null) {
+        if (isVisibleToUser && getActivity() != null) {
             getTournamentGroup();
         }
     }
 
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         mPreference = AppPreference.getInstance(mContext);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        rv_groupList.setLayoutManager(mLayoutManager);
+        rv_groupList.setLayoutManager(new LinearLayoutManager(mContext));
         rv_groupList.setItemAnimator(new DefaultItemAnimator());
         rv_groupList.addItemDecoration(new SimpleDividerItemDecoration(mContext));
-
+        rv_groupList.setNestedScrollingEnabled(false);
+        rv_groupList.setHasFixedSize(false);
+        rv_divisions.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_divisions.setItemAnimator(new DefaultItemAnimator());
+        rv_divisions.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+        rv_divisions.setNestedScrollingEnabled(false);
+        rv_divisions.setVisibility(View.GONE);
+        rv_divisions.setHasFixedSize(false);
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
@@ -143,36 +155,42 @@ public class ClubsGroupFragment extends Fragment {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress(mProgressHUD);
                     try {
-                        if (response != null && !Utility.isNullOrEmpty(response.toString())) {
-                            AppLogger.LogE(TAG, "get Tournament Group Response" + response.toString());
-                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                                if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                    ClubGroupModel clubList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), ClubGroupModel[].class);
-                                    if (clubList != null && clubList.length > 0) {
-                                        setClubGroupAdapter(clubList);
-                                    } else {
-                                        showNoItemView();
+                        AppLogger.LogE(TAG, "get Tournament Group Response" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code"))
+                                && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                AgeGroupModel mAgeGroupData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeGroupModel.class);
+                                if (mAgeGroupData != null) {
+                                    if (mAgeGroupData.getRound_robin_groups() != null
+                                            && mAgeGroupData.getRound_robin_groups().size() > 0) {
+                                        setClubGroupAdapter(mAgeGroupData.getRound_robin_groups(), mAgeGroupData);
                                     }
-                                }
-                            } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
-                                String msg = "Selected tournament has expired";
-                                if (response.has("message")) {
-                                    msg = response.getString("message");
-                                }
-                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
-                                    @Override
-                                    public void onPositiveButtonClicked() {
-                                        Intent intent = new Intent(mContext, HomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        mContext.startActivity(intent);
-                                        ((Activity) mContext).finish();
+                                    if (mAgeGroupData.getDivision_groups() != null
+                                            && mAgeGroupData.getDivision_groups().size() > 0) {
+                                        setDivisionAdapter(mAgeGroupData.getDivision_groups(), mAgeGroupData);
                                     }
-
-                                });
+                                } else {
+                                    showNoItemView();
+                                }
                             }
-                        } else {
-                            showNoItemView();
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code"))
+                                && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = getString(R.string.selected_tournament_has_expired);
+                            if (response.has("message")) {
+                                msg = response.getString("message");
+                            }
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mContext.startActivity(intent);
+                                    ((Activity) mContext).finish();
+                                }
+
+                            });
                         }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -194,9 +212,14 @@ public class ClubsGroupFragment extends Fragment {
         }
     }
 
-    private void setClubGroupAdapter(ClubGroupModel mClubModel[]) {
-        List<ClubGroupModel> list = new ArrayList<>();
-        list.addAll(Arrays.asList(mClubModel));
+
+    private void setDivisionAdapter(List<DivisionGroupModel> list, AgeGroupModel mAgeGroupData) {
+        mDivisionAdapter = new DivisionAdapter((Activity) mContext, list, mAgeGroupData);
+        rv_divisions.setAdapter(mDivisionAdapter);
+        rv_divisions.setVisibility(View.VISIBLE);
+    }
+
+    private void setClubGroupAdapter(List<ClubGroupModel> list, AgeGroupModel mAgeGroupData) {
         Collections.sort(list, new Comparator<ClubGroupModel>() {
             @Override
             public int compare(ClubGroupModel lhs, ClubGroupModel rhs) {
@@ -210,11 +233,10 @@ public class ClubsGroupFragment extends Fragment {
                 return lhs.getDisplay_name().compareTo(rhs.getDisplay_name());
             }
         });
-        adapter = new GroupAdapter((Activity) mContext, list);
-        rv_groupList.setAdapter(adapter);
-        rl_search.setVisibility(View.VISIBLE);
+        mGroupAdapter = new GroupAdapter((Activity) mContext, list, mAgeGroupData);
+        rv_groupList.setAdapter(mGroupAdapter);
         rv_groupList.setVisibility(View.VISIBLE);
-
+        rl_search.setVisibility(View.VISIBLE);
     }
 
     private void showNoItemView() {
@@ -233,14 +255,20 @@ public class ClubsGroupFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (adapter != null && adapter.getFilter() != null) {
-                adapter.getFilter().filter(s.toString());
-                if (s.toString().length() > 0) {
-                    iv_close.setVisibility(View.VISIBLE);
-                } else {
-                    iv_close.setVisibility(View.GONE);
-                }
+            if (mGroupAdapter != null && mGroupAdapter.getFilter() != null) {
+                mGroupAdapter.getFilter().filter(s.toString());
+                rv_groupList.setVisibility(View.VISIBLE);
             }
+            if (mDivisionAdapter != null && mDivisionAdapter.getFilter() != null) {
+                mDivisionAdapter.getFilter().filter(s.toString());
+                rv_divisions.setVisibility(View.VISIBLE);
+             }
+            if (s.toString().length() > 0) {
+                iv_close.setVisibility(View.VISIBLE);
+            } else {
+                iv_close.setVisibility(View.GONE);
+            }
+
         }
 
         @Override
