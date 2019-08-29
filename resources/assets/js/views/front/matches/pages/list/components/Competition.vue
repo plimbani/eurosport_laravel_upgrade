@@ -174,8 +174,7 @@
                   $(this).html($(this).attr('rel'));
                 });
 
-                $('#competition-overview').val(vm.currentCompetitionId);
-
+                $("#competition-overview").val(vm.currentCompetitionId);
                 $("#competition-overview").select2({
                   templateResult: function (data, container) {
                     if (data.element) {
@@ -183,13 +182,13 @@
                     }
                     return data.text;
                   }
-                })
+                }) 
                 .on('change', function () {
                   let curreId = $(this).val();
-                  let drawnameChange = [];
                   vm.competitionList.map(function(value, key) {
                     if(value.id == curreId) {
                       vm.currentCompetition = value;
+                      vm.currentCompetitionId = curreId;
                     }
                   });
                   vm.onCompetitionChange();

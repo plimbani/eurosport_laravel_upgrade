@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-12">
                                 <i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
-                                <span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>                        
+                                <span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>
                             </div>
                         </div>
                     </form>
@@ -200,7 +200,7 @@
             },
             setTemplateFontColor(color) {
                 this.templateFormDetail.stepone.template_font_color = color;
-            },            
+            },
 		}
 	}
 </script>

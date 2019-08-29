@@ -1,9 +1,9 @@
 <template>
   <div>
 	<div v-if="currentScheduleView == 'matchList'" class="row">
-		<div class="col-sm-5">
+		<div class="col-sm-4">
 			<div class="row">
-				<div class="col-sm-10">
+				<div class="col-sm-12">
 					<div class="row">
 						<div class="col-sm-12">
 							<h6 class="font-weight-bold fieldset-title">{{$lang.summary_schedule_match_overview}}:</h6>
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-7">
+		<div class="col-sm-8">
 			 <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
 		</div>
 	</div>
