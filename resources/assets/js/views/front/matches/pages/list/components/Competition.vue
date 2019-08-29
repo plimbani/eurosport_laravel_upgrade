@@ -172,7 +172,6 @@
                   $(this).html($(this).attr('rel'));
                 });
 
-                console.log("here",vm.currentCompetitionId);
                 $("#competition-overview").val(vm.currentCompetitionId);
                 $("#competition-overview").select2({
                   templateResult: function (data, container) {
