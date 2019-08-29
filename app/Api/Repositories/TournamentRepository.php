@@ -5,7 +5,6 @@ namespace Laraspace\Api\Repositories;
 use DB;
 use Auth;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Support\Str;
 use JWTAuth;
 use Laraspace\Models\User;
