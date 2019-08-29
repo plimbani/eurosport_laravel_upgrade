@@ -68,7 +68,7 @@
             <div class="col-md-6 filterDropdown">
               <select :class="'form-control matches-groups-filter ls-select2 '+filterKey" v-if="filterKey == 'competation_group'" id="matches_category_filter">
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
-                <option :disabled="option.class == 'age' || option.class == 'round' || option.class == 'division'" v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class">{{ option.name }}</option>
+                <option v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class">{{ option.name }}</option>
               </select>
               <!-- <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
@@ -171,8 +171,14 @@ export default {
       var filterCompGroup = {'id' :this.filterValue};
       var tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
-      if(this.dropDown.class == 'age'){
+      if(this.dropDown.class == 'agecategory'){
         matchFilterKey = 'competation_group_age';
+      }
+      if(this.dropDown.class == 'division'){
+        matchFilterKey = 'competation_group_division';
+      }
+      if(this.dropDown.class == 'agecategory-round' || this.dropDown.class == 'agecategory-division-round'){
+        matchFilterKey = 'competation_group_agecategory_round';
       }
      
       this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.filterValue);
@@ -208,9 +214,9 @@ export default {
             $('.competation_group').select2().val(null).trigger("change");
       
             _.map(response.data.data, function(ageCategory, ageCategoryId){
-              newOption.push({"id":ageCategory.id,"name": ageCategory.name,"class":"agecategory","data":ageCategoryId});
+              newOption.push({"id":ageCategoryId,"name": ageCategory.name,"class":"agecategory","data":ageCategoryId});
               _.map(ageCategory.groups.round_robin, function(groups, roundName){
-                newOption.push({"id":"","name": roundName,"class":"agecategory-round","data":""});
+                newOption.push({"id":ageCategoryId + "-" + "-" + roundName,"name": roundName,"class":"agecategory-round","data":ageCategoryId + "-" + roundName});
                 _.map(groups, function(group){
                   newOption.push({"id":group.id, "name": group.display_name, "class":"agecategory-round-group", "data":group});
                 });
@@ -218,7 +224,7 @@ export default {
               _.map(ageCategory.groups.divisions, function(division, divisionId){
                 newOption.push({"id":divisionId,"name": division.name,"class":"division","data":divisionId});
                 _.map(division.rounds, function(groups, roundName){
-                  newOption.push({"id":"","name": roundName,"class":"agecategory-division-round","data":""});
+                  newOption.push({"id":ageCategoryId + "-" + divisionId + "-" + roundName,"name": roundName,"class":"agecategory-division-round","data":ageCategoryId + "-" + roundName});
                   _.map(groups, function(group){
                     newOption.push({"id":group.id, "name": group.display_name, "class":"agecategory-division-round-group", "data":group});
                   });

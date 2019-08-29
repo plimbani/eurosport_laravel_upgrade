@@ -1441,15 +1441,24 @@ a.active-view:hover {
                 &.w-80{
                     width: 80px;
                 }
-                &.w-250{
-                    width: 250px;
+                &.w-180{
+                    width: 180px;
                 }
                 &.w-33{
                     width: 33%;
                 }  
                 &.position-number{
                     width: 40px;
-                } 
+                }
+                &.w-60{
+                    width: 60px;
+                }
+                &.w-50{
+                    width: 50px !important;
+                }
+                &.w-70{
+                    width: 70px;
+                }
             }
         }
     }
@@ -1460,28 +1469,24 @@ a.active-view:hover {
         &.agecategory {
             font-weight: bold;
             color: rgb(89, 89, 89);
-            pointer-events: none;
         }
 
         &.division {
             font-weight: bold;
             color: rgb(89, 89, 89);
             padding-left: 1em;
-            pointer-events: none;
         }
 
         &.agecategory-round {
             font-weight: bold;
             color: rgb(89, 89, 89);
             padding-left: 1em;
-            pointer-events: none;
         }
 
         &.agecategory-division-round {
             font-weight: bold;
             color: rgb(89, 89, 89);
             padding-left: 2em;
-            pointer-events: none;
         }
         
         &.agecategory-round-group {
