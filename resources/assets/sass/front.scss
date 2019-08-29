@@ -1454,3 +1454,48 @@ a.active-view:hover {
         }
     }
 }
+
+#select2-matches_category_filter-results {
+    li {
+        &.agecategory {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            pointer-events: none;
+        }
+
+        &.division {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            padding-left: 1em;
+            pointer-events: none;
+        }
+
+        &.agecategory-round {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            padding-left: 1em;
+            pointer-events: none;
+        }
+
+        &.agecategory-division-round {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            padding-left: 2em;
+            pointer-events: none;
+        }
+        
+        &.agecategory-round-group {
+            padding-left: 2em;
+            font-weight: normal;
+        }
+
+        &.agecategory-division-round-group {
+            padding-left: 3em;
+            font-weight: normal;
+        }
+
+        &.select2-results__option:before {
+            display: none;
+        }
+    }
+}

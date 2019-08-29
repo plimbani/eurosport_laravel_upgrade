@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-md-10">
           <div class="row align-items-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
               <form  class="form-inline summary-matches-filter">
                 <div class="form-group" v-if="section!='scheduleResult'">
                   <label class="radio-inline control-label">
@@ -65,12 +65,16 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-4 filterDropdown">
-              <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
+            <div class="col-md-6 filterDropdown">
+              <select :class="'form-control matches-groups-filter ls-select2 '+filterKey" v-if="filterKey == 'competation_group'" id="matches_category_filter">
+                <option value="" v-if="filterKey != 'age_category'">Select</option>
+                <option :disabled="option.class == 'age' || option.class == 'round' || option.class == 'division'" v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class">{{ option.name }}</option>
+              </select>
+              <!-- <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
                 <option   
                 v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class" >  {{ option.name }}</option>
-              </select>
+              </select> -->
               <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" v-else>
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
                 <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
@@ -203,19 +207,32 @@ export default {
           if(tourament_key == 'competation_group'){
             $('.competation_group').select2().val(null).trigger("change");
       
-            _.map(response.data.data, function(opt){
-              newOption.push({"id":opt.id,"name": opt.name,"class":"age","data":opt.id});
-              _.map(opt.competition, function(comp){
-                 let grpName =comp.name.split("-");
-                      grpName = grpName.splice(grpName.length-2,2);
-                      grpName =grpName.join('-');
-        
-                newOption.push({"id":comp.id, "name": grpName, "class":"group", "data":comp});
+            _.map(response.data.data, function(ageCategory, ageCategoryId){
+              newOption.push({"id":ageCategory.id,"name": ageCategory.name,"class":"agecategory","data":ageCategoryId});
+              _.map(ageCategory.groups.round_robin, function(groups, roundName){
+                newOption.push({"id":"","name": roundName,"class":"agecategory-round","data":""});
+                _.map(groups, function(group){
+                  newOption.push({"id":group.id, "name": group.display_name, "class":"agecategory-round-group", "data":group});
+                });
               });
-
+              _.map(ageCategory.groups.divisions, function(division, divisionId){
+                newOption.push({"id":divisionId,"name": division.name,"class":"division","data":divisionId});
+                _.map(division.rounds, function(groups, roundName){
+                  newOption.push({"id":"","name": roundName,"class":"agecategory-division-round","data":""});
+                  _.map(groups, function(group){
+                    newOption.push({"id":group.id, "name": group.display_name, "class":"agecategory-division-round-group", "data":group});
+                  });
+                });
+              });
             });
             $('.competation_group').select2({
-                minimumResultsForSearch: Infinity,
+                // minimumResultsForSearch: Infinity,
+                templateResult: function (data, container) {
+                  if (data.element) {
+                    $(container).addClass($(data.element).attr("class"));
+                  }
+                  return data.text;
+                }
             });
             var vm =this;
             $('.competation_group').on("select2:select", function (e) {
