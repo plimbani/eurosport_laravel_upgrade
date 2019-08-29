@@ -176,7 +176,7 @@ class TemplateRepository
         $finalArray = [];
         $finalArray['tournament_teams'] = $totalTeams;
         $templateFormDetail['stepone']['remarks'] ? $finalArray['remark'] = $templateFormDetail['stepone']['remarks'] : null;
-        // $finalArray['template_font_color'] = $templateFormDetail['stepone']['template_font_color'];
+        $finalArray['template_font_color'] = $templateFormDetail['stepone']['template_font_color'];
         $finalArray['tournament_name'] = $templateFormDetail['stepone']['templateName'];
         $finalArray['tournament_competation_format'] = [];
         $finalArray['tournament_competation_format']['format_name'] = [];
