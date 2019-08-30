@@ -42,7 +42,6 @@
 		30181D42212558900067D65F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D41212558900067D65F /* Utils.swift */; };
 		30181D4A212588340067D65F /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D49212588340067D65F /* Reachability.swift */; };
 		30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4B212590E30067D65F /* ImageNavigationBar.swift */; };
-		30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D4D212590EC0067D65F /* ImageNavigationBar.xib */; };
 		30181D502126BB520067D65F /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4F2126BB520067D65F /* ApiManager.swift */; };
 		30181D642126D7850067D65F /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D632126D7850067D65F /* Environments.swift */; };
 		30181D662126EB460067D65F /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
@@ -987,7 +986,6 @@
 				30181D342122C0370067D65F /* LabelSelectionCell.xib in Resources */,
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
-				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
 				30239DC12317F6720027EC2C /* GroupSummaryDropdownCell.xib in Resources */,
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
