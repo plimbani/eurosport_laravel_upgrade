@@ -1074,6 +1074,8 @@ class MatchService implements MatchContract
         $ageCategoryId = $competition->tournament_competation_template_id;
 
         $cupId = $compId;
+        $calculatedArray = [];
+        $head_to_head = false;
 
         //$cupRoundrobinData = $this->CupRoundrobin->find('first', array('conditions' => array('comp_id' => $cupId)));
 
