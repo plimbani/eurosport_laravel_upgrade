@@ -12,7 +12,7 @@
       </div>
       <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1" >
         <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
-        <label class="mb-0"><h5 class="mb-2">{{ getCompetitionName(matches) }} matches</h5></label>
+        <label class="mb-0" :class="getCompetitionIdFromMatch(matches)"><h5 class="mb-2">{{ getCompetitionName(matches) }} matches</h5></label>
         <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0 && isDivExist == 1">
           
           <MatchListTableHead :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
@@ -68,6 +68,17 @@
     },
     created() {
     },
+    watch: {
+      matches: {
+        handler: function (val, oldVal) {
+          let vm = this;
+          this.$nextTick(() => {
+            vm.scrollPageToCompetition();
+          });
+        },
+        deep: true,
+      }
+    },
     methods: {
       showPlacingForMatch() {
         if(this.currentView == 'Competition') {
@@ -114,7 +125,27 @@
         else{
           return '';
         }
-      }, 
+      },
+      getCompetitionIdFromMatch(matches) {
+        var getFirstMatch = _.head(matches);
+        if ( typeof(getFirstMatch) != 'undefined')
+        {
+          return "division-competition division-"+getFirstMatch.competitionId+"-scroll";
+        }
+      },
+      scrollPageToCompetition() {
+        if ( this.currentView == 'Competition')
+        {
+          let scrollToDiv = '.division-'+this.competitionDetail.id+'-scroll';
+          if ( $(scrollToDiv).length > 0)
+          {
+            let totalScroll =  ( $(scrollToDiv).offset().top - ($('header').height() + 40) );
+            $('html, body').animate({
+              'scrollTop' : totalScroll
+            });
+          }
+        }
+      }
     },
   };
 </script>
