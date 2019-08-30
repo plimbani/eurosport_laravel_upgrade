@@ -1,38 +1,34 @@
 <template>
   <div>
 	<div v-if="currentScheduleView == 'matchList'" class="row">
-		<div class="col-sm-4">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="row">
-						<div class="col-sm-12">
-							<h6 class="font-weight-bold fieldset-title">{{$lang.summary_schedule_match_overview}}:</h6>
-		 				</div>
-						<div class="col-6">
-							<select class="form-control ls-select2"
-							    v-on:change="onChangeMatchDate"
-								v-model="matchDate">
-								<option value="all">All dates</option>
-								<option v-for="option in tournamentDates" v-bind:value="option">
-									{{option | formatDate}}
-								</option>
-							</select>
-						</div>
-						<div class="col-6">
-							<select class="form-control ls-select2"
-								v-on:change="onChangeAllMatchScore"
-								v-model="matchScoreFilter">
-								<option value="all">Show all matches</option>
-								<option value="to_be_played">Show to be played</option>
-								<option value="played">Show played</option>
-							</select>
-						</div>
-					</div>
+		<div class="col-sm-12 mb-4">
+			<div class="row align-items-center">
+				<div class="col-md-2">
+					<h6 class="font-weight-bold fieldset-title mb-0">{{$lang.summary_schedule_match_overview}}:</h6>
+ 				</div>
+				<div class="col-md-4">
+					<select class="form-control ls-select2"
+					    v-on:change="onChangeMatchDate"
+						v-model="matchDate">
+						<option value="all">All dates</option>
+						<option v-for="option in tournamentDates" v-bind:value="option">
+							{{option | formatDate}}
+						</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<select class="form-control ls-select2"
+						v-on:change="onChangeAllMatchScore"
+						v-model="matchScoreFilter">
+						<option value="all">Show all matches</option>
+						<option value="to_be_played">Show to be played</option>
+						<option value="played">Show played</option>
+					</select>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-8">
-			 <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
+		<div class="col-sm-12 mb-4">
+			<tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
 		</div>
 	</div>
     <component :is="currentScheduleView"

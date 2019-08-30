@@ -107,14 +107,11 @@
     created() {
     },
     watch: {
-      matches: {
+      competitionDetail: {
+        immediate: true,
         handler: function (val, oldVal) {
-          let vm = this;
-          this.$nextTick(() => {
-            vm.scrollPageToCompetition();
-          });
+          this.scrollPageToCompetition();
         },
-        deep: true,
       },
     },
     methods: {
@@ -172,9 +169,10 @@
         }
       },
       scrollPageToCompetition() {
+        let vm = this;
         if ( this.currentView == 'Competition')
         {
-          let scrollToDiv = '.division-'+this.competitionDetail.id+'-scroll';
+          let scrollToDiv = '.division-'+vm.competitionDetail.id+'-scroll';
           if ( $(scrollToDiv).length > 0)
           {
             let totalScroll =  ( $(scrollToDiv).offset().top - ($('header').height() + 40) );
