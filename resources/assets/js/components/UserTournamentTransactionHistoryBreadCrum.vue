@@ -5,7 +5,7 @@
       <ol class="breadcrumb">
         <li><a href="/admin">Home</a></li>
         <li><a href="/users">Users</a></li>
-        <li><a href="javascript:void(0)" @click="redirectToTournamentList()">Tournament</a></li>
+        <li><a href="javascript:void(0)" @click="redirectToTournamentList()">Tournaments</a></li>
         <li class="active"><span>Transaction history</span></li>
       </ol>
     </div>
