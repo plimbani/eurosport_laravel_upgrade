@@ -59,21 +59,36 @@ class MatchRepository
 
       $reportQuery->where('competitions.tournament_id', $tournamentId);
       if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
-        $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName', DB::raw('(select count(*) from temp_fixtures where temp_fixtures.competition_id = competitions.id and temp_fixtures.is_scheduled = 1) AS scheduleCount'))->having('scheduleCount', '>', 0);
+        $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName', 'age_category_divisions.id as divisionId', DB::raw('(select count(*) from temp_fixtures where temp_fixtures.competition_id = competitions.id and temp_fixtures.is_scheduled = 1) AS scheduleCount'))->having('scheduleCount', '>', 0);
       } else {
-        $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName');
+        $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName', 'age_category_divisions.id as divisionId');
       }
       $reportQuery = $reportQuery->get();
 
       $divisionsData = [];
       $roundRobinData = [];
       $finalData = [];
-      $ageCategoryData = []; 
+      $ageCategoryData = [];
+      $roundRobinGroups = [];
+      $divisionGroups = [];
       foreach ($reportQuery as $data) {
         if($data->age_category_division_id != '') {
           $divisionsData[$data->divisionName][$data->competation_round_no][] = $data;
         } else {
-          $roundRobinData[$data->competation_round_no][] = $data; 
+          $roundRobinData[$data->competation_round_no][] = $data;
+          $roundRobinGroups[] = $data;
+        }
+      }
+
+      if((app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        $divisionIndex = 0;
+        foreach ($divisionsData as $divisionName => $divisionData) {
+          $divisionGroups[$divisionIndex]['title'] = $divisionName;
+          $divisionGroups[$divisionIndex]['data'] = [];
+          foreach ($divisionData as $roundKey => $groups) {
+            $divisionGroups[$divisionIndex]['data'] = array_merge($divisionGroups[$divisionIndex]['data'], $groups);
+          }
+          $divisionIndex++;
         }
       }
 
@@ -82,6 +97,11 @@ class MatchRepository
 
       $ageCategoryData['ageCategoryData'] = $finalData;
       $ageCategoryData['mainData'] = $reportQuery;
+
+      if((app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        $ageCategoryData['round_robin_groups'] = $roundRobinGroups;
+        $ageCategoryData['division_groups'] = $divisionGroups;
+      }
 
       return $ageCategoryData;
     }
@@ -461,10 +481,21 @@ class MatchRepository
                 break;
               case 'competation_group':
                 $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
-              break;
+                break;
               case 'competation_group_age':
                 $reportQuery =  $reportQuery->where('temp_fixtures.age_group_id','=',$tournamentData['filterValue']);
-              break;
+                break;
+              case 'competation_group_division':
+                $reportQuery =  $reportQuery->where('competitions.age_category_division_id','=',$tournamentData['filterValue']);
+                break;
+              case 'competation_group_agecategory_round':
+                $filterValue = explode("-", $tournamentData['filterValue']);
+                $reportQuery =  $reportQuery->where('temp_fixtures.age_group_id','=',$filterValue[0]);
+                if($filterValue[1] != "") {
+                  $reportQuery =  $reportQuery->where('competitions.age_category_division_id','=',$filterValue[1]);
+                }
+                $reportQuery =  $reportQuery->where('competitions.competation_round_no','=',$filterValue[2]);
+                break;
             }
           }
         }

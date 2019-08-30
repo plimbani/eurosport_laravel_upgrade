@@ -223,7 +223,7 @@ class TournamentService implements TournamentContract
         $total_time = $total_rr_time + $total_final_time;
 
         // Todo : Add font Color For this template
-        $template_font_color = $json_data->template_font_color;
+        $template_font_color = isset($json_data->template_font_color) ? $json_data->template_font_color : null;
 
         // Todo: add remark option
 

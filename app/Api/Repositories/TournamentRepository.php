@@ -1,6 +1,7 @@
 <?php
 namespace Laraspace\Api\Repositories;
 
+use DB;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -534,11 +535,36 @@ class TournamentRepository
                     //echo $resultData;
                     break;
                 case 'competation_group':
-                    $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
-                        ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id');
+                    // $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
+                    //     ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id');
 
                     if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
-                        $resultData = $resultData->whereHas('scheduledFixtures');
+                        $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
+                        ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id')->whereHas('scheduledFixtures');
+                    } else {
+                        $resultData = DB::table('competitions')
+                        ->where('competitions.tournament_id', $tournamentId)
+                        ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
+                        ->leftjoin('age_category_divisions', 'competitions.age_category_division_id', '=', 'age_category_divisions.id');
+
+                        $resultData->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName', 'age_category_divisions.id as divisionId', \DB::raw("CONCAT(tournament_competation_template.group_name, ' (', tournament_competation_template.category_age,')') AS age_category_name"));
+
+                        $resultData = $resultData->get();
+
+                        $finalData = [];
+                        $ageCategoryData = [];
+
+                        foreach ($resultData as $data) {
+                            $finalData[$data->tournament_competation_template_id]['name'] = $data->age_category_name;
+                            if($data->age_category_division_id != '') {
+                                $finalData[$data->tournament_competation_template_id]['groups']['divisions'][$data->divisionId]['name'] = $data->divisionName;
+                                $finalData[$data->tournament_competation_template_id]['groups']['divisions'][$data->divisionId]['rounds'][$data->competation_round_no][] = $data;
+                            } else {
+                                $finalData[$data->tournament_competation_template_id]['groups']['round_robin'][$data->competation_round_no][] = $data;
+                            }
+                        }
+
+                        return $finalData;
                     }
                     $resultData = $resultData->get();
             }

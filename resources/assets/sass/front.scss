@@ -1392,8 +1392,9 @@ a.active-view:hover {
                 width: auto;
 
                 a {
-                    margin-right: 5px;
-
+                    margin-right: 8px;
+                    display: inline-flex;
+                    align-items: center;
                     &:last-child {
                         margin-right: 0;
                     }
@@ -1439,19 +1440,29 @@ a.active-view:hover {
                 &.w-80{
                     width: 80px;
                 }
-                &.w-250{
-                    width: 250px;
+                &.w-180{
+                    width: 180px;
                 }
                 &.w-33{
                     width: 33%;
                 }  
                 &.position-number{
                     width: 40px;
-                } 
+                }
+                &.w-60{
+                    width: 60px;
+                }
+                &.w-50{
+                    width: 50px !important;
+                }
+                &.w-70{
+                    width: 70px;
+                }
             }
         }
     }
 }
+
 .grid-round {
     overflow-x: auto;
     display: flex;
@@ -1547,6 +1558,47 @@ a.active-view:hover {
                     border-top: none;
                 }
             }
+        }
+    }
+}
+
+#select2-matches_category_filter-results {
+    li {
+        &.agecategory {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+        }
+
+        &.division {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            padding-left: 1em;
+        }
+
+        &.agecategory-round {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            padding-left: 1em;
+        }
+
+        &.agecategory-division-round {
+            font-weight: bold;
+            color: rgb(89, 89, 89);
+            padding-left: 2em;
+        }
+        
+        &.agecategory-round-group {
+            padding-left: 2em;
+            font-weight: normal;
+        }
+
+        &.agecategory-division-round-group {
+            padding-left: 3em;
+            font-weight: normal;
+        }
+
+        &.select2-results__option:before {
+            display: none;
         }
     }
 }

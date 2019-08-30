@@ -68,6 +68,9 @@
                     this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
                     this.templateGraphicImage = this.editTournamentDetail.graphic_image;
                     this.showEditForm = true;
+                    if(response.data.isTemplateInUse === true) {
+                        this.templateFormDetail.stepone.templateName = '';
+                    }
                   },
                   (error)=> {
                   }

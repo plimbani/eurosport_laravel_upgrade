@@ -22,7 +22,7 @@ class automaticallyPermissionRemoval extends Command
      *
      * @var string
      */
-    protected $description = 'For Tournament administrators automatically remove their access once the tournament is finished.
+    protected $description = 'For Tournament administrators and Results administrators, automatically remove their access once the tournament is finished.
 ';
 
     /**
@@ -47,7 +47,7 @@ class automaticallyPermissionRemoval extends Command
         $allTournaments = Tournament::whereDate('end_date','<=',$yesterdayDate)->pluck('id')->toArray();
         $users = User::whereHas('roles', function($query)
                 {
-                    $query->where('slug', 'tournament.administrator');
+                    $query->where('slug', 'tournament.administrator')->orwhere('slug', 'Results.administrator');
                 })->get();
         foreach ($users as $user) {
             $userTournaments = $user->tournaments();

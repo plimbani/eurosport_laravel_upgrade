@@ -65,10 +65,10 @@ class TemplateRepository
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTemplateDetail($data)
+    public function getTemplateDetail($templateId)
     {
         $tournamentTemplates = TournamentCompetationTemplates::leftjoin('tournaments', 'tournament_competation_template.tournament_id', '=', 'tournaments.id')
-                                                            ->where('tournament_template_id', $data['templateData']['id'])
+                                                            ->where('tournament_template_id', $templateId)
                                                             ->select('tournament_competation_template.*', 'tournaments.name as templateName')
                                                             ->get();
 
@@ -484,7 +484,7 @@ class TemplateRepository
     public function getAverageMatches($totalMatches, $numTeams)
     {
        $averageMatches = $totalMatches / ($numTeams / 2);
-       return round($averageMatches, 1);
+       return number_format($averageMatches, 1);
     }
 
     // public function getMinimumMatches($templateFormDetail)

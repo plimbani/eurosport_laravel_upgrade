@@ -6,10 +6,10 @@
 		        <div class="form-group">
 		        	<div class="radio">
 	                    <div class="c-input">
-	                        <input type="radio" :id="'round_robin' + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label :for="'round_robin' + index" class="d-inline-flex mr-5">Round robin</label>
-	                        <input type="radio" :id="'placing_match' + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label :for="'placing_match' + index" class="d-inline-flex">Placing match</label>
+	                        <input :name="'group_type' + divisionIndex + roundIndex + index" type="radio" :id="'round_robin' + divisionIndex + roundIndex + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'round_robin' + divisionIndex + roundIndex + index" class="d-inline-flex mr-5">Round robin</label>
+	                        <input :name="'group_type' + divisionIndex + roundIndex + index" type="radio" :id="'placing_match' + divisionIndex + roundIndex + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'placing_match' + divisionIndex + roundIndex + index" class="d-inline-flex">Placing match</label>
 	                    </div>
 	                </div>
 
@@ -49,8 +49,8 @@
 				        	<div class="col-md-9" v-if="showHideIsFinal((teamIndex/2))">
 				        		<div class="checkbox">
                                   	<div class="c-input">
-                                    	<input type="checkbox" :id="'match_status' + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
-                                    	<label :for="'match_status' + index + teamIndex">Final </label>
+                                    	<input type="checkbox" :id="'match_final' + divisionIndex + roundIndex + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
+                                    	<label :for="'match_final' + divisionIndex + roundIndex + index + teamIndex">Final </label>
                                   	</div>
                                 </div>
 
@@ -62,14 +62,14 @@
 		        		<div class="row align-items-center">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
-				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Home' : 'Away') )  }}
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Team 1' : 'Team 2') )  }}
 				        		</label>
 				        	</div>
 				        	<div class="col-md-9">
 				        		<div class="row">
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
+					        				<select :class="getPositionTypeClassNames(teamIndex)" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
 					        					<option :value="position.key" v-for="position in getPositionTypes()">{{ position.value }}</option>
 						                    </select>
 						                </div>
@@ -83,8 +83,8 @@
 				        			</div>
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
-					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group)">{{ position.name }}</option>
+					        				<select :data-team-index="teamIndex" :class="getPositionClassNames()" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
+					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group, team.position, team.position_type)">{{ position.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
@@ -141,8 +141,9 @@
 		    			if(i % 2 == 0) {
 		    				teams.push(i);
 		    			}
+		    		} else {
+		    			teams.push(i);
 		    		}
-		    		teams.push(i);
 	    		}
 
 		    	return teams;
@@ -334,7 +335,7 @@
 				}
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection(teamIndex, group) {
+		    getPositionsForSelection(teamIndex, group, selectedPosition, selectedPositionType) {
 		    	let vm = this;
 			    var positionsForSelection = [];
 
@@ -367,7 +368,7 @@
 
 			    if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
 			    	_.forEach(this.groupData.teams, function(team, teamIndex) {
-		    			positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
+			    		positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
 		    		});
 		    		return positionsForSelection;
 			    }
@@ -603,7 +604,13 @@
 		    		return true;
 		    	}
 		    	return false;
-		    }
+		    },
+		    getPositionClassNames() {
+		    	return "form-control ls-select2 js-select-position js-select-position-" + this.divisionIndex + this.roundIndex + this.index;
+		    },
+		    getPositionTypeClassNames(teamIndex) {
+		    	return 'form-control ls-select2 js-select-position-type-' + this.divisionIndex + this.roundIndex + this.index + this.teamIndex;
+		    },
         }
     }
 </script>

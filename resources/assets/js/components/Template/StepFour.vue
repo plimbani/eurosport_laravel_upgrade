@@ -29,7 +29,7 @@
 										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
 											<div class="round-matches">
 												<span class="w-80" v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-												<span v-if="roundIndex > 0" :class="{'w-250': groupPositionType(group.teams)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
+												<span v-if="roundIndex > 0" :class="{'w-180': groupPositionType(group.teams)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
 											</div>
 										</li>
 										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
@@ -40,9 +40,9 @@
 													<span class="w-80">{{ 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
 												</div>
 												<div v-if="roundIndex > 0" class="round-matches">
-													<span :class="{'w-250': groupPositionType(team.position_type)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
+													<span :class="{'w-180': groupPositionType(team.position_type)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
 													<span class="w-7">vs</span>
-													<span v-if="roundIndex > 0" :class="{'w-250': groupPositionType(group.teams)}" v-html="getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type)"></span>
+													<span v-if="roundIndex > 0" :class="{'w-180': groupPositionType(group.teams)}" v-html="getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type)"></span>
 												</div>
 												<!-- <span v-if="roundIndex > 0" class="round-matches">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span> -->
 											</div>
@@ -99,9 +99,9 @@
 																	<span class="w-80">{{ 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
 																</div>
 																<div v-if="roundIndex > 0">
-																	<span :class="{'w-250': groupPositionType(group.teams)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
+																	<span :class="{'w-180': groupPositionType(group.teams)}" v-html="getMatchDetail(team.position, team.position_type)"></span>
 																	<span class="w-7">vs</span>
-																	<span :class="{'w-250': groupPositionType(group.teams)}" 
+																	<span :class="{'w-180': groupPositionType(group.teams)}" 
 																	v-html="getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type)"></span>
 																	<!-- <span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span> -->
 																</div>
@@ -133,7 +133,7 @@
 										<li v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
 											<div class="round-matches">
 												<span class="position-number d-inline-block">{{ getSuffixForPosition((placingIndex + 1)) }}</span>
-												<span class="w-250" v-html="getMatchDetail(placing.position, placing.position_type)"></span>
+												<span class="w-180" v-html="getMatchDetail(placing.position, placing.position_type)"></span>
 												<!-- <span>{{ getSuffixForPosition((placingIndex + 1)) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + getMatchDetail(placing.position, placing.position_type) }}</span> -->
 											</div>
 										</li>
@@ -287,7 +287,7 @@
 				    	if(groupData.type === 'placing_match') {
 				    		groupName = 'PM ' + this.getPlacingMatchGroupName(roundData, groupIndex);
 				    		// return (positionType.charAt(0).toUpperCase() + positionType.slice(1)) + ' ' + groupName + ' Match ' + position;
-				    		return '<span class="w-33 d-inline-block">' + positionType.charAt(0).toUpperCase() + positionType.slice(1) + '</span><span class="w-33 d-inline-block">' + groupName +  '</span><span class="w-33 d-inline-block">Match '+ position +'</span>';
+				    		return '<span class="w-60 d-inline-block">' + positionType.charAt(0).toUpperCase() + positionType.slice(1) + '</span><span class="w-50 d-inline-block">' + groupName +  '</span><span class="w-70 d-inline-block">Match '+ position +'</span>';
 				    	}
 				    }
 			    }

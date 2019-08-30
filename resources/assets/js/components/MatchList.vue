@@ -22,12 +22,12 @@
   <div v-if="matchData.length > 0 && isDivExist == 1">
     <div v-for="(matches,index) in isDivExistData">
       <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
-      <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
+      <label class="mb-0" :class="getCompetitionIdFromMatch(matches)"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 
       <table class="table table-hover table-bordered table-sm matchSchedule">
         <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="getMatchList()" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 
+        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 
 
       </table>
     </div>
@@ -211,6 +211,10 @@ export default {
           vm.isDivExist = 0;
           vm.isDivExistData = new Array();
         }
+
+        this.$nextTick(() => {
+          vm.scrollPageToCompetition();
+        });
       },
       deep: true,
     },
@@ -537,7 +541,28 @@ export default {
     {
       window.sectionVal = sectionVal;
       $('#unSaveMatchModal').modal('show');
+    },
+    getCompetitionIdFromMatch(matches) {
+      var getFirstMatch = _.head(matches);
+      if ( typeof(getFirstMatch) != 'undefined')
+      {
+        return "division-competition division-"+getFirstMatch.competitionId+"-scroll";
+      }
+    },
+    scrollPageToCompetition() {
+      if ( this.getCurrentScheduleView == 'drawDetails')
+      {
+        let scrollToDiv = '.division-'+this.DrawName.id+'-scroll';
+        if ( $(scrollToDiv).length > 0)
+        {
+          let totalScroll =  ( $(scrollToDiv).offset().top - ($('header').height() + 40) );
+          $('html, body').animate({
+            'scrollTop' : totalScroll
+          });
+        }
+      }
     }
+
   },
 }
 </script>

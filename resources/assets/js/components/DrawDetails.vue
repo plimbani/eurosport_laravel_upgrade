@@ -34,8 +34,8 @@
     <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available</span>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
-<div class="table-responsive mb-4">
-  <table class="table table-hover table-bordered tbl-drawdetails mb-0" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
+<div class="table-responsive mb-4" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'">
+  <table class="table table-hover table-bordered tbl-drawdetails mb-0" border="1">
     <thead>
       <tr>
           <th></th>
@@ -81,7 +81,7 @@
     </tbody>
   </table>
 </div>
-  <div class="form-group">
+  <div class="form-group" v-if="otherData.DrawType != 'Elimination'">
     <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0 fieldset-title">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
@@ -195,10 +195,10 @@ export default {
                   }
                 });
 
-                vm.onChangeDrawDetails();
-                if ( currDId != undefined){
-                  vm.refreshStanding();
-                }
+                vm.initializeStandings();
+                // if ( currDId != undefined){
+                //   vm.refreshStanding();
+                // }
               });
 
               $("#drawName").val(currDId).trigger('change');
@@ -341,6 +341,18 @@ export default {
           let Name = this.DrawName.name
           if(Id != undefined && Name != undefined)
             this.$root.$emit('changeDrawListComp',Id, Name); */
+        },
+        initializeStandings() {
+          this.$store.dispatch('setCurrentScheduleView','drawDetails');
+          window.competitionChange = this.DrawName;
+          let Id = this.DrawName.id
+          let Name = this.DrawName.name
+          let CompetationType = this.DrawName.actual_competition_type
+          this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+          this.$root.$emit('getcurrentCompetitionStanding', Id);
+          this.setTeamData()
+          this.currentCompetationId = Id;
+          this.teamStatus = true;
         },
         checkTeamId(teamId) {
             return teamId.Home_id
