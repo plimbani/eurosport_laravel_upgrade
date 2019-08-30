@@ -1,6 +1,6 @@
 <template>
   <div class="row align-items-center">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <h6 class="font-weight-bold fieldset-title mb-0">{{$lang.teams_filter}}</h6>
     </div>
     <div class="col-md-4">
@@ -76,7 +76,7 @@
         <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
       </select>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
       <a href="javascript:void(0)" class="btn btn-secondary btn-block" @click="clearFilter()">{{$lang.teams_clear}}</a>
     </div>
   </div>

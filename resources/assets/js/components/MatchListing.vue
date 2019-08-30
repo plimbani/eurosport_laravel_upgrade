@@ -3,7 +3,7 @@
 	<div v-if="currentScheduleView == 'matchList'" class="row">
 		<div class="col-sm-12 mb-4">
 			<div class="row align-items-center">
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<h6 class="font-weight-bold fieldset-title mb-0">{{$lang.summary_schedule_match_overview}}:</h6>
  				</div>
 				<div class="col-md-4">
