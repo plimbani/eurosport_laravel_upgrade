@@ -141,50 +141,47 @@
                   <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">{{ roundIndex + 1 }}</span>
                 </div>
                 <div class="round-details-wrapper">
-                  <h6 class="text-center text-uppercase font-weight-bold mb-2">Round Robin</h6>
+                  <!-- <h6 class="text-center text-uppercase font-weight-bold mb-2">Round Robin</h6> -->
                   <div v-for="(group, groupIndex) in round.match_type">
                     
-                    <!-- round 1 -->
-                    <div class="group-listing" v-if="roundIndex == 0 && getGroupType(group) == 'RR'">
-                        <div class="row-round">
-                            <div class="group-column">
-                                <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
+                    <!-- Round 2 - PM -->
+                    <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
+                      <div class="bordered-box" v-if="checkForMatchNumberInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberInPosition('placing_match', match.match_number) }}</span></div>
+                      <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ roundIndex + 1 }}.{{ matchIndex + 1 }}</span></div>
+                      <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ match.display_home_team_placeholder_name }}-{{ match.display_away_team_placeholder_name }}</span></div>
+                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'home') }}</span></div>
+                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'away') }}</span></div>
+                    </div>
+
+                    <!-- round 2 - RR -->
+                    <div v-if="getGroupType(group) == 'RR'">
+                        <div class="group-listing">
+                          <div class="row-round">
+                            <div class="group-column" v-if="roundIndex == 0">
+                                <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
                                 <div class="bordered-box" v-for="team in group.group_count">
                                     <span class="font-weight-bold">#{{ team }}</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- round 2 - PM -->
-                    <div class="row-round" v-if="roundIndex <= 1 && getGroupType(group) == 'PM' && roundIndex != lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
-                      <div class="bordered-box"><span class="font-weight-bold small">Match {{ roundIndex + 1 }}.{{ matchIndex + 1 }}</span></div>
-                      <div class="bordered-box"><span class="small">{{ match.display_home_team_placeholder_name }}-{{ match.display_away_team_placeholder_name }}</span></div>
-                    </div>
 
-                    <!-- round 2 - RR -->
-                    <div v-if="roundIndex == 1 && getGroupType(group) == 'RR' && roundIndex != lastRoundIndex">
-                        <div class="group-listing">
-                          <div class="group-column" v-if="roundIndex == 0">
-                            <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
-                            <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
-                              <span class="font-weight-bold">{{ team }}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="group-listing">
-                          <div class="row-round">
-                            <div class="group-column">
+                            <div class="group-column" v-if="roundIndex >= 1">
                               <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
                               <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
                                 <span class="font-weight-bold">{{ team }}</span>
                               </div>
                             </div>
 
-                            <div class="group-column" v-if="roundIndex == 1">
+                            <div class="group-column" v-if="roundIndex >= 1">
+                              <h6 class="m-0 font-weight-bold">&nbsp;</h6>
+                              <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
+                                <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
+                              </div>
+                            </div>
+
+                            <div class="group-column" v-if="roundIndex == lastRoundIndex">
                               <h6 class="m-0 font-weight-bold">Ranking</h6>
                               <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                                <span class="font-weight-bold"># {{teamIndex+1}}{{getGroupNameIntial(group)}}</span>
+                                <span class="font-weight-bold">{{ checkForMatchNumberInPosition('round_robin', getGroupName(group.groups.group_name) + (teamIndex+1)) }}</span>
                               </div>
                             </div>
                           </div>
@@ -208,6 +205,75 @@
                         </div>
                       </div>
                     </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-division">
+                <div class="division-block d-flex" v-for="(division, divisionIndex) in divisions()">
+                  <div class="col-round" v-for="(round, roundIndex) in division.format_name">
+                    <div class="round-img-wrapper" v-if="divisionIndex === 0">
+                      <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">{{ getMainNoOfRoundCount() + roundIndex + 1 }}</span>
+                    </div>
+                    <div class="round-details-wrapper">
+                      <!-- <h6 class="text-center text-uppercase font-weight-bold mb-2">Round Robin</h6> -->
+                      <div v-for="(group, groupIndex) in round.match_type">
+                        <!-- Round 2 - PM -->
+                        <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
+                          <div class="bordered-box" v-if="checkForMatchNumberInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberInPosition('placing_match', match.match_number) }}</span></div>
+                          <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ getMainNoOfRoundCount() + roundIndex + 1 }}.{{ matchIndex + 1 }}</span></div>
+                          <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ match.display_home_team_placeholder_name }}-{{ match.display_away_team_placeholder_name }}</span></div>
+                          <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'home') }}</span></div>
+                          <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'away') }}</span></div>
+                        </div>
+
+                        <!-- round 2 - RR -->
+                        <div v-if="getGroupType(group) == 'RR'">
+                          <div class="group-listing">
+                            <div class="row-round">
+                              <div class="group-column">
+                                <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
+                                <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
+                                  <span class="font-weight-bold">{{ team }}</span>
+                                </div>
+                              </div>
+
+                              <div class="group-column">
+                                <h6 class="m-0 font-weight-bold">&nbsp;</h6>
+                                <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
+                                  <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
+                                </div>
+                              </div>
+
+                              <div class="group-column" v-if="roundIndex == lastRoundIndex">
+                                <h6 class="m-0 font-weight-bold">Ranking</h6>
+                                <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
+                                  <span class="font-weight-bold">{{ checkForMatchNumberInPosition('round_robin', getGroupName(group.groups.group_name) + (teamIndex+1)) }}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- for last round -->
+                        <!-- <div v-if="roundIndex == lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
+                          <div class="row-round">
+                            <div class="bordered-box"><span class="font-weight-bold small">Final</span></div>
+                            <div class="bordered-box" v-if="getGroupType(group) == 'PM' && getMatchesWithWinnerOrLooser(match) == '#'">
+                              <span class="font-weight-bold small">
+                              {{ match.display_home_team_placeholder_name }}-{{match.display_away_team_placeholder_name}}
+                              </span>
+                            </div>
+                            <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
+                              <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_home_team_placeholder_name }}</span>
+                            </div>
+                            <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
+                              <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_away_team_placeholder_name }}</span>
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -236,7 +302,14 @@
     },
     computed: {
       lastRoundIndex() {
-        return _.findLastIndex(this.templateData.tournament_competation_format.format_name);
+        let mostDivisionRounds = 0;
+        _.forEach(this.templateData.tournament_competation_format.divisions, function(division) {
+          if(mostDivisionRounds < division.format_name.length) {
+            mostDivisionRounds = division.format_name.length;
+          }
+        });
+
+        return this.templateData.tournament_competation_format.format_name.length + mostDivisionRounds - 1;
       },
     },
    methods:{
@@ -251,6 +324,12 @@
         return this.templateData.tournament_competation_format.format_name;
       }
       return [];
+    },
+    getMainNoOfRoundCount() {
+      if(this.templateData.tournament_competation_format != undefined) {
+        return this.templateData.tournament_competation_format.format_name.length;
+      }
+      return 0;
     },
     positions() {
       return this.templateData.tournament_positions;
@@ -275,14 +354,57 @@
 
       return groupNameArray[1];
     },
-    getMatchesWithWinnerOrLooser(match) {
-      let displayMatchNumber = match.display_match_number;
+    getMatchesWithWinnerOrLooser(displayMatchNumber) {
       let displayMatchNumberArray = displayMatchNumber.split(".");
       if(displayMatchNumberArray.includes("wrs") || displayMatchNumberArray.includes("lrs")) {
         return displayMatchNumberArray[3] == 'wrs' ? 'Winner' : 'Loser';
-      } 
+      }
       return "#";
-    }
+    },
+    checkIfWinnerLoserMatch(matchNumber) {
+      return (matchNumber.indexOf("WR") !== -1 || matchNumber.indexOf("LR") !== -1);
+    },
+    getTeamPlaceHolder(match, teamType) {
+      let displayMatchNumber = match.display_match_number;
+      let displayMatchNumberArray = displayMatchNumber.split(".");
+      if(displayMatchNumberArray.includes("wrs") || displayMatchNumberArray.includes("lrs")) {
+        return (displayMatchNumberArray[3] == 'wrs' ? 'Winner' : 'Loser') + ' ' + (teamType === 'home' ? match.display_home_team_placeholder_name : match.display_away_team_placeholder_name);
+      }
+      return (teamType === 'home' ? match.display_home_team_placeholder_name : match.display_away_team_placeholder_name);
+    },
+    divisions() {
+      if(this.templateData.tournament_competation_format != undefined) {
+        return this.templateData.tournament_competation_format.divisions;
+      }
+      return [];
+    },
+    getGroupName(groupName) {
+      groupName = groupName.split('-');
+      return groupName[1];
+    },
+    checkForMatchNumberInPosition(roundType, matchOrRanking) {
+      let dependentType = roundType === 'round_robin' ? 'ranking' : 'match';
+      let filteredPositions = _.filter(this.templateData.tournament_positions, function(o) {
+        if(dependentType === 'ranking') {
+          return o.ranking === matchOrRanking;
+        }
+        if(dependentType === 'match') {
+          return o.match_number === matchOrRanking;
+        }
+      });
+      if(filteredPositions.length > 0) {
+        if(roundType === 'placing_match' && filteredPositions.length === 2) {
+          let winnerPosition = _.head(_.filter(filteredPositions, function(o) { return o.result_type === 'winner'; }));
+          let loserPosition = _.head(_.filter(filteredPositions, function(o) { return o.result_type === 'loser'; }));
+          if(winnerPosition.position === 1 && loserPosition.position === 2) {
+            return "Final";
+          }
+          return "Place " + winnerPosition.position + "-" + loserPosition.position;
+        }
+        return filteredPositions[0].position;
+      }
+      return false;
+    },
    }
  }
 </script>

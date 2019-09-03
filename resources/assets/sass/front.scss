@@ -1469,6 +1469,15 @@ a.active-view:hover {
     padding: 10px;
     font-size: 12px;
 
+    .grid-division {
+        float: left;
+        flex: none;
+
+        .division-block {
+            clear: both;
+        }
+    }
+
     .col-round {
         float: left;
         flex: none;
