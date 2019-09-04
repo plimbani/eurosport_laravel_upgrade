@@ -269,25 +269,40 @@
       }
     },
     getPlacingWinnerLoserTeam(match, teamType) {
-      let matchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
-      if(teamType === 'home' && typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].home_team !== 0) {
-        return this.fixtures[matchNumber].home_team_name;
+      let modifiedMatchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
+      if(teamType === 'home' && typeof this.fixtures[modifiedMatchNumber] !== 'undefined' && this.fixtures[modifiedMatchNumber].home_team !== 0) {
+        return this.fixtures[modifiedMatchNumber].home_team_name;
       }
 
-      if(teamType === 'away' && typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].away_team !== 0) {
-        return this.fixtures[matchNumber].away_team_name;
+      if(teamType === 'away' && typeof this.fixtures[modifiedMatchNumber] !== 'undefined' && this.fixtures[modifiedMatchNumber].away_team !== 0) {
+        return this.fixtures[modifiedMatchNumber].away_team_name;
       }
 
-      let displayMatchNumber = match.display_match_number;
-      let displayMatchNumberArray = displayMatchNumber.split(".");
-      if(displayMatchNumberArray.includes("wrs") || displayMatchNumberArray.includes("lrs")) {
-        return (displayMatchNumberArray[3] == 'wrs' ? 'Winner' : 'Loser') + ' ' + (teamType === 'home' ? match.display_home_team_placeholder_name : match.display_away_team_placeholder_name);
+      let matchNumber = (match.match_number).split('.');
+      let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
+      if(teamType === 'home') {
+        if(homeAwayTeam[0].indexOf('WR') !== -1) {
+          return 'Winner ' + match.display_home_team_placeholder_name;
+        }
+        if(homeAwayTeam[0].indexOf('LR') !== -1) {
+          return 'Loser ' + match.display_home_team_placeholder_name;
+        }
+        return match.display_home_team_placeholder_name;
       }
-      return (teamType === 'home' ? match.display_home_team_placeholder_name : match.display_away_team_placeholder_name);
+
+      if(teamType === 'away') {
+        if(homeAwayTeam[1].indexOf('WR') !== -1) {
+          return 'Winner ' + match.display_away_team_placeholder_name;
+        }
+        if(homeAwayTeam[1].indexOf('LR') !== -1) {
+          return 'Loser ' + match.display_away_team_placeholder_name;
+        }
+        return match.display_away_team_placeholder_name;
+      }
     },
     getDivisionRounds() {
       let divisions = [];
-      if(this.templateData.tournament_competation_format != undefined) {
+      if(typeof this.templateData.tournament_competation_format !== 'undefined' && typeof this.templateData.tournament_competation_format.divisions !== 'undefined') {
         _.forEach(this.templateData.tournament_competation_format.divisions, function(division) {
           _.forEach(division.format_name, function(round, roundIndex) {
             if(typeof divisions[roundIndex] === 'undefined') {

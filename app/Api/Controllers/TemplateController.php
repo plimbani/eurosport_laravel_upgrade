@@ -3,8 +3,10 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Anam\PhantomMagick\Converter;
 use Illuminate\Routing\Controller;
 use Laraspace\Models\TournamentTemplates;
+use VerumConsilium\Browsershot\Facades\PDF;
 use Laraspace\Api\Contracts\TemplateContract;
 use Laraspace\Http\Requests\Template\EditRequest;
 use Laraspace\Http\Requests\Template\StoreRequest;
@@ -306,5 +308,25 @@ class TemplateController extends BaseController
         }
 
         echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+    }
+
+    public function generateTemplateGraphic()
+    {
+        
+        
+        // $pdfStoredPath = PDF::loadUrl('https://google.com')
+        //               ->download('myawesomepdf.pdf', [
+        //                 'Authorization' => 'token'
+        //               ]);
+        // return $pdfStoredPath;
+        //               exit;
+
+
+        // $conv = new Converter();
+        // $conv->setBinary('C:\xampp\htdocs\wot\node_modules\phantomjs\lib\phantom\bin\phantomjs.exe');
+        // $conv->source('http://google.com')
+        //     ->toPng();
+        // $conv->download('google.pdf', true);
+        // return view('template.graphic');
     }
 }

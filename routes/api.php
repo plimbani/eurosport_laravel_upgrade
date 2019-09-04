@@ -108,6 +108,8 @@ $api->version('v1', function ($api) {
     $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
     $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
+
+    $api->get('generateTemplateGraphic','Laraspace\Api\Controllers\TemplateController@generateTemplateGraphic');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
