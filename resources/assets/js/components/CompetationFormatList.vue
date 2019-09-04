@@ -52,7 +52,7 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :fixures="ageCategoryTempFixtures" :totalTime="totalTime" :templateGraphicViewImage="templateGraphicViewImage" v-if="isViewModalShown"></competationModal>
+          <competationModal :templateData="templateData" :assignedTeams="assignedTeams" :fixtures="ageCategoryTempFixtures" :totalTime="totalTime" :templateGraphicViewImage="templateGraphicViewImage" :groupName="groupName" :categoryAge="categoryAge" v-if="isViewModalShown"></competationModal>
           <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
@@ -104,6 +104,10 @@ export default {
       copyCategoryStatus: false,
       copiedAgeCategoryId: '',
       ageCategoryTempFixtures: [],
+      assignedTeams: [],
+      groupName: null,
+      categoryAge: null,
+      assignedTeams: [],
       isViewModalShown: false
     }
   },
@@ -157,7 +161,10 @@ export default {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
             this.ageCategoryTempFixtures = response.data.data.temp_fixtures;
-            this.templateGraphicViewImage = response.data.data.graphic_image
+            this.templateGraphicViewImage = response.data.data.graphic_image;
+            this.assignedTeams = response.data.data.assigned_teams;
+            this.groupName = response.data.data.group_name;
+            this.categoryAge = response.data.data.category_age;
             this.totalTime = tTime
              $("#competationmodal").modal("show");
           }

@@ -101,17 +101,21 @@ class TournamentRepository
 
         $tournamentTemplateData              = [];
         $tournamentTemplateData['json_data'] = '';        
-        $tempFixtures = TempFixture::where('age_group_id', $ageCategoryId)->get()->keyBy('match_number')->toArray();
+        $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)->get()->keyBy('match_number')->where('deleted_at', NULL)->toArray();
+        $assignedTeams = Team::whereNotNull('competation_id')->get();
+        $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
         if($tournamentTemplateId != NULL) {
             $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
             $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
         } else {
-            $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
         }
         $tournamentTemplateData['temp_fixtures'] = $tempFixtures;
+        $tournamentTemplateData['assigned_teams'] = $assignedTeams;
+        $tournamentTemplateData['group_name'] = $tournamentCompetitionTemplate->group_name;
+        $tournamentTemplateData['category_age'] = $tournamentCompetitionTemplate->category_age;
 
         return $tournamentTemplateData;
     }

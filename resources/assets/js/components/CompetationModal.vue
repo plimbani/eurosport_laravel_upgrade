@@ -10,23 +10,6 @@
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
-            <!-- <div class="row">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template-image-modal">Enlarge</button>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-center">
-                  <div class="d-block mx-auto">
-                    <img class="img-fluid" v-bind:src="'/'+templateImage">
-                  </div>
-                </div>
-              </div>
-            </div> -->
-          
             <div class="row">
               <div class="col-md-6">
                 <div class="jumbotron h-100 mb-0 px-4 py-4">
@@ -78,63 +61,6 @@
                 <img class="img-fluid" :src="templateGraphicViewImage">
               </div>
             </div>
-
-
-            <!-- my code -->
-            <!-- <div class="row">
-              <div class="col-md-4" v-for="(round, roundIndex) in rounds()">
-                <h4>{{ round.name }}</h4>
-                <div v-for="(group, groupIndex) in round.match_type">
-                  
-                round 1
-                <h5>{{ group.groups.group_name }}</h5>
-
-                <div v-if="roundIndex == 0">
-                  <ul class="list-unstyled">
-                    <li v-for="team in group.group_count"># {{ team }}</li>
-                  </ul>
-                </div>
-                
-                <div v-for="(match, matchIndex) in group.groups.match">
-                  round 2 for PM
-                  <div class="row" v-if="roundIndex == 1 && getGroupType(group) == 'PM'">
-                    <div class="col-md-6">
-                      <p>Match {{ roundIndex + 1 }} . {{ matchIndex + 1 }}</p>
-                    </div>
-                    <div class="col-md-6">
-                      <p>{{ match.display_home_team_placeholder_name }} - {{ match.display_away_team_placeholder_name }}</p>
-                    </div>
-                  </div>
-
-                  round 2 for RR
-                  <div class="row" v-if="roundIndex == 1 && getGroupType(group) == 'RR'">
-                    <div class="col-md-6">
-                      <p>Group</p>
-                      <p>Ranking</p>
-
-                      {{ getUniqueTeams(group.groups.match) }}
-                    </div>
-                    <div class="col-md-6">
-                      <p>D</p>
-                      <p>#1D</p>
-                    </div>
-                  </div>
-
-                  round 3
-                  <div v-if="roundIndex == lastRoundIndex">
-                    <div class="col-md-6 row">
-                        <p>Final</p>
-                    </div>
-                    <div class="col-md-6 row">
-                        <p> winner {{ match.display_home_team_placeholder_name  }} - winner {{ match.display_away_team_placeholder_name }}</p>
-                    </div>
-                  </div>
-                </div>
-
-                </div>
-              </div>
-            </div> -->
-
             <div class="grid-round">
               <div class="col-round" v-for="(round, roundIndex) in rounds()">
                 <div class="round-img-wrapper">
@@ -142,143 +68,94 @@
                 </div>
                 <div class="round-details-wrapper">
                   <!-- <h6 class="text-center text-uppercase font-weight-bold mb-2">Round Robin</h6> -->
-                  <div v-for="(group, groupIndex) in round.match_type">
+                  <div :class="{'mt-4': groupIndex !== 0}" v-for="(group, groupIndex) in round.match_type">
                     
                     <!-- Round 2 - PM -->
                     <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
-                      <div class="bordered-box" v-if="checkForMatchNumberInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberInPosition('placing_match', match.match_number) }}</span></div>
-                      <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ roundIndex + 1 }}.{{ matchIndex + 1 }}</span></div>
-                      <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ match.display_home_team_placeholder_name }}-{{ match.display_away_team_placeholder_name }}</span></div>
-                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'home') }}</span></div>
-                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'away') }}</span></div>
+                      <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberOrRankingInPosition('placing_match', match.match_number) }}</span></div>
+                      <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ getMatchNumber(match.display_match_number) }}</span></div>
+                      <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingTeam(match, 'home') }}-{{ getPlacingTeam(match, 'away') }}</span></div>
+                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'home') }}</span></div>
+                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'away') }}</span></div>
                     </div>
 
                     <!-- round 2 - RR -->
                     <div v-if="getGroupType(group) == 'RR'">
-                        <div class="group-listing">
-                          <div class="row-round">
-                            <div class="group-column" v-if="roundIndex == 0">
-                                <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
-                                <div class="bordered-box" v-for="team in group.group_count">
-                                    <span class="font-weight-bold">#{{ team }}</span>
-                                </div>
+                      <div class="row-round">
+                        <div class="group-column" v-if="roundIndex == 0">
+                            <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
+                            <div class="bordered-box" v-for="team in group.group_count">
+                                <span class="font-weight-bold">{{ getRoundRobinAssignedTeam(getGroupName(group.groups.group_name), team) }}</span>
                             </div>
+                        </div>
 
-                            <div class="group-column" v-if="roundIndex >= 1">
-                              <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
-                              <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
-                                <span class="font-weight-bold">{{ team }}</span>
-                              </div>
-                            </div>
-
-                            <div class="group-column" v-if="roundIndex >= 1">
-                              <h6 class="m-0 font-weight-bold">&nbsp;</h6>
-                              <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                                <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
-                              </div>
-                            </div>
-
-                            <div class="group-column" v-if="roundIndex == lastRoundIndex">
-                              <h6 class="m-0 font-weight-bold">Ranking</h6>
-                              <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                                <span class="font-weight-bold">{{ checkForMatchNumberInPosition('round_robin', getGroupName(group.groups.group_name) + (teamIndex+1)) }}</span>
-                              </div>
-                            </div>
+                        <div class="group-column" v-if="roundIndex >= 1">
+                          <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
+                          <div class="bordered-box" v-for="(team, teamIndex) in getRoundRobinUniqueTeams(group.groups.match)">
+                            <span class="font-weight-bold">{{ team }}</span>
                           </div>
                         </div>
-                    </div>
-                    
-                    <!-- for last round -->
-                    <!-- <div v-if="roundIndex == lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
-                      <div class="row-round">
-                        <div class="bordered-box"><span class="font-weight-bold small">Final</span></div>
-                        <div class="bordered-box" v-if="getGroupType(group) == 'PM' && getMatchesWithWinnerOrLooser(match) == '#'">
-                          <span class="font-weight-bold small">
-                          {{ match.display_home_team_placeholder_name }}-{{match.display_away_team_placeholder_name}}
-                          </span>
+
+                        <div class="group-column" v-if="roundIndex >= 1">
+                          <h6 class="m-0 font-weight-bold">&nbsp;</h6>
+                          <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
+                            <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
+                          </div>
                         </div>
-                        <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
-                          <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_home_team_placeholder_name }}</span>
-                        </div>
-                        <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
-                          <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_away_team_placeholder_name }}</span>
+
+                        <div class="group-column" v-if="isAnyRankingInPosition(getGroupName(group.groups.group_name), group.group_count)">
+                          <h6 class="m-0 font-weight-bold">Ranking</h6>
+                          <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name))" v-for="(team, teamIndex) in group.group_count">
+                            <span class="font-weight-bold">{{ checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name)) }}</span>
+                          </div>
                         </div>
                       </div>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="col-round" v-for="(round, roundIndex) in getDivisionRounds()">
+                <div class="round-img-wrapper">
+                  <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">{{ getMainNoOfRoundCount() + roundIndex + 1 }}</span>
+                </div>
+                <div class="round-details-wrapper" :class="{'mt-4': groupIndex !== 0}" v-for="(group, groupIndex) in round.match_type">
+                  <!-- Round 2 - PM -->
+                  <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
+                    <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberOrRankingInPosition('placing_match', match.match_number) }}</span></div>
+                    <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ getMatchNumber(match.display_match_number) }}</span></div>
+                    <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingTeam(match, 'home') }}-{{ getPlacingTeam(match, 'away') }}</span></div>
+                    <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'home') }}</span></div>
+                    <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'away') }}</span></div>
+                  </div>
 
-              <div class="grid-division">
-                <div class="division-block d-flex" v-for="(division, divisionIndex) in divisions()">
-                  <div class="col-round" v-for="(round, roundIndex) in division.format_name">
-                    <div class="round-img-wrapper" v-if="divisionIndex === 0">
-                      <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">{{ getMainNoOfRoundCount() + roundIndex + 1 }}</span>
-                    </div>
-                    <div class="round-details-wrapper">
-                      <!-- <h6 class="text-center text-uppercase font-weight-bold mb-2">Round Robin</h6> -->
-                      <div v-for="(group, groupIndex) in round.match_type">
-                        <!-- Round 2 - PM -->
-                        <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
-                          <div class="bordered-box" v-if="checkForMatchNumberInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberInPosition('placing_match', match.match_number) }}</span></div>
-                          <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ getMainNoOfRoundCount() + roundIndex + 1 }}.{{ matchIndex + 1 }}</span></div>
-                          <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ match.display_home_team_placeholder_name }}-{{ match.display_away_team_placeholder_name }}</span></div>
-                          <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'home') }}</span></div>
-                          <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getTeamPlaceHolder(match, 'away') }}</span></div>
+                  <!-- round 2 - RR -->
+                  <div v-if="getGroupType(group) == 'RR'">
+                    <div class="row-round">
+                      <div class="group-column">
+                        <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
+                        <div class="bordered-box" v-for="(team, teamIndex) in getRoundRobinUniqueTeams(group.groups.match)">
+                          <span class="font-weight-bold">{{ team }}</span>
                         </div>
+                      </div>
 
-                        <!-- round 2 - RR -->
-                        <div v-if="getGroupType(group) == 'RR'">
-                          <div class="group-listing">
-                            <div class="row-round">
-                              <div class="group-column">
-                                <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
-                                <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
-                                  <span class="font-weight-bold">{{ team }}</span>
-                                </div>
-                              </div>
-
-                              <div class="group-column">
-                                <h6 class="m-0 font-weight-bold">&nbsp;</h6>
-                                <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                                  <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
-                                </div>
-                              </div>
-
-                              <div class="group-column" v-if="roundIndex == lastRoundIndex">
-                                <h6 class="m-0 font-weight-bold">Ranking</h6>
-                                <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                                  <span class="font-weight-bold">{{ checkForMatchNumberInPosition('round_robin', getGroupName(group.groups.group_name) + (teamIndex+1)) }}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                      <div class="group-column">
+                        <h6 class="m-0 font-weight-bold">&nbsp;</h6>
+                        <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
+                          <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
                         </div>
-                        
-                        <!-- for last round -->
-                        <!-- <div v-if="roundIndex == lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
-                          <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Final</span></div>
-                            <div class="bordered-box" v-if="getGroupType(group) == 'PM' && getMatchesWithWinnerOrLooser(match) == '#'">
-                              <span class="font-weight-bold small">
-                              {{ match.display_home_team_placeholder_name }}-{{match.display_away_team_placeholder_name}}
-                              </span>
-                            </div>
-                            <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
-                              <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_home_team_placeholder_name }}</span>
-                            </div>
-                            <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
-                              <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_away_team_placeholder_name }}</span>
-                            </div>
-                          </div>
-                        </div> -->
+                      </div>
+
+                      <div class="group-column" v-if="isAnyRankingInPosition(getGroupName(group.groups.group_name), group.group_count)">
+                        <h6 class="m-0 font-weight-bold">Ranking</h6>
+                        <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name))" v-for="(team, teamIndex) in group.group_count">
+                          <span class="font-weight-bold">{{ checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name)) }}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
           </form>
         </div>
        </div>
@@ -291,7 +168,7 @@
       return {
       }
     },
-    props: ['templateData','totalTime','templateGraphicViewImage', 'fixures'],
+    props: ['templateData','totalTime','templateGraphicViewImage', 'fixtures', 'assignedTeams', 'groupName', 'categoryAge'],
     filters: {
       formatTime: function(time) {
         var hours = Math.floor( time /   60);
@@ -301,16 +178,6 @@
       }
     },
     computed: {
-      lastRoundIndex() {
-        let mostDivisionRounds = 0;
-        _.forEach(this.templateData.tournament_competation_format.divisions, function(division) {
-          if(mostDivisionRounds < division.format_name.length) {
-            mostDivisionRounds = division.format_name.length;
-          }
-        });
-
-        return this.templateData.tournament_competation_format.format_name.length + mostDivisionRounds - 1;
-      },
     },
    methods:{
     displayRoundSchedule() {
@@ -331,40 +198,86 @@
       }
       return 0;
     },
-    positions() {
-      return this.templateData.tournament_positions;
-    },
     getGroupType(group) {
       let groupName = group.name;
+      if(typeof group.actual_name !== 'undefined') {
+        groupName = group.actual_name;
+      }
       let groupNameArray = groupName.split("-");
       return groupNameArray[0];
     },
-    getUniqueTeams(teams) {
+    getRoundRobinUniqueTeams(matches) {
       let uniqueTeamsArray = [];
-      teams.forEach(function(team) {
-        uniqueTeamsArray.push(team.display_home_team_placeholder_name);
-        uniqueTeamsArray.push(team.display_away_team_placeholder_name);
+      let vm = this;
+      matches.forEach(function(match) {
+        let modifiedMatchNumber = (match.match_number).replace('CAT.', vm.groupName + '-' + vm.categoryAge + '-');
+
+        if(typeof vm.fixtures[modifiedMatchNumber] !== 'undefined' && vm.fixtures[modifiedMatchNumber].home_team !== 0) {
+          uniqueTeamsArray.push(vm.fixtures[modifiedMatchNumber].home_team_name);
+        } else {
+          if((match.display_home_team_placeholder_name).indexOf(".") !== -1) {
+            let matchNumber = (match.match_number).split('.');
+            let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
+            if(homeAwayTeam[0].indexOf('WR') !== -1) {
+              uniqueTeamsArray.push('Winner ' + match.display_home_team_placeholder_name);
+            }
+            if(homeAwayTeam[0].indexOf('LR') !== -1) {
+              uniqueTeamsArray.push('Loser ' + match.display_home_team_placeholder_name);
+            }
+          } else {
+            uniqueTeamsArray.push(match.display_home_team_placeholder_name);
+          }
+        }
+
+        if(typeof vm.fixtures[modifiedMatchNumber] !== 'undefined' && vm.fixtures[modifiedMatchNumber].away_team !== 0) {
+          uniqueTeamsArray.push(vm.fixtures[modifiedMatchNumber].away_team_name);
+        } else {
+          if((match.display_away_team_placeholder_name).indexOf(".") !== -1) {
+            let matchNumber = (match.match_number).split('.');
+            let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
+            if(homeAwayTeam[1].indexOf('WR') !== -1) {
+              uniqueTeamsArray.push('Winner ' + match.display_away_team_placeholder_name);
+            }
+            if(homeAwayTeam[1].indexOf('LR') !== -1) {
+              uniqueTeamsArray.push('Loser ' + match.display_away_team_placeholder_name);
+            }
+          } else {
+            uniqueTeamsArray.push(match.display_away_team_placeholder_name);
+          }
+        }
       });
 
       return _.uniq(uniqueTeamsArray);
     },
-    getGroupNameIntial(group) {
-      let groupName = group.groups.group_name;
-      let groupNameArray = groupName.split("-");
-
-      return groupNameArray[1];
-    },
-    getMatchesWithWinnerOrLooser(displayMatchNumber) {
-      let displayMatchNumberArray = displayMatchNumber.split(".");
-      if(displayMatchNumberArray.includes("wrs") || displayMatchNumberArray.includes("lrs")) {
-        return displayMatchNumberArray[3] == 'wrs' ? 'Winner' : 'Loser';
-      }
-      return "#";
-    },
     checkIfWinnerLoserMatch(matchNumber) {
       return (matchNumber.indexOf("WR") !== -1 || matchNumber.indexOf("LR") !== -1);
     },
-    getTeamPlaceHolder(match, teamType) {
+    getPlacingTeam(match, teamType) {
+      let matchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
+      if(teamType === 'home') {
+        if(typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].home_team !== 0) {
+          return this.fixtures[matchNumber].home_team_name;
+        }
+        return match.display_home_team_placeholder_name;
+      }
+
+      if(teamType === 'away') {
+        if(typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].away_team !== 0) {
+          return this.fixtures[matchNumber].away_team_name;
+        }
+        return match.display_away_team_placeholder_name;
+      }
+    },
+    getPlacingWinnerLoserTeam(match, teamType) {
+      let matchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
+      if(teamType === 'home' && typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].home_team !== 0) {
+        return this.fixtures[matchNumber].home_team_name;
+      }
+
+      if(teamType === 'away' && typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].away_team !== 0) {
+        return this.fixtures[matchNumber].away_team_name;
+      }
+
       let displayMatchNumber = match.display_match_number;
       let displayMatchNumberArray = displayMatchNumber.split(".");
       if(displayMatchNumberArray.includes("wrs") || displayMatchNumberArray.includes("lrs")) {
@@ -372,17 +285,27 @@
       }
       return (teamType === 'home' ? match.display_home_team_placeholder_name : match.display_away_team_placeholder_name);
     },
-    divisions() {
+    getDivisionRounds() {
+      let divisions = [];
       if(this.templateData.tournament_competation_format != undefined) {
-        return this.templateData.tournament_competation_format.divisions;
+        _.forEach(this.templateData.tournament_competation_format.divisions, function(division) {
+          _.forEach(division.format_name, function(round, roundIndex) {
+            if(typeof divisions[roundIndex] === 'undefined') {
+              divisions[roundIndex] = [];
+              divisions[roundIndex]['match_type'] = [];
+            }
+            divisions[roundIndex]['match_type'] = _.concat(divisions[roundIndex]['match_type'], round.match_type);
+          });
+        });
+        return divisions;
       }
-      return [];
+      return divisions;
     },
     getGroupName(groupName) {
       groupName = groupName.split('-');
       return groupName[1];
     },
-    checkForMatchNumberInPosition(roundType, matchOrRanking) {
+    checkForMatchNumberOrRankingInPosition(roundType, matchOrRanking) {
       let dependentType = roundType === 'round_robin' ? 'ranking' : 'match';
       let filteredPositions = _.filter(this.templateData.tournament_positions, function(o) {
         if(dependentType === 'ranking') {
@@ -404,6 +327,26 @@
         return filteredPositions[0].position;
       }
       return false;
+    },
+    getMatchNumber(displayMatchNumber) {
+      let matchCode = displayMatchNumber.split('.');
+      return matchCode[1] + '.' + matchCode[2];
+    },
+    isAnyRankingInPosition(groupName, groupCount) {
+      let isAnyRankingInPosition = false;
+      for(let i=0; i<groupCount; i++) {
+        if((this.checkForMatchNumberOrRankingInPosition('round_robin', (i+1) + groupName)) !== false) {
+          isAnyRankingInPosition = true;
+        }
+      }
+      return isAnyRankingInPosition;
+    },
+    getRoundRobinAssignedTeam(groupName, teamIndex) {
+      let assignedTeam = _.head(_.filter(this.assignedTeams, function(o) { return o.group_name === "Group-" + groupName + teamIndex; }));
+      if(typeof assignedTeam !== 'undefined') {
+        return assignedTeam.name;
+      }
+      return '#' + teamIndex;
     },
    }
  }
