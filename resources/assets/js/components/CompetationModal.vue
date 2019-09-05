@@ -61,101 +61,8 @@
                 <img class="img-fluid" :src="templateGraphicViewImage">
               </div>
             </div>
-            <div class="grid-round">
-              <div class="col-round" v-for="(round, roundIndex) in rounds()">
-                <div class="round-img-wrapper">
-                  <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">{{ roundIndex + 1 }}</span>
-                </div>
-                <div class="round-details-wrapper">
-                  <!-- <h6 class="text-center text-uppercase font-weight-bold mb-2">Round Robin</h6> -->
-                  <div :class="{'mt-4': groupIndex !== 0}" v-for="(group, groupIndex) in round.match_type">
-                    
-                    <!-- Round 2 - PM -->
-                    <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
-                      <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberOrRankingInPosition('placing_match', match.match_number) }}</span></div>
-                      <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ getMatchNumber(match.display_match_number) }}</span></div>
-                      <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingTeam(match, 'home') }}-{{ getPlacingTeam(match, 'away') }}</span></div>
-                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'home') }}</span></div>
-                      <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'away') }}</span></div>
-                    </div>
-
-                    <!-- round 2 - RR -->
-                    <div v-if="getGroupType(group) == 'RR'">
-                      <div class="row-round">
-                        <div class="group-column" v-if="roundIndex == 0">
-                            <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
-                            <div class="bordered-box" v-for="team in group.group_count">
-                                <span class="font-weight-bold">{{ getRoundRobinAssignedTeam(getGroupName(group.groups.group_name), team) }}</span>
-                            </div>
-                        </div>
-
-                        <div class="group-column" v-if="roundIndex >= 1">
-                          <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
-                          <div class="bordered-box" v-for="(team, teamIndex) in getRoundRobinUniqueTeams(group.groups.match)">
-                            <span class="font-weight-bold">{{ team }}</span>
-                          </div>
-                        </div>
-
-                        <div class="group-column" v-if="roundIndex >= 1">
-                          <h6 class="m-0 font-weight-bold">&nbsp;</h6>
-                          <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                            <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
-                          </div>
-                        </div>
-
-                        <div class="group-column" v-if="isAnyRankingInPosition(getGroupName(group.groups.group_name), group.group_count)">
-                          <h6 class="m-0 font-weight-bold">Ranking</h6>
-                          <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name))" v-for="(team, teamIndex) in group.group_count">
-                            <span class="font-weight-bold">{{ checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name)) }}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-round" v-for="(round, roundIndex) in getDivisionRounds()">
-                <div class="round-img-wrapper">
-                  <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">{{ getMainNoOfRoundCount() + roundIndex + 1 }}</span>
-                </div>
-                <div class="round-details-wrapper" :class="{'mt-4': groupIndex !== 0}" v-for="(group, groupIndex) in round.match_type">
-                  <!-- Round 2 - PM -->
-                  <div class="row-round" v-if="getGroupType(group) == 'PM'" v-for="(match, matchIndex) in group.groups.match">
-                    <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('placing_match', match.match_number)"><span class="font-weight-bold small">{{ checkForMatchNumberOrRankingInPosition('placing_match', match.match_number) }}</span></div>
-                    <div class="bordered-box" v-else><span class="font-weight-bold small">Match {{ getMatchNumber(match.display_match_number) }}</span></div>
-                    <div class="bordered-box" v-if="!checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingTeam(match, 'home') }}-{{ getPlacingTeam(match, 'away') }}</span></div>
-                    <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'home') }}</span></div>
-                    <div class="bordered-box" v-if="checkIfWinnerLoserMatch(match.match_number)"><span class="small">{{ getPlacingWinnerLoserTeam(match, 'away') }}</span></div>
-                  </div>
-
-                  <!-- round 2 - RR -->
-                  <div v-if="getGroupType(group) == 'RR'">
-                    <div class="row-round">
-                      <div class="group-column">
-                        <h6 class="m-0 font-weight-bold">{{ "Group " + getGroupName(group.groups.group_name) }}</h6>
-                        <div class="bordered-box" v-for="(team, teamIndex) in getRoundRobinUniqueTeams(group.groups.match)">
-                          <span class="font-weight-bold">{{ team }}</span>
-                        </div>
-                      </div>
-
-                      <div class="group-column">
-                        <h6 class="m-0 font-weight-bold">&nbsp;</h6>
-                        <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                          <span class="font-weight-bold">{{ getGroupName(group.groups.group_name) + (teamIndex+1) }}</span>
-                        </div>
-                      </div>
-
-                      <div class="group-column" v-if="isAnyRankingInPosition(getGroupName(group.groups.group_name), group.group_count)">
-                        <h6 class="m-0 font-weight-bold">Ranking</h6>
-                        <div class="bordered-box" v-if="checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name))" v-for="(team, teamIndex) in group.group_count">
-                          <span class="font-weight-bold">{{ checkForMatchNumberOrRankingInPosition('round_robin', (teamIndex+1) + getGroupName(group.groups.group_name)) }}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
+            <div v-html="graphicHtml"></div>
           </form>
         </div>
        </div>
@@ -168,7 +75,7 @@
       return {
       }
     },
-    props: ['templateData','totalTime','templateGraphicViewImage', 'fixtures', 'assignedTeams', 'groupName', 'categoryAge'],
+    props: ['templateData','totalTime','templateGraphicViewImage', 'graphicHtml'],
     filters: {
       formatTime: function(time) {
         var hours = Math.floor( time /   60);
@@ -186,183 +93,183 @@
         return this.templateData.tournament_teams +" teams " + roundScheduleData.join(" - ");
       }
     },
-    rounds() {
-      if(this.templateData.tournament_competation_format != undefined) {
-        return this.templateData.tournament_competation_format.format_name;
-      }
-      return [];
-    },
-    getMainNoOfRoundCount() {
-      if(this.templateData.tournament_competation_format != undefined) {
-        return this.templateData.tournament_competation_format.format_name.length;
-      }
-      return 0;
-    },
-    getGroupType(group) {
-      let groupName = group.name;
-      if(typeof group.actual_name !== 'undefined') {
-        groupName = group.actual_name;
-      }
-      let groupNameArray = groupName.split("-");
-      return groupNameArray[0];
-    },
-    getRoundRobinUniqueTeams(matches) {
-      let uniqueTeamsArray = [];
-      let vm = this;
-      matches.forEach(function(match) {
-        let modifiedMatchNumber = (match.match_number).replace('CAT.', vm.groupName + '-' + vm.categoryAge + '-');
+    // rounds() {
+    //   if(this.templateData.tournament_competation_format != undefined) {
+    //     return this.templateData.tournament_competation_format.format_name;
+    //   }
+    //   return [];
+    // },
+    // getMainNoOfRoundCount() {
+    //   if(this.templateData.tournament_competation_format != undefined) {
+    //     return this.templateData.tournament_competation_format.format_name.length;
+    //   }
+    //   return 0;
+    // },
+    // getGroupType(group) {
+    //   let groupName = group.name;
+    //   if(typeof group.actual_name !== 'undefined') {
+    //     groupName = group.actual_name;
+    //   }
+    //   let groupNameArray = groupName.split("-");
+    //   return groupNameArray[0];
+    // },
+    // getRoundRobinUniqueTeams(matches) {
+    //   let uniqueTeamsArray = [];
+    //   let vm = this;
+    //   matches.forEach(function(match) {
+    //     let modifiedMatchNumber = (match.match_number).replace('CAT.', vm.groupName + '-' + vm.categoryAge + '-');
 
-        if(typeof vm.fixtures[modifiedMatchNumber] !== 'undefined' && vm.fixtures[modifiedMatchNumber].home_team !== 0) {
-          uniqueTeamsArray.push(vm.fixtures[modifiedMatchNumber].home_team_name);
-        } else {
-          if((match.display_home_team_placeholder_name).indexOf(".") !== -1) {
-            let matchNumber = (match.match_number).split('.');
-            let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
-            if(homeAwayTeam[0].indexOf('WR') !== -1) {
-              uniqueTeamsArray.push('Winner ' + match.display_home_team_placeholder_name);
-            }
-            if(homeAwayTeam[0].indexOf('LR') !== -1) {
-              uniqueTeamsArray.push('Loser ' + match.display_home_team_placeholder_name);
-            }
-          } else {
-            uniqueTeamsArray.push(match.display_home_team_placeholder_name);
-          }
-        }
+    //     if(typeof vm.fixtures[modifiedMatchNumber] !== 'undefined' && vm.fixtures[modifiedMatchNumber].home_team !== 0) {
+    //       uniqueTeamsArray.push(vm.fixtures[modifiedMatchNumber].home_team_name);
+    //     } else {
+    //       if((match.display_home_team_placeholder_name).indexOf(".") !== -1) {
+    //         let matchNumber = (match.match_number).split('.');
+    //         let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
+    //         if(homeAwayTeam[0].indexOf('WR') !== -1) {
+    //           uniqueTeamsArray.push('Winner ' + match.display_home_team_placeholder_name);
+    //         }
+    //         if(homeAwayTeam[0].indexOf('LR') !== -1) {
+    //           uniqueTeamsArray.push('Loser ' + match.display_home_team_placeholder_name);
+    //         }
+    //       } else {
+    //         uniqueTeamsArray.push(match.display_home_team_placeholder_name);
+    //       }
+    //     }
 
-        if(typeof vm.fixtures[modifiedMatchNumber] !== 'undefined' && vm.fixtures[modifiedMatchNumber].away_team !== 0) {
-          uniqueTeamsArray.push(vm.fixtures[modifiedMatchNumber].away_team_name);
-        } else {
-          if((match.display_away_team_placeholder_name).indexOf(".") !== -1) {
-            let matchNumber = (match.match_number).split('.');
-            let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
-            if(homeAwayTeam[1].indexOf('WR') !== -1) {
-              uniqueTeamsArray.push('Winner ' + match.display_away_team_placeholder_name);
-            }
-            if(homeAwayTeam[1].indexOf('LR') !== -1) {
-              uniqueTeamsArray.push('Loser ' + match.display_away_team_placeholder_name);
-            }
-          } else {
-            uniqueTeamsArray.push(match.display_away_team_placeholder_name);
-          }
-        }
-      });
+    //     if(typeof vm.fixtures[modifiedMatchNumber] !== 'undefined' && vm.fixtures[modifiedMatchNumber].away_team !== 0) {
+    //       uniqueTeamsArray.push(vm.fixtures[modifiedMatchNumber].away_team_name);
+    //     } else {
+    //       if((match.display_away_team_placeholder_name).indexOf(".") !== -1) {
+    //         let matchNumber = (match.match_number).split('.');
+    //         let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
+    //         if(homeAwayTeam[1].indexOf('WR') !== -1) {
+    //           uniqueTeamsArray.push('Winner ' + match.display_away_team_placeholder_name);
+    //         }
+    //         if(homeAwayTeam[1].indexOf('LR') !== -1) {
+    //           uniqueTeamsArray.push('Loser ' + match.display_away_team_placeholder_name);
+    //         }
+    //       } else {
+    //         uniqueTeamsArray.push(match.display_away_team_placeholder_name);
+    //       }
+    //     }
+    //   });
 
-      return _.uniq(uniqueTeamsArray);
-    },
-    checkIfWinnerLoserMatch(matchNumber) {
-      return (matchNumber.indexOf("WR") !== -1 || matchNumber.indexOf("LR") !== -1);
-    },
-    getPlacingTeam(match, teamType) {
-      let matchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
-      if(teamType === 'home') {
-        if(typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].home_team !== 0) {
-          return this.fixtures[matchNumber].home_team_name;
-        }
-        return match.display_home_team_placeholder_name;
-      }
+    //   return _.uniq(uniqueTeamsArray);
+    // },
+    // checkIfWinnerLoserMatch(matchNumber) {
+    //   return (matchNumber.indexOf("WR") !== -1 || matchNumber.indexOf("LR") !== -1);
+    // },
+    // getPlacingTeam(match, teamType) {
+    //   let matchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
+    //   if(teamType === 'home') {
+    //     if(typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].home_team !== 0) {
+    //       return this.fixtures[matchNumber].home_team_name;
+    //     }
+    //     return match.display_home_team_placeholder_name;
+    //   }
 
-      if(teamType === 'away') {
-        if(typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].away_team !== 0) {
-          return this.fixtures[matchNumber].away_team_name;
-        }
-        return match.display_away_team_placeholder_name;
-      }
-    },
-    getPlacingWinnerLoserTeam(match, teamType) {
-      let modifiedMatchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
-      if(teamType === 'home' && typeof this.fixtures[modifiedMatchNumber] !== 'undefined' && this.fixtures[modifiedMatchNumber].home_team !== 0) {
-        return this.fixtures[modifiedMatchNumber].home_team_name;
-      }
+    //   if(teamType === 'away') {
+    //     if(typeof this.fixtures[matchNumber] !== 'undefined' && this.fixtures[matchNumber].away_team !== 0) {
+    //       return this.fixtures[matchNumber].away_team_name;
+    //     }
+    //     return match.display_away_team_placeholder_name;
+    //   }
+    // },
+    // getPlacingWinnerLoserTeam(match, teamType) {
+    //   let modifiedMatchNumber = (match.match_number).replace('CAT.', this.groupName + '-' + this.categoryAge + '-');
+    //   if(teamType === 'home' && typeof this.fixtures[modifiedMatchNumber] !== 'undefined' && this.fixtures[modifiedMatchNumber].home_team !== 0) {
+    //     return this.fixtures[modifiedMatchNumber].home_team_name;
+    //   }
 
-      if(teamType === 'away' && typeof this.fixtures[modifiedMatchNumber] !== 'undefined' && this.fixtures[modifiedMatchNumber].away_team !== 0) {
-        return this.fixtures[modifiedMatchNumber].away_team_name;
-      }
+    //   if(teamType === 'away' && typeof this.fixtures[modifiedMatchNumber] !== 'undefined' && this.fixtures[modifiedMatchNumber].away_team !== 0) {
+    //     return this.fixtures[modifiedMatchNumber].away_team_name;
+    //   }
 
-      let matchNumber = (match.match_number).split('.');
-      let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
-      if(teamType === 'home') {
-        if(homeAwayTeam[0].indexOf('WR') !== -1) {
-          return 'Winner ' + match.display_home_team_placeholder_name;
-        }
-        if(homeAwayTeam[0].indexOf('LR') !== -1) {
-          return 'Loser ' + match.display_home_team_placeholder_name;
-        }
-        return match.display_home_team_placeholder_name;
-      }
+    //   let matchNumber = (match.match_number).split('.');
+    //   let homeAwayTeam = matchNumber[matchNumber.length - 1].split('-');
+    //   if(teamType === 'home') {
+    //     if(homeAwayTeam[0].indexOf('WR') !== -1) {
+    //       return 'Winner ' + match.display_home_team_placeholder_name;
+    //     }
+    //     if(homeAwayTeam[0].indexOf('LR') !== -1) {
+    //       return 'Loser ' + match.display_home_team_placeholder_name;
+    //     }
+    //     return match.display_home_team_placeholder_name;
+    //   }
 
-      if(teamType === 'away') {
-        if(homeAwayTeam[1].indexOf('WR') !== -1) {
-          return 'Winner ' + match.display_away_team_placeholder_name;
-        }
-        if(homeAwayTeam[1].indexOf('LR') !== -1) {
-          return 'Loser ' + match.display_away_team_placeholder_name;
-        }
-        return match.display_away_team_placeholder_name;
-      }
-    },
-    getDivisionRounds() {
-      let divisions = [];
-      if(typeof this.templateData.tournament_competation_format !== 'undefined' && typeof this.templateData.tournament_competation_format.divisions !== 'undefined') {
-        _.forEach(this.templateData.tournament_competation_format.divisions, function(division) {
-          _.forEach(division.format_name, function(round, roundIndex) {
-            if(typeof divisions[roundIndex] === 'undefined') {
-              divisions[roundIndex] = [];
-              divisions[roundIndex]['match_type'] = [];
-            }
-            divisions[roundIndex]['match_type'] = _.concat(divisions[roundIndex]['match_type'], round.match_type);
-          });
-        });
-        return divisions;
-      }
-      return divisions;
-    },
-    getGroupName(groupName) {
-      groupName = groupName.split('-');
-      return groupName[1];
-    },
-    checkForMatchNumberOrRankingInPosition(roundType, matchOrRanking) {
-      let dependentType = roundType === 'round_robin' ? 'ranking' : 'match';
-      let filteredPositions = _.filter(this.templateData.tournament_positions, function(o) {
-        if(dependentType === 'ranking') {
-          return o.ranking === matchOrRanking;
-        }
-        if(dependentType === 'match') {
-          return o.match_number === matchOrRanking;
-        }
-      });
-      if(filteredPositions.length > 0) {
-        if(roundType === 'placing_match' && filteredPositions.length === 2) {
-          let winnerPosition = _.head(_.filter(filteredPositions, function(o) { return o.result_type === 'winner'; }));
-          let loserPosition = _.head(_.filter(filteredPositions, function(o) { return o.result_type === 'loser'; }));
-          if(winnerPosition.position === 1 && loserPosition.position === 2) {
-            return "Final";
-          }
-          return "Place " + winnerPosition.position + "-" + loserPosition.position;
-        }
-        return filteredPositions[0].position;
-      }
-      return false;
-    },
-    getMatchNumber(displayMatchNumber) {
-      let matchCode = displayMatchNumber.split('.');
-      return matchCode[1] + '.' + matchCode[2];
-    },
-    isAnyRankingInPosition(groupName, groupCount) {
-      let isAnyRankingInPosition = false;
-      for(let i=0; i<groupCount; i++) {
-        if((this.checkForMatchNumberOrRankingInPosition('round_robin', (i+1) + groupName)) !== false) {
-          isAnyRankingInPosition = true;
-        }
-      }
-      return isAnyRankingInPosition;
-    },
-    getRoundRobinAssignedTeam(groupName, teamIndex) {
-      let assignedTeam = _.head(_.filter(this.assignedTeams, function(o) { return o.group_name === "Group-" + groupName + teamIndex; }));
-      if(typeof assignedTeam !== 'undefined') {
-        return assignedTeam.name;
-      }
-      return '#' + teamIndex;
-    },
+    //   if(teamType === 'away') {
+    //     if(homeAwayTeam[1].indexOf('WR') !== -1) {
+    //       return 'Winner ' + match.display_away_team_placeholder_name;
+    //     }
+    //     if(homeAwayTeam[1].indexOf('LR') !== -1) {
+    //       return 'Loser ' + match.display_away_team_placeholder_name;
+    //     }
+    //     return match.display_away_team_placeholder_name;
+    //   }
+    // },
+    // getDivisionRounds() {
+    //   let divisions = [];
+    //   if(typeof this.templateData.tournament_competation_format !== 'undefined' && typeof this.templateData.tournament_competation_format.divisions !== 'undefined') {
+    //     _.forEach(this.templateData.tournament_competation_format.divisions, function(division) {
+    //       _.forEach(division.format_name, function(round, roundIndex) {
+    //         if(typeof divisions[roundIndex] === 'undefined') {
+    //           divisions[roundIndex] = [];
+    //           divisions[roundIndex]['match_type'] = [];
+    //         }
+    //         divisions[roundIndex]['match_type'] = _.concat(divisions[roundIndex]['match_type'], round.match_type);
+    //       });
+    //     });
+    //     return divisions;
+    //   }
+    //   return divisions;
+    // },
+    // getGroupName(groupName) {
+    //   groupName = groupName.split('-');
+    //   return groupName[1];
+    // },
+    // checkForMatchNumberOrRankingInPosition(roundType, matchOrRanking) {
+    //   let dependentType = roundType === 'round_robin' ? 'ranking' : 'match';
+    //   let filteredPositions = _.filter(this.templateData.tournament_positions, function(o) {
+    //     if(dependentType === 'ranking') {
+    //       return o.ranking === matchOrRanking;
+    //     }
+    //     if(dependentType === 'match') {
+    //       return o.match_number === matchOrRanking;
+    //     }
+    //   });
+    //   if(filteredPositions.length > 0) {
+    //     if(roundType === 'placing_match' && filteredPositions.length === 2) {
+    //       let winnerPosition = _.head(_.filter(filteredPositions, function(o) { return o.result_type === 'winner'; }));
+    //       let loserPosition = _.head(_.filter(filteredPositions, function(o) { return o.result_type === 'loser'; }));
+    //       if(winnerPosition.position === 1 && loserPosition.position === 2) {
+    //         return "Final";
+    //       }
+    //       return "Place " + winnerPosition.position + "-" + loserPosition.position;
+    //     }
+    //     return filteredPositions[0].position;
+    //   }
+    //   return false;
+    // },
+    // getMatchNumber(displayMatchNumber) {
+    //   let matchCode = displayMatchNumber.split('.');
+    //   return matchCode[1] + '.' + matchCode[2];
+    // },
+    // isAnyRankingInPosition(groupName, groupCount) {
+    //   let isAnyRankingInPosition = false;
+    //   for(let i=0; i<groupCount; i++) {
+    //     if((this.checkForMatchNumberOrRankingInPosition('round_robin', (i+1) + groupName)) !== false) {
+    //       isAnyRankingInPosition = true;
+    //     }
+    //   }
+    //   return isAnyRankingInPosition;
+    // },
+    // getRoundRobinAssignedTeam(groupName, teamIndex) {
+    //   let assignedTeam = _.head(_.filter(this.assignedTeams, function(o) { return o.group_name === "Group-" + groupName + teamIndex; }));
+    //   if(typeof assignedTeam !== 'undefined') {
+    //     return assignedTeam.name;
+    //   }
+    //   return '#' + teamIndex;
+    // },
    }
  }
 </script>
