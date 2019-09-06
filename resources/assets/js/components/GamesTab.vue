@@ -5,7 +5,7 @@
         <div v-if="competitionWithGames.length == 0">
               {{$lang.pitch_planner_no_games}}
         </div>
-        <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
+        <div class="text-center" v-else v-for="(competition,competitionIndex) in competitionWithGames">
           <div v-if="competition.matchList &&  competition.matchList.length > 0" >
             <h6 class="mb-1 mt-1"><strong>{{competition.group_name}}</strong></h6>
             <div v-if="competition.matchCount == 0">
@@ -13,8 +13,8 @@
             </div>
             <div class="text-center mt-3"
             v-if="match.isScheduled!=1"
-            v-for="match in competition.matchList"
-            :data-text="match.displayMatchName">
+            v-for="(match,matchIndex) in competition.matchList"
+            :data-text="match.displayMatchName" :key="'match'+competitionIndex+matchIndex">
                 <draggable-match-event :match="match" :fixtureBackgroundColor="competition.category_age_color" :fixtureTextColor="competition.category_age_font_color"></draggable-match-event>
             </div>
           </div>
@@ -31,6 +31,7 @@
   import _ from 'lodash'
 
 export default {
+  props: ['totalMatchCount'],
   components: {
     DraggableMatchEvent
   },
@@ -43,12 +44,12 @@ export default {
       matchStatus: true,
       matchCompetition:{'matchList':''},
       'filterStatus': true,
-      'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
+      'tournamentFilter': this.$store.state.Tournament.tournamentFiler
     }
   },
   computed: {
     competitionWithGames(){
-      return _.cloneDeep(this.$store.getters.getAllCompetitionWithGames)
+      return this.filterMatches();
     },
 
     matches(){
@@ -89,11 +90,46 @@ export default {
       this.gamesMatchListRecord = [];
       Vue.nextTick()
       .then(function () {
-        vm.gamesMatchListRecord = _.cloneDeep(vm.$store.getters.getAllCompetitionWithGames);
+        vm.gamesMatchListRecord = vm.filterMatches();
       })
+    },
+    filterMatches() 
+    {
+      let allGames =  _.cloneDeep(this.$store.getters.getAllCompetitionWithGames);
+      console.log("here",allGames);
+      let filter = false;
+      if(this.tournamentFilter.filterKey != '')
+      {
+        if(this.tournamentFilter.filterKey == "age_category" && this.tournamentFilter.filterValue != '')
+        {
+          let vm = this;
+          allGames = _.filter(allGames, function(game) { 
+            return game.id == vm.tournamentFilter.filterValue.id
+          });
+
+          filter = true;
+
+          if( vm.tournamentFilter.filterDependentValue != '')
+          {
+            allGames = _.each(allGames, function(games) { 
+                  games.matchList = _.filter(games.matchList, {'competitionId': vm.tournamentFilter.filterDependentValue})
+            });
+
+            filter = true;
+          }
+          let totalMatchFilterCount = _.size( _.filter(_.head(allGames).matchList, {'isScheduled': 0}));
+          $('#gameReferee span.gameCount').html('('+totalMatchFilterCount+')');
+        }
+      }
+
+      if ( !filter )
+      {
+        $('#gameReferee span.gameCount').html('('+this.totalMatchCount+')');
+      }
+
+      console.log("here",allGames);
+      return allGames;
     }
   }
 }
-
-
 </script>
