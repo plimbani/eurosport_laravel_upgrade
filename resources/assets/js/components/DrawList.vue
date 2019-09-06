@@ -14,11 +14,11 @@
             <td>
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
-              <a href="#" @click="viewGraphicImage(competation.template_name, competation.graphic_image)"class="btn btn-outline-primary btn-sm ml-2 float-right" v-if="competation.graphic_image">View schedule</a>
+              <a href="#" @click="viewTemplateGraphic(competation.id, competation.tournament_template_id)"class="btn btn-outline-primary btn-sm ml-2 float-right">View schedule</a>
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
-          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="'DrawList'"></displaygraphic>
+          <displaygraphic :sectionGraphicImage="'DrawList'"></displaygraphic>
         </tbody>
       </table>
       <span v-else>No information available</span>
@@ -188,8 +188,6 @@ export default {
       groupsData:[],
       ageCatgeoryComments: '',
       competitionData: {},
-      templateGraphicImageName: '',
-      templateGraphicImagePath: '',
       divisionName:'',
       divisionId:'',
       groupsFilter: {},
@@ -325,10 +323,9 @@ export default {
     closeModal() {
       $('#editCompetitionNameModal').modal('hide');
     },
-    viewGraphicImage : function(imageName, imagePath){
+    viewTemplateGraphic : function(ageCategoryId, templateId){
+      this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
       $('#displayGraphicImage').modal('show');
-      this.templateGraphicImageName = imageName;
-      this.templateGraphicImagePath = imagePath;
     }
 	},
 	filters: {

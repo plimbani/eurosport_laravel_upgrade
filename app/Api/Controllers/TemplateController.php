@@ -3,10 +3,8 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Anam\PhantomMagick\Converter;
 use Illuminate\Routing\Controller;
 use Laraspace\Models\TournamentTemplates;
-use VerumConsilium\Browsershot\Facades\PDF;
 use Laraspace\Api\Contracts\TemplateContract;
 use Laraspace\Http\Requests\Template\EditRequest;
 use Laraspace\Http\Requests\Template\StoreRequest;
@@ -14,6 +12,8 @@ use Laraspace\Http\Requests\Template\UpdateRequest;
 use Laraspace\Http\Requests\Template\DeleteRequest;
 use Laraspace\Http\Requests\Template\GetTemplatesRequest;
 use Laraspace\Http\Requests\Template\TemplateDetailRequest;
+use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Api\Repositories\TemplateRepository;
 
 class TemplateController extends BaseController
 {
@@ -310,23 +310,21 @@ class TemplateController extends BaseController
         echo "<pre>";print_r('script executed.');echo "</pre>";exit;
     }
 
-    public function generateTemplateGraphic()
+    public function generateTemplateGraphic(Request $request, $ageCategoryId)
     {
-        
-        
-        // $pdfStoredPath = PDF::loadUrl('https://google.com')
-        //               ->download('myawesomepdf.pdf', [
-        //                 'Authorization' => 'token'
-        //               ]);
-        // return $pdfStoredPath;
-        //               exit;
+        $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageCategoryId);
+        $templateData = [];
+        $templateData['ageCategoryId'] = $ageCategoryId;
+        $templateData['templateId'] = $tournamentCompetationTemplate->tournament_template_id;
+        $graphicDetails = TemplateRepository::getTemplateGraphic($templateData);
+        return view('template.graphicimage', ['graphicHtml' => $graphicDetails['graphicHtml']]);
+    }
 
-
-        // $conv = new Converter();
-        // $conv->setBinary('C:\xampp\htdocs\wot\node_modules\phantomjs\lib\phantom\bin\phantomjs.exe');
-        // $conv->source('http://google.com')
-        //     ->toPng();
-        // $conv->download('google.pdf', true);
-        // return view('template.graphic');
+    /**
+     * Get template graphic
+     */
+    public function getTemplateGraphic(Request $request)
+    {
+        return $this->templateObj->getTemplateGraphic($request->all());
     }
 }

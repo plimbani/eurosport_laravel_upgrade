@@ -156,6 +156,19 @@ function getPlacingTeam($fixtures, $match, $teamType, $groupName, $categoryAge) 
     }
 }
 
+function getMatchDetail($fixtures, $match, $groupName, $categoryAge) {
+    $matchNumber = str_replace('CAT.', $groupName . '-' . $categoryAge . '-', $match['match_number']);
+    if(isset($fixtures[$matchNumber])) {
+        return [
+            'is_scheduled' => $fixtures[$matchNumber]['is_scheduled'],
+            'pitch_name' => $fixtures[$matchNumber]['pitch_name'],
+            'venue_name' => $fixtures[$matchNumber]['venue_name'],
+            'match_datetime' => $fixtures[$matchNumber]['match_datetime'],
+        ];
+    }
+    return null;
+}
+
 function getPlacingWinnerLoserTeam($fixtures, $match, $teamType, $groupName, $categoryAge) {
     $modifiedMatchNumber = str_replace('CAT.', $groupName . '-' . $categoryAge . '-', $match['match_number']);
     if($teamType === 'home' && isset($fixtures[$modifiedMatchNumber]) && $fixtures[$modifiedMatchNumber]['home_team'] !== 0) {
