@@ -240,7 +240,6 @@ return [
         Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
         Laraspace\Api\Providers\TemplateServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Anam\PhantomMagick\ConverterServiceProvider::class,
         VerumConsilium\Browsershot\BrowsershotServiceProvider::class,
     ],
 
@@ -306,7 +305,6 @@ return [
         'Uuid' => Webpatser\Uuid\Uuid::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'GuzzleHttpClient' => GuzzleHttp\Client::class,
-        'Converter' => Anam\PhantomMagick\Facades\Converter::class,
     ],
 
 ];

@@ -52,7 +52,7 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime" :templateGraphicViewImage="templateGraphicViewImage" :graphicHtml="graphicHtml" v-if="isViewModalShown"></competationModal>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :graphicHtml="graphicHtml" v-if="isViewModalShown"></competationModal>
           <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
@@ -98,7 +98,6 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
-      templateGraphicViewImage: '',
       categoryStatus: false,
       categoryRules: [],
       copyCategoryStatus: false,
@@ -162,7 +161,6 @@ export default {
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
-            this.templateGraphicViewImage = response.data.data.graphic_image;
             this.graphicHtml = response.data.data.graphicHtml;
             this.totalTime = tTime
             $("#competationmodal").modal("show");

@@ -15,8 +15,6 @@ use Laraspace\Models\AgeCategoryDivision;
 use DB;
 use Carbon\Carbon;
 use VerumConsilium\Browsershot\Facades\Screenshot;
-use Anam\PhantomMagick\Converter;
-use Spatie\Image\Manipulations;
 
 class AgeGroupRepository
 {
@@ -433,8 +431,7 @@ class AgeGroupRepository
     public function viewTemplateGraphicImage($data)
     {
       $signedUrl = UrlSigner::sign(url('api/generateTemplateGraphic/' . $data['age_category']), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-      $graphicImage = file_get_contents(Screenshot::loadUrl($signedUrl)
-          ->fullPage()
+      $graphicImage = file_get_contents(Screenshot::loadUrl($signedUrl)->fullPage()
           ->useJPG()
           ->getTempFilePath());
       $base64Data = 'data:image/jpg' . ';base64,' . base64_encode($graphicImage);
