@@ -644,6 +644,10 @@
                 .catch((response) => {
                     toastr['error']('Error while fetching data', 'Error');
                 });
+
+                $("body .js-loader").addClass('d-none');
+                vm.isMatchScheduleInEdit = false;
+                vm.enableScheduleFeatureAsDefault = false;
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
