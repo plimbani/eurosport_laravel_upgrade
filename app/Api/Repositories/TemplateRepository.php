@@ -323,6 +323,7 @@ class TemplateRepository
     public function updateTemplate($data, $templateJson)
     {
         $decodedJson = json_decode($templateJson, true);
+        $divisionsCount = isset($decodedJson['tournament_competation_format']['divisions']) ? sizeof($decodedJson['tournament_competation_format']['divisions']) : 0;
         $graphicImageName = NULL;
         if($data['templateFormDetail']['stepone']['graphic_image']) {
             $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepone']['graphic_image'];
@@ -337,6 +338,7 @@ class TemplateRepository
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = number_format($decodedJson['avg_game_team'], 1);
         $tournamentTemplate->total_matches = $decodedJson['total_matches'];
+        $tournamentTemplate->no_of_divisions = $divisionsCount;
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
         $tournamentTemplate->save();
