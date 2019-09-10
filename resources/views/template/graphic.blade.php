@@ -72,7 +72,7 @@
                         <h6 class="m-0 font-weight-bold">&nbsp;</h6>
                         @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                           <div class="bordered-box">
-                            <span class="font-weight-bold">{{ getGroupName($group['groups']['group_name']) . ($teamIndex) }}</span>
+                            <span class="font-weight-bold">{{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}</span>
                           </div>
                         @endfor
                       </div>
@@ -154,7 +154,7 @@
                     <h6 class="m-0 font-weight-bold">&nbsp;</h6>
                     @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                       <div class="bordered-box">
-                        <span class="font-weight-bold">{{ getGroupName($group['groups']['group_name']) . ($teamIndex) }}</span>
+                        <span class="font-weight-bold">{{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}</span>
                       </div>
                     @endfor
                   </div>
