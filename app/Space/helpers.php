@@ -290,3 +290,68 @@ function getAllRoundGroups($roundIndex, $groups) {
     }
     return $allGroups;
 }
+
+function getColorCodeOfMatches($fixtures, $groupName, $categoryAge) {
+    $matchesWithColorCode = [];
+    $homeAwayTeamWithColorCode = [];
+    foreach($fixtures as $matchNumber=>$matchDetail) {
+        $matchNumberArray = explode(".", $matchDetail['match_number']);
+        $modifiedMatchNumber = str_replace($groupName . '-' . $categoryAge . '-', 'CAT.', $matchNumber);
+        $modifiedMatchNumberArray = explode(".", $modifiedMatchNumber);
+
+        if(strpos($modifiedMatchNumberArray[1], "PM") !== false) {
+            $colorCode = getRandomColorCode();
+            while(array_key_exists($colorCode, $matchNumberArray)) {
+                $colorCode = getRandomColorCode();
+            }
+
+            $homeAwayTeams = $matchNumberArray[count($matchNumberArray) - 1];
+            $searchResults = [];
+            $searchForWinner = null;
+            $searchForLoser = null;
+
+            if(strpos($homeAwayTeams, "_WR") === false && strpos($homeAwayTeams, "_LR") === false) {
+                $searchForWinner = str_replace('-', '_', $homeAwayTeams) . '_WR';
+                $searchForLoser = str_replace('-', '_', $homeAwayTeams) . '_LR';
+            } else {
+                $searchForWinner = $matchNumberArray[1] . '_' . $matchNumberArray[2] . '_WR';
+                $searchForLoser = $matchNumberArray[1] . '_' . $matchNumberArray[2] . '_LR';
+            }
+
+            foreach($fixtures as $o) {
+                if(strpos($o['match_number'], $searchForWinner) !== false) {
+                    $searchResults[] = $o;
+                    $homeAwayTeamWithColorCode[$searchForWinner] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+                }
+                if(strpos($o['match_number'], $searchForLoser) !== false) {
+                    $searchResults[] = $o;
+                    $homeAwayTeamWithColorCode[$searchForLoser] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+                }
+            }
+
+            if(count($searchResults) > 0 && !isset($matchesWithColorCode[$modifiedMatchNumber])) {
+                $matchesWithColorCode[$modifiedMatchNumber] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+            }
+        }
+    }
+    return ['matchesWithColorCode' => $matchesWithColorCode, 'homeAwayTeamWithColorCode' => $homeAwayTeamWithColorCode];
+}
+
+function getRandomColorCode() {
+    return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+}
+
+function getTeamCodeInSearch($match, $type) {
+    $matchNumber = explode(".", $match['match_number']);
+    $homeAwayTeams = explode("-", $matchNumber[count($matchNumber) - 1]);
+    $teamInSearch = $type === 'home' ? $homeAwayTeams[0] : $homeAwayTeams[1];
+    return $teamInSearch;
+}
+
+function pickTextColorBasedOnBgColorSimple($bgColor, $lightColor, $darkColor) {
+    $color = (substr($bgColor, 0, 1) === '#') ? substr($bgColor, 1, 7) : $bgColor;
+    $r = intval(substr($bgColor, 0, 2), 16); // hexToR
+    $g = intval(substr($bgColor, 2, 4), 16); // hexToG
+    $b = intval(substr($bgColor, 4, 6), 16); // hexToB
+    return ((($r * 0.299) + ($g * 0.587) + ($b * 0.114)) > 186) ? $darkColor : $lightColor;
+}
