@@ -73,6 +73,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 holder.individual_list_item.setText(mGroupModel.getDisplay_name());
             }
         }
+
+
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

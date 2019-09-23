@@ -5,21 +5,19 @@ package com.aecor.eurosports.util;
  */
 public class ApiConstants {
 
-
     //    www.esrtmp.com -> live
     //    qa.esrtmp.com -> qa
 
-//    public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
-    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
-//    public static final String BASE_URL = "https://comm-qa.wot.esrtmp.com/api/"; // EasyMatchManager QA
-//    public static final String BASE_URL = "http://usama-eurosport.dev.aecortech.com/api/";
+    //   public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
+//    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
+//        public static final String BASE_URL = "https://comm-qa.wot.esrtmp.com/api/"; // EasyMatchManager QA
 
-//    public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // ESR QA
-//
-//         public static final String BASE_URL = "http://rishab-fanslive.dev.aecortech.com/api/"; // Local Test
-//         public static final String BASE_URL = "https://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
-//         public static final String BASE_URL = "http://sunny-eurosport.dev.aecortech.com/api/"; // Local Test
-//    public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // Local Test
+
+
+     public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // Local Test
+
+    public static final String DEEPLINK_URL = "comm-qa.wot.esrtmp.com";
+//    public static final String DEEPLINK_URL = "usama-eurosport.dev.aecortech.com";
 
     public static final String ACCESS_CODE = BASE_URL + "tournament/access_code";
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
@@ -51,5 +49,6 @@ public class ApiConstants {
     public static final String FACEBOOK_LOGIN = BASE_URL + "auth/social/login";
     public static final String POST_USER_DETAILS = BASE_URL + "updateAppDeviceVersion";
 
+
 }
-    
+

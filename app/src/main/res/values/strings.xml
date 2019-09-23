@@ -257,8 +257,16 @@
 
     <string name="resend_email">Re-send email</string>
     <string name="facebook_signin">Sign in with Facebook</string>
+
+    <!--for local test-->
+    <!--<string name="facebook_app_id">1041471999387166</string>-->
+    <!--<string name="fb_login_protocol_scheme">fb1041471999387166</string>-->
+
     <!--for qa and live ESR-->
     <string name="facebook_app_id">865056057203614</string>
     <string name="fb_login_protocol_scheme">fb865056057203614</string>
+
+
     <string name="please_update_profile">Please update your profile first</string>
+    <string name="tournament_contact">Tournament Contact</string>
 </resources>

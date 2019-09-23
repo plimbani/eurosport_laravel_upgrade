@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -32,7 +34,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.bumptech.glide.util.Util;
 import com.testfairy.TestFairy;
 
 import org.json.JSONException;
@@ -141,9 +142,11 @@ public class SignInActivity extends BaseActivity {
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             log_in.setEnabled(true);
+            log_in.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
             log_in.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
         } else {
             log_in.setEnabled(false);
+            log_in.setTextColor(Color.BLACK);
             log_in.setBackground(getResources().getDrawable(R.drawable.btn_disable));
         }
     }
@@ -382,7 +385,7 @@ public class SignInActivity extends BaseActivity {
 
     private void launchHome() {
         if (BuildConfig.isEasyMatchManager) {
-            if (getIntent().getBooleanExtra("isFromUrl", false) && getIntent().getStringExtra("accessCode")!=null && getIntent().getStringExtra("accessCode").trim().length()>0) {
+            if (getIntent().getBooleanExtra("isFromUrl", false) && getIntent().getStringExtra("accessCode") != null && getIntent().getStringExtra("accessCode").trim().length() > 0) {
                 //call access api
                 callAccessCodeApi(getIntent().getStringExtra("accessCode"));
             } else {
@@ -465,7 +468,6 @@ public class SignInActivity extends BaseActivity {
 
 
     }
-
 
 
     private void postTokenOnServer(String mFcmToken) {

@@ -29,8 +29,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.activity.FavouritesActivity;
 import com.aecor.eurosports.activity.GetStartedActivity;
+import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
@@ -133,7 +133,7 @@ public class Utility {
             AppLogger.LogE(TAG, "error " + error.getMessage());
             String responseBody = error.getMessage();
 
-            JSONObject data = new JSONObject(responseBody);
+            final JSONObject data = new JSONObject(responseBody);
             String message = null;
             if (data.has("message")) {
                 message = data.getString("message");
@@ -143,6 +143,14 @@ public class Utility {
                 message = data.getString("error");
 
             }
+
+            String title = mContext.getString(R.string.error);
+
+            if (data.has("title")) {
+                message = data.getString("message");
+                title = data.getString("title");
+            }
+
             if (data.has("tournament_expired")) {
                 message = data.getString("tournament_expired");
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -162,13 +170,26 @@ public class Utility {
                     mContext.startActivity(mLandingPageIntent);
                     ((Activity) mContext).finish();
                 } else {
-                    ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                    ViewDialog.showSingleButtonDialog((Activity) mContext, title, message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                         @Override
                         public void onPositiveButtonClicked() {
                             if (mContext instanceof SplashActivity) {
-                                Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
-                                mContext.startActivity(mLandingPageIntent);
-                                ((Activity) mContext).finish();
+                                try {
+                                    if(data.has("title") && !isNullOrEmpty(data.getString("title"))){
+                                        Intent mLandingPageIntent = new Intent(mContext, HomeActivity.class);
+                                        mContext.startActivity(mLandingPageIntent);
+                                        ((Activity) mContext).finish();
+                                    }else {
+                                        Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                        mContext.startActivity(mLandingPageIntent);
+                                        ((Activity) mContext).finish();
+                                    }
+                                } catch (JSONException e) {
+                                    Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                    mContext.startActivity(mLandingPageIntent);
+                                    ((Activity) mContext).finish();
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
@@ -391,24 +412,30 @@ public class Utility {
         return formattedDate;
     }
 
-    public static Context setLocale(Context context, String language) {
+    public static void setLocale(Context context, String language) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return updateResources(context, language);
+            updateResources(context, language);
+        } else {
+            updateResourcesLegacy(context, language);
         }
-
-        return updateResourcesLegacy(context, language);
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private static Context updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
+    private static void updateResources(Context context, String language) {
 
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        configuration.setLayoutDirection(locale);
 
-        return context.createConfigurationContext(configuration);
+        Resources activityRes = context.getResources();
+        Configuration activityConf = activityRes.getConfiguration();
+        Locale newLocale = new Locale(language);
+        activityConf.setLocale(newLocale);
+        activityRes.updateConfiguration(activityConf, activityRes.getDisplayMetrics());
+
+        Resources applicationRes = context.getApplicationContext().getResources();
+        Configuration applicationConf = applicationRes.getConfiguration();
+        applicationConf.setLocale(newLocale);
+        applicationRes.updateConfiguration(applicationConf,
+                applicationRes.getDisplayMetrics());
+
     }
 
     public static boolean isPackageInstalled(Context context, String packageName) {
