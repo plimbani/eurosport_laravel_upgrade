@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -113,7 +114,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
 
         if (Utility.isInternetAvailable(mContext)) {
-            Utility.setLocale(mContext, selectedLocale);
+            Utility.setLocale(getApplicationContext(), selectedLocale);
             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
             String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
             Utility.startProgress(mContext);
@@ -528,9 +529,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             btn_update.setEnabled(true);
+            btn_update.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
             btn_update.setBackgroundResource(R.drawable.btn_yellow);
         } else {
             btn_update.setEnabled(false);
+            btn_update.setTextColor(Color.BLACK);
             btn_update.setBackgroundResource(R.drawable.btn_disable);
         }
     }
@@ -555,7 +558,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
             Utility.showToast(ProfileActivity.this, getString(R.string.please_update_profile));
             return;
         }

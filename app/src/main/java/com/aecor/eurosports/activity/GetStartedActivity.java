@@ -3,8 +3,10 @@ package com.aecor.eurosports.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -84,8 +86,10 @@ public class GetStartedActivity extends BaseActivity {
     private void validate() {
         if (et_enter_access_code.getText().toString().trim().length() > 0) {
             btnSubmit.setEnabled(true);
+            btnSubmit.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
             btnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
         } else {
+            btnSubmit.setTextColor(Color.BLACK);
             btnSubmit.setEnabled(false);
             btnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_disable));
         }
@@ -135,7 +139,7 @@ public class GetStartedActivity extends BaseActivity {
                             et_enter_access_code.setText("");
                         }
 
-                        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_EMAIL))) {
                             startActivity(new Intent(GetStartedActivity.this, ProfileActivity.class));
                         } else {
                             startActivity(new Intent(GetStartedActivity.this, FavouritesActivity.class));

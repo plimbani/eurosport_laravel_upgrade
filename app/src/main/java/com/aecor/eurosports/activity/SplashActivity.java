@@ -94,11 +94,28 @@ public class SplashActivity extends BaseActivity {
             final String scheme = uri.getScheme().toLowerCase();
             final String host = uri.getHost().toLowerCase();
             if (("http".equals(scheme) || "https".equals(scheme)) &&
-                    ("comm-qa.wot.esrtmp.com".equals(host) || "www.comm-qa.wot.esrtmp.com".equals(host))) {
+                    host.contains(ApiConstants.DEEPLINK_URL)) {
                 accessCode = getAccessCode(uri);
             }
         }
         initView();
+        //printHashKey(this);
+    }
+
+    private void printHashKey(Context context) {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
+        }
     }
 
     private void isUserLogin() {
@@ -113,45 +130,49 @@ public class SplashActivity extends BaseActivity {
             } else {
                 String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
                 String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
-//            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
-                String url = ApiConstants.SIGN_IN;
-                final JSONObject requestJson = new JSONObject();
-                try {
-                    requestJson.put("email", email);
-                    requestJson.put("password", password);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-                AppLogger.LogE(TAG, "***** Splash screen request *****" + requestJson.toString());
-                final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                        .POST, url,
-                        requestJson, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+                if (!Utility.isNullOrEmpty(email) && !Utility.isNullOrEmpty(password)) {
+
+//            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
+                    String url = ApiConstants.SIGN_IN;
+                    final JSONObject requestJson = new JSONObject();
+                    try {
+                        requestJson.put("email", email);
+                        requestJson.put("password", password);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    AppLogger.LogE(TAG, "***** Splash screen request *****" + requestJson.toString());
+                    final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+                    final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                            .POST, url,
+                            requestJson, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
 //                    Utility.StopProgress();
-                        try {
-                            AppLogger.LogE(TAG, "***** Splash Screen response *****" + response.toString());
-                            String token = response.get(AppConstants.PREF_TOKEN).toString();
-                            mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
-                            validate_user();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            try {
+                                AppLogger.LogE(TAG, "***** Splash Screen response *****" + response.toString());
+                                String token = response.get(AppConstants.PREF_TOKEN).toString();
+                                mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
+                                validate_user();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        try {
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            try {
 //                        Utility.StopProgress();
-                            Utility.parseVolleyError(mContext, error);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                                Utility.parseVolleyError(mContext, error);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-                mQueue.add(jsonRequest);
+                    });
+                    mQueue.add(jsonRequest);
+                }
             }
         } else {
             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -193,7 +214,6 @@ public class SplashActivity extends BaseActivity {
                             if (jsonObject.has("role")) {
                                 mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
                             }
-
                             if (jsonObject.has("country_id")) {
                                 mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
                             }
@@ -259,8 +279,6 @@ public class SplashActivity extends BaseActivity {
                                 ((Activity) mContext).finish();
                             }
                         }
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -288,17 +306,25 @@ public class SplashActivity extends BaseActivity {
 
     private void launchHome() {
         if (BuildConfig.isEasyMatchManager) {
-            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
-                    //profile screen
-                    startActivity(new Intent(mContext, ProfileActivity.class));
-                } else {
-                    // home screen
-                    startActivity(new Intent(mContext, HomeActivity.class));
-                }
+
+
+            if (accessCode != null && accessCode.trim().length() > 0) {
+                //call access api
+                callAccessCodeApi();
             } else {
-                // get started screen
-                startActivity(new Intent(mContext, GetStartedActivity.class));
+                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                        //profile screen
+                        startActivity(new Intent(mContext, ProfileActivity.class));
+                    } else {
+                        // home screen
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                    }
+                } else {
+                    // get started screen
+                    startActivity(new Intent(mContext, GetStartedActivity.class));
+                }
+                finish();
             }
         } else {
             if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
@@ -308,15 +334,14 @@ public class SplashActivity extends BaseActivity {
                 if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
                     //profile screen
                     startActivity(new Intent(mContext, ProfileActivity.class));
-                    finish();
                 } else {
                     // home screen
                     startActivity(new Intent(mContext, HomeActivity.class));
-                    finish();
                 }
+                finish();
+
             }
         }
-        finish();
 
 
     }
@@ -516,7 +541,7 @@ public class SplashActivity extends BaseActivity {
     }
 
 
-    private void callAccessCodeApi(String accessCode) {
+    private void callAccessCodeApi() {
 
         if (Utility.isInternetAvailable(mContext)) {
             final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
@@ -544,7 +569,13 @@ public class SplashActivity extends BaseActivity {
                             if (mTempFavTournament.getId() != null) {
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
                                 mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
-                                startActivity(new Intent(mContext, HomeActivity.class));
+
+                                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                                    startActivity(new Intent(mContext, HomeActivity.class));
+                                } else {
+                                    // get started screen
+                                    startActivity(new Intent(mContext, GetStartedActivity.class));
+                                }
                                 finish();
                             }
                         }
@@ -629,19 +660,4 @@ public class SplashActivity extends BaseActivity {
     }
 
 
-    public static void printHashKey(Context pContext) {
-        try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.e("SplashActivity", "printHashKey() Hash Key: " + hashKey);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("SplashActivity", "printHashKey()", e);
-        } catch (Exception e) {
-            Log.e("SplashActivity", "printHashKey()", e);
-        }
-    }
 }

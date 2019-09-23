@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.LandingActivity;
@@ -94,15 +95,18 @@ public class AutoLoginUtils {
             });
             mQueue.add(jsonRequest);
         } else {
-            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
-                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-                @Override
-                public void onPositiveButtonClicked() {
-                    System.exit(0);
+            if (mContext instanceof Activity) {
+                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onPositiveButtonClicked() {
 
-                }
+                        System.exit(0);
 
-            });
+                    }
+
+                });
+            }
         }
     }
 
