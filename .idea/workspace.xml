@@ -91,8 +91,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FullScreenImageActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="191" column="63" lean-forward="true" selection-start-line="191" selection-start-column="63" selection-end-line="191" selection-end-column="63" />
+            <state relative-caret-position="535">
+              <caret line="204" column="63" lean-forward="true" selection-start-line="204" selection-start-column="63" selection-end-line="204" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -455,6 +455,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="831" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.4519621" visible="true" weight="0.25822604" />
@@ -474,7 +475,7 @@
       <window_info active="true" anchor="bottom" id="Build" order="6" visible="true" weight="0.6467958" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.45872802" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.36941814" />
-      <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" weight="0.3295082" />
+      <window_info anchor="bottom" id="Android Profiler" order="9" weight="0.3295082" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" weight="0.32980332" />
