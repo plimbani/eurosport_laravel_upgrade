@@ -16,11 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.DivisionAdapter;
 import com.aecor.eurosports.adapter.GroupAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.AgeGroupModel;
 import com.aecor.eurosports.model.ClubGroupModel;
+import com.aecor.eurosports.model.DivisionGroupModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.ui.ViewDialog;
@@ -50,12 +53,12 @@ import butterknife.BindView;
 public class AgeGroupActivity extends BaseAppCompactActivity {
     public final String TAG = "AgeGroupActivity";
     private Context mContext;
-    @BindView(R.id.rl_search)
-    protected RelativeLayout rl_search;
     @BindView(R.id.ll_no_item_view)
     protected LinearLayout ll_no_item_view;
-    @BindView(R.id.age_categories_list)
-    protected RecyclerView rv_groupList;
+    @BindView(R.id.rv_groups)
+    protected RecyclerView rv_groups;
+    @BindView(R.id.rv_divisions)
+    protected RecyclerView rv_divisions;
     @BindView(R.id.tv_no_item)
     protected TextView tv_no_item;
     private AppPreference mPreference;
@@ -68,7 +71,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.acticity_age_group);
+        setContentView(R.layout.age_categories_with_division);
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -86,14 +89,17 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         Utility.setupUI(mContext, ll_main_layout);
         mPreference = AppPreference.getInstance(mContext);
         ll_no_item_view.setVisibility(View.GONE);
-        rl_search.setVisibility(View.GONE);
         tv_final_placing.setVisibility(View.VISIBLE);
         tv_final_placing.setText(Html.fromHtml("<u>" + tv_final_placing.getText().toString() + "</u>"));
         getAgeGroup();
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        rv_groupList.setLayoutManager(mLayoutManager);
-        rv_groupList.setItemAnimator(new DefaultItemAnimator());
-        rv_groupList.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+        rv_groups.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_groups.setItemAnimator(new DefaultItemAnimator());
+        rv_groups.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+        rv_divisions.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_divisions.setItemAnimator(new DefaultItemAnimator());
+        rv_divisions.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+        rv_groups.setNestedScrollingEnabled(false);
+        rv_divisions.setNestedScrollingEnabled(false);
         showBackButton(getString(R.string.GROUPS));
     }
 
@@ -109,20 +115,24 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         });
     }
 
-    private void setClubGroupAdapter(ClubGroupModel mClubModel[]) {
-        List<ClubGroupModel> list = new ArrayList<>();
-        list.addAll(Arrays.asList(mClubModel));
-        adapter = new GroupAdapter((Activity) mContext, list);
-        rv_groupList.setAdapter(adapter);
-        rv_groupList.setVisibility(View.VISIBLE);
+    private void setClubGroupAdapter(List<ClubGroupModel> list, AgeGroupModel mAgeGroupData) {
+        adapter = new GroupAdapter((Activity) mContext, list, mAgeGroupData);
+        rv_groups.setAdapter(adapter);
+        rv_groups.setVisibility(View.VISIBLE);
+    }
+
+    private void setDivisionAdapter(List<DivisionGroupModel> list, AgeGroupModel mAgeGroupData) {
+        DivisionAdapter adapter = new DivisionAdapter((Activity) mContext, list, mAgeGroupData);
+        rv_divisions.setAdapter(adapter);
+        rv_divisions.setVisibility(View.VISIBLE);
     }
 
     private void showNoItemView() {
         ll_no_item_view.setVisibility(View.VISIBLE);
         tv_no_item.setVisibility(View.VISIBLE);
         tv_no_item.setText(getResources().getString(R.string.no_data_available));
-        rl_search.setVisibility(View.GONE);
-        rv_groupList.setVisibility(View.GONE);
+        rv_groups.setVisibility(View.GONE);
+        rv_divisions.setVisibility(View.GONE);
     }
 
     private void getAgeGroup() {
@@ -148,17 +158,26 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                     Utility.StopProgress(mProgressHUD);
                     try {
                         AppLogger.LogE(TAG, "get Tournament Group Response" + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code"))
+                                && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                ClubGroupModel clubList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), ClubGroupModel[].class);
-                                if (clubList != null && clubList.length > 0) {
-                                    setClubGroupAdapter(clubList);
+                                AgeGroupModel mAgeGroupData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeGroupModel.class);
+                                if (mAgeGroupData != null) {
+                                    if (mAgeGroupData.getRound_robin_groups() != null
+                                            && mAgeGroupData.getRound_robin_groups().size() > 0) {
+                                        setClubGroupAdapter(mAgeGroupData.getRound_robin_groups(), mAgeGroupData);
+                                    }
+                                    if (mAgeGroupData.getDivision_groups() != null
+                                            && mAgeGroupData.getDivision_groups().size() > 0) {
+                                        setDivisionAdapter(mAgeGroupData.getDivision_groups(), mAgeGroupData);
+                                    }
                                 } else {
                                     showNoItemView();
                                 }
                             }
-                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
-                            String msg = "Selected tournament has expired";
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code"))
+                                && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = getString(R.string.selected_tournament_has_expired);
                             if (response.has("message")) {
                                 msg = response.getString("message");
                             }

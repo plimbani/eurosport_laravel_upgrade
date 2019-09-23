@@ -237,7 +237,8 @@ public class TeamActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mImageUrl)) {
             if (Utility.isInternetAvailable(mContext)) {
                 Intent mFullScreenImageIntent = new Intent(mContext, FullScreenImageActivity.class);
-                mFullScreenImageIntent.putExtra(AppConstants.KEY_IMAGE_URL, mImageUrl);
+//                mFullScreenImageIntent.putExtra(AppConstants.KEY_IMAGE_URL, mImageUrl);
+                mFullScreenImageIntent.putExtra(AppConstants.KEY_AGE_CATEGORIES_ID, mTeamDetailModel.getAge_group_id());
                 mContext.startActivity(mFullScreenImageIntent);
             } else {
                 Utility.showToast(mContext, mContext.getString(R.string.no_internet));
