@@ -1472,6 +1472,8 @@ a.active-view:hover {
         font-size: 12px;
         min-width: 100%;
         float: left;
+        justify-content: center;
+        line-height: 1.5;
         // overflow-x: scroll;
 
         .grid-division {
@@ -1543,9 +1545,12 @@ a.active-view:hover {
                     margin: 5px 0;
                     width: 100px;
 
+                    &:first-child{
+                        width: 150px;
+                    }
+
                     span {
                         font-size: 12px;
-                        line-height: 22px;
                     }
 
                     &.position-wrapper {

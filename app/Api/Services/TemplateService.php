@@ -141,4 +141,15 @@ class TemplateService implements TemplateContract
             return '';
         }
     }    
+
+    /*
+     * Get template graphic
+     *
+     * @return response
+     */
+    public function getTemplateGraphic($request)
+    {
+        $data = $this->templateRepoObj->getTemplateGraphic($request);
+        return ['data' => $data, 'status_code' => '200'];
+    }
 }

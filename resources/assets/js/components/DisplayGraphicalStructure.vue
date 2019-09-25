@@ -1,20 +1,18 @@
 <template>
   <div class="modal fade bg-modal-color displayGraphicImage" id="displayGraphicImage" tabindex="-1" role="dialog" aria-labelledby="displaygraphicLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-           <h5 class="modal-title" id="displaygraphicLabel">Match Schedule – Template {{templateGraphicImageName}}</h5>
+           <h5 class="modal-title" id="displaygraphicLabel">Match Schedule – Template {{ templateName }}</h5>
            <button type="button" class="close js-close-btn" @click="closeViewGraphicImage()">
            <span>×</span>
            </button>
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
-            <div class="row">
-              <div class="w-100 text-center">
-                <img class="text-center img-fluid" :src="viewGraphicImagePath">
-              </div>
-            </div>
+            
+              <div v-html="graphicHtml"></div>
+           
           </form>
         </div>
        </div>
@@ -22,20 +20,47 @@
   </div>
 </template>
 <script type="text/babel">
-   export default {
-    props: ['templateGraphicImageName','viewGraphicImagePath','sectionGraphicImage'],
-    mounted() {
-      var sectionGraphicImage = this.sectionGraphicImage;
-      $('#displayGraphicImage').on('hidden.bs.modal', function () {
-        if(sectionGraphicImage === 'AgeCategoryModal') {
-          $('body').addClass('modal-open');
+    import Tournament from '../api/tournament.js';
+    export default {
+      props: ['sectionGraphicImage'],
+      data() {
+        return {
+          templateName: '',
+          graphicHtml: '',
         }
-      })
-    },
-    methods: {
-      closeViewGraphicImage() {
-        $('#displayGraphicImage').modal('hide');
+      },
+      created: function() {
+        this.$root.$on('getTemplateGraphic', this.getTemplateGraphic);
+      },
+      beforeCreate: function() {
+        this.$root.$off('getTemplateGraphic');
+      },
+      mounted() {
+        var sectionGraphicImage = this.sectionGraphicImage;
+        $('#displayGraphicImage').on('hidden.bs.modal', function () {
+          if(sectionGraphicImage === 'AgeCategoryModal') {
+            $('body').addClass('modal-open');
+          }
+        });
+      },
+      methods: {
+        closeViewGraphicImage() {
+          $('#displayGraphicImage').modal('hide');
+        },
+        getTemplateGraphic(ageCategoryId, templateId) {
+          $("body .js-loader").removeClass('d-none');
+          let templateData = {'ageCategoryId': ageCategoryId, 'templateId': templateId};
+          Tournament.getTemplateGraphic(templateData).then(
+            (response)=> {
+              this.templateName = response.data.data.templateName;
+              this.graphicHtml = response.data.data.graphicHtml;
+              $("body .js-loader").addClass('d-none');
+            },
+            (error) => {
+              alert('Error in getting category competitions')
+            }
+          );
+        },
       }
     }
- }
 </script>

@@ -33,6 +33,7 @@
         "toin0u/geocoder-laravel": "1.x-dev",
         "toin0u/geotools-laravel": "~1.0",
         "tymon/jwt-auth": "0.5.*",
+        "verumconsilium/laravel-browsershot": "^1.1",
         "webpatser/laravel-uuid": "2.*"
     },
     "require-dev": {
