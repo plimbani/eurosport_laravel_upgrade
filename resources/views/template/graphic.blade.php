@@ -33,12 +33,12 @@
 
                     @if(checkIfWinnerLoserMatch($match['match_number']))
                       @php($homeTeamCode = getTeamCodeInSearch($match, 'home'))
-                      <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span></div>
+                      <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span></div>
                     @endif
 
                     @if(checkIfWinnerLoserMatch($match['match_number']))
                       @php($awayTeamCode = getTeamCodeInSearch($match, 'away'))
-                      <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$match['match_number']]) ? $colorCodes['homeAwayTeamWithColorCode'][$match['match_number']]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span></div>
+                      <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span></div>
                     @endif
                   </div>
                 @endforeach
@@ -63,8 +63,8 @@
                       <div class="group-column">
                         <h6 class="m-0 font-weight-bold">{{ "Group " . getGroupName($group['groups']['group_name']) }}</h6>
                         @foreach(getRoundRobinUniqueTeams($fixtures, $group['groups']['match'], $groupName, $categoryAge) as $teamIndex=>$team)
-                          <div class="bordered-box">
-                            <span class="font-weight-bold">{{ $team }}</span>
+                          <div class="bordered-box" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
+                            <span class="font-weight-bold">{{ $team['name'] }}</span>
                           </div>
                         @endforeach
                       </div>
@@ -113,7 +113,7 @@
             @if(getGroupType($group) == 'PM')
               @foreach($group['groups']['match'] as $matchIndex=>$match)
                 <div class="row-round">
-                  <div class="bordered-box" style="background-color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']] : '' }}">
+                  <div class="bordered-box" style="background-color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['background'] : '' }}; color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['text'] : '' }}">
                     <div><span class="font-weight-bold small">Match {{ getMatchNumber($match['display_match_number']) }}</span>
                     </div>
                     @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
@@ -132,11 +132,11 @@
                   @endif
                   @if(checkIfWinnerLoserMatch($match['match_number']))
                     @php($homeTeamCode = getTeamCodeInSearch($match, 'home'))
-                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span></div>
+                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span></div>
                   @endif
                   @if(checkIfWinnerLoserMatch($match['match_number']))
                     @php($awayTeamCode = getTeamCodeInSearch($match, 'away'))
-                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span></div>
+                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span></div>
                   @endif
                 </div>
               @endforeach
@@ -149,8 +149,8 @@
                   <div class="group-column">
                     <h6 class="m-0 font-weight-bold">{{ "Group " . getGroupName($group['groups']['group_name']) }}</h6>
                     @foreach(getRoundRobinUniqueTeams($fixtures, $group['groups']['match'], $groupName, $categoryAge) as $teamIndex=>$team)
-                      <div class="bordered-box">
-                        <span class="font-weight-bold">{{ $team }}</span>
+                      <div class="bordered-box" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
+                        <span class="font-weight-bold">{{ $team['name'] }}</span>
                       </div>
                     @endforeach
                   </div>

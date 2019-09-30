@@ -96,43 +96,46 @@ function getRoundRobinUniqueTeams($fixtures, $matches, $groupName, $categoryAge)
     $uniqueTeamsArray = [];
     foreach($matches as $match) {
         $modifiedMatchNumber = str_replace('CAT.', $groupName . '-' . $categoryAge . '-', $match['match_number']);
+        $matchNumber = explode(".", $match['match_number']);
+        $homeAwayTeam = explode("-", $matchNumber[count($matchNumber) - 1]);
 
         if(isset($fixtures[$modifiedMatchNumber]) && $fixtures[$modifiedMatchNumber]['home_team'] !== 0) {
-            $uniqueTeamsArray[] = $fixtures[$modifiedMatchNumber]['home_team_name'];
+            $uniqueTeamsArray[] = ['name' => $fixtures[$modifiedMatchNumber]['home_team_name'], 'code' => $homeAwayTeam[0]];
         } else {
+            $teamName = '';
             if(strpos($match['display_home_team_placeholder_name'], ".") !== false) {
-                $matchNumber = explode(".", $match['match_number']);
-                $homeAwayTeam = explode("-", $matchNumber[count($matchNumber) - 1]);
                 if(strpos($homeAwayTeam[0], 'WR') !== false) {
-                    $uniqueTeamsArray[] = 'Winner ' . $match['display_home_team_placeholder_name'];
+                    $teamName = 'Winner ' . $match['display_home_team_placeholder_name'];
                 }
                 if(strpos($homeAwayTeam[0], 'LR') !== false) {
-                    $uniqueTeamsArray[] = 'Loser ' . $match['display_home_team_placeholder_name'];
+                    $teamName = 'Loser ' . $match['display_home_team_placeholder_name'];
                 }
             } else {
-                $uniqueTeamsArray[] = $match['display_home_team_placeholder_name'];
+                $teamName = $match['display_home_team_placeholder_name'];
             }
+            $uniqueTeamsArray[] = ['name' => $teamName, 'code' => $homeAwayTeam[0]];
         }
 
         if(isset($fixtures[$modifiedMatchNumber]) && $fixtures[$modifiedMatchNumber]['away_team'] !== 0) {
-            $uniqueTeamsArray[] = $fixtures[$modifiedMatchNumber]['away_team_name'];
+            $uniqueTeamsArray[] = ['name' => $fixtures[$modifiedMatchNumber]['away_team_name'], 'code' => $homeAwayTeam[1]];
         } else {
+            $teamName = '';
             if(strpos($match['display_away_team_placeholder_name'], ".") !== false) {
-                $matchNumber = explode(".", $match['match_number']);
-                $homeAwayTeam = explode("-", $matchNumber[count($matchNumber) - 1]);
                 if(strpos($homeAwayTeam[1], 'WR') !== false) {
-                    $uniqueTeamsArray[] = 'Winner ' . $match['display_away_team_placeholder_name'];
+                    $teamName = 'Winner ' . $match['display_away_team_placeholder_name'];
                 }
                 if(strpos($homeAwayTeam[1], 'LR') !== false) {
-                    $uniqueTeamsArray[] = 'Loser ' . $match['display_away_team_placeholder_name'];
+                    $teamName = 'Loser ' . $match['display_away_team_placeholder_name'];
                 }
             } else {
-                $uniqueTeamsArray[] = $match['display_away_team_placeholder_name'];
+                $teamName = $match['display_away_team_placeholder_name'];
             }
+            $uniqueTeamsArray[] = ['name' => $teamName, 'code' => $homeAwayTeam[1]];
         }
     }
 
-    return array_unique($uniqueTeamsArray);
+    $tempArr = array_unique(array_column($uniqueTeamsArray, 'name'));
+    return array_intersect_key($uniqueTeamsArray, $tempArr);
 }
 
 function checkIfWinnerLoserMatch($matchNumber) {
@@ -314,17 +317,19 @@ function getColorCodeOfMatches($fixtures, $groupName, $categoryAge) {
                 $searchForWinner = str_replace('-', '_', $homeAwayTeams) . '_WR';
                 $searchForLoser = str_replace('-', '_', $homeAwayTeams) . '_LR';
             } else {
-                $searchForWinner = $matchNumberArray[1] . '_' . $matchNumberArray[2] . '_WR';
-                $searchForLoser = $matchNumberArray[1] . '_' . $matchNumberArray[2] . '_LR';
+                $searchForWinner = $modifiedMatchNumberArray[1] . '_' . $modifiedMatchNumberArray[2] . '_WR';
+                $searchForLoser = $modifiedMatchNumberArray[1] . '_' . $modifiedMatchNumberArray[2] . '_LR';
             }
 
             foreach($fixtures as $o) {
                 if(strpos($o['match_number'], $searchForWinner) !== false) {
                     $searchResults[] = $o;
+                    $searchForWinner = (strpos($searchForWinner, 'PM') === 0) ? '(' . $searchForWinner . ')'  : $searchForWinner; 
                     $homeAwayTeamWithColorCode[$searchForWinner] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
                 }
                 if(strpos($o['match_number'], $searchForLoser) !== false) {
                     $searchResults[] = $o;
+                    $searchForLoser = (strpos($searchForLoser, 'PM') === 0) ? '(' . $searchForLoser . ')'  : $searchForLoser; 
                     $homeAwayTeamWithColorCode[$searchForLoser] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
                 }
             }
@@ -350,8 +355,9 @@ function getTeamCodeInSearch($match, $type) {
 
 function pickTextColorBasedOnBgColorSimple($bgColor, $lightColor, $darkColor) {
     $color = (substr($bgColor, 0, 1) === '#') ? substr($bgColor, 1, 7) : $bgColor;
-    $r = intval(substr($bgColor, 0, 2), 16); // hexToR
-    $g = intval(substr($bgColor, 2, 4), 16); // hexToG
-    $b = intval(substr($bgColor, 4, 6), 16); // hexToB
-    return ((($r * 0.299) + ($g * 0.587) + ($b * 0.114)) > 186) ? $darkColor : $lightColor;
+    $r = hexdec(substr($bgColor, 1, 2)); // hexToR
+    $g = hexdec(substr($bgColor, 3, 2)); // hexToG
+    $b = hexdec(substr($bgColor, 5, 2)); // hexToB
+    $yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+    return ($yiq >= 128) ? $darkColor : $lightColor;
 }
