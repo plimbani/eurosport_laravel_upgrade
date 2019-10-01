@@ -1,4 +1,4 @@
-@php($colorCodes = getColorCodeOfMatches($fixtures, $groupName, $categoryAge))
+@php($colorCodes = getColorCodeOfMatches($allMatches))
 <div class="grid-round-wrapper">
   <div class="grid-round">
     @foreach(rounds($templateData) as $roundIndex=>$round)

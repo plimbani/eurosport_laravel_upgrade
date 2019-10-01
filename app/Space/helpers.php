@@ -294,15 +294,14 @@ function getAllRoundGroups($roundIndex, $groups) {
     return $allGroups;
 }
 
-function getColorCodeOfMatches($fixtures, $groupName, $categoryAge) {
+function getColorCodeOfMatches($allMatches) {
     $matchesWithColorCode = [];
     $homeAwayTeamWithColorCode = [];
-    foreach($fixtures as $matchNumber=>$matchDetail) {
+    foreach($allMatches as $matchDetail) {
+        $matchNumber = $matchDetail['match_number'];
         $matchNumberArray = explode(".", $matchDetail['match_number']);
-        $modifiedMatchNumber = str_replace($groupName . '-' . $categoryAge . '-', 'CAT.', $matchNumber);
-        $modifiedMatchNumberArray = explode(".", $modifiedMatchNumber);
 
-        if(strpos($modifiedMatchNumberArray[1], "PM") !== false) {
+        if(strpos($matchNumberArray[1], "PM") !== false) {
             $colorCode = getRandomColorCode();
             while(array_key_exists($colorCode, $matchNumberArray)) {
                 $colorCode = getRandomColorCode();
@@ -317,11 +316,11 @@ function getColorCodeOfMatches($fixtures, $groupName, $categoryAge) {
                 $searchForWinner = str_replace('-', '_', $homeAwayTeams) . '_WR';
                 $searchForLoser = str_replace('-', '_', $homeAwayTeams) . '_LR';
             } else {
-                $searchForWinner = $modifiedMatchNumberArray[1] . '_' . $modifiedMatchNumberArray[2] . '_WR';
-                $searchForLoser = $modifiedMatchNumberArray[1] . '_' . $modifiedMatchNumberArray[2] . '_LR';
+                $searchForWinner = $matchNumberArray[1] . '_' . $matchNumberArray[2] . '_WR';
+                $searchForLoser = $matchNumberArray[1] . '_' . $matchNumberArray[2] . '_LR';
             }
 
-            foreach($fixtures as $o) {
+            foreach($allMatches as $o) {
                 if(strpos($o['match_number'], $searchForWinner) !== false) {
                     $searchResults[] = $o;
                     $searchForWinner = (strpos($searchForWinner, 'PM') === 0) ? '(' . $searchForWinner . ')'  : $searchForWinner; 
@@ -334,8 +333,8 @@ function getColorCodeOfMatches($fixtures, $groupName, $categoryAge) {
                 }
             }
 
-            if(count($searchResults) > 0 && !isset($matchesWithColorCode[$modifiedMatchNumber])) {
-                $matchesWithColorCode[$modifiedMatchNumber] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+            if(count($searchResults) > 0 && !isset($matchesWithColorCode[$matchNumber])) {
+                $matchesWithColorCode[$matchNumber] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
             }
         }
     }

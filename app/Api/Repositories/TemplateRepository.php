@@ -1000,6 +1000,9 @@ class TemplateRepository
         $tournamentName = '';
         $tempFixtures = [];
         $assignedTeams = [];
+        $roundMatches = [];
+        $divisionMatches = [];
+        $allMatches = [];
         $tournamentCompetitionTemplate = null;
 
         if($ageCategoryId != null) {
@@ -1023,15 +1026,39 @@ class TemplateRepository
             $jsonData = $tournamentCompetitionTemplate->template_json_data;
             $tournamentName = ucfirst($tournamentCompetitionTemplate->competition_type) . ' - ' . $tournamentCompetitionTemplate->total_teams . ' teams';
         }
+        $jsonData = json_decode($jsonData, true);
+        $roundMatches = TemplateRepository::getMatches($jsonData['tournament_competation_format']['format_name']);
+        if(isset($jsonData['tournament_competation_format']['divisions'])) {
+            foreach($jsonData['tournament_competation_format']['divisions'] as $divisionIndex => $division) {
+                $matches = TemplateRepository::getMatches($division['format_name']);
+                $divisionMatches = array_merge($divisionMatches, $matches);
+            }
+        }
+        $allMatches = array_merge($roundMatches, $divisionMatches);
+
         $templateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
-            'templateData' => json_decode($jsonData, true),
+            'templateData' => $jsonData,
             'assignedTeams' => $assignedTeams,
             'categoryAge' => $tournamentCompetitionTemplate ? $tournamentCompetitionTemplate->category_age : null,
             'groupName' => $tournamentCompetitionTemplate ? $tournamentCompetitionTemplate->group_name : null,
+            'allMatches' => $allMatches,
         ])->render();
         $templateData['templateName'] = $tournamentName;
 
         return $templateData;
+    }
+
+    public static function getMatches($rounds)
+    {
+        $allMatches = [];
+        foreach($rounds as $roundIndex => $round) {
+            foreach($round['match_type'] as $groupIndex => $group) {
+                foreach($group['groups']['match'] as $matchIndex => $match) {
+                    $allMatches[] = $match;
+                }
+            }
+        }
+        return $allMatches;
     }
 }
