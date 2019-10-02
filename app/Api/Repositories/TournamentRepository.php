@@ -111,21 +111,34 @@ class TournamentRepository
             return (array) $object;
         }, $tempFixtures);
         $assignedTeams = Team::where('age_group_id', $ageCategoryId)->whereNotNull('competation_id')->get()->toArray();
+        $roundMatches = [];
+        $divisionMatches = [];
+        $allMatches = [];
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
         if($tournamentTemplateId != NULL) {
             $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
-            $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+            // $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
         } else {
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
         }
+        $jsonData = json_decode($tournamentTemplateData['json_data'], true);
+        $roundMatches = TemplateRepository::getMatches($jsonData['tournament_competation_format']['format_name']);
+        if(isset($jsonData['tournament_competation_format']['divisions'])) {
+            foreach($jsonData['tournament_competation_format']['divisions'] as $divisionIndex => $division) {
+                $matches = TemplateRepository::getMatches($division['format_name']);
+                $divisionMatches = array_merge($divisionMatches, $matches);
+            }
+        }
+        $allMatches = array_merge($roundMatches, $divisionMatches);
         $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
-            'templateData' => json_decode($tournamentTemplateData['json_data'], true),
+            'templateData' => $jsonData,
             'assignedTeams' => $assignedTeams,
             'categoryAge' => $tournamentCompetitionTemplate->category_age,
             'groupName' => $tournamentCompetitionTemplate->group_name,
+            'allMatches' => $allMatches,
         ])->render();
 
         return $tournamentTemplateData;
