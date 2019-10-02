@@ -6,7 +6,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <router-view></router-view>
+        <router-view v-bind="routerProps" @hideEnlargedPitchPlannerStatus="hideEnlargedPitchPlannerStatus"></router-view>
     </div>
 </template>
 
@@ -15,6 +15,11 @@
         mounted() {
             this.$store.dispatch('SetPitchPlannerInEnlargeMode')
             this.showEnlargedPitchPlanner = true;
+        },
+        computed: {
+            routerProps() {
+                return {showEnlargedPitchPlanner: this.showEnlargedPitchPlanner};
+            },
         },
         created() {
         },
@@ -27,10 +32,12 @@
         },
         methods: {
             showPitchPlanner() {
+                this.$router.push({name: 'pitch_planner'});
+            },
+            hideEnlargedPitchPlannerStatus() {
                 this.showEnlargedPitchPlanner = false;
                 this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
-                this.$router.push({name: 'pitch_planner'});
-            }
+            },
         },
     }
 </script>
