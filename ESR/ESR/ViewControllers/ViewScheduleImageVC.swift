@@ -13,7 +13,8 @@ class ViewScheduleImageVC: UIViewController {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var btnClose: UIButton!
     @IBOutlet var scrollView: UIScrollView!
-    var imgURL = NULL_STRING
+    
+    var base64String = NULL_STRING
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,15 @@ class ViewScheduleImageVC: UIViewController {
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 10.0
         
-        imgView.sd_setImage(with: URL(string: imgURL), completed: nil)
+        if !base64String.isEmpty {
+            let arrayString = base64String.split(separator: ",")
+            
+            if arrayString.count > 0 {
+                if let data = Data(base64Encoded: String(arrayString.last!)) {
+                    imgView.image = UIImage(data: data)
+                }
+            }
+        }
         
         if let mainTabViewController = self.parent!.parent as? MainTabViewController {
             mainTabViewController.hideTabbar(flag: true)
@@ -49,8 +58,9 @@ class ViewScheduleImageVC: UIViewController {
                 (viewController as! TeamVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break
-            } else if viewController is CategoryListVC {
-                (viewController as! CategoryListVC).rotateToPortrait = true
+            } else if viewController is TabTeamsVC {
+                (viewController as! TabTeamsVC).selectedIndexForRotation = (viewController as! TabTeamsVC).selectedIndex
+                (viewController as! TabTeamsVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break
             }

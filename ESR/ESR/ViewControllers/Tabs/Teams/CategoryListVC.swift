@@ -176,17 +176,55 @@ extension CategoryListVC: AgeCategoryCellDelegate {
     func ageCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
         
+        var ageCategoryId = -1
+        
         if isSearch {
-            if let imgURLValue = (ageCategoriesFilterList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
+            
+            /*if let imgURLValue = (ageCategoriesFilterList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
                 viewController.imgURL = imgURLValue
+            }*/
+            
+            if let id = (ageCategoriesFilterList[indexPath.row] as! NSDictionary).value(forKey: "id") as? Int {
+                ageCategoryId = id
             }
         } else {
-            if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
+            /*if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
                 viewController.imgURL = imgURLValue
+            }*/
+            
+            if let id = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as? Int {
+                ageCategoryId = id
             }
         }
         
-        self.navigationController?.pushViewController(viewController, animated: true)
+        sendGetViewGraphicImageRequest(ageGroupId: ageCategoryId, viewController: viewController)
+    }
+    
+    func sendGetViewGraphicImageRequest(ageGroupId: Int, viewController: UIViewController) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        parameters["age_category"] = "\(ageGroupId)"
+        
+        self.view.showProgressHUD()
+        ApiManager().getViewGraphicImage(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let imgURL = result as? String {
+                    (viewController as! ViewScheduleImageVC).base64String = imgURL
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                }
+                
+                
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+            }
+        })
     }
 }
 

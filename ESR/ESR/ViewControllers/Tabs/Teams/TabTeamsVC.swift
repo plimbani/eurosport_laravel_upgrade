@@ -19,11 +19,34 @@ class TabTeamsVC: SuperViewController {
     var previousIndex = 0
     var viewControllers: [UIViewController]!
     
+    var rotateToPortrait = false
+    var selectedIndexForRotation = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
         self.navigationController?.isNavigationBarHidden = true
         initialize()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+       
+        if rotateToPortrait {
+            APPDELEGATE.deviceOrientation = .portrait
+            let valueOrientation = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(valueOrientation, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+            self.tabBarController?.tabBar.isHidden = false
+            rotateToPortrait = false
+            
+            if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                mainTabViewController.hideTabbar(flag: false)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.refreshTabView()
+            }
+        }
     }
     
     func initialize(){
@@ -94,6 +117,16 @@ class TabTeamsVC: SuperViewController {
                 
                 addViewControllerToContentView(true)
             }
+        }
+    }
+    
+    func refreshTabView() {
+        tabLabelList[selectedIndex].textColor = .white
+        tabLineViewList[selectedIndex].backgroundColor = UIColor.init(named: "teamtabssepcolor")
+        
+        if selectedIndex != previousIndex {
+            tabLabelList[previousIndex].textColor = UIColor.init(named: "teamtabstextcolor")
+            tabLineViewList[previousIndex].backgroundColor = .clear
         }
     }
 }
