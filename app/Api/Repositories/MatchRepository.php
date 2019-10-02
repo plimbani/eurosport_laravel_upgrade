@@ -481,10 +481,21 @@ class MatchRepository
                 break;
               case 'competation_group':
                 $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
-              break;
+                break;
               case 'competation_group_age':
                 $reportQuery =  $reportQuery->where('temp_fixtures.age_group_id','=',$tournamentData['filterValue']);
-              break;
+                break;
+              case 'competation_group_division':
+                $reportQuery =  $reportQuery->where('competitions.age_category_division_id','=',$tournamentData['filterValue']);
+                break;
+              case 'competation_group_agecategory_round':
+                $filterValue = explode("-", $tournamentData['filterValue']);
+                $reportQuery =  $reportQuery->where('temp_fixtures.age_group_id','=',$filterValue[0]);
+                if($filterValue[1] != "") {
+                  $reportQuery =  $reportQuery->where('competitions.age_category_division_id','=',$filterValue[1]);
+                }
+                $reportQuery =  $reportQuery->where('competitions.competation_round_no','=',$filterValue[2]);
+                break;
             }
           }
         }

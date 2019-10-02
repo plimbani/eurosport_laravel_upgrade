@@ -1,91 +1,83 @@
 <template>
-  <div class="row justify-content-end">
-    <div class="col-sm-12">
-      <h6 class="font-weight-bold fieldset-title">{{$lang.teams_filter}}</h6>
+  <div class="row align-items-center">
+    <div class="col-md-3">
+      <h6 class="font-weight-bold fieldset-title mb-0">{{$lang.teams_filter}}</h6>
     </div>
-    <div class="col-sm-12">
-      <div class="row">
-        <div class="col-md-10">
-          <div class="row align-items-center">
-            <div class="col-md-8">
-              <form  class="form-inline summary-matches-filter">
-                <div class="form-group" v-if="section!='scheduleResult'">
-                  <label class="radio-inline control-label">
-                    <div class="checkbox">
-                      <div class="c-input">
-                          <input type="radio" id="age_category" name="filter" value="age_category"
-                          @click="getDropDownData('age_category')" class="euro-radio mr-2">
-                          <label for="age_category">{{$lang.tournament_filter_age_category}}</label>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-                <div class="form-group" v-if="section =='scheduleResult'">
-                  <label class="radio-inline control-label">
-                      <div class="checkbox">
-                        <div class="c-input">
-                          <input type="radio" id="competation_group" name="filter" value="competation_group"
-                          @click="getDropDownData('competation_group')" class="euro-radio mr-2">
-                          <label for="competation_group">{{$lang.tournament_filter_age_category_match}}</label>
-                        </div>
-                      </div>
-                  </label>
-                </div>
-                <div class="form-group" v-if="section=='pitchPlanner' || section=='scheduleResult'">
-                  <label class="radio-inline control-label">
-                      <div class="checkbox">
-                        <div class="c-input">
-                          <input type="radio" id="location" name="filter" value="location"
-                             @click="getDropDownData('location')" class="euro-radio mr-2">
-                          <label for="location">{{$lang.teams_location}}</label>
-                        </div>
-                      </div>
-                  </label>
-                </div>
-                <div class="form-group" v-if="section == 'scheduleResult' || section =='teams'">
-                  <label class="radio-inline control-label">
-                      <div class="checkbox">
-                        <div class="c-input">
-                          <input type="radio" id="team" name="filter" value="team"
-                            @click="getDropDownData('team')" class="euro-radio mr-2">
-                          <label for="team">{{$lang.teams_team}}</label>
-                        </div>
-                      </div>
-                  </label>
-                </div>
-                <div class="form-group" v-if="section=='teams'">
-                  <label class="radio-inline control-label">
-                      <div class="checkbox">
-                        <div class="c-input">
-                          <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="euro-radio mr-2">
-                          <label for="country">{{$lang.teams_country}}</label>
-                        </div>
-                      </div>                      
-                  </label>
-                </div>
-              </form>
+    <div class="col-md-4">
+      <form  class="form-inline summary-matches-filter">
+        <div class="form-group" v-if="section!='scheduleResult'">
+          <label class="radio-inline control-label">
+            <div class="checkbox">
+              <div class="c-input">
+                  <input type="radio" id="age_category" name="filter" value="age_category"
+                  @click="getDropDownData('age_category')" class="euro-radio mr-2">
+                  <label for="age_category">{{$lang.tournament_filter_age_category}}</label>
+              </div>
             </div>
-            <div class="col-md-4 filterDropdown">
-              <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
-                <option value="" v-if="filterKey != 'age_category'">Select</option>
-                <option   
-                v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class" >  {{ option.name }}</option>
-              </select>
-              <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" v-else>
-                <option value="" v-if="filterKey != 'age_category'">Select</option>
-                <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
-              </select>
-            </div>
-          </div>
+          </label>
         </div>
-        <div class="col-md-2">
-          <div class="form-group mr-0">
-            <label class="control-label w-100 mr-0">
-              <a href="javascript:void(0)" class="btn btn-secondary w-100" @click="clearFilter()">{{$lang.teams_clear}}</a>
-            </label>
-          </div>
+        <div class="form-group" v-if="section =='scheduleResult'">
+          <label class="radio-inline control-label">
+              <div class="checkbox">
+                <div class="c-input">
+                  <input type="radio" id="competation_group" name="filter" value="competation_group"
+                  @click="getDropDownData('competation_group')" class="euro-radio mr-2">
+                  <label for="competation_group">{{$lang.tournament_filter_age_category_match}}</label>
+                </div>
+              </div>
+          </label>
         </div>
-      </div>
+        <div class="form-group" v-if="section=='pitchPlanner' || section=='scheduleResult'">
+          <label class="radio-inline control-label">
+              <div class="checkbox">
+                <div class="c-input">
+                  <input type="radio" id="location" name="filter" value="location"
+                     @click="getDropDownData('location')" class="euro-radio mr-2">
+                  <label for="location">{{$lang.teams_location}}</label>
+                </div>
+              </div>
+          </label>
+        </div>
+        <div class="form-group" v-if="section == 'scheduleResult' || section =='teams'">
+          <label class="radio-inline control-label">
+              <div class="checkbox">
+                <div class="c-input">
+                  <input type="radio" id="team" name="filter" value="team"
+                    @click="getDropDownData('team')" class="euro-radio mr-2">
+                  <label for="team">{{$lang.teams_team}}</label>
+                </div>
+              </div>
+          </label>
+        </div>
+        <div class="form-group" v-if="section=='teams'">
+          <label class="radio-inline control-label">
+              <div class="checkbox">
+                <div class="c-input">
+                  <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="euro-radio mr-2">
+                  <label for="country">{{$lang.teams_country}}</label>
+                </div>
+              </div>                      
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4 filterDropdown">
+      <select :class="'form-control matches-groups-filter ls-select2 '+filterKey" v-if="filterKey == 'competation_group'" id="matches_category_filter">
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        <option v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class">{{ option.name }}</option>
+      </select>
+      <!-- <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        <option   
+        v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class" >  {{ option.name }}</option>
+      </select> -->
+      <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" v-else>
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-1">
+      <a href="javascript:void(0)" class="btn btn-secondary btn-block" @click="clearFilter()">{{$lang.teams_clear}}</a>
     </div>
   </div>
 </template>
@@ -167,8 +159,14 @@ export default {
       var filterCompGroup = {'id' :this.filterValue};
       var tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
-      if(this.dropDown.class == 'age'){
+      if(this.dropDown.class == 'agecategory'){
         matchFilterKey = 'competation_group_age';
+      }
+      if(this.dropDown.class == 'division'){
+        matchFilterKey = 'competation_group_division';
+      }
+      if(this.dropDown.class == 'agecategory-round' || this.dropDown.class == 'agecategory-division-round'){
+        matchFilterKey = 'competation_group_agecategory_round';
       }
      
       this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.filterValue);
@@ -203,19 +201,32 @@ export default {
           if(tourament_key == 'competation_group'){
             $('.competation_group').select2().val(null).trigger("change");
       
-            _.map(response.data.data, function(opt){
-              newOption.push({"id":opt.id,"name": opt.name,"class":"age","data":opt.id});
-              _.map(opt.competition, function(comp){
-                 let grpName =comp.name.split("-");
-                      grpName = grpName.splice(grpName.length-2,2);
-                      grpName =grpName.join('-');
-        
-                newOption.push({"id":comp.id, "name": grpName, "class":"group", "data":comp});
+            _.map(response.data.data, function(ageCategory, ageCategoryId){
+              newOption.push({"id":ageCategoryId,"name": ageCategory.name,"class":"agecategory","data":ageCategoryId});
+              _.map(ageCategory.groups.round_robin, function(groups, roundName){
+                newOption.push({"id":ageCategoryId + "-" + "-" + roundName,"name": roundName,"class":"agecategory-round","data":ageCategoryId + "-" + roundName});
+                _.map(groups, function(group){
+                  newOption.push({"id":group.id, "name": group.display_name, "class":"agecategory-round-group", "data":group});
+                });
               });
-
+              _.map(ageCategory.groups.divisions, function(division, divisionId){
+                newOption.push({"id":divisionId,"name": division.name,"class":"division","data":divisionId});
+                _.map(division.rounds, function(groups, roundName){
+                  newOption.push({"id":ageCategoryId + "-" + divisionId + "-" + roundName,"name": roundName,"class":"agecategory-division-round","data":ageCategoryId + "-" + roundName});
+                  _.map(groups, function(group){
+                    newOption.push({"id":group.id, "name": group.display_name, "class":"agecategory-division-round-group", "data":group});
+                  });
+                });
+              });
             });
             $('.competation_group').select2({
-                minimumResultsForSearch: Infinity,
+                // minimumResultsForSearch: Infinity,
+                templateResult: function (data, container) {
+                  if (data.element) {
+                    $(container).addClass($(data.element).attr("class"));
+                  }
+                  return data.text;
+                }
             });
             var vm =this;
             $('.competation_group').on("select2:select", function (e) {
