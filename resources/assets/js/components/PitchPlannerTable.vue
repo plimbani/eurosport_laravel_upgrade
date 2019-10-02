@@ -51,7 +51,7 @@
                                 <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
                                 data-toggle="tab" role="tab" href="#game-list">
-                                <div class="wrapper-tab">Games <span>({{totalMatchCount}})</span></div></a>
+                                <div class="wrapper-tab">Games <span class="gameCount">({{totalMatchCount}})</span></div></a>
                             </li>
                             <li class="nav-item">
                                 <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link']"
@@ -63,7 +63,7 @@
                             <div
                             :class="[currentView == 'gamesTab' ? 'active' : '', 'tab-pane']"
                             v-if="GameStatus" id="game-list" role="tabpanel">
-                                <games-tab></games-tab>
+                                <games-tab :totalMatchCount="totalMatchCount"></games-tab>
                             </div>
                             <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
                                 <referees-tab v-if="isCompetitionCallProcessed" :competationList="competationList" :isMatchScheduleInEdit="isMatchScheduleInEdit"></referees-tab>
@@ -94,6 +94,7 @@
     import UnsavedMatchFixture from './UnsavedMatchFixture.vue'
 
     export default  {
+        props: ['scheduleMatchesArray', 'isMatchScheduleInEdit'],
         components: {
             GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnsavedMatchFixture
         },
@@ -151,6 +152,7 @@
             this.$root.$on('setView', this.setView);
             this.$root.$on('cancelUnscheduleFixtures', this.cancelUnscheduleFixtures);
             this.$root.$on('filterMatches', this.filterMatches);
+            this.$root.$on('showUnChangedMatchFixture', this.showUnChangedMatchFixture);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -166,6 +168,7 @@
             this.$root.$off('displayTournamentCompetationList');
             this.$root.$off('setView');
             this.$root.$off('filterMatches');
+            this.$root.$off('showUnChangedMatchFixture');
         },
         data() {
             return {
@@ -185,8 +188,6 @@
                 'formValues': this.initialState(),
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
-                'scheduleMatchesArray': [],
-                'isMatchScheduleInEdit': false,
                 'conflictedMatchFixtures': [],
                 'isAnotherMatchScheduled': false,
                 'enableScheduleFeatureAsDefault': true,
@@ -567,15 +568,10 @@
                 })
             },
             saveScheduleMatchResult(matchData) {
-                let matchIndex = _.findIndex(this.scheduleMatchesArray, function(o) { return o.matchId == matchData.matchId; });
-                if(matchIndex === -1) {
-                    this.scheduleMatchesArray.push(matchData);
-                } else {
-                    this.scheduleMatchesArray[matchIndex] = matchData;
-                }
+                this.$emit("saveScheduleMatchResult", matchData);
             },
             clearScheduleMatches() {
-                this.scheduleMatchesArray = [];
+                this.$emit("clearScheduleMatchesArray");
             },
             saveScheduleMatches() {
                 let vm = this;
@@ -603,7 +599,7 @@
                                 toastr['error']('Error while fetching data', 'Error');
                             });
                             $("body .js-loader").addClass('d-none');
-                            vm.isMatchScheduleInEdit = false;
+                            vm.$emit('changeMatchScheduleStatus', false);
                             vm.enableScheduleFeatureAsDefault = false;
                         }
                     },  
@@ -618,7 +614,7 @@
                 this.cancelUnscheduleFixtures();
                 $("#unschedule_fixtures").hide();
                 $("#automatic_planning").hide();
-                this.isMatchScheduleInEdit = true;
+                this.$emit('changeMatchScheduleStatus', true);
             },
             resetScheduleMatches() {
                 let vm = this;
@@ -627,7 +623,7 @@
                 $('#cancel_schedule_fixtures').hide();
                 $("#unschedule_fixtures").show();
                 $("#automatic_planning").show();
-                this.isMatchScheduleInEdit = false;
+                this.$emit('changeMatchScheduleStatus', false);
                 this.clearScheduleMatches();
             },
             cancelScheduleMatches() {
@@ -644,6 +640,10 @@
                 .catch((response) => {
                     toastr['error']('Error while fetching data', 'Error');
                 });
+
+                $("body .js-loader").addClass('d-none');
+                vm.isMatchScheduleInEdit = false;
+                vm.enableScheduleFeatureAsDefault = false;
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
@@ -662,7 +662,6 @@
                                 scheduleBlock = true
                             }
                         } else if(filterKey == 'location'){
-                            console.log('filterValue', filterValue);
                             if( filterValue != '' && filterValue.id != event.resourceId){
                                 scheduleBlock = true;
                             }
@@ -753,6 +752,12 @@
             makeScheduleMatchesAsDefault() {
                 this.enableScheduleFeatureAsDefault = true;
                 this.scheduleMatches();
+            },
+            showUnChangedMatchFixture(conflictedFixturesArray) {
+                this.conflictedMatchFixtures = conflictedFixturesArray;
+                if(this.conflictedMatchFixtures.length > 0) {
+                    $('#unChangedMatchFixtureModal').modal('show');
+                }
             },
         }
     }

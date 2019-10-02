@@ -5,16 +5,16 @@
         <div v-if="competitionWithGames.length == 0">
               {{$lang.pitch_planner_no_games}}
         </div>
-        <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
-          <div v-if="competition.matchList &&  competition.matchList.length > 0" >
+        <div class="text-center" v-else v-for="(competition,competitionIndex) in competitionWithGames">
+          <div :class="filterCompetition(competition)" v-if="competition.matchList &&  competition.matchList.length > 0" >
             <h6 class="mb-1 mt-1"><strong>{{competition.group_name}}</strong></h6>
             <div v-if="competition.matchCount == 0">
                 {{$lang.pitch_planner_no_games}}
             </div>
-            <div class="text-center mt-3"
+            <div :class="filterCompetitiomMatches(match,matchIndex,competition.matchList)" class="text-center mt-3 matchClass"
             v-if="match.isScheduled!=1"
-            v-for="match in competition.matchList"
-            :data-text="match.displayMatchName">
+            v-for="(match,matchIndex) in competition.matchList"
+            :data-text="match.displayMatchName" :key="'match'+competitionIndex+matchIndex">
                 <draggable-match-event :match="match" :fixtureBackgroundColor="competition.category_age_color" :fixtureTextColor="competition.category_age_font_color"></draggable-match-event>
             </div>
           </div>
@@ -31,6 +31,7 @@
   import _ from 'lodash'
 
 export default {
+  props: ['totalMatchCount'],
   components: {
     DraggableMatchEvent
   },
@@ -43,12 +44,12 @@ export default {
       matchStatus: true,
       matchCompetition:{'matchList':''},
       'filterStatus': true,
-      'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
+      'tournamentFilter': this.$store.state.Tournament.tournamentFiler
     }
   },
   computed: {
     competitionWithGames(){
-      return _.cloneDeep(this.$store.getters.getAllCompetitionWithGames)
+      return this.filterMatches();
     },
 
     matches(){
@@ -66,8 +67,78 @@ export default {
     $("#game-list").mCustomScrollbar({
       'autoHideScrollbar':true
     });
+
+    let vm = this;
+    $("body").on('DOMSubtreeModified', "#game-list", function() {
+      vm.calculateUnscheduleMatches();
+    });
   },
   methods: {
+    filterCompetition(competition)
+    {
+      let display = '';
+      if(this.tournamentFilter.filterKey != '')
+      {
+        if(this.tournamentFilter.filterKey == "age_category" && this.tournamentFilter.filterValue != '')
+        {
+          display = 'd-none';
+          if ( competition.id == this.tournamentFilter.filterValue.id)
+          {
+            display = 'display-competition-tabs';
+          }
+        }
+      }
+      return display;
+    },
+    filterCompetitiomMatches(match,matchIndex,competitionMatch)
+    {
+      let matchDisplay = '';
+      if(this.tournamentFilter.filterKey != '')
+      {
+        if(this.tournamentFilter.filterKey == "age_category" && this.tournamentFilter.filterValue != '')
+        {
+          if( this.tournamentFilter.filterDependentValue != '')
+          {
+            matchDisplay = 'd-none';
+            if ( match.competitionId == this.tournamentFilter.filterDependentValue ) 
+            {
+              matchDisplay = 'display-game-tabs';
+            }
+
+            if ( matchIndex == competitionMatch.length - 1)
+            {
+              this.$nextTick(() => {
+                $('#gameReferee span.gameCount').html('('+$(".display-game-tabs > .js-draggable-events").length+')');
+              });
+            }
+          }
+          else
+          {
+            if ( matchIndex == competitionMatch.length - 1)
+            {
+              this.$nextTick(() => {
+                $('#gameReferee span.gameCount').html('('+$(".display-competition-tabs > div > .js-draggable-events").length+')');
+              });
+            }
+          }
+        }
+        else
+        {
+          if ( matchIndex == competitionMatch.length - 1)
+          {
+            $('#gameReferee span.gameCount').html('('+$("#game-list .matchClass .js-draggable-events").length+')');
+          }
+        }
+      }
+      else
+      {
+        if ( matchIndex == competitionMatch.length - 1)
+        {
+          $('#gameReferee span.gameCount').html('('+$("#game-list .matchClass .js-draggable-events").length+')');
+        }
+      }
+      return matchDisplay;
+    },
     displayTournamentCompetationList () {
       if (!isNaN(this.tournamentId)) {
         // here we add data for
@@ -89,11 +160,39 @@ export default {
       this.gamesMatchListRecord = [];
       Vue.nextTick()
       .then(function () {
-        vm.gamesMatchListRecord = _.cloneDeep(vm.$store.getters.getAllCompetitionWithGames);
+        vm.gamesMatchListRecord = vm.filterMatches();
       })
+    },
+    filterMatches() 
+    {
+      let allGames =  _.cloneDeep(this.$store.getters.getAllCompetitionWithGames);
+      return allGames;
+    },
+    calculateUnscheduleMatches() 
+    {
+        if(this.tournamentFilter.filterKey != '')
+        {
+            if(this.tournamentFilter.filterKey == "age_category" && this.tournamentFilter.filterValue != '')
+            {
+              if( this.tournamentFilter.filterDependentValue != '')
+              {
+                $('#gameReferee span.gameCount').html('('+$(".display-game-tabs > .js-draggable-events").length+')');
+              }
+              else
+              {
+                $('#gameReferee span.gameCount').html('('+$(".display-competition-tabs > div > .js-draggable-events").length+')');
+              }
+            }
+            else
+            {
+                $('#gameReferee span.gameCount').html('('+$("#game-list .matchClass > .js-draggable-events").length+')');
+            }
+        }
+        else
+        {
+            $('#gameReferee span.gameCount').html('('+$("#game-list .matchClass > .js-draggable-events").length+')');
+        }
     }
   }
 }
-
-
 </script>

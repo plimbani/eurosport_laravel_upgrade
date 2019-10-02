@@ -577,7 +577,7 @@
         if(tournamentTemplateId != undefined && tournamentTemplateId != '' )
         {
           // Now here Fetch the appopriate Template of it
-          let TemplateData = {tournamentTemplateId : tournamentTemplateId}
+          let TemplateData = {tournamentTemplateId : tournamentTemplateId, ageCategoryId: this.age_category.id}
 
           Tournament.getTemplate(TemplateData).then (
             (response) => {

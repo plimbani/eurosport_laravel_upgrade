@@ -3,7 +3,7 @@
   <div class="col-sm-12">
     <div class="page-header">
       <ol class="breadcrumb">
-        <li><a href="/admin">Home</a></li>
+        <li><a href="javascript:void(0);" @click="$router.push({name: 'welcome'})">Home</a></li>
         <li v-if="WebsiteName != null"><a href="#">{{ WebsiteName }}</a></li>
         <li class="active"><span>{{currentPage}}</span></li>
       </ol>
