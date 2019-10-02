@@ -52,6 +52,8 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
 
     $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
+
+    $api->get('generateTemplateGraphic/{ageCategoryId}','Laraspace\Api\Controllers\TemplateController@generateTemplateGraphic');
 });
 
 $api->version('v1', function ($api) {
@@ -108,6 +110,8 @@ $api->version('v1', function ($api) {
     $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
     $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
+
+    $api->post('getTemplateGraphic','Laraspace\Api\Controllers\TemplateController@getTemplateGraphic');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

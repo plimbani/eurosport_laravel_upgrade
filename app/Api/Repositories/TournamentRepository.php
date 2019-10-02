@@ -98,17 +98,48 @@ class TournamentRepository
     }
     public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
+
         $tournamentTemplateData              = [];
         $tournamentTemplateData['json_data'] = '';        
+        $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)
+            ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
+            ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime'])
+            ->where('temp_fixtures.deleted_at', NULL)
+            ->get()->keyBy('match_number')->toArray();
+        $tempFixtures = array_map(function($object){
+            return (array) $object;
+        }, $tempFixtures);
+        $assignedTeams = Team::where('age_group_id', $ageCategoryId)->whereNotNull('competation_id')->get()->toArray();
+        $roundMatches = [];
+        $divisionMatches = [];
+        $allMatches = [];
+        $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
         if($tournamentTemplateId != NULL) {
             $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
-            $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+            // $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
         } else {
-            $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
         }
+        $jsonData = json_decode($tournamentTemplateData['json_data'], true);
+        $roundMatches = TemplateRepository::getMatches($jsonData['tournament_competation_format']['format_name']);
+        if(isset($jsonData['tournament_competation_format']['divisions'])) {
+            foreach($jsonData['tournament_competation_format']['divisions'] as $divisionIndex => $division) {
+                $matches = TemplateRepository::getMatches($division['format_name']);
+                $divisionMatches = array_merge($divisionMatches, $matches);
+            }
+        }
+        $allMatches = array_merge($roundMatches, $divisionMatches);
+        $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
+            'fixtures' => $tempFixtures,
+            'templateData' => $jsonData,
+            'assignedTeams' => $assignedTeams,
+            'categoryAge' => $tournamentCompetitionTemplate->category_age,
+            'groupName' => $tournamentCompetitionTemplate->group_name,
+            'allMatches' => $allMatches,
+        ])->render();
 
         return $tournamentTemplateData;
     }

@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use DB;
 use Auth;
+use Laraspace\Models\Team;
 use Laraspace\Models\User;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\TournamentTemplates;
@@ -987,5 +988,77 @@ class TemplateRepository
         }
 
         return $position;
+    }
+
+    public static function getTemplateGraphic($data)
+    {
+        $ageCategoryId = $data['ageCategoryId'];
+        $templateId = $data['templateId'];
+
+        $templateData = [];
+        $jsonData = '';
+        $tournamentName = '';
+        $tempFixtures = [];
+        $assignedTeams = [];
+        $roundMatches = [];
+        $divisionMatches = [];
+        $allMatches = [];
+        $tournamentCompetitionTemplate = null;
+
+        if($ageCategoryId != null) {
+            $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)
+                ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
+                ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+                ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime'])
+                ->where('temp_fixtures.deleted_at', NULL)
+                ->get()->keyBy('match_number')->toArray();
+            $tempFixtures = array_map(function($object){
+                return (array) $object;
+            }, $tempFixtures);
+            $assignedTeams = Team::where('age_group_id', $ageCategoryId)->whereNotNull('competation_id')->get()->toArray();
+            $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
+        }
+        if($templateId != NULL) {
+            $tournamentTemplate = TournamentTemplates::find($templateId);
+            $jsonData = $tournamentTemplate->json_data;
+            $tournamentName = $tournamentTemplate->name;
+        } else {
+            $jsonData = $tournamentCompetitionTemplate->template_json_data;
+            $tournamentName = ucfirst($tournamentCompetitionTemplate->competition_type) . ' - ' . $tournamentCompetitionTemplate->total_teams . ' teams';
+        }
+        $jsonData = json_decode($jsonData, true);
+        $roundMatches = TemplateRepository::getMatches($jsonData['tournament_competation_format']['format_name']);
+        if(isset($jsonData['tournament_competation_format']['divisions'])) {
+            foreach($jsonData['tournament_competation_format']['divisions'] as $divisionIndex => $division) {
+                $matches = TemplateRepository::getMatches($division['format_name']);
+                $divisionMatches = array_merge($divisionMatches, $matches);
+            }
+        }
+        $allMatches = array_merge($roundMatches, $divisionMatches);
+
+        $templateData['graphicHtml'] = view('template.graphic', [
+            'fixtures' => $tempFixtures,
+            'templateData' => $jsonData,
+            'assignedTeams' => $assignedTeams,
+            'categoryAge' => $tournamentCompetitionTemplate ? $tournamentCompetitionTemplate->category_age : null,
+            'groupName' => $tournamentCompetitionTemplate ? $tournamentCompetitionTemplate->group_name : null,
+            'allMatches' => $allMatches,
+        ])->render();
+        $templateData['templateName'] = $tournamentName;
+
+        return $templateData;
+    }
+
+    public static function getMatches($rounds)
+    {
+        $allMatches = [];
+        foreach($rounds as $roundIndex => $round) {
+            foreach($round['match_type'] as $groupIndex => $group) {
+                foreach($group['groups']['match'] as $matchIndex => $match) {
+                    $allMatches[] = $match;
+                }
+            }
+        }
+        return $allMatches;
     }
 }

@@ -52,7 +52,7 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime" :templateGraphicViewImage="templateGraphicViewImage"></competationModal>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :graphicHtml="graphicHtml" v-if="isViewModalShown"></competationModal>
           <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
@@ -98,11 +98,17 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
-      templateGraphicViewImage: '',
       categoryStatus: false,
       categoryRules: [],
       copyCategoryStatus: false,
-      copiedAgeCategoryId: ''
+      copiedAgeCategoryId: '',
+      ageCategoryTempFixtures: [],
+      assignedTeams: [],
+      groupName: null,
+      categoryAge: null,
+      assignedTeams: [],
+      isViewModalShown: false,
+      graphicHtml: '',
     }
   },
   components: {
@@ -147,15 +153,18 @@ export default {
       },500)
     },
     viewCompFormat(ageCategoryId, id,tTime) {
-        $("#competationmodal").modal('show');
+        this.isViewModalShown = true;
+        $("body .js-loader").removeClass('d-none');
+        // $("#competationmodal").modal('show');
          let TemplateData = {tournamentTemplateId : id, ageCategoryId: ageCategoryId}
          Tournament.getTemplate(TemplateData).then(
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
-            this.templateGraphicViewImage = response.data.data.graphic_image
+            this.graphicHtml = response.data.data.graphicHtml;
             this.totalTime = tTime
-             $("#competationmodal").modal("show");
+            $("#competationmodal").modal("show");
+            $("body .js-loader").addClass('d-none');
           }
         },
         (error) => {
