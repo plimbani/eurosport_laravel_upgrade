@@ -5,7 +5,7 @@
 //  Created by Pratik Patel on 10/08/18.
 //
 import UIKit
-
+    
 protocol MainTabViewControllerDelegate {
     func mainTabViewControllerSelectTab(_ tabIndex: Int)
 }
