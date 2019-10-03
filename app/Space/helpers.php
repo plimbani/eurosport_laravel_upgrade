@@ -297,14 +297,16 @@ function getAllRoundGroups($roundIndex, $groups) {
 function getColorCodeOfMatches($allMatches) {
     $matchesWithColorCode = [];
     $homeAwayTeamWithColorCode = [];
+    $allColors = config('config-variables.template_graphic_colors');
+    $colorIndex = 0;
     foreach($allMatches as $matchDetail) {
         $matchNumber = $matchDetail['match_number'];
         $matchNumberArray = explode(".", $matchDetail['match_number']);
 
         if(strpos($matchNumberArray[1], "PM") !== false) {
-            $colorCode = getRandomColorCode();
-            while(array_key_exists($colorCode, $matchNumberArray)) {
-                $colorCode = getRandomColorCode();
+            $colorCode = $allColors[$colorIndex];
+            if($colorIndex === count($allColors) - 1) {
+                $colorIndex = 0;
             }
 
             $homeAwayTeams = $matchNumberArray[count($matchNumberArray) - 1];
@@ -335,6 +337,7 @@ function getColorCodeOfMatches($allMatches) {
 
             if(count($searchResults) > 0 && !isset($matchesWithColorCode[$matchNumber])) {
                 $matchesWithColorCode[$matchNumber] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+                $colorIndex++;
             }
         }
     }
