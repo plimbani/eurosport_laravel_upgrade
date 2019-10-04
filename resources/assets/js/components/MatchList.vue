@@ -239,6 +239,9 @@ export default {
         vm.matchData[index].match_winner = matchData['match_winner']
         vm.getResultOverridePopover(vm.matchData[index]);
 
+        $('input[name="home_score['+vm.currentMatchId+']"]').attr('rel',matchData['home_score']);
+        $('input[name="away_score['+vm.currentMatchId+']"]').attr('rel',matchData['away_score']);
+
         Vue.nextTick()
         .then(function () {
           if($('.result-override-home-popover-' + vm.matchData[index].fid).length) {
