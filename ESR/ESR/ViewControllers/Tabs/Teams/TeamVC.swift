@@ -207,6 +207,7 @@ class TeamVC: SuperViewController {
     
     @IBAction func btnViewSchedulePressed(_ sender: UIButton) {
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
+        viewController.isFromTeamVC = true
         viewController.base64String = viewGraphicImgURL
         self.navigationController?.pushViewController(viewController, animated: true)
     }

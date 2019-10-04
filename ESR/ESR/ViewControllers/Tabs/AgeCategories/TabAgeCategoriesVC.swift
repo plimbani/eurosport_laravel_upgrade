@@ -148,7 +148,7 @@ extension TabAgeCategoriesVC: TabAgeCategoriesCellDelegate {
     func tabAgeCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
         TestFairy.log(String(describing: self) + " tabAgeCategoriesCellBtnViewSchedulePressed")
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
-        
+        viewController.isFromTabAgeCategoriesVC = true
         /*if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
             viewController.base64String = imgURLValue
         }*/

@@ -16,6 +16,10 @@ class ViewScheduleImageVC: UIViewController {
     
     var base64String = NULL_STRING
     
+    var isFromTeamVC = false
+    var isFromTabAgeCategoriesVC = false
+    var isFromTabTeamsVC = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
@@ -50,15 +54,15 @@ class ViewScheduleImageVC: UIViewController {
     @IBAction func btnClosePressed(_ sender: UIButton) {
         TestFairy.log(String(describing: self) + " btnClosePressed")
         for viewController in self.navigationController!.viewControllers {
-            if viewController is TabAgeCategoriesVC {
-                (viewController as! TabAgeCategoriesVC).rotateToPortrait = true
-                self.navigationController?.popToViewController(viewController, animated: true)
-                break
-            } else if viewController is TeamVC {
+            if viewController is TeamVC && isFromTeamVC {
                 (viewController as! TeamVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break
-            } else if viewController is TabTeamsVC {
+            } else if viewController is TabAgeCategoriesVC && isFromTabAgeCategoriesVC {
+                (viewController as! TabAgeCategoriesVC).rotateToPortrait = true
+                self.navigationController?.popToViewController(viewController, animated: true)
+                break
+            }  else if viewController is TabTeamsVC && isFromTabTeamsVC {
                 (viewController as! TabTeamsVC).selectedIndexForRotation = (viewController as! TabTeamsVC).selectedIndex
                 (viewController as! TabTeamsVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)

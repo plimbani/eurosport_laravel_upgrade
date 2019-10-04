@@ -175,7 +175,7 @@ extension CategoryListVC: TitleNavigationBarDelegate {
 extension CategoryListVC: AgeCategoryCellDelegate {
     func ageCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
-        
+        viewController.isFromTabTeamsVC = true
         var ageCategoryId = -1
         
         if isSearch {
