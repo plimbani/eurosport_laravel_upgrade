@@ -451,6 +451,23 @@ class MatchRepository
           }
         }
 
+        // Check for all knockout placing matches
+        $showAllPlacingMatchesOfKnockout = false;
+        if(isset($tournamentData['competitionId'])) {
+          $knockoutAgeCategory = Competition::leftJoin('tournament_competation_template', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
+            ->where('competitions.id', $tournamentData['competitionId'])
+            ->where('tournament_competation_template.tournament_format', 'basic')
+            ->where('tournament_competation_template.competition_type', 'knockout')
+            ->where('competitions.competation_round_no', '!=', 'Round 1')
+            ->first();
+          if($knockoutAgeCategory) {
+            $showAllPlacingMatchesOfKnockout = true;
+            $getAllCompetitionID = Competition::where('tournament_competation_template_id', $knockoutAgeCategory->tournament_competation_template_id)
+            ->where('competitions.competation_round_no', '!=', 'Round 1')
+            ->pluck('id')->toArray();
+          }
+        }
+
         // Todo Added Condition For Filtering Purpose on Pitch Planner
         if(isset($tournamentData['fiterEnable'])){
           if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
@@ -500,7 +517,7 @@ class MatchRepository
           }
         }
 
-        if ( $roundQuery )
+        if ( $roundQuery || $showAllPlacingMatchesOfKnockout )
         {
           $reportQuery =  $reportQuery->whereIn('temp_fixtures.competition_id',$getAllCompetitionID);
         }
@@ -525,6 +542,7 @@ class MatchRepository
         foreach($resultData as $key=>$res) {
           $updatedArray[$key] = $res;
           $updatedArray[$key]->isDivExist = $roundQuery;
+          $updatedArray[$key]->isKnockoutPlacingMatches = $showAllPlacingMatchesOfKnockout;
           if($res->Home_id == 0 ) {
             $preset = '';
               if(strpos($res->displayHomeTeamPlaceholderName,"." ) != false) {
