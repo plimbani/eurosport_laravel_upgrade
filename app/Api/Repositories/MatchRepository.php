@@ -1571,7 +1571,7 @@ class MatchRepository
           'match_endtime' => $matchData['matchEndDate'],
           'is_scheduled' => 1,
           'minimum_team_interval_flag' => $setFlag,
-          'schedule_last_update_date_time' => Carbon::now()
+          'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
         ];
 
         $updateResult = DB::table('temp_fixtures')
@@ -1598,7 +1598,7 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-        'schedule_last_update_date_time' => Carbon::now()
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
       ];
       $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
@@ -1830,7 +1830,7 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-        'schedule_last_update_date_time' => Carbon::now()
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
       ];
 
       $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
@@ -1859,7 +1859,7 @@ class MatchRepository
                         'match_datetime' => $data['matchStartDate'],
                         'match_endtime' => $data['matchEndDate'],
                         'is_scheduled' => 1,
-                        'schedule_last_update_date_time' => Carbon::now()
+                        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
                       ]);
   
       return ['status' => true, 'message' => 'Scores updated successfully.', 'match_data' => $updateMatchScheduleResult, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];

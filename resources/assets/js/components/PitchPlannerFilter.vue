@@ -62,6 +62,12 @@ export default {
     }
   },
   props:['section'],
+  created: function() {
+    this.$root.$on('getPitchPlannerMatchesByFilter', this.getMatchesByFilter);
+  },
+  beforeCreate: function() {
+    this.$root.$off('getPitchPlannerMatchesByFilter');
+  },
   mounted() {
     this.filterBy = ''
     this.dropDown = ''
@@ -131,10 +137,16 @@ export default {
       )
     },
     getMatchesByFilter() {
+      let vm = this;
       let tournamentFilter = {'filterKey': this.filterKey,'filterValue':this.filterValue,'filterDependentKey': this.filterDependentKey,'filterDependentValue': this.filterDependentValue}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       // this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
+      this.$store.dispatch('setMatches')
+      .then((response) => {
+          vm.$root.$emit('refreshCompetitionWithGames');
+      });
       this.$root.$emit('filterMatches',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
+
     },
     filteredGroupName(actualGroupName) {
       let splittedName = actualGroupName.split("-");

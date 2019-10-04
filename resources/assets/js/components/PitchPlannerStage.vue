@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
-        <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
+        <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal" :stageIndex="stageIndex"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
@@ -79,11 +79,13 @@ import _ from 'lodash'
             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
             this.$root.$on('arrangeLeftColumn', this.arrangeLeftColumn);
             this.$root.$on('refreshPitch' + this.stageIndex, this.refreshPitch);
+            this.$root.$on('reloadPitch' + this.stageIndex, this.reloadPitch);
         },
         beforeCreate: function() {
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
             this.$root.$off('arrangeLeftColumn');
+            this.$root.$off('reloadPitch');
         },
         beforeDestroy: function() {
             this.$root.$off('refreshPitch' + this.stageIndex);
@@ -265,8 +267,7 @@ import _ from 'lodash'
                                                 $('.js-referee-draggable-block').draggable('enable');
                                             }
                                         });
-                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
-                                        vm.reloadAllEvents()
+                                        vm.reloadPitch();
 
                                     }else{
                                         let errorMsg = updatedMatch.data;
@@ -343,12 +344,12 @@ import _ from 'lodash'
                                             if(vm.isMatchScheduleInEdit === true || enableScheduleFeatureAsDefault === true) {
                                                 vm.$emit('schedule-match-result', matchData);
                                             } else {
-                                                vm.$store.dispatch('setMatches');
                                                 if(response.data.areAllMatchFixtureScheduled == true) {
                                                     toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                                 }
-                                                vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
-                                                vm.reloadAllEvents()
+                                                vm.$store.dispatch('setMatches').then((response) => {
+                                                    vm.reloadPitch();
+                                                });
                                             }
                                         } 
                                         else {
@@ -429,12 +430,8 @@ import _ from 'lodash'
                                         if(vm.isMatchScheduleInEdit === false) {
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
 
-                                            let matchScheduleChk =new Promise((resolve, reject) => {
-                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
-
-                                                matchScheduleChk.then((successMessage) => {
-                                                  vm.reloadAllEvents();
-                                                });
+                                            vm.$store.dispatch('setMatches').then((response) => {
+                                                vm.reloadPitch();
                                             });
                                         } else {
                                             vm.$emit('schedule-match-result', matchData);
@@ -488,9 +485,9 @@ import _ from 'lodash'
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
                                     vm.matchFixture = {}
-                                    vm.$store.dispatch('setCompetationWithGames');
-                                    vm.getScheduledMatch()
-                                    vm.reloadAllEvents();
+                                    // vm.$store.dispatch('setCompetationWithGames');
+                                    // vm.getScheduledMatch()
+                                    // vm.reloadAllEvents();
                                 });
                              },100);
                         }
@@ -523,13 +520,14 @@ import _ from 'lodash'
             reloadAllEvents(){
                 let vm = this;
                 let ev = this.$el;
-                $(ev).fullCalendar( 'removeEvents' )
+                $(ev).fullCalendar('removeEvents');
                 $("body .js-loader").removeClass('d-none');
+                
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                     arrangeLeftColumn();
                     $("body .js-loader").addClass('d-none');
-                },2100)
+                }, 1000);
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
@@ -980,10 +978,19 @@ import _ from 'lodash'
                 arrangeLeftColumn();
             },
             refreshPitch() {
+                let vm = this;
                 this.$store.dispatch('setCompetationWithGames');
-                this.getScheduledMatch();
-                this.reloadAllEvents();
-            }
+                vm.reloadPitch();
+            },
+            reloadPitch() {
+                let vm = this;
+                let matchScheduleChk = new Promise((resolve, reject) => {
+                    resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
+                });
+                matchScheduleChk.then((successMessage) => {
+                    vm.reloadAllEvents();
+                });
+            },
         }
     };
 
