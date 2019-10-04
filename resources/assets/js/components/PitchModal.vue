@@ -308,7 +308,7 @@ var moment = require('moment-timezone');
           currentDate: moment().tz("Europe/London").format('DD/MM/YYYY'),
        }
     },
-    props: ['matchFixture','section'],
+    props: ['matchFixture','section', 'stageIndex'],
     mounted() {
       let vm = this;
       this.$root.$off('getMatchData');
@@ -485,9 +485,13 @@ var moment = require('moment-timezone');
                     vm.$root.$emit('setStandingData',matchData['competation_id']);
                   } else {
                     vm.$root.$emit('displayTournamentCompetationList');
-                    vm.$root.$emit('setPitchReset');
-                    vm.$store.dispatch('setMatches');
-                    vm.$root.$emit('reloadAllEvents');
+                    // vm.$root.$emit('setPitchReset');
+                    vm.$store.dispatch('setMatches')
+                    .then((response) => {
+                      vm.$root.$emit('refreshPitch' + vm.stageIndex);
+                    });
+                    // vm.$store.dispatch('setMatches');
+                    // vm.$root.$emit('reloadAllEvents');
                   }
                 }
               )
@@ -519,11 +523,11 @@ var moment = require('moment-timezone');
              },200)
             toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
 
-            this.$store.dispatch('setMatches');
-            this.$store.dispatch('SetScheduledMatches');
-            this.$root.$emit('reloadAllEvents')
-
-
+            this.$store.dispatch('setMatches')
+              .then((response) => {
+                vm.$root.$emit('reload' + vm.stageIndex);
+                vm.$root.$emit('refreshCompetitionWithGames');
+              });
         })
       },
       matchPrint(ReportData) {

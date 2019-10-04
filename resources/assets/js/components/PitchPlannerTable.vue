@@ -51,7 +51,7 @@
                                 <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
                                 data-toggle="tab" role="tab" href="#game-list">
-                                <div class="wrapper-tab">Games <span>({{totalMatchCount}})</span></div></a>
+                                <div class="wrapper-tab">Games <span class="gameCount">({{totalMatchCount}})</span></div></a>
                             </li>
                             <li class="nav-item">
                                 <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link']"
@@ -63,7 +63,7 @@
                             <div
                             :class="[currentView == 'gamesTab' ? 'active' : '', 'tab-pane']"
                             v-if="GameStatus" id="game-list" role="tabpanel">
-                                <games-tab></games-tab>
+                                <games-tab :totalMatchCount="totalMatchCount"></games-tab>
                             </div>
                             <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
                                 <referees-tab v-if="isCompetitionCallProcessed" :competationList="competationList" :isMatchScheduleInEdit="isMatchScheduleInEdit"></referees-tab>
@@ -656,6 +656,10 @@
                 .catch((response) => {
                     toastr['error']('Error while fetching data', 'Error');
                 });
+
+                $("body .js-loader").addClass('d-none');
+                vm.isMatchScheduleInEdit = false;
+                vm.enableScheduleFeatureAsDefault = false;
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
@@ -674,7 +678,6 @@
                                 scheduleBlock = true
                             }
                         } else if(filterKey == 'location'){
-                            console.log('filterValue', filterValue);
                             if( filterValue != '' && filterValue.id != event.resourceId){
                                 scheduleBlock = true;
                             }
