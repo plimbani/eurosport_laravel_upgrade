@@ -84,7 +84,7 @@
         </div>
         <div class="text-center view-full-information" v-if="showGroupInfo" v-html="$t('matches.view_match_info_message', {'competitionName': selectedOption.data.name})" v-on:click.capture="showCompetitionDetailPage()"></div>
     </div>
-    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :isDivExist="isDivExist" :isDivOrKnockoutExistData="isDivOrKnockoutExistData" :isKnockoutPlacingMatches="isKnockoutPlacingMatches"></component>
   </div>
 </template>
 
@@ -112,7 +112,8 @@
         currentCategoryId: '',
         matchScoreFilter: 'all',
         isDivExist: false,
-        isDivExistData: [],
+        isKnockoutPlacingMatches: false,
+        isDivOrKnockoutExistData: [],
         dropdownDrawName:[],
       };
     },
@@ -151,6 +152,21 @@
     computed: {
       showGroupInfo() {
         return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
+      },
+      updateDivExistData:function(){
+        var getFirstMatch = _.head(this.matches);
+        if ( typeof(getFirstMatch) != 'undefined' && (getFirstMatch.isDivExist == 1 || getFirstMatch.isKnockoutPlacingMatches === true) )
+        {
+          this.isDivExist = getFirstMatch.isDivExist;
+          this.isKnockoutPlacingMatches = getFirstMatch.isKnockoutPlacingMatches;
+          this.isDivOrKnockoutExistData = _.groupBy(this.matches, 'competation_round_no');
+        }
+        else
+        {
+          this.isDivExist = 0;
+          this.isKnockoutPlacingMatches === false;
+          this.isDivOrKnockoutExistData = [];
+        }
       }
     },
     components: {
