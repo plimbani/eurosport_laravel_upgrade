@@ -251,6 +251,7 @@ return [
         Laraspace\Api\Providers\Commercialisation\TournamentPricingServiceProvider::class,
         Laraspace\Api\Providers\TemplateServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        VerumConsilium\Browsershot\BrowsershotServiceProvider::class,
     ],
 
     /*
