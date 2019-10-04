@@ -94,11 +94,11 @@ const actions = {
   setMatches({commit,state}) {
     commit(types.SET_MATCHES, '')
     let tdata = {}
-    // if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
-    //   tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'filterDependentValue':state.tournamentFiler.filterDependentValue,'filterDependentKey':state.tournamentFiler.filterDependentKey,'fiterEnable':true}
-    // } else {
+    if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
+      tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'filterDependentValue':state.tournamentFiler.filterDependentValue,'filterDependentKey':state.tournamentFiler.filterDependentKey,'fiterEnable':true}
+    } else {
         tdata ={'tournamentId':state.tournamentId}
-    //}
+    }
 
     return new Promise((resolve, reject) => {
       Tournament.getFixtures(tdata).then(

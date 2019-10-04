@@ -666,7 +666,6 @@
                                 scheduleBlock = true
                             }
                         } else if(filterKey == 'location'){
-                            console.log('filterValue', filterValue);
                             if( filterValue != '' && filterValue.id != event.resourceId){
                                 scheduleBlock = true;
                             }
