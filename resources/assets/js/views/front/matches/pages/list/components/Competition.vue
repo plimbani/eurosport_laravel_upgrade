@@ -128,16 +128,19 @@
           if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
           {
             this.isDivExist = getFirstMatch.isDivExist;
+            this.isKnockoutPlacingMatches = getFirstMatch.isKnockoutPlacingMatches;
             this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
           }
           else
           {
             this.isDivExist = 0;
+            this.isKnockoutPlacingMatches = false;
             this.isDivExistData = [];
           }
         },
         deep: true,
       },
+    },
     computed: {
       updateDivExistData:function(){
         var getFirstMatch = _.head(this.matches);
@@ -150,7 +153,7 @@
         else
         {
           this.isDivExist = 0;
-          this.isKnockoutPlacingMatches === false;
+          this.isKnockoutPlacingMatches = false;
           this.isDivOrKnockoutExistData = [];
         }
       }
