@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use Auth;
+use UrlSigner;
 use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
@@ -13,6 +14,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\AgeCategoryDivision;
 use DB;
 use Carbon\Carbon;
+use VerumConsilium\Browsershot\Facades\Screenshot;
 
 class AgeGroupRepository
 {
@@ -428,8 +430,12 @@ class AgeGroupRepository
 
     public function viewTemplateGraphicImage($data)
     {
-      $viewGraphicImageData = TournamentCompetationTemplates::where('id', $data['age_category'])->with('TournamentTemplate')->first();
-      return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : null;
+      $signedUrl = UrlSigner::sign(url('api/generateTemplateGraphic/' . $data['age_category']), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+      $graphicImage = file_get_contents(Screenshot::loadUrl($signedUrl)->fullPage()
+          ->useJPG()
+          ->getTempFilePath());
+      $base64Data = 'data:image/jpg' . ';base64,' . base64_encode($graphicImage);
+      return $base64Data;
     }
 
     public function deleteFinalPlacingTeam($data) {

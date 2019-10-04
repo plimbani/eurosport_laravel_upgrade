@@ -12,6 +12,8 @@ use Laraspace\Http\Requests\Template\UpdateRequest;
 use Laraspace\Http\Requests\Template\DeleteRequest;
 use Laraspace\Http\Requests\Template\GetTemplatesRequest;
 use Laraspace\Http\Requests\Template\TemplateDetailRequest;
+use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Api\Repositories\TemplateRepository;
 
 class TemplateController extends BaseController
 {
@@ -306,5 +308,23 @@ class TemplateController extends BaseController
         }
 
         echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+    }
+
+    public function generateTemplateGraphic(Request $request, $ageCategoryId)
+    {
+        $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageCategoryId);
+        $templateData = [];
+        $templateData['ageCategoryId'] = $ageCategoryId;
+        $templateData['templateId'] = $tournamentCompetationTemplate->tournament_template_id;
+        $graphicDetails = TemplateRepository::getTemplateGraphic($templateData);
+        return view('template.graphicimage', ['graphicHtml' => $graphicDetails['graphicHtml']]);
+    }
+
+    /**
+     * Get template graphic
+     */
+    public function getTemplateGraphic(Request $request)
+    {
+        return $this->templateObj->getTemplateGraphic($request->all());
     }
 }

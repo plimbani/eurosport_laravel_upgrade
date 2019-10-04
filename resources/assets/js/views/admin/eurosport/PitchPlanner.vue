@@ -19,7 +19,8 @@
             </div>
           </div>
 	  			<div class="mt-4" >
-	  				<pitch-planner-table></pitch-planner-table>
+	  				<pitch-planner-table :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" @changeMatchScheduleStatus="changeMatchScheduleStatus" @saveScheduleMatchResult="saveScheduleMatchResult" @clearScheduleMatchesArray="clearScheduleMatchesArray"></pitch-planner-table>
+            <UnsavedMatchPlannerModel :scheduleMatchesArray="scheduleMatchesArray" @movetoNextRoute="movetoNextRoute"></UnsavedMatchPlannerModel>
 	  			</div>
 			</div>
 		</div>
@@ -31,17 +32,33 @@ var moment = require('moment');
 	import PitchModal from '../../../components/PitchModal.vue';
 	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
   import PitchPlannerFilter from '../../../components/PitchPlannerFilter.vue';
+  import UnsavedMatchPlannerModel from './../../../components/UnsavedMatchPlannerModel.vue';
 
 	export default {
+    props: ['showEnlargedPitchPlanner'],
     data() {
        return {
-         'tournamentId': this.$store.state.Tournament.tournamentId,
-         'section':'pitchPlanner',
-         'isVertical': true,
-         'isHorizontal': false,
+          'tournamentId': this.$store.state.Tournament.tournamentId,
+          'section':'pitchPlanner',
+          'isVertical': true,
+          'isHorizontal': false,
+          'scheduleMatchesArray': [],
+          'isMatchScheduleInEdit': false,
+          'movetoNextRouteName': null,
        }
     },
-
+    beforeRouteLeave(to, from, next) {
+      if (this.movetoNextRouteName === null && this.isMatchScheduleInEdit === true && this.scheduleMatchesArray.length > 0) {
+        this.movetoNextRouteName = to;
+        $('#unSavedMatchPlannerModal').modal('show');
+      }
+      else{
+        if(this.showEnlargedPitchPlanner) {
+          this.$emit('hideEnlargedPitchPlannerStatus');
+        }
+        next();
+      }
+    },
     mounted() {
       let vm = this
     	this.$store.dispatch('SetPitches',this.tournamentId);
@@ -87,10 +104,33 @@ var moment = require('moment');
           this.isVertical = true;
         }
         this.$root.$emit('setView', view);
-      }
+      },
+      changeMatchScheduleStatus(status) {
+        this.isMatchScheduleInEdit = status;
+      },
+      saveScheduleMatchResult(matchData) {
+        let matchIndex = _.findIndex(this.scheduleMatchesArray, function(o) { return o.matchId == matchData.matchId; });
+        if(matchIndex === -1) {
+            this.scheduleMatchesArray.push(matchData);
+        } else {
+            this.scheduleMatchesArray[matchIndex] = matchData;
+        }
+      },
+      clearScheduleMatchesArray() {
+        this.scheduleMatchesArray = [];
+      },
+      movetoNextRoute() {
+        if(this.movetoNextRouteName) {
+          if(this.showEnlargedPitchPlanner) {
+            this.$emit('hideEnlargedPitchPlannerStatus');
+          }
+          $('#unChangedMatchFixtureModal').modal('hide');
+          this.$router.push({ name: this.movetoNextRouteName.name, params: this.movetoNextRouteName.params, query: this.movetoNextRouteName.query });
+        }
+      },
     },
     components: {
-        PitchModal, PitchPlannerTable, PitchPlannerFilter
+        PitchModal, PitchPlannerTable, PitchPlannerFilter, UnsavedMatchPlannerModel
     }
 }
 </script>

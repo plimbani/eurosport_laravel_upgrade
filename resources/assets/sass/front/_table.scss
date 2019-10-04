@@ -1,0 +1,284 @@
+#test {
+    tbody {
+        &>tr {
+            &:nth-of-type(3n+1) {
+                background: #FFFF00;
+            }
+
+            &:nth-of-type(3n+2) {
+                background: #B2A1C7;
+            }
+
+            &:nth-of-type(3n+3) {
+                background: #BFBFBF;
+            }
+
+            &:last-child {
+                background: $white;
+            }
+        }
+    }
+}
+
+table {
+    &#Competition-modal-table {
+        tbody {
+            &.competition-modal-table-body {
+                tr {
+                    &:hover {
+                        background-color: transparent;
+                    }
+
+                    td.p-0 {
+                        border-right: 1px solid $table-border-color;
+
+                        &:first-child {
+                            border-right: 0px;
+                        }
+
+                        tr.group-name {
+                            border-bottom: 1px solid $table-border-color;
+                        }
+
+                        tr.grp-data {
+                            border-bottom: 0px;
+
+                            td.a1 {
+                                padding: 0;
+
+                                tr.a2 {
+                                    td {
+                                        border-left: 1px solid $table-border-color;
+                                        border-right: 1px solid $table-border-color;
+                                        border-bottom: 1px solid $table-border-color;
+                                    }
+
+                                    &:first-child {
+                                        td {
+                                            border-top: 1px solid $table-border-color;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        tr {
+                            display: inline-table;
+                            width: 100%;
+
+                            td {
+                                border: 0;
+                                border-color: #ffffff;
+                                vertical-align: top;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#frmTeamAssign {
+    .table {
+
+        th,
+        td {
+            vertical-align: middle;
+
+            &:nth-child(2) {
+                max-width: 200px;
+            }
+        }
+    }
+}
+
+.report-table {
+    tr {
+
+        th,
+        td {
+            white-space: nowrap;
+        }
+    }
+
+    &.display_block {
+        th {
+            min-width: 100px;
+        }
+    }
+}
+
+.add-category-table {
+    tr {
+
+        th,
+        td {
+            padding: 0.5rem 0.2rem;
+
+            &:nth-child(8),
+            &:nth-child(10),
+            &:nth-child(13) {
+                width: 90px;
+            }
+        }
+
+        th {
+            white-space: nowrap;
+
+            &:nth-child(6) {
+                width: 120px !important;
+            }
+        }
+    }
+
+    &.users-table {
+
+        th,
+        td {
+            white-space: nowrap;
+            width: auto;
+        }
+    }
+}
+
+.ppitem {
+    .fc-head {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        top: 0;
+        background-color: white;
+        z-index: 9999 !important;
+
+        .fc-head-container {
+            &>.fc-row {
+                border-left-width: 1px;
+                border-right-width: 0 !important;
+                left: 40px;
+                width: calc(100% - 40px - 14px);
+                overflow-x: hidden;
+
+                th:first-child {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .fc-time-grid {
+        .fc-bg {
+            overflow-x: hidden;
+        }
+
+        .fc-slats {
+            td:first-child {
+                background-color: white;
+            }
+        }
+
+        .fc-content-skeleton {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            height: 100%;
+            left: 40px;
+
+            &>table {
+                td {
+                    &:first-child {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .fc-header-toolbar {
+        display: none;
+    }
+}
+
+.tbl-drawdetails {
+
+    th,
+    td {
+        word-break: break-word;
+    }
+}
+
+.frm-team-assign tr td:nth-child(3) {
+    white-space: nowrap;
+}
+
+.result {
+    .pitch_size_summary {
+        td {
+            width: 25%;
+        }
+    }
+}
+
+.fc-time-grid-event {
+
+    .fc-time,
+    .fc-title,
+    .fc-score {
+        font-size: 0.95em;
+        line-height: 0.85em;
+        padding-top: 0.15em;
+    }
+
+    .fc-content {
+        padding: 1px;
+        padding-right: 10px;
+    }
+}
+
+.fc-slats td {
+    height: 0.85em;
+    line-height: 0.85em;
+
+    span {
+        font-size: 0.8em;
+        line-height: 0.85em;
+        font-weight: 800;
+    }
+}
+
+.fc-unthemed {
+    th {
+        font-weight: 800;
+    }
+    td {
+        &.fc-today {
+            background: #ffffff;
+        }
+    }
+}
+
+.fc-event-container .fc-time-grid-event {
+    width: 100%;
+}
+
+.fc-ltr .fc-time-grid .fc-event-container {
+    margin: 0 1px 0 1px;
+}
+
+#matchSchedule {
+    font-size: 85%;
+
+    tbody {
+        td {
+            vertical-align: middle;
+
+            input[type=text] {
+                border: 1px solid rgba(0, 0, 0, 0.15);
+            }
+
+            input[type=text]:disabled,
+            input[type=text][readonly] {
+                background-color: #eceeef;
+                opacity: 1;
+            }
+        }
+    }
+}

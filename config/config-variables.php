@@ -135,4 +135,27 @@ return [
     'favicon' => [
         'apiurl' => env('FAVICON_API_URL', ''),
     ],
+    'template_graphic_colors' => [
+        '#F1F2AE',
+        '#F3C9A3',
+        '#DAEDFA',
+        '#C5D9B6',
+        '#E9D7D9',
+        '#FFF5EE',
+        '#F3E88E',
+        '#D4A1A3',
+        '#EEA9B8',
+        '#ECEBE0',
+        '#F0D5D7',
+        '#D5ECF8',
+        '#FFFFE5',
+        '#D4ED91',
+        '#E6B0AA',
+        '#A3E4D7',
+        '#A4D3EE',
+        '#CDCDCD',
+        '#EDC393',
+        '#CFD784',
+        '#F0FFFF'
+    ],
 ];
