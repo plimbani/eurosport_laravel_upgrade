@@ -253,7 +253,7 @@
                               </span>
                             </div>
                             <div class="col-sm-4 align-self-center text-center">
-                              <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="btn btn-outline-primary btn-sm" v-if="option.graphic_image">View schedule</a>
+                              <a href="#" @click="viewTemplateGraphic(null, option.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
                             </div>
                           </div>
                         </div>
@@ -537,7 +537,7 @@
         </div>
       </div>
     </div>
-    <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="'AgeCategoryModal'"></displaygraphic>
+    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'"></displaygraphic>
   </div>
 </template>
 <script type="text/babel">
@@ -583,8 +583,6 @@ export default {
       competition_type: 'league',
       group_size: '',
       remarks: '',
-      templateGraphicImageName: '',
-      templateGraphicImagePath: '',
       isTournamentTypeShown: true
     }
   },
@@ -1134,10 +1132,9 @@ export default {
            vm.tournamentFormatInitializePopover();
       });
     },
-    viewGraphicalPreview(imageName, imagePath){
+    viewTemplateGraphic(ageCategoryId, templateId){
+      this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
       $('#displayGraphicImage').modal('show');
-      this.templateGraphicImageName = imageName;
-      this.templateGraphicImagePath = imagePath;
     },
     closeAgeCategoryModal : function()
     {

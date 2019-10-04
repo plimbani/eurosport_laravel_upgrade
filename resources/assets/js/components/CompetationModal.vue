@@ -1,6 +1,6 @@
 <template>
   <div class="modal" id="competationmodal" tabindex="-1" role="dialog" aria-labelledby="competationmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
            <h5 class="modal-title" id="competationmodalLabel">{{$lang.competation_modal_age_category}} {{templateData.tournament_name}}</h5>
@@ -10,23 +10,6 @@
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
-            <!-- <div class="row">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template-image-modal">Enlarge</button>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-center">
-                  <div class="d-block mx-auto">
-                    <img class="img-fluid" v-bind:src="'/'+templateImage">
-                  </div>
-                </div>
-              </div>
-            </div> -->
-          
             <div class="row">
               <div class="col-md-6">
                 <div class="jumbotron h-100 mb-0 px-4 py-4">
@@ -73,11 +56,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12 text-center">
-                <img class="img-fluid" :src="templateGraphicViewImage">
-              </div>
-            </div>
+            <div v-html="graphicHtml"></div>
           </form>
         </div>
        </div>
@@ -85,23 +64,29 @@
   </div>
 </template>
 <script type="text/babel">
-   export default {
-     props: ['templateData','totalTime','templateGraphicViewImage'],
-     filters: {
-    formatTime: function(time) {
-      var hours = Math.floor( time /   60);
-      var minutes = Math.floor(time % 60);
+  export default {
+    data() {
+      return {
+      }
+    },
+    props: ['templateData','totalTime', 'graphicHtml'],
+    filters: {
+      formatTime: function(time) {
+        var hours = Math.floor( time /   60);
+        var minutes = Math.floor(time % 60);
 
-      return hours+ 'h '+minutes+'m'
-    }
-   },
+        return hours+ 'h '+minutes+'m'
+      }
+    },
+    computed: {
+    },
    methods:{
     displayRoundSchedule() {
       var roundScheduleData = this.templateData.round_schedule;
       if(roundScheduleData) {
         return this.templateData.tournament_teams +" teams " + roundScheduleData.join(" - ");
       }
-    }
+    },
    }
  }
 </script>

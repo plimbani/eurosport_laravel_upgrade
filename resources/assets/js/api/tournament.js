@@ -301,4 +301,7 @@ export default {
   deleteFinalPlacingTeam(placingData) {
     return api.post('deleteFinalPlacingTeam', placingData)
   },
+  getTemplateGraphic(templateData) {
+    return api.post('getTemplateGraphic', templateData);
+  },
 }

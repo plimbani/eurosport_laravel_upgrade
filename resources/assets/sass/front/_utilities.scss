@@ -1,0 +1,60 @@
+.bg-grey {
+    background-color: grey;
+    border: 1px solid grey;
+}
+
+.bg-light-grey {
+    background-color: color("grey", "lighten-5");
+}
+
+.display-flex {
+    display: flex;
+}
+
+.custom-d-flex {
+    display: flex;
+}
+
+.display_table {
+    display: table;
+}
+
+.margin-right-0 {
+	margin-right: 0px;
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.padding-zero {
+    padding: 0px;
+}
+
+.padding-right-zero {
+    padding-right: 0;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.float-left {
+    float: left;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.line-height-initial {
+    line-height: initial;
+}
