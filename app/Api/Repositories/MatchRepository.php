@@ -451,6 +451,23 @@ class MatchRepository
           }
         }
 
+        // Check for all knockout placing matches
+        $showAllPlacingMatchesOfKnockout = false;
+        if(isset($tournamentData['competitionId'])) {
+          $knockoutAgeCategory = Competition::leftJoin('tournament_competation_template', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
+            ->where('competitions.id', $tournamentData['competitionId'])
+            ->where('tournament_competation_template.tournament_format', 'basic')
+            ->where('tournament_competation_template.competition_type', 'knockout')
+            ->where('competitions.competation_round_no', '!=', 'Round 1')
+            ->first();
+          if($knockoutAgeCategory) {
+            $showAllPlacingMatchesOfKnockout = true;
+            $getAllCompetitionID = Competition::where('tournament_competation_template_id', $knockoutAgeCategory->tournament_competation_template_id)
+            ->where('competitions.competation_round_no', '!=', 'Round 1')
+            ->pluck('id')->toArray();
+          }
+        }
+
         // Todo Added Condition For Filtering Purpose on Pitch Planner
         if(isset($tournamentData['fiterEnable'])){
           if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
@@ -500,7 +517,7 @@ class MatchRepository
           }
         }
 
-        if ( $roundQuery )
+        if ( $roundQuery || $showAllPlacingMatchesOfKnockout )
         {
           $reportQuery =  $reportQuery->whereIn('temp_fixtures.competition_id',$getAllCompetitionID);
         }
@@ -525,6 +542,7 @@ class MatchRepository
         foreach($resultData as $key=>$res) {
           $updatedArray[$key] = $res;
           $updatedArray[$key]->isDivExist = $roundQuery;
+          $updatedArray[$key]->isKnockoutPlacingMatches = $showAllPlacingMatchesOfKnockout;
           if($res->Home_id == 0 ) {
             $preset = '';
               if(strpos($res->displayHomeTeamPlaceholderName,"." ) != false) {
@@ -1571,7 +1589,7 @@ class MatchRepository
           'match_endtime' => $matchData['matchEndDate'],
           'is_scheduled' => 1,
           'minimum_team_interval_flag' => $setFlag,
-          'schedule_last_update_date_time' => Carbon::now()
+          'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
         ];
 
         $updateResult = DB::table('temp_fixtures')
@@ -1598,7 +1616,7 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-        'schedule_last_update_date_time' => Carbon::now()
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
       ];
       $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
@@ -1830,7 +1848,7 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-        'schedule_last_update_date_time' => Carbon::now()
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
       ];
 
       $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
@@ -1859,7 +1877,7 @@ class MatchRepository
                         'match_datetime' => $data['matchStartDate'],
                         'match_endtime' => $data['matchEndDate'],
                         'is_scheduled' => 1,
-                        'schedule_last_update_date_time' => Carbon::now()
+                        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
                       ]);
   
       return ['status' => true, 'message' => 'Scores updated successfully.', 'match_data' => $updateMatchScheduleResult, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
