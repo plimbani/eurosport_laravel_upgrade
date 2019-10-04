@@ -105,14 +105,16 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         } else {
             holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
-        if (isShowViewGraphic && !Utility.isNullOrEmpty(ageModel.getGraphic_image())) {
+//        if (isShowViewGraphic && !Utility.isNullOrEmpty(ageModel.getGraphic_image())) {
+        if (isShowViewGraphic) {
             holder.tv_view_graphic.setVisibility(View.VISIBLE);
             holder.tv_view_graphic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (Utility.isInternetAvailable(mContext)) {
                         Intent mFullScreenImageIntent = new Intent(mContext, FullScreenImageActivity.class);
-                        mFullScreenImageIntent.putExtra(AppConstants.KEY_IMAGE_URL, ageModel.getGraphic_image() + "");
+//                        mFullScreenImageIntent.putExtra(AppConstants.KEY_IMAGE_URL, ageModel.getGraphic_image() + "");
+                        mFullScreenImageIntent.putExtra(AppConstants.KEY_AGE_CATEGORIES_ID, ageModel.getId() + "");
                         mContext.startActivity(mFullScreenImageIntent);
                     } else {
                         Utility.showToast(mContext, mContext.getString(R.string.no_internet));
