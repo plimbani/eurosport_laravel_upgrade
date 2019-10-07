@@ -79,8 +79,8 @@
       </div>
     </div>
 
-    <h6 class="mt-3 font-weight-bold" v-if="matches.length > 0 && isDivExist == 0">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :isDivExist="isDivExist" :isDivExistData="isDivExistData" :categoryId="categoryId"></matches>
+    <h6 class="mt-3 font-weight-bold" v-if="matches.length > 0 && isDivExist == 0 && isKnockoutPlacingMatches === false">{{ competitionDetail.name }} matches</h6>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :isDivExist="isDivExist" :isDivOrKnockoutExistData="isDivOrKnockoutExistData" :categoryId="categoryId" :isKnockoutPlacingMatches="isKnockoutPlacingMatches"></matches>
   </div>
 </template>
 
@@ -99,7 +99,8 @@
         currentCompetitionId: 0,
         matchesGrid: [],
         isDivExist: false,
-        isDivExistData: [],
+        isKnockoutPlacingMatches: false,
+        isDivOrKnockoutExistData: [],
         dropdownDrawName:[],
       };
     },
@@ -127,16 +128,35 @@
           if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
           {
             this.isDivExist = getFirstMatch.isDivExist;
+            this.isKnockoutPlacingMatches = getFirstMatch.isKnockoutPlacingMatches;
             this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
           }
           else
           {
             this.isDivExist = 0;
+            this.isKnockoutPlacingMatches = false;
             this.isDivExistData = [];
           }
         },
         deep: true,
       },
+    },
+    computed: {
+      updateDivExistData:function(){
+        var getFirstMatch = _.head(this.matches);
+        if ( typeof(getFirstMatch) != 'undefined' && (getFirstMatch.isDivExist == 1 || getFirstMatch.isKnockoutPlacingMatches === true) )
+        {
+          this.isDivExist = getFirstMatch.isDivExist;
+          this.isKnockoutPlacingMatches = getFirstMatch.isKnockoutPlacingMatches;
+          this.isDivOrKnockoutExistData = _.groupBy(this.matches, 'competation_round_no');
+        }
+        else
+        {
+          this.isDivExist = 0;
+          this.isKnockoutPlacingMatches = false;
+          this.isDivOrKnockoutExistData = [];
+        }
+      }
     },
     components: {
       Matches,
