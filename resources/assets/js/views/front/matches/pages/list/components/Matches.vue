@@ -1,7 +1,7 @@
 <template>
     <div>
       <!-- <hr class="hr m-0"> -->
-      <div class="table-responsive" v-if="matchData.length > 0 && !isDivExist">
+      <div class="table-responsive" v-if="matchData.length > 0 && !isDivExist && !isKnockoutPlacingMatches">
         <table id="matchSchedule" class="table">
 
           <MatchListTableHead :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
@@ -11,7 +11,7 @@
       </div>
 
 
-      <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist" >
+      <div class="table-responsive" v-for="(matches,index) in isDivOrKnockoutExistData" v-if="matchData.length > 0 && (isDivExist || isKnockoutPlacingMatches)" >
         <label class="mb-0" :class="getCompetitionIdFromMatch(matches)"><h5 class="mb-2">{{index}}</h5></label><br>
         <h6 class="mb-2 font-weight-bold">{{ getCompetitionName(matches) }} matches</h6>
         <table class="table">
@@ -50,7 +50,7 @@
   import MatchListTableHead from '../components/MatchListTableHead.vue';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'isDivExist','isDivExistData'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'isDivExist','isDivOrKnockoutExistData', 'isKnockoutPlacingMatches'],
     components: {
       MatchListTableBody,
       MatchListTableHead
