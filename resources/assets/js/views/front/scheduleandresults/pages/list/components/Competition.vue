@@ -80,8 +80,8 @@
       </div>
     </div>
 
-    <h6 class="mt-3 font-weight-bold" v-if="matches.length > 0 && isDivExist == 0">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :tournamentData="tournamentData" :isDivExist="isDivExist" :isDivExistData="isDivExistData" :categoryId="categoryId"></matches>
+    <h6 class="mt-3 font-weight-bold" v-if="matches.length > 0 && isDivExist == 0 && isKnockoutPlacingMatches === false">{{ competitionDetail.name }} matches</h6>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :tournamentData="tournamentData" :isDivExist="isDivExist" :isDivOrKnockoutExistData="isDivOrKnockoutExistData" :categoryId="categoryId" :isKnockoutPlacingMatches="isKnockoutPlacingMatches"></matches>
   </div>
 </template>
 
@@ -100,7 +100,8 @@
         currentCompetitionId: 0,
         matchesGrid: [],
         isDivExist: false,
-        isDivExistData: [],
+        isKnockoutPlacingMatches: false,
+        isDivOrKnockoutExistData: [],
         dropdownDrawName:[],
       };
     },
@@ -115,15 +116,17 @@
       matches: {
         handler: function (val, oldVal) {
           var getFirstMatch = _.head(this.matches);
-          if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+          if ( typeof(getFirstMatch) != 'undefined' && (getFirstMatch.isDivExist == 1 || getFirstMatch.isKnockoutPlacingMatches === true) )
           {
             this.isDivExist = getFirstMatch.isDivExist;
-            this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+            this.isKnockoutPlacingMatches = getFirstMatch.isKnockoutPlacingMatches;
+            this.isDivOrKnockoutExistData = _.groupBy(this.matches, 'competation_round_no');
           }
           else
           {
             this.isDivExist = 0;
-            this.isDivExistData = [];
+            this.isKnockoutPlacingMatches = false;
+            this.isDivOrKnockoutExistData = [];
           }
         },
         deep: true,
