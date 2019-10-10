@@ -586,6 +586,7 @@ class TeamRepository
 
       $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageCategoryId);
       $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+      $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
       
     }
 

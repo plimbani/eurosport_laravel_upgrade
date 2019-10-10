@@ -182,12 +182,14 @@ class MatchService implements MatchContract
         }
 
         if ($scheduledResult) {
-            if($scheduledResult != -1 && $scheduledResult != -2){
+            if($scheduledResult != -1 && $scheduledResult != -2 && $scheduledResult != -3){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
                return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'This pitch is the wrong pitch size for this fixture.'];
+            } else if($scheduledResult == -3){
+               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
             }
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];

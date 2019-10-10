@@ -642,7 +642,7 @@
                 });
 
                 $("body .js-loader").addClass('d-none');
-                vm.isMatchScheduleInEdit = false;
+                vm.$emit('changeMatchScheduleStatus', false);
                 vm.enableScheduleFeatureAsDefault = false;
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {

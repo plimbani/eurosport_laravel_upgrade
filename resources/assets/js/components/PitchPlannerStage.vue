@@ -328,7 +328,7 @@ import _ from 'lodash'
                                             vm.isAnotherMatchScheduled = true;
                                             vm.$emit('conflicted-for-same-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
                                         }
-                                        if(response.data.data != -1 && response.data.data != -2){
+                                        if(response.data.data != -1 && response.data.data != -2 && response.data.data != -3){
                                             if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
                                                 enableScheduleFeatureAsDefault = true;
                                                 vm.$emit('make-schedule-matches-as-default');
@@ -426,7 +426,7 @@ import _ from 'lodash'
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
-                                    if(response.data.data != -1 && response.data.data != -2){
+                                    if(response.data.data != -1 && response.data.data != -2 && response.data.data != -3){
                                         if(vm.isMatchScheduleInEdit === false) {
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
 
