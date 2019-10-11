@@ -11,13 +11,17 @@
 				<tbody>
 					<tr v-for="category in categories">
 						<td>
-							<a class="text-primary" href="#" @click.prevent="showCategoryGroups(category.id)">
-								<u>{{ category.group_name }} ({{ category.category_age }})</u>
-							</a>
-              <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fa fa-info-circle" v-if="category.comments != null"></i></a>
+							<div class="d-flex align-items-center justify-content-between">
+                                <a class="text-primary" href="#" @click.prevent="showCategoryGroups(category.id)">
+								    <u>{{ category.group_name }} ({{ category.category_age }})</u>
+							     </a>
+                                <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fa fa-info-circle" v-if="category.comments != null"></i></a>
+                                <a href="#" @click="viewTemplateGraphic(category.id, category.tournament_template_id)" class="ml-2 float-right text-primary">View schedule</a>
+                            </div>
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
+          <displaygraphic :sectionGraphicImage="'DrawList'"></displaygraphic>
 				</tbody>
 			</table>
 		</div>
@@ -114,6 +118,7 @@
   import CategoryList from '../../../../../api/frontend/categorylist.js';
   import MatchList from '../../../../../api/frontend/matchlist.js';
   import Competition from './../list/components/Competition.vue';
+  import displaygraphic from '../../../../../components/DisplayGraphicalStructure.vue';
 
 	export default {
 		data() {
@@ -137,6 +142,7 @@
   	},
    	components: {
       Competition,
+      displaygraphic,
 		},
     props: ['tournamentData'],
 
@@ -223,6 +229,10 @@
         this.showView = 'competition';
         this.getSelectedCompetitionDetails(id, competitionName, competitionType);
       },
+      viewTemplateGraphic : function(ageCategoryId, templateId){
+        this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
+        $('#displayGraphicImage').modal('show');
+      }
     },
     filters: {
       getDivName: function (value) {

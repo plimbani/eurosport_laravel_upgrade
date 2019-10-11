@@ -861,7 +861,7 @@ a.active-view:hover {
 }
 
 .displayGraphicImage .modal-dialog {
-    max-width: 900px;
+    // max-width: 900px;
 }
 
 #select2-drawName-results li.rounds {
@@ -1119,6 +1119,20 @@ a.active-view:hover {
 
         &.select2-results__option:before {
             display: none;
+        }
+    }
+}
+
+.schedule-results {
+    .custom-tabbing {
+        .custom-table {
+            table {
+                tr {
+                    td {
+                        vertical-align: middle;
+                    }
+                }
+            }
         }
     }
 }
