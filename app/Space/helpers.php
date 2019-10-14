@@ -326,17 +326,17 @@ function getColorCodeOfMatches($allMatches) {
                 if(strpos($o['match_number'], $searchForWinner) !== false) {
                     $searchResults[] = $o;
                     $searchForWinner = (strpos($searchForWinner, 'PM') === 0) ? '(' . $searchForWinner . ')'  : $searchForWinner; 
-                    $homeAwayTeamWithColorCode[$searchForWinner] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+                    $homeAwayTeamWithColorCode[$searchForWinner] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#595959')];
                 }
                 if(strpos($o['match_number'], $searchForLoser) !== false) {
                     $searchResults[] = $o;
                     $searchForLoser = (strpos($searchForLoser, 'PM') === 0) ? '(' . $searchForLoser . ')'  : $searchForLoser; 
-                    $homeAwayTeamWithColorCode[$searchForLoser] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+                    $homeAwayTeamWithColorCode[$searchForLoser] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#595959')];
                 }
             }
 
             if(count($searchResults) > 0 && !isset($matchesWithColorCode[$matchNumber])) {
-                $matchesWithColorCode[$matchNumber] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#000000')];
+                $matchesWithColorCode[$matchNumber] = ['background' => $colorCode, 'text' => pickTextColorBasedOnBgColorSimple($colorCode, '#FFFFFF', '#595959')];
                 $colorIndex++;
             }
         }
