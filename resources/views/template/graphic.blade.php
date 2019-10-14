@@ -50,10 +50,10 @@
                   <div class="row-round">
                     @if($roundIndex == 0)
                       <div class="group-column" v-if="roundIndex == 0">
-                          <h6 class="m-0 font-weight-bold">{{ "Group " . getGroupName($group['groups']['group_name']) }}</h6>
+                          <div class="m-0 font-weight-bold group-title">{{ "Group " . getGroupName($group['groups']['group_name']) }}</div>
                           @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                             <div class="bordered-box">
-                              <span class="font-weight-bold">{{ getRoundRobinAssignedTeam($assignedTeams, getGroupName($group['groups']['group_name']), $teamIndex) }}</span>
+                              <span class="small">{{ getRoundRobinAssignedTeam($assignedTeams, getGroupName($group['groups']['group_name']), $teamIndex) }}</span>
                             </div>
                           @endfor
                       </div>
@@ -61,10 +61,10 @@
 
                     @if($roundIndex >= 1)
                       <div class="group-column">
-                        <h6 class="m-0 font-weight-bold">{{ "Group " . getGroupName($group['groups']['group_name']) }}</h6>
+                        <div class="m-0 font-weight-bold group-title">{{ "Group " . getGroupName($group['groups']['group_name']) }}</div>
                         @foreach(getRoundRobinUniqueTeams($fixtures, $group['groups']['match'], $groupName, $categoryAge) as $teamIndex=>$team)
                           <div class="bordered-box" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
-                            <span class="font-weight-bold">{{ $team['name'] }}</span>
+                            <span class="small">{{ $team['name'] }}</span>
                           </div>
                         @endforeach
                       </div>
@@ -72,10 +72,10 @@
 
                     @if($roundIndex >= 1)
                       <div class="group-column">
-                        <h6 class="m-0 font-weight-bold">&nbsp;</h6>
+                        <div class="m-0 font-weight-bold group-title">&nbsp;</div>
                         @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                           <div class="bordered-box">
-                            <span class="font-weight-bold">{{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}</span>
+                            <span class="small">{{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}</span>
                           </div>
                         @endfor
                       </div>
@@ -83,11 +83,11 @@
 
                     @if(isAnyRankingInPosition($templateData, getGroupName($group['groups']['group_name']), $group['group_count']))
                       <div class="group-column">
-                        <h6 class="m-0 font-weight-bold">Ranking</h6>
+                        <div class="m-0 font-weight-bold group-title">Ranking</div>
                         @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                           @if(checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])))
                             <div class="bordered-box">
-                              <span class="font-weight-bold">{{ checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])) }}</span>
+                              <span class="small">{{ checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])) }}</span>
                             </div>
                           @endif
                         @endfor
@@ -147,30 +147,30 @@
               <div>
                 <div class="row-round">
                   <div class="group-column">
-                    <h6 class="m-0 font-weight-bold">{{ "Group " . getGroupName($group['groups']['group_name']) }}</h6>
+                    <div class="m-0 font-weight-bold group-title">{{ "Group " . getGroupName($group['groups']['group_name']) }}</div>
                     @foreach(getRoundRobinUniqueTeams($fixtures, $group['groups']['match'], $groupName, $categoryAge) as $teamIndex=>$team)
                       <div class="bordered-box" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
-                        <span class="font-weight-bold">{{ $team['name'] }}</span>
+                        <span class="small">{{ $team['name'] }}</span>
                       </div>
                     @endforeach
                   </div>
 
                   <div class="group-column">
-                    <h6 class="m-0 font-weight-bold">&nbsp;</h6>
+                    <div class="m-0 font-weight-bold group-title">&nbsp;</div>
                     @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                       <div class="bordered-box">
-                        <span class="font-weight-bold">{{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}</span>
+                        <span class="small">{{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}</span>
                       </div>
                     @endfor
                   </div>
 
                   @if(isAnyRankingInPosition($templateData, getGroupName($group['groups']['group_name']), $group['group_count']))
                     <div class="group-column">
-                      <h6 class="m-0 font-weight-bold">Ranking</h6>
+                      <div class="m-0 font-weight-bold group-title">Ranking</div>
                       @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                         @if(checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])))
                           <div class="bordered-box">
-                            <span class="font-weight-bold">{{ checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])) }}</span>
+                            <span class="small">{{ checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])) }}</span>
                           </div>
                         @endif
                       @endfor
