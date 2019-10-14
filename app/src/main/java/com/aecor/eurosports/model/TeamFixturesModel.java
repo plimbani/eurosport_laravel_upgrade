@@ -19,6 +19,7 @@ public class TeamFixturesModel implements Parcelable{
     private String team_size;
     private String match_datetime;
     private String match_endtime;
+    private String competation_round_no;
     private String venueId;
     private String competitionId;
     private String venueCoordinates;
@@ -72,6 +73,8 @@ public class TeamFixturesModel implements Parcelable{
     private String AwayTeamShirtColor;
     private String HomeTeamShortsColor;
     private String AwayTeamShortsColor;
+    private String isDivExist;
+    private String isKnockoutPlacingMatches;
 
     protected TeamFixturesModel(Parcel in) {
         fid = in.readString();
@@ -85,6 +88,7 @@ public class TeamFixturesModel implements Parcelable{
         match_datetime = in.readString();
         match_endtime = in.readString();
         venueId = in.readString();
+        competation_round_no = in.readString();
         competitionId = in.readString();
         venueCoordinates = in.readString();
         pitchType = in.readString();
@@ -120,6 +124,8 @@ public class TeamFixturesModel implements Parcelable{
         halftime_break_FM = in.readString();
         match_interval_RR = in.readString();
         match_interval_FM = in.readString();
+        isKnockoutPlacingMatches = in.readString();
+        isDivExist = in.readString();
         tid = in.readString();
         full_game = in.readString();
         match_status = in.readString();
@@ -198,12 +204,15 @@ public class TeamFixturesModel implements Parcelable{
         dest.writeString(displayHomeTeamPlaceholderName);
         dest.writeString(displayAwayTeamPlaceholderName);
         dest.writeString(position);
+        dest.writeString(isKnockoutPlacingMatches);
         dest.writeString(isResultOverride);
         dest.writeString(match_winner);
         dest.writeString(HomeTeamShirtColor);
         dest.writeString(AwayTeamShirtColor);
         dest.writeString(HomeTeamShortsColor);
         dest.writeString(AwayTeamShortsColor);
+        dest.writeString(isDivExist);
+        dest.writeString(competation_round_no);
     }
 
     @Override
@@ -725,5 +734,29 @@ public class TeamFixturesModel implements Parcelable{
 
     public void setAwayTeamShortsColor(String awayTeamShortsColor) {
         AwayTeamShortsColor = awayTeamShortsColor;
+    }
+
+    public String getIsDivExist() {
+        return isDivExist;
+    }
+
+    public void setIsDivExist(String isDivExist) {
+        this.isDivExist = isDivExist;
+    }
+
+    public String getCompetation_round_no() {
+        return competation_round_no;
+    }
+
+    public void setCompetation_round_no(String competation_round_no) {
+        this.competation_round_no = competation_round_no;
+    }
+
+    public String getIsKnockoutPlacingMatches() {
+        return isKnockoutPlacingMatches;
+    }
+
+    public void setIsKnockoutPlacingMatches(String isKnockoutPlacingMatches) {
+        this.isKnockoutPlacingMatches = isKnockoutPlacingMatches;
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_match_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/view_line"
+    android:orientation="horizontal"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tv_match_division_name"
+        style="@style/text_black_sub_title"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/game_information"
+        android:textStyle="bold" />
+</LinearLayout>
