@@ -180,7 +180,7 @@
     <orderEntry type="library" name="Gradle: com.android.support:support-v4:27.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:customtabs:27.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: de.hdodenhof:circleimageview:2.1.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: testfairy:testfairy-android-sdk:1.9.15@aar" level="project" />
+    <orderEntry type="library" name="Gradle: testfairy:testfairy-android-sdk:1.9.16@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.lzyzsd:circleprogress:1.2.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.MikeOrtiz:TouchImageView:1.4.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.crashlytics.sdk.android:beta:1.2.5@aar" level="project" />
