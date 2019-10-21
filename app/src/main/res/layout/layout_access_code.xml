@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/no_internet_textview" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="42dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/iv_header_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/globe" />
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_black_title"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/enter_tournament_code_to_start"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_enter_access_code"
+                style="@style/app_edittext"
+                android:background="@drawable/edittext_border"
+                android:hint="@string/tournament_code"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/error_msg"
+                style="@style/text_black_sub_title"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="@string/tournament_code_not_recognised"
+                android:textColor="@color/error_red"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                style="@style/text_black_title"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                android:text="@string/submit"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

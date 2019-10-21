@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/ll_standing_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_standing"
+                        style="@style/text_black_sub_title"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/standings"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/tv_standing_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/colorPrimaryDark" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/view_line" />
+
+                <FrameLayout
+                    android:id="@+id/ll_matches_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/text_black_sub_title"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/matches"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/tv_matches_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/colorPrimaryDark" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/view_line" />
+
+            <Spinner
+                android:id="@+id/sp_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/spinner_bg_image_gray"
+                android:drawSelectorOnTop="true"
+                android:paddingRight="35dp"
+                android:prompt="@string/select_tournament" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/layout_border"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tv_team_name"
+                    style="@style/text_black_title"
+                    android:layout_gravity="center"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_team_flag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_countryName"
+                        style="@style/text_black_sub_title"
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_team_member_desc"
+                    style="@style/text_black_sub_title"
+                    android:layout_gravity="center" />
+
+                <LinearLayout
+                    android:id="@+id/ll_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_calendar" />
+
+                    <TextView
+                        android:id="@+id/tv_view_graphic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:padding="10dp"
+                        android:text="@string/view_graphic"
+                        android:textColor="@color/link"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_standings_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:id="@+id/tr_group_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/view_line"
+                        android:orientation="horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <TextView
+                            android:id="@+id/tv_group_table_title"
+                            style="@style/text_black_sub_title"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_span="8"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:layout_width="wrap_content"
+                            android:gravity="left|center"
+                            android:text="@string/G"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:layout_width="wrap_content"
+                            android:gravity="left|center"
+                            android:text="@string/plus_minus"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:layout_width="wrap_content"
+                            android:gravity="left|center"
+                            android:text="@string/P"
+                            android:textStyle="bold" />
+                    </TableRow>
+                </TableLayout>
+                <TableLayout
+                    android:id="@+id/tl_group_rows"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*">
+
+                </TableLayout>
+
+                <TextView
+                    android:id="@+id/tv_view_full_league_table"
+                    style="@style/text_black_sub_title"
+                    android:layout_marginLeft="8dp"
+                    android:drawableRight="@drawable/green_right_arrow"
+                    android:gravity="left"
+                    android:padding="15dp"
+                    android:text="@string/view_league_table"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <View
+                    android:id="@+id/view_seperator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/button_disable"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_view_all_rounds"
+                    style="@style/text_black_sub_title"
+                    android:layout_marginLeft="8dp"
+                    android:drawableRight="@drawable/green_right_arrow"
+                    android:gravity="left"
+                    android:padding="15dp"
+                    android:text="@string/view_all_rounds"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_matches_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_match_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/view_line"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <TextView
+                        style="@style/text_black_sub_title"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/matches"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_matches"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/ll_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_view_all_club_matches"
+                        style="@style/text_black_sub_title"
+                        android:layout_marginLeft="8dp"
+                        android:drawableRight="@drawable/green_right_arrow"
+                        android:gravity="left"
+                        android:padding="15dp"
+                        android:text="@string/view_club_match"
+                        android:textColor="@color/green"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/home_footer"
+        layout="@layout/layout_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

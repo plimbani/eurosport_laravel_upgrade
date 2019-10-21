@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:isScrollContainer="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="@color/view_line"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_left_black"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_tournament_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left|center"
+                            android:padding="10dp"
+                            android:src="@drawable/icon_tournament_details" />
+
+
+                        <TextView
+                            android:id="@+id/tv_tournamentDate"
+                            style="@style/text_black_sub_title"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="6dp"
+                            android:text="@string/matches"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left|center"
+                            android:padding="10dp"
+                            android:src="@drawable/icon_tournament_details"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_right_black"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_tournamentLogo"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_tournamentName"
+                        style="@style/text_black_title"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:maxLines="2"
+                        android:textColor="@color/green"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="5dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_days"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="30"
+                                custom:donut_progress="30"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_days"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
+
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:text="@string/days"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_hours"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="24"
+                                custom:donut_progress="24"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_hours"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:text="@string/hours"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_minutes"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="60"
+                                custom:donut_progress="60"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_minutes"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:text="@string/minutes"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_seconds"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="60"
+                                custom:donut_progress="60"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_seconds"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:text="@string/seconds"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_teams"
+                    style="@style/text_black_title"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_yellow"
+                    android:text="@string/teams"
+                    android:textColor="@color/btn_active_text_color" />
+
+                <Button
+                    android:id="@+id/btn_final_placings"
+                    style="@style/text_black_title"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_yellow"
+                    android:text="@string/age_categories"
+                    android:textColor="@color/btn_active_text_color" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/sp_tournament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/spinner_bg_image_gray"
+                android:drawSelectorOnTop="true"
+                android:prompt="@string/select_tournament" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

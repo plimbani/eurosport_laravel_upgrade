@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "647325923706",
+    "firebase_url": "https://easy-match-manager.firebaseio.com",
+    "project_id": "easy-match-manager",
+    "storage_bucket": "easy-match-manager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647325923706:android:21d28fd8b19c915f",
+        "android_client_info": {
+          "package_name": "com.aecor.eurosports.easymatchmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647325923706-paunjdlpck8lclrngabrm2rohm2srb17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports.easymatchmanager",
+            "certificate_hash": "22e802c0e2784de14bdf3458d67715348833c7b1"
+          }
+        },
+        {
+          "client_id": "647325923706-u4b2b35dapi8dgjj3rpva8ubioeap6om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports.easymatchmanager",
+            "certificate_hash": "56c34091b4081cf726534f34fb7846db9145c515"
+          }
+        },
+        {
+          "client_id": "647325923706-dmmprq3ffh6i94v28a9gvb5f8vvjqmsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports.easymatchmanager",
+            "certificate_hash": "9904adbd7ccaf48df7695fb7fab88a67ebb94729"
+          }
+        },
+        {
+          "client_id": "647325923706-vj5lfjkhnl0cjta3ant2ep5is3lb7r1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWGE-431WYQtvYg6_7zCRxv23hZI7Zq0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647325923706-vj5lfjkhnl0cjta3ant2ep5is3lb7r1d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
