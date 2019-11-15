@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Auth;
 use UrlSigner;
+use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
@@ -333,6 +334,11 @@ class AgeGroupRepository
 
         $tournamentReferee->age_group_id = count($ageGroupIds) > 0 ? implode(',', array_values($ageGroupIds)) : null;
         $tournamentReferee->save();
+      }
+
+      $allNonAttachedTeams = Team::where('tournament_id', $tournamentId)->where('age_category_name', $tournamentCompetationTemplate->category_age)->whereNull('competation_id')->get();
+      if(count($allNonAttachedTeams) > 0) {
+        Team::where('tournament_id', $tournamentId)->where('age_category_name', $tournamentCompetationTemplate->category_age)->delete();
       }
 
       return $tournamentCompetationTemplate->delete();

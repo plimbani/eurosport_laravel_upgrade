@@ -910,3 +910,11 @@ a.active-view:hover {
     /* Firefox 18- */
     color: $base-font-color;
 }
+
+.team-upload-summary .category-error:nth-child(n+2) {
+    margin-top: 1.5rem;
+}
+
+.team-upload-summary .category-error .age-category-div:nth-child(n+2) {
+    margin-top: 1rem;
+}

@@ -12,7 +12,7 @@ class Team extends Model
     protected $table = 'teams';
 
    protected $fillable = [
-        'club_id','tournament_id', 'age_group_id', 'user_id', 'compeatation_id', 'name', 'website', 'facebook', 'website', 'facebook', 'twitter', 'shirt_color', 'esr_reference','facebook', 'country_id','assigned_group','place','category_name_id','comments', 'shorts_color'
+        'club_id','tournament_id', 'age_group_id', 'user_id', 'compeatation_id', 'name', 'website', 'facebook', 'website', 'facebook', 'twitter', 'shirt_color', 'esr_reference','facebook', 'country_id','assigned_group','place','category_name_id','comments', 'shorts_color', 'age_category_name'
     ];
     /**
      * The attributes that should be mutated to dates.

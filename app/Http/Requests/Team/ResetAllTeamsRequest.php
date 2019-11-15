@@ -31,7 +31,8 @@ class ResetAllTeamsRequest extends FormRequest
     public function rules()
     {
         return [
-            'ageCategoryId' => 'required | array'
+            'ageCategoryName' => 'required',
+            'tournamentId' => 'required',
         ];
     }
 }

@@ -12,7 +12,7 @@ interface TeamContract
      */
     public function getTeams($teamData);
 
-    public function create($request);
+    public function create($request, $tournamentId);
 
     public function edit($request);
 
