@@ -768,10 +768,14 @@
         let data = {'ageCategoryId':this.age_category.id, 'ageCategoryName':this.age_category.category_age,'tournamentId':this.tournament_id};
         Tournament.getResetTeams(data).then(
           (response) => {
-            this.$root.$emit('updateTeamList');
-
+            if(response.data.status === 'success') {
+              this.$root.$emit('updateTeamList');
+              toastr['success']('All teams are deleted successfully', 'Success');
+            }
+            if(response.data.status === 'error') {
+              toastr['error'](response.data.message, 'Error');
+            }
             $("#reset_modal").modal("hide");
-            toastr['success']('All teams are deleted successfully', 'Success');
           },
           (error) => {
           }

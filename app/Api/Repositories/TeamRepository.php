@@ -571,6 +571,17 @@ class TeamRepository
       $ageCategoryId = $data['ageCategoryId'];
       $tournamentId = $data['tournamentId'];
       $ageCategories = [$ageCategoryId];
+
+      $fixturesWithResultsEnteredForAgeCategory = TempFixture::where('age_group_id', $ageCategoryId)
+        ->where(function ($query) {
+            $query->whereNotNull('hometeam_score')
+              ->orWhereNotNull('awayteam_score');
+        })->get();
+
+      if(count($fixturesWithResultsEnteredForAgeCategory) > 0) {
+        return ['status' => 'error', 'message' => 'Teams for selected age category can not be deleted as one or more results are entered.'];
+      }
+
       $allNonAttachedTeams = Team::where('tournament_id', $tournamentId)->where('age_category_name', $ageCategoryName)->whereNull('competation_id')->get();
       if(count($allNonAttachedTeams) > 0) {
         $ageCategories = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategoryName)->get()->pluck('id')->toArray();
@@ -597,6 +608,8 @@ class TeamRepository
         $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageCategoryId);
         $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
       }
+
+      return ['status' => 'success', 'message' => 'Teams has been deleted successfully.'];
     }
 
     public function getTeamsFairPlayData($data)

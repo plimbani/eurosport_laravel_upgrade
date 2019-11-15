@@ -367,7 +367,7 @@ class TeamService implements TeamContract
     public function resetAllTeams($request)
     {
         $data = $request->toArray();
-        $data = $this->teamRepoObj->resetAllTeams($data);
+        return $this->teamRepoObj->resetAllTeams($data);
     }
 
     public function getClubsByTournamentId($tournamentId)
