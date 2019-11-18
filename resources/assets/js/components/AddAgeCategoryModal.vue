@@ -412,18 +412,37 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_team_interval}}</label>
+                <label class="col-sm-4 form-control-label">Minimum team match interval</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
-                        <input type="number" placeholder="" v-validate="'required'"  name="team_interval"  v-model="competation_format.team_interval"
+                        <input type="number" placeholder="" v-validate="'required'"  name="minimum_team_interval"  v-model="competation_format.minimum_team_interval"
                        min="0" class="form-control">
-                        <i v-show="errors.has('team_interval')" class="fas fa-warning"></i>
+                        <i v-show="errors.has('minimum_team_interval')" class="fas fa-warning"></i>
                      
                     </div>
                     <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
                   </div>
-                   <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
+                   <span class="help is-danger" v-show="errors.has('minimum_team_interval')">Minimum team interval is required.</span>
+                </div>
+              </div>
+              <div class="form-group row align-items-center">
+                <label class="col-sm-4 form-control-label">Maximum team match interval</label>
+                <div class="col-sm-8">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <input v-if="currentLayout === 'tmp'" type="number" placeholder="" v-validate="{ rules: getMaximumTeamMatchIntervalRules() }" name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
+                        :min="competation_format.minimum_team_interval" :max="maximum_limit_for_maximum_team_interval" class="form-control">
+                        <input v-if="currentLayout === 'commercialisation'" type="number" placeholder="" v-validate="{ rules: getMaximumTeamMatchIntervalRules() }" name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
+                        :min="competation_format.minimum_team_interval" class="form-control">
+                        <i v-show="errors.has('maximum_team_interval')" class="fas fa-warning"></i>
+                    </div>
+                    <span class="col-sm-4">minutes</span>
+                  </div>
+                  <span class="help is-danger" v-show="errors.firstByRule('maximum_team_interval', 'numeric')">The maximum team interval must be numeric.</span>
+                  <span class="help is-danger" v-show="errors.firstByRule('maximum_team_interval', 'decimal')">Maximum team interval is required.</span>
+                  <span class="help is-danger" v-show="errors.firstByRule('maximum_team_interval', 'max_value')">The maximum team interval must be {{ maximum_limit_for_maximum_team_interval }} or less.</span>
+                  <span class="help is-danger" v-show="errors.firstByRule('maximum_team_interval', 'min_value')">The maximum team interval must be {{ competation_format.minimum_team_interval }} or more.</span>
                 </div>
               </div>
               <div class="form-group row align-items-center"> 
@@ -582,6 +601,8 @@ export default {
       competition_type: 'league',
       group_size: '',
       remarks: '',
+      maximum_limit_for_maximum_team_interval: 120,
+      currentLayout: this.$store.state.Configuration.currentLayout,
     }
   },
   watch: {
@@ -761,7 +782,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null, competition_type: null,
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',minimum_team_interval:'40',maximum_team_interval:'120', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null, competition_type: null,
       }
     },
     setEdit(id) {
@@ -1151,6 +1172,22 @@ export default {
     onNumberOfTeamsChange() {
       if(this.competation_format.tournament_format == 'basic' && (this.competation_format.competition_type === 'knockout')) {
         this.group_size = '';
+      }
+    },
+    getMaximumTeamMatchIntervalRules() {
+      if(this.currentLayout === 'tmp') {
+        return {
+          required: true,
+          max_value: this.maximum_limit_for_maximum_team_interval,
+          numeric: true,
+          min_value: this.competation_format.minimum_team_interval
+        };
+      } else {
+        return {
+          required: true,
+          numeric: true,
+          min_value: this.competation_format.minimum_team_interval
+        };
       }
     },
   }
