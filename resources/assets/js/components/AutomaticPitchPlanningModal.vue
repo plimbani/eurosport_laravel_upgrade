@@ -256,7 +256,9 @@ import Tournament from '../api/tournament.js'
                         this.resetForm();
                         $('#automatic_pitch_planning_modal').modal('hide');
                         vm.$root.$emit('setPitchReset');
-                        this.$store.dispatch('setMatches');
+                        this.$store.dispatch('setMatches').then((response) => {
+                          vm.$root.$emit('refreshCompetitionWithGames');
+                        });
                         this.$store.dispatch('SetScheduledMatches');
                       }
                     },

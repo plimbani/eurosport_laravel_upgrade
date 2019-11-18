@@ -297,6 +297,7 @@ import _ from 'lodash'
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'scheduleLastUpdateDateTime': event.scheduleLastUpdateDateTime,
+                                'ageGroupId': event.matchAgeGroupId,
                             };
                             if(event.refereeId == -2){
                                  Tournament.setUnavailableBlock(matchData).then(
@@ -328,7 +329,7 @@ import _ from 'lodash'
                                             vm.isAnotherMatchScheduled = true;
                                             vm.$emit('conflicted-for-same-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
                                         }
-                                        if(response.data.data != -1 && response.data.data != -2){
+                                        if(response.data.data != -1 && response.data.data != -2 && response.data.data != -3){
                                             if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
                                                 enableScheduleFeatureAsDefault = true;
                                                 vm.$emit('make-schedule-matches-as-default');
@@ -418,6 +419,7 @@ import _ from 'lodash'
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'scheduleLastUpdateDateTime': event.scheduleLastUpdateDateTime,
+                                'ageGroupId': event.matchAgeGroupId,
                             };
                             let data = {
                                 matchData: matchData,
@@ -426,7 +428,7 @@ import _ from 'lodash'
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
-                                    if(response.data.data != -1 && response.data.data != -2){
+                                    if(response.data.data != -1 && response.data.data != -2 && response.data.data != -3){
                                         if(vm.isMatchScheduleInEdit === false) {
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
 
@@ -681,7 +683,7 @@ import _ from 'lodash'
                                     'fixtureStripColor': fixtureStripColor,
                                     'homeScore': match.homeScore,
                                     'awayScore': match.AwayScore,
-                                    'displayFlag': match.min_interval_flag == 1 ? 'block' : 'none',
+                                    'displayFlag': (match.min_interval_flag == 1 || match.max_interval_flag == 1) ? 'block' : 'none',
                                     'homeTeam': match.Home_id,
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,

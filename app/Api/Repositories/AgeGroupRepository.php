@@ -141,7 +141,8 @@ class AgeGroupRepository
 
       $tournamentCompeationTemplate['total_teams'] = $data['total_teams'];
       $tournamentCompeationTemplate['min_matches'] = $data['min_matches'];
-      $tournamentCompeationTemplate['team_interval'] = $data['team_interval'];
+      $tournamentCompeationTemplate['minimum_team_interval'] = $data['minimum_team_interval'];
+      $tournamentCompeationTemplate['maximum_team_interval'] = $data['maximum_team_interval'];
 
       $tournamentCompeationTemplate['win_point']= $data['win_point'];
       $tournamentCompeationTemplate['loss_point']= $data['loss_point'];

@@ -274,6 +274,7 @@ class TeamService implements TeamContract
       }
       $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
       $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+      $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
 
       return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
