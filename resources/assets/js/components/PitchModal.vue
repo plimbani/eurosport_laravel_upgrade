@@ -515,7 +515,7 @@ var moment = require('moment');
 
             this.$store.dispatch('setMatches')
               .then((response) => {
-                vm.$root.$emit('reload' + vm.stageIndex);
+                vm.$root.$emit('reloadPitch' + vm.stageIndex);
                 vm.$root.$emit('refreshCompetitionWithGames');
               });
         })

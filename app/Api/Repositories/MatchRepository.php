@@ -176,7 +176,6 @@ class MatchRepository
     }
 
     public function checkTeamIntervalforMatches($matchData) {
-      // dd($matchData);
       if(count($matchData['teams'])>0){
         $matches = [];
         $matches = DB::table('temp_fixtures')
@@ -200,6 +199,31 @@ class MatchRepository
 
       }
 
+    }
+
+    public function checkMaximumTeamIntervalforMatches($matchData) {
+      // dd($matchData);
+      if(count($matchData['teams'])>0){
+        $matches = [];
+        $matches = DB::table('temp_fixtures')
+                ->where('tournament_id','=',$matchData['tournamentId'])
+                ->where('age_group_id','=',$matchData['ageGroupId'])
+                 ->where('is_scheduled',1)
+                ->where(function ($query) use ($matchData)  {
+                  if($matchData['teamId']){
+
+                    $query ->whereIn('away_team',$matchData['teams'])
+                         ->orWhereIn('home_team',$matchData['teams']);
+                  }else{
+                    $query ->whereIn('away_team_placeholder_name',$matchData['teams'])
+                         ->orWhereIn('home_team_placeholder_name',$matchData['teams']);
+                  }
+                })
+                ->get()->toArray();
+
+          return  $this->findMaximumMatchInterval($matches);
+
+      }
     }
 
     public function checkTeamIntervalForMatchesOnCategoryUpdate($matchData) {
@@ -1665,6 +1689,10 @@ class MatchRepository
 
         $matchData = array('teams'=>$teams,'tournamentId'=>$matchData['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
         $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+
+        // Check maximum team interval for matches
+        $this->checkMaximumTeamIntervalforMatches($matchData);
+
         return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled, 
         'is_another_match_scheduled' => false];
       }
@@ -1683,7 +1711,9 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+        'minimum_team_interval_flag' => 0,
+        'maximum_team_interval_flag' => 0,
       ];
       $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
@@ -1702,6 +1732,9 @@ class MatchRepository
       $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>$teamId);
 
       $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+
+      // Check maximum team interval for matches
+      $this->checkMaximumTeamIntervalForMatchesOnCategoryUpdate(['tournamentId' => $tournamentId, 'ageGroupId' => $ageGroupId]);
       
       return $updateResult;
     }
@@ -1891,6 +1924,8 @@ class MatchRepository
       $conflictedMatchFixtureIds = [];
       $unConflictedMatchFixtureIds = [];
       $conflictedFixtureMatchNumber = [];
+      $ageCategories = [];
+      $tournamentId = "";
 
       foreach ($matchData['matchData'] as $key => $value) {
         $tempFixture = TempFixture::find($value['matchId']);
@@ -1900,6 +1935,9 @@ class MatchRepository
         } else {
           $unConflictedMatchFixtureIds[] = $value['matchId'];
         }
+
+        $ageCategories[] = $tempFixture->age_group_id;
+        $tournamentId = $tempFixture->tournament_id;
       }
 
       if(sizeof($conflictedFixtureMatchNumber) > 0) {
@@ -1915,12 +1953,20 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s')
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+        'minimum_team_interval_flag' => 0,
+        'maximum_team_interval_flag' => 0,
       ];
 
-      $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
+      $updateMatchFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
 
-      return ['status' => true, 'data' => $updateMacthFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+      foreach($ageCategories as $ageCategoryId) {
+        $matchData = array('tournamentId' => $tournamentId, 'ageGroupId' => $ageCategoryId);
+        $this->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+        $this->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
+      }
+
+      return ['status' => true, 'data' => $updateMatchFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
 
@@ -2005,14 +2051,14 @@ class MatchRepository
         if($item['match_datetime'] >= $edStartTime && $item['match_datetime'] < $edEndTime) {
           return true;
         }
-        if($item['match_datetime'] > $matchData['matchStartDate'] && $item['match_datetime'] < $matchData['matchEndDate']) {
+        if($item['match_datetime'] > $data['matchStartDate'] && $item['match_datetime'] < $data['matchEndDate']) {
           return true;
         }
-        if($item['match_datetime'] >= $matchData['matchStartDate'] && $item['match_datetime'] < $matchData['matchEndDate']) {
+        if($item['match_datetime'] >= $data['matchStartDate'] && $item['match_datetime'] < $data['matchEndDate']) {
           return true;
         }
 
-        if($item['match_endtime'] > $matchData['matchStartDate'] && $item['match_endtime'] <= $matchData['matchEndDate']) {
+        if($item['match_endtime'] > $data['matchStartDate'] && $item['match_endtime'] <= $data['matchEndDate']) {
           return true;
         }
 
@@ -2056,11 +2102,11 @@ class MatchRepository
       $isFirstMatchOfHomeTeam = true;
       $isFirstMatchOfAwayTeam = true;
       if($homeMaximumIntervalMatchResultCount->count() > 0) {
-        $maxedStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes(0);
-        $maxedEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes($maximum_team_interval);
-        $maxsdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes($maximum_team_interval);
-        $maxsdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes(0);
-        $homeMaximumIntervalMatchResultCount = $homeMaximumIntervalMatchResultCount->filter(function($item) use ($maxsdStartTime,$maxsdEndTime,$maxedStartTime,$maxedEndTime,$matchData,$teamId,$teamData) {
+        $maxedStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
+        $maxedEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes($maximum_team_interval);
+        $maxsdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($maximum_team_interval);
+        $maxsdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
+        $homeMaximumIntervalMatchResultCount = $homeMaximumIntervalMatchResultCount->filter(function($item) use ($maxsdStartTime,$maxsdEndTime,$maxedStartTime,$maxedEndTime,$data,$teamId,$teamData) {
           $homeTeamCheck = false;
           if($teamId){
             $homeTeamCheck = ($item['home_team'] === $teamData['home_team'] || $item['away_team'] === $teamData['home_team']);
@@ -2082,11 +2128,11 @@ class MatchRepository
         $isFirstMatchOfHomeTeam = false;
       }
       if($awayMaximumIntervalMatchResultCount->count() > 0) {
-        $maxedStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes(0);
-        $maxedEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes($maximum_team_interval);
-        $maxsdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes($maximum_team_interval);
-        $maxsdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes(0);
-        $awayMaximumIntervalMatchResultCount = $awayMaximumIntervalMatchResultCount->filter(function($item) use ($maxsdStartTime,$maxsdEndTime,$maxedStartTime,$maxedEndTime,$matchData,$teamId,$teamData) {
+        $maxedStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
+        $maxedEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes($maximum_team_interval);
+        $maxsdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($maximum_team_interval);
+        $maxsdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
+        $awayMaximumIntervalMatchResultCount = $awayMaximumIntervalMatchResultCount->filter(function($item) use ($maxsdStartTime,$maxsdEndTime,$maxedStartTime,$maxedEndTime,$data,$teamId,$teamData) {
           $awayTeamCheck = false;
           if($teamId){
             $awayTeamCheck = ($item['home_team'] === $teamData['away_team'] || $item['away_team'] === $teamData['away_team']);
