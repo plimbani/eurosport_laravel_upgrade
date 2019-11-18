@@ -431,8 +431,10 @@
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
-                        <input type="number" placeholder="" v-validate="{ rules: {required: true, max_value: maximum_limit_for_maximum_team_interval, numeric: true, min_value: competation_format.minimum_team_interval }}"  name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
+                        <input v-if="currentLayout === 'tmp'" type="number" placeholder="" v-validate="{ rules: getMaximumTeamMatchIntervalRules() }" name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
                         :min="competation_format.minimum_team_interval" :max="maximum_limit_for_maximum_team_interval" class="form-control">
+                        <input v-if="currentLayout === 'commercialisation'" type="number" placeholder="" v-validate="{ rules: getMaximumTeamMatchIntervalRules() }" name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
+                        :min="competation_format.minimum_team_interval" class="form-control">
                         <i v-show="errors.has('maximum_team_interval')" class="fas fa-warning"></i>
                     </div>
                     <span class="col-sm-4">minutes</span>
@@ -600,6 +602,7 @@ export default {
       group_size: '',
       remarks: '',
       maximum_limit_for_maximum_team_interval: 120,
+      currentLayout: this.$store.state.Configuration.currentLayout,
     }
   },
   watch: {
@@ -1169,6 +1172,22 @@ export default {
     onNumberOfTeamsChange() {
       if(this.competation_format.tournament_format == 'basic' && (this.competation_format.competition_type === 'knockout')) {
         this.group_size = '';
+      }
+    },
+    getMaximumTeamMatchIntervalRules() {
+      if(this.currentLayout === 'tmp') {
+        return {
+          required: true,
+          max_value: this.maximum_limit_for_maximum_team_interval,
+          numeric: true,
+          min_value: this.competation_format.minimum_team_interval
+        };
+      } else {
+        return {
+          required: true,
+          numeric: true,
+          min_value: this.competation_format.minimum_team_interval
+        };
       }
     },
   }
