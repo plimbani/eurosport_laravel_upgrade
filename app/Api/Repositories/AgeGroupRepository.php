@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Auth;
 use UrlSigner;
+use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
