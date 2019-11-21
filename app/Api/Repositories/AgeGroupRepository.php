@@ -336,11 +336,6 @@ class AgeGroupRepository
         $tournamentReferee->save();
       }
 
-      $allNonAttachedTeams = Team::where('tournament_id', $tournamentId)->where('age_category_name', $tournamentCompetationTemplate->category_age)->whereNull('competation_id')->get();
-      if(count($allNonAttachedTeams) > 0) {
-        Team::where('tournament_id', $tournamentId)->where('age_category_name', $tournamentCompetationTemplate->category_age)->delete();
-      }
-
       return $tournamentCompetationTemplate->delete();
     }
 

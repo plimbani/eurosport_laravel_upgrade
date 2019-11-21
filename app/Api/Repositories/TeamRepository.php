@@ -50,11 +50,6 @@ class TeamRepository
             $teamData =  $teamData->where('teams.age_group_id',$data['ageCategoryId']);
           }
 
-          if(isset($data['ageCategoryName']) && $data['ageCategoryName'] != null && $data['ageCategoryName'] != '')
-          {
-            $teamData =  $teamData->where('teams.age_category_name',$data['ageCategoryName']);
-          }
-
           // if(isset($data['filterValue']) && $data['filterValue'] != null && $data['filterValue'] != ''){
 
           //     if($data['filterKey'] == 'age_category') {
@@ -156,7 +151,7 @@ class TeamRepository
             'place' => $place,
             'country_id' => $data['country_id'],
             'tournament_id' => $tournamentId,
-            'age_category_name' => $data['agecategory'],
+            'age_group_id' => $data['age_group_id'],
             'club_id'=>$data['club_id'],
             'comments'=>$data['teamcomment'],
             'shirt_color'=>$shirtColor,
@@ -282,8 +277,7 @@ class TeamRepository
         Team::where('id', $team_id)->update([
           'group_name' => null,
           'assigned_group' => null,
-          'competation_id' => null,
-          'age_group_id' => null,
+          'competation_id' => null
         ]);
         
         if($tempFixturesCount == 0) {
@@ -343,8 +337,7 @@ class TeamRepository
         Team::where('id', $team_id)->update([
           'group_name' => $groupName,
           'assigned_group' => $assignGroup,
-          'competation_id' => $competId,
-          'age_group_id' => $ageGroupId,
+          'competation_id' => $competId
         ]);
 
         TempFixture::where('home_team_placeholder_name', $gname)
@@ -567,7 +560,6 @@ class TeamRepository
 
     public function resetAllTeams($data)
     {
-      $ageCategoryName = $data['ageCategoryName'];
       $ageCategoryId = $data['ageCategoryId'];
       $tournamentId = $data['tournamentId'];
       $ageCategories = [$ageCategoryId];
@@ -582,32 +574,21 @@ class TeamRepository
         return ['status' => 'error', 'message' => 'Teams for selected age category can not be deleted as one or more results are entered.'];
       }
 
-      $allNonAttachedTeams = Team::where('tournament_id', $tournamentId)->where('age_category_name', $ageCategoryName)->whereNull('competation_id')->get();
-      if(count($allNonAttachedTeams) > 0) {
-        $ageCategories = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategoryName)->get()->pluck('id')->toArray();
-        $teamDataReset = Team::where('tournament_id', $tournamentId)->where('age_category_name', $ageCategoryName)->delete();
-      } else {
-        $teamDataReset = Team::where('tournament_id', $tournamentId)->where('age_group_id', $ageCategoryId)->delete();
-      }
+      $tempfixtures = TempFixture::where('age_group_id',$ageCategoryId)->update(['home_team' => 0,
+        'away_team' => 0, 'is_result_override' => 0, 'match_winner' => null, 'match_status' => null,
+        'hometeam_score' => null, 'awayteam_score' => null, 'home_team_name' => null, 'away_team_name' => null]);
+      $teamDataReset = Team::where('age_group_id',$ageCategoryId)->delete();  
+      $PositionDataReset = Position::where('age_category_id',$ageCategoryId)->update(['team_id' => null]); 
       
-      foreach($ageCategories as $ageCategoryId) {
-        $tempfixtures = TempFixture::where('age_group_id', $ageCategoryId)->update(['home_team' => 0,
-          'away_team' => 0, 'is_result_override' => 0, 'match_winner' => null, 'match_status' => null,
-          'hometeam_score' => null, 'awayteam_score' => null, 'home_team_name' => null, 'away_team_name' => null]);
-
-        $PositionDataReset = Position::where('age_category_id',$ageCategoryId)->update(['team_id' => null]); 
-        
-        $competationIds = Competition::where('tournament_competation_template_id',$ageCategoryId)
-                                      ->pluck('id')->toArray();
-       
-        $MatchStanding = DB::table('match_standing')->whereIn('competition_id',$competationIds)
-                                                    ->delete();
-        $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
-                                     ->update(['is_manual_override_standing'=> 0]);
-
-        $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageCategoryId);
-        $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
-      }
+      $competationIds = Competition::where('tournament_competation_template_id',$ageCategoryId)
+                                    ->pluck('id')->toArray();
+     
+      $MatchStanding = DB::table('match_standing')->whereIn('competition_id',$competationIds)
+                                                  ->delete();
+      $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
+                                   ->update(['is_manual_override_standing'=> 0]);
+      $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageCategoryId);
+      $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
 
       return ['status' => 'success', 'message' => 'Teams has been deleted successfully.'];
     }

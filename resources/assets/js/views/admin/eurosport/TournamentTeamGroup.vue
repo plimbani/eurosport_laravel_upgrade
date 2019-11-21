@@ -10,7 +10,7 @@
                 <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
               </div>
             </div>
-            <div v-if="competitionList.length > 0" class="form-group row">
+            <div :class="{'form-group row': true, 'is-disabled': competitionList.length === 0}">
               <label class="col-sm-2 form-control-label">Import file</label>
               <div class="col-sm-10">
                 <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
@@ -21,7 +21,7 @@
                           <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
                         </div>
                         <div class="col-sm-3">
-                          <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
+                          <button type="button" @click="csvImport()"  :class="{ 'btn w-100': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams
                           </button>
                         </div>
                         <div class="col"><span id="filename"></span></div>
@@ -104,7 +104,7 @@
                       </tr>
                   </thead>
                     <tbody v-if="teams.length!=0">
-                        <tr v-for="(team, index) in teams" :class="{'is-disabled': toDisableTeamRecord(team)}">
+                        <tr v-for="(team, index) in teams">
                           <td width="150px">{{team.esr_reference}}</td>
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
@@ -124,10 +124,10 @@
                               <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
                           </td>
                           <td>{{team.place}} </td>
-                          <td>{{team.category_age ? team.category_age : team.age_category_name}} </td>
+                          <td>{{team.category_age}} </td>
                           <td>{{team.age_name}} </td>
 
-                          <td width="130px" v-if="(age_category == '' || (team.age_group_id !== null && team.age_group_id !== age_category.id && age_category != ''))">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                          <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
                           <td width="130px" v-else style="position: relative">
                             <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
                           </td>
@@ -201,42 +201,32 @@
           <div class="modal-body">
             <div class="category-error" v-if="checkForTeamUploadError(nonExistingAgeCategories)">
               <div><strong>Following are the age categories that not exist in tournament and are not processed:</strong></div>
-              <div v-for="ageCategory in nonExistingAgeCategories">
-                {{ ageCategory }}
+              <div v-for="category in nonExistingAgeCategories">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamNotMatchingAgeCategories)">
               <div><strong>Following are the age categories whose team count doesn't match and are not processed:</strong></div>
-              <div v-for="ageCategory in teamNotMatchingAgeCategories">
-                {{ ageCategory }}
+              <div v-for="category in teamNotMatchingAgeCategories">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamsNotUploadedOfAgeCategory)">
-              <div><strong>Following are the age categories and its teams which are not uploaded:</strong></div>
-              <div v-for="(ageCategoryTeams, ageCategory) in teamsNotUploadedOfAgeCategory">
-                <div class="age-category-div">
-                  <div>{{ ageCategory }}:</div>
-                  <div v-for="team in ageCategoryTeams">
-                    {{ team.team_name + ' (' + team.team_id + ')' }}
-                  </div>
-                </div>
+              <div><strong>Following are the age categories whose teams information has not been updated successfully:</strong></div>
+              <div v-for="category in teamsNotUploadedOfAgeCategory">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamsInDifferentAgeCategory)">
               <div><strong>Upload unsuccessful for following age categories. One or more teams has a teamID that already exists on the platform:</strong></div>
-              <div v-for="(ageCategoryTeams, ageCategory) in teamsInDifferentAgeCategory">
-                <div class="age-category-div">
-                  <div>{{ ageCategory }}:</div>
-                  <div v-for="team in ageCategoryTeams">
-                    {{ team.team_name + ' (' + team.team_id + ')' }}
-                  </div>
-                </div>
+              <div v-for="category in teamsInDifferentAgeCategory">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(notProcessedAgeCategoriesDueToResultEntered)">
               <div><strong>Following are the age categories which are not processed as one or more results are entered:</strong></div>
-              <div v-for="ageCategory in notProcessedAgeCategoriesDueToResultEntered">
-                {{ ageCategory }}
+              <div v-for="category in notProcessedAgeCategoriesDueToResultEntered">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
           </div>
@@ -404,7 +394,7 @@
 
         let displayName = fullName
          _.find(this.teams, function(team) {
-          if(((team.age_group_id !== null && team.age_group_id == vm.age_category.id) || (team.age_group_id === null && team.age_category_name == vm.age_category.category_age)) && fullName == team.group_name){
+          if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
             displayName =  'flag-icon flag-icon-'+team.country_flag
           } ;
         });
@@ -418,7 +408,7 @@
         let isHolderName = true;
 
         _.find(this.teams, function(team) {
-          if( ((team.age_group_id !== null && team.age_group_id == vm.age_category.id) || (team.age_group_id === null && team.age_category_name == vm.age_category.category_age)) && actualFullName == team.group_name) {
+          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayName =  team.name
             isHolderName = false;
           }
@@ -513,18 +503,21 @@
         this.teams = ''
         let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
         let ageCategoryName = this.age_category !== '' ? this.age_category.category_age : '';
-        let teamData = {'tournamentId':this.tournament_id, 'ageCategoryName' : ageCategoryName, 'filterKey':'age_category', 'filterValue': ageCategoryId};
+        let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
             this.resultEnteredTeams = response.data.resultEnteredTeams;
             this.$store.dispatch('SetTeams',this.tournament_id);
             let that = this
-            setTimeout(function(){
-              $('.selTeams').each(function( index ) {
-                that.initialfunc($(this).data('id'))
-              })
-            },1000)
+
+            // usage as a promise (2.1.0+, see note below)
+            Vue.nextTick()
+              .then(function () {
+                $('.selTeams').each(function( index ) {
+                  that.initialfunc($(this).data('id'))
+                })
+              });
           },
           (error) => {
           }
@@ -673,7 +666,7 @@
               $('#team_upload_summary').modal('show');
             }
             if(!errorFlag) {
-              toastr['success']('teams are uploaded successfully', 'Success');
+              toastr['success']('Teams are uploaded successfully', 'Success');
             }
             this.filterStatus = true;
             this.getTeams();
@@ -737,13 +730,13 @@
       editTeam(id) {
         this.teamId = id
         let vm = this
-        setTimeout(function(){
-            $('#team_form_modal').modal('show');
-            $("#team_form_modal").on('hidden.bs.modal', function () {
 
-            });
-        },1000)
-        vm.$root.$emit('editTeamData',  id)
+        // usage as a promise (2.1.0+, see note below)
+        Vue.nextTick()
+          .then(function () {
+            $('#team_form_modal').modal('show');
+            vm.$root.$emit('editTeamData',  id);
+          });
       },
       fetchAllCountries() {
         Tournament.getAllCountries().then(
@@ -765,7 +758,7 @@
         )
       },
       resetAllTeams() {
-        let data = {'ageCategoryId':this.age_category.id, 'ageCategoryName':this.age_category.category_age,'tournamentId':this.tournament_id};
+        let data = {'ageCategoryId':this.age_category.id,'tournamentId':this.tournament_id};
         Tournament.getResetTeams(data).then(
           (response) => {
             if(response.data.status === 'success') {
@@ -886,12 +879,6 @@
       },
       canChangeTeamOption(teamId) {
         return _.indexOf(this.resultEnteredTeams, teamId) === -1;
-      },
-      toDisableTeamRecord(team) {
-        if(team.age_group_id !== null && team.age_group_id !== this.age_category.id && this.age_category !== '') {
-          return true;
-        }
-        return false;
       },
     }
   }

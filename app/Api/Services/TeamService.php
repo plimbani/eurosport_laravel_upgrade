@@ -131,12 +131,22 @@ class TeamService implements TeamContract
     }
     public function create($data, $tournamentId)
     {
-        $processTeam = true;
         if($data['country']!=''){
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
         } else {
             $data['country_id'] = '1';
         }
+        $data['age_group_id'] = 0;
+
+        $ageCategory = trim($data['agecategory']);
+        $categoryName = trim($data['categoryname']);
+        if($ageCategory!= '' && $categoryName!=''){
+          $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
+          if($competitionData){ 
+            $data['age_group_id'] = $competitionData['id'];
+          }
+        }
+
         $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
         if($data['club']!='')
         {
@@ -178,7 +188,7 @@ class TeamService implements TeamContract
             }
         }
 
-        if($processTeam){
+        if($data['age_group_id'] != 0){
             if(isset($teamData['id']) ){
                 $editData =  [
                     'id' => $teamData['id'],
@@ -186,7 +196,7 @@ class TeamService implements TeamContract
                     'place' => $data['place'],
                     'country_id' => $data['country_id'],
                     'club_id' => $data['club_id'],
-                    'age_category_name' => $data['agecategory'],
+                    'age_group_id' => $data['age_group_id'],
                     'comments' => $data['teamcomment'],
                     'shirt_color' => $data['shirtcolor'],
                     'shorts_color' => $data['shortscolor'],
