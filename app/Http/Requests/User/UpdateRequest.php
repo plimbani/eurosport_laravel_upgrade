@@ -40,6 +40,9 @@ class UpdateRequest extends FormRequest
             if (($usersRole->slug == 'Super.administrator' || $role->slug == 'Super.administrator') && $loggedInUser->hasRole('Master.administrator')) {
                 return false;
             }
+            if (($usersRole->slug == 'mobile.user' || $role->slug == 'mobile.user') && $loggedInUser->hasRole('Master.administrator')) {
+                return false;
+            }
         }
         return true;
     }
