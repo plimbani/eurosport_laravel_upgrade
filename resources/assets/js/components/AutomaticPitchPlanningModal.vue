@@ -231,10 +231,11 @@ import Tournament from '../api/tournament.js'
                   let tournamentId = this.$store.state.Tournament.tournamentId;
 
                   _.forEach(this.allPitchesWithDays, function(pitchDetail) {
-                    _.forEach(pitchDetail.time, function(timeDetail, index) {
-                      let timeIndex = parseInt(index) + parseInt(1);
-                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + timeIndex).val();
-                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + timeIndex).val();
+                    // _.forEach(pitchDetail.time, function(timeDetail, index) {
+                    _.forEach(pitchDetail.days, function(dayDetail, index) {
+                      // let timeIndex = parseInt(index) + parseInt(1);
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + dayDetail.stage_no).val();
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + dayDetail.stage_no).val();
                     });
                   });
 
