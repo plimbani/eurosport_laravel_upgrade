@@ -17,10 +17,13 @@ class GetSponsorsRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        $currentLayout = config('config-variables.current_layout');
+
+        if(!$isWebsiteAccessible || $currentLayout === 'commercialisation') {
             return false;
         }
+
         return true;
     }
 

@@ -582,12 +582,15 @@ router.beforeEach((to, from, next) => {
             }
 
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
-                console.log("admin");
                 return next({ path : '/admin'});
             }
 
             if(response.userData.role_slug == 'Results.administrator' && routesForResultAdmin.indexOf(to.name) === -1) {
-                return next({ path: '*' });
+                return next({ path : '/admin'});
+            }
+
+            if(response.currentLayout == 'commercialisation' && websiteRoutes.indexOf(to.name) >= 0) {
+                return next({ path : '/admin'});
             }
             
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);

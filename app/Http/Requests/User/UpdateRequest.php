@@ -22,6 +22,7 @@ class UpdateRequest extends FormRequest
         $request = $this->all();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $usersRole = User::findOrFail($id)->roles()->first();
+        $currentLayout = config('config-variables.current_layout');
         if($loggedInUser->hasRole('tournament.administrator') && $usersRole->slug == 'Results.administrator') {
           return true;
         }
@@ -38,6 +39,15 @@ class UpdateRequest extends FormRequest
             $userType = $request['userType'];
             $role = Role::findOrFail($userType);
             if (($usersRole->slug == 'Super.administrator' || $role->slug == 'Super.administrator') && $loggedInUser->hasRole('Master.administrator')) {
+                return false;
+            }
+            if (($usersRole->slug == 'mobile.user' || $role->slug == 'mobile.user') && $loggedInUser->hasRole('Master.administrator')) {
+                return false;
+            }
+        }
+        if (isset($request['userType'])) {
+            $userType = $request['userType'];
+            if ($currentLayout === 'commercialisation' && ($userType == 'tournament.administrator' || $userType == 'Master.administrator' || $userType == 'Results.administrator')) {
                 return false;
             }
         }

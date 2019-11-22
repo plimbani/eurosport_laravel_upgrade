@@ -6,7 +6,9 @@ use UrlSigner;
 use Carbon\Carbon;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
+use Laraspace\Models\Team;
 use Illuminate\Http\Request;
+use Laraspace\Models\TempFixture;
 use Laraspace\Http\Requests\Team\StoreRequest;
 use Laraspace\Http\Requests\Team\UpdateRequest;
 use Laraspace\Http\Requests\Team\AllClubsRequest;
@@ -15,6 +17,7 @@ use Laraspace\Http\Requests\Team\TeamsListRequest;
 use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
 use Laraspace\Http\Requests\Team\TeamDetailsRequest;
+use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Http\Requests\Team\AllCountriesRequest;
 use Laraspace\Http\Requests\Team\AllTeamColorsRequest;
 use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
@@ -93,33 +96,104 @@ class TeamController extends BaseController
     public function createTeam(StoreRequest $request)
     {
         $teamData = $request->all();
-        // dd($teamData);
         $file = $request->file('fileUpload');
-        // $this->data['teamSize'] =  $teamData['teamSize'];
-        $this->data['tournamentId'] = $teamData['tournamentId'];
-       // $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
-        //print_r($rows);
-        //exit;
-        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) {
-            // dd($reader->getTotalRowsOfFile() - 1);
-            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
-            // dd($this->data['totalSize']);
-            // $reader->limit($this->data['teamSize']);
-            $reader->each(function($sheet) {
-                // dd($sheet);
-            // Loop through all rows
-                // $sheet->each(function($row) {
-                    // dd($sheet);
-              $sheet->tournamentData = $this->data;
-              $this->teamObj->create($sheet);
+        //$this->data['tournamentId'] = $teamData['tournamentId'];
+        $allAgeCategories = TournamentCompetationTemplates::where('tournament_id', $teamData['tournamentId'])->select('id', 'category_age', 'group_name', 'total_teams')->get()->keyBy('id')->toArray();
+        $resultEnteredAgeCategories = TempFixture::where('temp_fixtures.tournament_id', $teamData['tournamentId'])
+        ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'temp_fixtures.age_group_id')
+        ->where(function ($query) {
+            $query->whereNotNull('hometeam_score')
+              ->orWhereNotNull('awayteam_score');
+        })->select(['category_age', 'group_name'])->get()->toArray();
+        $alreadyUploadedTeams = Team::where('tournament_id', $teamData['tournamentId'])->get();
+        $alreadyUploadedTeamsByAgeCategory = $alreadyUploadedTeams->groupBy('age_group_id')->toArray();
+        $alreadyUploadedTeams = $alreadyUploadedTeams->toArray();
+        $nonExistingAgeCategories = [];
+        $teamNotMatchingAgeCategories = [];
+        $teamsNotUploadedOfAgeCategory = [];
+        $teamsInDifferentAgeCategory = [];
+        $notProcessedAgeCategoriesDueToResultEntered = [];
+        $furtherNotToProcessAgeCategories = [];
+        $allTeams = [];
+        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, $resultEnteredAgeCategories, &$notProcessedAgeCategoriesDueToResultEntered, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories) {
+            $reader->each(function($sheet) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories) {
+              //$sheet->tournamentData = $this->data;
+              $ageCategory = trim($sheet['agecategory']);
+              $categoryName = trim($sheet['categoryname']);
+              $ageCategoryId = null;
+              if($ageCategory != '' && $categoryName != '') {
+                $toProcessTeam = true;
 
-                // });
+                $notToProcessAgeCategory = array_filter($furtherNotToProcessAgeCategories, function($category) use($ageCategory, $categoryName){
+                  return $ageCategory == $category['ageCategory'] && strtolower($categoryName) == strtolower($category['categoryName']);
+                });
+
+                $notToProcessNonExistingAgeCategory = array_filter($nonExistingAgeCategories, function($category) use($ageCategory, $categoryName){
+                  return $ageCategory == $category['ageCategory'] && strtolower($categoryName) == strtolower($category['categoryName']);
+                });
+
+                if(count($notToProcessAgeCategory) > 0 || count($notToProcessNonExistingAgeCategory) > 0) {
+                  $toProcessTeam = false;
+                }
+
+                if($toProcessTeam) {
+                  $matchingAgeCategory = array_filter($allAgeCategories, function($category) use($ageCategory, $categoryName){
+                    return $ageCategory == $category['category_age'] && strtolower($categoryName) == strtolower($category['group_name']);
+                  });
+
+                  if(count($matchingAgeCategory) === 0) {
+                    $nonExistingAgeCategories[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                  } else {
+                    $ageCategoryId = current($matchingAgeCategory)['id'];
+                  }
+
+                  if($ageCategoryId) {
+                    $teamExist = array_filter($alreadyUploadedTeams, function($team) use($sheet) {
+                      return ($team['esr_reference'] == $sheet['teamid']);
+                    });
+                    $resultMatchingAgeCategory = array_filter($resultEnteredAgeCategories, function($category) use($ageCategory, $categoryName){
+                      return $ageCategory == $category['category_age'] && strtolower($categoryName) == strtolower($category['category_age']);
+                    });
+                    if(count($resultMatchingAgeCategory) > 0) {
+                      $notProcessedAgeCategoriesDueToResultEntered[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                    }
+                    if((count($teamExist) > 0 && $ageCategoryId != current($teamExist)['age_group_id'])) {
+                      $teamsInDifferentAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                    }
+                    if(isset($alreadyUploadedTeamsByAgeCategory[$ageCategoryId]) && count($teamExist) == 0) {
+                      $teamsNotUploadedOfAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                    }
+                    $allTeams[$ageCategoryId][] = $sheet;
+                  }
+                }
+              }
             });
         }, 'ISO-8859-1');
-            return ['bigFileSize' =>  false];
-     
+
+
+        foreach($allTeams as $ageCategoryId=>$ageCategoryTeams) {
+          $matchingAgeCategory = array_filter($allAgeCategories, function($category) use($ageCategoryId){
+            return $ageCategoryId == $category['id'];
+          });
+          $totalTeams = current($matchingAgeCategory)['total_teams'];
+          if(isset($furtherNotToProcessAgeCategories[$ageCategoryId])) {
+            continue;
+          }
+          if($totalTeams !== count($ageCategoryTeams)) {
+            $teamNotMatchingAgeCategories[] = ['ageCategory' => current($matchingAgeCategory)['category_age'], 'categoryName' => current($matchingAgeCategory)['group_name']];
+            continue;
+          }
+          foreach($ageCategoryTeams as $team) {
+            $this->teamObj->create($team, $teamData['tournamentId']);
+          }
+        }
+
+        return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted', 'teamNotMatchingAgeCategories' => $teamNotMatchingAgeCategories, 'nonExistingAgeCategories' => $nonExistingAgeCategories, 'teamsNotUploadedOfAgeCategory' => $teamsNotUploadedOfAgeCategory, 'teamsInDifferentAgeCategory' => $teamsInDifferentAgeCategory, 'notProcessedAgeCategoriesDueToResultEntered' => $notProcessedAgeCategoriesDueToResultEntered];
     }
-    public function assignTeam(AssignTeamRequest $request) {        
+    public function assignTeam(AssignTeamRequest $request) {
         return $this->teamObj->assignTeams($request->all());
     }
     public function getAllTeamsGroup(Request $request) {

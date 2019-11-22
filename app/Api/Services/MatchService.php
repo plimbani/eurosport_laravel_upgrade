@@ -183,12 +183,14 @@ class MatchService implements MatchContract
         }
 
         if ($scheduledResult) {
-            if($scheduledResult != -1 && $scheduledResult != -2){
+            if($scheduledResult != -1 && $scheduledResult != -2 && $scheduledResult != -3){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
                return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'This pitch is the wrong pitch size for this fixture.'];
+            } else if($scheduledResult == -3){
+               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
             }
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];
@@ -2621,6 +2623,8 @@ class MatchService implements MatchContract
     {
       $matchFixturesStatusArray = [];
       $areAllMatchFixtureScheduled = false;
+      $ageCategories = [];
+      $tournamentId = "";
       foreach ($scheduleMatches as $scheduleMatch) {
         $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
         $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
@@ -2629,9 +2633,18 @@ class MatchService implements MatchContract
           $matchFixturesStatusArray[] = $data['match_data']->match_number;
         }
 
-        if(sizeof($matchFixturesStatusArray) === 0) {
-          $areAllMatchFixtureScheduled = true;
-        }
+        $ageCategories[] = $scheduleMatch['ageGroupId'];
+        $tournamentId = $scheduleMatch['tournamentId'];
+      }
+
+      if(sizeof($matchFixturesStatusArray) === 0) {
+        $areAllMatchFixtureScheduled = true;
+      }
+
+      foreach($ageCategories as $ageCategoryId) {
+        $matchData = array('tournamentId' => $tournamentId, 'ageGroupId' => $ageCategoryId);
+        $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+        $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
       }
 
       return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];

@@ -17,6 +17,11 @@ class UploadTournamentLogoRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $currentLayout = config('config-variables.current_layout');
+
+        if($currentLayout === 'commercialisation') {
+            return false;
+        }
 
         if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
             return true;

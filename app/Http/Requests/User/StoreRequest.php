@@ -16,6 +16,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
+        $currentLayout = config('config-variables.current_layout');
         if (app('request')->header('ismobileuser')) {
             $isMobileUser = app('request')->header('ismobileuser');
             if ($isMobileUser == "true") {
@@ -30,11 +31,17 @@ class StoreRequest extends FormRequest
             if (isset($this->all()['userType'])) {
                 $userType = $this->all()['userType'];
                 $role = Role::findOrFail($userType);
-                if ( !($role['slug'] == 'Super.administrator') ) {
+                if ( !($role['slug'] == 'Super.administrator' || $role['slug'] == 'mobile.user') ) {
                     return true;
                 }
             }
             return false;
+        }
+        if (isset($this->all()['userType'])) {
+            $userType = $this->all()['userType'];
+            if ($currentLayout === 'commercialisation' && ($userType == 'tournament.administrator' || $userType == 'Master.administrator' || $userType == 'Results.administrator')) {
+                return false;
+            }
         }
         return false;
    }
