@@ -14,17 +14,27 @@
 				'seleTeam':'De-select',
 			}
 		},
-		props: ['team','grps'],
+		props: ['team','grps', 'canChangeTeamOption'],
 		mounted: function () {
 			var vm = this
 		    $(this.$el)
-		      .select2({ minimumResultsForSearch: Infinity })
+		      .select2({
+		      	minimumResultsForSearch: Infinity
+		      })
 		      .on('select2:select', function () {
 		        vm.$emit('assignTeamGroupName', $(this).data('id'), $(this).val())
 		        vm.$emit('onAssignGroup', $(this).data('id'))
 		      })
 		      .on('select2:opening', function () {
-		        vm.$emit('beforeChange', $(this).data('id'))
+		      	if(vm.canChangeTeamOption) {
+		        	vm.$emit('beforeChange', $(this).data('id'))
+		        }
+		      })
+		      .on('select2:open', function() {
+		      	if(vm.canChangeTeamOption === false) {
+		      		toastr['error']('Can not change team as one or more scores for this team are already entered.', 'Error');
+		      		$('#sel_' + vm.team.id).select2('close');
+		      	}
 		      })
 	  	},
 	  	methods:{

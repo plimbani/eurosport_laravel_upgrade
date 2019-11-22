@@ -2,6 +2,7 @@
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
+          <label class="error" v-if="competitionList.length === 0">*Add competition formats.</label>
       		<h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
@@ -9,7 +10,7 @@
                 <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
               </div>
             </div>
-            <div class="form-group row">
+            <div :class="{'form-group row': true, 'is-disabled': competitionList.length === 0}">
               <label class="col-sm-2 form-control-label">Import file</label>
               <div class="col-sm-10">
                 <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
@@ -20,7 +21,7 @@
                           <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
                         </div>
                         <div class="col-sm-3">
-                          <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
+                          <button type="button" @click="csvImport()"  :class="{ 'btn w-100': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams
                           </button>
                         </div>
                         <div class="col"><span id="filename"></span></div>
@@ -126,10 +127,10 @@
                           <td>{{team.category_age}} </td>
                           <td>{{team.age_name}} </td>
 
-                          <td width="130px" v-if="age_category != ''" style="position: relative">
-                            <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
+                          <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                          <td width="130px" v-else style="position: relative">
+                            <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
                           </td>
-                          <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
                           <td class="text-center">
                             <a class="text-primary" href="javascript:void(0)"
                              @click="editTeam(team.id)">
@@ -177,13 +178,57 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title" id="teams_groups_preview_modal">Preview</h5>
+             <h5 class="modal-title">Preview</h5>
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">×</span>
              </button>
           </div>
           <div class="modal-body">
             <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+          </div>
+         </div>
+      </div>
+    </div>
+    <div class="modal js-team-upload-error team-upload-summary" id="team_upload_summary" tabindex="-1" role="dialog" aria-labelledby="team_upload_summary" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Team Upload Error</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <div class="category-error" v-if="checkForTeamUploadError(nonExistingAgeCategories)">
+              <div><strong>Following are the age categories that not exist in tournament and are not processed:</strong></div>
+              <div v-for="category in nonExistingAgeCategories">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
+              </div>
+            </div>
+            <div class="category-error" v-if="checkForTeamUploadError(teamNotMatchingAgeCategories)">
+              <div><strong>Following are the age categories whose team count doesn't match and are not processed:</strong></div>
+              <div v-for="category in teamNotMatchingAgeCategories">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
+              </div>
+            </div>
+            <div class="category-error" v-if="checkForTeamUploadError(teamsNotUploadedOfAgeCategory)">
+              <div><strong>Following are the age categories whose teams information has not been updated successfully:</strong></div>
+              <div v-for="category in teamsNotUploadedOfAgeCategory">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
+              </div>
+            </div>
+            <div class="category-error" v-if="checkForTeamUploadError(teamsInDifferentAgeCategory)">
+              <div><strong>Upload unsuccessful for following age categories. One or more teams has a teamID that already exists on the platform:</strong></div>
+              <div v-for="category in teamsInDifferentAgeCategory">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
+              </div>
+            </div>
+            <div class="category-error" v-if="checkForTeamUploadError(notProcessedAgeCategoriesDueToResultEntered)">
+              <div><strong>Following are the age categories which are not processed as one or more results are entered:</strong></div>
+              <div v-for="category in notProcessedAgeCategoriesDueToResultEntered">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
+              </div>
+            </div>
           </div>
          </div>
       </div>
@@ -200,9 +245,6 @@
 
    import Vue from 'vue'
 
-   // Vue.filter('groupName', function (value) {
-   //    return value+'hi '
-   //  })
 	export default {
     data() {
     return {
@@ -230,13 +272,14 @@
         'teamsInEdit': {},
         'countries': [],
         'clubs': [],
-        'teamColors': []
-        // 'tournamentFilter':{
-        //   'filterKey':'team',
-        //   'filterValue': ''
-        // }
-
-        }
+        'teamColors': [],
+        'nonExistingAgeCategories': [],
+        'teamNotMatchingAgeCategories': [],
+        'teamsNotUploadedOfAgeCategory': [],
+        'teamsInDifferentAgeCategory': [],
+        'notProcessedAgeCategoriesDueToResultEntered': [],
+        'resultEnteredTeams': [],
+      }
     },
 
     components: {
@@ -253,7 +296,11 @@
           return true;
         }
         return false;
-      }
+      },
+      competitionList()
+      {
+        return this.$store.state.Tournament.competationList
+      },
     },
     filters: {
       truncate: function(string, value) {
@@ -364,7 +411,7 @@
           if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayName =  team.name
             isHolderName = false;
-          } ;
+          }
         });
         return {'displayName': displayName, 'isHolderName': isHolderName}
       },
@@ -426,7 +473,6 @@
         $('.selTeams').prop("disabled", true);
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
-          //this.seleTeam = ''
           $('#sel_'+id+' .blnk').html('')
         }
         if(groupValue!='' && groupValue!= undefined ){
@@ -454,37 +500,31 @@
         });
       },
       getTeams() {
-        // if(this.age_category === '') {
-        //   this.teams = [];
-        //   return;
-        // }
         this.teams = ''
         let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
+        let ageCategoryName = this.age_category !== '' ? this.age_category.category_age : '';
         let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
+            this.resultEnteredTeams = response.data.resultEnteredTeams;
             this.$store.dispatch('SetTeams',this.tournament_id);
             let that = this
-            setTimeout(function(){
-              $('.selTeams').each(function( index ) {
-                that.initialfunc($(this).data('id'))
-              })
-            },1000)
+
+            // usage as a promise (2.1.0+, see note below)
+            Vue.nextTick()
+              .then(function () {
+                $('.selTeams').each(function( index ) {
+                  that.initialfunc($(this).data('id'))
+                })
+              });
           },
           (error) => {
           }
         )
-        //  Tournament.getTeamsGroup(teamData).then(
-        //   (response) => {
-        //     this.teams = response.data.data
-        //   },
-        // (error) => {
-        //    console.log('Error occured during Tournament api ', error)
-        // }
-        // )
       },
       groupUpdate() {
+        let vm = this;
         let grpMain=[]
         // let teamAssign  = new FormData($("#frmTeamAssign")[0]);
         let teamAssign1  = $("#frmTeamAssign").serializeArray();
@@ -519,9 +559,11 @@
             } else {
               toastr.error(response.data.message, 'Error', {timeOut: 2000});
             }
+            vm.getTeams();
             $("body .js-loader").addClass('d-none');
           },
           (error) => {
+            vm.getTeams();
             $("body .js-loader").addClass('d-none');
           }
         )
@@ -596,30 +638,44 @@
         this.getTeams()
       },
       csvImport() {
-        if($('#fileUpload').val()!=''){
+        let vm = this;
+        this.nonExistingAgeCategories = [];
+        this.teamNotMatchingAgeCategories = [];
+        this.teamsNotUploadedOfAgeCategory = [];
+        this.teamsInDifferentAgeCategory = [];
+        this.notProcessedAgeCategoriesDueToResultEntered = [];
+        if($('#fileUpload').val()!='') {
           if(this.canUploadTeamFile == false) {
             toastr['error']('Please upload an excel file.', 'Error');
             return;
           }
           let files  = new FormData($("#frmCsvImport")[0]);
-          // files.append('ageCategory', this.age_category.id);
           files.append('tournamentId', this.tournament_id);
           files.append('teamSize', this.teamSize);
-          // let uploadFile = document.getElementById('frmCsvImport');
-          this.filterStatus = false
-           axios.post('/api/team/create',files).then(response =>  {
-          if(response.data.bigFileSize == true){
-            toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
-          }else{
-            toastr['success']('teams are uploaded successfully', 'Success');
-          }
-          this.filterStatus = true
-          this.getTeams()
-          }).catch(error => {
-
-          });
-        }else{
-           toastr['error']('Please upload an excel file.', 'Error');
+          this.filterStatus = false;
+          $("body .js-loader").removeClass('d-none');
+          axios.post('/api/team/create', files).then(response =>  {
+            let errorFlag = false;
+            if(response.data.nonExistingAgeCategories.length > 0 || response.data.teamNotMatchingAgeCategories.length > 0 || Object.keys(response.data.teamsNotUploadedOfAgeCategory).length > 0 || Object.keys(response.data.teamsInDifferentAgeCategory).length > 0 || response.data.notProcessedAgeCategoriesDueToResultEntered.length > 0) {
+              errorFlag = true;
+              vm.nonExistingAgeCategories = response.data.nonExistingAgeCategories;
+              vm.teamNotMatchingAgeCategories = response.data.teamNotMatchingAgeCategories;
+              vm.teamsNotUploadedOfAgeCategory = response.data.teamsNotUploadedOfAgeCategory;
+              vm.teamsInDifferentAgeCategory = response.data.teamsInDifferentAgeCategory;
+              vm.notProcessedAgeCategoriesDueToResultEntered = response.data.notProcessedAgeCategoriesDueToResultEntered;
+              $('#team_upload_summary').modal('show');
+            }
+            if(!errorFlag) {
+              toastr['success']('Teams are uploaded successfully', 'Success');
+            }
+            this.filterStatus = true;
+            this.getTeams();
+            $("body .js-loader").addClass('d-none');
+          }).catch(error => {});
+          $('#filename').text('');
+          $("#fileUpload").val(null);
+        } else {
+          toastr['error']('Please upload an excel file.', 'Error');
         }
       },
       editTeamName: function(event, teamId, teamName){
@@ -674,13 +730,13 @@
       editTeam(id) {
         this.teamId = id
         let vm = this
-        setTimeout(function(){
-            $('#team_form_modal').modal('show');
-            $("#team_form_modal").on('hidden.bs.modal', function () {
 
-            });
-        },1000)
-        vm.$root.$emit('editTeamData',  id)
+        // usage as a promise (2.1.0+, see note below)
+        Vue.nextTick()
+          .then(function () {
+            $('#team_form_modal').modal('show');
+            vm.$root.$emit('editTeamData',  id);
+          });
       },
       fetchAllCountries() {
         Tournament.getAllCountries().then(
@@ -702,13 +758,17 @@
         )
       },
       resetAllTeams() {
-        let ageCategoryId = {'ageCategoryId':this.age_category.id,'tournamentId':this.tournament_id};
-        Tournament.getResetTeams(ageCategoryId).then(
+        let data = {'ageCategoryId':this.age_category.id,'tournamentId':this.tournament_id};
+        Tournament.getResetTeams(data).then(
           (response) => {
-            this.$root.$emit('updateTeamList');
-
+            if(response.data.status === 'success') {
+              this.$root.$emit('updateTeamList');
+              toastr['success']('All teams are deleted successfully', 'Success');
+            }
+            if(response.data.status === 'error') {
+              toastr['error'](response.data.message, 'Error');
+            }
             $("#reset_modal").modal("hide");
-            toastr['success']('All teams are deleted successfully', 'Success');
           },
           (error) => {
           }
@@ -813,7 +873,13 @@
 
         this.availableGroupsTeam = availGroupTeam
         this.teamSize = jsonObj.tournament_teams
-      }
+      },
+      checkForTeamUploadError(teamError) {
+        return Object.keys(teamError).length > 0;
+      },
+      canChangeTeamOption(teamId) {
+        return _.indexOf(this.resultEnteredTeams, teamId) === -1;
+      },
     }
   }
 </script>

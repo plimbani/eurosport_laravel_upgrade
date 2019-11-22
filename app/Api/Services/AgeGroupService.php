@@ -57,6 +57,13 @@ class AgeGroupService implements AgeGroupContract
 
         $tournamentTemplateObj = null;
 
+        // The age category and category name for two or more categories within the tournament cannot be the same.
+        $data['ageCategory_name'] = trim($data['ageCategory_name']);
+        $sameAgeCategoryExists = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id'])->whereRaw('LOWER(`group_name`) LIKE ?', [strtolower($data['ageCategory_name'])])->where('category_age', $data['category_age'])->first();
+        if($sameAgeCategoryExists) {
+          return ['status_code' => '403', 'message' => 'Competition format with this age category and category name already exists.'];
+        }
+
         $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
         $maximumTeams = Tournament::find($data['tournament_id'])->maximum_teams;
 
@@ -122,7 +129,8 @@ class AgeGroupService implements AgeGroupContract
 
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
             $tournamentTemplateObj = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first();
-            $mininterval = $tournamentTemplateObj->team_interval;
+            $mininterval = $tournamentTemplateObj->minimum_team_interval;
+            $maxinterval = $tournamentTemplateObj->maximum_team_interval;
         }
         
         $id = $this->ageGroupObj->createCompeationFormat($data);
@@ -152,16 +160,16 @@ class AgeGroupService implements AgeGroupContract
                 $this->insertPositions($data['competation_format_id'], $data['tournamentTemplate']);
 
             } else {
-             
-              if($data['team_interval'] != $mininterval) {
-               
-              $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id')->toArray();
- 
-                $tournamentId = $data['tournament_id'];
-                $ageGroupId  = $data['competation_format_id'];
+              $tournamentId = $data['tournament_id'];
+              $ageGroupId  = $data['competation_format_id'];
 
-                $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
-                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);                
+              $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
+             
+              if($data['minimum_team_interval'] != $mininterval) {   
+                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+              }
+              if($data['maximum_team_interval'] != $maxinterval) {   
+                $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
               }
             }
             $matchPointChangeFlag = 0;

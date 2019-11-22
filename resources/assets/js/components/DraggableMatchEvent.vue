@@ -42,7 +42,6 @@ export default {
                 duration: this.match.matchTime ? moment.duration(this.match.matchTime, 'minutes') : moment.duration(60, 'minutes'),
                 matchId: this.match.matchId,
                 matchAgeGroupId: this.match.ageGroupId,
-                matchAgeGroupId: this.match.ageGroupId,
                 matchCompetitionId: this.match.competitionId,
                 matchVenueId: this.match.venueId,
                 forceEventDuration: true,

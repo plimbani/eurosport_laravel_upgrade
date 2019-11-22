@@ -47,7 +47,7 @@
                       <div class="col-sm-6">
                         <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                           <option value="">Select</option>
-                          <option v-for="role in getUserRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
+                          <option v-for="role in getUserRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && (role.slug == 'Super.administrator' || role.slug == 'mobile.user')))">
                               {{ role.name }}
                           </option>
                         </select>
