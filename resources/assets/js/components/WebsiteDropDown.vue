@@ -21,7 +21,7 @@
 		mounted() {
 			if(this.currentLayout === 'tmp')
 			{
-				Website.getUserAccessibleWebsites().then(
+			  	Website.getUserAccessibleWebsites().then(
 				    (response) => {
 				      this.options = response.data.data;
 				    },

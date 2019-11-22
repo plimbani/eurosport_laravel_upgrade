@@ -17,8 +17,9 @@ class SummaryRequest extends FormRequest
     public function authorize()
     {   
         $data = $this->all();
+        $currentLayout = config('config-variables.current_layout');
         $isTournamentAccessible = $this->checkForWritePermissionByWebsite($data['websiteId']);
-        if(!$isTournamentAccessible) {
+        if(!$isTournamentAccessible || $currentLayout === 'commercialisation') {
             return false;
         }
         return true;

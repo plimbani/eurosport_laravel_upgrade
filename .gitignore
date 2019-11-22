@@ -18,3 +18,7 @@ Thumbs.db
 /public/frontend/css/theme*.css
 /public/assets/css/*.*.css
 /nbproject/private/
+/public/assets/js/app.*.*
+/public/frontend/js/app-messages.*.*
+/public/frontend/js/scheduleresults.*.*
+/public/frontend/js/tournamenthistory.*.*

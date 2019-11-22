@@ -17,8 +17,9 @@ class StoreUpdateRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($data['websiteId']);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($data['websiteId']);
+        $currentLayout = config('config-variables.current_layout');
+        if(!$isWebsiteAccessible || $currentLayout === 'commercialisation') {
             return false;
         }
         return true;

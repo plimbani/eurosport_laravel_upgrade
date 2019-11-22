@@ -17,8 +17,9 @@ class UploadHeroImageRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $currentLayout = config('config-variables.current_layout');
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if($loggedInUser->hasRole('mobile.user') || $currentLayout === 'commercialisation') {
             return false;
         }
         return true;
