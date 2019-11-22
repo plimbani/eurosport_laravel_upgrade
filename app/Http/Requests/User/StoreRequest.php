@@ -30,7 +30,7 @@ class StoreRequest extends FormRequest
             if (isset($this->all()['userType'])) {
                 $userType = $this->all()['userType'];
                 $role = Role::findOrFail($userType);
-                if ( !($role['slug'] == 'Super.administrator') ) {
+                if ( !($role['slug'] == 'Super.administrator' || $role['slug'] == 'mobile.user') ) {
                     return true;
                 }
             }

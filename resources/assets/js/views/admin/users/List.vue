@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="add_user_btn d-flex align-items-center justify-content-end">
-          <button type="button" class="btn btn-primary mr-1" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+          <button v-if="!isMasterAdmin" type="button" class="btn btn-primary mr-1" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">{{$lang.user_management_add_new_user}}</button>
         </div>
         <div class="tab-content">
@@ -26,7 +26,7 @@
                                     <option value="">Filter by user type</option>
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
-                                    <option value="mobile.user">Mobile user</option>
+                                    <option v-if="!isMasterAdmin" value="mobile.user">Mobile user</option>
                                     <option value="Super.administrator">Super administrator</option>
                                     <option value="tournament.administrator">Tournament administrator</option>
                                     <option value="Results.administrator">Results administrator</option>
@@ -407,8 +407,6 @@
                   (error) => {
                   }
                 )
-
-                // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
             editTournamentPermission(user, isCompulsorySelection) {
               this.isCompulsoryTournamentSelection = isCompulsorySelection;
