@@ -17,3 +17,7 @@ Thumbs.db
 /public/frontend/css/main.*.css
 /public/frontend/css/theme*.css
 /public/assets/css/*.*.css
+/public/assets/js/app.*.*
+/public/frontend/js/app-messages.*.*
+/public/frontend/js/scheduleresults.*.*
+/public/frontend/js/tournamenthistory.*.*
