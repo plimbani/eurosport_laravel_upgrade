@@ -55,6 +55,7 @@ class UserRepository {
     {
         ini_set('memory_limit','256M');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $currentLayout = config('config-variables.current_layout');
 
         if($loggedInUser == null){
           if($data['token']){
@@ -97,6 +98,10 @@ class UserRepository {
 
         if($loggedInUser->hasRole('Master.administrator')) {
           $user = $user->where('roles.slug', '!=', 'mobile.user');
+        }
+
+        if($currentLayout === 'commercialisation') {
+          $user = $user->whereNotIn('roles.slug', ['tournament.administrator', 'Master.administrator', 'Results.administrator']);
         }
 
         $languages = config('wot.languages');

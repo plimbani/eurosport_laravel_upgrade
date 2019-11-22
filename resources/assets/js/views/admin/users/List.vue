@@ -27,11 +27,11 @@
                                     <option value="">Filter by user type</option>
                                     <option value="customer">Customer</option>
                                     <option value="Internal.administrator">Internal administrator</option>
-                                    <option value="Master.administrator">Master administrator</option>
+                                    <option v-if="currentLayout == 'tmp'" value="Master.administrator">Master administrator</option>
                                     <option v-if="!isMasterAdmin" value="mobile.user">Mobile user</option>
-                                    <option value="Results.administrator">Results administrator</option>
+                                    <option v-if="currentLayout == 'tmp'" value="Results.administrator">Results administrator</option>
                                     <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
+                                    <option v-if="currentLayout == 'tmp'" value="tournament.administrator">Tournament administrator</option>
                                 </select>
                               </div>
                               <div class="col-md-2">

@@ -19,6 +19,7 @@ class DeleteRequest extends FormRequest
     {
         $id = $this->route('id');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $currentLayout = config('config-variables.current_layout');
         if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
           return false;
         }
@@ -28,6 +29,9 @@ class DeleteRequest extends FormRequest
             return false;
         }
         if ($user['slug'] == 'mobile.user' && $loggedInUser->hasRole('Master.administrator')) {
+            return false;
+        }
+        if ($currentLayout === 'commercialisation' && ($user['slug'] == 'tournament.administrator' || $user['slug'] == 'Master.administrator' || $user['slug'] == 'Results.administrator')) {
             return false;
         }
         
