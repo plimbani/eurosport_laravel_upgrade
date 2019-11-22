@@ -512,12 +512,11 @@
             let that = this
 
             // usage as a promise (2.1.0+, see note below)
-            Vue.nextTick()
-              .then(function () {
-                $('.selTeams').each(function( index ) {
-                  that.initialfunc($(this).data('id'))
-                })
-              });
+            setTimeout(function(){
+              $('.selTeams').each(function( index ) {
+                that.initialfunc($(this).data('id'))
+              })
+            },1000);
           },
           (error) => {
           }
