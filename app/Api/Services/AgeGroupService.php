@@ -57,6 +57,13 @@ class AgeGroupService implements AgeGroupContract
 
         $tournamentTemplateObj = null;
 
+        // The age category and category name for two or more categories within the tournament cannot be the same.
+        $data['ageCategory_name'] = trim($data['ageCategory_name']);
+        $sameAgeCategoryExists = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id'])->whereRaw('LOWER(`group_name`) LIKE ?', [strtolower($data['ageCategory_name'])])->where('category_age', $data['category_age'])->first();
+        if($sameAgeCategoryExists) {
+          return ['status_code' => '403', 'message' => 'Competition format with this age category and category name already exists.'];
+        }
+
         $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
         $maximumTeams = Tournament::find($data['tournament_id'])->maximum_teams;
 

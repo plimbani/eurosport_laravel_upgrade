@@ -37,11 +37,19 @@ class TeamService implements TeamContract
     public function getTeams($teamData)
     {
         $data = $teamData->toArray()['teamData'];
+        $resultEnteredHomeTeams = TempFixture::where('temp_fixtures.tournament_id', $data['tournamentId'])
+        ->whereNotNull('hometeam_score')
+        ->get()->pluck('home_team')->toArray();
+        $resultEnteredAwayTeams = TempFixture::where('temp_fixtures.tournament_id', $data['tournamentId'])
+        ->whereNotNull('awayteam_score')
+        ->get()->pluck('away_team')->toArray();
+        $resultEnteredTeams = array_unique(array_merge($resultEnteredHomeTeams, $resultEnteredAwayTeams));
+        
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllFromFilter($data);
 
         if ($data) {
-            return ['status_code' => '200', 'data' => $data];
+            return ['status_code' => '200', 'data' => $data, 'resultEnteredTeams' => $resultEnteredTeams];
         }
 
         return ['status_code' => '505', 'message' => 'Error in Data'];
@@ -121,30 +129,27 @@ class TeamService implements TeamContract
 
         // return 1;
     }
-    public function create($data)
+    public function create($data, $tournamentId)
     {
         if($data['country']!=''){
-
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
-        }else{
+        } else {
             $data['country_id'] = '1';
         }
         $data['age_group_id'] = 0;
-        $ageCategory = trim($data['agecategory']) ;
 
-        if($ageCategory!= ''){
-            \Log::info($ageCategory);
-            $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
-                ->where('category_age',$ageCategory)
-                ->first();
-            if($competitionData){
-               $data['age_group_id'] = $competitionData['id'];
-            }
+        $ageCategory = trim($data['agecategory']);
+        $categoryName = trim($data['categoryname']);
+        if($ageCategory!= '' && $categoryName!=''){
+          $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
+          if($competitionData){ 
+            $data['age_group_id'] = $competitionData['id'];
+          }
         }
-        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'],$data->tournamentData['tournamentId']);
-         \Log::info($teamData);
-         if($data['club']!='')
-         {
+
+        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
+        if($data['club']!='')
+        {
             // Here we first find the club name in Database
             $clubData1 = Club::where('name',$data['club'])->get();
             // Here we check if No data then create
@@ -153,7 +158,7 @@ class TeamService implements TeamContract
                 $club_array = array('user_id'=>'1','name'=>$data['club']);
                 $clubData = Club::create($club_array);
                 $update = [
-                  'tournament_id' =>  $data->tournamentData['tournamentId'],
+                  'tournament_id' => $tournamentId,
                   'club_id' => $clubData->id,
                 ];
                 // print_r($update);exit;
@@ -163,19 +168,16 @@ class TeamService implements TeamContract
             else {
                 // here check if record is exist
                $club_id = $clubData1[0]->id;
-               $tournament_id = $data->tournamentData['tournamentId'];
+               $tournament_id = $tournamentId;
               $clubData2 = Club::whereHas('tournament', function($q) use ($club_id,$tournament_id) {
                   $q->where('tournament_id',$tournament_id);
                   $q->where('club_id',$club_id);
               })->exists();
 
-              /*  Club::where('tournament_id','=',$data->tournamentData['tournamentId'])
-                      ->where('club_id','=',$clubData1[0]->id)->exists(); */
-
                 if(!$clubData2) {
                   // we have to insert the value in tournament id
                    $updateEd = [
-                  'tournament_id' =>  $data->tournamentData['tournamentId'],
+                  'tournament_id' =>  $tournamentId,
                   'club_id' => $club_id,
                 ];
                   \DB::table('tournament_club')->insert($updateEd);
@@ -184,30 +186,30 @@ class TeamService implements TeamContract
 
                 $data['club_id'] = $club_id;
             }
-         }
+        }
 
-         if($data['age_group_id'] != 0){
-
+        if($data['age_group_id'] != 0){
             if(isset($teamData['id']) ){
-
-                 $editData =  [
+                $editData =  [
                     'id' => $teamData['id'],
                     'name' => $data['team'],
                     'place' => $data['place'],
                     'country_id' => $data['country_id'],
                     'club_id' => $data['club_id'],
-                    'age_group_id' => $data['age_group_id']
+                    'age_group_id' => $data['age_group_id'],
+                    'comments' => $data['teamcomment'],
+                    'shirt_color' => $data['shirtcolor'],
+                    'shorts_color' => $data['shortscolor'],
                 ];
 
                 $data = $this->teamRepoObj->edit($editData, $teamData['id']);
             } else {
-                 $data = $this->teamRepoObj->create($data);
+                $data = $this->teamRepoObj->create($data, $tournamentId);
             }
-         }
+        }
 
-         \Log::info($data);
         if ($data) {
-            return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+          return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
 
@@ -269,7 +271,7 @@ class TeamService implements TeamContract
 
       foreach ($teamData as $key => $value) {
           $team_id = str_replace('sel_', '', $value['name']);
-          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data'],$tempFixturesCount);
+          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data'],$tempFixturesCount, $ageGroupId);
           # code...
       }
       $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
@@ -375,8 +377,8 @@ class TeamService implements TeamContract
     }
     public function resetAllTeams($request)
     {
-        $data = $request->toArray()['ageCategoryId'];
-        $data = $this->teamRepoObj->resetAllTeams($data);
+        $data = $request->toArray();
+        return $this->teamRepoObj->resetAllTeams($data);
     }
 
     public function getClubsByTournamentId($tournamentId)

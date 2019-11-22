@@ -121,29 +121,6 @@ export default {
             },
             teamEsrReferenceAvailable: false,
             confirmation:'test',
-
-            errorMessages: {
-              	en: {
-	                custom: {
-	                  teamID: {
-	                    required: 'This field is required.'
-	                  },
-	                  team: {
-	                    required: 'This field is required.',
-	                  }
-	                }
-                },
-	            fr: {
-	                custom: {
-	                  team_id: {
-	                    required: 'FThis field is required.',
-	                  },
-	                  team_name: {
-	                    required: 'FThis field is required.',
-	                  }
-	                }
-	            }            	
-            }
 		}
 	},
 
@@ -154,8 +131,6 @@ export default {
         if(this.teamId!=''){
             this.editTeam(this.teamId)
         }
-        
-        this.$validator.updateDictionary(this.errorMessages);
 	},
 	created: function() {
 		this.$root.$on('editTeamData', this.editTeam);
@@ -169,19 +144,21 @@ export default {
 	},
 	methods: {
 		validateBeforeSubmit() {
-            this.$validator.validateAll().then(() => {
-            	let that = this;
-            	if(this.teamEsrReferenceAvailable == false) {
-            		Tournament.updateTeamDetails(that.teamId,that.formValues).then(
-            		(response)=>{
-	            			toastr.success('Team has been updated successfully.', 'Update Team', {timeOut: 5000});
-	                        $("#team_form_modal").modal("hide");
-                           	this.$root.$emit('updateTeamList');
-	            		},
-	            		(error) => {
+            this.$validator.validateAll().then((response) => {
+            	if(response) {
+            		let that = this;
+	            	if(this.teamEsrReferenceAvailable == false) {
+	            		Tournament.updateTeamDetails(that.teamId,that.formValues).then(
+	            		(response)=>{
+		            			toastr.success('Team has been updated successfully.', 'Update Team', {timeOut: 5000});
+		                        $("#team_form_modal").modal("hide");
+	                           	this.$root.$emit('updateTeamList');
+		            		},
+		            		(error) => {
 
-	            		}
-	            	)
+		            		}
+		            	)
+	            	}
             	}
             }).catch((errors) => {
             });

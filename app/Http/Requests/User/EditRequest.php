@@ -28,7 +28,10 @@ class EditRequest extends FormRequest
         }
         if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
-        }        
+        }
+        if ($user['slug'] == 'mobile.user' && $loggedInUser->hasRole('Master.administrator')) {
+            return false;
+        }
         return true;
     }
 
