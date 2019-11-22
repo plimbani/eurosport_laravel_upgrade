@@ -14,17 +14,21 @@
 		data() {
 	     return {
 	        website: '',
-	        options: []
+	        options: [],
+	        currentLayout: this.$store.state.Configuration.currentLayout,
 	     }
     },
 		mounted() {
-	  	Website.getUserAccessibleWebsites().then(
-		    (response) => {
-		      this.options = response.data.data;
-		    },
-		    (error) => {
-		    }
-	  	);
+			if(this.currentLayout === 'tmp')
+			{
+				Website.getUserAccessibleWebsites().then(
+				    (response) => {
+				      this.options = response.data.data;
+				    },
+				    (error) => {
+				    }
+			  	);
+			}
 		},
 		methods: {
 			onChange() {
