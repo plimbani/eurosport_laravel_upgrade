@@ -358,15 +358,15 @@ class TeamRepository
     }
     public function edit($data)
     {
-        // $teamColors = config('config-variables.team_colors');
-        // $teamColors = array_flip($teamColors);
+        $teamColors = config('config-variables.team_colors');
+        $teamColors = array_flip($teamColors);
 
-        // if(isset($data['shirtcolor']) && $data['shirtcolor']) {
-        //   $data['shirtcolor'] = $teamColors[$data['shirtcolor']];
-        // }
-        // if(isset($data['shortscolor']) && $data['shortscolor']) {
-        //   $data['shortscolor'] = $teamColors[$data['shortscolor']];
-        // }
+        if(isset($data['shirt_color']) && $data['shirt_color']) {
+          $data['shirt_color'] = $teamColors[$data['shirt_color']];
+        }
+        if(isset($data['shorts_color']) && $data['shorts_color']) {
+          $data['shorts_color'] = $teamColors[$data['shorts_color']];
+        }
 
         return Team::where('id', $data['id'])->update($data);
     }
