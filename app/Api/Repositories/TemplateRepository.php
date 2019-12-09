@@ -228,12 +228,11 @@ class TemplateRepository
             } else {
                 $roundDetail = $finalArray['tournament_competation_format']['divisions'][$roundGroupPositionArray[0]]['format_name'][$roundGroupPositionArray[1]];
             }
-            
-            $groupDetail = $roundDetail['match_type'][$roundGroupPositionArray[2]];
-            $matchNumber = $groupDetail['groups']['match'][$roundGroupPositionArray[3]]['match_number'];
 
             $tournamentsPositionsData[$placingIndex]['position'] = ($placingIndex + 1);
             if($placing['position_type'] == 'winner' || $placing['position_type'] == 'loser') {
+                $groupDetail = $roundDetail['match_type'][$roundGroupPositionArray[2]];
+                $matchNumber = $groupDetail['groups']['match'][$roundGroupPositionArray[3]]['match_number'];
                 $tournamentsPositionsData[$placingIndex]['dependent_type'] = 'match';
                 $tournamentsPositionsData[$placingIndex]['match_number'] = $matchNumber;
                 $tournamentsPositionsData[$placingIndex]['result_type'] = $placing['position_type'];
