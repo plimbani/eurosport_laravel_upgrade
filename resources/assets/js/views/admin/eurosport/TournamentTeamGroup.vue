@@ -200,25 +200,25 @@
           </div>
           <div class="modal-body">
             <div class="category-error" v-if="checkForTeamUploadError(nonExistingAgeCategories)">
-              <div><strong>Following are the age categories that not exist in tournament and are not processed:</strong></div>
+              <div><strong>The following age categories were not uploaded as they do not currently exist in the tournament:</strong></div>
               <div v-for="category in nonExistingAgeCategories">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamNotMatchingAgeCategories)">
-              <div><strong>Following are the age categories whose team count doesn't match and are not processed:</strong></div>
+              <div><strong>The following age categories were not uploaded due to an error in the number of teams:</strong></div>
               <div v-for="category in teamNotMatchingAgeCategories">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamsNotUploadedOfAgeCategory)">
-              <div><strong>Following are the age categories whose teams information has not been updated successfully:</strong></div>
+              <div><strong>The following age categories team information has not been updated successfully:</strong></div>
               <div v-for="category in teamsNotUploadedOfAgeCategory">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamsInDifferentAgeCategory)">
-              <div><strong>Upload unsuccessful for following age categories. One or more teams has a teamID that already exists on the platform:</strong></div>
+              <div><strong>The following age categories were not uploaded as one or more teams have a teamID that already exist on the platform:</strong></div>
               <div v-for="category in teamsInDifferentAgeCategory">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
@@ -229,6 +229,9 @@
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
           </div>
          </div>
       </div>

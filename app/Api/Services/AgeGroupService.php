@@ -65,7 +65,7 @@ class AgeGroupService implements AgeGroupContract
         }
         $sameAgeCategoryExists = $sameAgeCategoryExists->first();
         if($sameAgeCategoryExists) {
-          return ['status_code' => '403', 'message' => 'Competition format with this age category and category name already exists.'];
+          return ['status_code' => '403', 'message' => 'A competition format with this age category and category name already exists.'];
         }
 
         $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
