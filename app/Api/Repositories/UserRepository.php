@@ -97,7 +97,7 @@ class UserRepository {
         }
 
         if($loggedInUser->hasRole('Master.administrator')) {
-          $user = $user->where('roles.slug', '!=', 'mobile.user');
+          $user = $user->where('roles.slug', '!=', 'mobile.user')->where('roles.slug', '!=', 'Super.administrator');
         }
 
         if($currentLayout === 'commercialisation') {
