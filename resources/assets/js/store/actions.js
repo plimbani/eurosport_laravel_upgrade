@@ -36,3 +36,7 @@ export const setConfigurationDetail = ({ commit }, configurationDetail) => {
   commit(types.SET_CURRENT_LAYOUT, configurationDetail['currentLayout'])
   commit(types.SET_MATCH_IDLETIME, configurationDetail['matchIdleTime'])
 }
+
+export const setCurrentLayout = ({ commit }, layout) => {
+  commit(types.SET_CURRENT_LAYOUT, layout)
+}
