@@ -168,11 +168,11 @@ class TeamController extends BaseController
                       $teamsNotUploadedOfAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
                       $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
                     }
-                    $allTeams[$ageCategoryId][] = $sheet;
-                    $allTeamsInSheet[] = $sheet;
                     $teamExistInUploadSheet = array_filter($allTeamsInSheet, function($team) use($sheet) {
                       return ($team['teamid'] == $sheet['teamid']);
                     });
+                    $allTeams[$ageCategoryId][] = $sheet;
+                    $allTeamsInSheet[] = $sheet;
                     if(count($teamExistInUploadSheet) > 0)
                     {
                       $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
