@@ -184,14 +184,24 @@ class MatchService implements MatchContract
 
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2 && $scheduledResult != -3){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
+              $message = 'Match has been scheduled successfully';
+              if(isset($scheduledResult['maximum_interval_flag']) && $scheduledResult['maximum_interval_flag'] === 1) {
+                if($data['isMultiSchedule'] === false) {
+                  $message = 'The match has been scheduled but it does exceed the maximum team interval.';
+                } else {
+                  $message = 'The match will get schedule but it does exceed the maximum team interval.';
+                }
+              }
+
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => $message, 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
                return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'This pitch is the wrong pitch size for this fixture.'];
-            } else if($scheduledResult == -3){
-               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
             }
+            // else if($scheduledResult == -3){
+            //    return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
+            // }
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];
         }

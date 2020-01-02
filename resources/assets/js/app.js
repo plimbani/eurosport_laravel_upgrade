@@ -28,6 +28,11 @@ window.Plugin = Plugin
 const app = new Vue({
     router,
     store,
+    data() {
+      return {
+        currentLayout: this.$store.state.Configuration.currentLayout,
+      }
+    },
     mounted() {      
       let authToken = Ls.get('auth.token');
       if (authToken != null) {
@@ -41,13 +46,15 @@ const app = new Vue({
             Layout.toggleSidebar()
         },
         getConfigurationDetail() {
-        	Website.getConfigurationDetail().then(
+          if(this.currentLayout === 'tmp') {
+            Website.getConfigurationDetail().then(
               (response)=> {
                 this.$store.dispatch('setConfigurationDetail', response.data);
               },
               (error)=> {
               }
             );
+          }
         },
         getUserDetails(emailData){
             UserApi.getUserDetails(emailData).then(

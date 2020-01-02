@@ -30,7 +30,7 @@
                                     <option v-if="currentLayout == 'tmp'" value="Master.administrator">Master administrator</option>
                                     <option v-if="!isMasterAdmin" value="mobile.user">Mobile user</option>
                                     <option v-if="currentLayout == 'tmp'" value="Results.administrator">Results administrator</option>
-                                    <option value="Super.administrator">Super administrator</option>
+                                    <option v-if="!isMasterAdmin" value="Super.administrator">Super administrator</option>
                                     <option v-if="currentLayout == 'tmp'" value="tournament.administrator">Tournament administrator</option>
                                 </select>
                               </div>

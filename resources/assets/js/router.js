@@ -594,6 +594,7 @@ router.beforeEach((to, from, next) => {
             }
             
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
+            store.dispatch('setCurrentLayout', response.currentLayout);
             return next()
         })
     }
