@@ -346,7 +346,12 @@ import _ from 'lodash'
                                                 vm.$emit('schedule-match-result', matchData);
                                             } else {
                                                 if(response.data.areAllMatchFixtureScheduled == true) {
-                                                    toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                                    if(typeof response.data.data.maximum_interval_flag !== 'undefined' && response.data.data.maximum_interval_flag === 1) {
+                                                        toastr.warning(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                                    } else {
+                                                        toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                                    }
+                                                    // toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                                 }
                                                 vm.$store.dispatch('setMatches').then((response) => {
                                                     vm.reloadPitch();
@@ -369,6 +374,7 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
+                        $('span[data-toggle="popover"]').popover({trigger: 'hover'});
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').each(function() {
                             let tt = $(this);
@@ -430,7 +436,11 @@ import _ from 'lodash'
                                 (response) => {
                                     if(response.data.data != -1 && response.data.data != -2 && response.data.data != -3){
                                         if(vm.isMatchScheduleInEdit === false) {
-                                            toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
+                                            if(typeof response.data.data.maximum_interval_flag !== 'undefined' && response.data.data.maximum_interval_flag === 1) {
+                                                toastr.warning(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                            } else {
+                                                toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                            }
 
                                             vm.$store.dispatch('setMatches').then((response) => {
                                                 vm.reloadPitch();
@@ -683,7 +693,8 @@ import _ from 'lodash'
                                     'fixtureStripColor': fixtureStripColor,
                                     'homeScore': match.homeScore,
                                     'awayScore': match.AwayScore,
-                                    'displayFlag': (match.min_interval_flag == 1 || match.max_interval_flag == 1) ? 'block' : 'none',
+                                    'minimumTeamIntervalDisplayFlag': match.min_interval_flag == 1 ? 'block' : 'none',
+                                    'maximumTeamIntervalDisplayFlag': match.max_interval_flag == 1 ? 'block' : 'none',
                                     'homeTeam': match.Home_id,
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
@@ -729,7 +740,8 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':'none',
+                                        'minimumTeamIntervalDisplayFlag':'none',
+                                        'maximumTeamIntervalDisplayFlag':'none',
                                         'homeTeam': null,
                                         'awayTeam': null,
                                         'matchStatus': null,
@@ -770,7 +782,8 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':'none',
+                                        'minimumTeamIntervalDisplayFlag':'none',
+                                        'maximumTeamIntervalDisplayFlag':'none',
                                         'homeTeam': null,
                                         'awayTeam': null,
                                         'matchStatus': null,
@@ -812,7 +825,8 @@ import _ from 'lodash'
                                             'fixtureStripColor': '',
                                             'homeScore': null,
                                             'awayScore': null,
-                                            'displayFlag': 'none',
+                                            'minimumTeamIntervalDisplayFlag': 'none',
+                                            'maximumTeamIntervalDisplayFlag':'none',
                                             'homeTeam': null,
                                             'awayTeam': null,
                                             'matchStatus': null,
@@ -878,7 +892,8 @@ import _ from 'lodash'
                     'matchVenueId':'',
                     'homeScore': null,
                     'awayScore': null,
-                    'displayFlag':'none',
+                    'minimumTeamIntervalDisplayFlag':'none',
+                    'maximumTeamIntervalDisplayFlag':'none',
                     'homeTeam': null,
                     'awayTeam': null,
                     'matchStatus': null,
@@ -920,7 +935,8 @@ import _ from 'lodash'
                             'matchVenueId':'',
                             'homeScore': null,
                             'awayScore': null,
-                            'displayFlag': 'none',
+                            'minimumTeamIntervalDisplayFlag': 'none',
+                            'maximumTeamIntervalDisplayFlag':'none',
                             'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
