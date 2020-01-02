@@ -1,5 +1,5 @@
 <template>
-	<select  v-bind:data-id="team.id" v-model="team.group_name" :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
+	<select :disabled="!canChangeTeamOption" v-bind:data-id="team.id" v-model="team.group_name" :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
 	  <option value="" class="blnk">{{seleTeam}}</option>
 	  <optgroup :label="getGroupName(group)"
 	  v-for="group in grps">
