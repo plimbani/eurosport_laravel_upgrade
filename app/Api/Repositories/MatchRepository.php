@@ -1637,9 +1637,9 @@ class MatchRepository
         });
       }
       if( ($homeMaximumIntervalMatchResultCount->count() === 0 && !$isFirstMatchOfHomeTeam) || ($awayMaximumIntervalMatchResultCount->count() === 0 && !$isFirstMatchOfAwayTeam)){
-            if( $allowSchedulingForcefully == false && ((strpos($teamData['match_number'], "RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) ) {
-                return -3;
-            }
+            // if( $allowSchedulingForcefully == false && ((strpos($teamData['match_number'], "RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) ) {
+            //     return -3;
+            // }
             $setMaximumIntervalFlag = 1;
       }
 
@@ -1694,9 +1694,9 @@ class MatchRepository
         $this->checkMaximumTeamIntervalforMatches($matchData);
 
         return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled, 
-        'is_another_match_scheduled' => false];
+        'is_another_match_scheduled' => false, 'maximum_interval_flag' => $setMaximumIntervalFlag];
       }
-      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false];
+      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false, 'maximum_interval_flag' => $setMaximumIntervalFlag];
     }
     public function matchUnschedule($matchId)
     {
