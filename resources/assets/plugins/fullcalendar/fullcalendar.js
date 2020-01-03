@@ -8360,10 +8360,10 @@ TimeGrid.mixin({
 		}
 		let warningText = "";
 		if(event.minimumTeamIntervalDisplayFlag === 'block') {
-			warningText = 'Where a team is playing in a time that is less than the min team interval set - &quot;One or more teams playing inside minimum team match interval&quot;';
+			warningText = 'One or more teams playing inside minimum team match interval';
 		}
 		if(event.maximumTeamIntervalDisplayFlag === 'block') {
-			warningText = 'Where a team is playing in a time that is exceeds the max team interval set - &quot;One or more teams playing outside maximum team match interval&quot;';
+			warningText = 'One or more teams playing outside maximum team match interval';
 		}
 
 		return '<a class="' + classes.join(' ') + '"' +
