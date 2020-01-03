@@ -177,6 +177,22 @@ class TeamController extends BaseController
                     {
                       $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
                       $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      foreach($teamExistInUploadSheet as $team) {
+                        $ageCategoryDetail = array_filter($allAgeCategories, function($category) use($team){
+                          return trim($team['agecategory']) == $category['category_age'] && strtolower(trim($team['categoryname'])) == strtolower($category['group_name']);
+                        });
+                        if(count($ageCategoryDetail) > 0) {
+                          if(!isset($furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']])) {
+                            $furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                          }
+                          $checkIfAlreadyExist = array_filter($notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, function($category) use($team){
+                            return trim($team['agecategory']) == $category['ageCategory'] && strtolower(trim($team['categoryname'])) == strtolower($category['categoryName']);
+                          });
+                          if(count($checkIfAlreadyExist) === 0) {
+                            $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                          }
+                        }
+                      }
                     }
                   }
                 }
