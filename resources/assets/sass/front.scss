@@ -911,3 +911,7 @@ a.active-view:hover {
     /* Firefox 18- */
     color: $base-font-color;
 }
+
+#toast-container > div.toast-warning {
+    opacity: 0.93;
+}
