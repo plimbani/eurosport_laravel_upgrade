@@ -18,8 +18,8 @@
                       <div><span class="font-weight-bold small">Match {{ getMatchNumber($match['display_match_number']) }}</span></div>
                       @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
                       @if($matchDetail && $matchDetail['is_scheduled'] === 1)
-                        <div><span class="small">{{ $matchDetail['pitch_name'] . ', ' . $matchDetail['venue_name'] }}</span></div>
-                        <div><span class="small">{{ 'KO ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}</span></div>
+                        <div><span class="small">{{ $matchDetail['venue_name'] }}</span></div>
+                        <div><span class="small">{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}</span></div>
                       @endif
                     </div>
 
@@ -118,8 +118,8 @@
                     </div>
                     @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
                     @if($matchDetail && $matchDetail['is_scheduled'] === 1)
-                      <div><span class="small">{{ $matchDetail['pitch_name'] . ', ' . $matchDetail['venue_name'] }}</span></div>
-                      <div><span class="small">{{ 'KO ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}</span></div>
+                      <div><span class="small">{{ $matchDetail['venue_name'] }}</span></div>
+                      <div><span class="small">{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}</span></div>
                     @endif
                   </div>
 
