@@ -8352,7 +8352,7 @@ TimeGrid.mixin({
 			skinCss += ';display: none;';
 		}
 
-		let displayFlag = ((typeof event.minimumTeamIntervalDisplayFlag !== "undefined" && event.minimumTeamIntervalDisplayFlag === "block") || (typeof event.maximumTeamIntervalDisplayFlag !== "undefined" && event.maximumTeamIntervalDisplayFlag === "block")) ? 'block' : 'none';
+		var displayFlag = ((typeof event.minimumTeamIntervalDisplayFlag !== "undefined" && event.minimumTeamIntervalDisplayFlag === "block") || (typeof event.maximumTeamIntervalDisplayFlag !== "undefined" && event.maximumTeamIntervalDisplayFlag === "block")) ? 'block' : 'none';
 		if(typeof event.id === 'undefined') {
 			event.minimumTeamIntervalDisplayFlag = 'none';
 			event.maximumTeamIntervalDisplayFlag = 'none';
