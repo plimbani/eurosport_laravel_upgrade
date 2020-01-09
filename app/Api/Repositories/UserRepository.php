@@ -51,7 +51,7 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        ini_set('memory_limit','256M');
+        ini_set('memory_limit','512M');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
         if($loggedInUser == null){
