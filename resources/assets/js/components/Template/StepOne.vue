@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 d-none">
                                 <div class="checkbox">
                                     <div class="c-input">
                                         <input class="euro-radio" type="radio" name="editor" value="festival" v-model="templateFormDetail.stepone.editor" id="radio_festival">
