@@ -87,8 +87,8 @@ public class TeamFixturesModel implements Parcelable{
         team_size = in.readString();
         match_datetime = in.readString();
         match_endtime = in.readString();
-        venueId = in.readString();
         competation_round_no = in.readString();
+        venueId = in.readString();
         competitionId = in.readString();
         venueCoordinates = in.readString();
         pitchType = in.readString();
@@ -124,8 +124,6 @@ public class TeamFixturesModel implements Parcelable{
         halftime_break_FM = in.readString();
         match_interval_RR = in.readString();
         match_interval_FM = in.readString();
-        isKnockoutPlacingMatches = in.readString();
-        isDivExist = in.readString();
         tid = in.readString();
         full_game = in.readString();
         match_status = in.readString();
@@ -143,81 +141,8 @@ public class TeamFixturesModel implements Parcelable{
         AwayTeamShirtColor = in.readString();
         HomeTeamShortsColor = in.readString();
         AwayTeamShortsColor = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fid);
-        dest.writeString(match_number);
-        dest.writeString(displayMatchNumber);
-        dest.writeString(round);
-        dest.writeString(actual_round);
-        dest.writeString(competation_name);
-        dest.writeString(competition_actual_name);
-        dest.writeString(team_size);
-        dest.writeString(match_datetime);
-        dest.writeString(match_endtime);
-        dest.writeString(venueId);
-        dest.writeString(competitionId);
-        dest.writeString(venueCoordinates);
-        dest.writeString(pitchType);
-        dest.writeString(venueaddress);
-        dest.writeString(venueState);
-        dest.writeString(venueCounty);
-        dest.writeString(venueCity);
-        dest.writeString(venueCountry);
-        dest.writeString(venuePostcode);
-        dest.writeString(group_name);
-        dest.writeString(venue_name);
-        dest.writeString(pitch_number);
-        dest.writeString(referee_name);
-        dest.writeString(referee_id);
-        dest.writeString(first_name);
-        dest.writeString(last_name);
-        dest.writeString(HomeTeam);
-        dest.writeString(AwayTeam);
-        dest.writeString(Home_id);
-        dest.writeString(Away_id);
-        dest.writeString(HomeFlagLogo);
-        dest.writeString(AwayFlagLogo);
-        dest.writeString(HomeCountryFlag);
-        dest.writeString(HomeCountryName);
-        dest.writeString(AwayCountryName);
-        dest.writeString(homeScore);
-        dest.writeString(AwayScore);
-        dest.writeString(pitchId);
-        dest.writeString(is_scheduled);
-        dest.writeString(game_duration_RR);
-        dest.writeString(game_duration_FM);
-        dest.writeString(halftime_break_RR);
-        dest.writeString(halftime_break_FM);
-        dest.writeString(match_interval_RR);
-        dest.writeString(match_interval_FM);
-        dest.writeString(tid);
-        dest.writeString(full_game);
-        dest.writeString(match_status);
-        dest.writeString(MatchWinner);
-        dest.writeString(homePlaceholder);
-        dest.writeString(awayPlaceholder);
-        dest.writeString(homeTeamName);
-        dest.writeString(awayTeamName);
-        dest.writeString(displayHomeTeamPlaceholderName);
-        dest.writeString(displayAwayTeamPlaceholderName);
-        dest.writeString(position);
-        dest.writeString(isKnockoutPlacingMatches);
-        dest.writeString(isResultOverride);
-        dest.writeString(match_winner);
-        dest.writeString(HomeTeamShirtColor);
-        dest.writeString(AwayTeamShirtColor);
-        dest.writeString(HomeTeamShortsColor);
-        dest.writeString(AwayTeamShortsColor);
-        dest.writeString(isDivExist);
-        dest.writeString(competation_round_no);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        isDivExist = in.readString();
+        isKnockoutPlacingMatches = in.readString();
     }
 
     public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
@@ -310,6 +235,14 @@ public class TeamFixturesModel implements Parcelable{
 
     public void setMatch_endtime(String match_endtime) {
         this.match_endtime = match_endtime;
+    }
+
+    public String getCompetation_round_no() {
+        return competation_round_no;
+    }
+
+    public void setCompetation_round_no(String competation_round_no) {
+        this.competation_round_no = competation_round_no;
     }
 
     public String getVenueId() {
@@ -744,19 +677,86 @@ public class TeamFixturesModel implements Parcelable{
         this.isDivExist = isDivExist;
     }
 
-    public String getCompetation_round_no() {
-        return competation_round_no;
-    }
-
-    public void setCompetation_round_no(String competation_round_no) {
-        this.competation_round_no = competation_round_no;
-    }
-
     public String getIsKnockoutPlacingMatches() {
         return isKnockoutPlacingMatches;
     }
 
     public void setIsKnockoutPlacingMatches(String isKnockoutPlacingMatches) {
         this.isKnockoutPlacingMatches = isKnockoutPlacingMatches;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(fid);
+        dest.writeString(match_number);
+        dest.writeString(displayMatchNumber);
+        dest.writeString(round);
+        dest.writeString(actual_round);
+        dest.writeString(competation_name);
+        dest.writeString(competition_actual_name);
+        dest.writeString(team_size);
+        dest.writeString(match_datetime);
+        dest.writeString(match_endtime);
+        dest.writeString(competation_round_no);
+        dest.writeString(venueId);
+        dest.writeString(competitionId);
+        dest.writeString(venueCoordinates);
+        dest.writeString(pitchType);
+        dest.writeString(venueaddress);
+        dest.writeString(venueState);
+        dest.writeString(venueCounty);
+        dest.writeString(venueCity);
+        dest.writeString(venueCountry);
+        dest.writeString(venuePostcode);
+        dest.writeString(group_name);
+        dest.writeString(venue_name);
+        dest.writeString(pitch_number);
+        dest.writeString(referee_name);
+        dest.writeString(referee_id);
+        dest.writeString(first_name);
+        dest.writeString(last_name);
+        dest.writeString(HomeTeam);
+        dest.writeString(AwayTeam);
+        dest.writeString(Home_id);
+        dest.writeString(Away_id);
+        dest.writeString(HomeFlagLogo);
+        dest.writeString(AwayFlagLogo);
+        dest.writeString(HomeCountryFlag);
+        dest.writeString(HomeCountryName);
+        dest.writeString(AwayCountryName);
+        dest.writeString(homeScore);
+        dest.writeString(AwayScore);
+        dest.writeString(pitchId);
+        dest.writeString(is_scheduled);
+        dest.writeString(game_duration_RR);
+        dest.writeString(game_duration_FM);
+        dest.writeString(halftime_break_RR);
+        dest.writeString(halftime_break_FM);
+        dest.writeString(match_interval_RR);
+        dest.writeString(match_interval_FM);
+        dest.writeString(tid);
+        dest.writeString(full_game);
+        dest.writeString(match_status);
+        dest.writeString(MatchWinner);
+        dest.writeString(homePlaceholder);
+        dest.writeString(awayPlaceholder);
+        dest.writeString(homeTeamName);
+        dest.writeString(awayTeamName);
+        dest.writeString(displayHomeTeamPlaceholderName);
+        dest.writeString(displayAwayTeamPlaceholderName);
+        dest.writeString(position);
+        dest.writeString(isResultOverride);
+        dest.writeString(match_winner);
+        dest.writeString(HomeTeamShirtColor);
+        dest.writeString(AwayTeamShirtColor);
+        dest.writeString(HomeTeamShortsColor);
+        dest.writeString(AwayTeamShortsColor);
+        dest.writeString(isDivExist);
+        dest.writeString(isKnockoutPlacingMatches);
     }
 }

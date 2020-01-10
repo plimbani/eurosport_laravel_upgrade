@@ -507,20 +507,33 @@ public class Utility {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
-    public static boolean compare(String v1, String v2) {
-        boolean returnFlag = false;
-        String s1 = normalisedVersion(v1);
-        String s2 = normalisedVersion(v2);
-        int cmp = s1.compareTo(s2);
-        String cmpStr = cmp < 0 ? "<" : cmp > 0 ? ">" : "==";
-        System.out.printf("result: " + "'%s' %s '%s'%n", v1, cmpStr, v2);
-        if (cmpStr.contains("<")) {
-            returnFlag = true;
+    public static boolean compare(String existingVersion, String newVersion) {
+        if (TextUtils.isEmpty(existingVersion) || TextUtils.isEmpty(newVersion)) {
+            return false;
+        }
+        boolean newVersionIsGreater = false;
+        String[] existingVersionArray = existingVersion.split("\\.");
+        String[] newVersionArray = newVersion.split("\\.");
 
+        int maxIndex = Math.max(existingVersionArray.length, newVersionArray.length);
+        for (int i = 0; i < maxIndex; i++) {
+            int newValue;
+            int oldValue;
+            try {
+                oldValue = Integer.parseInt(existingVersionArray[i]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                oldValue = 0;
+            }
+            try {
+                newValue = Integer.parseInt(newVersionArray[i]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                newValue = 0;
+            }
+            if (oldValue < newValue) {
+                newVersionIsGreater = true;
+                continue;
+            }
         }
-        if (cmpStr.contains(">") || cmpStr.contains("==")) {
-            returnFlag = false;
-        }
-        return returnFlag;
+        return newVersionIsGreater;
     }
 }
