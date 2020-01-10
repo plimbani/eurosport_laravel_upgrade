@@ -100,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 d-none">
+                    <div class="col-md-4">
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format" @change="validateTemplate()">
