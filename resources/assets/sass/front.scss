@@ -873,6 +873,7 @@ a.active-view:hover {
     position: absolute;
     right: 18px;
     top: 2px;
+    z-index: 3;
 }
 
 .match-fixture-comment {
@@ -1173,4 +1174,8 @@ a.active-view:hover {
 
 .team-upload-summary .category-error .age-category-div:nth-child(n+2) {
     margin-top: 1rem;
+}
+
+#toast-container > div.toast-warning {
+    opacity: 0.93;
 }

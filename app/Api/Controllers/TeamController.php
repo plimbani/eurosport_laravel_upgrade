@@ -114,9 +114,11 @@ class TeamController extends BaseController
         $teamsInDifferentAgeCategory = [];
         $notProcessedAgeCategoriesDueToResultEntered = [];
         $furtherNotToProcessAgeCategories = [];
+        $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet = [];
+        $allTeamsInSheet = [];
         $allTeams = [];
-        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, $resultEnteredAgeCategories, &$notProcessedAgeCategoriesDueToResultEntered, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories) {
-            $reader->each(function($sheet) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories) {
+        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, $resultEnteredAgeCategories, &$notProcessedAgeCategoriesDueToResultEntered, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet) {
+            $reader->each(function($sheet) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet) {
               //$sheet->tournamentData = $this->data;
               $ageCategory = trim($sheet['agecategory']);
               $categoryName = trim($sheet['categoryname']);
@@ -166,7 +168,32 @@ class TeamController extends BaseController
                       $teamsNotUploadedOfAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
                       $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
                     }
+                    $teamExistInUploadSheet = array_filter($allTeamsInSheet, function($team) use($sheet) {
+                      return ($team['teamid'] == $sheet['teamid']);
+                    });
                     $allTeams[$ageCategoryId][] = $sheet;
+                    $allTeamsInSheet[] = $sheet;
+                    if(count($teamExistInUploadSheet) > 0)
+                    {
+                      $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      foreach($teamExistInUploadSheet as $team) {
+                        $ageCategoryDetail = array_filter($allAgeCategories, function($category) use($team){
+                          return trim($team['agecategory']) == $category['category_age'] && strtolower(trim($team['categoryname'])) == strtolower($category['group_name']);
+                        });
+                        if(count($ageCategoryDetail) > 0) {
+                          if(!isset($furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']])) {
+                            $furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                          }
+                          $checkIfAlreadyExist = array_filter($notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, function($category) use($team){
+                            return trim($team['agecategory']) == $category['ageCategory'] && strtolower(trim($team['categoryname'])) == strtolower($category['categoryName']);
+                          });
+                          if(count($checkIfAlreadyExist) === 0) {
+                            $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -191,7 +218,7 @@ class TeamController extends BaseController
           }
         }
 
-        return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted', 'teamNotMatchingAgeCategories' => $teamNotMatchingAgeCategories, 'nonExistingAgeCategories' => $nonExistingAgeCategories, 'teamsNotUploadedOfAgeCategory' => $teamsNotUploadedOfAgeCategory, 'teamsInDifferentAgeCategory' => $teamsInDifferentAgeCategory, 'notProcessedAgeCategoriesDueToResultEntered' => $notProcessedAgeCategoriesDueToResultEntered];
+        return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted', 'teamNotMatchingAgeCategories' => $teamNotMatchingAgeCategories, 'nonExistingAgeCategories' => $nonExistingAgeCategories, 'teamsNotUploadedOfAgeCategory' => $teamsNotUploadedOfAgeCategory, 'teamsInDifferentAgeCategory' => $teamsInDifferentAgeCategory, 'notProcessedAgeCategoriesDueToResultEntered' => $notProcessedAgeCategoriesDueToResultEntered, 'notProcessedAgeCategoriesDuetoSameTeamInUploadSheet' => $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet];
     }
     public function assignTeam(AssignTeamRequest $request) {
         return $this->teamObj->assignTeams($request->all());

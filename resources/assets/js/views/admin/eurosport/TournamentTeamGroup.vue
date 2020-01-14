@@ -128,7 +128,7 @@
                           <td>{{team.age_name}} </td>
 
                           <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
-                          <td width="130px" v-else style="position: relative">
+                          <td :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
                             <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
                           </td>
                           <td class="text-center">
@@ -200,35 +200,44 @@
           </div>
           <div class="modal-body">
             <div class="category-error" v-if="checkForTeamUploadError(nonExistingAgeCategories)">
-              <div><strong>Following are the age categories that not exist in tournament and are not processed:</strong></div>
+              <div><strong>The following age categories were not uploaded as they do not currently exist in the tournament:</strong></div>
               <div v-for="category in nonExistingAgeCategories">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamNotMatchingAgeCategories)">
-              <div><strong>Following are the age categories whose team count doesn't match and are not processed:</strong></div>
+              <div><strong>The following age categories were not uploaded due to an error in the number of teams:</strong></div>
               <div v-for="category in teamNotMatchingAgeCategories">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamsNotUploadedOfAgeCategory)">
-              <div><strong>Following are the age categories whose teams information has not been updated successfully:</strong></div>
+              <div><strong>The following age categories team information has not been updated successfully:</strong></div>
               <div v-for="category in teamsNotUploadedOfAgeCategory">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(teamsInDifferentAgeCategory)">
-              <div><strong>Upload unsuccessful for following age categories. One or more teams has a teamID that already exists on the platform:</strong></div>
+              <div><strong>The following age categories were not uploaded as one or more teams have a teamID that already exist on the platform:</strong></div>
               <div v-for="category in teamsInDifferentAgeCategory">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
             <div class="category-error" v-if="checkForTeamUploadError(notProcessedAgeCategoriesDueToResultEntered)">
-              <div><strong>Following are the age categories which are not processed as one or more results are entered:</strong></div>
+              <div><strong>The following age categories were not uploaded as one or more results have already been entered for one or more teams:</strong></div>
               <div v-for="category in notProcessedAgeCategoriesDueToResultEntered">
                 {{ category.categoryName + ' (' + category.ageCategory + ')' }}
               </div>
             </div>
+            <div class="category-error" v-if="checkForTeamUploadError(notProcessedAgeCategoriesDuetoSameTeamInUploadSheet)">
+              <div><strong>The following age categories were not uploaded as one or more teams in the upload spreadsheet have the same teamID:</strong></div>
+              <div v-for="category in notProcessedAgeCategoriesDuetoSameTeamInUploadSheet">
+                {{ category.categoryName + ' (' + category.ageCategory + ')' }}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
          </div>
       </div>
@@ -278,6 +287,7 @@
         'teamsNotUploadedOfAgeCategory': [],
         'teamsInDifferentAgeCategory': [],
         'notProcessedAgeCategoriesDueToResultEntered': [],
+        'notProcessedAgeCategoriesDuetoSameTeamInUploadSheet': [],
         'resultEnteredTeams': [],
       }
     },
@@ -514,9 +524,11 @@
             // usage as a promise (2.1.0+, see note below)
             Vue.nextTick()
               .then(function () {
-                $('.selTeams').each(function( index ) {
-                  that.initialfunc($(this).data('id'))
-                })
+                setTimeout(function(){
+                  $('.selTeams').each(function( index ) {
+                    that.initialfunc($(this).data('id'))
+                  });
+                }, 500);
               });
           },
           (error) => {
@@ -644,6 +656,7 @@
         this.teamsNotUploadedOfAgeCategory = [];
         this.teamsInDifferentAgeCategory = [];
         this.notProcessedAgeCategoriesDueToResultEntered = [];
+        this.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet = [];
         if($('#fileUpload').val()!='') {
           if(this.canUploadTeamFile == false) {
             toastr['error']('Please upload an excel file.', 'Error');
@@ -656,13 +669,14 @@
           $("body .js-loader").removeClass('d-none');
           axios.post('/api/team/create', files).then(response =>  {
             let errorFlag = false;
-            if(response.data.nonExistingAgeCategories.length > 0 || response.data.teamNotMatchingAgeCategories.length > 0 || Object.keys(response.data.teamsNotUploadedOfAgeCategory).length > 0 || Object.keys(response.data.teamsInDifferentAgeCategory).length > 0 || response.data.notProcessedAgeCategoriesDueToResultEntered.length > 0) {
+            if(response.data.nonExistingAgeCategories.length > 0 || response.data.teamNotMatchingAgeCategories.length > 0 || Object.keys(response.data.teamsNotUploadedOfAgeCategory).length > 0 || Object.keys(response.data.teamsInDifferentAgeCategory).length > 0 || response.data.notProcessedAgeCategoriesDueToResultEntered.length > 0 || response.data.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet.length > 0) {
               errorFlag = true;
               vm.nonExistingAgeCategories = response.data.nonExistingAgeCategories;
               vm.teamNotMatchingAgeCategories = response.data.teamNotMatchingAgeCategories;
               vm.teamsNotUploadedOfAgeCategory = response.data.teamsNotUploadedOfAgeCategory;
               vm.teamsInDifferentAgeCategory = response.data.teamsInDifferentAgeCategory;
               vm.notProcessedAgeCategoriesDueToResultEntered = response.data.notProcessedAgeCategoriesDueToResultEntered;
+              vm.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet = response.data.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet;
               $('#team_upload_summary').modal('show');
             }
             if(!errorFlag) {
@@ -878,7 +892,7 @@
         return Object.keys(teamError).length > 0;
       },
       canChangeTeamOption(teamId) {
-        return _.indexOf(this.resultEnteredTeams, teamId) === -1;
+        return _.indexOf(_.values(this.resultEnteredTeams), parseInt(teamId)) === -1;
       },
     }
   }

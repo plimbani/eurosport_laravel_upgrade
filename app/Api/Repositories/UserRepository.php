@@ -51,7 +51,7 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        ini_set('memory_limit','256M');
+        ini_set('memory_limit','512M');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
         if($loggedInUser == null){
@@ -94,7 +94,7 @@ class UserRepository {
         }
 
         if($loggedInUser->hasRole('Master.administrator')) {
-          $user = $user->where('roles.slug', '!=', 'mobile.user');
+          $user = $user->where('roles.slug', '!=', 'mobile.user')->where('roles.slug', '!=', 'Super.administrator');
         }
 
         $languages = config('wot.languages');

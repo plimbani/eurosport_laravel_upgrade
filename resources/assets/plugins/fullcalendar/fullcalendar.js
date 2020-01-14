@@ -8352,8 +8352,18 @@ TimeGrid.mixin({
 			skinCss += ';display: none;';
 		}
 
+		var displayFlag = ((typeof event.minimumTeamIntervalDisplayFlag !== "undefined" && event.minimumTeamIntervalDisplayFlag === "block") || (typeof event.maximumTeamIntervalDisplayFlag !== "undefined" && event.maximumTeamIntervalDisplayFlag === "block")) ? 'block' : 'none';
 		if(typeof event.id === 'undefined') {
-			event.displayFlag = 'none';
+			event.minimumTeamIntervalDisplayFlag = 'none';
+			event.maximumTeamIntervalDisplayFlag = 'none';
+			displayFlag = 'none';
+		}
+		var warningText = "";
+		if(event.minimumTeamIntervalDisplayFlag === 'block') {
+			warningText = 'One or more teams playing inside minimum team match interval';
+		}
+		if(event.maximumTeamIntervalDisplayFlag === 'block') {
+			warningText = 'One or more teams playing outside maximum team match interval';
 		}
 
 		return '<a class="' + classes.join(' ') + '"' +
@@ -8367,7 +8377,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="scheduled-match-content">' +
-					((event.matchId !== -1 && event.matchId !== '') ? '<span class="match-planner-warning" style="display: ' + event.displayFlag + '"><i class="fas fa-exclamation-triangle"></i></span>' : '')+
+					((event.matchId !== -1 && event.matchId !== '') ? '<span data-placement="top" data-toggle="popover" data-content="' + warningText + '" class="match-planner-warning text-tooltip" style="display: ' + displayFlag + '"><i class="fas fa-exclamation-triangle"></i></span>' : '')+
 					'<div class="fc-content">' +
 						(timeText ?
 							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +

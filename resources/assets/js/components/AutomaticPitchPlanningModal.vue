@@ -51,9 +51,9 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_team_interval }}</label>
+                    <label class="col-sm-12 col-form-label">Minimum team match interval</label>
                     <div class="col-sm-12">
-                      <input v-model="team_interval" name="team_interval" type="text" class="form-control" readonly="readonly">
+                      <input v-model="minimum_team_interval" name="minimum_team_interval" type="text" class="form-control" readonly="readonly">
                     </div>
                   </div>
                 </div>
@@ -61,7 +61,7 @@
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_normal_matches_duration }}</label>
                     <div class="col-sm-12">
-                      <input v-model="normal_match_duration" name="team_interval" type="text" class="form-control" readonly="readonly">
+                      <input v-model="normal_match_duration" name="normal_match_duration" type="text" class="form-control" readonly="readonly">
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_final_matches_duration }}</label>
                     <div class="col-sm-12">
-                      <input v-model="final_match_duration" name="team_interval" type="text" class="form-control" readonly="readonly">
+                      <input v-model="final_match_duration" name="final_match_duration" type="text" class="form-control" readonly="readonly">
                     </div>
                   </div>
                 </div>
@@ -156,7 +156,7 @@ import Tournament from '../api/tournament.js'
             isSelectedPitchInvalid: false,
             isDisabled: false,
             ageCategories: [],
-            team_interval: '',
+            minimum_team_interval: '',
             selectedGroup: '',
             selectedAgeCategory: '',
             final_match_duration: '',
@@ -201,7 +201,7 @@ import Tournament from '../api/tournament.js'
                   (response) => {
                     this.availablePitches = response.data.options.pitches;
                     this.groups = response.data.options.ageCategoryDetail.competition;
-                    this.team_interval = response.data.options.ageCategoryDetail.team_interval;
+                    this.minimum_team_interval = response.data.options.ageCategoryDetail.minimum_team_interval;
                     this.normal_match_duration = (response.data.options.ageCategoryDetail.game_duration_RR * response.data.options.ageCategoryDetail.halves_RR)
                     + response.data.options.ageCategoryDetail.halftime_break_RR + response.data.options.ageCategoryDetail.match_interval_RR;
                     this.final_match_duration = (response.data.options.ageCategoryDetail.game_duration_FM * response.data.options.ageCategoryDetail.halves_FM)
@@ -231,10 +231,11 @@ import Tournament from '../api/tournament.js'
                   let tournamentId = this.$store.state.Tournament.tournamentId;
 
                   _.forEach(this.allPitchesWithDays, function(pitchDetail) {
-                    _.forEach(pitchDetail.time, function(timeDetail, index) {
-                      let timeIndex = parseInt(index) + parseInt(1);
-                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + timeIndex).val();
-                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + timeIndex).val();
+                    // _.forEach(pitchDetail.time, function(timeDetail, index) {
+                    _.forEach(pitchDetail.days, function(dayDetail, index) {
+                      // let timeIndex = parseInt(index) + parseInt(1);
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + dayDetail.stage_no).val();
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + dayDetail.stage_no).val();
                     });
                   });
 
@@ -334,7 +335,7 @@ import Tournament from '../api/tournament.js'
               this.groups = [];
               this.availablePitches = [];
               this.selectedGroup = '';
-              this.team_interval = '';
+              this.minimum_team_interval = '';
               this.normal_match_duration = '';
               this.final_match_duration = '';
               this.allPitchesWithDays = {};
