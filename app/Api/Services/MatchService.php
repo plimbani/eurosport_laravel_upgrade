@@ -2533,20 +2533,20 @@ class MatchService implements MatchContract
       }
       $data['tournamentId'] = $ageCategory->tournament_id;
       $standingResData = [];
-      $competitionEndFlag = 0;
+      // $competitionEndFlag = 0;
 
       for($i=0; $i < count($competitionIds); $i++) {
         $competitionId = $competitionIds[$i];
         $standingResData[$groups[$i]] = [];
         if($this->checkForCompetitionEnd($competitionId)) {
-          $competitionEndFlag = 1;
+          // $competitionEndFlag = 1;
           $data['competitionId'] = $competitionId;
           $tournamentData['tournamentData'] = $data;
           $standingResData[$groups[$i]] = $this->getStanding(collect($tournamentData), 'yes')['data']->toArray();
         }
       }
 
-      if($competitionEndFlag == 1) {
+      // if($competitionEndFlag == 1) {
         foreach($positions as $position) {
           $ranking = $position->ranking;
           $group = substr($ranking, -1);
@@ -2555,9 +2555,12 @@ class MatchService implements MatchContract
           if(isset($standing['id']) && $standing['id']!=null) {
             $position->team_id = $standing['id'];
             $position->save();
+          } else {
+            $position->team_id = null;
+            $position->save();
           }
         }
-      }
+      // }
     }
 
     /**
