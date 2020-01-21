@@ -270,8 +270,7 @@ class AgeGroupRepository
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name', 
-                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
-                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
                   ->where('tournament_id', $tournamentData['tournament_id']);
                   if(isset($tournamentData['cat_id']))
                   {
@@ -289,8 +288,7 @@ class AgeGroupRepository
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
-                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'),
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
                   \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" THEN 
                     JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
                   ELSE tournament_template.name END) AS template_name'))
