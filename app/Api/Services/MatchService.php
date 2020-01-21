@@ -708,6 +708,71 @@ class MatchService implements MatchContract
          }
         }
         $this->processFixtures($processFixtures);
+      } else if($home_team_score === null || $away_team_score === null){
+        // Now fire a query which gives two record Winner and Looser
+        $results = DB::table('temp_fixtures')->where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
+        ->where(function($query) use ($val) {
+          $query->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "));
+        })->get();
+        $processFixtures = [];
+        // here we get two records 1 for Winner and other for looser
+        foreach($results as $record) {
+         $rec_mtchNumber = explode(".",$record->match_number);
+         $teams =  $rec_mtchNumber[2];
+         $teams = explode("-",$teams);
+         $homeTeam = $teams[0];$awayTeam = $teams[1];
+         // if its winner then
+         if(strpos($record->match_number,"WR") !== false)
+         {
+           // its Home team
+           if(trim("(".$val."_WR)") == trim($homeTeam)) {
+           // echo 'homeW';
+            TempFixture::where('id',$record->id)->update([
+              'home_team_name'=> $record->home_team_placeholder_name,
+              'home_team'=> 0,
+              'hometeam_score' => null,
+              'awayteam_score' => null
+            ]);
+            $processFixtures[] = $record->id;
+           }
+
+           if(trim("(".$val."_WR)") == trim($awayTeam)) {
+            TempFixture::where('id',$record->id)->update([
+              'away_team_name'=> $record->away_team_placeholder_name,
+              'away_team'=> 0,
+              'hometeam_score' => null,
+              'awayteam_score' => null
+            ]);
+            $processFixtures[] = $record->id;
+           }
+
+           // its away team
+         }
+         // if its looser then
+         if(strpos($record->match_number,"LR") !== false)
+         {
+          if(trim("(".$val."_LR)") == trim($homeTeam)) {
+            TempFixture::where('id',$record->id)->update([
+              'home_team_name'=> $record->home_team_placeholder_name,
+              'home_team'=> 0,
+              'hometeam_score' => null,
+              'awayteam_score' => null
+            ]);
+            $processFixtures[] = $record->id;
+           }
+
+           if(trim("(".$val."_LR)") == trim($awayTeam)) {
+            TempFixture::where('id',$record->id)->update([
+              'away_team_name'=> $record->away_team_placeholder_name,
+              'away_team'=> 0,
+              'hometeam_score' => null,
+              'awayteam_score' => null
+            ]);
+            $processFixtures[] = $record->id;
+           }
+         }
+        }
+        $this->processFixtures($processFixtures);
       }
 
       return ;
@@ -847,7 +912,7 @@ class MatchService implements MatchContract
 
           if($hometeamName === null && $homeTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
-            $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
+            $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId, 'hometeam_score' => null, 'awayteam_score' => null];
             $fixture->update($updateArray);
           } else {
             $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
@@ -885,7 +950,7 @@ class MatchService implements MatchContract
 
           if($awayteamName === null && $awayTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
-            $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
+            $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId, 'hometeam_score' => null, 'awayteam_score' => null];
             $fixture->update($updateArray);
           } else {
             $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
@@ -926,7 +991,7 @@ class MatchService implements MatchContract
 
           if($hometeamName === null && $homeTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
-            $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
+            $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId, 'hometeam_score' => null, 'awayteam_score' => null];
             $fixture->update($updateArray);
           } else {
             $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
@@ -964,7 +1029,7 @@ class MatchService implements MatchContract
 
           if($awayteamName === null && $awayTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
-            $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
+            $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId, 'hometeam_score' => null, 'awayteam_score' => null];
             $fixture->update($updateArray);
           } else {
             $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
@@ -1420,7 +1485,9 @@ class MatchService implements MatchContract
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update(
                       [
                         'home_team_name' => $match->HomeTeamPlaceHolderName,
-                        'home_team' => 0,
+                        'home_team' => 0, 
+                        'hometeam_score' => null,
+                        'awayteam_score' => null,
                       ]
                     );
                   }
@@ -1460,6 +1527,8 @@ class MatchService implements MatchContract
                       [
                         'away_team_name'=> $match->AwayTeamPlaceHolderName,
                         'away_team' => 0,
+                        'hometeam_score' => null,
+                        'awayteam_score' => null,
                       ]
                     );
                   }
@@ -2442,6 +2511,9 @@ class MatchService implements MatchContract
             $positions[$i]->team_id = $looser;
             $positions[$i]->save();
           }
+        } else {
+          $positions[$i]->team_id = null;
+          $positions[$i]->save();
         }
       }
     }
@@ -2461,20 +2533,20 @@ class MatchService implements MatchContract
       }
       $data['tournamentId'] = $ageCategory->tournament_id;
       $standingResData = [];
-      $competitionEndFlag = 0;
+      // $competitionEndFlag = 0;
 
       for($i=0; $i < count($competitionIds); $i++) {
         $competitionId = $competitionIds[$i];
         $standingResData[$groups[$i]] = [];
         if($this->checkForCompetitionEnd($competitionId)) {
-          $competitionEndFlag = 1;
+          // $competitionEndFlag = 1;
           $data['competitionId'] = $competitionId;
           $tournamentData['tournamentData'] = $data;
           $standingResData[$groups[$i]] = $this->getStanding(collect($tournamentData), 'yes')['data']->toArray();
         }
       }
 
-      if($competitionEndFlag == 1) {
+      // if($competitionEndFlag == 1) {
         foreach($positions as $position) {
           $ranking = $position->ranking;
           $group = substr($ranking, -1);
@@ -2483,9 +2555,12 @@ class MatchService implements MatchContract
           if(isset($standing['id']) && $standing['id']!=null) {
             $position->team_id = $standing['id'];
             $position->save();
+          } else {
+            $position->team_id = null;
+            $position->save();
           }
         }
-      }
+      // }
     }
 
     /**
