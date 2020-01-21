@@ -59,8 +59,6 @@
                         remarks: '',
                         template_font_color: '',
                         roundSchedules: [''],
-                        graphic_image: '',
-                        image:'',
                         minimum_match: '',
                     },
                     steptwo: {

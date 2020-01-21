@@ -4,7 +4,7 @@
             <div class="card-block">
                 <div class="row">
                     <div class="col-lg-12" v-if="showEditForm">
-                        <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex" :templateGraphicImage="templateGraphicImage"></step-one>
+                        <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-one>
 
                         <!-- Step 2 -->
                         <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>
@@ -33,7 +33,6 @@
 		    return {
                 currentStep: 1,
                 templateFormDetail: '',
-                templateGraphicImage: '',
                 editedTemplateId: '',
                 editTournamentDetail:'',
                 showEditForm:false,
@@ -66,7 +65,6 @@
                   (response)=> {
                     this.editTournamentDetail = response.data.data;
                     this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
-                    this.templateGraphicImage = this.editTournamentDetail.graphic_image;
                     this.showEditForm = true;
                     if(response.data.isTemplateInUse === true) {
                         this.templateFormDetail.stepone.templateName = '';
