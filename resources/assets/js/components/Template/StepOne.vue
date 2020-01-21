@@ -77,22 +77,6 @@
                             <!-- <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>+ Add round</u></a> -->
                         </div>
 
-                        <div class="form-group" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
-                            <label for="remarks">Graphic image</label>
-                            <div v-if="!image">
-                                <img src="/assets/img/noimage.png" class="thumb-size" />
-                                <button type="button" class="btn btn-default ml-4" name="btnSelect" id="btnSelect" @click="openFileInput">  {{$lang.tournament_tournament_choose_button}}
-                                </button>
-                                <input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange">
-                                <!-- <i v-show="errors.has('graphic_image')" class="fa fa-warning"></i> -->
-                                <!-- <div><span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span></div> -->
-                            </div>                          
-                            <div v-else>
-                                <img :src="image" class="thumb-size" />
-                                <button class="btn btn-danger ml-4" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>                             
-                            </div>
-                        </div>
-
                         <div class="form-group row">
                             <label class="col-12 form-control-label">Template key* <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span></label>
                             
@@ -117,17 +101,15 @@
 <script type="text/javascript">
     import { ErrorBag } from 'vee-validate';
 	export default {
-        props: ['templateFormDetail', 'templateGraphicImage'],
+        props: ['templateFormDetail'],
 		data() {
 		    return {
-                image:'',
                 templateFontColors: [
                     'rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'
                 ],
 		    }
 		},
         created() {
-            this.image = this.templateGraphicImage !== undefined ? this.templateGraphicImage : null;
         },
         components: {
         },
@@ -158,7 +140,6 @@
         },
 		methods: {
             next() {
-                this.templateFormDetail.stepone.graphic_image = this.image;
                 this.$validator.validateAll().then((response) => {
                     if(response) {
             	       this.$emit('change-tab-index', 1, 2, 'stepone', _.cloneDeep(this.templateFormDetail.stepone));
@@ -172,31 +153,6 @@
             },
             removeRoundSchedule(index) {
                 this.templateFormDetail.stepone.roundSchedules.splice(index, 1);
-            },
-            openFileInput() {
-                $('#graphic_image').trigger('click');
-            },
-            onFileChange(e) {
-                var files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                return;
-                if(Plugin.ValidateImageSize(files) == true) {
-                  this.createImage(files[0]);
-                }
-            },
-            createImage(file) {
-                var image = new Image();
-                var reader = new FileReader();
-                var vm = this;
-                reader.onload = (e) => {
-                    vm.image = e.target.result;
-                };
-
-                reader.readAsDataURL(file);
-            },
-            removeImage(e) {
-                this.image = '';
-                e.preventDefault();
             },
             setTemplateFontColor(color) {
                 this.templateFormDetail.stepone.template_font_color = color;

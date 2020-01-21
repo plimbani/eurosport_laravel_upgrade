@@ -706,7 +706,7 @@ export default {
     teamsToDisplay() {
       var totalTeams = [];
       if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
-          for (var n = 4; n <= 28; n++) {
+          for (var n = 4; n <= 40; n++) {
               totalTeams.push(n);
           }
       }
