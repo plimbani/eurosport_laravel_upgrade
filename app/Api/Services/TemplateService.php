@@ -62,7 +62,6 @@ class TemplateService implements TemplateContract
      * @return response
      */
     public function saveTemplateDetail($data) {
-        $data['templateFormDetail']['stepone']['graphic_image'] = $this->saveTemplateGraphicImage($data);
         $data = $this->templateRepoObj->saveTemplateDetail($data);
         return ['data' => $data, 'status_code' => '200'];
     }
@@ -101,7 +100,6 @@ class TemplateService implements TemplateContract
      * @return response
      */
     public function updateTemplateDetail($data) {
-        $data['templateFormDetail']['stepone']['graphic_image'] = $this->saveTemplateGraphicImage($data, $data['editedTemplateId']);
         $data = $this->templateRepoObj->updateTemplateDetail($data);
         return ['data' => $data, 'status_code' => '200'];
     }
