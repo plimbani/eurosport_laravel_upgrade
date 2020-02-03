@@ -7,7 +7,7 @@ import Ls from '../services/ls'
 
 var instance = axios.create({
   baseURL: '/api/',
-  timeout: 50000
+  timeout: 300000
 })
 
 
