@@ -1376,9 +1376,7 @@ class MatchService implements MatchContract
         $matches = $reportQuery;
 
         $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageCategoryId);
-        if($tournamentCompetationTemplate->competition_type === 'knockout') {
-          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id);
-        }
+        $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id);
 
         // print_r($matches);exit;
         //print_r($matches);exit;
@@ -1394,7 +1392,7 @@ class MatchService implements MatchContract
             if($homeTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 $isRankingPosition = false;
-                if($tournamentCompetationTemplate->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
+                if($firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
                   if(strpos($homeTeam, '#') > 0) {
                     $this->updateRankingPositionInMatchForKnockout($homeTeam, $firstRoundPositionWiseStandings, $match, 'home');
                     $processFixtures[] = $match->matchID;
@@ -1437,7 +1435,7 @@ class MatchService implements MatchContract
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 $isRankingPosition = false;
-                if($tournamentCompetationTemplate->competition_type === 'knockout' && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
+                if($firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
                   if(strpos($awayTeam, '#') > 0) {
                     $this->updateRankingPositionInMatchForKnockout($awayTeam, $firstRoundPositionWiseStandings, $match, 'away');
                     $processFixtures[] = $match->matchID;

@@ -71,11 +71,11 @@
                                  @click="openTemplateInfoModal(template)">
                                   <i class="fa fa-info-circle"></i>
                                 </a>
-                                <a class="text-primary" href="javascript:void(0)"
+                                <a :class="{'text-primary': true, 'is-disabled': template.template_form_detail === ''}" href="javascript:void(0)"
                                  @click="checkForEditTemplate(template)">
                                   <i class="jv-icon jv-edit"></i>
                                 </a>
-                                <a href="javascript:void(0)"
+                                <a :class="{'is-disabled': template.template_form_detail === ''}" href="javascript:void(0)"
                                   @click="deleteTemplate(template)">
                                   <i class="fas fa-trash text-danger"></i>
                                 </a>
