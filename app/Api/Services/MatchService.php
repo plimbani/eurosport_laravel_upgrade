@@ -1376,7 +1376,10 @@ class MatchService implements MatchContract
         $matches = $reportQuery;
 
         $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageCategoryId);
-        $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id);
+        $isBestRankingExist = $this->checkBestRankingExistInSecondRound($ageGroupId, $temptournamentId);
+        if($isBestRankingExist) {
+          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id);
+        }
 
         // print_r($matches);exit;
         //print_r($matches);exit;
@@ -1392,7 +1395,7 @@ class MatchService implements MatchContract
             if($homeTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 $isRankingPosition = false;
-                if($firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
+                if($isBestRankingExist && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
                   if(strpos($homeTeam, '#') > 0) {
                     $this->updateRankingPositionInMatchForKnockout($homeTeam, $firstRoundPositionWiseStandings, $match, 'home');
                     $processFixtures[] = $match->matchID;
@@ -1435,7 +1438,7 @@ class MatchService implements MatchContract
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 $isRankingPosition = false;
-                if($firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
+                if($isBestRankingExist && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
                   if(strpos($awayTeam, '#') > 0) {
                     $this->updateRankingPositionInMatchForKnockout($awayTeam, $firstRoundPositionWiseStandings, $match, 'away');
                     $processFixtures[] = $match->matchID;
@@ -2737,5 +2740,45 @@ class MatchService implements MatchContract
       }
       
       DB::table('temp_fixtures')->where('id', $match->matchID)->update($updateArray);
+    }
+
+    public function checkBestRankingExistInSecondRound($ageGroupId, $temptournamentId)
+    {
+      $isBestRankingExist = false;
+      $matches = DB::table('temp_fixtures')
+        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
+          'temp_fixtures.home_team_placeholder_name as HomeTeamPlaceHolderName','temp_fixtures.away_team_placeholder_name as AwayTeamPlaceHolderName',
+          'temp_fixtures.away_team as AwayTeamId', 'competitions.competation_round_no as competition_round')
+        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
+        ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+        ->leftJoin('tournament_template','tournament_template.id','=','tournament_competation_template.tournament_template_id')
+        ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
+        ->where('temp_fixtures.tournament_id','=',$temptournamentId)
+        ->where('competitions.competation_round_no','=','Round 2')
+        ->get();
+
+      if(count($matches) > 0) {
+        foreach($matches as $key=>$match) {
+          $exmatchNumber = explode('.',$match->MatchNumber);
+          $value = explode('-',$exmatchNumber[2]);
+
+          $homeTeam = $value[0];
+          if($homeTeam) {
+            if(strpos($homeTeam, '#') > 0) {
+              $isBestRankingExist = true;
+              break;
+            }
+          }
+          $awayTeam = $value[1];
+          if($awayTeam) {
+            if(strpos($awayTeam, '#') > 0) {
+              $isBestRankingExist = true;
+              break;
+            }
+          }
+        }
+      }
+
+      return $isBestRankingExist;
     }
 }
