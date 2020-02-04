@@ -1011,7 +1011,7 @@ class MatchService implements MatchContract
       }
     }
 
-    public function calculateCupLeagueTable($fixture) {
+    public function calculateCupLeagueTable($fixture, $isGenerateStandingRequired = true) {
         $ageCategoryId = 0;
         $competitionId = 0;
         $fix1=array();
@@ -1042,7 +1042,7 @@ class MatchService implements MatchContract
           $competitionId = $this->calculateEliminationTeams($fixture);
 
           // changes for #247
-          if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
+          if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin' && $isGenerateStandingRequired) {
               $this->generateStandingsForCompetitions($fix1['CupFixture']['tournamentId'], $cup_competition_id, $ageCategoryId, $findTeams,'Elimination');
           }
           $this->updateCategoryPositions($competitionId, $ageCategoryId);
@@ -1053,7 +1053,9 @@ class MatchService implements MatchContract
 
         $this->moveMatchStandings($fix1['CupFixture']['tournamentId'], $fix1['CupFixture']['age_group_id'], $cup_competition_id);
 
-        $this->generateStandingsForCompetitions($fix1['CupFixture']['tournamentId'], $cup_competition_id, $ageCategoryId, $findTeams, 'Round Robin');
+        if($isGenerateStandingRequired) {
+          $this->generateStandingsForCompetitions($fix1['CupFixture']['tournamentId'], $cup_competition_id, $ageCategoryId, $findTeams, 'Round Robin');
+        }
 
         $this->updateCategoryPositions($competitionId, $ageCategoryId);
 
@@ -1393,16 +1395,15 @@ class MatchService implements MatchContract
             $homeTeam = $value[0];
             //$homeTeam = $match->HomeTeam;
             if($homeTeam) {
-              foreach($calculatedArray[$cupId] as $dd1) {
-                $isRankingPosition = false;
-                if($isBestRankingExist && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
-                  if(strpos($homeTeam, '#') > 0) {
-                    $this->updateRankingPositionInMatchForKnockout($homeTeam, $firstRoundPositionWiseStandings, $match, 'home');
-                    $processFixtures[] = $match->matchID;
-                    $isRankingPosition = true;
-                  }
+              $isRankingPosition = false;
+              if($isBestRankingExist && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
+                if(strpos($homeTeam, '#') > 0) {
+                  $this->updateRankingPositionInMatchForKnockout($homeTeam, $firstRoundPositionWiseStandings, $match, 'home');
+                  $processFixtures[] = $match->matchID;
+                  $isRankingPosition = true;
                 }
-
+              }
+              foreach($calculatedArray[$cupId] as $dd1) {
                 if(!$isRankingPosition && $homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
                   $processFixtures[] = $match->matchID;
                   //echo $matchId = $match->matchID;
@@ -1436,16 +1437,15 @@ class MatchService implements MatchContract
             $awayTeam = $value[1];
             //$awayTeam = $match->AwayTeam;
             if($awayTeam) {
-              foreach($calculatedArray[$cupId] as $dd1) {
-                $isRankingPosition = false;
-                if($isBestRankingExist && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
-                  if(strpos($awayTeam, '#') > 0) {
-                    $this->updateRankingPositionInMatchForKnockout($awayTeam, $firstRoundPositionWiseStandings, $match, 'away');
-                    $processFixtures[] = $match->matchID;
-                    $isRankingPosition = true;
-                  }
+              $isRankingPosition = false;
+              if($isBestRankingExist && $firstRoundPositionWiseStandings['areAllCompetitionEnded'] === true && $match->competition_round === 'Round 2') {
+                if(strpos($awayTeam, '#') > 0) {
+                  $this->updateRankingPositionInMatchForKnockout($awayTeam, $firstRoundPositionWiseStandings, $match, 'away');
+                  $processFixtures[] = $match->matchID;
+                  $isRankingPosition = true;
                 }
-
+              }
+              foreach($calculatedArray[$cupId] as $dd1) {
                 if(!$isRankingPosition && $awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
                   $processFixtures[] = $match->matchID;
 
@@ -2561,9 +2561,11 @@ class MatchService implements MatchContract
     public function processFixtures($fixtures)
     {
       $fixtures = array_unique($fixtures);
-      $allFixtures = DB::table('temp_fixtures')->whereIn('id', $fixtures)->get();
-      foreach($allFixtures as $fixture) {
-        $this->calculateCupLeagueTable($fixture);
+      if(count($fixtures) > 0) {
+        $allFixtures = DB::table('temp_fixtures')->whereIn('id', $fixtures)->get();
+        foreach($allFixtures as $fixture) {
+          $this->calculateCupLeagueTable($fixture, false);
+        }
       }
     }
 
