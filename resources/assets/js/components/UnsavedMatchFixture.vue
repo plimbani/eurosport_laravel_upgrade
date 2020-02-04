@@ -10,12 +10,11 @@
 	             </button>
 	          </div>
 	          <div class="modal-body">
-                <p v-if="isAnotherMatchScheduled">The following matche(s) are not scheduled as other matche(s) has already been scheduled.</p>
-                <p class="font-weight-bold" v-else>The following fixtures are not up to date:</p>
+                <p>Due to a potential match scheduling conflict please save your changes and re-load the Match Planner page.</p>
+                <!-- <p class="font-weight-bold" v-else>The following fixtures are not up to date:</p>
             	<ul class="list-unstyled" v-for="match in unChangedMatchFixtures">
             		<li>{{ match }}</li>
-            	</ul>
-            	<strong>{{ $lang.note }}</strong> The latest scores will synchronise and display.
+            	</ul> -->
 	          </div>
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-danger"  @click="closeModal()">close</button>
