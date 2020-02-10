@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,43 +18,67 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="long text text long long long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npq-wa-rdP">
-                        <rect key="frame" x="15" y="12" width="175" height="20"/>
+                        <rect key="frame" x="15" y="12" width="150" height="20"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ffW-jb-5cL">
-                        <rect key="frame" x="190" y="8.5" width="95" height="27"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="95" id="zZg-79-Z34"/>
-                        </constraints>
-                        <inset key="titleEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal">
-                            <attributedString key="attributedTitle">
-                                <fragment content="View schedule">
-                                    <attributes>
-                                        <font key="NSFont" size="13" name="HelveticaNeue"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
-                        </state>
-                        <connections>
-                            <action selector="btnViewSchedulePressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eQw-9V-J5K"/>
-                        </connections>
-                    </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right_green_agecat" translatesAutoresizingMaskIntoConstraints="NO" id="ada-F2-R5i">
-                        <rect key="frame" x="290" y="13" width="12" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="18" id="Iud-Lc-h0U"/>
-                            <constraint firstAttribute="width" constant="12" id="xs5-VK-hUc"/>
-                        </constraints>
-                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oYA-AH-iZe">
+                        <rect key="frame" x="170" y="0.0" width="150" height="44"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCa-l0-fxO">
+                                <rect key="frame" x="0.0" y="0.0" width="115" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ffW-jb-5cL">
+                                        <rect key="frame" x="0.0" y="7.5" width="115" height="29.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="115" id="9cB-CO-C8D"/>
+                                        </constraints>
+                                        <inset key="titleEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="View schedule">
+                                                    <attributes>
+                                                        <font key="NSFont" size="15" name="HelveticaNeue"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="ffW-jb-5cL" firstAttribute="centerX" secondItem="tCa-l0-fxO" secondAttribute="centerX" id="8f6-Tm-74J"/>
+                                    <constraint firstAttribute="width" constant="115" id="CMX-Im-SJB"/>
+                                    <constraint firstItem="ffW-jb-5cL" firstAttribute="centerY" secondItem="tCa-l0-fxO" secondAttribute="centerY" id="T1G-28-1KW"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3GI-xG-pZn">
+                                <rect key="frame" x="115" y="0.0" width="35" height="44"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right_green_agecat" translatesAutoresizingMaskIntoConstraints="NO" id="ada-F2-R5i">
+                                        <rect key="frame" x="11.5" y="13" width="12" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="18" id="Iud-Lc-h0U"/>
+                                            <constraint firstAttribute="width" constant="12" id="xs5-VK-hUc"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="ada-F2-R5i" firstAttribute="centerX" secondItem="3GI-xG-pZn" secondAttribute="centerX" id="cxz-4a-G1N"/>
+                                    <constraint firstAttribute="width" constant="35" id="ez2-ou-WQb"/>
+                                    <constraint firstItem="ada-F2-R5i" firstAttribute="centerY" secondItem="3GI-xG-pZn" secondAttribute="centerY" id="rou-LJ-b12"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                    </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GG-Qy-n4H">
-                        <rect key="frame" x="0.0" y="42.5" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
                         <color key="backgroundColor" red="0.87450980392156863" green="0.8784313725490196" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="hre-g3-NOq"/>
@@ -64,16 +86,15 @@
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="oYA-AH-iZe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EV4-ou-RLv"/>
                     <constraint firstItem="Npq-wa-rdP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Qqi-rp-iYE"/>
-                    <constraint firstItem="ada-F2-R5i" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="YT6-t9-CLd"/>
-                    <constraint firstItem="ffW-jb-5cL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Yk5-KW-X2d"/>
-                    <constraint firstAttribute="trailing" secondItem="ada-F2-R5i" secondAttribute="trailing" constant="18" id="ZQV-qU-s2R"/>
-                    <constraint firstAttribute="trailing" secondItem="ffW-jb-5cL" secondAttribute="trailing" constant="35" id="jqv-gR-dFY"/>
+                    <constraint firstAttribute="trailing" secondItem="oYA-AH-iZe" secondAttribute="trailing" id="RAv-fA-flg"/>
+                    <constraint firstAttribute="bottom" secondItem="oYA-AH-iZe" secondAttribute="bottom" id="ZXI-BL-exl"/>
                     <constraint firstAttribute="bottom" secondItem="7GG-Qy-n4H" secondAttribute="bottom" id="lp9-up-HdD"/>
+                    <constraint firstItem="oYA-AH-iZe" firstAttribute="leading" secondItem="Npq-wa-rdP" secondAttribute="trailing" constant="5" id="pKY-dz-zLP"/>
                     <constraint firstItem="Npq-wa-rdP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="w2l-ch-0j9"/>
                     <constraint firstItem="7GG-Qy-n4H" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="wsV-tK-Rs4"/>
                     <constraint firstAttribute="trailing" secondItem="7GG-Qy-n4H" secondAttribute="trailing" id="zNJ-pb-U9D"/>
-                    <constraint firstItem="ffW-jb-5cL" firstAttribute="leading" secondItem="Npq-wa-rdP" secondAttribute="trailing" id="zlQ-VA-cAt"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -81,8 +102,10 @@
                 <outlet property="btnViewSchedule" destination="ffW-jb-5cL" id="STB-uW-zO3"/>
                 <outlet property="lblTitle" destination="Npq-wa-rdP" id="0sm-8d-7eH"/>
                 <outlet property="leadingConstraintLblTitle" destination="Qqi-rp-iYE" id="BmV-cB-8tS"/>
-                <outlet property="widthConstraintBtnViewSchedule" destination="zZg-79-Z34" id="fWS-uj-jyC"/>
+                <outlet property="rightArrowView" destination="3GI-xG-pZn" id="LRW-c2-FgU"/>
+                <outlet property="viewScheduleView" destination="tCa-l0-fxO" id="qDB-5Q-rRj"/>
             </connections>
+            <point key="canvasLocation" x="139" y="154"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -20,7 +20,7 @@ class TitleNavigationBar: UIView {
     @IBOutlet var containerView: UIView!
     @IBOutlet var btnFinalPlacings: UIButton!
     var delegate: TitleNavigationBarDelegate?
-
+    
     @IBOutlet var widthConstraintBackBtn: NSLayoutConstraint!
     @IBOutlet var widthConstraintBtnFinalPlacings: NSLayoutConstraint!
     
@@ -31,11 +31,7 @@ class TitleNavigationBar: UIView {
     
     var isFinalPlacings: Bool = false {
         didSet {
-            if isFinalPlacings {
-                widthConstraintBtnFinalPlacings.constant = 155
-            } else {
-                widthConstraintBtnFinalPlacings.constant = 0
-            }
+            btnFinalPlacings.isHidden = !isFinalPlacings
         }
     }
     
