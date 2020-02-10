@@ -30,6 +30,10 @@ class MainTabViewController: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateFCMTokenAPI()
+        self.view.backgroundColor = .AppColor()
+        
         if let userData = ApplicationData.sharedInstance().getUserData() {
             if userData.enableLogs {
                 TestFairy.begin("SDK-7273syUD")
@@ -383,6 +387,30 @@ extension MainTabViewController: CustomAlertTwoBtnVCDelegate {
                 } else {
                     UIApplication.shared.openURL(url)
                 }
+            }
+        }
+    }
+}
+
+extension MainTabViewController {
+    func updateFCMTokenAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+            print("FCM token\n")
+            print("\(fcmToken)")
+            print("\n")
+            var parameters: [String: Any] = [:]
+            
+            if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+                parameters["email"] = email
+                parameters["fcm_id"] = fcmToken
+                
+                ApiManager().updateFCMTokem(parameters, success: { result in
+                    print("FCM token has updated")
+                }, failure: { result in })
             }
         }
     }
