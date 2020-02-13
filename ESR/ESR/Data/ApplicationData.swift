@@ -28,6 +28,8 @@ class ApplicationData: NSObject {
     static var facebookDetailsPending = false
     
     static let dicKeyDivision = "isDivision"
+    static let dicKeyDivisionRow = "isDivisionRow"
+    static let dicKeyDivisionName = "dicKeyDivisionName"
     
     // For maintaining targets
     enum CurrentTargetList: String {

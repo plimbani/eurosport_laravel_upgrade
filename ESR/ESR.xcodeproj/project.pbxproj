@@ -256,6 +256,10 @@
 		30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */; };
 		30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
 		30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
+		9EB2F68623F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
+		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
+		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
+		9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
 		CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FCA7DD1CC88FD70BE4C440 /* Pods_ESR_comm.framework */; };
 		CCC5178940D0583B3A0A8348 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E3585225E1C4B006C3E71 /* Pods_ESR.framework */; };
 /* End PBXBuildFile section */
@@ -464,6 +468,8 @@
 		63A4807390D4C10A2CAE9B6B /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		9D33C6FF4AAA827E10AB8D2D /* Pods-ESR comm.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( production ).xcconfig"; sourceTree = "<group>"; };
+		9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeaderView.swift; sourceTree = "<group>"; };
+		9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchHeaderView.xib; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
 		CDE0B0C86FE94FBB25928DD9 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		E69247791F7C18957BDE38F6 /* Pods-ESR comm.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -683,6 +689,8 @@
 				306B80F32316826E005634C2 /* AgeCategoryDivisionCell.xib */,
 				30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */,
 				30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */,
+				9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */,
+				9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -970,6 +978,7 @@
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
+				9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				3018B35622423C4A00EC76F4 /* easymm.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
@@ -1032,6 +1041,7 @@
 				30F180CC2272F76600301C6F /* LaunchScreen.storyboard in Resources */,
 				30F180CD2272F76600301C6F /* TabAgeCategoriesCell.xib in Resources */,
 				30F180CE2272F76600301C6F /* GroupSummaryMatchesHeader.xib in Resources */,
+				9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */,
 				30F180D02272F76600301C6F /* Tournament.storyboard in Resources */,
 			);
@@ -1224,6 +1234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */,
+				9EB2F68623F2B66C004E0AAA /* MatchHeaderView.swift in Sources */,
 				30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
@@ -1362,6 +1373,7 @@
 				30F1808F2272F76600301C6F /* LandingVC.swift in Sources */,
 				30F180902272F76600301C6F /* FollowTournamentCell.swift in Sources */,
 				30F180912272F76600301C6F /* ButtonCell.swift in Sources */,
+				9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */,
 				30F180922272F76600301C6F /* TabTournamentVC.swift in Sources */,
 				30F180932272F76600301C6F /* UIViewExtentions.swift in Sources */,
 				30F180942272F76600301C6F /* TeamListingVC.swift in Sources */,
