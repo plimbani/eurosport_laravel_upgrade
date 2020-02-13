@@ -28,6 +28,8 @@ class ApplicationData: NSObject {
     static var facebookDetailsPending = false
     
     static let dicKeyDivision = "isDivision"
+    static let dicKeyDivisionRow = "isDivisionRow"
+    static let dicKeyDivisionName = "dicKeyDivisionName"
     
     static var temLoginFlag = false
     

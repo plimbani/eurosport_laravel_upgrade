@@ -12,6 +12,7 @@ class TeamFixture {
     var matchNumber: String = NULL_STRING
     var displayMatchNumber: String = NULL_STRING
     var competitionActualName: String = NULL_STRING
+    var competationRoundNo: String = NULL_STRING
     var round: String = NULL_STRING
     var pitchType: String = NULL_STRING
     var actualRound: String = NULL_STRING
@@ -59,4 +60,6 @@ class TeamFixture {
     var awayTeamShirtColor: String = NULL_STRING
     var homeTeamShortsColor: String = NULL_STRING
     var awayTeamShortsColor: String = NULL_STRING
+    var divisionName: String = NULL_STRING
+    var isKnockoutPlacingMatches: Bool = false
 }
