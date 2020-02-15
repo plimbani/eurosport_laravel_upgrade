@@ -53,7 +53,8 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        ini_set('memory_limit','512M');
+        set_time_limit(0);
+        ini_set('memory_limit', '512M');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $currentLayout = config('config-variables.current_layout');
 
@@ -64,12 +65,15 @@ class UserRepository {
         }
 
         $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
-        
+
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->leftjoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
+        if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
+          $user = $user->with('defaultFavouriteTournament.tournament');
+        }
 
         if($loggedInUser->hasRole('tournament.administrator')) { 
           $tournamentUserIds = TournamentUser::leftjoin('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
@@ -114,11 +118,11 @@ class UserRepository {
 
         if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
             foreach ($userData as $user) {
-
                 $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
                 $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
                 $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
                 $userListLanguages = $user->locale != '' ? $languages[$user->locale] : '';
+                $defaultTournament = ($user->defaultFavouriteTournament && $user->defaultFavouriteTournament->count() > 0 && $user->defaultFavouriteTournament[0]['tournament']) ? $user->defaultFavouriteTournament[0]['tournament']->name : '';
                 
                 $ddata = [
                         $user->first_name,
@@ -134,6 +138,7 @@ class UserRepository {
                         $user->app_version,
                         $isDesktopUser,
                         $isMobileUser,
+                        $defaultTournament,
                     ];
 
                 array_push($dataArray, $ddata);
@@ -146,7 +151,7 @@ class UserRepository {
             ];
 
             $lableArray = [
-                'Name', 'Surname' ,'Email address', 'Source', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile'
+                'Name', 'Surname' ,'Email address', 'Source', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile', 'Default app tournament'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');

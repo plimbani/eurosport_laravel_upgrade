@@ -54,6 +54,7 @@ class VerifyWebsite
      */
     public function handle($request, Closure $next)
     {
+        $previewUrl = config('config-variables.website_preview_url');
         $domain = $request->route('domain');
         $website = Website::where('domain_name', $domain)->orWhere('preview_domain', $domain)->first();
         View::share('websiteDetail', $website);
@@ -61,8 +62,8 @@ class VerifyWebsite
         if(!$website) {
             return Redirect::away(config('app.url'), 302);
         }
-
-        if($website->is_website_offline == 1) {
+        
+        if($website->is_website_offline == 1 && strpos($domain, str_replace("{id}.", "", $previewUrl)) === false) {
           return Redirect::away($website->offline_redirect_url, 302);
         }
 

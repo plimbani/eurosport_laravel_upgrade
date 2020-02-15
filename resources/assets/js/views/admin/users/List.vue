@@ -408,10 +408,11 @@
                 userSlugType = 'userType='+this.userTypeSearch;
 
                 userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
-
+                $("body .js-loader").removeClass('d-none');
                 User.getSignedUrlForUsersTableData(userData).then(
                   (response) => {
                     window.location.href = response.data;
+                    $("body .js-loader").addClass('d-none');
                    },
                   (error) => {
                   }

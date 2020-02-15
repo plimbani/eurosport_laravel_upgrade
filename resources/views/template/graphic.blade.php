@@ -15,8 +15,8 @@
                 @foreach($group['groups']['match'] as $matchIndex=>$match)
                   <div class="row-round">
                     <div class="bordered-box" style="background-color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['background'] : '' }}; color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['text'] : '' }}">
-                      <div><span class="font-weight-bold small">Match {{ getMatchNumber($match['display_match_number']) }}</span></div>
                       @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
+                      <div><span class="font-weight-bold small">Match {{ getMatchNumber($match['display_match_number']) . ($matchDetail && $matchDetail['is_scheduled'] === 1 ? " (" . date("d/m/Y", strtotime($matchDetail['match_datetime'])) . ")" : "") }}</span></div>
                       @if($matchDetail && $matchDetail['is_scheduled'] === 1)
                         <div><span class="small">{{ $matchDetail['venue_name'] }}</span></div>
                         <div><span class="small">{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}</span></div>
@@ -114,9 +114,9 @@
               @foreach($group['groups']['match'] as $matchIndex=>$match)
                 <div class="row-round">
                   <div class="bordered-box" style="background-color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['background'] : '' }}; color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['text'] : '' }}">
-                    <div><span class="font-weight-bold small">Match {{ getMatchNumber($match['display_match_number']) }}</span>
-                    </div>
                     @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
+                    <div><span class="font-weight-bold small">Match {{ getMatchNumber($match['display_match_number']) . ($matchDetail && $matchDetail['is_scheduled'] === 1 ? " (" . date("d/m/Y", strtotime($matchDetail['match_datetime'])) . ")" : "") }}</span>
+                    </div>
                     @if($matchDetail && $matchDetail['is_scheduled'] === 1)
                       <div><span class="small">{{ $matchDetail['venue_name'] }}</span></div>
                       <div><span class="small">{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}</span></div>
