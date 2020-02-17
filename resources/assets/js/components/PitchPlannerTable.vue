@@ -600,7 +600,7 @@
                             });
                             $("body .js-loader").addClass('d-none');
                             vm.$emit('changeMatchScheduleStatus', false);
-                            vm.enableScheduleFeatureAsDefault = false;
+                            vm.enableScheduleFeatureAsDefault = true;
                         }
                     },  
                     (error) => {
@@ -643,7 +643,7 @@
 
                 $("body .js-loader").addClass('d-none');
                 vm.$emit('changeMatchScheduleStatus', false);
-                vm.enableScheduleFeatureAsDefault = false;
+                vm.enableScheduleFeatureAsDefault = true;
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
