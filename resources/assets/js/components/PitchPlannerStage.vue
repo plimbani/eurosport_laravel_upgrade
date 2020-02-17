@@ -194,7 +194,6 @@ import _ from 'lodash'
                     selectable: true,
                     durationEditable : true,
                     header: false,
-                    dragScroll: false,
                     header: {
                         left: '',
                         right: 'timelineDay,agendaDay'
@@ -397,7 +396,6 @@ import _ from 'lodash'
                         // if(totalPitches > 8) {
                         //     $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
                         // }
-                        console.log("check here");
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -1032,7 +1030,6 @@ import _ from 'lodash'
     }
 
     function arrangeLeftColumn() {
-        console.log('arrangeLeftColumn');
         var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');        
         var index = 1;
         var plannerwidth = $('.pitch_planner_section').width()/8;
@@ -1063,7 +1060,6 @@ import _ from 'lodash'
                 var topHorizontalScroll = document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll div');
                 topHorizontalScroll.style.width = (width-40)+'px';
                 scrollableBody.addEventListener('scroll', () => {
-                    console.log("scrollableBody.scrollLeft", scrollableBody.scrollLeft);
                     scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
                     scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
                     let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
