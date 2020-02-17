@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
                 return Redirect::away(config('app.url'), 302);
             }
 
-            if($website->is_website_offline == 1 && strpos($request->server('SERVER_NAME'), str_replace("{id}.", "", $previewUrl)) === false) {
+            if($website->is_website_offline == 1 && strpos($request->server('SERVER_NAME'), str_replace("{id}-", "", $previewUrl)) === false) {
               return Redirect::away($website->offline_redirect_url, 302);
             }
         }
