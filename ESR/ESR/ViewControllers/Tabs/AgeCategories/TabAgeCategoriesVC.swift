@@ -209,6 +209,7 @@ extension TabAgeCategoriesVC: UITableViewDataSource, UITableViewDelegate {
         cell?.record = ageCategoriesList[indexPath.row] as! NSDictionary
         cell?.indexPath = indexPath
         cell?.delegate = self
+        cell?.showViewSchedule = true
         cell?.reloadCell()
         return cell!
     }

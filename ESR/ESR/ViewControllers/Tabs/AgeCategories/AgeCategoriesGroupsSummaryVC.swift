@@ -302,6 +302,10 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                     
                     if let divisionName = self.dicGroup.value(forKey: "divisionName") as? String {
                         headerView.lblTitle.text = divisionName + " - " + teamFixuteuresDivisionsList[section]
+                        
+                        if let competation_round_no = self.dicGroup.value(forKey: "competation_round_no") as? String {
+                            headerView.lblTitle.text = divisionName + " - " + teamFixuteuresDivisionsList[section] + " (\(competation_round_no))"
+                        }
                     }
                     
                     if isElimination {

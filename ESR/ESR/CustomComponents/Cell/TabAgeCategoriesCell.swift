@@ -26,6 +26,8 @@ class TabAgeCategoriesCell: UITableViewCell {
     var record: NSDictionary!
     var indexPath: IndexPath!
     
+    var showViewSchedule = false
+    
     let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
         NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
         NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
@@ -33,8 +35,11 @@ class TabAgeCategoriesCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        viewScheduleView.isHidden = true
+        viewScheduleView.isHidden = showViewSchedule
         infoView.isHidden = true
+        
+        btnInfo.isUserInteractionEnabled = false
+        btnViewSchedule.isUserInteractionEnabled = false
         
         lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
         lblTitle.textColor = UIColor.txtDefaultTxt
@@ -83,10 +88,12 @@ class TabAgeCategoriesCell: UITableViewCell {
             }
         }
         
-        if let _ = record.value(forKey: "graphic_image") as? String {
-           showViewScheduleButton()
-        } else {
-            showViewScheduleButton(hide: true)
+        if !showViewSchedule {
+            if let _ = record.value(forKey: "graphic_image") as? String {
+               showViewScheduleButton()
+            } else {
+                showViewScheduleButton(hide: true)
+            }
         }
         
         lblTitle.text = ageCategory
