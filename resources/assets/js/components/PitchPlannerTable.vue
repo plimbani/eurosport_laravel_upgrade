@@ -662,7 +662,7 @@
                                 scheduleBlock = true
                             }
                         } else if(filterKey == 'location'){
-                            if( filterValue != '' && filterValue.id != event.resourceId){
+                            if( filterValue != '' && filterValue.id != event.matchVenueId){
                                 scheduleBlock = true;
                             }
                         }
