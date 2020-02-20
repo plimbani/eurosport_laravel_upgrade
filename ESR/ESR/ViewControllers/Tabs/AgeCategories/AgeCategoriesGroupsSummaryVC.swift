@@ -86,6 +86,8 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         table.scrollIndicatorInsets = adjustForTabbarInsets
         table.register(UINib(nibName: "MatchHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "MatchHeaderView")
         
+        // table.contentInset = UIEdgeInsets.init(top: -30, left: 0, bottom: 0, right: 0)
+        
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups_summary")
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
@@ -273,7 +275,7 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                     return 40
                 }
                 
-                return 0
+                return CGFloat.leastNormalMagnitude
             }
         }
     }
@@ -303,7 +305,10 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                     if let divisionName = self.dicGroup.value(forKey: "divisionName") as? String {
                         headerView.lblTitle.text = divisionName + " - " + teamFixuteuresDivisionsList[section]
                         
-                        if let competation_round_no = self.dicGroup.value(forKey: "competation_round_no") as? String {
+                        var competation_round_no = ""
+                        
+                        if teamFixuteuresDictionariesList.count > 0 {
+                            competation_round_no = (teamFixuteuresDictionariesList[section].values.first?[0].competationRoundNo ?? "")
                             headerView.lblTitle.text = divisionName + " - " + teamFixuteuresDivisionsList[section] + " (\(competation_round_no))"
                         }
                     }
@@ -314,7 +319,7 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                     
                     return headerView
                 }
-                return headerGroupMatchesView
+                return UIView()
             }
         }
     }
@@ -344,10 +349,12 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
             if dic[ApplicationData.dicKeyDivision] as! Bool {
                 if let title = dic.value(forKey: "title") as? String {
                     cell?.lblTitle.text = title
+                    cell?.lblTitle.font = UIFont.init(name: Font.HELVETICA_MEDIUM, size: Font.Size.commonLblSize)
                 }
             } else {
                 if let title = dic.value(forKey: "display_name") as? String {
                     cell?.lblTitle.text = title
+                    cell?.lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
                 }
                 cell?.leadingConstraintLblTitle.constant = 25
             }

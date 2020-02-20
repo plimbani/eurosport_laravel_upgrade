@@ -31,7 +31,8 @@ class AgeCategoryDivisionCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
+        lblTitle.font = UIFont.init(name: Font.HELVETICA_MEDIUM, size: Font.Size.commonLblSize)
+        lblTitle.textColor = .txtDefaultTxt
     }
     
     func showHideDivisions() {

@@ -265,7 +265,7 @@
                                     <constraint firstItem="vOY-nP-lkt" firstAttribute="leading" secondItem="l0o-DG-8VW" secondAttribute="leading" constant="10" id="jcF-D2-4qN"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="INd-7d-fjC">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="INd-7d-fjC">
                                 <rect key="frame" x="0.0" y="179" width="320" height="389"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -297,7 +297,7 @@
                             <constraint firstItem="lVu-Ka-k2N" firstAttribute="leading" secondItem="yvd-yL-Jvp" secondAttribute="leading" id="ZuW-vZ-PlC"/>
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="trailing" secondItem="l0o-DG-8VW" secondAttribute="trailing" constant="15" id="c6J-IL-qyP"/>
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="trailing" secondItem="lVu-Ka-k2N" secondAttribute="trailing" id="fsT-GI-cPW"/>
-                            <constraint firstItem="INd-7d-fjC" firstAttribute="top" secondItem="l0o-DG-8VW" secondAttribute="bottom" constant="15" id="ia0-gi-I2R"/>
+                            <constraint firstItem="INd-7d-fjC" firstAttribute="top" secondItem="l0o-DG-8VW" secondAttribute="bottom" constant="15" id="iAx-iB-AMd"/>
                             <constraint firstItem="yvd-yL-Jvp" firstAttribute="bottom" secondItem="INd-7d-fjC" secondAttribute="bottom" id="j5Y-rb-Rdz"/>
                             <constraint firstItem="8IO-TI-eI2" firstAttribute="leading" secondItem="l0o-DG-8VW" secondAttribute="leading" id="qsg-Os-ZKa"/>
                             <constraint firstItem="qDg-JK-44B" firstAttribute="leading" secondItem="yvd-yL-Jvp" secondAttribute="leading" id="s2V-o0-R1U"/>
