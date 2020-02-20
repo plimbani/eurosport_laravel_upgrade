@@ -113,7 +113,7 @@ export default {
       totalMinutes = window.previewUrlExpireTimeMinutes - totalMinutes;
       let diffInHours = totalMinutes / 60;
       let diffInMinutes = totalMinutes % 60;
-      return (parseInt(diffInHours) > 0 ? parseInt(diffInHours) + (parseInt(diffInHours) > 1 ? ' hours' : ' hour') + ' and ' : '') + diffInMinutes + (parseInt(diffInMinutes) > 1 ? ' minutes' : ' minute');
+      return (parseInt(diffInHours) > 0 ? parseInt(diffInHours) + (parseInt(diffInHours) > 1 ? ' hrs' : ' hr') + ' and ' : '') + diffInMinutes + (parseInt(diffInMinutes) > 1 ? ' mins' : ' min');
     }
   },
   methods: {
