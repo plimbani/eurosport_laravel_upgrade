@@ -108,7 +108,7 @@ class LandingVC: SuperViewController {
                     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
                     
                     // 1 - left version is greater than right version
-                    if Utils.compareVersion(serverVersion, appVersion) == 1 {
+                    if Utils.compareVersion(serverVersion, appVersion) != 0 {
                         self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
                         
                         ApplicationData.isAppUpdateDispalyed = true
