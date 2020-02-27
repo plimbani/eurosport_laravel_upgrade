@@ -41,9 +41,9 @@
       }
       .round-number {
           position: absolute;
-          right: 31px;
+          right: 32px;
           color: #fff;
-          top: 14px;
+          top: 12px;
           font-weight: bold;
           font-size: 13px;
       }
