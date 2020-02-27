@@ -950,7 +950,7 @@ class AgeGroupService implements AgeGroupContract
 
     public function generateMatchSchedulePrint($templateData)
     {
-      $templateId = $templateData['templateId'];
+      $templateId = isset($templateData['templateId']) ? $templateData['templateId'] : null;
       $ageCategoryId = $templateData['ageCategoryId'];
       $date = new \DateTime(date('H:i d M Y'));
 
@@ -1001,6 +1001,7 @@ class AgeGroupService implements AgeGroupContract
           ->setPaper('a4')
           ->setOption('header-spacing', '5')
           ->setOption('header-font-size', 7)
+          ->setOption('footer-font-size', 12)
           ->setOption('header-font-name', 'Open Sans')
           ->setOrientation('portrait')
           ->setOption('footer-right', 'Page [page] of [toPage]')
