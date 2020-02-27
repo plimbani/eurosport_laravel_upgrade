@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <title>Match Schedule – Template {{ $templateData['tournament_name'] }}</title>
     <style type="text/css">
@@ -11,8 +12,8 @@
         -ms-text-size-adjust: 100%;
       }
       body {
-        /*font-family: Lato, sans-serif;
-        color: #595959;*/
+        /*font-family: Lato, sans-serif;*/
+        /*color: #595959;*/
       }
       td,
       th {
@@ -40,9 +41,9 @@
       }
       .round-number {
           position: absolute;
-          right: 35px;
+          right: 32px;
           color: #fff;
-          top: 14px;
+          top: 12px;
           font-weight: bold;
           font-size: 13px;
       }
@@ -60,14 +61,14 @@
       @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
         <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
       @endif
-      <h3 style="margin-top: 30px; margin-bottom: 30px;">Match Schedule – Template {{ $templateData['tournament_name'] }}</h3>
+      <h4 style="margin-top: 30px; margin-bottom: 30px;">Match Schedule – Template {{ $templateData['tournament_name'] }}</h4>
     </center>
     @php($colorCodes = getColorCodeOfMatches($allMatches))
     @foreach(rounds($templateData) as $roundIndex=>$round)
       @php($pageBreakClass = ($roundIndex > 0 ? "break" : ""))
       <table border="0" cellpadding="0" cellspacing="0" align="center" class="{{ $pageBreakClass }}">
         <tr>
-            <td style="border:0;width: 150px;">
+            <td style="border:0;width: 140px;">
                 <div class="round-img-wrapper">
                     <img src="{{ asset('assets/img/img-round.png') }}" style="width: 100%;">
                     <span class="round-number">{{ $roundIndex + 1 }}</span>
@@ -247,7 +248,7 @@
     @foreach(getDivisionRounds($templateData) as $roundIndex=>$round)
       <table border="0" cellpadding="0" cellspacing="0" align="center" class="break">
         <tr>
-            <td style="border:0;width: 150px;">
+            <td style="border:0;width: 140px;">
                 <div class="round-img-wrapper">
                     <img src="{{ asset('assets/img/img-round.png') }}" style="width: 100%;">
                     <span class="round-number">{{ getMainNoOfRoundCount($templateData) + $roundIndex + 1 }}</span>
