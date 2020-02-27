@@ -2,6 +2,8 @@
 
 namespace Laraspace\Api\Controllers;
 
+use UrlSigner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laraspace\Models\Position;
 use Laraspace\Http\Requests\AgeGroup\TeamDetailsRequest;
@@ -10,6 +12,8 @@ use Laraspace\Http\Requests\AgeGroup\CreateCompetationFomatRequest;
 use Laraspace\Http\Requests\AgeGroup\DeleteCompetitionFormatRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
+use Laraspace\Http\Requests\AgeGroup\GetSignedUrlForMatchSchedulePrintRequest;
+
 /**
  * Age Group Resource Description.
  *
@@ -118,4 +122,19 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->deleteFinalPlacingTeam($request->all());
     }
 
+    public function getSignedUrlForMatchSchedulePrint(GetSignedUrlForMatchSchedulePrintRequest $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+        
+        $signedUrl = UrlSigner::sign(url('api/match/schedule/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function generateMatchSchedulePrint(Request $request)
+    {
+        return $this->ageGroupObj->generateMatchSchedulePrint($request->all());
+    }
 }

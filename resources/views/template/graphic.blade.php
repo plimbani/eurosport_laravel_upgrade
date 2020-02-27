@@ -49,7 +49,7 @@
                 <div>
                   <div class="row-round">
                     @if($roundIndex == 0)
-                      <div class="group-column" v-if="roundIndex == 0">
+                      <div class="group-column">
                           <div class="m-0 font-weight-bold group-title">{{ "Group " . getGroupName($group['groups']['group_name']) }}</div>
                           @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                             <div class="bordered-box">
