@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <title>Match Schedule – Template {{ $templateData['tournament_name'] }}</title>
     <style type="text/css">
@@ -11,8 +12,8 @@
         -ms-text-size-adjust: 100%;
       }
       body {
-        /*font-family: Lato, sans-serif;
-        color: #595959;*/
+        font-family: Lato, sans-serif;
+        /*color: #595959;*/
       }
       td,
       th {
