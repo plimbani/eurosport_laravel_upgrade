@@ -3,10 +3,13 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-           <h5 class="modal-title" id="displaygraphicLabel">Match Schedule – Template {{ templateName }}</h5>
-           <button type="button" class="close js-close-btn" @click="closeViewGraphicImage()">
-           <span>×</span>
-           </button>
+            <h5 class="modal-title" id="displaygraphicLabel">Match Schedule – Template {{ templateName }}</h5>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-primary mr-4" @click="generateMatchSchedulePrint()">Print</button>
+              <button type="button" class="close js-close-btn" @click="closeViewGraphicImage()">
+                <span>×</span>
+              </button>
+            </div>
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
@@ -22,7 +25,7 @@
 <script type="text/babel">
     import Tournament from '../api/tournament.js';
     export default {
-      props: ['sectionGraphicImage'],
+      props: ['sectionGraphicImage', 'categoryId', 'tournamentTemplateId'],
       data() {
         return {
           templateName: '',
@@ -61,6 +64,18 @@
             }
           );
         },
+        generateMatchSchedulePrint() {
+          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId};
+          let matchSchedulePrintWindow = window.open('', '_blank');
+          Tournament.getSignedUrlForMatchSchedulePrint(templateData).then(
+            (response) => {
+              matchSchedulePrintWindow.location = response.data;
+            },
+            (error) => {
+
+            }
+          )
+        }
       }
     }
 </script>

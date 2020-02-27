@@ -3,10 +3,13 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-           <h5 class="modal-title" id="competationmodalLabel">{{$lang.competation_modal_age_category}} {{templateData.tournament_name}}</h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">×</span>
-           </button>
+          <h5 class="modal-title" id="competationmodalLabel">{{$lang.competation_modal_age_category}} {{templateData.tournament_name}}</h5>
+          <div class="d-flex align-items-center">
+            <button type="button" class="btn btn-primary mr-4" @click="generateMatchSchedulePrint()">Print</button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
@@ -64,12 +67,13 @@
   </div>
 </template>
 <script type="text/babel">
+  import Tournament from '../api/tournament.js';
   export default {
     data() {
       return {
       }
     },
-    props: ['templateData','totalTime', 'graphicHtml'],
+    props: ['templateData','totalTime', 'graphicHtml', 'categoryId', 'tournamentTemplateId'],
     filters: {
       formatTime: function(time) {
         var hours = Math.floor( time /   60);
@@ -87,6 +91,18 @@
         return this.templateData.tournament_teams +" teams " + roundScheduleData.join(" - ");
       }
     },
+    generateMatchSchedulePrint() {
+      let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId};
+      let matchSchedulePrintWindow = window.open('', '_blank');
+      Tournament.getSignedUrlForMatchSchedulePrint(templateData).then(
+        (response) => {
+          matchSchedulePrintWindow.location = response.data;
+        },
+        (error) => {
+
+        }
+      )
+    }
    }
  }
 </script>
