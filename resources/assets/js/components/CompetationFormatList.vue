@@ -52,7 +52,7 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime" :graphicHtml="graphicHtml" v-if="isViewModalShown"></competationModal>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :graphicHtml="graphicHtml" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" v-if="isViewModalShown"></competationModal>
           <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
@@ -93,7 +93,7 @@ import CopyAgeCategoryModal from './CopyAgeCategoryModal.vue'
 export default {
   data() {
     return {
-      competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
+      competationList : {}, TournamentId: 0, categoryId: '',setTime:'',
       tournamentTemplateId: null, totalTime:'',
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
@@ -157,6 +157,8 @@ export default {
         $("body .js-loader").removeClass('d-none');
         // $("#competationmodal").modal('show');
          let TemplateData = {tournamentTemplateId : id, ageCategoryId: ageCategoryId}
+         this.categoryId = ageCategoryId;
+         this.tournamentTemplateId = id;
          Tournament.getTemplate(TemplateData).then(
           (response) => {
           if(response.data.status_code==200){

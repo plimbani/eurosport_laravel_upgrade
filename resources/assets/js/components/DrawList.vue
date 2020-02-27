@@ -18,7 +18,7 @@
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
-          <displaygraphic :sectionGraphicImage="'DrawList'"></displaygraphic>
+          <displaygraphic :sectionGraphicImage="'DrawList'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId"></displaygraphic>
         </tbody>
       </table>
       <span v-else>No information available</span>
@@ -192,6 +192,8 @@ export default {
       divisionId:'',
       groupsFilter: {},
       divFilter: {},
+      categoryId: null,
+      tournamentTemplateId: null,
     }
   },
   mounted() {
@@ -324,6 +326,8 @@ export default {
       $('#editCompetitionNameModal').modal('hide');
     },
     viewTemplateGraphic : function(ageCategoryId, templateId){
+      this.categoryId = ageCategoryId;
+      this.tournamentTemplateId = templateId;
       this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
       $('#displayGraphicImage').modal('show');
     }
