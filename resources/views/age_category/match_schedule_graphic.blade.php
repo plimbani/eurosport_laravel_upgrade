@@ -41,7 +41,7 @@
       }
       .round-number {
           position: absolute;
-          right: 35px;
+          right: 31px;
           color: #fff;
           top: 14px;
           font-weight: bold;
@@ -61,7 +61,7 @@
       @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
         <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
       @endif
-      <h3 style="margin-top: 30px; margin-bottom: 30px;">Match Schedule – Template {{ $templateData['tournament_name'] }}</h3>
+      <h4 style="margin-top: 30px; margin-bottom: 30px;">Match Schedule – Template {{ $templateData['tournament_name'] }}</h4>
     </center>
     @php($colorCodes = getColorCodeOfMatches($allMatches))
     @foreach(rounds($templateData) as $roundIndex=>$round)
