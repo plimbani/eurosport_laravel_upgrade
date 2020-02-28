@@ -950,7 +950,7 @@ class AgeGroupService implements AgeGroupContract
 
     public function generateMatchSchedulePrint($templateData)
     {
-      $templateId = isset($templateData['templateId']) ? $templateData['templateId'] : null;
+      $templateId = (isset($templateData['templateId']) && $templateData['templateId']) ? $templateData['templateId'] : null;
       $ageCategoryId = $templateData['ageCategoryId'];
       $date = new \DateTime(date('H:i d M Y'));
 
