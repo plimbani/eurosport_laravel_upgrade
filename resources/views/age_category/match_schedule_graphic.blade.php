@@ -55,11 +55,11 @@
   <body>
     <center>
       @if($tournamentData->tournamentLogo != null)
-        <img src="{{ $tournamentData->tournamentLogo }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px">
+        <img src="{{ $tournamentData->tournamentLogo }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="150px">
       @elseif(Config::get('config-variables.current_layout') == 'tmp')
-        <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+        <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="150px">
       @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
-        <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+        <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="150px">
       @endif
       <h4 style="margin-top: 30px; margin-bottom: 30px;">Match Schedule – Template {{ $templateData['tournament_name'] }}</h4>
     </center>
@@ -95,8 +95,8 @@
                                   <table cellpadding="0" cellspacing="5">
                                     <tr>
                                       <td style="width: 150px; background-color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['background'] : '' }}; color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['text'] : '' }}">
-                                        <span style="font-weight: bold;">Match {{ getMatchNumber($match['display_match_number']) }}</span>
                                         @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
+                                        <span style="font-weight: bold;">Match {{ getMatchNumber($match['display_match_number']) . ($matchDetail && $matchDetail['is_scheduled'] === 1 ? " (" . date("d/m/Y", strtotime($matchDetail['match_datetime'])) . ")" : "") }}</span>
                                         @if($matchDetail && $matchDetail['is_scheduled'] === 1)
                                           <br/>{{ $matchDetail['venue_name'] }}
                                           <br/>{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}
@@ -274,8 +274,8 @@
                                   <table cellpadding="0" cellspacing="5">
                                     <tr>
                                       <td style="width: 150px; background-color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['background'] : '' }}; color: {{ isset($colorCodes['matchesWithColorCode'][$match['match_number']]) ? $colorCodes['matchesWithColorCode'][$match['match_number']]['text'] : '' }}">
-                                        <span style="font-weight: bold;">Match {{ getMatchNumber($match['display_match_number']) }}</span>
                                         @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
+                                        <span style="font-weight: bold;">Match {{ getMatchNumber($match['display_match_number']) . ($matchDetail && $matchDetail['is_scheduled'] === 1 ? " (" . date("d/m/Y", strtotime($matchDetail['match_datetime'])) . ")" : "") }}</span>
                                         @if($matchDetail && $matchDetail['is_scheduled'] === 1)
                                           <br/>{{ $matchDetail['venue_name'] }}
                                           <br/>{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}
