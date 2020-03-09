@@ -69,11 +69,19 @@
       </tbody>
     </table>
     @php($colorCodes = getColorCodeOfMatches($allMatches))
+    @php($roundCount=0)
+    @php($istableEnd=1)
 
-    <table cellpadding="10" cellspacing="10">
+    <!-- <table cellpadding="10" cellspacing="10">
       <tbody>
-        <tr>
+        <tr> -->
           @foreach(rounds($templateData) as $roundIndex=>$round)
+            @if($roundCount % 4 === 0)
+              <table cellpadding="10" cellspacing="10">
+                <tbody>
+                  <tr>
+              @php($istableEnd=0)
+            @endif
             <td style="vertical-align: top;">
               @php($pageBreakClass = ($roundIndex > 0 ? "break" : ""))
               <table border="0" cellpadding="0" cellspacing="0" align="center" class="{{ $pageBreakClass }}">
@@ -259,8 +267,21 @@
                 </tbody>
               </table>
             </td>
+            @if($roundCount % 4 === 3)
+                  </tr>
+                </tbody>
+              </table>
+              @php($istableEnd=1)
+            @endif
+            @php($roundCount++)
           @endforeach
           @foreach(getDivisionRounds($templateData) as $roundIndex=>$round)
+            @if($roundCount % 4 === 0)
+              <table cellpadding="10" cellspacing="10">
+                <tbody>
+                  <tr>
+              @php($istableEnd=0)
+            @endif
             <td style="vertical-align: top;">
               <table border="0" cellpadding="0" cellspacing="0" align="center" class="break">
                 <tbody>
@@ -418,10 +439,22 @@
                 </table>
               @endforeach
             </td>
+            @if($roundCount % 4 === 3)
+                  </tr>
+                </tbody>
+              </table>
+              @php($istableEnd=1)
+            @endif
+            @php($roundCount++)
           @endforeach
-        </tr>
+          @if($istableEnd === 0)
+                </tr>
+              </tbody>
+            </table>
+          @endif
+        <!-- </tr>
       </tbody>
-    </table>
+    </table> -->
 
   </body>
 </html>
