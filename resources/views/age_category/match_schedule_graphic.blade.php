@@ -433,7 +433,7 @@
     </style>
   </head>
   <body>
-    <table cellpadding="0" cellspacing="5" style="width: 100%; border-color: transparent; font-size: 10px">
+    <table cellpadding="0" cellspacing="5" style="width: 100%; border-color: transparent; font-size: 14px">
       <tbody>
         <tr>
           <td style="vertical-align: middle; border-color: transparent; text-align: left; min-width: 150px;">
