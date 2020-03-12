@@ -556,12 +556,12 @@
                                             <td style="border: 0;padding: 0;">
                                               <table cellpadding="0" cellspacing="0">
                                                 <tr>
-                                                  <td style="font-weight: bold;width: 100px;">{{ "Group " . getGroupName($group['groups']['group_name']) }}
+                                                  <td style="font-weight: bold; min-width: 100px;">{{ "Group " . getGroupName($group['groups']['group_name']) }}
                                                   </td>
                                                 </tr>
                                                 @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                                                   <tr>
-                                                    <td style="width: 100px;">
+                                                    <td style="min-width: 100px;">
                                                       {{ getRoundRobinAssignedTeam($assignedTeams, getGroupName($group['groups']['group_name']), $teamIndex) }}
                                                     </td>
                                                   </tr>
@@ -575,13 +575,13 @@
                                               <table cellpadding="0" cellspacing="0">
                                                 <!-- Column 2 -->
                                                 <tr>
-                                                  <td style="font-weight: bold;width: 100px;">
+                                                  <td style="font-weight: bold; min-width: 100px;">
                                                     {{ "Group " . getGroupName($group['groups']['group_name']) }}
                                                   </td>
                                                 </tr>
                                                 @foreach(getRoundRobinUniqueTeams($fixtures, $group['groups']['match'], $groupName, $categoryAge) as $teamIndex=>$team)
                                                   <tr>
-                                                    <td style="width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
+                                                    <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
                                                       {{ $team['name'] }}
                                                     </td>
                                                   </tr>
@@ -595,13 +595,13 @@
                                               <table cellpadding="0" cellspacing="0">
                                                 <!-- Column 3 -->
                                                 <tr>
-                                                  <td style="font-weight: bold;width: 100px;">
+                                                  <td style="font-weight: bold; min-width: 100px;">
                                                     &nbsp;
                                                   </td>
                                                 </tr>
                                                 @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                                                   <tr>
-                                                    <td style="width: 100px;">
+                                                    <td style="min-width: 100px;">
                                                       {{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}
                                                     </td>
                                                   </tr>
@@ -615,14 +615,14 @@
                                             <td style="border: 0;padding: 0;">
                                               <table cellpadding="0" cellspacing="0">
                                                 <tr>
-                                                  <td style="font-weight: bold;width: 100px;">
+                                                  <td style="font-weight: bold; min-width: 100px;">
                                                     Ranking
                                                   </td>
                                                 </tr>
                                                 @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                                                   @if(checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])))
                                                     <tr>
-                                                      <td style="width: 100px;">
+                                                      <td style="min-width: 100px;">
                                                         {{ checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])) }}
                                                       </td>
                                                     </tr>
@@ -750,13 +750,13 @@
                                             <table cellpadding="0" cellspacing="0">
                                               <!-- Column 1 -->
                                               <tr>
-                                                <td style="font-weight: bold;width: 100px;">
+                                                <td style="font-weight: bold; min-width: 100px;">
                                                   {{ "Group " . getGroupName($group['groups']['group_name']) }}
                                                 </td>
                                               </tr>
                                               @foreach(getRoundRobinUniqueTeams($fixtures, $group['groups']['match'], $groupName, $categoryAge) as $teamIndex=>$team)
                                                 <tr>
-                                                  <td style="width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
+                                                  <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$team['code']]) ? $colorCodes['homeAwayTeamWithColorCode'][$team['code']]['text'] : '' }}">
                                                       {{ $team['name'] }}
                                                   </td>
                                                 </tr>
@@ -768,13 +768,13 @@
                                             <table cellpadding="0" cellspacing="0">
                                               <!-- Column 2 -->
                                               <tr>
-                                                <td style="font-weight: bold;width: 100px;">
+                                                <td style="font-weight: bold; min-width: 100px;">
                                                   &nbsp;
                                                 </td>
                                               </tr>
                                               @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                                                 <tr>
-                                                  <td style="width: 100px;">
+                                                  <td style="min-width: 100px;">
                                                     {{ ($teamIndex) . getGroupName($group['groups']['group_name']) }}
                                                   </td>
                                                 </tr>
@@ -787,14 +787,14 @@
                                             <td style="border: 0;padding: 0;">
                                               <table cellpadding="0" cellspacing="0">
                                                 <tr>
-                                                  <td style="font-weight: bold;width: 100px;">
+                                                  <td style="font-weight: bold; min-width: 100px;">
                                                     Ranking
                                                   </td>
                                                 </tr>
                                                 @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                                                   @if(checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])))
                                                     <tr>
-                                                      <td style="width: 100px;">
+                                                      <td style="min-width: 100px;">
                                                         {{ checkForMatchNumberOrRankingInPosition($templateData, 'round_robin', ($teamIndex) . getGroupName($group['groups']['group_name'])) }}
                                                       </td>
                                                     </tr>
