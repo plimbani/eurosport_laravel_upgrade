@@ -997,17 +997,19 @@ class AgeGroupService implements AgeGroupContract
               'groupName' => $tournamentCompetitionTemplate->group_name,
               'allMatches' => $allMatches,
               'tournamentData' => $tournamentData,
+              'date' => $date->format('H:i d M Y'),
           ])
           ->setPaper('a4')
-          ->setOption('header-spacing', '5')
-          ->setOption('header-font-size', 7)
-          ->setOption('footer-font-size', 7)
-          ->setOption('header-font-name', 'Open Sans')
-          ->setOrientation('portrait')
-          ->setOption('footer-right', 'Page [page] of [toPage]')
-          ->setOption('header-right', $date->format('H:i d M Y'))
-          ->setOption('margin-top', 20)
-          ->setOption('margin-bottom', 20);
+          ->setOption('header-spacing', '0')
+          ->setOption('footer-spacing', '0')
+          ->setOption('footer-font-size', 8)
+          ->setOption('footer-font-name', 'sans-serif')
+          ->setOrientation('landscape')
+          ->setOption('footer-right', 'Page [page] of [toPage]  ')
+          ->setOption('margin-left', 5)
+          ->setOption('margin-right', 5)
+          ->setOption('margin-top', 5)
+          ->setOption('margin-bottom', 5);
       return $pdf->inline('Match Schedule – Template '. $jsonData['tournament_name'] . '.pdf');
     }
 }
