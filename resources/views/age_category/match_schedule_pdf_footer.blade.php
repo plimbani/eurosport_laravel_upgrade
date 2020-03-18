@@ -378,15 +378,10 @@
       table tbody tr td {
         font-size: 90%;
       }
-
-      table tr td,
-      table tbody tr td {
-        font-size: 90%;
-      }
     </style>
   </head>
   <body>
-    <table cellpadding="0" cellspacing="0" style="font-size: 14px; width: 100%; border-color: transparent;">
+    <table cellpadding="0" cellspacing="0" style="font-size: 10px; width: 100%; border-color: transparent;">
       <tbody>
         <tr>
           <td style="vertical-align: middle; border-color: transparent; text-align: right;">
