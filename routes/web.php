@@ -22,6 +22,8 @@ Route::group(['domain' => config('app.domain')], function() {
 
 	Route::get('paymentCallback', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentCallback');
 	
+	Route::get('getMatchSchedulePdfFooter', 'PDFController@getMatchSchedulePdfFooter')->name('match.schedule.pdf.footer');
+
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');
