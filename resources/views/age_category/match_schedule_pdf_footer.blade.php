@@ -370,7 +370,13 @@
         font-family: sans-serif;
         -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
+        font-size: 16px;
         width: 100%;
+      }
+
+      table tr td,
+      table tbody tr td {
+        font-size: 90%;
       }
 
       table tr td,
