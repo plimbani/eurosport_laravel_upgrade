@@ -380,7 +380,7 @@
         font-family: sans-serif;
         -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
-         font-size: 16px;
+        font-size: 16px;
         width: 100%;
       }
 
@@ -390,7 +390,7 @@
         border-collapse: collapse;
         padding: 2px;
         line-height: 1.5;
-        font-size: 90%;
+        font-size: 10px;
         page-break-inside: avoid;
         page-break-before: avoid;
       }
