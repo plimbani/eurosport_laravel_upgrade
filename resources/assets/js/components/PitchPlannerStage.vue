@@ -33,6 +33,8 @@ import _ from 'lodash'
                 'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
                 'isAnotherMatchScheduled': false,
+                'eventDropped': false,
+                'scrollBeforeEventDropped': null,
             }
         },
         props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex', 'enableScheduleFeatureAsDefault'],
@@ -234,12 +236,19 @@ import _ from 'lodash'
                     resourceAreaWidth: '400px',
                     resources: vm.pitchesData,
                     events: vm.scheduledMatches,
+                    // dragScroll: false,
                     drop: function(date, jsEvent, ui, resourceId) {
                         vm.currentScheduledMatch = $(this);
                         // jsEvent.draggedEl.parentNode.removeChild(jsEvent.draggedEl);
                         // $(this).remove();
+                        console.log('drop');
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());
+                        vm.eventDropped = true;
+                        vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
+                        console.log('eventReceive');
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
@@ -373,7 +382,23 @@ import _ from 'lodash'
                             }
                         }
                     },
+                    eventLeave: function( info ) {
+                        console.log('eventLeave');
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());
+                    },
                     eventAfterAllRender: function(view ){
+                        console.log('eventAfterAllRender');
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());
+                        // if($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft() !== $('#stage_outer_div' + vm.stage.stageNumber +  ' .fc-content-skeleton').scrollLeft()){
+                        //         vm.eventDropped = true;
+                        //         vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
+                        //     }
+                        if(vm.eventDropped) {
+                            vm.eventDropped = false;
+                            $('#stage_outer_div' + vm.stage.stageNumber + ' .fc-content-skeleton').scrollLeft(vm.scrollBeforeEventDropped);
+                        }
                         $('span[data-toggle="popover"]').popover({trigger: 'hover'});
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').each(function() {
@@ -397,8 +422,31 @@ import _ from 'lodash'
                         //     $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
                         // }
                     },
+                    eventDragStart: function( event, jsEvent, ui, view ) {
+                        console.log('eventDragStart');
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());
+                        // let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
+                        // $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft($(scrollableBody).scrollLeft());
+                    },
+                    eventMouseout: function( event, jsEvent, view ) {
+                        console.log('eventMouseout');
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());
+                        vm.eventDropped = true;
+                        vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
+                    },
+                    unselect: function(event) {
+                        console.log('unselect');
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());    
+                    },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
+                        console.log("eventDrop");
+                        console.log($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft());
+                        console.log($('#stage_outer_div1 .fc-content-skeleton').scrollLeft());
+                        
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
@@ -412,6 +460,7 @@ import _ from 'lodash'
                             revertFunc();
 
                         }else{
+                            console.log("else");
                             let enableScheduleFeatureAsDefault = false;
                             if(vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true) {
                                 enableScheduleFeatureAsDefault = true;
@@ -457,8 +506,11 @@ import _ from 'lodash'
                                 }
                             )
                         }
+                        vm.eventDropped = true;
+                        vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        console.log('eventClick');
                         if(vm.isMatchScheduleInEdit === true) {
                             return false;
                         }
@@ -1059,10 +1111,12 @@ import _ from 'lodash'
                 document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll').style.display = 'block';
                 var topHorizontalScroll = document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll div');
                 topHorizontalScroll.style.width = (width-40)+'px';
+                console.log('stageNo-outer', $(scrollableBody).scrollLeft());
                 scrollableBody.addEventListener('scroll', () => {
                     scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
                     scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
                     let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
+                    console.log('stageNo', $(scrollableBody).scrollLeft());
                     $(".js-stage-top-horizontal-scroll" + stageNo).scrollLeft($(scrollableBody).scrollLeft());
                 });
             } else {
