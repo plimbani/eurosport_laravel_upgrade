@@ -1,0 +1,150 @@
+.match-table {
+    width: 100%;
+
+    >thead,
+    >tbody {
+        >tr {
+
+            th,
+            td {
+                padding-right: 8px;
+                color: theme-color("darken");
+                @include font-size(14);
+                font-size: 0.70vw;
+                letter-spacing: 0.02vw;
+                height: 4.7vh;
+
+                @include media-breakpoint-up(xxl) {
+                    @include font-size(15);
+                    font-size: 0.75vw;
+                }
+
+                &:first-child {
+                    padding-left: 8px;
+                }
+
+                // &.time,
+                // &.group,
+                &.code,
+                &.placing,
+                // &.venue,
+                &.matches,
+                &.score {
+                    text-align: center;
+                }
+
+                &.time,
+                &.code,
+                &.placing,
+                &.score {
+                    width: 5%;
+                    max-width: 5%;
+                }
+
+                &.group {
+                    width: 15%;
+                    max-width: 15%;
+                }
+
+                &.venue {
+                    width: 25%;
+                    max-width: 25%;
+                }
+
+                &.matches {
+                    width: 40%;
+                    max-width: 40%;
+                }
+            }
+        }
+    }
+
+    >thead {
+        >tr {
+            background-color: theme-color("lighter");
+
+            >th,
+            >td {
+                font-weight: $font-weight-bold;
+            }
+        }
+    }
+
+    >tbody {
+        >tr {
+            &:nth-child(odd) {
+                background-color: $white;
+            }
+
+            &:nth-child(even) {
+                background-color: lighten(theme-color("lighter"), 1.5);
+            }
+
+            >td {
+
+                &.time {}
+
+                &.group {}
+
+                &.code {}
+
+                &.placing {}
+
+                &.venue {}
+
+                &.matches {}
+
+                &.score {}
+
+                &.time,
+                &.code,
+                &.placing,
+                &.score {
+                    width: 5%;
+                    max-width: 5%;
+                }
+
+                .team {
+                    display: flex;
+                    align-items: center;
+
+                    .team-info {
+                        flex-grow: 1;
+                        display: flex;
+                        align-items: center;
+
+                        .team-name {
+                            flex-grow: 1;
+                            text-align: right;
+
+                            @include media-breakpoint-up(xxl) {
+                                padding-top: 10px;
+                                padding-bottom: 10px;
+                                @include font-size(14);
+                                font-size: 0.65vw;
+                            }
+                        }
+
+                        .team-kit {
+                            flex-shrink: 0;
+
+                            svg {
+                                width: 1vw;
+                                height: auto;
+                                margin: 0 10px;
+                            }
+                        }
+
+                        &:last-child {
+                            flex-direction: row-reverse;
+
+                            .team-name {
+                                text-align: left;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

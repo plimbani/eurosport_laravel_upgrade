@@ -1,0 +1,82 @@
+.sidebar {
+    background-color: $white;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.sidebar-title {
+    // @include responsive-font-size(22);
+    font-size: 1.25vw;
+    font-weight: $font-weight-bold;
+}
+
+.tournament-logo {
+    flex-shrink: 0;
+
+    .logo-container {
+        margin-bottom: 15px;
+    }
+}
+
+.sidebar-container {
+    position: relative;
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .sidebar-header,
+    .sidebar-footer {
+        flex-shrink: 0;
+    }
+
+    .sidebar-body {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+
+    .sidebar-header {
+        border-bottom: 2px solid theme-color('light');
+        padding-bottom: 15px;
+    }
+
+    .sidebar-body {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: block;
+
+        .category-list {
+            padding: 0;
+            margin: 0;
+
+            .list-item {
+                display: block;
+
+                .list-link {
+                    display: block;
+                    color: $link-color;
+                    font-size: $font-size-base;
+                    font-size: 1vw;
+                    padding: 8px 16px;
+                    transition: background-color 150ms ease;
+
+                    @include hover {
+                        background-color: lighten(theme-color("light"), 6);
+                    }
+
+                    @include hover-focus-active {
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .list-item.active .list-link,
+            .list-link.active {
+                background-color: theme-color("light");
+            }
+        }
+    }
+}

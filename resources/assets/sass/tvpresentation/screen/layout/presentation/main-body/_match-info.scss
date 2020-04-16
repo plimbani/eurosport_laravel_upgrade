@@ -1,0 +1,53 @@
+.match-info {
+    display: flex;
+    align-items: center;
+
+    .team {
+        flex: 0 0 48%;
+        max-width: 48%;
+        display: flex;
+        align-items: center;
+
+        .team-name {
+            @include font-size(12);
+            font-size: 0.65vw;
+            font-weight: $font-weight-bold;
+            letter-spacing: 0.15px;
+            flex: 0 0 70%;
+            max-width: 70%;
+        }
+
+        .team-kit {
+            flex: 0 0 20%;
+            max-width: 20%;
+            margin: 0 5%;
+
+            svg {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        &.team-a {
+            .team-name {
+                text-align: right;
+            }
+        }
+
+        &.team-b {
+            flex-direction: row-reverse;
+        }
+    }
+
+    .separator {
+        flex: 0 0 2%;
+        max-width: 2%;
+        .line {
+            width: 1px;
+            display: block;
+            margin: 0 auto;
+            background-color: theme-color("dark");
+            height: 18px;
+        }
+    }
+}
