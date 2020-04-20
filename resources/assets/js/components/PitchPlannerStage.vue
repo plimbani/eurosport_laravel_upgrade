@@ -33,6 +33,8 @@ import _ from 'lodash'
                 'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
                 'isAnotherMatchScheduled': false,
+                'eventDropped': false,
+                'scrollBeforeEventDropped': null,
             }
         },
         props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex', 'enableScheduleFeatureAsDefault'],
