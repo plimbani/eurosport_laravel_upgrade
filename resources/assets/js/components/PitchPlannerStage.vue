@@ -412,8 +412,6 @@ import _ from 'lodash'
                         // }
                     },
                     eventDragStart: function( event, jsEvent, ui, view ) {
-                        // let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
-                        // $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft($(scrollableBody).scrollLeft());
                     },
                     eventMouseout: function( event, jsEvent, view ) {
                         vm.eventDropped = true;
@@ -423,7 +421,6 @@ import _ from 'lodash'
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
-                        
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
