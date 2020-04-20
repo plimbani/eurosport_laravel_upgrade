@@ -2,8 +2,8 @@
 	return
 	[
 		'teams' => 'týmy',
-		'matches' => 'zápasy',
-		'venue' => 'Location',
+		'matches' => 'Soutěže',
+		'venue' => 'Umístění',
 		'tournament' => 'turnaj',
 		'rules' => 'pravidla',
 		'history' => 'historie',

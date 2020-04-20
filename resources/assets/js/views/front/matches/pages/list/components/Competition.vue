@@ -5,7 +5,7 @@
         <i aria-hidden="true" class="fas fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
     </button>
     <button v-if="fromView == 'Categories'" @click="showCompetitionListView()" class="btn btn-primary">
-        <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to competition list
+        <i aria-hidden="true" class="fas fa-angle-double-left"></i> {{ $t('matches.back_to_competition_list') }}
     </button>
     <button v-if="fromView == 'Teams'" @click="showTeamListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to team list

@@ -3,7 +3,7 @@
 	[
 		'teams' => 'Drużyny',
 		'matches' => 'Mecze',
-		'venue' => 'Location',
+		'venue' => 'Lokalizacja',
 		'tournament' => 'Turniej',
 		'rules' => 'Zasady',
 		'history' => 'Historia ',

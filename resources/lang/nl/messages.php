@@ -3,7 +3,7 @@
 	[
 		'teams' => 'Teams',
 		'matches' => 'Wedstrijden',
-		'venue' => 'Location',
+		'venue' => 'Locatie',
 		'tournament' => 'Toernooi',
 		'rules' => 'Toernooi reglement',
 		'history' => 'Historie',

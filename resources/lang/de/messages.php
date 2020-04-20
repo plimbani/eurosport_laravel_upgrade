@@ -2,8 +2,8 @@
 	return
 	[
 		'teams' => 'Mannschaften',
-		'matches' => 'Spiele ',
-		'venue' => 'Location',
+		'matches' => 'Wettbewerbe ',
+		'venue' => 'Lage',
 		'tournament' => 'Turnier',
 		'rules' => 'Spielregeln',
 		'history' => 'Geschichte',

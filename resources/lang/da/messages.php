@@ -2,8 +2,8 @@
 	return
 	[
 		'teams' => 'Hold',
-		'matches' => 'Kampe',
-		'venue' => 'Location',
+		'matches' => 'Konkurrencer',
+		'venue' => 'Placering',
 		'tournament' => 'Turnering',
 		'rules' => 'Regler',
 		'history' => 'Historie',
