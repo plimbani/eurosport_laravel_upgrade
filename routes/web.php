@@ -7,6 +7,15 @@
 |
 */
 
+
+Route::get('/index', function () {
+    return view('tvpresentation/pages.presentation.index');
+})->name('presentation.index');
+
+Route::get('/match', function () {
+    return view('tvpresentation/pages.presentation.match');
+})->name('presentation.match');
+
 Route::get('auth/{provider}/callback', '\Laraspace\Http\Controllers\Auth\LoginController@handleProviderCallback')->where('provider', 'facebook');
 
 Route::group(['domain' => config('app.domain')], function() {

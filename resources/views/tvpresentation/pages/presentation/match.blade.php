@@ -1,4 +1,4 @@
-@extends('tv-presets.layouts.default')
+@extends('tvpresentation.layouts.default')
 
 @section('title', 'Match')
 

@@ -1,4 +1,4 @@
-@extends('tv-presets.layouts.selection')
+@extends('tvpresentation.layouts.selection')
 
 @section('title', 'Page Title')
 

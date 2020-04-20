@@ -6,17 +6,17 @@
 
         <title>Presentation mode - @yield('title')</title>
 
-        @include('tv-presets/partials/meta/meta')
+        @include('tvpresentation/partials/meta/meta')
 
         {{-- CSRF Token --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- Icons --}}
-        @include('tv-presets/partials/favicons/favicons')
+        @include('tvpresentation/partials/favicons/favicons')
 
         {{-- Fonts and Styles --}}
         @yield('css_before')
-        @include('tv-presets/partials/styles')
+        @include('tvpresentation/partials/styles')
 
         @yield('css_after')
 
@@ -42,7 +42,7 @@
         </div>
         {{-- END Page Container --}}
 
-        @include('tv-presets/partials/scripts')
+        @include('tvpresentation/partials/scripts')
         @yield('js_after')
     </body>
 </html>

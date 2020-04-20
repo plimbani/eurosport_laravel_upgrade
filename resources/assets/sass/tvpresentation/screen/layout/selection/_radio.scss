@@ -76,7 +76,7 @@
             &:checked {
                 +.radio-tile {
                     background-color: theme-color('secondary');
-                    background-image: url('../media/other/check-circle.svg');
+                    background-image: url('/tvpresentation/media/other/check-circle.svg');
                     background-repeat: no-repeat;
                     background-size: 40px;
                     background-position: top 15px right 15px;
