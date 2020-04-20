@@ -8,10 +8,10 @@
 		'rules' => 'Regler',
 		'history' => 'Historie',
 		'program' => 'Program',
-		'stay' => 'Hospitality',
+		'stay' => 'Gæstfrihed',
 		'meals' => 'Mad',
 		'accommodation' => 'Indkvartering',
-		'visitors' => 'Check-in',
+		'visitors' => 'Tjekke ind',
 		'tourist_information' => 'Turist informationer',
 		'media' => 'Medie',
 		'contact' => 'Kontakt',
@@ -61,8 +61,8 @@
 		'no_age_category_found' => 'Ingen alders kategorier fundet',
 		'close' => 'Luk',
 		'main_menu' => 'Hovedmenu',
-		'age_categories' => 'Age categories',
-		'program_overview' => 'Overview',
+		'age_categories' => 'Alderskategorier',
+		'program_overview' => 'Undersøgelsen',
 		'tips' => 'Tips',
 	]
 ?>
