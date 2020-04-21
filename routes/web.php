@@ -8,9 +8,9 @@
 */
 
 
-Route::get('/index', function () {
+Route::get('/show-presentation', '\Laraspace\Http\Controllers\Presentation\TVPresentationController@showPresentation', function () {
     return view('tvpresentation/pages.presentation.index');
-})->name('presentation.index');
+})->name('presentation.show');
 
 Route::get('/match', function () {
     return view('tvpresentation/pages.presentation.match');

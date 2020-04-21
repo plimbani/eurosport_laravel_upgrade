@@ -6,6 +6,7 @@ import moment from 'moment'
 // initial state
 const state = {
   tournamentName: '',
+  tournamentSlug: '',
   maximumTeams: '',
   tournamentStartDate:"",
   tournamentEndDate:"",
@@ -65,7 +66,9 @@ const getters = {
     getTournamentName: state => {
       return state.tournamentName
     },
-
+    getTournamentSlug: state => {
+      return state.tournamentSlug
+    },
 }
 // actions
 const actions = {
@@ -218,6 +221,7 @@ const mutations = {
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {
  	//alert(JSON.stringify(currentTournamentName))
   state.tournamentName = currentTournament.name
+  state.tournamentSlug = typeof currentTournament.slug !== 'undefined' ? currentTournament.slug : state.tournamentSlug;
   state.maximumTeams = currentTournament.maximum_teams
 	state.tournamentStartDate = currentTournament.tournamentStartDate!='' ? currentTournament.tournamentStartDate: ''
 	state.tournamentEndDate = currentTournament.tournamentEndDate != '' ? currentTournament.tournamentEndDate: ''
