@@ -7,7 +7,7 @@
 						<div class="tabs tabs-primary">
              <div class="row justify-content-between">
               <div class="col-sm-12">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs tournament-summary" role="tablist">
                   <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'">
                       <div class="wrapper-tab">{{$lang.summary_label_summary}}</div>
@@ -27,6 +27,9 @@
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
                     </a>
+                  </li>
+                  <li class="nav-item presentation-button">
+                    <a target="_blank" href="/show-presentation" class="btn btn-primary btn-block">Show TV Presentation</a>
                   </li>
              <!--      <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
                     <button type="button" class="btn btn-primary"
