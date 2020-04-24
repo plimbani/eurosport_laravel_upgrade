@@ -39,4 +39,6 @@ interface TournamentContract
     public function delete($request);
 
     public function generateReport($request);
+
+    public function saveSettings($request);
 }

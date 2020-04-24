@@ -1,21 +1,5 @@
 <template>
-    <div class="">
-        
+    <div>
+        dsff
     </div>
 </template>
-
-<script type="text/babel">
-    export default {
-        data() {
-            return {
-                
-            }
-        },
-        components : {
-            
-        },
-        mounted() {
-            
-        }
-    }
-</script>

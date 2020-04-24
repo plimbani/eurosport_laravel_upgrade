@@ -28,8 +28,10 @@
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
                     </a>
                   </li>
-                  <li class="nav-item presentation-button">
-                    <a target="_blank" href="/show-presentation" class="btn btn-primary btn-block">Show TV Presentation</a>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='settings'">
+                      <div class="wrapper-tab">{{$lang.summary_lable_tv_presentation}}</div>
+                    </a>
                   </li>
              <!--      <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
                     <button type="button" class="btn btn-primary"
@@ -55,6 +57,7 @@ import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
+import Settings from '../../../components/Settings.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 // import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
@@ -68,7 +71,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, Settings, AddMessageModel, UnsaveMatchScoreModel
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 

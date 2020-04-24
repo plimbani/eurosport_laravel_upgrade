@@ -222,6 +222,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
+    $api->post('/tournament/saveSettings', '\Laraspace\Api\Controllers\TournamentController@saveSettings');
+
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
 
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');

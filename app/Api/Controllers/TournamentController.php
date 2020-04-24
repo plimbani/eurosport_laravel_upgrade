@@ -17,6 +17,7 @@ use Laraspace\Http\Requests\Tournament\TemplatesRequest;
 use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
 use Laraspace\Http\Requests\Tournament\GetTemplateRequest;
+use Laraspace\Http\Requests\Tournament\SaveSettingsRequest;
 use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
@@ -340,5 +341,10 @@ class TournamentController extends BaseController
             }   
         }   
          echo "<pre>";print_r('done');echo "</pre>";exit;   
+    }
+
+    public function saveSettings(SaveSettingsRequest $request)
+    {
+        return $this->tournamentObj->saveSettings($request->all());
     }
 }

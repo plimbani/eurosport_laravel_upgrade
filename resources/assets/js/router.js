@@ -149,8 +149,8 @@ const routes = [
         children: [
             {
                 path: '/',
-                component: Welcome,
-                name: 'welcome'
+                component: ShowPresentation,
+                name: 'show_presentation'
             }
         ]
     },    
@@ -162,8 +162,8 @@ const routes = [
         children: [
             {
                 path: '/',
-                component: ShowPresentation,
-                name: 'show_presentation'
+                component: Welcome,
+                name: 'welcome'
             }
         ]
     },

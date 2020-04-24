@@ -39,6 +39,7 @@ const state = {
   unsaveMatchData:[],
   matchResultChange:false,
   setRedirectPage:'',
+  screenRotateTime: 0,
 }
 // getters
 const getters = {
@@ -229,6 +230,7 @@ const mutations = {
 	state.tournamentId = currentTournament.id
 	state.tournamentStatus = currentTournament.tournamentStatus
 	state.tournamentLogo = currentTournament.tournamentLogo
+  state.screenRotateTime = currentTournament.screenRotateTime
 
   // Optional Fields
   state.facebook = currentTournament.facebook
