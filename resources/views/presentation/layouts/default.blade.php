@@ -6,17 +6,17 @@
 
         <title>Presentation mode - @yield('title')</title>
 
-        @include('tvpresentation/partials/meta/meta')
+        @include('presentation/partials/meta/meta')
 
         {{-- CSRF Token --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- Icons --}}
-        @include('tvpresentation/partials/favicons/favicons')
+        @include('presentation/partials/favicons/favicons')
 
         {{-- Fonts and Styles --}}
         @yield('css_before')
-        @include('tvpresentation/partials/styles')
+        @include('presentation/partials/styles')
 
         @yield('css_after')
 
@@ -27,22 +27,25 @@
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
+
         {{-- Page Container --}}
-        <div class="selection-content">
-            <div class="container">
-                {{-- Main Container --}}
-                    @yield('content')
-                {{-- END Main Container --}}
+
+        <div class="content">
+            <div class="data-container">
+                <div class="sidebar">
+                    @include('presentation/partials/sidebar')
+                </div>
+                <div class="main-body">
+                    {{-- Main Container --}}
+                        @yield('content')
+                    {{-- END Main Container --}}
+                </div>
             </div>
         </div>
-        <div class="selection-footer">
-            <div class="container">
-                <div class="footer-text is-center">Copyright 2020 TMP Applications BV. Developed by aecor.</div>
-            </div>
-        </div>
+
         {{-- END Page Container --}}
 
-        @include('tvpresentation/partials/scripts')
+        @include('presentation/partials/scripts')
         @yield('js_after')
     </body>
 </html>

@@ -1,4 +1,4 @@
-@extends('tvpresentation.layouts.default')
+@extends('presentation.layouts.default')
 
 @section('title', 'Page Title')
 

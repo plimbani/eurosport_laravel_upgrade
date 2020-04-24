@@ -8,13 +8,11 @@
 */
 
 
-Route::get('/show-presentation', '\Laraspace\Http\Controllers\Presentation\TVPresentationController@showPresentation', function () {
-    return view('tvpresentation/pages.presentation.index');
-})->name('presentation.show');
+// Route::get('/show-presentation/{tournamentslug}', '\Laraspace\Http\Controllers\Presentation\TVPresentationController@showPresentation')->name('presentation.show');
 
-Route::get('/match', function () {
-    return view('tvpresentation/pages.presentation.match');
-})->name('presentation.match');
+// Route::get('/match', function () {
+//     return view('tvpresentation/pages.presentation.match');
+// })->name('presentation.match');
 
 Route::get('auth/{provider}/callback', '\Laraspace\Http\Controllers\Auth\LoginController@handleProviderCallback')->where('provider', 'facebook');
 

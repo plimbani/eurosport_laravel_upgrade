@@ -1,4 +1,4 @@
-@extends('tvpresentation.layouts.default')
+@extends('presentation.layouts.default')
 
 @section('title', 'Match')
 
@@ -15,7 +15,7 @@
             <div class="page-container">
                 <div class="left-area">
                     <div class="date-lable">Date</div>
-                    <div class="date">20th Mar 2020</div>
+                    <div class="date">{{ $currentDate }}</div>
                 </div>
                 <div class="middle-area">
                     <div class="title">Matches</div>
