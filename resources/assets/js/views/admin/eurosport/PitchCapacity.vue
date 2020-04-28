@@ -64,6 +64,7 @@
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
                 <editPitchDetail v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+                <duplicatePitchModal></duplicatePitchModal>
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
@@ -93,10 +94,13 @@
                                         </td>
                                         <td class="text-center">
                                             <span class="align-middle">
-                                                <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="fas fa-pencil"></i></a>
+                                                <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
+                                            </span>
+                                            <span class="align-middle">
+                                                 <a href="javascript:void(0)" @click="duplicatePitch(pitch.id)" title="Copy pitch" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-copy"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
@@ -191,6 +195,7 @@
 </template>
 <script type="text/babel">
 import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
+import duplicatePitchModal from '../../../views/admin/eurosport/duplicatePitchModal.vue'
 import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
 import DeleteModal from '../../../components/DeleteModal.vue'
 import Pitch from '../../../api/pitch'
@@ -258,7 +263,7 @@ import draggable from 'vuedraggable';
             this.$root.$off('getLocationWiseSummary');
         },
         components: {
-            editPitchDetail,addPitchDetail,DeleteModal,draggable
+            editPitchDetail,addPitchDetail,DeleteModal,draggable,duplicatePitchModal
         },
         computed: {
             pitchId: function(){
@@ -473,6 +478,9 @@ import draggable from 'vuedraggable';
                     this1.resetSearchFilter();
                 },1000)
 
+            },
+            duplicatePitch(pitchId) {
+                $('#duplicatePitch').modal('show')
             },
             removePitch(pitchId) {
                 let vm = this;
