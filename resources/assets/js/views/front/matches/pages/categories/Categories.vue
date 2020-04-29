@@ -15,7 +15,7 @@
 								<u>{{ category.group_name }} ({{ category.category_age }})</u>
 							</a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fas fa-info-circle" v-if="category.comments != null"></i></a>
-              <a href="#" @click="viewTemplateGraphic(category.id, category.tournament_template_id)" class="btn btn-outline-primary btn-sm ml-2 float-right text-primary">{{ $t('matches.view_schedule') }} View schedule</a>
+              <a href="#" @click="viewTemplateGraphic(category.id, category.tournament_template_id)" class="btn btn-outline-primary btn-sm ml-2 float-right text-primary">{{ $t('matches.view_schedule') }}</a>
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
