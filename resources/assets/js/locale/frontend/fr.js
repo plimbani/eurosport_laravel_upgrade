@@ -6,7 +6,7 @@ module.exports= {
     'all_dates': 'Toutes les dates',
     'filter_by': 'Filtrer par',
     'category': 'Catégorie',
-    'location': 'Lieu',
+    'location': 'Emplacement',
     'team': 'Equipe',
     'select': 'Sélectionnez',
     'clear': 'Réinitialiser',

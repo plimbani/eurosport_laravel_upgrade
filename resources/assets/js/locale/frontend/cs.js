@@ -6,7 +6,7 @@ module.exports= {
     'all_dates': 'všechna data',
     'filter_by': 'filtr',
     'category': 'kategorie',
-    'location': 'Umístění',
+    'location': 'lokalita',
     'team': 'Týmy',
     'select': 'vyber',
     'clear': 'prázdné',

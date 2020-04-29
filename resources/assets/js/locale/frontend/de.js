@@ -6,7 +6,7 @@ module.exports= {
     'all_dates': 'Alle Termine',
     'filter_by': 'Filtern nach',
     'category': 'Kategorie',
-    'location': 'Lage',
+    'location': 'Ort',
     'team': 'Mannschaft',
     'select': 'Auswählen',
     'clear': 'Löschen',

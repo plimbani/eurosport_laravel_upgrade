@@ -2,7 +2,7 @@
 	return
 	[
 		'teams' => 'Squadre',
-		'matches' => 'Concorsi',
+		'matches' => 'Partite',
 		'venue' => 'Posizione',
 		'tournament' => 'Torneo',
 		'rules' => 'Regolamento',

@@ -6,7 +6,7 @@ module.exports= {
     'all_dates': 'Alle datoer',
     'filter_by': 'Sorter pr.',
     'category': 'Kategori',
-    'location': 'Placering',
+    'location': 'Lokation',
     'team': 'Hold',
     'select': 'Vælh',
     'clear': 'Ryd',

@@ -2,7 +2,7 @@
 	return
 	[
 		'teams' => 'Hold',
-		'matches' => 'Konkurrencer',
+		'matches' => 'Kampe',
 		'venue' => 'Placering',
 		'tournament' => 'Turnering',
 		'rules' => 'Regler',
