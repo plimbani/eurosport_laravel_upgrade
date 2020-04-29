@@ -729,7 +729,6 @@ export default {
                       // this.$store.dispatch('AddPitch',pitchData)
                       this.isSaveInProcess = true;
                       return axios.post('/api/pitch/create',pitchData).then(response =>  {
-                          this.pitchId = response.data.pitchId
                           toastr['success']('Pitch detail has been added successfully.', 'Success');
                           this.displayPitch();
                           this.isSaveInProcess = false;

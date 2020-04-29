@@ -24,6 +24,8 @@ Route::group(['domain' => config('app.domain')], function() {
 	
 	Route::get('getMatchSchedulePdfFooter', 'PDFController@getMatchSchedulePdfFooter')->name('match.schedule.pdf.footer');
 
+	Route::get('pdf/matchgraphic', 'PDFController@matchgraphic')->name('pdf.matchgraphic');
+
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');
