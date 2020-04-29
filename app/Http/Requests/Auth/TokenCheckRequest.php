@@ -31,7 +31,7 @@ class TokenCheckRequest extends FormRequest
     {
         return [
             'token' => 'required',
-            'provider' => 'required|in:facebook',
+            'provider' => 'required|in:facebook,apple',
         ];
     }
 }
