@@ -138,7 +138,8 @@ class AuthController extends Controller
           $user = new User;
           $user->id = $request->user_identifier;
           $user->email = $request->email;
-          dd($user->id);
+          $user->first_name = $request->first_name;
+          $user->last_name = $request->last_name;
         }
 
         $authUser = User::where('provider_id', $user['id'])->first();
