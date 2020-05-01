@@ -14,9 +14,10 @@ def pods_list
   pod "MBCircularProgressBar"
   pod 'MBProgressHUD', '~> 1.1.0'
   pod 'IQKeyboardManagerSwift'
-  pod 'FacebookCore', '0.5.0'
-  pod 'FacebookLogin', '0.5.0'
-  pod 'FacebookShare', '0.5.0'
+  pod 'FacebookCore', '~> 0.9.0'
+  pod 'FacebookLogin', '~> 0.9.0'
+  pod 'FacebookShare', '~> 0.9.0'
+  pod 'Bolts'
 end
 
 target 'ESR' do
