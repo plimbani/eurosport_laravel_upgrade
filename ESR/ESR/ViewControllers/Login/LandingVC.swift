@@ -230,7 +230,7 @@ class LandingVC: SuperViewController {
         }
         
         self.view.showProgressHUD()
-        LoginManager().logIn(readPermissions: [.publicProfile, .email], viewController: self) { result in
+        LoginManager().logIn(permissions: [.publicProfile, .email], viewController: self) { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
             }
@@ -241,7 +241,7 @@ class LandingVC: SuperViewController {
             case .failed(let error):
                 print("Login Fail - Login failed with error \(error)")
             case .success(_, _, let accessToken):
-                self.authToken = accessToken.authenticationToken
+                self.authToken = accessToken.tokenString
                 self.loginFacebookAPI(token: self.authToken)
             }
         }

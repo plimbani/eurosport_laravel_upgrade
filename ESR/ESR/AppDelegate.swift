@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                          object: nil)
         
         // Facebook
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
         // Fabric
@@ -177,7 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        let facebookHandler = SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        let facebookHandler = ApplicationDelegate.shared.application(app, open: url, options: options)
         return facebookHandler
     }
     
