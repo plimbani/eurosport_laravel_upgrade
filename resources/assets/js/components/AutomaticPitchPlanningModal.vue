@@ -33,10 +33,11 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_competitions }}</label>
+                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_groups }}</label>
                     <div class="col-sm-12">
-                      <select v-validate="'required'" class="form-control ls-select2 m-w-130" v-model="selectedGroup" name="competition">
-                        <option value="">Select category</option>
+                      <select v-validate="'required'" class="form-control ls-select2 m-w-130" :class="{'is-disabled': !selectedAgeCategory }" v-model="selectedGroup" name="competition">
+                        <option value="">Select group</option>
+                        <option :value="groups">All groups</option>
                         <option :value="group.id"
                         v-for="group in groups"
                         v-bind:value="group">
