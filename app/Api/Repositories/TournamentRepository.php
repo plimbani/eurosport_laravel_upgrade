@@ -868,7 +868,6 @@ class TournamentRepository
 
     public function scheduleAutomaticPitchPlanning($data)
     {
-        // $scheduleMatchesCount = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 1)->count();
         $scheduleMatchesCount = new TempFixture;
         $scheduleMatchesCount = isset($data['competition']) ? $scheduleMatchesCount->where('competition_id', $data['competition']) : $scheduleMatchesCount->where('age_group_id', $data['age_category']);
         $scheduleMatchesCount = $scheduleMatchesCount->where('is_scheduled', 1)->count();
@@ -883,16 +882,13 @@ class TournamentRepository
         $maximumTeamIntervalTime = $ageCategory->maximum_team_interval;
 
         // for normal match
-        // $unscheduledMatchesForNormalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_final_round_match', 0)->where('is_scheduled', 0)->get();
         $unscheduledMatchesForNormalMatch = new TempFixture;
         $unscheduledMatchesForNormalMatch = isset($data['competition']) ? $unscheduledMatchesForNormalMatch::where('competition_id', $data['competition']) : $unscheduledMatchesForNormalMatch::where('age_group_id', $data['age_category']);
         $unscheduledMatchesForNormalMatch = $unscheduledMatchesForNormalMatch->where('is_final_round_match', 0)->where('is_scheduled', 0)->get();
-        // dd($unscheduledMatchesForNormalMatch);
         $normalMatchTotalTime  = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
         $requiredNormalMatchTotalTime = $normalMatchTotalTime * count($unscheduledMatchesForNormalMatch);
 
         // for final match
-        // $unscheduledMatchesForFinalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_final_round_match', 1)->where('is_scheduled', 0)->get();
         $unscheduledMatchesForFinalMatch = new TempFixture;
         $unscheduledMatchesForFinalMatch = isset($data['competition']) ? $unscheduledMatchesForFinalMatch::where('competition_id', $data['competition']) : $unscheduledMatchesForFinalMatch::where('age_group_id', $data['age_category']);
         $unscheduledMatchesForFinalMatch = $unscheduledMatchesForFinalMatch->where('is_final_round_match', 1)->where('is_scheduled', 0)->get();
@@ -932,17 +928,12 @@ class TournamentRepository
 
         foreach ($data['pitches'] as $key => $pitchId) {
             $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->get();
-            /*$tempFixtures = TempFixture::where('competition_id', $data['competition'])
-               ->where('age_group_id', $data['age_category'])
-               ->where('pitch_id', $pitchId)
-               ->where('is_scheduled', 1)
-               ->get();*/
             $tempFixtures = new TempFixture;
             if (isset($data['competition'])) {
                 $tempFixtures = $tempFixtures->where('competition_id', $data['competition']);
             }
             $tempFixtures = $tempFixtures->where('age_group_id', $data['age_category'])->where('pitch_id', $pitchId)->where('is_scheduled', 1)->get();
-// dd($tempFixtures);
+
             foreach ($pitchAvailability as $key => $pitchAvailable) {
                 if(!isset($data['timings'][$pitchId]['days'][$key])) {
                     continue;
@@ -1020,15 +1011,10 @@ class TournamentRepository
         }
 
         $unscheduledMatches = TempFixture::where('tournament_id', $data['tournamentId']);
-            // ->where('competition_id', $data['competition'])
-            // ->where('is_scheduled', 0);
-            // ->get();
-            if (isset($data['competition'])) {
-                $unscheduledMatches = $unscheduledMatches->where('competition_id', $data['competition']);
-            }
-
-            $unscheduledMatches = $unscheduledMatches->where('is_scheduled', 0)->get();
-            // dd($unscheduledMatches);
+        if (isset($data['competition'])) {
+            $unscheduledMatches = $unscheduledMatches->where('competition_id', $data['competition']);
+        }
+        $unscheduledMatches = $unscheduledMatches->where('is_scheduled', 0)->get();
         $matchScheduleArray = [];
         foreach ($unscheduledMatches as $match) {
             if ($match->is_final_round_match == 1) {
