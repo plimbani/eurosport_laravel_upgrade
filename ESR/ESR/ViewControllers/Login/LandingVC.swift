@@ -8,6 +8,7 @@
 import UIKit
 import FacebookCore
 import FacebookLogin
+import AuthenticationServices
 
 class LandingVC: SuperViewController {
 
@@ -19,6 +20,20 @@ class LandingVC: SuperViewController {
     
     var authToken = NULL_STRING
     
+    @IBOutlet var appleSignInView: UIView!
+    
+    var paramEmail = NULL_STRING
+    var paramFirstName = NULL_STRING
+    var paramLastName = NULL_STRING
+    var paramUserIdentifier = NULL_STRING
+    
+    enum SocialLoginProvider: String {
+        case facebook = "facebook"
+        case apple = "apple"
+    }
+    
+    private var socialLoginProvider = SocialLoginProvider.facebook.rawValue
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
@@ -27,6 +42,9 @@ class LandingVC: SuperViewController {
     
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        
+        appleSignInView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAuthorizationAppleIDButtonPress)))
+        ApplicationData.setBorder(view: appleSignInView, Color: .clear, CornerRadius: appleSignInView.frame.size.height / 2, Thickness: 1.0)
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnSignIn.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
@@ -55,6 +73,122 @@ class LandingVC: SuperViewController {
             sendAppversionRequest()
         }
     }
+    
+    @objc func handleAuthorizationAppleIDButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
+    @IBAction func btnLoginWithFacebookPressed(_ sender: UIButton) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        LoginManager().logIn(permissions: [.publicProfile, .email], viewController: self) { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+            }
+            switch result {
+            case .cancelled:
+                print("Login Cancelled - User cancelled login.")
+                break
+            case .failed(let error):
+                print("Login Fail - Login failed with error \(error)")
+            case .success(_, _, let accessToken):
+                self.authToken = accessToken.tokenString
+                self.socialLoginProvider = SocialLoginProvider.facebook.rawValue
+                self.socialLoginAPI()
+            }
+        }
+    }
+    
+    @IBAction func createAccountBtnPressed(_ sender: UIButton) {
+        self.navigationController?.pushViewController(Storyboards.Main.instantiateCreateAccountVC(), animated: true)
+    }
+    
+    @IBAction func signInBtnPressed(_ sender: UIButton) {
+        self.navigationController?.pushViewController(Storyboards.Main.instantiateLoginVC(), animated: true)
+    }
+}
+
+extension LandingVC: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+extension LandingVC: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+            case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                
+                var appleSignInData: AppleSignInData = AppleSignInData()
+                
+                if let data = UserDefaults.standard.value(forKey: "appleSignInData") as? Data {
+                  if let savedObj = try? PropertyListDecoder().decode(AppleSignInData.self, from: data) {
+                     appleSignInData = savedObj
+                    
+                     paramEmail = appleSignInData.email
+                     paramLastName = appleSignInData.lastName
+                     paramFirstName = appleSignInData.firstName
+                  }
+                }
+                
+                if let email = appleIDCredential.email {
+                    paramEmail = email
+                    appleSignInData.email = email
+                }
+                
+                if let lastName = appleIDCredential.fullName?.familyName {
+                    paramLastName = lastName
+                    appleSignInData.lastName = lastName
+                }
+                
+                if let givenName = appleIDCredential.fullName?.givenName {
+                    paramFirstName = givenName
+                    appleSignInData.firstName = givenName
+                }
+                
+                paramUserIdentifier = appleIDCredential.user
+                appleSignInData.userId = paramUserIdentifier
+                socialLoginProvider = SocialLoginProvider.apple.rawValue
+                socialLoginAPI()
+            
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(appleSignInData), forKey: "appleSignInData")
+            default:
+                break
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {}
+}
+
+extension LandingVC: CustomAlertTwoBtnVCDelegate {
+    func customAlertTwoBtnVCNoBtnPressed(requestCode: Int) {}
+    
+    func customAlertTwoBtnVCYesBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.appUpgrade.rawValue {
+            if let url = URL(string: APPSTORE_APP_URL),
+                UIApplication.shared.canOpenURL(url){
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+    }
+}
+
+extension LandingVC {
     
     func autoLoginAndUpdateToken() {
         if APPDELEGATE.reachability.connection == .none {
@@ -132,7 +266,7 @@ class LandingVC: SuperViewController {
     
     // MARK: Facebook
     
-    func loginFacebookAPI(token: String) {
+    func socialLoginAPI() {
         if APPDELEGATE.reachability.connection == .none {
             self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "string_no_internet"))
             return
@@ -141,10 +275,19 @@ class LandingVC: SuperViewController {
         self.view.showProgressHUD()
         
         var parameters: [String: Any] = [:]
-        parameters["token"] = token
-        parameters["provider"] = "facebook"
         
-        ApiManager().loginFacebook(parameters, success: { result in
+        parameters["provider"] = socialLoginProvider
+        
+        if socialLoginProvider == SocialLoginProvider.apple.rawValue {
+            parameters["first_name"] = self.paramFirstName
+            parameters["last_name"] = self.paramLastName
+            parameters["email"] = self.paramEmail
+            parameters["user_identifier"] = self.paramUserIdentifier
+        } else {
+            parameters["token"] = self.authToken
+        }
+        
+        ApiManager().socialMediaLogin(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 if let token = result.value(forKey: "token") as? String {
@@ -213,54 +356,6 @@ class LandingVC: SuperViewController {
                 }
             }
         })
-    }
-    
-    @IBAction func btnLoginWithFacebookPressed(_ sender: UIButton) {
-        if APPDELEGATE.reachability.connection == .none {
-            return
-        }
-        
-        self.view.showProgressHUD()
-        LoginManager().logIn(permissions: [.publicProfile, .email], viewController: self) { result in
-            DispatchQueue.main.async {
-                self.view.hideProgressHUD()
-            }
-            switch result {
-            case .cancelled:
-                print("Login Cancelled - User cancelled login.")
-                break
-            case .failed(let error):
-                print("Login Fail - Login failed with error \(error)")
-            case .success(_, _, let accessToken):
-                self.authToken = accessToken.tokenString
-                self.loginFacebookAPI(token: self.authToken)
-            }
-        }
-    }
-    
-    @IBAction func createAccountBtnPressed(_ sender: UIButton) {
-        self.navigationController?.pushViewController(Storyboards.Main.instantiateCreateAccountVC(), animated: true)
-    }
-    
-    @IBAction func signInBtnPressed(_ sender: UIButton) {
-        self.navigationController?.pushViewController(Storyboards.Main.instantiateLoginVC(), animated: true)
-    }
-}
-
-extension LandingVC: CustomAlertTwoBtnVCDelegate {
-    func customAlertTwoBtnVCNoBtnPressed(requestCode: Int) {}
-    
-    func customAlertTwoBtnVCYesBtnPressed(requestCode: Int) {
-        if requestCode == AlertRequestCode.appUpgrade.rawValue {
-            if let url = URL(string: APPSTORE_APP_URL),
-                UIApplication.shared.canOpenURL(url){
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
-            }
-        }
     }
 }
 
