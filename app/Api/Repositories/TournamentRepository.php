@@ -851,9 +851,6 @@ class TournamentRepository
         ->where('id', $data['ageCategoryId'])
         ->first();
 
-        // $ageCategoryDetail->competition->insertBefore(['id' => 'all', 'actual_name' => 'All groups']);
-        // dd($ageCategoryDetail);
-
         $pitches = Pitch::where('tournament_id', $data['tournamentId'])->where('size', $ageCategoryDetail->pitch_size)->get();
 
         return ['ageCategoryDetail' => $ageCategoryDetail, 'pitches' => $pitches];
