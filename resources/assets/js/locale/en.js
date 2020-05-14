@@ -584,7 +584,7 @@ module.exports= {
   teams_country: "Country",
   teams_agecategory: "Age Category",
   teams_group: "Group",
-  teams_button_updategroups: "Update",
+  teams_button_savegroups: "Save",
   teams_location: "Venue",
   teams_place: "Place",
   teams_event: "Event",
