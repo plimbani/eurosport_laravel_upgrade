@@ -29,6 +29,8 @@ Route::group(['domain' => config('app.domain')], function() {
 
 	Route::get('pdf/matchgraphic', 'PDFController@matchgraphic')->name('pdf.matchgraphic');
 
+	Route::get('/admin/show-presentation/{tournamentslug}', '\Laraspace\Http\Controllers\PresentationController@showPresentation')->name('presentation.show');	
+
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');

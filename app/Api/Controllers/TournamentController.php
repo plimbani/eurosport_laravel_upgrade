@@ -347,4 +347,10 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->saveSettings($request->all());
     }
+
+    public function getPresentationSettings(Request $request, $tournamentId)
+    {
+        $tournament = Tournament::find($tournamentId);
+        return $tournament->screen_rotate_time_in_seconds;
+    }
 }

@@ -8,7 +8,7 @@
 		               <h6 class="mb-0 fieldset-title"><strong>{{$lang.summary_settings}}</strong></h6>
 		            </div>
 		        	<div class="col-9">
-	                    <a target="_blank" href="/show-presentation" class="btn btn-primary pull-right">Show TV Presentation</a>
+	                    <a target="_blank" :href="getPresentationUrl()" class="btn btn-primary pull-right">Show TV Presentation</a>
 	                </div>
 		           	<div class="col-3">
 						<form name="frmSettings" id="frmSettings" class="settings-form">
@@ -34,18 +34,21 @@ import Tournament from '../api/tournament.js'
 export default {
 	data() {
 		return {
-			tournament: { screenRotateTime: 10 } 
+			tournament: { 
+				screenRotateTime: 0,
+				tournamentId: this.$store.state.Tournament.tournamentId,
+			}
 		}
 	},
 	computed: {
 	},
   	mounted() {
   		this.tournament.screenRotateTime = this.$store.state.Tournament.screenRotateTime;
+  		this.getPresentationSettings();
   	},
   	methods: {
   		saveSettings() {
-			let vm = this
-    		this.tournament.tournamentId = this.$store.state.Tournament.tournamentId
+			let vm = this;
 	       	this.$validator.validateAll().then(
           		(response) => {
           			if(response) {
@@ -53,7 +56,7 @@ export default {
 			                (response) => {
 			                    if(response.data.status_code == 200) {
 	                     			toastr.success('Settings saved successfully', 'TV Presentation', {timeOut: 2000});
-	      							vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+	                     			vm.$store.dispatch('SetScreenRotateTime', vm.tournament.screenRotateTime);
 		                  		} else {
 		                      		toastr.error('Something went wrong!', 'TV Presentation', {timeOut: 2000});
 		                  		}
@@ -64,7 +67,20 @@ export default {
 			        }
           		}
 	      	);
-  		}
+  		},
+  		getPresentationSettings() {
+  			let vm = this;
+  			Tournament.getPresentationSettings(this.tournament.tournamentId).then(
+                (response) => {
+                    vm.tournament.screenRotateTime = response.data;
+                },
+              	(error) => {
+              	}
+            )
+  		},
+  		getPresentationUrl() {
+  			return "/admin/show-presentation/" + this.$store.state.Tournament.tournamentSlug;
+  		},
   	}
 }
 </script>

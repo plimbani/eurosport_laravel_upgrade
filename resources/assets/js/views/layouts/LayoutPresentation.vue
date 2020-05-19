@@ -1,5 +1,5 @@
 <template>
     <div>
-        dsff
+        <router-view></router-view>
     </div>
 </template>

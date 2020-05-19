@@ -212,6 +212,9 @@ const actions = {
   UnsaveMatchStatus({commit},resultChange) {
     commit(types.SET_UNSAVEMATCH_STATUS,resultChange)
   },
+  SetScreenRotateTime({commit}, time) {
+    commit(types.SET_SCREEN_ROTATE_TIME, time)
+  },
 }
 
 // mutations
@@ -396,6 +399,9 @@ const mutations = {
   },
   [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
     state.matchResultChange = unSaveMatchStatus;
+  },
+  [types.SET_SCREEN_ROTATE_TIME] (state, time) {
+    state.screenRotateTime = time;
   },
 }
 

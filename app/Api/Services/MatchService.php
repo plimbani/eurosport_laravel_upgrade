@@ -2858,4 +2858,64 @@ class MatchService implements MatchContract
 
       return $isBestRankingExist;
     }
+
+    public function getTodaysMatchesOfAgeCategory($ageCategoryId)
+    {
+      $ageCategoryMatches = TempFixture::where('temp_fixtures.age_group_id', $ageCategoryId)
+                  ->leftjoin('competitions', 'competitions.id', 'temp_fixtures.competition_id')
+                  ->leftjoin('venues', 'temp_fixtures.venue_id', 'venues.id')
+                  ->leftjoin('pitches', 'temp_fixtures.pitch_id', 'pitches.id')
+                  ->leftjoin('teams as home_team', function ($join) {
+                    $join->on('home_team.id', '=', 'temp_fixtures.home_team');
+                  })
+                  ->leftjoin('teams as away_team', function ($join) {
+                    $join->on('away_team.id', '=', 'temp_fixtures.away_team');
+                  })
+                  // ->where( DB::raw("DATE(match_datetime) = '" . date('Y-m-d') . "'") )
+                  // ->whereDate('match_datetime', date('Y-m-d'))
+                  ->whereDate('match_datetime', date('2020-05-06'))
+                  ->orderBy('match_datetime', 'ASC')
+                  ->select(
+                    'temp_fixtures.id as id',
+                    'temp_fixtures.match_datetime as match_datetime',
+                    'competitions.name as competition_name',
+                    'temp_fixtures.display_match_number as display_match_number',
+                    'temp_fixtures.position as position',
+                    'venues.name as venue_name',
+                    'venues.country as venue_country',
+                    'pitches.pitch_number as pitch_number',
+                    'competitions.actual_name as competition_actual_name',
+                    'temp_fixtures.display_home_team_placeholder_name as display_home_team_placeholder_name',
+                    'temp_fixtures.display_away_team_placeholder_name as display_away_team_placeholder_name',
+                    'home_team.name as home_team',
+                    'away_team.name as away_team',
+                    'home_team.shirt_color as home_team_shirt_color','away_team.shirt_color as away_team_shirt_color',
+                    'home_team.shorts_color as home_team_shorts_color','away_team.shorts_color as away_team_shorts_color',
+                    'temp_fixtures.home_team as home_id',
+                    'temp_fixtures.away_team as away_id',
+                    'temp_fixtures.hometeam_score as home_score',
+                    'temp_fixtures.awayteam_score as away_score',
+                    'temp_fixtures.is_result_override as is_result_override',
+                    'temp_fixtures.match_status as match_status'
+                  )
+                  ->get()
+                  ->toArray();
+      return $ageCategoryMatches;
+    }
+
+    public function getStandingsOfAgeCategory($ageCategoryId)
+    {
+      $competitions = Competition::where('tournament_competation_template_id', $ageCategoryId)->get();
+      $leagueTables = [];
+
+      foreach ($competitions as $competition) {
+        if ($competition->actual_competition_type == "Round Robin") {
+          $tournamentData = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
+          $result = $this->refreshStanding($tournamentData, 'yes');
+          $leagueTables[$competition->id] = ['name' => $competition['name'] , 'standings' => $result['data']->toArray()];
+        }
+      }
+
+      return $leagueTables;
+    }
 }

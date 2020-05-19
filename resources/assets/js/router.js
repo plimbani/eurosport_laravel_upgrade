@@ -142,19 +142,6 @@ const routes = [
         ]
     },*/
 
-    // Show presentation
-    {
-        path: '/show-presentation/{tournamentslug}', component: LayoutPresentation,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: ShowPresentation,
-                name: 'show_presentation'
-            }
-        ]
-    },    
-
     // Admin Backend Routes For Tournaments
     {
         path: '/admin', component: LayoutHorizontal,
@@ -164,6 +151,18 @@ const routes = [
                 path: '/',
                 component: Welcome,
                 name: 'welcome'
+            }
+        ]
+    },
+    // Show presentation
+    {
+        path: '/admin/show-presentation/:tournamentslug', component: LayoutPresentation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: ShowPresentation,
+                name: 'show_presentation'
             }
         ]
     },
@@ -399,7 +398,11 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
             if(!response.authenticated){
-                return next({ path : '/login'})
+                if(to.name === 'show_presentation') {
+                    window.location.href = "/login";
+                } else {
+                    return next({ path : '/login'})
+                }
             }
 
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
