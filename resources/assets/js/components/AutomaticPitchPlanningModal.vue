@@ -35,12 +35,12 @@
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_groups }}</label>
                     <div class="col-sm-12">
-                      <select v-validate="'required'" class="form-control ls-select2 m-w-130" :class="{'is-disabled': !selectedAgeCategory }" v-model="selectedGroup" name="competition">
+                      <select v-validate="'required'" class="form-control ls-select2 m-w-130" :class="{'is-disabled': !selectedAgeCategory }" v-model="selectedGroupId" name="competition">
                         <option value="">Select group</option>
-                        <option :value="groups">All groups</option>
+                        <option v-if="groups.length > 0" :value="'all'">All groups</option>
                         <option :value="group.id"
                         v-for="group in groups"
-                        v-bind:value="group">
+                        v-bind:value="group.id">
                           {{ filteredGroupName(group.actual_name) }}
                         </option>
                       </select>
@@ -158,7 +158,7 @@ import Tournament from '../api/tournament.js'
             isDisabled: false,
             ageCategories: [],
             minimum_team_interval: '',
-            selectedGroup: '',
+            selectedGroupId: '',
             selectedAgeCategory: '',
             final_match_duration: '',
             normal_match_duration: '',
@@ -240,7 +240,7 @@ import Tournament from '../api/tournament.js'
                     });
                   });
 
-                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': this.selectedGroup.id, 'pitches': pitches,
+                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': this.selectedGroupId, 'pitches': pitches,
                    'timings': this.allPitchesWithDays};
 
                   $("body .js-loader").removeClass('d-none');
@@ -335,7 +335,7 @@ import Tournament from '../api/tournament.js'
             resetForm() {
               this.groups = [];
               this.availablePitches = [];
-              this.selectedGroup = '';
+              this.selectedGroupId = '';
               this.minimum_team_interval = '';
               this.normal_match_duration = '';
               this.final_match_duration = '';
