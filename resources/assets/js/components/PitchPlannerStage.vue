@@ -33,6 +33,8 @@ import _ from 'lodash'
                 'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
                 'isAnotherMatchScheduled': false,
+                'eventDropped': false,
+                'scrollBeforeEventDropped': null,
             }
         },
         props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex', 'enableScheduleFeatureAsDefault'],
@@ -238,6 +240,8 @@ import _ from 'lodash'
                         vm.currentScheduledMatch = $(this);
                         // jsEvent.draggedEl.parentNode.removeChild(jsEvent.draggedEl);
                         // $(this).remove();
+                        vm.eventDropped = true;
+                        vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
@@ -373,7 +377,17 @@ import _ from 'lodash'
                             }
                         }
                     },
+                    eventLeave: function( info ) {
+                    },
                     eventAfterAllRender: function(view ){
+                        // if($(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft() !== $('#stage_outer_div' + vm.stage.stageNumber +  ' .fc-content-skeleton').scrollLeft()){
+                        //         vm.eventDropped = true;
+                        //         vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
+                        //     }
+                        if(vm.eventDropped) {
+                            vm.eventDropped = false;
+                            $('#stage_outer_div' + vm.stage.stageNumber + ' .fc-content-skeleton').scrollLeft(vm.scrollBeforeEventDropped);
+                        }
                         $('span[data-toggle="popover"]').popover({trigger: 'hover'});
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').each(function() {
@@ -396,6 +410,14 @@ import _ from 'lodash'
                         // if(totalPitches > 8) {
                         //     $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
                         // }
+                    },
+                    eventDragStart: function( event, jsEvent, ui, view ) {
+                    },
+                    eventMouseout: function( event, jsEvent, view ) {
+                        vm.eventDropped = true;
+                        vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
+                    },
+                    unselect: function(event) {
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -457,6 +479,8 @@ import _ from 'lodash'
                                 }
                             )
                         }
+                        vm.eventDropped = true;
+                        vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
                     },
                     eventClick: function(calEvent, jsEvent, view) {
                         if(vm.isMatchScheduleInEdit === true) {
