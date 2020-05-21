@@ -134,6 +134,14 @@ class AuthController extends Controller
           $user = $this->getFacebookUserData($payload);
         }
 
+        if($provider == 'apple') {
+          $user = [];
+          $user['id'] = $request->user_identifier;
+          $user['email'] = $request->email;
+          $user['first_name'] = $request->first_name;
+          $user['last_name'] = $request->last_name;
+        }
+
         $authUser = User::where('provider_id', $user['id'])->first();
         if (!$authUser) {
           $userData = [];
