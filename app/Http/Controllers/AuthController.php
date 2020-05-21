@@ -135,11 +135,11 @@ class AuthController extends Controller
         }
 
         if($provider == 'apple') {
-          $user = new User;
-          $user->id = $request->user_identifier;
-          $user->email = $request->email;
-          $user->first_name = $request->first_name;
-          $user->last_name = $request->last_name;
+          $user = [];
+          $user['id'] = $request->user_identifier;
+          $user['email'] = $request->email;
+          $user['first_name'] = $request->first_name;
+          $user['last_name'] = $request->last_name;
         }
 
         $authUser = User::where('provider_id', $user['id'])->first();
