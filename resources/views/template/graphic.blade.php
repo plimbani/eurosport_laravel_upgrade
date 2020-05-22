@@ -124,19 +124,19 @@
                   </div>
 
                   @if(checkForMatchNumberOrRankingInPosition($templateData, 'placing_match', $match['match_number']))
-                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="font-weight-bold small">{{ checkForMatchNumberOrRankingInPosition($templateData, 'placing_match', $match['match_number']) }}</span></div>
+                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="font-weight-bold small">{{ checkForMatchNumberOrRankingInPosition($templateData, 'placing_match', $match['match_number']) }}</span>{{getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge)}} - {{getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge)}}</div>
                   @endif
                   
                   @if(!checkIfWinnerLoserMatch($match['match_number']))
-                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span></div>
+                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>{{getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge)}} - {{getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge)}}</div>
                   @endif
                   @if(checkIfWinnerLoserMatch($match['match_number']))
                     @php($homeTeamCode = getTeamCodeInSearch($match, 'home'))
-                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span></div>
+                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span>{{getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge)}}</div>
                   @endif
                   @if(checkIfWinnerLoserMatch($match['match_number']))
                     @php($awayTeamCode = getTeamCodeInSearch($match, 'away'))
-                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span></div>
+                    <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}"><span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>{{getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge)}}</div>
                   @endif
                 </div>
               @endforeach

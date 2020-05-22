@@ -764,7 +764,7 @@ module.exports= {
   pitch_planner_automatic_planning: "Automatic planning",
   pitch_planner_automatic_planning_title: "Automatic Pitch Planning",
   pitch_planner_automatic_planning_age_categories: "Age categories*",
-  pitch_planner_automatic_planning_competitions: "Competitions*",
+  pitch_planner_automatic_planning_groups: "Groups*",
   pitch_planner_automatic_planning_team_interval: "Team interval",
   pitch_planner_automatic_planning_total_normal_matches_duration: "Total game duration for RR/EM/PM",
   pitch_planner_automatic_planning_total_final_matches_duration: "Total game duration for final",
@@ -772,7 +772,7 @@ module.exports= {
   pitch_planner_automatic_planning_schedule_btn: "Plan",
   pitch_planner_unschedule_fixtures: "Unschedule fixtures",
   pitch_planner_cancel_unscheduling: "Cancel unscheduling",
-  pitch_planner_automatic_planning_message: 'Groups will not show in the competition dropdown if i) one or more games have been manually scheduled ii) the group has already been automatically planned.',
+  pitch_planner_automatic_planning_message: 'Groups will not show in the dropdown if i) one or more games have been manually scheduled ii) the group has already been automatically planned.',
 
   pitch_detail_break_add: "Add break",
   pitch_detail_break_remove: "Delete break",

@@ -30,8 +30,9 @@ class TokenCheckRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => 'required',
-            'provider' => 'required|in:facebook',
+            'token' => 'required_if:provider,facebook',
+            'provider' => 'required|in:facebook,apple',
+            'user_identifier' => 'required_if:provider,apple',
         ];
     }
 }

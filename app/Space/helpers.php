@@ -159,6 +159,24 @@ function getPlacingTeam($fixtures, $match, $teamType, $groupName, $categoryAge) 
     }
 }
 
+function getHomeAndAwayTeamScore($fixtures, $match, $teamType, $groupName, $categoryAge) {
+    $matchNumber = str_replace('CAT.', $groupName . '-' . $categoryAge . '-', $match['match_number']);
+    $matchScoreValue ='';
+    if($teamType === 'home') {
+        if(isset($fixtures[$matchNumber]) && $fixtures[$matchNumber]['hometeam_score'] !== null) {
+            $matchScoreValue =  $fixtures[$matchNumber]['hometeam_score'];
+        }
+        return $matchScoreValue;
+    }
+
+    if($teamType === 'away') {
+        if(isset($fixtures[$matchNumber]) && $fixtures[$matchNumber]['awayteam_score'] !== 0) {
+            return $fixtures[$matchNumber]['awayteam_score'];
+        }
+        return $matchScoreValue;
+    }
+}
+
 function getMatchDetail($fixtures, $match, $groupName, $categoryAge) {
     $matchNumber = str_replace('CAT.', $groupName . '-' . $categoryAge . '-', $match['match_number']);
     if(isset($fixtures[$matchNumber])) {
