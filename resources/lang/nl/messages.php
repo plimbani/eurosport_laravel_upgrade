@@ -3,7 +3,7 @@
 	[
 		'teams' => 'Teams',
 		'matches' => 'Wedstrijden',
-		'venue' => 'Location',
+		'venue' => 'Locatie',
 		'tournament' => 'Toernooi',
 		'rules' => 'Toernooi reglement',
 		'history' => 'Historie',
@@ -11,7 +11,7 @@
 		'stay' => 'Hospitality',
 		'meals' => 'Maaltijden',
 		'accommodation' => 'Accommodatie',
-		'visitors' => 'Check-in',
+		'visitors' => 'Check-In',
 		'tourist_information' => 'Toeristische informatie',
 		'media' => 'Media',
 		'contact' => 'Contact',
@@ -61,8 +61,8 @@
 		'no_age_category_found' => 'Geen leeftijdscategorieën gevonden',
 		'close' => 'Sluiten',
 		'main_menu' => 'Menu',
-		'age_categories' => 'Age categories',
-		'program_overview' => 'Overview',
+		'age_categories' => 'Leeftijdscategorieën',
+		'program_overview' => 'Overzicht',
 		'tips' => 'Tips',		
 	]
 ?>
