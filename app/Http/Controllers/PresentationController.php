@@ -36,7 +36,8 @@ class PresentationController extends Controller
 		$tournament = Tournament::where('slug', $tournamentSlug)
 						->select(
 									'id', 'name', 'status', 'start_date', 'end_date',
-									DB::raw('CONCAT("'. getenv('S3_URL') . '/assets/img/tournament_logo/' . '", tournaments.logo) AS tournamentLogo')
+									DB::raw('CONCAT("'. getenv('S3_URL') . '/assets/img/tournament_logo/' . '", tournaments.logo) AS tournamentLogo'),
+									'screen_rotate_time_in_seconds'
 								)
 						->first();
 		if(!$tournament) {
@@ -55,15 +56,17 @@ class PresentationController extends Controller
 							->toArray();
 
 		if(count($ageCategoryIds) > 0) {
-			foreach($ageCategories as $ageCategory) {
-				$ageCategoriesPageWiseInformation[$ageCategory['id']] = [
+			foreach($ageCategories as $index => $ageCategory) {
+				$ageCategoriesPageWiseInformation[$index] = [
 					'id' => $ageCategory['id'],
 					'group_name' => $ageCategory['group_name'],
 					'category_age' => $ageCategory['category_age'],
 					'data' => [],
 				];
+				if($index === 0) {
+					$ageCategoriesPageWiseInformation[$index]['data'] = $this->presentationService->getMatchesAndStandingsOfAgeCategory($ageCategory['id']);
+				}
 			}
-			$ageCategoriesPageWiseInformation[$ageCategoryIds[0]]['data'] = $this->presentationService->getMatchesAndStandingsOfAgeCategory($ageCategoryIds[0]);
 		}
 
 		JavaScript::put([
@@ -76,5 +79,10 @@ class PresentationController extends Controller
 			'commercialisationLogoUrl' => asset('assets/img/easy-match-manager/emm.svg'),
 	    ]);
 		return view('presentation/pages.show');
+	}
+
+	public function getMatchesAndStandingsOfAgeCategory(Request $request, $ageCategoryId)
+	{
+		return $this->presentationService->getMatchesAndStandingsOfAgeCategory($ageCategoryId);
 	}
 }

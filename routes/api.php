@@ -314,6 +314,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');
     
     $api->post('user/verifyResultAdminUser','Laraspace\Api\Controllers\UserController@verifyResultAdminUser');
+
+    $api->get('getMatchesAndStandingsOfAgeCategory/{ageCategoryId}','Laraspace\Api\Controllers\PresentationController@getMatchesAndStandingsOfAgeCategory');
 });
 
 // Websites CMS routes
