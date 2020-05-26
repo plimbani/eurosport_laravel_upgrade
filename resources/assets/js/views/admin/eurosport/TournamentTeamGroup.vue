@@ -50,7 +50,7 @@
                   </div>
                   <div class="btn-group btn-group-agecategory">
                     <div v-show="this.age_category != ''">
-                      <button type="button" class="btn btn-primary" :class="{'is-disabled': selectedGroupsTeam.length > 0}" @click="allocateTeams(age_category.id)">Allocate teams</button>
+                      <button type="button" class="btn btn-outline-primary" :class="{'is-disabled': selectedGroupsTeam.length > 0}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                     </div>
                     <div v-show="this.age_category != ''" v-if="loggedInUserRole">
                       <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary">Delete teams</button>
@@ -602,6 +602,7 @@
         )
       },
       onSelectAgeCategory(stype,tId = '') {
+        this.selectedGroupsTeam = [];
         let tournamentTemplateId = ''
         let type = stype
         let templateId = ''
@@ -786,6 +787,7 @@
           (response) => {
             if(response.data.status === 'success') {
               this.$root.$emit('updateTeamList');
+              // this.selectedGroupsTeam = [];
               toastr['success']('All teams are deleted successfully', 'Success');
             }
             if(response.data.status === 'error') {

@@ -598,7 +598,6 @@ class TeamService implements TeamContract
       $tournamentData['tournament_id'] = $ageCategoryTeams['ageCategory']->tournament_id;
       foreach ($ageCategoryTeams['ageCategoryTeams'] as $team) {
         $randomKey = array_rand($availGroupTeam);
-        $availGroupTeam[array_rand($availGroupTeam)];
         $this->teamRepoObj->assignGroup($team->id, $availGroupTeam[$randomKey], $tournamentData, $tempFixturesCount, $data['ageCategoryId']);
         unset($availGroupTeam[$randomKey]);
       }
