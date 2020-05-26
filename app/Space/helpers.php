@@ -161,7 +161,7 @@ function getPlacingTeam($fixtures, $match, $teamType, $groupName, $categoryAge) 
 
 function getHomeAndAwayTeamScore($fixtures, $match, $teamType, $groupName, $categoryAge) {
     $matchNumber = str_replace('CAT.', $groupName . '-' . $categoryAge . '-', $match['match_number']);
-    $matchScoreValue ='';
+    $matchScoreValue = '';
     if($teamType === 'home') {
         if(isset($fixtures[$matchNumber]) && $fixtures[$matchNumber]['hometeam_score'] !== null) {
             $matchScoreValue =  $fixtures[$matchNumber]['hometeam_score'];
@@ -170,7 +170,7 @@ function getHomeAndAwayTeamScore($fixtures, $match, $teamType, $groupName, $cate
     }
 
     if($teamType === 'away') {
-        if(isset($fixtures[$matchNumber]) && $fixtures[$matchNumber]['awayteam_score'] !== 0) {
+        if(isset($fixtures[$matchNumber]) && $fixtures[$matchNumber]['awayteam_score'] !== null) {
             return $fixtures[$matchNumber]['awayteam_score'];
         }
         return $matchScoreValue;
