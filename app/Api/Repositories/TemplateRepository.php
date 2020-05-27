@@ -995,7 +995,7 @@ class TemplateRepository
             $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)
                 ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
                 ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
-                ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime'])
+                ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'temp_fixtures.hometeam_score', 'temp_fixtures.awayteam_score', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime'])
                 ->where('temp_fixtures.deleted_at', NULL)
                 ->get()->keyBy('match_number')->toArray();
             $tempFixtures = array_map(function($object){
