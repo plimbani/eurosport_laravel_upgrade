@@ -1020,7 +1020,7 @@ class TournamentRepository
             }
         }
 
-        $unscheduledMatches = TempFixture::where('tournament_id', $data['tournamentId']);
+        $unscheduledMatches = TempFixture::where('tournament_id', $data['tournamentId'])->where('age_group_id', $data['age_category']);
         if ($data['competition'] !== 'all') {
             $unscheduledMatches = $unscheduledMatches->where('competition_id', $data['competition']);
         }
