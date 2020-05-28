@@ -479,9 +479,6 @@ import draggable from 'vuedraggable';
                 },1000)
 
             },
-            duplicatePitch(pitchId) {
-                $('#duplicatePitch').modal('show')
-            },
             removePitch(pitchId) {
                 let vm = this;
                 // this.$store.dispatch('removePitch',pitchId)
