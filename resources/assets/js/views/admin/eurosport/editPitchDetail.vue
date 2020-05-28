@@ -809,6 +809,7 @@ var moment = require('moment');
                     let apiEndpoint = '/api/pitch/edit/'+this.pitchId;
                     if (this.pitchAction == 'duplicate') {
                       apiEndpoint = '/api/pitch/create';
+                      pitchData += '&duplicated_from='+this.pitchId;
                     }
 
                     this.isSaveInProcess = true;

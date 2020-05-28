@@ -49,6 +49,7 @@ class PitchRepository
             'size' => $pitchData['pitch_size'],
             'pitch_capacity' => $pitchData['pitchCapacity'],
             'order' => $maxOrder+1,
+            'duplicated_from' => isset($pitchData['duplicated_from']) ? $pitchData['duplicated_from'] : null,
         ]);
     }
     public function getPitchData($pitchId)
