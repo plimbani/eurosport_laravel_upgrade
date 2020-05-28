@@ -194,7 +194,6 @@
 </template>
 <script type="text/babel">
 import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
-import from '../../../views/admin/eurosport.vue'
 import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
 import DeleteModal from '../../../components/DeleteModal.vue'
 import Pitch from '../../../api/pitch'
