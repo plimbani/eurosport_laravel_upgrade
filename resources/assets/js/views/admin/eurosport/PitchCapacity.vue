@@ -62,7 +62,7 @@
                 </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
-                <editPitchDetail v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
+                <editPitchDetail :pitchAction="pitchAction" v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 
                 <div class="row mt-4">
@@ -93,10 +93,13 @@
                                         </td>
                                         <td class="text-center">
                                             <span class="align-middle">
-                                                <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="fas fa-pencil"></i></a>
+                                                <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id, 'edit')" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
+                                            </span>
+                                            <span class="align-middle">
+                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-copy"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
@@ -238,6 +241,7 @@ import draggable from 'vuedraggable';
                 selectedVenue: '',
                 venuesOptions:[],
                 searchDisplayData: false,
+                pitchAction: '',
             }
         },
 
@@ -461,7 +465,8 @@ import draggable from 'vuedraggable';
                 },1000)
 
             },
-            editPitch(pitchId) {
+            editPitch(pitchId, pitchAction) {
+                this.pitchAction = pitchAction;
                 this.dispPitch = true;
                 this.$store.dispatch('SetPitchId',pitchId);
                 // this.pitchId = pitchId

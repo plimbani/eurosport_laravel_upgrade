@@ -4,7 +4,8 @@
       <div class="modal-content">
         <div class="tabs tabs-primary">
           <div class="modal-header">
-            <h5 class="modal-title">Pitch Details - {{pitchData.pitchdetail.pitch_number}}</h5>
+            <h5 class="modal-title" v-if="pitchAction == 'edit'">Pitch Details - {{pitchData.pitchdetail.pitch_number}}</h5>
+            <h5 class="modal-title" id="duplicatePitchLabel" v-else>{{ $lang.pitch_modal_details }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
                 <span aria-hidden="true">×</span>
             </button>
@@ -35,9 +36,9 @@
                       <div class="form-group row">
                         <div class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}*</div>
                         <div class="col-sm-6">
-                          <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number1') }" v-validate="'required'"   name="pitch_number1"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
-                          <i v-show="errors.has('pitch_number1')" class="fas fa-warning"></i>
-                          <span class="help is-danger" v-show="errors.has('pitch_number1')">{{ errors.first('pitch_number1') }}</span>
+                          <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number') }" v-validate="'required'"   name="pitch_number"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
+                          <i v-show="errors.has('pitch_number')" class="fas fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -321,6 +322,7 @@
 import _ from 'lodash'
 var moment = require('moment');
     export default {
+        props: ['pitchAction'],
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
@@ -351,7 +353,11 @@ var moment = require('moment');
                 return this.$store.state.Tournament.venues
             },
             pitchData: function () {
-                return _.cloneDeep(this.$store.state.Pitch.pitchData)
+              var pitchData = _.cloneDeep(this.$store.state.Pitch.pitchData);
+              if (this.pitchAction == 'duplicate') {
+                pitchData.pitchdetail.pitch_number = '';
+              }
+              return pitchData
             },
             stageAvailable: function () {
                 return _.cloneDeep(this.$store.getters.availableStage)
@@ -639,7 +645,7 @@ var moment = require('moment');
             },1500)
             let this5 = this;
             let vm = this;
-            $("#editPitch").on('hidden.bs.modal', function () {
+            $('#editPitch').on('hidden.bs.modal', function () {
                 this5.$root.$emit('pitchrefresh');
                 this5.$store.dispatch('SetPitchId',0);
                 this5.$root.$emit('getPitchSizeWiseSummary');
@@ -800,10 +806,19 @@ var moment = require('moment');
 
                     // $("#frmPitchAvailable").serialize()
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
+                    let apiEndpoint = '/api/pitch/edit/'+this.pitchId;
+                    if (this.pitchAction == 'duplicate') {
+                      apiEndpoint = '/api/pitch/create';
+                      pitchData += '&duplicated_from='+this.pitchId;
+                    }
 
                     this.isSaveInProcess = true;
-                    return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-                        toastr['success']('Pitch detail has been updated successfully.', 'Success');
+                    return axios.post(apiEndpoint,pitchData).then(response =>  {
+                        let successMessage = 'Pitch detail has been updated successfully.';
+                        if (this.pitchAction == 'duplicate') {
+                          successMessage = 'Pitch has been copied successfully.';
+                        }
+                        toastr['success'](successMessage, 'Success');
                         this.displayPitch();
                         this.isSaveInProcess = false;
                         //setTimeout(Plugin.reloadPage, 1000);

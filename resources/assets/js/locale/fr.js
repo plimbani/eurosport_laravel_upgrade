@@ -436,7 +436,7 @@ module.exports = {
   teams_country: "FCountry",
   teams_agecategory: "FAge Category",
   teams_group: "FGroup",
-  teams_button_updategroups: "FUpdate",
+  teams_button_savegroups: "FSave",
   teams_location: "FLocation",
   teams_place: "FPlace",
   teams_event: "FEvent",

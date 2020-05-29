@@ -128,3 +128,13 @@
         }
     }
 }
+
+.btn-group-agecategory {
+    > div {
+        padding:0 5px;
+        .btn {
+            width: 150px;
+            padding: $btn-padding-y;
+        }
+    }
+}
