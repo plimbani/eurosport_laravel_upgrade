@@ -12,7 +12,7 @@ class Pitch extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name','tournament_id', 'pitch_number', 'type', 'venue_id', 'comment', 'time_slot', 'availability', 'pitch_capacity','size','order'];
+    protected $fillable = ['name','tournament_id', 'pitch_number', 'type', 'venue_id', 'comment', 'time_slot', 'availability', 'pitch_capacity','size','order','duplicated_from'];
     protected $dates = ['deleted_at'];
 
 
