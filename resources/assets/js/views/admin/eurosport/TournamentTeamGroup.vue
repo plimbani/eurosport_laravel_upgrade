@@ -20,9 +20,11 @@
                         <div class="col-sm-4">
                           <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
                         </div>
-                        <div class="col-sm-3">
-                          <button type="button" @click="csvImport()"  :class="{ 'btn w-100': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams
-                          </button>
+                        <div class="btn-group btn-group-agecategory">
+                          <div>
+                            <button type="button" @click="csvImport()"  :class="{ 'btn': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams
+                            </button>
+                          </div>
                         </div>
                         <div class="col"><span id="filename"></span></div>
                       </div>
@@ -46,11 +48,16 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="loggedInUserRole">
-                    <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
-                  </div>
-                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
-                    <button type="button" class="btn btn-primary w-100" @click="printAllocatedTeams()">Download groups</button>
+                  <div class="btn-group btn-group-agecategory">
+                    <div v-show="this.age_category != ''">
+                      <button type="button" class="btn btn-outline-primary" :class="{'is-disabled': selectedGroupsTeam.length > 0}" @click="allocateTeams(age_category.id)">Allocate teams</button>
+                    </div>
+                    <div v-show="this.age_category != ''" v-if="loggedInUserRole">
+                      <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary">Delete teams</button>
+                    </div>
+                    <div v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
+                      <button type="button" class="btn btn-primary" @click="printAllocatedTeams()">Download groups</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -146,7 +153,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_savegroups}}</button>
               </form>
     				</div>
     			</div>
@@ -493,6 +500,8 @@
         }
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
+        } else {
+          this.selectedGroupsTeam = [];
         }
         var index = this.availableGroupsTeam.indexOf(groupValue);
         if (index > -1) {
@@ -593,6 +602,7 @@
         )
       },
       onSelectAgeCategory(stype,tId = '') {
+        this.selectedGroupsTeam = [];
         let tournamentTemplateId = ''
         let type = stype
         let templateId = ''
@@ -777,6 +787,7 @@
           (response) => {
             if(response.data.status === 'success') {
               this.$root.$emit('updateTeamList');
+              // this.selectedGroupsTeam = [];
               toastr['success']('All teams are deleted successfully', 'Success');
             }
             if(response.data.status === 'error') {
@@ -894,6 +905,26 @@
       canChangeTeamOption(teamId) {
         return _.indexOf(_.values(this.resultEnteredTeams), parseInt(teamId)) === -1;
       },
+      allocateTeams(ageCategoryId) {
+        let vm = this;
+        let data = 'ageCategoryId='+ageCategoryId;
+        $("body .js-loader").removeClass('d-none');
+        Tournament.allocateTeamsAutomatically(data).then(
+          (response) => {
+            if(response.data.status_code == '200') {
+              toastr['success']('Teams are allocated successfully', 'Success');
+            } else {
+              toastr.error(response.data.message, 'Error', {timeOut: 2000});
+            }
+            vm.getTeams();
+            $("body .js-loader").addClass('d-none');
+          },
+          (error) => {
+            vm.getTeams();
+            $("body .js-loader").addClass('d-none');
+          }
+        )
+      }
     }
   }
 </script>

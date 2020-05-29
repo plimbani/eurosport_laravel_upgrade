@@ -271,6 +271,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getTeamsFairPlayData', 'Laraspace\Api\Controllers\TeamController@getTeamsFairPlayData');
     $api->post('getSignedUrlForTeamsFairPlayReportExport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForTeamsFairPlayReportExport');
 
+    $api->post('allocateTeamsAutomatically', 'Laraspace\Api\Controllers\TeamController@allocateTeamsAutomatically');
+
     $api->post('getSignedUrlForFairPlayReportPrint', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForFairPlayReportPrint');
 
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');

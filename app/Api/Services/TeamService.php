@@ -25,6 +25,7 @@ class TeamService implements TeamContract
     {
         $this->teamRepoObj = $teamRepoObj;
         $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->tournamentRepoObj = new \Laraspace\Api\Repositories\TournamentRepository();
         $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
@@ -554,5 +555,52 @@ class TeamService implements TeamContract
             ->setOption('margin-bottom', 20);
       
       return $pdf->download($ageCategoryDetail->group_name. ' groups.pdf');
+    }
+
+    public function allocateTeamsAutomatically($data)
+    {
+      $ageCategoryTeams = $this->teamRepoObj->getAgeCategoryTeams($data);
+      $template = $this->tournamentRepoObj->getTemplate($ageCategoryTeams['ageCategory']->tournament_template_id, $data['ageCategoryId']);
+      $jsonObj = json_decode($template['json_data']);
+      $jsonCompetationFormatDataFirstRound = $jsonObj->tournament_competation_format->format_name[0]->match_type;
+      $availGroupTeam = [];
+      $groups = [];
+      $competId = NULL;
+
+      foreach ($jsonCompetationFormatDataFirstRound as $group) {
+        $splitGroupName = explode('-', $group->name);
+        $competitionType = $splitGroupName[0];
+
+        if($competitionType == 'PM' && $group->consider_in_team_assignment == "undefined") {
+          return;
+        }
+
+        $groupName = '';
+        if($competitionType == 'PM' && $group->consider_in_team_assignment == 1) {
+          $groupName = $group->groups->actual_group_name + '-';
+        } else {
+          $groupName = $group->groups->group_name;
+        }
+
+        for($i = 1; $i <= $group->group_count; $i++ ){
+          $availGroupTeam[] = $groupName . $i;
+        }
+      }
+      $tempFixturesCount = TempFixture::where('tournament_id', $ageCategoryTeams['ageCategory']->tournament_id)
+                                  ->where('age_group_id', $data['ageCategoryId'])
+                                  ->where(function($query){
+                                    $query->orWhereNotNull('hometeam_score')
+                                          ->orWhereNotNull('awayteam_score');
+                                  })
+                                  ->get()
+                                  ->count();
+      $tournamentData = [];
+      $tournamentData['tournament_id'] = $ageCategoryTeams['ageCategory']->tournament_id;
+      foreach ($ageCategoryTeams['ageCategoryTeams'] as $team) {
+        $randomKey = array_rand($availGroupTeam);
+        $this->teamRepoObj->assignGroup($team->id, $availGroupTeam[$randomKey], $tournamentData, $tempFixturesCount, $data['ageCategoryId']);
+        unset($availGroupTeam[$randomKey]);
+      }
+      return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
 }
