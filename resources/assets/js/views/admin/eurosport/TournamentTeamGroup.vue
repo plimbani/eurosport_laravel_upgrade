@@ -50,7 +50,7 @@
                   </div>
                   <div class="btn-group btn-group-agecategory">
                     <div v-show="this.age_category != ''">
-                      <button type="button" class="btn btn-outline-primary" :class="{'is-disabled': selectedGroupsTeam.length > 0}" @click="allocateTeams(age_category.id)">Allocate teams</button>
+                      <button type="button" class="btn btn-primary" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                     </div>
                     <div v-show="this.age_category != ''" v-if="loggedInUserRole">
                       <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary">Delete teams</button>
@@ -296,6 +296,7 @@
         'notProcessedAgeCategoriesDueToResultEntered': [],
         'notProcessedAgeCategoriesDuetoSameTeamInUploadSheet': [],
         'resultEnteredTeams': [],
+        'ageCategoryHasNoTeams': false,
       }
     },
 
@@ -525,6 +526,7 @@
         let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
         Tournament.getTeams(teamData).then(
           (response) => {
+            this.ageCategoryHasNoTeams = response.data.data.length == 0 ? true : false;
             this.teams = response.data.data
             this.resultEnteredTeams = response.data.resultEnteredTeams;
             this.$store.dispatch('SetTeams',this.tournament_id);
