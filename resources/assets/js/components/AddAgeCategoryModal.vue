@@ -570,7 +570,7 @@
         </div>
       </div>
     </div>
-    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId"></displaygraphic>
+    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="$store.state.Tournament.tournamentId"></displaygraphic>
   </div>
 </template>
 <script type="text/babel">

@@ -19,7 +19,7 @@
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
-          <displaygraphic :sectionGraphicImage="'DrawList'"></displaygraphic>
+          <displaygraphic :sectionGraphicImage="'DrawList'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="tournamentData.id"></displaygraphic>
 				</tbody>
 			</table>
 		</div>
@@ -140,6 +140,8 @@
         divisionId:'',
         groupsFilter: {},
         divFilter: {},
+        ageCategoryId: null,
+        tournamentTemplateId: null,
       };
   	},
   	computed: {
@@ -226,6 +228,8 @@
         this.getSelectedCompetitionDetails(id, competitionName, competitionType);
       },
       viewTemplateGraphic : function(ageCategoryId, templateId){
+        this.ageCategoryId = ageCategoryId;
+        this.tournamentTemplateId = templateId;
         this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
         $('#displayGraphicImage').modal('show');
       }
