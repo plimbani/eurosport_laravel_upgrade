@@ -17,11 +17,11 @@ class GetSignedUrlForMatchSchedulePrintRequest extends FormRequest
      */
     public function authorize()
     {
-        $data = $this->all();
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-        if(!$isTournamentAccessible) {
-            return false;
-        }
+        // $data = $this->all();
+        // $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
+        // if(!$isTournamentAccessible) {
+        //     return false;
+        // }
         return true;
     }
 
