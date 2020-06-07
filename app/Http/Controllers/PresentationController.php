@@ -62,9 +62,11 @@ class PresentationController extends Controller
 					'group_name' => $ageCategory['group_name'],
 					'category_age' => $ageCategory['category_age'],
 					'data' => [],
+					'isUpToDate' => 0,
 				];
 				if($index === 0) {
 					$ageCategoriesPageWiseInformation[$index]['data'] = $this->presentationService->getMatchesAndStandingsOfAgeCategory($ageCategory['id']);
+					$ageCategoriesPageWiseInformation[$index]['isUpToDate'] = 1;
 				}
 			}
 		}

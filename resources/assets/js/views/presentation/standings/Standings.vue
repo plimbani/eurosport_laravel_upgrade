@@ -42,7 +42,7 @@
                                     </span>
                                 </td>
                                 <td class="played">{{ standing.played }}</td>
-                                <td class="difference">{{ standing.GoalDifference }}</td>
+                                <td class="difference">{{ standing.goal_for - standing.goal_against | formatGoalDifference }}</td>
                                 <td class="points">{{ standing.points }}</td>
                             </tr>
                         </tbody>
@@ -64,7 +64,15 @@
         computed: {
             
         },
+        filters: {
+            formatGoalDifference(goalDifference) {
+                if(goalDifference > 0)
+                    return '+' + goalDifference;
+                return goalDifference;
+            }
+        },
         methods: {
+            
         }
 	}
 </script>

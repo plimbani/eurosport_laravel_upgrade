@@ -15,7 +15,7 @@
             </div>
             <div class="sidebar-body">
                 <ul class="category-list">
-                    <li v-for="(ageCategory, key) in ageCategories" :class="{'list-item': true, 'active': key === 0 }">
+                    <li v-for="(ageCategory, key) in ageCategories" :class="{'list-item': true, 'active': currentAgeCategoryId === ageCategory.id }">
                         <a href="#" class="list-link">{{ ageCategory.group_name + '(' + ageCategory.category_age + ')' }}</a>
                     </li>
                 </ul>
@@ -26,7 +26,7 @@
 </template>
 <script type="text/babel">
     export default {
-        props: ['currentLayout', 'tmpLogoUrl', 'commercialisationLogoUrl', 'tournament', 'ageCategories'],
+        props: ['currentLayout', 'tmpLogoUrl', 'commercialisationLogoUrl', 'tournament', 'ageCategories', 'currentAgeCategoryId'],
         data() {
             return {
             }

@@ -43,7 +43,6 @@ class PresentationService implements PresentationContract
     		'matchesCount' => count($allAgeCategoryMatches),
     		'standingsCount' => count($groupStandings),
     		'fetched_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'isUpToDate' => 1,
     	];
     }
 }

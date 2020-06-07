@@ -2,7 +2,7 @@
 	<div>
 		<div class="data-container">
 			<div class="sidebar">
-	            <sidebar :currentLayout="currentLayout" :tmpLogoUrl="tmpLogoUrl" :commercialisationLogoUrl="commercialisationLogoUrl" :tournament="tournament" :ageCategories="ageCategories"></sidebar>
+	            <sidebar :currentLayout="currentLayout" :tmpLogoUrl="tmpLogoUrl" :commercialisationLogoUrl="commercialisationLogoUrl" :tournament="tournament" :ageCategories="ageCategories" :currentAgeCategoryId="currentAgeCategoryId"></sidebar>
 	        </div>
 	        <div>
 	            <!-- Main Container -->
@@ -46,6 +46,8 @@
             	// 'currentPageInformation': _.first(_.first(Site.ageCategoryPageWiseInformation).pageWiseInformation),
             	'currentAgeCategory': _.first(Site.ageCategoriesPageWiseInformation),
             	'currentPageInformation': _.first(_.first(Site.ageCategoriesPageWiseInformation).data.pageWiseInformation),
+                'isFetchCycleFinished': false,
+                'fetchAgeCategoryIndex': 1,
             }
         },
         mounted() {
@@ -66,8 +68,16 @@
                     vm.currentAgeCategoryId = vm.currentAgeCategory.id;
                 }
                 vm.currentPageInformation = _.cloneDeep(vm.currentAgeCategory.data.pageWiseInformation[vm.currentPage]);
+
+                if(vm.getTotalAgeCategories() === 1) {
+                    if(vm.currentPage === (vm.getTotalPagesOfCurrentAgeCategory() - 1)) {
+                        vm.intializeFetchAgeCategoriesData();
+                    }
+                } else if(vm.currentAgeCategoryIndex === (vm.getTotalAgeCategories() - 1) && vm.currentPage === 0) {
+                    vm.intializeFetchAgeCategoriesData();
+                }
         	}, (vm.tournament.screen_rotate_time_in_seconds * 1000));
-            this.fetchAllAgeCategoriesData();
+            vm.fetchAgeCategoryData();
         },
         computed: {
 
@@ -82,17 +92,30 @@
         	getCurrentAgeCategoryName() {
         		return this.currentAgeCategory.group_name + ' (' + this.currentAgeCategory.category_age + ')';
         	},
-            fetchAllAgeCategoriesData() {
+            intializeFetchAgeCategoriesData() {
+                if(this.isFetchCycleFinished) {
+                    this.fetchAgeCategoryData();
+                    this.isFetchCycleFinished = false;
+                }    
+            },
+            fetchAgeCategoryData() {
                 let vm = this;
-                _.forEach(vm.ageCategories, function(ageCategory, index) {
-                    Presentation.getMatchesAndStandingsOfAgeCategory(ageCategory.id).then(
-                        (response)=> {
-                            vm.ageCategoriesPageWiseInformation[index] = _.cloneDeep(response.data);
-                        },
-                        (error)=>{
-                        }
-                    )
-                });
+                if(vm.fetchAgeCategoryIndex === vm.getTotalAgeCategories()) {
+                    vm.fetchAgeCategoryIndex = 0;
+                    vm.isFetchCycleFinished = true;
+                    return false;
+                }
+                let ageCategoryId = vm.ageCategories[vm.fetchAgeCategoryIndex].id;
+                Presentation.getMatchesAndStandingsOfAgeCategory(ageCategoryId).then(
+                    (response)=> {
+                        vm.ageCategoriesPageWiseInformation[vm.fetchAgeCategoryIndex].data = _.cloneDeep(response.data);
+                        vm.ageCategoriesPageWiseInformation[vm.fetchAgeCategoryIndex].isUpToDate = 1;
+                        vm.fetchAgeCategoryIndex++;
+                        vm.fetchAgeCategoryData();
+                    },
+                    (error)=>{
+                    }
+                );
             }
         },
 	}

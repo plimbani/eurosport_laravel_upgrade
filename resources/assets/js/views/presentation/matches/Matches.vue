@@ -167,7 +167,14 @@
 		        	return displayMatchText[1] + '.' + displayMatchText[2];
 		      	}
 		    	return displayMatchNumber;
-		    }
+		    },
+            getHoldingName(competitionActualName, placeholder) {
+                if(competitionActualName.indexOf('Group') !== -1){
+                    return placeholder;
+                } else if(competitionActualName.indexOf('Pos') !== -1){
+                    return 'Pos-' + placeholder;
+                }
+            },
         }
 	}
 </script>
