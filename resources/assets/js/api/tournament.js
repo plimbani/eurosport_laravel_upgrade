@@ -307,4 +307,7 @@ export default {
   getSignedUrlForMatchSchedulePrint(templateData) {
     return api.post('getSignedUrlForMatchSchedulePrint', templateData);
   },
+  allocateTeamsAutomatically(data) {
+    return api.post('allocateTeamsAutomatically', data);
+  }
 }

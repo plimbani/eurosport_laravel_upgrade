@@ -25,7 +25,7 @@
 <script type="text/babel">
     import Tournament from '../api/tournament.js';
     export default {
-      props: ['sectionGraphicImage', 'categoryId', 'tournamentTemplateId'],
+      props: ['sectionGraphicImage', 'categoryId', 'tournamentTemplateId', 'tournamentId'],
       data() {
         return {
           templateName: '',
@@ -65,7 +65,7 @@
           );
         },
         generateMatchSchedulePrint() {
-          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId};
+          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId, tournamentId: this.tournamentId};
           let matchSchedulePrintWindow = window.open('', '_blank');
           Tournament.getSignedUrlForMatchSchedulePrint(templateData).then(
             (response) => {

@@ -570,7 +570,7 @@
         </div>
       </div>
     </div>
-    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'"></displaygraphic>
+    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="$store.state.Tournament.tournamentId"></displaygraphic>
   </div>
 </template>
 <script type="text/babel">
@@ -619,6 +619,8 @@ export default {
       isTournamentTypeShown: true,
       maximum_limit_for_maximum_team_interval: 120,
       currentLayout: this.$store.state.Configuration.currentLayout,
+      categoryId: null,
+      tournamentTemplateId: null,
     }
   },
   watch: {
@@ -1168,6 +1170,8 @@ export default {
       });
     },
     viewTemplateGraphic(ageCategoryId, templateId){
+      this.categoryId = ageCategoryId;
+      this.tournamentTemplateId = templateId;
       this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
       $('#displayGraphicImage').modal('show');
     },

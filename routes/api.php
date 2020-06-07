@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
   |
  */
 
-
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
@@ -123,6 +122,8 @@ $api->version('v1', function ($api) {
     $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
 
     $api->post('getTemplateGraphic','Laraspace\Api\Controllers\TemplateController@getTemplateGraphic');
+
+    $api->post('getSignedUrlForMatchSchedulePrint', 'Laraspace\Api\Controllers\AgeGroupController@getSignedUrlForMatchSchedulePrint');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
@@ -268,10 +269,10 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('getSignedUrlForUsersTableData', 'Laraspace\Api\Controllers\UserController@getSignedUrlForUsersTableData');
 
-    $api->post('getSignedUrlForMatchSchedulePrint', 'Laraspace\Api\Controllers\AgeGroupController@getSignedUrlForMatchSchedulePrint');
-
     $api->get('getTeamsFairPlayData', 'Laraspace\Api\Controllers\TeamController@getTeamsFairPlayData');
     $api->post('getSignedUrlForTeamsFairPlayReportExport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForTeamsFairPlayReportExport');
+
+    $api->post('allocateTeamsAutomatically', 'Laraspace\Api\Controllers\TeamController@allocateTeamsAutomatically');
 
     $api->post('getSignedUrlForFairPlayReportPrint', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForFairPlayReportPrint');
 
