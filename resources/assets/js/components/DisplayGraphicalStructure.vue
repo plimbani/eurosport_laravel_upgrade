@@ -52,8 +52,6 @@
         },
         getTemplateGraphic(ageCategoryId, templateId) {
           $("body .js-loader").removeClass('d-none');
-          console.log('ageCategoryId', ageCategoryId);
-          console.log('templateId', templateId);
           let templateData = {'ageCategoryId': ageCategoryId, 'templateId': templateId};
           Tournament.getTemplateGraphic(templateData).then(
             (response)=> {
