@@ -37,7 +37,7 @@
                     <div class="col-sm-12">
                       <select v-validate="'required'" class="form-control ls-select2 m-w-130" :class="{'is-disabled': !selectedAgeCategory }" v-model="selectedGroupId" name="competition">
                         <option value="">Select group</option>
-                        <option v-if="groups.length > 0" :value="'all'">All groups</option>
+                        <option v-if="groups.length > 0 && alreadyScheduledMatchesCount === 0" :value="'all'">All groups</option>
                         <option :value="group.id"
                         v-for="group in groups"
                         v-bind:value="group.id">
@@ -164,6 +164,7 @@ import Tournament from '../api/tournament.js'
             normal_match_duration: '',
             allPitchesWithDays: {},
             availablePitches: [],
+            alreadyScheduledMatchesCount: 0,
           }
         },
         created: function() {
@@ -207,6 +208,7 @@ import Tournament from '../api/tournament.js'
                     + response.data.options.ageCategoryDetail.halftime_break_RR + response.data.options.ageCategoryDetail.match_interval_RR;
                     this.final_match_duration = (response.data.options.ageCategoryDetail.game_duration_FM * response.data.options.ageCategoryDetail.halves_FM)
                     + response.data.options.ageCategoryDetail.halftime_break_FM + response.data.options.ageCategoryDetail.match_interval_FM;
+                    this.alreadyScheduledMatchesCount = response.data.options.alreadyScheduledMatchesCount;
                   },
                   (error) => {
                   }
