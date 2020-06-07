@@ -501,8 +501,8 @@
                                               @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
                                               <span style="font-weight: bold;">Match {{ getMatchNumber($match['display_match_number']) . ($matchDetail && $matchDetail['is_scheduled'] === 1 ? " (" . date("d/m/Y", strtotime($matchDetail['match_datetime'])) . ")" : "") }}</span>
                                               @if($matchDetail && $matchDetail['is_scheduled'] === 1)
-                                                <br/>{{ $matchDetail['venue_name'] }}
-                                                <br/>{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}
+                                                <br>{{ $matchDetail['venue_name'] }}
+                                                <br>{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}
                                               @endif
                                             </td>
 
@@ -517,15 +517,26 @@
                                                     @endif
                                                     
                                                     @if(!checkIfWinnerLoserMatch($match['match_number']))
+                                                      <?php
+                                                        $homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge);
+                                                        $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
+                                                      ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
+                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                          <br>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}
+                                                        @endif
                                                       </td>
                                                     @endif
 
                                                     @if(checkIfWinnerLoserMatch($match['match_number']))
                                                       @php($homeTeamCode = getTeamCodeInSearch($match, 'home'))
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}">
+                                                          @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
+                                                          @if($homeTeamScoreValue != null)
+                                                            <br>{{ $homeTeamScoreValue }}
+                                                          @endif
                                                       </td>
                                                     @endif
 
@@ -533,6 +544,9 @@
                                                       @php($awayTeamCode = getTeamCodeInSearch($match, 'away'))
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}">
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
+                                                          @if($awayTeamScoreValue != null)
+                                                            <br>{{ $awayTeamScoreValue }}
+                                                          @endif
                                                       </td>
                                                     @endif
                                                   </tr>
@@ -696,8 +710,8 @@
                                               @php($matchDetail = getMatchDetail($fixtures, $match, $groupName, $categoryAge))
                                               <span style="font-weight: bold;">Match {{ getMatchNumber($match['display_match_number']) . ($matchDetail && $matchDetail['is_scheduled'] === 1 ? " (" . date("d/m/Y", strtotime($matchDetail['match_datetime'])) . ")" : "") }}</span>
                                               @if($matchDetail && $matchDetail['is_scheduled'] === 1)
-                                                <br/>{{ $matchDetail['venue_name'] }}
-                                                <br/>{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}
+                                                <br>{{ $matchDetail['venue_name'] }}
+                                                <br>{{ $matchDetail['pitch_name'] . ', ' . date("H:i", strtotime($matchDetail['match_datetime'])) }}
                                               @endif
                                             </td>
                                             <td style="padding: 0;border:0 solid transparent;">
@@ -711,22 +725,37 @@
                                                     @endif
 
                                                     @if(!checkIfWinnerLoserMatch($match['match_number']))
+                                                      <?php
+                                                        $homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge);
+                                                        $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
+                                                      ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
+                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                          <br>{{$homeTeamScoreValue}}-{{$awayTemScoreValue}}
+                                                        @endif
                                                       </td>
                                                     @endif
 
                                                     @if(checkIfWinnerLoserMatch($match['match_number']))
                                                       @php($homeTeamCode = getTeamCodeInSearch($match, 'home'))
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}">
+                                                        @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
+                                                        @if($homeTeamScoreValue != null)
+                                                          <br>{{ $homeTeamScoreValue }}
+                                                        @endif
                                                       </td>
                                                     @endif
 
                                                     @if(checkIfWinnerLoserMatch($match['match_number']))
                                                       @php($awayTeamCode = getTeamCodeInSearch($match, 'away'))
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}">
+                                                        @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
+                                                        @if($awayTeamScoreValue != null)
+                                                          <br>{{ $awayTeamScoreValue }}
+                                                        @endif
                                                       </td>
                                                     @endif
                                                   </tr>

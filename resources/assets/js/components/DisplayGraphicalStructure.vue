@@ -65,7 +65,7 @@
           );
         },
         generateMatchSchedulePrint() {
-          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId};
+          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId, tournamentId: this.$store.state.Tournament.tournamentId};
           let matchSchedulePrintWindow = window.open('', '_blank');
           Tournament.getSignedUrlForMatchSchedulePrint(templateData).then(
             (response) => {
