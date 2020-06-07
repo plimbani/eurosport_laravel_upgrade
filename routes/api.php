@@ -12,8 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
@@ -272,6 +270,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->get('getTeamsFairPlayData', 'Laraspace\Api\Controllers\TeamController@getTeamsFairPlayData');
     $api->post('getSignedUrlForTeamsFairPlayReportExport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForTeamsFairPlayReportExport');
+
+    $api->post('allocateTeamsAutomatically', 'Laraspace\Api\Controllers\TeamController@allocateTeamsAutomatically');
 
     $api->post('getSignedUrlForFairPlayReportPrint', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForFairPlayReportPrint');
 

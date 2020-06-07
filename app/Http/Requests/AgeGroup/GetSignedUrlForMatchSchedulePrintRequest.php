@@ -18,9 +18,7 @@ class GetSignedUrlForMatchSchedulePrintRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        $ageCategoryId = $data['ageCategoryId'];
-        $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($ageCategory->tournament_id);
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
         if(!$isTournamentAccessible) {
             return false;
         }

@@ -52,6 +52,8 @@
         },
         getTemplateGraphic(ageCategoryId, templateId) {
           $("body .js-loader").removeClass('d-none');
+          console.log('ageCategoryId', ageCategoryId);
+          console.log('templateId', templateId);
           let templateData = {'ageCategoryId': ageCategoryId, 'templateId': templateId};
           Tournament.getTemplateGraphic(templateData).then(
             (response)=> {
@@ -65,7 +67,7 @@
           );
         },
         generateMatchSchedulePrint() {
-          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId};
+          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId, tournamentId: this.$store.state.Tournament.tournamentId};
           let matchSchedulePrintWindow = window.open('', '_blank');
           Tournament.getSignedUrlForMatchSchedulePrint(templateData).then(
             (response) => {

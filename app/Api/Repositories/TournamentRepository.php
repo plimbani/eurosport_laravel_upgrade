@@ -853,7 +853,9 @@ class TournamentRepository
 
         $pitches = Pitch::where('tournament_id', $data['tournamentId'])->where('size', $ageCategoryDetail->pitch_size)->get();
 
-        return ['ageCategoryDetail' => $ageCategoryDetail, 'pitches' => $pitches];
+        $alreadyScheduledMatchesCount = TempFixture::where('age_group_id', $data['ageCategoryId'])->where('is_scheduled', 1)->get()->count();
+
+        return ['ageCategoryDetail' => $ageCategoryDetail, 'pitches' => $pitches, 'alreadyScheduledMatchesCount' => $alreadyScheduledMatchesCount];
     }
 
     public function getAllPitchesWithDays($pitchId)
@@ -1020,7 +1022,7 @@ class TournamentRepository
             }
         }
 
-        $unscheduledMatches = TempFixture::where('tournament_id', $data['tournamentId']);
+        $unscheduledMatches = TempFixture::where('tournament_id', $data['tournamentId'])->where('age_group_id', $data['age_category']);
         if ($data['competition'] !== 'all') {
             $unscheduledMatches = $unscheduledMatches->where('competition_id', $data['competition']);
         }
