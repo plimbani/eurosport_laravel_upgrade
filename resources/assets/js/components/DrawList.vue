@@ -18,7 +18,7 @@
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
-          <displaygraphic :sectionGraphicImage="'DrawList'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId"></displaygraphic>
+          <displaygraphic :sectionGraphicImage="'DrawList'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="$store.state.Tournament.tournamentId"></displaygraphic>
         </tbody>
       </table>
       <span v-else>No information available</span>
