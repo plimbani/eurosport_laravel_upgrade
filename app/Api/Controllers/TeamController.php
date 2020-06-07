@@ -368,4 +368,9 @@ class TeamController extends BaseController
     {
       return $this->teamObj->printGroupsViewReport($request->all());
     }
+
+    public function allocateTeamsAutomatically(Request $request)
+    {
+      return $this->teamObj->allocateTeamsAutomatically($request->all());
+    }
 }

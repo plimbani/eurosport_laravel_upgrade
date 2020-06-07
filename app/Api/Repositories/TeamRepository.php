@@ -687,4 +687,11 @@ class TeamRepository
               DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
             ->where('teams.tournament_id','=',$tournamentId)->get();
     }
+
+    public function getAgeCategoryTeams($data)
+    {
+      $ageCategory = TournamentCompetationTemplates::find($data['ageCategoryId']);
+      $ageCategoryTeams = Team::where('age_group_id', $data['ageCategoryId'])->get();
+      return ['ageCategory' => $ageCategory, 'ageCategoryTeams' => $ageCategoryTeams];
+    }
 }
