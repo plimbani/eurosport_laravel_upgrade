@@ -122,6 +122,8 @@ $api->version('v1', function ($api) {
     $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
 
     $api->post('getTemplateGraphic','Laraspace\Api\Controllers\TemplateController@getTemplateGraphic');
+
+    $api->post('getSignedUrlForMatchSchedulePrint', 'Laraspace\Api\Controllers\AgeGroupController@getSignedUrlForMatchSchedulePrint');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
@@ -266,8 +268,6 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
 
     $api->post('getSignedUrlForUsersTableData', 'Laraspace\Api\Controllers\UserController@getSignedUrlForUsersTableData');
-
-    $api->post('getSignedUrlForMatchSchedulePrint', 'Laraspace\Api\Controllers\AgeGroupController@getSignedUrlForMatchSchedulePrint');
 
     $api->get('getTeamsFairPlayData', 'Laraspace\Api\Controllers\TeamController@getTeamsFairPlayData');
     $api->post('getSignedUrlForTeamsFairPlayReportExport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForTeamsFairPlayReportExport');
