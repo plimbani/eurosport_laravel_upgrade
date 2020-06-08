@@ -291,6 +291,8 @@ class TemplateRepository
         $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
+        $tournamentTemplate->total_groups = $data['templateFormDetail']['stepone']['no_of_groups'];
+        $tournamentTemplate->total_teams_in_round_two = $data['templateFormDetail']['stepone']['no_of_teams_in_round_two'];
         $tournamentTemplate->minimum_matches = $data['templateFormDetail']['stepone']['minimum_match'];
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = number_format($decodedJson['avg_game_team'], 1);

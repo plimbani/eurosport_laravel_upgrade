@@ -29,10 +29,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="checkbox">
+                                    <div class="c-input">
+                                        <input class="euro-radio" type="radio" name="editor" value="knockout" v-model="templateFormDetail.stepone.editor" id="radio_knockout">
+                                        <label for="radio_knockout">Knockout</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>                        
                     </div>                   
             		<div class="form-group" :class="{'has-error': errors.has('no_of_teams') }">
-            			<label>{{$lang.add_template_modal_number_of_teams}}</label>
+            			<label v-if="templateFormDetail.stepone.editor == 'knockout'">{{$lang.add_template_modal_number_of_teams_knockout}}</label>
+                        <label v-else>{{$lang.add_template_modal_number_of_teams}}</label>
                         <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams">
                             <option value="">Number of teams in group</option>
                             <option :value="team" v-for="team in teamsToDisplay">{{ team }}</option>
@@ -40,8 +49,26 @@
                         <i v-show="errors.has('no_of_teams')" class="fa fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('no_of_teams')">{{ errors.first('no_of_teams') }}</span>
             		</div>
+                    <div v-if="templateFormDetail.stepone.editor == 'knockout'" class="form-group" :class="{'has-error': errors.has('no_of_groups') }">
+                        <label>{{$lang.add_template_modal_number_of_groups}}</label>
+                        <select class="form-control ls-select2" name="no_of_groups" v-model="templateFormDetail.stepone.no_of_groups" v-validate="'required'" :class="{'is-danger': errors.has('no_of_groups') }" data-vv-as="number of groups">
+                            <option value="">Select number of groups</option>
+                            <option :value="group" v-for="group in groupsToDisplay">{{ group }}</option>
+                        </select>
+                        <i v-show="errors.has('no_of_groups')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('no_of_groups')">{{ errors.first('no_of_groups') }}</span>
+                    </div>
+                    <div v-if="templateFormDetail.stepone.editor == 'knockout'" class="form-group" :class="{'has-error': errors.has('no_of_teams_in_round_two') }">
+                        <label>{{$lang.add_template_modal_teams_in_round_two}}</label>
+                        <select class="form-control ls-select2" name="no_of_teams_in_round_two" v-model="templateFormDetail.stepone.no_of_teams_in_round_two" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams_in_round_two') }" data-vv-as="number of groups">
+                            <option value="">Select number of teams</option>
+                            <option :value="team" v-for="team in teamsToDisplayInRoundTwo">{{ team }} teams</option>
+                        </select>
+                        <i v-show="errors.has('no_of_teams_in_round_two')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('no_of_teams_in_round_two')">{{ errors.first('no_of_teams_in_round_two') }}</span>
+                    </div>
                     <form>
-                        <div class="form-group" :class="{'has-error': errors.has('minimum_match') }">
+                        <div v-if="templateFormDetail.stepone.editor != 'knockout'" class="form-group" :class="{'has-error': errors.has('minimum_match') }">
                             <label for="remarks">Tournament minimum matches*</label>
                             <input name="minimum_match" type="text" class="form-control" v-model="templateFormDetail.stepone.minimum_match" placeholder="Minimum match" v-validate="'required|numeric'" :class="{'is-danger': errors.has('minimum_match') }" data-vv-as="minimum matches">
                             <i v-show="errors.has('minimum_match')" class="fa fa-warning"></i>
@@ -130,11 +157,32 @@
 		},
         computed: {
             teamsToDisplay() {
+                var start = this.templateFormDetail.stepone.editor == 'knockout' ? 8 : 2;
+                var end = this.templateFormDetail.stepone.editor == 'knockout' ? 120 : 60;
                 var totalTeams = [];
-                for (var n = 2; n <= 60; n++) {
+                for (var n = start; n <= end; n++) {
                     totalTeams.push(n);
                 }
 
+                return totalTeams;
+            },
+            groupsToDisplay() {
+                var totalGroups = [];
+                for (var n = 1; n <= 15; n++) {
+                    totalGroups.push(n);
+                }
+                return totalGroups;
+            },
+            teamsToDisplayInRoundTwo() {
+                var totalTeams = [];
+                var result = 0;
+                for(var n = 1; n < 7; n++) {
+                    result = Math.pow(2, n);
+                    if (result >= this.templateFormDetail.stepone.no_of_teams) {
+                        break;
+                    }
+                    totalTeams.push(result);
+                }
                 return totalTeams;
             },
         },
