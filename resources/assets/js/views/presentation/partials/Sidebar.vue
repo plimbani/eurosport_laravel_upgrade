@@ -13,9 +13,9 @@
                     Age categories
                 </div>
             </div>
-            <div class="sidebar-body">
+            <div class="sidebar-body" v-slimscroll>
                 <ul class="category-list">
-                    <li v-for="(ageCategory, key) in ageCategories" :class="{'list-item': true, 'active': currentAgeCategoryId === ageCategory.id }">
+                    <li v-for="(ageCategory, key) in ageCategories" :class="getAgeCategoryClasses(ageCategory.id, currentAgeCategoryId)">
                         <a href="#" class="list-link">{{ ageCategory.group_name + '(' + ageCategory.category_age + ')' }}</a>
                     </li>
                 </ul>
@@ -27,8 +27,24 @@
 <script type="text/babel">
     export default {
         props: ['currentLayout', 'tmpLogoUrl', 'commercialisationLogoUrl', 'tournament', 'ageCategories', 'currentAgeCategoryId'],
+        components: {
+        },
         data() {
             return {
+            }
+        },
+        watch: {
+            currentAgeCategoryId: function(val) {
+                $(".sidebar-container .sidebar-body").scrollTop($(".js-age-category-" + val).offset().top);
+            }
+        },
+        methods: {
+            getAgeCategoryClasses(ageCategoryId, currentAgeCategoryId) {
+                let classes = 'list-item ' + 'js-age-category-' + ageCategoryId;
+                if(currentAgeCategoryId === ageCategoryId) {
+                    classes += ' active'
+                }
+                return classes;
             }
         },
     }

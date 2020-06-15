@@ -17,6 +17,10 @@ Thumbs.db
 /public/frontend/css/main.*.css
 /public/frontend/css/theme*.css
 /public/assets/css/*.*.css
+/public/assets/css/*.*.css.map
 /public/assets/js/*.*.js
+/public/assets/js/*.*.js.map
 /public/frontend/js/*.*.js
+/public/frontend/js/*.*.js.map
 /public/presentation/css
+/public/mix-manifest.json

@@ -9,8 +9,8 @@
 	            <transition name="slide-fade" mode="out-in">
 		            <!-- <div v-for="(matchesStandingsInformation, index) in ageCategoryPageWiseInformation" :style="{'display': index == }"> -->
 		            <div :key="currentPage">
-		            	<matches v-if="currentPageInformation.type === 'matches'" :currentCategoryName="getCurrentAgeCategoryName()" :currentDate="currentDate" :currentPage="currentPage" :totalPages="getTotalPagesOfCurrentAgeCategory()" :currentPageInformation="currentPageInformation"></matches>
-		            	<standings v-if="currentPageInformation.type === 'standings'" :currentCategoryName="getCurrentAgeCategoryName()" :currentPage="currentPage" :totalPages="getTotalPagesOfCurrentAgeCategory()" :currentPageInformation="currentPageInformation"></standings>
+		            	<matches v-if="typeof currentPageInformation.type !== 'undefined' && currentPageInformation.type === 'matches'" :currentCategoryName="getCurrentAgeCategoryName()" :currentDate="currentDate" :currentPage="currentPage" :totalPages="getTotalPagesOfCurrentAgeCategory()" :currentPageInformation="currentPageInformation"></matches>
+		            	<standings v-if="typeof currentPageInformation.type !== 'undefined' && currentPageInformation.type === 'standings'" :currentCategoryName="getCurrentAgeCategoryName()" :currentPage="currentPage" :totalPages="getTotalPagesOfCurrentAgeCategory()" :currentPageInformation="currentPageInformation"></standings>
 		            </div>
 		        	<!-- </div> -->
 		        </transition>
@@ -23,7 +23,7 @@
 	import Sidebar from './partials/Sidebar.vue';
 	import Matches from './matches/Matches.vue';
 	import Standings from './standings/Standings.vue';
-    import Presentation from '../../api/presentation/index.js'
+    import Presentation from '../../api/presentation/index.js';
 	export default {
 		components: {
       		Sidebar,
@@ -35,7 +35,7 @@
             	'currentDate': Site.currentDate,
             	'tournament': Site.tournament,
             	'ageCategories': Site.ageCategories,
-            	'currentAgeCategoryId': _.first(Site.ageCategories).id,
+            	'currentAgeCategoryId': _.size(Site.ageCategories) > 0 ? _.first(Site.ageCategories).id : null,
                 'currentAgeCategoryIndex': 0,
             	'ageCategoriesPageWiseInformation': Site.ageCategoriesPageWiseInformation,
             	'currentLayout': Site.currentLayout,
@@ -67,8 +67,10 @@
                     vm.currentAgeCategory = _.cloneDeep(vm.ageCategoriesPageWiseInformation[vm.currentAgeCategoryIndex]);
                     vm.currentAgeCategoryId = vm.currentAgeCategory.id;
                 }
-                vm.currentPageInformation = _.cloneDeep(vm.currentAgeCategory.data.pageWiseInformation[vm.currentPage]);
-
+                vm.currentPageInformation = {};
+                if(typeof vm.currentAgeCategory.data.pageWiseInformation !== 'undefined') {
+                    vm.currentPageInformation = _.cloneDeep(vm.currentAgeCategory.data.pageWiseInformation[vm.currentPage]);
+                }
                 if(vm.getTotalAgeCategories() === 1) {
                     if(vm.currentPage === (vm.getTotalPagesOfCurrentAgeCategory() - 1)) {
                         vm.intializeFetchAgeCategoriesData();

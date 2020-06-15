@@ -37,6 +37,10 @@
         overflow-y: auto;
     }
 
+    .slimScrollDiv, .sidebar-body {
+        height: calc(100vh - 163px);
+    }
+
     .sidebar-header {
         border-bottom: 2px solid theme-color('light');
         padding-bottom: 15px;

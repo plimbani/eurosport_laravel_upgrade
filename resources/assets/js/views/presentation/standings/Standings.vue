@@ -17,7 +17,7 @@
         </div>
         <div class="page-body">
             <div class="group-layout grid-group-layout">
-                <div class="group-grid-item" v-for="groupStanding in currentPageInformation.records">
+                <div v-if="typeof currentPageInformation.records !== 'undefined'" class="group-grid-item" v-for="groupStanding in currentPageInformation.records">
                     <div class="group-table-info">
                         <div class="group-table-label">Group</div>
                         <div class="group-table-name">{{ groupStanding.name }}</div>
@@ -47,6 +47,9 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div v-else>
+                    <span class="text-muted">Fetching standings ...</span>
                 </div>
             </div>
         </div>

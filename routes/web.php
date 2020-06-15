@@ -7,13 +7,6 @@
 |
 */
 
-
-// Route::get('/show-presentation/{tournamentslug}', '\Laraspace\Http\Controllers\Presentation\TVPresentationController@showPresentation')->name('presentation.show');
-
-// Route::get('/match', function () {
-//     return view('tvpresentation/pages.presentation.match');
-// })->name('presentation.match');
-
 Route::get('auth/{provider}/callback', '\Laraspace\Http\Controllers\Auth\LoginController@handleProviderCallback')->where('provider', 'facebook');
 
 Route::group(['domain' => config('app.domain')], function() {

@@ -54,6 +54,7 @@ class PresentationController extends Controller
 							->select('id', 'group_name', 'category_age')
 							->get()
 							->toArray();
+		$ageCategoriesPageWiseInformation = [];
 
 		if(count($ageCategoryIds) > 0) {
 			foreach($ageCategories as $index => $ageCategory) {

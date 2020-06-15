@@ -8,7 +8,7 @@
 		               <h6 class="mb-0 fieldset-title"><strong>{{$lang.summary_settings}}</strong></h6>
 		            </div>
 		        	<div class="col-9">
-	                    <a target="_blank" :href="getPresentationUrl()" class="btn btn-primary pull-right">Show TV Presentation</a>
+	                    <a v-if="tournament.showPresentation" target="_blank" :href="getPresentationUrl()" class="btn btn-primary pull-right">Show TV Presentation</a>
 	                </div>
 		           	<div class="col-3">
 						<form name="frmSettings" id="frmSettings" class="settings-form">
@@ -37,6 +37,7 @@ export default {
 			tournament: { 
 				screenRotateTime: 0,
 				tournamentId: this.$store.state.Tournament.tournamentId,
+				showPresentation: false,
 			}
 		}
 	},
@@ -72,7 +73,8 @@ export default {
   			let vm = this;
   			Tournament.getPresentationSettings(this.tournament.tournamentId).then(
                 (response) => {
-                    vm.tournament.screenRotateTime = response.data;
+                    vm.tournament.screenRotateTime = response.data.screen_rotate_time_in_seconds;
+                    vm.tournament.showPresentation = response.data.show_presentation;
                 },
               	(error) => {
               	}
