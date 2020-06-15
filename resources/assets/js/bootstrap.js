@@ -7,6 +7,7 @@ import Multiselect from 'vue-multiselect';
 import Lang from 'vue-lang';
 import VuePaginate from 'vue-paginate';
 import VueClipboard from 'vue-clipboard2';
+import VueSlimScroll from 'vue-slimscroll';
 
 window._ = require('lodash');
 
@@ -69,6 +70,7 @@ Vue.use(VeeValidate);
 Vue.use(VuePaginate);
 Vue.component('multiselect',Multiselect);
 Vue.use(VueClipboard);
+Vue.use(VueSlimScroll);
 
 var locales = {
   "en": require("./locale/en.js"),

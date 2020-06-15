@@ -52,3 +52,6 @@ export const SET_PREVIEW_DETAIL = 'SET_PREVIEW_DETAIL';
 
 // Current layout
 export const SET_CURRENT_LAYOUT = 'SET_CURRENT_LAYOUT';
+
+// Presentation
+export const SET_SCREEN_ROTATE_TIME = 'SET_SCREEN_ROTATE_TIME';

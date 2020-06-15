@@ -1,0 +1,31 @@
+.body-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.selection-content {
+    flex-grow: 1;
+}
+
+.selection-content {
+    display: flex;
+    align-items: center;
+}
+
+.selection-footer {
+    flex-shrink: 0;
+
+    .footer-text {
+        @include font-size(12);
+        color: $muted;
+        margin-bottom: 15px;
+
+        &.is-center {
+            text-align: center;
+        }
+    }
+}

@@ -938,4 +938,10 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->duplicateTournamentList($data);
       return ['data' => $data, 'status_code' => '200']; 
     }
+
+    public function saveSettings($data)
+    {
+      $data = $this->tournamentRepoObj->saveSettings($data);
+      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
+    }
 }

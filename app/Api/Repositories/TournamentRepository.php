@@ -1457,4 +1457,12 @@ class TournamentRepository
             return Tournament::orderBy('name', 'asc')->get();
         }
     }
+
+    public function saveSettings($data)
+    {
+        $tournament = Tournament::find($data['tournamentData']['tournamentId']);
+        $tournament->screen_rotate_time_in_seconds = $data['tournamentData']['screenRotateTime'];
+        $tournament->save();
+        return $tournament;
+    }
 }

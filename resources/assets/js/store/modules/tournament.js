@@ -6,6 +6,7 @@ import moment from 'moment'
 // initial state
 const state = {
   tournamentName: '',
+  tournamentSlug: '',
   maximumTeams: '',
   tournamentStartDate:"",
   tournamentEndDate:"",
@@ -38,6 +39,7 @@ const state = {
   unsaveMatchData:[],
   matchResultChange:false,
   setRedirectPage:'',
+  screenRotateTime: 0,
 }
 // getters
 const getters = {
@@ -65,7 +67,9 @@ const getters = {
     getTournamentName: state => {
       return state.tournamentName
     },
-
+    getTournamentSlug: state => {
+      return state.tournamentSlug
+    },
 }
 // actions
 const actions = {
@@ -208,6 +212,9 @@ const actions = {
   UnsaveMatchStatus({commit},resultChange) {
     commit(types.SET_UNSAVEMATCH_STATUS,resultChange)
   },
+  SetScreenRotateTime({commit}, time) {
+    commit(types.SET_SCREEN_ROTATE_TIME, time)
+  },
 }
 
 // mutations
@@ -218,6 +225,7 @@ const mutations = {
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {
  	//alert(JSON.stringify(currentTournamentName))
   state.tournamentName = currentTournament.name
+  state.tournamentSlug = typeof currentTournament.slug !== 'undefined' ? currentTournament.slug : state.tournamentSlug;
   state.maximumTeams = currentTournament.maximum_teams
 	state.tournamentStartDate = currentTournament.tournamentStartDate!='' ? currentTournament.tournamentStartDate: ''
 	state.tournamentEndDate = currentTournament.tournamentEndDate != '' ? currentTournament.tournamentEndDate: ''
@@ -225,6 +233,7 @@ const mutations = {
 	state.tournamentId = currentTournament.id
 	state.tournamentStatus = currentTournament.tournamentStatus
 	state.tournamentLogo = currentTournament.tournamentLogo
+  state.screenRotateTime = currentTournament.screenRotateTime
 
   // Optional Fields
   state.facebook = currentTournament.facebook
@@ -390,6 +399,9 @@ const mutations = {
   },
   [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
     state.matchResultChange = unSaveMatchStatus;
+  },
+  [types.SET_SCREEN_ROTATE_TIME] (state, time) {
+    state.screenRotateTime = time;
   },
 }
 

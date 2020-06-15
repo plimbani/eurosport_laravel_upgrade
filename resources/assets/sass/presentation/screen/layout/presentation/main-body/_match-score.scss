@@ -1,0 +1,47 @@
+.match-score {
+    display: flex;
+    align-items: center;
+
+    .team {
+        flex: 0 0 48%;
+        max-width: 48%;
+
+        .team-score {
+            @include font-size(28);
+            font-size: 1.5vw;
+            font-weight: $font-weight-bold;
+            letter-spacing: 0.15px;
+        }
+
+        &.team-a {
+            padding-right: 6px;
+
+            .team-score {
+                text-align: right;
+            }
+        }
+
+        &.team-b {
+            padding-left: 6px;
+        }
+    }
+
+    .separator {
+        flex: 0 0 2%;
+        max-width: 2%;
+
+        .line {
+            width: 1px;
+            display: block;
+            margin: 0 auto;
+            background-color: theme-color("dark");
+            height: 18px;
+        }
+    }
+}
+
+.match-venue {
+    @include font-size(12);
+    font-size: 0.65vw;
+    text-align: center;
+}
