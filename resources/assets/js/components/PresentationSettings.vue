@@ -10,13 +10,15 @@
 		        	<div class="col-9">
 	                    <a v-if="tournament.showPresentation" target="_blank" :href="getPresentationUrl()" class="btn btn-primary pull-right">Show TV presentation</a>
 	                </div>
-		           	<div class="col-3">
+		           	<div class="col-4">
 						<form name="frmSettings" id="frmSettings" class="settings-form">
 							<div class="form-group" :class="{'has-error': errors.has('screenRotateTime') }">
 		              			<label>{{$lang.summary_setings_screen_rotate_time_message}}*</label>
-		              			<input v-model="tournament.screenRotateTime" type="number" name="screenRotateTime" min="0" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('screenRotateTime') }">
+		              			<input v-model="tournament.screenRotateTime" type="number" name="screenRotateTime" min="5" class="form-control" v-validate="{'required':true, 'min_value': 5}" :class="{'is-danger': errors.has('screenRotateTime') }" data-vv-as="screen rotation time">
 		              			<i v-show="errors.has('screenRotateTime')" class="fas fa-warning"></i>
-		              			<span class="help is-danger" v-show="errors.has('screenRotateTime')">Screen rotation time is required</span>
+		              			<span class="help is-danger" v-show="errors.has('screenRotateTime')">
+		              				{{ errors.first('screenRotateTime') }}
+		              			</span>
 		          			</div>
 		          			<div class="form-group">
 		              			<button type="button" class="btn btn-primary" @click="saveSettings">{{$lang.summary_setings_screen_rotate_time_button_save}}</button>
