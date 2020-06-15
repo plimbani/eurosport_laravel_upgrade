@@ -8,7 +8,7 @@
 		               <h6 class="mb-0 fieldset-title"><strong>{{$lang.summary_settings}}</strong></h6>
 		            </div>
 		        	<div class="col-9">
-	                    <a v-if="tournament.showPresentation" target="_blank" :href="getPresentationUrl()" class="btn btn-primary pull-right">Show TV Presentation</a>
+	                    <a v-if="tournament.showPresentation" target="_blank" :href="getPresentationUrl()" class="btn btn-primary pull-right">Show TV presentation</a>
 	                </div>
 		           	<div class="col-3">
 						<form name="frmSettings" id="frmSettings" class="settings-form">
@@ -16,7 +16,7 @@
 		              			<label>{{$lang.summary_setings_screen_rotate_time_message}}*</label>
 		              			<input v-model="tournament.screenRotateTime" type="number" name="screenRotateTime" min="0" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('screenRotateTime') }">
 		              			<i v-show="errors.has('screenRotateTime')" class="fas fa-warning"></i>
-		              			<span class="help is-danger" v-show="errors.has('screenRotateTime')">Screen rotate time is required</span>
+		              			<span class="help is-danger" v-show="errors.has('screenRotateTime')">Screen rotation time is required</span>
 		          			</div>
 		          			<div class="form-group">
 		              			<button type="button" class="btn btn-primary" @click="saveSettings">{{$lang.summary_setings_screen_rotate_time_button_save}}</button>
