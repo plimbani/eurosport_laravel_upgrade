@@ -1028,6 +1028,7 @@ class TournamentRepository
         }
         $unscheduledMatches = $unscheduledMatches->where('is_scheduled', 0)->get();
         $matchScheduleArray = [];
+        $roundWiseLastMatchDateTime = [];
         foreach ($unscheduledMatches as $match) {
             if ($match->is_final_round_match == 1) {
                 $matchTime = $finalMatchTotalTime;
@@ -1035,6 +1036,7 @@ class TournamentRepository
                 $matchTime = $normalMatchTotalTime;
             }
 
+            $newEndDateTime = null;
             foreach ($pitchAvailableTime as $pitchId => $availability) {
                 $i = 0;
                 $startTimeStamp = null;
@@ -1043,6 +1045,7 @@ class TournamentRepository
                     if ($matchTime == $i) {
                         $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
                         $endTimeStamp = Carbon::createFromTimestamp($timestamp);
+                        $newEndDateTime = $endTimeStamp;
 
                         $matchScheduleArray[$match->id] = array(
                             'match_start_time' => clone ($startTimeStamp),
@@ -1154,6 +1157,16 @@ class TournamentRepository
                 unset($pitchAvailableTime[$pitchAvailableTimeKeys[0]]);
                 $pitchAvailableTime[$pitchAvailableTimeKeys[0]] = $pitchAvailableTimeValues;
             }
+
+            if ($data['competition'] == 'all') {
+                $round = $match->competition->competation_round_no;
+                $roundArray = explode(" ", $match->competition->competation_round_no);
+                if ($roundArray[1] > 1) {
+                    $roundArray[1] = $roundArray[1] - 1;
+                    $round = $roundArray[0] . ' ' . $roundArray[1];
+                }
+                $roundWiseLastMatchDateTime[$round] = $newEndDateTime;
+            }
         }
 
         if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
@@ -1161,6 +1174,19 @@ class TournamentRepository
         }
 
         foreach ($matchScheduleArray as $matchId => $matchDetail) {
+            if ($data['competition'] == 'all') {
+                foreach ($roundWiseLastMatchDateTime as $roundNumber => $dateTime) {
+                    $roundNumberArray = explode(" ", $roundNumber);
+                    if ($roundNumberArray[1] > 1) {
+                        if ($matchDetail['match_start_time'] < $dateTime) {
+                            $isMatchScheduledFlag = true;
+                        }
+                    }
+                    if ($isMatchScheduledFlag == true) {
+                        break;
+                    }
+                }
+            }
             $matchFixture = TempFixture::find($matchId);
             $matchFixture->match_datetime = $matchDetail['match_start_time'];
             $matchFixture->match_endtime = $matchDetail['match_end_time'];
