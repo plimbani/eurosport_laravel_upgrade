@@ -2872,8 +2872,8 @@ class MatchService implements MatchContract
                     $join->on('away_team.id', '=', 'temp_fixtures.away_team');
                   })
                   // ->where( DB::raw("DATE(match_datetime) = '" . date('Y-m-d') . "'") )
-                  // ->whereDate('match_datetime', date('Y-m-d'))
-                  ->whereDate('match_datetime', date('2020-05-06'))
+                  ->whereDate('match_datetime', date('Y-m-d'))
+                  // ->whereDate('match_datetime', date('2020-05-06'))
                   ->orderBy('match_datetime', 'ASC')
                   ->select(
                     'temp_fixtures.id as id',

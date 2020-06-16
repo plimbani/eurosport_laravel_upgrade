@@ -45,8 +45,8 @@ class PresentationController extends Controller
 		}
 		$ageCategoryIds = TempFixture::where('tournament_id', $tournament->id)
 									// ->where( DB::raw("DATE(match_datetime) = '". date('Y-m-d') . "'") )
-									// ->whereDate('match_datetime', date('Y-m-d'))
-									->whereDate('match_datetime', date('2020-05-06'))
+									->whereDate('match_datetime', date('Y-m-d'))
+									// ->whereDate('match_datetime', date('2020-05-06'))
 									->orderBy('match_datetime', 'ASC')
 									->pluck('age_group_id')
 									->unique()->values()->all();
