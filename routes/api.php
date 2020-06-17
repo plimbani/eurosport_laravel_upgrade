@@ -223,6 +223,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
     $api->post('/tournament/saveSettings', '\Laraspace\Api\Controllers\TournamentController@saveSettings');
+    $api->get('/tournament/getPresentationSettings/{tournamentId}', '\Laraspace\Api\Controllers\TournamentController@getPresentationSettings');
 
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
 
@@ -313,6 +314,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');
     
     $api->post('user/verifyResultAdminUser','Laraspace\Api\Controllers\UserController@verifyResultAdminUser');
+
+    $api->get('getMatchesAndStandingsOfAgeCategory/{ageCategoryId}','Laraspace\Http\Controllers\PresentationController@getMatchesAndStandingsOfAgeCategory');
 });
 
 // Websites CMS routes

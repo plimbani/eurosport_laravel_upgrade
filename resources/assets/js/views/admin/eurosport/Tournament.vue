@@ -29,7 +29,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='settings'">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='PresentationSettings'">
                       <div class="wrapper-tab">{{$lang.summary_lable_tv_presentation}}</div>
                     </a>
                   </li>
@@ -57,7 +57,7 @@ import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
-import Settings from '../../../components/Settings.vue'
+import PresentationSettings from '../../../components/PresentationSettings.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 // import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
@@ -71,7 +71,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, Settings, AddMessageModel, UnsaveMatchScoreModel
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 

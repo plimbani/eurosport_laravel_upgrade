@@ -105,7 +105,14 @@ mix.combine([
 
 .version();
 
-mix.sass('resources/assets/sass/tvpresentation/app.scss', 'public/tvpresentation/css');
+mix.sass('resources/assets/sass/presentation/app.scss', 'public/presentation/css');
+
+// mix.sass('resources/assets/sass/presentation/app.scss', 'public/presentation/css', [
+//     require('autoprefixer')({
+//         browsers: ['last 40 versions'],
+//         grid: true
+//     })
+// ]);
 
 // mix.sass('resources/assets/sass/tvpresentation/app.scss', 'public/tvpresentation/css')
 //     .options({

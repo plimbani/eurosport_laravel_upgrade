@@ -347,4 +347,20 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->saveSettings($request->all());
     }
+
+    public function getPresentationSettings(Request $request, $tournamentId)
+    {
+        $tournament = Tournament::find($tournamentId);
+        $ageCategoryIds = TempFixture::where('tournament_id', $tournament->id)
+                                    ->whereDate('match_datetime', date('Y-m-d'))
+                                    // ->whereDate('match_datetime', date('2020-05-06'))
+                                    ->orderBy('match_datetime', 'ASC')
+                                    ->pluck('age_group_id')
+                                    ->unique()->values()->all();
+
+        return  [
+                    'screen_rotate_time_in_seconds' => $tournament->screen_rotate_time_in_seconds,
+                    'show_presentation' => count($ageCategoryIds) > 0 ? true : false,
+                ];
+    }
 }

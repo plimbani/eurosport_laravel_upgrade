@@ -7,15 +7,6 @@
 |
 */
 
-
-Route::get('/show-presentation', '\Laraspace\Http\Controllers\Presentation\TVPresentationController@showPresentation', function () {
-    return view('tvpresentation/pages.presentation.index');
-})->name('presentation.show');
-
-Route::get('/match', function () {
-    return view('tvpresentation/pages.presentation.match');
-})->name('presentation.match');
-
 Route::get('auth/{provider}/callback', '\Laraspace\Http\Controllers\Auth\LoginController@handleProviderCallback')->where('provider', 'facebook');
 
 Route::group(['domain' => config('app.domain')], function() {
@@ -30,6 +21,8 @@ Route::group(['domain' => config('app.domain')], function() {
 	Route::get('getMatchSchedulePdfFooter', 'PDFController@getMatchSchedulePdfFooter')->name('match.schedule.pdf.footer');
 
 	Route::get('pdf/matchgraphic', 'PDFController@matchgraphic')->name('pdf.matchgraphic');
+
+	Route::get('/admin/show-presentation/{tournamentslug}', '\Laraspace\Http\Controllers\PresentationController@showPresentation')->name('presentation.show');	
 
 	Route::get('/{vue?}', function () {
 		return view('app');
