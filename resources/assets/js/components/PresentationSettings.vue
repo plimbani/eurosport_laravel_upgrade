@@ -16,9 +16,6 @@
 		              			<label>{{$lang.summary_setings_screen_rotate_time_message}}*</label>
 		              			<input v-model="tournament.screenRotateTime" type="text" name="screenRotateTime" min="5" class="form-control" v-validate="{'required':true, 'min_value': 5}" :class="{'is-danger': errors.has('screenRotateTime') }" data-vv-as="screen rotation time">
 		              			<i v-show="errors.has('screenRotateTime')" class="fas fa-warning"></i>
-		              			<!-- <span class="help is-danger" v-show="errors.has('screenRotateTime')">
-		              				{{ errors.first('screenRotateTime') }}
-		              			</span> -->
             					<span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'required')">{{ $lang.summary_setings_screen_rotate_time_required_error_message }}</span>
                   				<span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'min_value')">{{ $lang.summary_setings_screen_rotate_time_min_value_error_message }}</span>
 		          			</div>
