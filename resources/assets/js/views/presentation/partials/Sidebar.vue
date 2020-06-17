@@ -16,7 +16,7 @@
             <div class="sidebar-body" v-slimscroll>
                 <ul class="category-list">
                     <li v-for="(ageCategory, key) in ageCategories" :class="getAgeCategoryClasses(ageCategory.id, currentAgeCategoryId)">
-                        <a href="#" class="list-link">{{ ageCategory.group_name + '(' + ageCategory.category_age + ')' }}</a>
+                        <a href="#" class="list-link">{{ ageCategory.group_name + ' (' + ageCategory.category_age + ')' }}</a>
                     </li>
                 </ul>
             </div>
