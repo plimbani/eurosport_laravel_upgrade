@@ -727,6 +727,8 @@ module.exports= {
 
   summary_message_compose_message: "Compose your message",
   summary_setings_screen_rotate_time_message: "Screen rotation time (in seconds)",
+  summary_setings_screen_rotate_time_required_error_message: "Insert numbers only",
+  summary_setings_screen_rotate_time_min_value_error_message: "Minimum rotation is 5 seconds",
   summary_setings_screen_rotate_time_button_save: "Save",
   summary_message_button_send: "Send",
   summary_label: "Administration",
