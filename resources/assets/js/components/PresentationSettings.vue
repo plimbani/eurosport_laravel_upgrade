@@ -14,10 +14,12 @@
 						<form name="frmSettings" id="frmSettings" class="settings-form">
 							<div class="form-group" :class="{'has-error': errors.has('screenRotateTime') }">
 		              			<label>{{$lang.summary_setings_screen_rotate_time_message}}*</label>
-		              			<input v-model="tournament.screenRotateTime" type="text" name="screenRotateTime" min="5" class="form-control" v-validate="{'required':true, 'min_value': 5}" :class="{'is-danger': errors.has('screenRotateTime') }" data-vv-as="screen rotation time">
+		              			<input v-model="tournament.screenRotateTime" type="number" name="screenRotateTime" min="5" class="form-control" v-validate="{ rules: { required:true, min_value: 5, numeric: true } }" :class="{'is-danger': errors.has('screenRotateTime') }" data-vv-as="screen rotation time">
 		              			<i v-show="errors.has('screenRotateTime')" class="fas fa-warning"></i>
-            					<span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'required')">{{ $lang.summary_setings_screen_rotate_time_required_error_message }}</span>
+                  <span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'numeric')">The screen rotation time must be numeric.</span>
+            					<span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'decimal')">{{ $lang.summary_setings_screen_rotate_time_required_error_message }}</span>
                   				<span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'min_value')">{{ $lang.summary_setings_screen_rotate_time_min_value_error_message }}</span>
+                  				<!-- <span class="help is-danger" v-show="errors.firstByRule('screenRotateTime', 'decimal')">{{ $lang.summary_setings_screen_rotate_time_min_value_error_message }}</span> -->
 		          			</div>
 		          			<div class="form-group">
 		              			<button type="button" class="btn btn-primary" @click="saveSettings">{{$lang.summary_setings_screen_rotate_time_button_save}}</button>
