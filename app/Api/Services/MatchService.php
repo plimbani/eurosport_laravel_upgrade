@@ -2861,7 +2861,8 @@ class MatchService implements MatchContract
 
     public function getTodaysMatchesOfAgeCategory($ageCategoryId)
     {
-      $ageCategoryMatches = TempFixture::where('temp_fixtures.age_group_id', $ageCategoryId)
+      $ageCategoryMatches = DB::table('temp_fixtures')
+                  ->where('temp_fixtures.age_group_id', $ageCategoryId)
                   ->leftjoin('competitions', 'competitions.id', 'temp_fixtures.competition_id')
                   ->leftjoin('venues', 'temp_fixtures.venue_id', 'venues.id')
                   ->leftjoin('pitches', 'temp_fixtures.pitch_id', 'pitches.id')
@@ -2900,7 +2901,43 @@ class MatchService implements MatchContract
                   )
                   ->get()
                   ->toArray();
-      return $ageCategoryMatches;
+
+      $updatedAgeCategoryMatches = [];
+      foreach($ageCategoryMatches as $key => $res) {
+        $res = (array) $res;
+        $updatedAgeCategoryMatches[$key] = $res;
+        if($res['home_id'] == 0 ) {
+          $preset = '';
+            if(strpos($res['display_home_team_placeholder_name'],"." ) != false) {
+              if(strpos($res['display_match_number'], "wrs" ) != false) {
+                $preset = 'wrs.';
+              }
+              if(strpos($res['display_match_number'], "lrs" ) != false) {
+                $preset = 'lrs.';
+              }
+            }
+            
+          $updatedAgeCategoryMatches[$key]['display_home_team_placeholder_name'] = $preset . $res['display_home_team_placeholder_name'];
+
+        }
+        if($res['away_id'] == 0 ) {
+          $preset = '';
+
+            if(strpos($res['display_away_team_placeholder_name'], "." ) != false) {
+              if(strpos($res['display_match_number'], "wrs" ) != false) {
+                $preset = 'wrs.';
+              }
+              if(strpos($res['display_match_number'], "lrs" ) != false) {
+                $preset = 'lrs.';
+              }
+            }
+            
+          $updatedAgeCategoryMatches[$key]['display_away_team_placeholder_name'] = $preset . $res['display_away_team_placeholder_name'];
+
+        } 
+      }
+
+      return $updatedAgeCategoryMatches;
     }
 
     public function getStandingsOfAgeCategory($ageCategoryId)

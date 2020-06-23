@@ -35,8 +35,8 @@
                             <tr v-for="standing in groupStanding.standings">
                                 <td class="teams">
                                     <span class="team-section">
-                                        <span class="flag-area">
-                                            <span class="flag-icon flag-icon-ax"></span>
+                                        <span class="flag-area" v-if="standing.teamCountryFlag != null">
+                                            <span :class="'flag-icon flag-icon-' + standing.teamCountryFlag"></span>
                                         </span>
                                         <span class="team-name">{{ standing.name }}</span>
                                     </span>
