@@ -1693,4 +1693,12 @@ class TournamentRepository
         $finalDate->addHours($configHours);
         return $finalDate->toDateTimeString();
     }
+
+    public function saveSettings($data)
+    {
+        $tournament = Tournament::find($data['tournamentData']['tournamentId']);
+        $tournament->screen_rotate_time_in_seconds = $data['tournamentData']['screenRotateTime'];
+        $tournament->save();
+        return $tournament;
+    }
 }

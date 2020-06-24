@@ -9,10 +9,12 @@
   "devDependencies": {
     "@fortawesome/fontawesome-pro": "^5.8.1",
     "laravel-mix": "^0.6.3",
+    "postcss-custom-properties": "^9.1.1",
     "vue-axios": "^2.0.0",
     "webpack": "2.2.0"
   },
   "dependencies": {
+    "autoprefixer": "^9.7.6",
     "axios": "^0.15.3",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
@@ -41,6 +43,7 @@
     "vue-paginate": "^3.5.0",
     "vue-router": "2.6.0",
     "vue-slider-component": "^2.8.3",
+    "vue-slimscroll": "^1.0.1",
     "vue-socket.io": "^2.1.1-b",
     "vue-template-compiler": "^2.2.1",
     "vue-tinymce-editor": "^1.4.4",

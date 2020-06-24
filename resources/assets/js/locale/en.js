@@ -721,6 +721,7 @@ module.exports= {
   summary_schedule_team: "Teams",
 
   summary_messages: "Messages",
+  summary_settings: "Settings",
   summary_messages_text: "App message text",
   summary_message_text: "Send notifications to teams",
   summary_table_text: "Message history",
@@ -744,6 +745,10 @@ module.exports= {
   // summary_message_sent_to: "Sent to",
 
   summary_message_compose_message: "Compose your message",
+  summary_setings_screen_rotate_time_message: "Screen rotation time (in seconds)",
+  summary_setings_screen_rotate_time_required_error_message: "Insert numbers only",
+  summary_setings_screen_rotate_time_min_value_error_message: "Minimum rotation is 5 seconds",
+  summary_setings_screen_rotate_time_button_save: "Save",
   summary_message_button_send: "Send",
   summary_label: "Administration",
 
@@ -751,6 +756,7 @@ module.exports= {
   summary_label_reports: "Reports",
   summary_label_schedule: "Match results",
   summary_label_message: "App message",
+  summary_lable_tv_presentation: "TV presentation",
 
   summary_schedule_matches_time: "Time",
   summary_schedule_date_time: "Date and time",

@@ -1,0 +1,16 @@
+.main-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .page-header,
+    .page-footer {
+        flex-shrink: 0;
+    }
+
+    .page-body {
+        flex-grow: 1;
+    }
+
+    .page-footer {}
+}

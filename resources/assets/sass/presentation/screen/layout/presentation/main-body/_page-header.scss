@@ -1,0 +1,51 @@
+.page-header {
+    border-bottom: 1px solid rgba(theme-color("dark"), 0.2);
+    padding-bottom: 10px;
+
+    .page-container {
+        display: flex;
+        align-items: center;
+
+        .left-area,
+        .middle-area,
+        .right-area {
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+
+        .left-area {
+            .date-lable {
+                @include font-size(14);
+                font-size: 0.85vw;
+                color: $muted;
+            }
+
+            .date {
+                @include font-size(18);
+                font-size: 1.15vw;
+                font-weight: $font-weight-bold;
+            }
+        }
+
+        .middle-area {
+            .title {
+                text-align: center;
+                @include font-size(18);
+                font-size: 1.15vw;
+                font-weight: $font-weight-bold;
+            }
+        }
+
+        .right-area {
+            text-align: right;
+            color: $muted;
+            @include font-size(16);
+            font-size: 1vw;
+
+            .active-page {
+                font-weight: $font-weight-bold;
+                color: theme-color("secondary")
+            }
+        }
+    }
+}

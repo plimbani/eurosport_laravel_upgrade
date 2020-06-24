@@ -7,7 +7,7 @@
 						<div class="tabs tabs-primary">
              <div class="row justify-content-between">
               <div class="col-sm-12">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs tournament-summary" role="tablist">
                   <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'">
                       <div class="wrapper-tab">{{$lang.summary_label_summary}}</div>
@@ -26,6 +26,11 @@
                   <li class="nav-item" v-if="!isResultAdmin && !isCustomer">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='PresentationSettings'">
+                      <div class="wrapper-tab">{{$lang.summary_lable_tv_presentation}}</div>
                     </a>
                   </li>
              <!--      <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
@@ -52,6 +57,7 @@ import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
+import PresentationSettings from '../../../components/PresentationSettings.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 // import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
@@ -65,7 +71,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 

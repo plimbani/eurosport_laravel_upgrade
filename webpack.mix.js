@@ -1,5 +1,29 @@
 const { mix } = require('laravel-mix');
 
+const postcss = require('postcss');
+
+const postcssCustomProperties = require('postcss-custom-properties');
+
+// const defaultSassOptions = {
+//     processCssUrls: false,
+//     postCss: [
+//         require('autoprefixer')({
+//             grid: true,
+//             overrideBrowserslist: ['last 40 versions'],
+//             cascade: false
+//         })
+//     ]
+// };
+
+if(process.env.NODE_ENV == 'development') {
+    mix.webpackConfig({
+            devtool: 'source-map'
+        })
+        .sourceMaps();
+} else {
+    mix.version();
+}
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -82,6 +106,22 @@ mix.combine([
 .sass('resources/assets/sass/frontend/theme-6.scss', 'public/frontend/css/')
 
 .version();
+
+mix.sass('resources/assets/sass/presentation/app.scss', 'public/presentation/css');
+
+// mix.sass('resources/assets/sass/presentation/app.scss', 'public/presentation/css', [
+//     require('autoprefixer')({
+//         browsers: ['last 40 versions'],
+//         grid: true
+//     })
+// ]);
+
+// mix.sass('resources/assets/sass/tvpresentation/app.scss', 'public/tvpresentation/css')
+//     .options({
+//         postCss: [
+//             require("postcss-custom-properties")
+//         ]
+//     });
 
 mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/assets/webfonts');
 mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/frontend/fonts/webfonts');
