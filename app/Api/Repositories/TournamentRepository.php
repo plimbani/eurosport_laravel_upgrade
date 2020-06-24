@@ -1063,11 +1063,6 @@ class TournamentRepository
 
         foreach ($data['pitches'] as $key => $pitchId) {
             $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->get();
-            $tempFixtures = TempFixture::where('age_group_id', $data['age_category']);
-            if ($data['competition'] !== 'all') {
-                $tempFixtures = $tempFixtures->where('competition_id', $data['competition']);
-            }
-            $tempFixtures = $tempFixtures->where('pitch_id', $pitchId)->where('is_scheduled', 1)->get();
 
             foreach ($pitchAvailability as $key => $pitchAvailable) {
                 if (!isset($data['timings'][$pitchId]['days'][$key])) {
@@ -1145,12 +1140,17 @@ class TournamentRepository
             }
         }
 
-        $unscheduledMatches = TempFixture::where('tournament_id', $data['tournamentId'])->where('age_group_id', $data['age_category']);
+        $unscheduledMatches = TempFixture::leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
+            ->where('temp_fixtures.tournament_id', $data['tournamentId'])->where('temp_fixtures.age_group_id', $data['age_category']);
         if ($data['competition'] !== 'all') {
-            $unscheduledMatches = $unscheduledMatches->where('competition_id', $data['competition']);
+            $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.competition_id', $data['competition']);
         }
-        $unscheduledMatches = $unscheduledMatches->where('is_scheduled', 0)->get();
+        $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.is_scheduled', 0)->orderBy('competitions.competation_round_no')
+            ->select('*', 'temp_fixtures.id as id')
+            ->get();
+
         $matchScheduleArray = [];
+        $roundWiseLastMatchDateTime = [];
         foreach ($unscheduledMatches as $match) {
             if ($match->is_final_round_match == 1) {
                 $matchTime = $finalMatchTotalTime;
@@ -1158,6 +1158,7 @@ class TournamentRepository
                 $matchTime = $normalMatchTotalTime;
             }
 
+            $newEndDateTime = null;
             foreach ($pitchAvailableTime as $pitchId => $availability) {
                 $i = 0;
                 $startTimeStamp = null;
@@ -1166,6 +1167,12 @@ class TournamentRepository
                     if ($matchTime == $i) {
                         $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
                         $endTimeStamp = Carbon::createFromTimestamp($timestamp);
+                        if ($data['competition'] == 'all') {
+                            $round = $match->competation_round_no;
+                            if(!isset($roundWiseLastMatchDateTime[$match->age_group_id][$round]) || $endTimeStamp->greaterThan($roundWiseLastMatchDateTime[$match->age_group_id][$round])) {
+                                $roundWiseLastMatchDateTime[$match->age_group_id][$round] = $endTimeStamp;
+                            }
+                        }
 
                         $matchScheduleArray[$match->id] = array(
                             'match_start_time' => clone ($startTimeStamp),
@@ -1250,6 +1257,21 @@ class TournamentRepository
                                 $canMatchBeSchedule = false;
                             }
 
+                            if ($data['competition'] == 'all') {
+                                $round = $match->competation_round_no;
+                                $roundArray = explode(" ", $round);
+                                $roundNumber = intval($roundArray[1]);
+                                if($roundNumber > 0) {
+                                    $previousRoundNumber = $roundNumber - 1;
+                                    $previousRound = $roundArray[0] . ' ' . $previousRoundNumber;
+                                    if(isset($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
+                                        if($matchStartTimeStamp->lessThan($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
+                                            $canMatchBeSchedule = false;
+                                        }
+                                    }
+                                }
+                            }
+
                             if($canMatchBeSchedule == true) {
                                 $startTimeStamp = $timestamp;
                             }
@@ -1279,10 +1301,10 @@ class TournamentRepository
             }
         }
 
-        if ($totalMatchesToBeScheduled != count($matchScheduleArray)) {
+        if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
             return ['status' => 'error', 'message' => 'There is some error. All matches can not be schedule.'];
         }
-
+        
         foreach ($matchScheduleArray as $matchId => $matchDetail) {
             $matchFixture = TempFixture::find($matchId);
             $matchFixture->match_datetime = $matchDetail['match_start_time'];
