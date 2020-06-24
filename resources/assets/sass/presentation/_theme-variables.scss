@@ -1,0 +1,6 @@
+@debug map-get($grid-breakpoints, xl);
+@debug map-get($grid-breakpoints, xxl);
+$min_width: map-get($grid-breakpoints, xl);
+$max_width: map-get($grid-breakpoints, xxl);
+$min_font: $font-size-base;
+$max_font: $font-size-lg;

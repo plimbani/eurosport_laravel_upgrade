@@ -1028,4 +1028,10 @@ class TournamentService implements TournamentContract
       $expireTime = $this->tournamentRepoObj->getTournamentExpireTime($data['data']['tournament_id'],$data['data']['tournament_end_date'],$matchCount);
       return $expireTime;
     }
+
+    public function saveSettings($data)
+    {
+      $data = $this->tournamentRepoObj->saveSettings($data);
+      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
+    }
 }

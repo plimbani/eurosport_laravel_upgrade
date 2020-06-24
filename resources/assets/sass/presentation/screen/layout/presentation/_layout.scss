@@ -1,0 +1,17 @@
+.presentation {
+    .content {
+        flex-grow: 1;
+        display: grid;
+    }
+}
+
+.data-container {
+    position: relative;
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr repeat(1, 4fr);
+    // grid-template-rows: 1fr;
+    grid-template-rows: calc(100vh);
+    // grid-gap: 1rem;
+    overflow: hidden;
+}

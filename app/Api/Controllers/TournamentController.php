@@ -17,6 +17,7 @@ use Laraspace\Http\Requests\Tournament\TemplatesRequest;
 use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
 use Laraspace\Http\Requests\Tournament\GetTemplateRequest;
+use Laraspace\Http\Requests\Tournament\SaveSettingsRequest;
 use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
@@ -385,5 +386,26 @@ class TournamentController extends BaseController
 
     public function getTournamentExpireDate(Request $request) {
         return $this->tournamentObj->getTournamentExpireDate($request->all());
+    }
+
+    public function saveSettings(SaveSettingsRequest $request)
+    {
+        return $this->tournamentObj->saveSettings($request->all());
+    }
+
+    public function getPresentationSettings(Request $request, $tournamentId)
+    {
+        $tournament = Tournament::find($tournamentId);
+        $ageCategoryIds = TempFixture::where('tournament_id', $tournament->id)
+                                    ->whereDate('match_datetime', date('Y-m-d'))
+                                    // ->whereDate('match_datetime', date('2020-05-06'))
+                                    ->orderBy('match_datetime', 'ASC')
+                                    ->pluck('age_group_id')
+                                    ->unique()->values()->all();
+
+        return  [
+                    'screen_rotate_time_in_seconds' => $tournament->screen_rotate_time_in_seconds,
+                    'show_presentation' => count($ageCategoryIds) > 0 ? true : false,
+                ];
     }
 }

@@ -55,6 +55,7 @@
 				let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
 				let tournamentSel  = {
 				  	name:name,
+				  	slug: this.tournament.slug,
 				  	id:id,
 				  	maximum_teams:this.tournament.maximum_teams,
 				  	tournamentDays: tournamentDays,

@@ -166,6 +166,12 @@ export default {
   getTournamentMessages(messageData) {
     return api.post('users/getMessage',{'messageData': messageData})
   },
+  saveSettings(tournamentId){
+    return api.post('tournament/saveSettings',{'tournamentData':tournamentId})
+  },
+  getPresentationSettings(tournamentId) {
+    return api.get('tournament/getPresentationSettings/' + tournamentId);
+  },
   changeTeamName(teamData) {
     return api.post('teams/changeTeamName', {'teamData': teamData})
   },

@@ -54,6 +54,8 @@ import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
 import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
 
+import LayoutPresentation from './views/layouts/LayoutPresentation.vue'
+
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
@@ -131,6 +133,9 @@ import AddTemplate from './components/Template/AddTemplate';
 import EditTemplate from './components/Template/EditTemplate';
 import TemplateList from './views/admin/templates/List.vue';
 
+// TV presentation pages
+import ShowPresentation from './views/presentation/Show.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -185,6 +190,18 @@ const routes = [
                 path: '/',
                 component: Welcome,
                 name: 'welcome'
+            }
+        ]
+    },
+    // Show presentation
+    {
+        path: '/admin/show-presentation/:tournamentslug', component: LayoutPresentation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: ShowPresentation,
+                name: 'show_presentation'
             }
         ]
     },
@@ -574,7 +591,11 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
             if(!response.authenticated){
-                return next({ path : '/login'})
+                if(to.name === 'show_presentation') {
+                    window.location.href = "/login";
+                } else {
+                    return next({ path : '/login'})
+                }
             }
 
             if ( response.userData.role_name == "customer" && restrictCustomerRoutes.indexOf(to.name) >= 0) {
