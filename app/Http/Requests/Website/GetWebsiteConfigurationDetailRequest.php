@@ -19,7 +19,7 @@ class GetWebsiteConfigurationDetailRequest extends FormRequest
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $currentLayout = config('config-variables.current_layout');
 
-        if($loggedInUser->hasRole('mobile.user') || $currentLayout === 'commercialisation') {
+        if($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
         return true;
