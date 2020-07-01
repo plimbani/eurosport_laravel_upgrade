@@ -1,14 +1,11 @@
 package com.aecor.eurosports.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.model.LeagueModel;
@@ -24,9 +26,11 @@ import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.ConnectivityChangeReceiver;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -115,6 +119,7 @@ public class FullLeageTableActivity extends AppCompatActivity implements Connect
         }
     }
 
+    @SuppressLint("CheckResult")
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_full_team_leaguetable, null);
         LinearLayout ll_row_background = (LinearLayout) teamLeagueView.findViewById(R.id.ll_row_background);
@@ -181,15 +186,21 @@ public class FullLeageTableActivity extends AppCompatActivity implements Connect
         tv_goal_diff.setText(goalText);
         if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
             Glide.with(mContext)
+                    .asBitmap()
                     .load(mLeagueModel.getTeamFlag())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
+                    .listener(new RequestListener<Bitmap>() {
                         @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            // resource is your loaded Bitmap
                             team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-//                            iv_testFlag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-//                            iv_testFlag.setVisibility(View.INVISIBLE);
+                            return true;
                         }
                     });
         } else {

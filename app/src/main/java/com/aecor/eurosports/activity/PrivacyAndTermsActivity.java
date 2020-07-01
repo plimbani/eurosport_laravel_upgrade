@@ -1,9 +1,10 @@
 package com.aecor.eurosports.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
@@ -36,7 +37,7 @@ public class PrivacyAndTermsActivity extends BaseAppCompactActivity {
         super.onCreate(savedInstanceState);
         initView();
 
-        if (getIntent() != null && getIntent().getExtras() != null &&  getIntent().getExtras().containsKey(AppConstants.KEY_IS_FROM_SIGNUP)) {
+        if (getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().containsKey(AppConstants.KEY_IS_FROM_SIGNUP)) {
             isFromSignup = getIntent().getExtras().getBoolean(AppConstants.KEY_IS_FROM_SIGNUP);
             if (isFromSignup) {
                 ll_footer.setVisibility(View.GONE);

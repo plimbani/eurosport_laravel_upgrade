@@ -1,5 +1,6 @@
 package com.aecor.eurosports.util;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -16,7 +17,7 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.annotation.NonNull;
+
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,6 +28,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.GetStartedActivity;
@@ -290,7 +293,7 @@ public class Utility {
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            @SuppressLint("MissingPermission") NetworkInfo[] info = connectivity.getAllNetworkInfo();
             if (info != null)
                 for (NetworkInfo value : info)
                     if (value.getState() == NetworkInfo.State.CONNECTED) {
@@ -299,26 +302,6 @@ public class Utility {
 
         }
         return false;
-    }
-
-    public static String getDeviceInformation(Context mContext) {
-        Log.i("TAG", "SERIAL: " + Build.SERIAL);
-        Log.i("TAG", "MODEL: " + Build.MODEL);
-        Log.i("TAG", "ID: " + Build.ID);
-        Log.i("TAG", "Manufacture: " + Build.MANUFACTURER);
-        Log.i("TAG", "brand: " + Build.BRAND);
-        Log.i("TAG", "type: " + Build.TYPE);
-        Log.i("TAG", "user: " + Build.USER);
-        Log.i("TAG", "BASE: " + Build.VERSION_CODES.BASE);
-        Log.i("TAG", "INCREMENTAL " + Build.VERSION.INCREMENTAL);
-        Log.i("TAG", "SDK  " + Build.VERSION.SDK);
-        Log.i("TAG", "BOARD: " + Build.BOARD);
-        Log.i("TAG", "BRAND " + Build.BRAND);
-        Log.i("TAG", "HOST " + Build.HOST);
-        Log.i("TAG", "FINGERPRINT: " + Build.FINGERPRINT);
-        Log.i("TAG", "Version Code: " + Build.VERSION.RELEASE);
-        return Build.MODEL + Build.MANUFACTURER + Build.BRAND;
-
     }
 
     public static String getOsVersion(Context mContext) {

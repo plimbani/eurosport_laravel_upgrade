@@ -3,10 +3,11 @@ package com.aecor.eurosports.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
@@ -39,8 +40,8 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     protected void onViewOnMapClicked() {
 
         Intent intent = new Intent(mContext, VenueMapActivity.class);
-        intent.putExtra("latlong",mTeamFixturesModel.getVenueCoordinates());
-        intent.putExtra("label",mTeamFixturesModel.getVenue_name());
+        intent.putExtra("latlong", mTeamFixturesModel.getVenueCoordinates());
+        intent.putExtra("label", mTeamFixturesModel.getVenue_name());
         startActivity(intent);
 
     }

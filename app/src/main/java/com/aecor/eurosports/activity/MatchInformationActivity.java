@@ -7,13 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
@@ -21,9 +22,11 @@ import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.text.ParseException;
 
@@ -197,14 +200,21 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeFlagLogo())) {
             Glide.with(mContext)
-
+                    .asBitmap()
                     .load(mTeamFixturesModel.getHomeFlagLogo())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
+                    .listener(new RequestListener<Bitmap>() {
                         @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            // resource is your loaded Bitmap
                             iv_team_flag_1.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+                            return true;
                         }
                     });
         } else {
@@ -215,13 +225,20 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayFlagLogo())) {
             Glide.with(mContext)
-                    .load(mTeamFixturesModel.getAwayFlagLogo())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .asBitmap().load(mTeamFixturesModel.getAwayFlagLogo())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
+                    .listener(new RequestListener<Bitmap>() {
                         @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            // resource is your loaded Bitmap
                             iv_team_flag_2.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+                            return true;
                         }
                     });
         } else {
@@ -325,7 +342,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
                     tv_winner_status.setText(getString(R.string.walkover_win));
                 } else if (mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Penalties")) {
                     tv_winner_status.setText(getString(R.string.penalties_win));
-                }else if (mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Abandoned")) {
+                } else if (mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Abandoned")) {
                     tv_winner_status.setText(getString(R.string.abandoned_win));
                 }
             }

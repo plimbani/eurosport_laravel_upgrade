@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 /**
  * Created by system-local on 11-07-2017.
  */
 
-public class HelveticaNeueRegularTextView extends android.support.v7.widget.AppCompatTextView {
+public class HelveticaNeueRegularTextView extends AppCompatTextView {
 
     public HelveticaNeueRegularTextView(Context context) {
         super(context);
