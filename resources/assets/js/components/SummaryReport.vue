@@ -638,6 +638,7 @@ export default {
           this.club = ''
           this.teams = {}
           this.team = ''
+          this.age_category_id = ''
           $("#end_date_validation").html("");
           $("#start_date_validation").html("");
       },
