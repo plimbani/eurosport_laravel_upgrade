@@ -716,32 +716,34 @@ export default {
 
       },
       savePitchDetails () {
-          this.$validator.validateAll().then(() => {
-              var time = 0
-              $( ".stage_capacity_all" ).each(function( index ) {
-                time = time + parseInt($(this).val())
-              });
-              //  var minutes = time % 60;
-              // var hours = (time - minutes) / 60;
-              // var time_val = hours+ '.' +minutes
+          this.$validator.validateAll().then((response) => {
+              if(response) {
+                var time = 0
+                $( ".stage_capacity_all" ).each(function( index ) {
+                  time = time + parseInt($(this).val())
+                });
+                //  var minutes = time % 60;
+                // var hours = (time - minutes) / 60;
+                // var time_val = hours+ '.' +minutes
 
-              let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
-                      // this.$store.dispatch('AddPitch',pitchData)
-                      this.isSaveInProcess = true;
-                      return axios.post('/api/pitch/create',pitchData).then(response =>  {
-                          toastr['success']('Pitch detail has been added successfully.', 'Success');
-                          this.displayPitch();
-                          this.isSaveInProcess = false;
-                          $('#addPitchModal').modal('hide')
-                          $("#frmPitchDetail")[0].reset();
+                let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
+                        // this.$store.dispatch('AddPitch',pitchData)
+                        this.isSaveInProcess = true;
+                        return axios.post('/api/pitch/create',pitchData).then(response =>  {
+                            toastr['success']('Pitch detail has been added successfully.', 'Success');
+                            this.displayPitch();
+                            this.isSaveInProcess = false;
+                            $('#addPitchModal').modal('hide')
+                            $("#frmPitchDetail")[0].reset();
 
-                      }).catch(error => {
-                          if (error.response.status == 401) {
-                              // toastr['error']('Invalid Credentials', 'Error');
-                          } else {
-                              //   happened in setting up the request that triggered an Error
-                          }
-                      });
+                        }).catch(error => {
+                            if (error.response.status == 401) {
+                                // toastr['error']('Invalid Credentials', 'Error');
+                            } else {
+                                //   happened in setting up the request that triggered an Error
+                            }
+                        });
+              }
 
 
           }).catch(() => {
