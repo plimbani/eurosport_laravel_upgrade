@@ -10,8 +10,8 @@ public class ApiConstants {
 
     //   public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
 
-//    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
-        public static final String BASE_URL = "https://comm-qa.wot.esrtmp.com/api/"; // EasyMatchManager QA
+    //    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
+    public static final String BASE_URL = "https://comm-qa.wot.esrtmp.com/api/"; // EasyMatchManager QA
 
 //    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
 //        public static final String BASE_URL = "https://comm-qa.wot.esrtmp.com/api/"; // EasyMatchManager QA

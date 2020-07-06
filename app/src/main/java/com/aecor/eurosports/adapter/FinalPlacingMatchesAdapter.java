@@ -4,21 +4,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.FinalPlacingModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
@@ -64,14 +68,20 @@ public class FinalPlacingMatchesAdapter extends RecyclerView.Adapter<FinalPlacin
             viewHolder.tv_tem_name.setText(mGroupModel.getTeam_name());
             if (!Utility.isNullOrEmpty(mGroupModel.getTeam_logo())) {
                 Glide.with(mContext)
-                        .load(mGroupModel.getTeam_logo())
-                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .asBitmap().load(mGroupModel.getTeam_logo())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-
-                        .into(new SimpleTarget<Bitmap>() {
+                        .listener(new RequestListener<Bitmap>() {
                             @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                // resource is your loaded Bitmap
                                 viewHolder.team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                                return true;
                             }
                         });
             } else {

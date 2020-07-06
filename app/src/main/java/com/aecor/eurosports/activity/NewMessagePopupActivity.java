@@ -1,5 +1,6 @@
 package com.aecor.eurosports.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
@@ -8,15 +9,16 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
@@ -101,6 +103,7 @@ public class NewMessagePopupActivity extends Activity {
         window.setAttributes(lp);
     }
 
+    @SuppressLint("MissingPermission")
     private void vibratePhone() {
         // Vibrate for 500 milliseconds
         v.vibrate(500);

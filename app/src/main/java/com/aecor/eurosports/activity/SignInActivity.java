@@ -8,13 +8,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
@@ -34,6 +36,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.testfairy.TestFairy;
 
 import org.json.JSONException;
@@ -371,16 +377,21 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void checkIfNewTokenIsAvailable() {
-        if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER)) && mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER).equalsIgnoreCase("true")) {
-            postUserDeviceDetails();
-        } else {
-            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN))) {
-                postTokenOnServer(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN));
-            } else {
-                postUserDeviceDetails();
-            }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            AppLogger.LogE(TAG, "getInstanceId failed" + task.getException());
+                            postUserDeviceDetails();
+                            return;
+                        }
 
-        }
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        postTokenOnServer(token);
+                    }
+                });
     }
 
     private void launchHome() {

@@ -1,11 +1,12 @@
 package com.aecor.eurosports.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.application.ApplicationClass;
@@ -20,7 +21,7 @@ import butterknife.BindView;
  * Created by karan on 6/22/2017.
  */
 
-public abstract class BaseActivity extends Activity implements ConnectivityChangeReceiver.ConnectivityReceiverListener {
+public abstract class BaseActivity extends AppCompatActivity implements ConnectivityChangeReceiver.ConnectivityReceiverListener {
 
     private Context mContext;
     private AppPreference mPref;
