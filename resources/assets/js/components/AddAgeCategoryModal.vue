@@ -552,7 +552,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
-                <div class="col-sm-4 form-control-label">Remarks</div>
+                <label class="col-sm-4 form-control-label">Remarks</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-12">
