@@ -88,7 +88,7 @@ class RefereeService implements RefereeContract
         \Excel::load($file->getRealPath(), function($reader) use (&$excelDataCheck) {
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
             $reader->each(function($sheet) use (&$excelDataCheck) {
-                if (array_has($sheet, 'firstname') && array_has($sheet, 'lastname')) {
+                if (isset($sheet->firstname) && isset($sheet->lastname) && trim($sheet->firstname) !== '' && trim($sheet->lastname) !== '') {
                     $sheet->refereeData = $this->data;
                     return $this->refereeRepoObj->uploadRefereesExcel($sheet);
                 } else {
