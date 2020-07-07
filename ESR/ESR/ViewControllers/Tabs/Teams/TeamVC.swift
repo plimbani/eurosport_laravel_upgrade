@@ -96,10 +96,10 @@ class TeamVC: SuperViewController {
         }
     }
     
-    let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 18.0),
-        NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
-        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    let btnViewScheduleAttributes : [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 18.0),
+        NSAttributedString.Key.foregroundColor : UIColor.viewScheduleBlue,
+        NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]
     
     private enum SectionIndex: String {
         case group = "0"
@@ -128,7 +128,7 @@ class TeamVC: SuperViewController {
     }
     
     func initialize() {
-        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 60, right: 0)
         table.contentInset = adjustForTabbarInsets
         table.scrollIndicatorInsets = adjustForTabbarInsets
         
@@ -516,7 +516,7 @@ extension TeamVC: TitleNavigationBarDelegate {
 extension TeamVC: GroupSummaryStandingsCellDelegate {
     func groupSummaryStandingsCellBtnTeamNamePressed(indexPath: IndexPath) {
         
-        let selectedTeam = groupStandingsList[indexPath.row] as! GroupStanding
+        let selectedTeam = groupStandingsList[indexPath.row] 
         
         var change = false
         

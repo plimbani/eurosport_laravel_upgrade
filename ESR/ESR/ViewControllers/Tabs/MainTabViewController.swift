@@ -329,10 +329,10 @@ class MainTabViewController: SuperViewController {
         
         let vc = viewControllers[selectedIndex]
         
-        addChildViewController(vc)
+        addChild(vc)
         vc.view.frame = contentView.bounds
         contentView.addSubview(vc.view)
-        vc.didMove(toParentViewController: self)
+        vc.didMove(toParent: self)
     }
     
     @objc func onTabSelected(btn: UIButton) {
@@ -360,9 +360,9 @@ class MainTabViewController: SuperViewController {
             
             // Remove previous view controller
             let previousVC = viewControllers[previousIndex]
-            previousVC.willMove(toParentViewController: nil)
+            previousVC.willMove(toParent: nil)
             previousVC.view.removeFromSuperview()
-            previousVC.removeFromParentViewController()
+            previousVC.removeFromParent()
             
             addViewControllerToContentView(true)
         }
@@ -383,7 +383,7 @@ extension MainTabViewController: CustomAlertTwoBtnVCDelegate {
             if let url = URL(string: APPSTORE_APP_URL),
                 UIApplication.shared.canOpenURL(url){
                 if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
                 } else {
                     UIApplication.shared.openURL(url)
                 }
@@ -416,3 +416,8 @@ extension MainTabViewController {
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}

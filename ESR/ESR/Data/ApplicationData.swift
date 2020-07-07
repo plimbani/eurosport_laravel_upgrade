@@ -92,8 +92,8 @@ class ApplicationData: NSObject {
         textField.setLeftPaddingPoints(10)
         
         textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [
-            NSAttributedStringKey.foregroundColor: UIColor.txtPlaceholderTxt,
-            NSAttributedStringKey.font : UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldPlaceholder)!
+            NSAttributedString.Key.foregroundColor: UIColor.txtPlaceholderTxt,
+            NSAttributedString.Key.font : UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldPlaceholder)!
             ])
     }
     

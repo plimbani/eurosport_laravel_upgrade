@@ -36,7 +36,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
     
     func initialize() {
         table.estimatedRowHeight = 200
-        table.rowHeight = UITableViewAutomaticDimension
+        table.rowHeight = UITableView.automaticDimension
         
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups")
         titleNavigationBar.delegate = self
@@ -190,7 +190,7 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

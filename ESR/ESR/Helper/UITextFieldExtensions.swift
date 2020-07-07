@@ -24,8 +24,8 @@ extension UITextField {
     
     func setPlaceHolderFontColor(_ txtPlaceholder: String, _ color: UIColor = UIColor.txtPlaceholderTxt, _ font: String = Font.HELVETICA_REGULAR, _ fontSize: CGFloat = Font.Size.commonTextFieldPlaceholder){
         self.attributedPlaceholder = NSAttributedString(string: txtPlaceholder, attributes: [
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.font : UIFont(name: font, size: fontSize)!
+            NSAttributedString.Key.foregroundColor: color,
+            NSAttributedString.Key.font : UIFont(name: font, size: fontSize)!
             ])
     }
     

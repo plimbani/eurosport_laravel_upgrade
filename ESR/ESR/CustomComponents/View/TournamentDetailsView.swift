@@ -67,14 +67,14 @@ class TournamentDetailsView: UIView {
     
     func addAttributedString(){
         let font1 = UIFont(name: Font.HELVETICA_REGULAR, size: 15)
-        let titleAttributes: [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue,
-            NSAttributedStringKey.font : font1,
+        let titleAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue,
+            NSAttributedString.Key.font : font1,
             ]
         
         let range = (contactString as NSString).range(of: contactString)
         let attributedString = NSMutableAttributedString(string: contactString, attributes: titleAttributes)
-        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.tournamentDetailYellow , range: range)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.tournamentDetailYellow , range: range)
         
         btnContact.setAttributedTitle(attributedString, for: .normal)
         btnContact.titleLabel?.numberOfLines = 0

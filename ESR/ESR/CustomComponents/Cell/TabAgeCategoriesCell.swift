@@ -28,10 +28,10 @@ class TabAgeCategoriesCell: UITableViewCell {
     
     var showViewSchedule = false
     
-    let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
-        NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
-        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    let btnViewScheduleAttributes : [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
+        NSAttributedString.Key.foregroundColor : UIColor.viewScheduleBlue,
+        NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]
     
     override func awakeFromNib() {
         super.awakeFromNib()

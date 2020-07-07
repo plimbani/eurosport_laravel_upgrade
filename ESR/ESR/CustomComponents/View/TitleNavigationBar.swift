@@ -24,10 +24,10 @@ class TitleNavigationBar: UIView {
     @IBOutlet var widthConstraintBackBtn: NSLayoutConstraint!
     @IBOutlet var widthConstraintBtnFinalPlacings: NSLayoutConstraint!
     
-    let btnFinalPlacingsAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0),
-        NSAttributedStringKey.foregroundColor : UIColor.white,
-        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    let btnFinalPlacingsAttributes : [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0),
+        NSAttributedString.Key.foregroundColor : UIColor.white,
+        NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]
     
     var isFinalPlacings: Bool = false {
         didSet {
@@ -45,8 +45,8 @@ class TitleNavigationBar: UIView {
         
         self.baseView.frame = bounds
         self.baseView.autoresizingMask = [
-            UIViewAutoresizing.flexibleWidth,
-            UIViewAutoresizing.flexibleHeight
+            UIView.AutoresizingMask.flexibleWidth,
+            UIView.AutoresizingMask.flexibleHeight
         ]
         self.addSubview(self.baseView)
         

@@ -202,7 +202,7 @@ class CreateAccountVC: SuperViewController {
             let location: CGPoint = gestureRecognizer.location(in: txtViewTermsNPrivacy)
             
             let tapPosition: UITextPosition = txtViewTermsNPrivacy.closestPosition(to: location)!
-            let textRange: UITextRange? = txtViewTermsNPrivacy.tokenizer.rangeEnclosingPosition(tapPosition, with: UITextGranularity.word, inDirection: UITextLayoutDirection.right.rawValue)
+            let textRange: UITextRange? = txtViewTermsNPrivacy.tokenizer.rangeEnclosingPosition(tapPosition, with: UITextGranularity.word, inDirection: convertToUITextDirection(UITextLayoutDirection.right.rawValue))
             
             if textRange != nil {
                 let textClicked = txtViewTermsNPrivacy.text(in: textRange!)
@@ -302,9 +302,9 @@ class CreateAccountVC: SuperViewController {
     func addUnderLineToAttributedString(_ attrString: NSMutableAttributedString, _ mainString: String, _ subString: String,_ underlineColor: UIColor,_ foregroundColor: UIColor) {
         
         let nsRangeTerms = NSString(string: mainString).range(of: subString, options: String.CompareOptions.caseInsensitive)
-        attrString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: nsRangeTerms)
-        attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: foregroundColor, range: nsRangeTerms)
-        attrString.addAttribute(NSAttributedStringKey.underlineColor, value: underlineColor, range: nsRangeTerms)
+        attrString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: nsRangeTerms)
+        attrString.addAttribute(NSAttributedString.Key.foregroundColor, value: foregroundColor, range: nsRangeTerms)
+        attrString.addAttribute(NSAttributedString.Key.underlineColor, value: underlineColor, range: nsRangeTerms)
     }
 }
 
@@ -488,12 +488,12 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             let nsRange = NSString(string: mainString).range(of: mainString, options: String.CompareOptions.caseInsensitive)
                         
                             if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
-                                attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.AppColor(), range: nsRange)
+                                attrString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.AppColor(), range: nsRange)
                             } else {
-                                attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: nsRange)
+                                attrString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range: nsRange)
                             }
                             
-                            attrString.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HELVETICA_REGULAR, size: 13.0)!, range: NSRange.init(location: 0, length: mainString.count))
+                            attrString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: Font.HELVETICA_REGULAR, size: 13.0)!, range: NSRange.init(location: 0, length: mainString.count))
                         
                             addUnderLineToAttributedString(attrString, mainString, "Terms of Use.", UIColor.btnYellow, UIColor.btnYellow)
                         
@@ -502,7 +502,7 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             textViewCell.textView.attributedText = attrString
                             textViewCell.textView.delegate = self
                             textViewCell.textView.textAlignment = .center
-                            textViewCell.textView.contentInset = UIEdgeInsetsMake(-6.0,0.0,0,0.0);
+                            textViewCell.textView.contentInset = UIEdgeInsets.init(top: -6.0,left: 0.0,bottom: 0,right: 0.0);
                             textViewCell.textView.addGestureRecognizer(tapGesture)
                         default:
                             print("Default")
@@ -525,4 +525,9 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
             showPickerVC(selectedPosition: selectedRolePosition, titleList: ApplicationData.rolesList, delegate: self)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUITextDirection(_ input: Int) -> UITextDirection {
+	return UITextDirection(rawValue: input)
 }

@@ -61,7 +61,6 @@
 		3044DE5B223F9E99005E8C86 /* TabFollowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */; };
 		3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */; };
 		3044DE5F2240CFF9005E8C86 /* FollowTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */; };
-		3052EBE32298117700FD8CE8 /* esr_production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3052EBE22298117700FD8CE8 /* esr_production.plist */; };
 		305693FE212BEABC009790BA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
 		30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
 		30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
@@ -222,7 +221,6 @@
 		30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B321747520003715C7 /* TournamentDetailsView.xib */; };
 		30F180BF2272F76600301C6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CC7211D95B60067D65F /* Main.storyboard */; };
 		30F180C02272F76600301C6F /* ProfileList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30569403212C0251009790BA /* ProfileList.plist */; };
-		30F180C12272F76600301C6F /* easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3018B35522423C4900EC76F4 /* easymm.plist */; };
 		30F180C22272F76600301C6F /* CreateAccountFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D352122C6590067D65F /* CreateAccountFieldList.plist */; };
 		30F180C32272F76600301C6F /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D3A21230ABF0067D65F /* TextFieldCell.xib */; };
 		30F180C42272F76600301C6F /* TextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AE21745D03003715C7 /* TextViewCell.xib */; };
@@ -915,10 +913,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					30181CBF211D95B60067D65F = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1130;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1013,7 +1012,6 @@
 				30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */,
 				307542AC2170BE03003715C7 /* LabelCell.xib in Resources */,
 				3086BC96213EB11A00810CC8 /* TwoLabelCell.xib in Resources */,
-				3052EBE32298117700FD8CE8 /* esr_production.plist in Resources */,
 				30181D342122C0370067D65F /* LabelSelectionCell.xib in Resources */,
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
@@ -1052,7 +1050,6 @@
 				30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */,
 				30F180BF2272F76600301C6F /* Main.storyboard in Resources */,
 				30F180C02272F76600301C6F /* ProfileList.plist in Resources */,
-				30F180C12272F76600301C6F /* easymm.plist in Resources */,
 				30F180C22272F76600301C6F /* CreateAccountFieldList.plist in Resources */,
 				30F180C32272F76600301C6F /* TextFieldCell.xib in Resources */,
 				30F180C42272F76600301C6F /* TextViewCell.xib in Resources */,
@@ -1593,7 +1590,7 @@
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
 				PROVISIONING_PROFILE_SPECIFIER = ESR_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "http:/$()/usama-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
@@ -1690,7 +1687,7 @@
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
 				PROVISIONING_PROFILE_SPECIFIER = ESR_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/qa.wot.esrtmp.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
@@ -1787,7 +1784,7 @@
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
 				PROVISIONING_PROFILE_SPECIFIER = ESR_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/www.esrtmp.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;

@@ -27,8 +27,8 @@ class PickerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
-        btnDone.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
-        btnCancel.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
+        btnDone.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
+        btnCancel.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         mainView.addGestureRecognizer(tap)
