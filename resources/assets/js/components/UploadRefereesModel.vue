@@ -92,7 +92,7 @@ export default {
             });
           }
           this.isSaveInProcess = false;
-          $('#filename').text('');
+          this.resetFileName();
         }).catch(error => {
 
         });
