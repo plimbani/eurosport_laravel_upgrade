@@ -479,8 +479,8 @@ class TournamentService implements TournamentContract
           $tournamentId = $data['tournament_id'];
           $getTeamId = Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
           $reportQuery = $reportQuery->where(function ($query) use($getTeamId){
-            $query->whereIn('temp_fixtures.home_team',$getTeamId)
-              ->orWhere('temp_fixtures.away_team',$getTeamId);
+            $query->whereIn('temp_fixtures.home_team', $getTeamId)
+              ->orWhereIn('temp_fixtures.away_team', $getTeamId);
           });
         }
         if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
