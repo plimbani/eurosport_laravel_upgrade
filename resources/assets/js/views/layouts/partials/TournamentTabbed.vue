@@ -217,6 +217,7 @@ export default {
     GetSelectComponent(componentName) {
       // here we check for Tournament Add
        this.$router.push({name: componentName})
+       this.updateTabStateData();
     },
     editTournamentMessage() {
       this.TournamentId = this.$store.state.Tournament.tournamentId
