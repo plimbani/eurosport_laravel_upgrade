@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -49,7 +49,6 @@
 		30181D77212AB9CE0067D65F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
 		30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
-		3018B35622423C4A00EC76F4 /* easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3018B35522423C4900EC76F4 /* easymm.plist */; };
 		3018B35922423D7B00EC76F4 /* GetStartedTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3018B35822423D7B00EC76F4 /* GetStartedTournamentVC.swift */; };
 		301D9C02222407A400EF8E76 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C01222407A400EF8E76 /* CustomAlertVC.swift */; };
 		301D9C042224184A00EF8E76 /* CustomAlertTwoBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */; };
@@ -108,7 +107,6 @@
 		30AF116B21BBA82000BE50F4 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116A21BBA82000BE50F4 /* TeamVC.swift */; };
 		30AF116E21BBDD7000BE50F4 /* TeamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */; };
 		30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
-		30C562AE229E7E8D00B3AC27 /* easymm_production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C562AD229E7E8C00B3AC27 /* easymm_production.plist */; };
 		30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B321CD045F00B0ECB4 /* Favourites.storyboard */; };
 		30C799B421CD046C00B0ECB4 /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
 		30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B921CD047700B0ECB4 /* Teams.storyboard */; };
@@ -263,6 +261,13 @@
 		95F3BE40B389C5CC4E55AA26 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E3585225E1C4B006C3E71 /* Pods_ESR.framework */; };
 		9E345593245C1C1E00EAAD26 /* AppleSignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */; };
 		9E6385452462C02E00C87FEB /* AppleSignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */; };
+		9E87005624A4D7DE00172776 /* easymm_production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C562AD229E7E8C00B3AC27 /* easymm_production.plist */; };
+		9E87005724A4D7E700172776 /* esr.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCF211D95B80067D65F /* esr.plist */; };
+		9E916C2824B476340085FBCA /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2724B476340085FBCA /* FacebookCore */; };
+		9E916C2A24B476340085FBCA /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2924B476340085FBCA /* FacebookLogin */; };
+		9E916C2D24B476880085FBCA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */; };
+		9E916C3024B476A00085FBCA /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2F24B476A00085FBCA /* MBProgressHUD */; };
+		9E916C3324B476EA0085FBCA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3224B476EA0085FBCA /* Alamofire */; };
 		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
 		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
 		9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
@@ -508,8 +513,13 @@
 				30DC115B22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
 				30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */,
 				30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */,
+				9E916C2D24B476880085FBCA /* IQKeyboardManagerSwift in Frameworks */,
+				9E916C3024B476A00085FBCA /* MBProgressHUD in Frameworks */,
+				9E916C2A24B476340085FBCA /* FacebookLogin in Frameworks */,
 				30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */,
+				9E916C3324B476EA0085FBCA /* Alamofire in Frameworks */,
 				30DC117322B3AB8900B4FC44 /* CoreMotion.framework in Frameworks */,
+				9E916C2824B476340085FBCA /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,12 +895,20 @@
 				30F180AB2272F76600301C6F /* Resources */,
 				E20BC93C3AD84B7DA5ED185F /* [CP] Embed Pods Frameworks */,
 				F587F5768F6A88DA3C2AFFDD /* [CP] Copy Pods Resources */,
+				9E916C2524B472550085FBCA /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "ESR comm";
+			packageProductDependencies = (
+				9E916C2724B476340085FBCA /* FacebookCore */,
+				9E916C2924B476340085FBCA /* FacebookLogin */,
+				9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */,
+				9E916C2F24B476A00085FBCA /* MBProgressHUD */,
+				9E916C3224B476EA0085FBCA /* Alamofire */,
+			);
 			productName = ESR;
 			productReference = 30F180D72272F76600301C6F /* ESR comm.app */;
 			productType = "com.apple.product-type.application";
@@ -946,6 +964,12 @@
 				fr,
 			);
 			mainGroup = 30181CB7211D95B60067D65F;
+			packageReferences = (
+				9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				9E916C2B24B476880085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				9E916C2E24B476A00085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+				9E916C3124B476EA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 30181CC1211D95B60067D65F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -961,12 +985,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E87005724A4D7E700172776 /* esr.plist in Resources */,
 				30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */,
 				30181D81212AF0590067D65F /* SettingsList.plist in Resources */,
 				30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */,
 				306B80F52316826E005634C2 /* AgeCategoryDivisionCell.xib in Resources */,
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
-				30C562AE229E7E8D00B3AC27 /* easymm_production.plist in Resources */,
 				3044DE5F2240CFF9005E8C86 /* FollowTournamentCell.xib in Resources */,
 				3086BC92213EB09F00810CC8 /* VenueFieldList.plist in Resources */,
 				306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */,
@@ -987,7 +1011,6 @@
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
 				9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
-				3018B35622423C4A00EC76F4 /* easymm.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
 				307542B021745D03003715C7 /* TextViewCell.xib in Resources */,
@@ -1021,6 +1044,7 @@
 				30F180B32272F76600301C6F /* GroupDetailsCell.xib in Resources */,
 				30F180B42272F76600301C6F /* GoogleService-Info.plist in Resources */,
 				30F180B52272F76600301C6F /* AgeCategoryCell.xib in Resources */,
+				9E87005624A4D7DE00172776 /* easymm_production.plist in Resources */,
 				30F180B62272F76600301C6F /* Settings.storyboard in Resources */,
 				30F180B72272F76600301C6F /* FavouriteTournamentCell.xib in Resources */,
 				30F180B82272F76600301C6F /* Localizable.strings in Resources */,
@@ -1093,6 +1117,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9E916C2524B472550085FBCA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/FirebaseCrashlytics/run\n";
 		};
 		B82C6BB7CBACFCF625928264 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1830,7 +1872,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1886,6 +1928,69 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+		9E916C2B24B476880085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.5;
+			};
+		};
+		9E916C2E24B476A00085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		9E916C3124B476EA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9E916C2724B476340085FBCA /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		9E916C2924B476340085FBCA /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2B24B476880085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+		9E916C2F24B476A00085FBCA /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2E24B476A00085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+		9E916C3224B476EA0085FBCA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3124B476EA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 30181CB8211D95B60067D65F /* Project object */;
 }

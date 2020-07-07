@@ -36,13 +36,13 @@ class MainTabViewController: SuperViewController {
         updateFCMTokenAPI()
         self.view.backgroundColor = .AppColor()
         
-        if let userData = ApplicationData.sharedInstance().getUserData() {
+        /*if let userData = ApplicationData.sharedInstance().getUserData() {
             if userData.enableLogs {
                 TestFairy.begin("SDK-7273syUD")
             } else {
                 TestFairy.begin(NULL_STRING)
             }
-        }
+        }*/
         TestFairy.log(String(describing: self))
         initialize()
     }
@@ -150,7 +150,7 @@ class MainTabViewController: SuperViewController {
             accessCodeAPI()
         }*/
     }
-    
+
     @objc func callAccessCodeAPI(_ notification: NSNotification) {
         TestFairy.log(String(describing: self) + " callAccessCodeAPI")
         accessCodeAPI()
