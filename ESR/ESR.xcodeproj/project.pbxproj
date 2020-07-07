@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -257,6 +257,11 @@
 		30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
 		30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
 		9E345593245C1C1E00EAAD26 /* AppleSignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */; };
+		9E916C3624B47A7A0085FBCA /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3524B47A7A0085FBCA /* FacebookCore */; };
+		9E916C3824B47A7A0085FBCA /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3724B47A7A0085FBCA /* FacebookLogin */; };
+		9E916C3B24B47A940085FBCA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3A24B47A940085FBCA /* IQKeyboardManagerSwift */; };
+		9E916C3E24B47AA50085FBCA /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3D24B47AA50085FBCA /* MBProgressHUD */; };
+		9E916C4124B47ABA0085FBCA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C4024B47ABA0085FBCA /* Alamofire */; };
 		9EB2F68623F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
 		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
 		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
@@ -483,14 +488,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E916C3824B47A7A0085FBCA /* FacebookLogin in Frameworks */,
 				30DC116522B3825300B4FC44 /* OpenGLES.framework in Frameworks */,
 				30DC116322B3824B00B4FC44 /* SystemConfiguration.framework in Frameworks */,
 				30DC116122B3824200B4FC44 /* AVFoundation.framework in Frameworks */,
 				30DC115E22B3823700B4FC44 /* CoreMotion.framework in Frameworks */,
 				30DC115F22B3823700B4FC44 /* CoreMedia.framework in Frameworks */,
+				9E916C3E24B47AA50085FBCA /* MBProgressHUD in Frameworks */,
 				10EA25F1696796FDDB9B648E /* Pods_ESR.framework in Frameworks */,
 				30DC115A22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
+				9E916C3624B47A7A0085FBCA /* FacebookCore in Frameworks */,
+				9E916C3B24B47A940085FBCA /* IQKeyboardManagerSwift in Frameworks */,
 				CCC5178940D0583B3A0A8348 /* Pods_ESR.framework in Frameworks */,
+				9E916C4124B47ABA0085FBCA /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,12 +870,20 @@
 				30181CBE211D95B60067D65F /* Resources */,
 				E184932913DBD4CF5F1782B9 /* [CP] Embed Pods Frameworks */,
 				8DDD2405622A3070AC5D289A /* [CP] Copy Pods Resources */,
+				9E916C4224B47AEA0085FBCA /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ESR;
+			packageProductDependencies = (
+				9E916C3524B47A7A0085FBCA /* FacebookCore */,
+				9E916C3724B47A7A0085FBCA /* FacebookLogin */,
+				9E916C3A24B47A940085FBCA /* IQKeyboardManagerSwift */,
+				9E916C3D24B47AA50085FBCA /* MBProgressHUD */,
+				9E916C4024B47ABA0085FBCA /* Alamofire */,
+			);
 			productName = ESR;
 			productReference = 30181CC0211D95B60067D65F /* ESR.app */;
 			productType = "com.apple.product-type.application";
@@ -941,6 +959,12 @@
 				fr,
 			);
 			mainGroup = 30181CB7211D95B60067D65F;
+			packageReferences = (
+				9E916C3424B47A7A0085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				9E916C3924B47A940085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				9E916C3C24B47AA50085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+				9E916C3F24B47ABA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 30181CC1211D95B60067D65F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1087,6 +1111,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9E916C4224B47AEA0085FBCA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n  ${PODS_ROOT}/FirebaseCrashlytics/run\n";
 		};
 		B82C6BB7CBACFCF625928264 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1530,6 +1572,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1626,6 +1669,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1722,6 +1766,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1876,6 +1921,69 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9E916C3424B47A7A0085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+		9E916C3924B47A940085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.5;
+			};
+		};
+		9E916C3C24B47AA50085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		9E916C3F24B47ABA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9E916C3524B47A7A0085FBCA /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3424B47A7A0085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		9E916C3724B47A7A0085FBCA /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3424B47A7A0085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		9E916C3A24B47A940085FBCA /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3924B47A940085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+		9E916C3D24B47AA50085FBCA /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3C24B47AA50085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+		9E916C4024B47ABA0085FBCA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3F24B47ABA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 30181CB8211D95B60067D65F /* Project object */;
 }

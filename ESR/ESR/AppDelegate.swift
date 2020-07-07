@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Fabric
-import Crashlytics
 import GoogleMaps
 import UserNotifications
 import Firebase
@@ -15,6 +13,7 @@ import FirebaseMessaging
 import AudioToolbox
 import IQKeyboardManagerSwift
 import FacebookCore
+import FirebaseInstanceID
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -64,9 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
-        // Fabric
-        Fabric.with([Crashlytics.self])
-        
+
         if let userData = ApplicationData.sharedInstance().getUserData() {
            // Notifies app to change language
             Bundle.set(languageCode: userData.locale)
@@ -111,23 +108,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.updateFCMToken(result.token)
             }
         }
-        
-        // Connect to FCM since connection may have failed when attempted before having a token.
-        connectToFcm()
     }
-    // [END refresh_token]
-    
-    // [START connect_to_fcm]
-    func connectToFcm() {
-        Messaging.messaging().connect { (error) in
-            if (error != nil) {
-                print("Unable to connect with FCM. \(error)")
-            } else {
-                print("Connected to FCM.")
-            }
-        }
-    }
-    
+
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
