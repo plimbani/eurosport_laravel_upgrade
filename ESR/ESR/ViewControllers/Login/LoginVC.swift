@@ -288,6 +288,7 @@ extension LoginVC {
         }
         
         if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+            TestFairy.log("FCM token \(fcmToken)")
             print("FCM token\n")
             print("\(fcmToken)")
             print("\n")
@@ -299,6 +300,7 @@ extension LoginVC {
                 
                 ApiManager().updateFCMTokem(parameters, success: { result in
                     print("FCM token has updated")
+                    TestFairy.log("FCM token has updated")
                 }, failure: { result in })
             }
         }

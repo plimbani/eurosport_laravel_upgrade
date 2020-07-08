@@ -102,5 +102,7 @@
 	<string>$(base_url)</string>
 	<key>google_map_key</key>
 	<string>$(google_map_key)</string>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 </dict>
 </plist>

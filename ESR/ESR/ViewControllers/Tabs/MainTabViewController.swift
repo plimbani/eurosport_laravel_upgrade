@@ -32,7 +32,7 @@ class MainTabViewController: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        TestFairy.log(String(describing: self))
         updateFCMTokenAPI()
         self.view.backgroundColor = .AppColor()
         
@@ -43,7 +43,7 @@ class MainTabViewController: SuperViewController {
                 TestFairy.begin(NULL_STRING)
             }
         }*/
-        TestFairy.log(String(describing: self))
+
         initialize()
     }
     
@@ -223,7 +223,7 @@ class MainTabViewController: SuperViewController {
         
         let tabFavString = (ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue) ? String.localize(key: "title_tab_follow") : String.localize(key: "title_tab_fav")
         
-        var tabTitleList = [tabFavString, String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
+        let tabTitleList = [tabFavString, String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
         
         for i in 0..<tabLabelList.count {
             tabLabelList[i].text = tabTitleList[i]
@@ -411,6 +411,7 @@ extension MainTabViewController {
         }
         
         if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+            TestFairy.log("FCM token \(fcmToken)")
             print("FCM token\n")
             print("\(fcmToken)")
             print("\n")
@@ -422,6 +423,7 @@ extension MainTabViewController {
                 
                 ApiManager().updateFCMTokem(parameters, success: { result in
                     print("FCM token has updated")
+                    TestFairy.log("FCM token has updated")
                 }, failure: { result in })
             }
         }

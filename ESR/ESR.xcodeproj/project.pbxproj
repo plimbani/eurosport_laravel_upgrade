@@ -114,17 +114,11 @@
 		30C799EE21CD05C800B0ECB4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C799F021CD05C800B0ECB4 /* Localizable.strings */; };
 		30C799F921CD105100B0ECB4 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C799F821CD105100B0ECB4 /* BundleExtension.swift */; };
 		30C799FB21D35E3B00B0ECB4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
-		30DC115822B3820D00B4FC44 /* upload-dsym.sh in Resources */ = {isa = PBXBuildFile; fileRef = 30DC115522B3820C00B4FC44 /* upload-dsym.sh */; };
-		30DC115922B3820D00B4FC44 /* upload-dsym.sh in Resources */ = {isa = PBXBuildFile; fileRef = 30DC115522B3820C00B4FC44 /* upload-dsym.sh */; };
-		30DC115A22B3820D00B4FC44 /* libTestFairy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115622B3820C00B4FC44 /* libTestFairy.a */; };
-		30DC115B22B3820D00B4FC44 /* libTestFairy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115622B3820C00B4FC44 /* libTestFairy.a */; };
 		30DC115E22B3823700B4FC44 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115C22B3823700B4FC44 /* CoreMotion.framework */; };
 		30DC115F22B3823700B4FC44 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115D22B3823700B4FC44 /* CoreMedia.framework */; };
 		30DC116122B3824200B4FC44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116022B3824200B4FC44 /* AVFoundation.framework */; };
 		30DC116322B3824B00B4FC44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */; };
 		30DC116522B3825300B4FC44 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116422B3825300B4FC44 /* OpenGLES.framework */; };
-		30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC116722B38AE000B4FC44 /* TestFairyLog.swift */; };
-		30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC116722B38AE000B4FC44 /* TestFairyLog.swift */; };
 		30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116422B3825300B4FC44 /* OpenGLES.framework */; };
 		30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */; };
 		30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116022B3824200B4FC44 /* AVFoundation.framework */; };
@@ -268,6 +262,10 @@
 		9E916C2D24B476880085FBCA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */; };
 		9E916C3024B476A00085FBCA /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2F24B476A00085FBCA /* MBProgressHUD */; };
 		9E916C3324B476EA0085FBCA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3224B476EA0085FBCA /* Alamofire */; };
+		9E916C4824B5A19D0085FBCA /* upload-dsym.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9E916C4424B5A19C0085FBCA /* upload-dsym.sh */; };
+		9E916C4924B5A19D0085FBCA /* libTestFairy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E916C4524B5A19C0085FBCA /* libTestFairy.a */; };
+		9E916C4A24B5A19D0085FBCA /* strip-architectures.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9E916C4724B5A19C0085FBCA /* strip-architectures.sh */; };
+		9E916C4C24B5A32B0085FBCA /* NSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E916C4B24B5A32B0085FBCA /* NSLog.swift */; };
 		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
 		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
 		9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
@@ -443,16 +441,12 @@
 		30C799F721CD05D500B0ECB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30C799F821CD105100B0ECB4 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		30DC115522B3820C00B4FC44 /* upload-dsym.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-dsym.sh"; sourceTree = "<group>"; };
-		30DC115622B3820C00B4FC44 /* libTestFairy.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFairy.a; sourceTree = "<group>"; };
-		30DC115722B3820C00B4FC44 /* TestFairy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFairy.h; sourceTree = "<group>"; };
 		30DC115C22B3823700B4FC44 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		30DC115D22B3823700B4FC44 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		30DC116022B3824200B4FC44 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		30DC116422B3825300B4FC44 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		30DC116622B3827E00B4FC44 /* ESR-Bridiging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ESR-Bridiging-Header.h"; sourceTree = "<group>"; };
-		30DC116722B38AE000B4FC44 /* TestFairyLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFairyLog.swift; sourceTree = "<group>"; };
 		30F180D72272F76600301C6F /* ESR comm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ESR comm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Easymm.plist"; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
@@ -480,6 +474,11 @@
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		9D33C6FF4AAA827E10AB8D2D /* Pods-ESR comm.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInData.swift; sourceTree = "<group>"; };
+		9E916C4424B5A19C0085FBCA /* upload-dsym.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-dsym.sh"; sourceTree = "<group>"; };
+		9E916C4524B5A19C0085FBCA /* libTestFairy.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFairy.a; sourceTree = "<group>"; };
+		9E916C4624B5A19C0085FBCA /* TestFairy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFairy.h; sourceTree = "<group>"; };
+		9E916C4724B5A19C0085FBCA /* strip-architectures.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "strip-architectures.sh"; sourceTree = "<group>"; };
+		9E916C4B24B5A32B0085FBCA /* NSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLog.swift; sourceTree = "<group>"; };
 		9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeaderView.swift; sourceTree = "<group>"; };
 		9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchHeaderView.xib; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -499,7 +498,6 @@
 				30DC115E22B3823700B4FC44 /* CoreMotion.framework in Frameworks */,
 				30DC115F22B3823700B4FC44 /* CoreMedia.framework in Frameworks */,
 				10EA25F1696796FDDB9B648E /* Pods_ESR.framework in Frameworks */,
-				30DC115A22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
 				95F3BE40B389C5CC4E55AA26 /* Pods_ESR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,12 +508,12 @@
 			files = (
 				30DC117222B3AB8700B4FC44 /* CoreMedia.framework in Frameworks */,
 				CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */,
-				30DC115B22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
 				30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */,
 				30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */,
 				9E916C2D24B476880085FBCA /* IQKeyboardManagerSwift in Frameworks */,
 				9E916C3024B476A00085FBCA /* MBProgressHUD in Frameworks */,
 				9E916C2A24B476340085FBCA /* FacebookLogin in Frameworks */,
+				9E916C4924B5A19D0085FBCA /* libTestFairy.a in Frameworks */,
 				30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */,
 				9E916C3324B476EA0085FBCA /* Alamofire in Frameworks */,
 				30DC117322B3AB8900B4FC44 /* CoreMotion.framework in Frameworks */,
@@ -565,7 +563,7 @@
 			children = (
 				30181CC2211D95B60067D65F /* ESR */,
 				30181CC1211D95B60067D65F /* Products */,
-				30DC115422B3820C00B4FC44 /* TestFairySDK-1.19.5 */,
+				9E916C4324B5A19C0085FBCA /* TestFairySDK */,
 				023496BC20B01812C3B358A9 /* Pods */,
 				2BDEF858AB329BF64FB52540 /* Frameworks */,
 			);
@@ -603,7 +601,7 @@
 				3018B35522423C4900EC76F4 /* easymm.plist */,
 				30C562AD229E7E8C00B3AC27 /* easymm_production.plist */,
 				30DC116622B3827E00B4FC44 /* ESR-Bridiging-Header.h */,
-				30DC116722B38AE000B4FC44 /* TestFairyLog.swift */,
+				9E916C4B24B5A32B0085FBCA /* NSLog.swift */,
 			);
 			path = ESR;
 			sourceTree = "<group>";
@@ -852,14 +850,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		30DC115422B3820C00B4FC44 /* TestFairySDK-1.19.5 */ = {
+		9E916C4324B5A19C0085FBCA /* TestFairySDK */ = {
 			isa = PBXGroup;
 			children = (
-				30DC115522B3820C00B4FC44 /* upload-dsym.sh */,
-				30DC115622B3820C00B4FC44 /* libTestFairy.a */,
-				30DC115722B3820C00B4FC44 /* TestFairy.h */,
+				9E916C4424B5A19C0085FBCA /* upload-dsym.sh */,
+				9E916C4524B5A19C0085FBCA /* libTestFairy.a */,
+				9E916C4624B5A19C0085FBCA /* TestFairy.h */,
+				9E916C4724B5A19C0085FBCA /* strip-architectures.sh */,
 			);
-			path = "TestFairySDK-1.19.5";
+			path = TestFairySDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1000,7 +999,6 @@
 				30C799BA21CD047E00B0ECB4 /* Settings.storyboard in Resources */,
 				30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */,
 				30C799EE21CD05C800B0ECB4 /* Localizable.strings in Resources */,
-				30DC115822B3820D00B4FC44 /* upload-dsym.sh in Resources */,
 				30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */,
 				306B80F9231697F1005634C2 /* AgeCategoryDivisionView.xib in Resources */,
 				30181CCB211D95B80067D65F /* Assets.xcassets in Resources */,
@@ -1052,6 +1050,7 @@
 				30F180BB2272F76600301C6F /* FinalPlacingsCell.xib in Resources */,
 				30F180BC2272F76600301C6F /* GroupSummaryStandingsHeader.xib in Resources */,
 				30F180BD2272F76600301C6F /* TeamListCell.xib in Resources */,
+				9E916C4824B5A19D0085FBCA /* upload-dsym.sh in Resources */,
 				30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */,
 				30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */,
 				30F180BF2272F76600301C6F /* Main.storyboard in Resources */,
@@ -1064,7 +1063,6 @@
 				30F180C52272F76600301C6F /* GroupSummaryStandingsCell.xib in Resources */,
 				30F180D92272F77C00301C6F /* Asset - Easymm.xcassets in Resources */,
 				30F180C62272F76600301C6F /* LabelCell.xib in Resources */,
-				30DC115922B3820D00B4FC44 /* upload-dsym.sh in Resources */,
 				30F180C72272F76600301C6F /* TwoLabelCell.xib in Resources */,
 				30F180C82272F76600301C6F /* LabelSelectionCell.xib in Resources */,
 				30F180C92272F76600301C6F /* GroupSummaryMatchesCell.xib in Resources */,
@@ -1074,6 +1072,7 @@
 				30F180CC2272F76600301C6F /* LaunchScreen.storyboard in Resources */,
 				30F180CD2272F76600301C6F /* TabAgeCategoriesCell.xib in Resources */,
 				30F180CE2272F76600301C6F /* GroupSummaryMatchesHeader.xib in Resources */,
+				9E916C4A24B5A19D0085FBCA /* strip-architectures.sh in Resources */,
 				9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */,
 				30F180D02272F76600301C6F /* Tournament.storyboard in Resources */,
@@ -1217,7 +1216,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */,
-				30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
 				30FB311D213550C600ABA22A /* AgeCategoriesGroupsVC.swift in Sources */,
@@ -1305,7 +1303,6 @@
 			files = (
 				30239DC323181D080027EC2C /* AgeCategoryDivisionCell.swift in Sources */,
 				30F1805E2272F76600301C6F /* GroupDetailsVC.swift in Sources */,
-				30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30F1805F2272F76600301C6F /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30F180602272F76600301C6F /* AgeCategoryCell.swift in Sources */,
 				30F180612272F76600301C6F /* AgeCategoriesGroupsVC.swift in Sources */,
@@ -1314,6 +1311,7 @@
 				30F180642272F76600301C6F /* GroupSummaryStandingsHeader.swift in Sources */,
 				30F180652272F76600301C6F /* ViewScheduleImageVC.swift in Sources */,
 				30F180662272F76600301C6F /* TeamListCell.swift in Sources */,
+				9E916C4C24B5A32B0085FBCA /* NSLog.swift in Sources */,
 				30F180672272F76600301C6F /* ApiManager.swift in Sources */,
 				30F180682272F76600301C6F /* TabTeamsVC.swift in Sources */,
 				30F180692272F76600301C6F /* MainTabViewController.swift in Sources */,
@@ -1809,6 +1807,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1819,7 +1818,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
+					"$(PROJECT_DIR)/TestFairySDK",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
@@ -1840,6 +1841,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1850,7 +1852,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
+					"$(PROJECT_DIR)/TestFairySDK",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
@@ -1871,6 +1875,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1881,7 +1886,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
+					"$(PROJECT_DIR)/TestFairySDK",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";

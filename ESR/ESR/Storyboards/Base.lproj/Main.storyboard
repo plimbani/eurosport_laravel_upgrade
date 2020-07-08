@@ -43,7 +43,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dW2-TP-dPL">
                                 <rect key="frame" x="30" y="324" width="260" height="50"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="apple_logo_signup" translatesAutoresizingMaskIntoConstraints="NO" id="gsA-ba-gTI">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="apple_logo_signup" translatesAutoresizingMaskIntoConstraints="NO" id="gsA-ba-gTI">
                                         <rect key="frame" x="15" y="12.5" width="25" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="8hX-9u-Wf1"/>
@@ -1122,8 +1122,8 @@
         <image name="icon_uncheck" width="27" height="22"/>
         <image name="landing_bg" width="1500" height="2713"/>
         <image name="login_with_fb_bg" width="1312" height="196"/>
-        <image name="logo_esr_landing" width="600" height="600"/>
-        <image name="registration_bg" width="640" height="1136"/>
+        <image name="logo_esr_landing" width="511" height="211"/>
+        <image name="registration_bg" width="1500" height="2708"/>
         <image name="tab_age_categories" width="29" height="25"/>
         <image name="tab_age_categories_1" width="29" height="26.5"/>
         <image name="tab_favorites" width="29" height="38.5"/>
@@ -1135,7 +1135,7 @@
         <image name="tab_tournament" width="29" height="35"/>
         <image name="tab_tournament_1" width="29" height="35"/>
         <namedColor name="navigationbarcolor">
-            <color red="0.0" green="0.5725490196078431" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.78039216995239258" green="0.039215687662363052" blue="0.12549020349979401" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
