@@ -1178,7 +1178,7 @@ class TournamentRepository
             }
         }
         if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
-            return ['status' => 'error', 'message' => 'There is some error. All matches can not be schedule.'];
+            return ['status' => 'error', 'message' => 'There was an error. All matches could not be scheduled.'];
         }
         
         foreach ($matchScheduleArray as $matchId => $matchDetail) {
