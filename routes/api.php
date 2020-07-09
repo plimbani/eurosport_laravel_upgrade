@@ -78,6 +78,8 @@ $api->version('v1', function ($api) {
 
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 
+    $api->post('get_project_configurations', 'Laraspace\Api\Controllers\ProjectConfigurationController@getProjectConfigurations');
+
     $api->post('age_group/getCompetationFormat', 'Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat')->middleware('tournamentAccessable');
 
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws')->middleware('tournamentAccessable');

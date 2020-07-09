@@ -158,4 +158,40 @@ return [
         '#CFD784',
         '#F0FFFF'
     ],
+    'APP_VERSION' => [
+        'tmp' => [
+            'android' => env('TMP_ANDROID_APP_VERSION'),
+            'ios'     => env('TMP_IOS_APP_VERSION')
+        ],
+        'emm' => [
+            'android' => env('EMM_ANDROID_APP_VERSION'),
+            'ios'     => env('EMM_IOS_APP_VERSION')
+        ]
+    ],
+    'TESTFAIRY' => [
+        'tmp' => [
+            'android' => [
+                'enable_testfairy' => env('ENABLE_TESTFAIRY_TMP_ANDROID'),
+                'enable_testfairy_video' => env('ENABLE_TESTFAIRY_VIDEO_CAPTURE_TMP_ANDROID'),
+                'enable_testfairy_feedback' => env('ENABLE_TESTFAIRY_FEEDBACK_TMP_ANDROID')
+            ],
+            'ios' => [
+                'enable_testfairy' => env('ENABLE_TESTFAIRY_TMP_IOS'),
+                'enable_testfairy_video' => env('ENABLE_TESTFAIRY_VIDEO_CAPTURE_TMP_IOS'),
+                'enable_testfairy_feedback' => env('ENABLE_TESTFAIRY_FEEDBACK_TMP_IOS')
+            ]
+        ],
+        'emm' => [
+            'android' => [
+                'enable_testfairy' => env('ENABLE_TESTFAIRY_EMM_ANDROID'),
+                'enable_testfairy_video' => env('ENABLE_TESTFAIRY_VIDEO_CAPTURE_EMM_ANDROID'),
+                'enable_testfairy_feedback' => env('ENABLE_TESTFAIRY_FEEDBACK_EMM_ANDROID')
+            ],
+            'ios' => [
+                'enable_testfairy' => env('ENABLE_TESTFAIRY_EMM_IOS'),
+                'enable_testfairy_video' => env('ENABLE_TESTFAIRY_VIDEO_CAPTURE_EMM_IOS'),
+                'enable_testfairy_feedback' => env('ENABLE_TESTFAIRY_FEEDBACK_EMM_IOS')
+            ]
+        ]
+    ],
 ];
