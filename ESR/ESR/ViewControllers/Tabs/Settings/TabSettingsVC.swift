@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseInstanceID
 
 class TabSettingsVC: SuperViewController {
 
@@ -56,7 +57,14 @@ extension TabSettingsVC: CustomAlertTwoBtnVCDelegate {
             USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
             USERDEFAULTS.set(false, forKey: kUserDefaults.isLogin)
             USERDEFAULTS.set(false, forKey: kUserDefaults.isFacebookLogin)
-            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+            let instance = InstanceID.instanceID()
+            instance.deleteID { (error) in
+                print(error.debugDescription)
+            }
+
+            if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                keyWindow.rootViewController = Storyboards.Main.instantiateLandingVC()
+            }
         }
     }
 }

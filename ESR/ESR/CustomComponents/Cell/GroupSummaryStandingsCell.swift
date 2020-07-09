@@ -29,7 +29,7 @@ class GroupSummaryStandingsCell: UITableViewCell {
     var isFromAgecategory = false
     
     let btnAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 17.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 17.0)!,
         NSAttributedStringKey.foregroundColor : UIColor.black,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     

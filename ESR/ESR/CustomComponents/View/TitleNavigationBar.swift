@@ -25,7 +25,7 @@ class TitleNavigationBar: UIView {
     @IBOutlet var widthConstraintBtnFinalPlacings: NSLayoutConstraint!
     
     let btnFinalPlacingsAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0)!,
         NSAttributedStringKey.foregroundColor : UIColor.white,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     

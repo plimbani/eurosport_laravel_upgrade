@@ -217,9 +217,10 @@ extension LandingVC {
                     if let token = result.value(forKey: "token") as? String {
                         USERDEFAULTS.set(token, forKey: kUserDefaults.token)
                     }
-                    
-                    let viewController = Storyboards.Main.instantiateMainVC()
-                    UIApplication.shared.keyWindow?.rootViewController = viewController
+
+                    if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                        keyWindow.rootViewController = Storyboards.Main.instantiateMainVC()
+                    }
                 }
             }, failure: { result in
                 DispatchQueue.main.async {
@@ -257,9 +258,7 @@ extension LandingVC {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
-                if result.allKeys.count == 0 {
-                    return
-                }
+                if result.allKeys.count == 0 { return }
                 
                 if let error = result.value(forKey: "error") as? String {
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
@@ -279,7 +278,6 @@ extension LandingVC {
         self.view.showProgressHUD()
         
         var parameters: [String: Any] = [:]
-        
         parameters["provider"] = socialLoginProvider
         
         if socialLoginProvider == SocialLoginProvider.apple.rawValue {
@@ -348,7 +346,9 @@ extension LandingVC {
                             }
                         }
                         
-                        UIApplication.shared.keyWindow?.rootViewController = mainVC
+                        if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                            keyWindow.rootViewController = mainVC
+                        }
                     }
                 }
             }

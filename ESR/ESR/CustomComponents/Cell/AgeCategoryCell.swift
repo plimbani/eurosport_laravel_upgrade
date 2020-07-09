@@ -28,7 +28,7 @@ class AgeCategoryCell: UITableViewCell {
     @IBOutlet var leadingConstraintLblTitle: NSLayoutConstraint!
     
     let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0)!,
         NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     
