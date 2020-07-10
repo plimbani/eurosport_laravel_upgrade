@@ -366,7 +366,8 @@ public class ProfileActivity extends BaseAppCompactActivity {
                     // getTournamentList api calling after getting response of country because of progress bar
                     // both api calling showProgress and stopProgress
                     // spinner will be visible if tournament_id is null inside pref and user has login through fb
-                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))
+                            && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
                         sp_tournament.setVisibility(View.VISIBLE);
                         getTournamentList();
                     } else {

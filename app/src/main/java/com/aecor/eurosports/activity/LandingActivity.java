@@ -238,14 +238,6 @@ public class LandingActivity extends BaseActivity {
                             if (jsonObject.has("profile_image_url")) {
                                 mAppPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             }
-                            if (response != null && response.has("enable_logs_android")) {
-                                String enable_logs_android = response.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
-                                    TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
-                                    TestFairy.setUserId(jsonObject.getString("user_id"));
-                                }
-                            }
                             if (jsonObject.has("role")) {
                                 mAppPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
                             }
@@ -285,6 +277,7 @@ public class LandingActivity extends BaseActivity {
                                 mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
 //                                mAppPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             }
+                            Utility.setTFFlags(mContext);
                             checkIfNewTokenIsAvailable(true);
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}

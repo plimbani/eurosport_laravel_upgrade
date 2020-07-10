@@ -13,7 +13,9 @@ public class AppConstants {
     public static final int MAX_IMAGE_HEIGHT_LARGE = 230;
 
 
-    public static final String KEY_ENABLE_LOGS_ANDROID = "key_enable_logs_android";
+    public static final String KEY_ENABLE_TF_ANDROID = "key_enable_tf_android";
+    public static final String KEY_ENABLE_TF_VIDEO_ANDROID = "key_enable_tf_video_android";
+    public static final String KEY_ENABLE_TF_FEEDBACK_ANDROID = "key_enable_tf_feedback_android";
     public static final String KEY_AGE_CATEGORIES_ID = "key_age_categories_id";
     public static final String KEY_IMAGE_URL = "key_image_url";
     public static final String KEY_REMEMBER_EMAIL = "remember_email";

@@ -33,7 +33,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,7 +59,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                checkAppVersion();
+                getTFConfiguration();
             }
         }, SPLASH_TIME_OUT);
     }
@@ -216,14 +215,7 @@ public class SplashActivity extends BaseActivity {
                             if (jsonObject.has("country_id")) {
                                 mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
                             }
-                            if (response != null && response.has("enable_logs_android")) {
-                                String enable_logs_android = response.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
-                                    TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppSharedPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
-                                    TestFairy.setUserId(jsonObject.getString("user_id"));
-                                }
-                            }
+
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                                 mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
@@ -392,9 +384,10 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-    private void checkAppVersion() {
+
+    private void getTFConfiguration() {
         if (Utility.isInternetAvailable(mContext)) {
-            String url = ApiConstants.APP_VERSION;
+            String url = ApiConstants.PROJECT_CONFIGURATION;
             final JSONObject requestJson = new JSONObject();
 
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
@@ -420,6 +413,16 @@ public class SplashActivity extends BaseActivity {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
+                        if (response != null && response.has("enable_testfairy_android")) {
+                            mAppSharedPref.setString(AppConstants.KEY_ENABLE_TF_ANDROID, response.getString("enable_testfairy_android"));
+                        }
+                        if (response != null && response.has("enable_testfairy_video_capture_android")) {
+                            mAppSharedPref.setString(AppConstants.KEY_ENABLE_TF_VIDEO_ANDROID, response.getString("enable_testfairy_video_capture_android"));
+                        }
+                        if (response != null && response.has("enable_testfairy_feedback_android")) {
+                            mAppSharedPref.setString(AppConstants.KEY_ENABLE_TF_FEEDBACK_ANDROID, response.getString("enable_testfairy_feedback_android"));
+                        }
+                        Utility.setTFFlags(mContext);
                         // add check here for version comparison
                         if (installedAppVersion != null
                                 && !installedAppVersion.equals("")
@@ -605,6 +608,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void postUserDeviceDetails(final Context mContext) {
+        Utility.setTFFlags(mContext);
 
         if (Utility.isInternetAvailable(mContext)) {
             PackageManager manager = mContext.getPackageManager();

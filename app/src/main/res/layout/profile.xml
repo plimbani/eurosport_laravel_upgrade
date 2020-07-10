@@ -8,88 +8,94 @@
 
     <include layout="@layout/toolbar_header" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_email"
-                style="@style/app_edittext"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_border"
-                 android:hint="@string/email"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress|textNoSuggestions" />
 
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_first_name"
-                style="@style/app_edittext"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_border"
-                android:hint="@string/first_name"
-                android:imeOptions="actionNext"
-                android:inputType="textPersonName|textNoSuggestions" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_last_name"
-                style="@style/app_edittext"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_border"
-                android:hint="@string/surname"
-                android:imeOptions="actionNext"
-                android:inputType="textPersonName|textNoSuggestions" />
-
-
-            <Spinner
-                android:id="@+id/sp_role"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/spinner_bg_image_gray"
-                android:drawSelectorOnTop="true"
-                android:entries="@array/role_array"
-                android:prompt="@string/role" />
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/profile_language_selection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/spinner_bg_image_gray"
-                android:drawSelectorOnTop="true"
-                android:prompt="@string/select_language" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/input_email"
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress|textNoSuggestions" />
 
-            <Spinner
-                android:id="@+id/sp_country"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/spinner_bg_image_gray"
-                android:drawSelectorOnTop="true"
-                android:prompt="@string/select_your_country" />
 
-            <Spinner
-                android:id="@+id/sp_tournament"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                android:background="@drawable/spinner_bg_image_gray"
-                android:drawSelectorOnTop="true"
-                android:prompt="@string/select_tournament" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/input_first_name"
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/first_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textNoSuggestions" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/input_last_name"
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/surname"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textNoSuggestions" />
+
+
+                <Spinner
+                    android:id="@+id/sp_role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/spinner_bg_image_gray"
+                    android:drawSelectorOnTop="true"
+                    android:entries="@array/role_array"
+                    android:prompt="@string/role" />
+
+                <Spinner
+                    android:id="@+id/profile_language_selection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/spinner_bg_image_gray"
+                    android:drawSelectorOnTop="true"
+                    android:prompt="@string/select_language" />
+
+                <Spinner
+                    android:id="@+id/sp_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/spinner_bg_image_gray"
+                    android:drawSelectorOnTop="true"
+                    android:prompt="@string/select_your_country" />
+
+                <Spinner
+                    android:id="@+id/sp_tournament"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/spinner_bg_image_gray"
+                    android:drawSelectorOnTop="true"
+                    android:prompt="@string/select_tournament"
+                    android:visibility="gone" />
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/btn_update"

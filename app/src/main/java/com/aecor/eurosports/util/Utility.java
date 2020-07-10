@@ -17,10 +17,8 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +37,7 @@ import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.android.volley.VolleyError;
+import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,11 +177,11 @@ public class Utility {
                         public void onPositiveButtonClicked() {
                             if (mContext instanceof SplashActivity) {
                                 try {
-                                    if(data.has("title") && !isNullOrEmpty(data.getString("title"))){
+                                    if (data.has("title") && !isNullOrEmpty(data.getString("title"))) {
                                         Intent mLandingPageIntent = new Intent(mContext, HomeActivity.class);
                                         mContext.startActivity(mLandingPageIntent);
                                         ((Activity) mContext).finish();
-                                    }else {
+                                    } else {
                                         Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
                                         mContext.startActivity(mLandingPageIntent);
                                         ((Activity) mContext).finish();
@@ -201,6 +200,34 @@ public class Utility {
             }
         } catch (@NonNull JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void setTFFlags(Context mContext) {
+        AppPreference mAppSharedPref = mAppSharedPref = AppPreference.getInstance(mContext);
+        if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_ANDROID))) {
+            if (mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_ANDROID).equalsIgnoreCase("1")) {
+
+                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_VIDEO_ANDROID))) {
+                    if (mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_VIDEO_ANDROID).equalsIgnoreCase("1")) {
+                        TestFairy.enableVideo("always", "medium", (float) 0.1);
+                    } else {
+                        TestFairy.disableVideo();
+                    }
+                }
+                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_FEEDBACK_ANDROID))) {
+                    if (mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_FEEDBACK_ANDROID).equalsIgnoreCase("1")) {
+                        TestFairy.enableFeedbackForm("shake");
+                    } else {
+                        TestFairy.disableFeedbackForm();
+                    }
+                }
+
+                TestFairy.begin(mContext, "SDK-7273syUD");
+                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_USER_ID))) {
+                    TestFairy.setUserId(mAppSharedPref.getString(AppConstants.PREF_USER_ID));
+                }
+            }
         }
     }
 
