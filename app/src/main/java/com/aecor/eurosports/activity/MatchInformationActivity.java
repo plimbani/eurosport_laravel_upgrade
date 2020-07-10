@@ -22,11 +22,7 @@ import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import java.text.ParseException;
 
@@ -200,23 +196,12 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeFlagLogo())) {
             Glide.with(mContext)
-                    .asBitmap()
                     .load(mTeamFixturesModel.getHomeFlagLogo())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            // resource is your loaded Bitmap
-                            iv_team_flag_1.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                            return true;
-                        }
-                    });
+                    .dontAnimate()
+                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                    .into(iv_team_flag_1);
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);
@@ -225,22 +210,12 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayFlagLogo())) {
             Glide.with(mContext)
-                    .asBitmap().load(mTeamFixturesModel.getAwayFlagLogo())
+                    .load(mTeamFixturesModel.getAwayFlagLogo())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            // resource is your loaded Bitmap
-                            iv_team_flag_2.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                            return true;
-                        }
-                    });
+                    .dontAnimate()
+                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                    .into(iv_team_flag_2);
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);

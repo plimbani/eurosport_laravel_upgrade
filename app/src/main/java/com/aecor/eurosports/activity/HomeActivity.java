@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 
 import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
@@ -35,11 +32,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.json.JSONObject;
@@ -125,23 +118,13 @@ public class HomeActivity extends BaseAppCompactActivity {
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
                     Glide.with(mContext)
-                            .asBitmap().load(mTournamentList.get(position).getTournamentLogo())
+                            .load(mTournamentList.get(position).getTournamentLogo())
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
-                            .listener(new RequestListener<Bitmap>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                    iv_tournamentLogo.setImageResource(R.drawable.globe);
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                    // resource is your loaded Bitmap
-                                    iv_tournamentLogo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
-                                    return true;
-                                }
-                            });
+                            .dontAnimate()
+                            .error(R.drawable.globe)
+                            .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                            .into(iv_tournamentLogo);
                 } else {
                     iv_tournamentLogo.setImageResource(R.drawable.globe);
                 }

@@ -68,22 +68,14 @@ public class FinalPlacingMatchesAdapter extends RecyclerView.Adapter<FinalPlacin
             viewHolder.tv_tem_name.setText(mGroupModel.getTeam_name());
             if (!Utility.isNullOrEmpty(mGroupModel.getTeam_logo())) {
                 Glide.with(mContext)
-                        .asBitmap().load(mGroupModel.getTeam_logo())
+                        .load(mGroupModel.getTeam_logo())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .listener(new RequestListener<Bitmap>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                return false;
-                            }
+                        .dontAnimate()
+                        .error(R.drawable.globe)
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(viewHolder.team_flag);
 
-                            @Override
-                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                // resource is your loaded Bitmap
-                                viewHolder.team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                                return true;
-                            }
-                        });
             } else {
                 Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                         R.drawable.globe);

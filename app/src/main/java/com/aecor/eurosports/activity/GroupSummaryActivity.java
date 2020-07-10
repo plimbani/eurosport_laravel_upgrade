@@ -44,11 +44,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,22 +174,12 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
         if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
             Glide.with(mContext)
-                    .asBitmap().load(mLeagueModel.getTeamFlag())
+                    .load(mLeagueModel.getTeamFlag())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            // resource is your loaded Bitmap
-                            team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                            return true;
-                        }
-                    });
+                    .dontAnimate()
+                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                    .into(team_flag);
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);
