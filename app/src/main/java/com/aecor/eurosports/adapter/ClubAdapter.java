@@ -88,7 +88,8 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
                     .asBitmap().load(clubModel.getCountryLogo())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .listener(new RequestListener<Bitmap>() {
+                    .dontAnimate().
+                    listener(new RequestListener<Bitmap>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                             return false;

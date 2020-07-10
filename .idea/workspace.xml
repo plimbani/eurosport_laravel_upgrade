@@ -12,6 +12,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f7e54537-3a96-43b7-966b-eae3020df760" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/adapter/ClubAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/adapter/ClubAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,10 +278,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1323" height="287" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1593606898588" />
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1593663077383">
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1594363940613">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1593663077383" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1594363940613" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1594363365662">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1594363365662" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
