@@ -2,15 +2,12 @@ package com.aecor.eurosports.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 
 import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
@@ -29,11 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import org.json.JSONObject;
 
@@ -122,23 +115,13 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
 
             if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
                 Glide.with(mContext)
-                        .asBitmap().load(rowItem.getTournamentLogo())
+                        .load(rowItem.getTournamentLogo())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .listener(new RequestListener<Bitmap>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                // resource is your loaded Bitmap
-                                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                                return true;
-                            }
-                        });
+                        .dontAnimate()
+                        .error(R.drawable.globe)
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(((ViewHolderCommerci) holder).iv_tournament_logo);
             } else {
                 ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
             }
@@ -167,23 +150,13 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
 
             if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
                 Glide.with(mContext)
-                        .asBitmap().load(rowItem.getTournamentLogo())
+                        .load(rowItem.getTournamentLogo())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .listener(new RequestListener<Bitmap>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                ((ViewHolder) holder).favourite_logo.setImageResource(R.drawable.globe);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                // resource is your loaded Bitmap
-                                ((ViewHolder) holder).favourite_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                                return true;
-                            }
-                        });
+                        .dontAnimate()
+                        .error(R.drawable.globe)
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(((ViewHolder) holder).favourite_logo);
             } else {
                 ((ViewHolder) holder).favourite_logo.setImageResource(R.drawable.globe);
             }
