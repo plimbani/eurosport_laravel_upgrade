@@ -1179,10 +1179,6 @@ class TournamentRepository
             }
         }
 
-        echo "<pre>";
-        print_r($matchScheduleArray);
-        echo $totalMatchesToBeScheduled;
-        echo count($matchScheduleArray);exit;
         if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
             return ['status' => 'error', 'message' => 'There was an error. All matches could not be scheduled.'];
         }
