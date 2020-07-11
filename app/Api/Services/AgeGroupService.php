@@ -688,6 +688,13 @@ class AgeGroupService implements AgeGroupContract
 
     public function copyAgeCategory($data)
     {
+      $data['ageCategoryData']['competition_format']['ageCategory_name'] = trim($data['ageCategoryData']['competition_format']['ageCategory_name']);
+
+      $sameAgeCategoryExists = TournamentCompetationTemplates::where('tournament_id', $data['ageCategoryData']['tournament_id'])->whereRaw('LOWER(`group_name`) LIKE ?', [strtolower($data['ageCategoryData']['competition_format']['ageCategory_name'])])->where('category_age', $data['ageCategoryData']['competition_format']['category_age'])->first();
+      if($sameAgeCategoryExists) {
+        return ['status_code' => '403', 'message' => 'A competition format with this age category and category name already exists.'];
+      }
+
       $copiedAgeCategory = TournamentCompetationTemplates::where('id', $data['ageCategoryData']['copiedAgeCategoryId'])->first();
 
       $newCopiedAgeCategory = $copiedAgeCategory->replicate();

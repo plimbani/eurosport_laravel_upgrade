@@ -4,7 +4,7 @@
             <div class="logo-container is-left">
                 <img v-if="tournament.tournamentLogo != null" :src="tournament.tournamentLogo" alt="Tournament Logo" />
                 <img v-else-if="currentLayout === 'tmp'" :src="tmpLogoUrl" alt="Tournament Logo">
-                <img v-else-if="currentLayout === 'commercialisation'" src="commercialisationLogoUrl" alt="Tournament Logo">
+                <img v-else-if="currentLayout === 'commercialisation'" :src="commercialisationLogoUrl" alt="Tournament Logo">
             </div>
         </div>
         <div class="sidebar-container">
