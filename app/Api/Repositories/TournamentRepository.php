@@ -1023,6 +1023,7 @@ class TournamentRepository
             $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.competition_id', $data['competition']);
         }
         $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.is_scheduled', 0)->orderBy('competitions.competation_round_no')
+            ->orderBy('temp_fixtures.id')
             ->select('*', 'temp_fixtures.id as id')
             ->get();
 
@@ -1177,6 +1178,11 @@ class TournamentRepository
                 $pitchAvailableTime[$pitchAvailableTimeKeys[0]] = $pitchAvailableTimeValues;
             }
         }
+
+        echo "<pre>";
+        print_r($matchScheduleArray);
+        echo $totalMatchesToBeScheduled;
+        echo count($matchScheduleArray);exit;
         if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
             return ['status' => 'error', 'message' => 'There was an error. All matches could not be scheduled.'];
         }
