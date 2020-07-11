@@ -15,6 +15,11 @@
 			            <p class="mb-0">{{ $lang.copy_age_category_modal_note }}</p>
 			          </div>
 			        </div>
+			        <div class="form-group row" v-show="ageCategoryAlreadyExist">
+	                	<div class="col-sm-12 help is-danger">
+	                  		{{ ageCategoryAlreadyExistMessage }}
+	                	</div>
+	              	</div>
 			        <div class="form-group row align-items-center">
 			          <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
 			          <div class="col-sm-8">
@@ -87,6 +92,8 @@
 	    		value: [],
 	    		isInvalid: false,
 	    		isSaveInProcess: false,
+	    		ageCategoryAlreadyExist: false,
+	    		ageCategoryAlreadyExistMessage: '',
 	    		competition_format: {
 		    		ageCategory_name: '',
 		    		category_age: '',
@@ -119,21 +126,28 @@
 					if(this.isInvalid == true) {
               			return false;
         			}
-        			this.isSaveInProcess = true;
-					let ageCategoryData = { 'competition_format': this.competition_format, 'copiedAgeCategoryId': this.copiedAgeCategoryId}
-					Tournament.copyAgeCategory(ageCategoryData).then(
-						(response) => {
-							if(response.data.status_code == 200) {
-								toastr.success('Age category has been copied successfully.', 'Add Age Category', {timeOut: 5000});
-								$('#copyAgeCategoryModal').modal('hide');
-								this.$root.$emit('displayCompetationList');
-								this.resetForm();
-								this.isSaveInProcess = false;
-							}
-						},
-	                    (error) => {
 
-	                    });
+        			if(response) {
+	        			this.isSaveInProcess = true;
+						let ageCategoryData = { 'competition_format': this.competition_format, 'copiedAgeCategoryId': this.copiedAgeCategoryId, 'tournament_id': this.$store.state.Tournament.tournamentId}
+						Tournament.copyAgeCategory(ageCategoryData).then(
+							(response) => {
+								if(response.data.status_code == 200) {
+									toastr.success('Age category has been copied successfully.', 'Add Age Category', {timeOut: 5000});
+									$('#copyAgeCategoryModal').modal('hide');
+									this.$root.$emit('displayCompetationList');
+									this.resetForm();
+									this.isSaveInProcess = false;
+								} else if(response.data.status_code == 403) {
+									this.isSaveInProcess = false;
+									this.ageCategoryAlreadyExistMessage = response.data.message;
+									this.ageCategoryAlreadyExist = true;
+			                    }
+							},
+		                    (error) => {
+
+		                    });
+					}
 				}).catch((errors) => {
 
                 });					
@@ -156,6 +170,8 @@
 		    closeModal() {
 		    	$('#copyAgeCategoryModal').modal('hide');
 		    	this.isInvalid = false;
+		    	this.ageCategoryAlreadyExist = false;
+	    		this.ageCategoryAlreadyExistMessage = '';
 		    	this.resetForm();
 		    }
 		}
