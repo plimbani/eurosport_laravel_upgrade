@@ -810,9 +810,9 @@ class TournamentRepository
                         }
                     }
                 }
-                /* else {
-                  //return $userData;
-                  } */
+                else {
+                    $userData[$index]['TournamentStartTime'] = Carbon::parse($userData[$index]['TournamentStartTime'])->format('Y-m-d') . " 08:00:00";
+                } 
             }
 
             return $userData;
