@@ -74,7 +74,7 @@
                                 </constraints>
                                 <state key="normal" title="Create account"/>
                                 <connections>
-                                    <action selector="createAccountBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ywE-jk-JE0"/>
+                                    <action selector="createAccountBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gSC-g7-kYi"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76L-d2-oG0">
@@ -84,7 +84,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="signInBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w7V-AX-Rpo"/>
+                                    <action selector="signInBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ipF-tF-toR"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDJ-cx-eJj">
@@ -1122,7 +1122,7 @@
         <image name="icon_uncheck" width="27" height="22"/>
         <image name="landing_bg" width="1500" height="2713"/>
         <image name="login_with_fb_bg" width="1312" height="196"/>
-        <image name="logo_esr_landing" width="511" height="211"/>
+        <image name="logo_esr_landing" width="600" height="600"/>
         <image name="registration_bg" width="1500" height="2708"/>
         <image name="tab_age_categories" width="29" height="25"/>
         <image name="tab_age_categories_1" width="29" height="26.5"/>

@@ -11,7 +11,6 @@
 		3003EF3C231569D0008F47E4 /* AgeCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3003EF3B231569CF008F47E4 /* AgeCategoryData.swift */; };
 		3009A36021CA56A8002769CF /* AllMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009A35F21CA56A8002769CF /* AllMatchesVC.swift */; };
 		30181CC4211D95B60067D65F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
-		30181CC9211D95B60067D65F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CC7211D95B60067D65F /* Main.storyboard */; };
 		30181CCB211D95B80067D65F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCA211D95B80067D65F /* Assets.xcassets */; };
 		30181CD9211D98720067D65F /* SuperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CD8211D98720067D65F /* SuperViewController.swift */; };
 		30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDC211D99F50067D65F /* AppConstantsList.swift */; };
@@ -1006,7 +1005,6 @@
 				30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */,
 				30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */,
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
-				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
 				9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,

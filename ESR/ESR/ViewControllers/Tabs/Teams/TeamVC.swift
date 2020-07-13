@@ -357,7 +357,7 @@ class TeamVC: SuperViewController {
                             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
 
                             if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
-                                keyWindow.rootViewController = Storyboards.Main.instantiateLandingVC()
+                                keyWindow.rootViewController = UINavigationController(rootViewController:  Storyboards.Main.instantiateLandingVC())
                             }
                         }
                     }

@@ -196,7 +196,7 @@ class LoginVC: SuperViewController {
                         ApplicationData.temLoginFlag = true
 
                         if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
-                            keyWindow.rootViewController = Storyboards.Main.instantiateMainVC()
+                            keyWindow.rootViewController =  Storyboards.Main.instantiateMainVC()
                         }
                     } else {
                         if let message = result.value(forKey: "message") as? String {
