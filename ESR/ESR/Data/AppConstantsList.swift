@@ -28,7 +28,7 @@ struct API_ENDPOINT {
     
     static let COUNTRIES_LIST = API_URL.BASE_URL + "getCountries"
     static let TOURNAMENTS = API_URL.BASE_URL + "tournaments"
-    static let APP_VERSION = API_URL.BASE_URL + "appversion"
+    static let APP_VERSION = API_URL.BASE_URL + "get_project_configurations"
     static let LOGIN = API_URL.BASE_URL + "auth/login"
     static let SOCIAL_LOGIN = API_URL.BASE_URL + "auth/social/login"
     static let REGISTER = API_URL.BASE_URL + "user/create"
