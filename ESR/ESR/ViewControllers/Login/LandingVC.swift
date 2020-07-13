@@ -232,7 +232,7 @@ extension LandingVC {
             })
         }
     }
-    
+
     func sendAppversionRequest() {
         if APPDELEGATE.reachability.connection == .none {
             return
@@ -243,11 +243,37 @@ extension LandingVC {
         ApiManager().getAppVersion(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+
+                if let enable_testfairy_ios = result.value(forKey: "enable_testfairy_ios") as? Int {
+                    if enable_testfairy_ios == 1 {
+
+                        TestFairy.begin("SDK-7273syUD")
+
+                        if let enable_testfairy_feedback_ios = result.value(forKey: "enable_testfairy_feedback_ios") as? Int {
+                            if enable_testfairy_feedback_ios == 1 {
+                                TestFairy.enableFeedbackForm("shake")
+                            } else {
+                                TestFairy.disableFeedbackForm()
+                            }
+                        }
+
+                        if let enable_testfairy_video_capture_ios = result.value(forKey: "enable_testfairy_video_capture_ios") as? Int {
+                            if enable_testfairy_video_capture_ios == 1 {
+                                TestFairy.enableVideo("always", quality: "high", framesPerSecond: 1.0)
+                            } else {
+                                TestFairy.disableVideo()
+                            }
+                        }
+
+                    } else {
+                        TestFairy.begin(nil)
+                    }
+                }
+
                 if let serverVersion = result.value(forKey: "ios_app_version") as? String {
                     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
                     
-                    // 1 - left version is greater than right version
-                    if Utils.compareVersion(serverVersion, appVersion) == 1 {
+                    if Utils.compareVersion(serverVersion, appVersion) != 0 {
                         self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
                         
                         ApplicationData.isAppUpdateDispalyed = true

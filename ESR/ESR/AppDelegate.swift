@@ -33,10 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        TestFairy.begin("SDK-7273syUD")
-        TestFairy.disableVideo()
-        TestFairy.enableFeedbackForm("shake")
-        
         // Keyboard manager
         IQKeyboardManager.shared.enable = true
         
