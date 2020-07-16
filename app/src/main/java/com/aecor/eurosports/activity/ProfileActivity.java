@@ -3,6 +3,7 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -46,6 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,7 +112,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
 
         if (Utility.isInternetAvailable(mContext)) {
-            Utility.setLocale(getApplicationContext(), selectedLocale);
             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
             String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
             Utility.startProgress(mContext);
@@ -171,11 +172,9 @@ public class ProfileActivity extends BaseAppCompactActivity {
                                 if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
                                     mAppPref.setString(AppConstants.PREF_EMAIL, input_email.getText().toString().trim());
                                 }
-
                                 Utility.showToast(mContext, messgae);
-                                Intent mIntent = getIntent();
-                                startActivity(mIntent);
-                                finish();
+
+                                setlanguage(selectedLocale);
                             } else {
                                 Utility.showToast(mContext, getResources().getString(R.string.update_profile_message));
                             }
@@ -208,6 +207,21 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             checkConnection();
         }
+    }
+
+    public void setlanguage(String ar) {
+        Locale locale = new Locale(ar);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
     }
 
     protected void initView() {
@@ -366,8 +380,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
                     // getTournamentList api calling after getting response of country because of progress bar
                     // both api calling showProgress and stopProgress
                     // spinner will be visible if tournament_id is null inside pref and user has login through fb
+                    AppLogger.LogE(TAG, "get Country List");
+                    AppLogger.LogE(TAG, mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
                     if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))
                             && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+
                         sp_tournament.setVisibility(View.VISIBLE);
                         getTournamentList();
                     } else {
