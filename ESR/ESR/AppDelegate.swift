@@ -33,9 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        TestFairy.disableVideo()
-        TestFairy.didLastSessionCrash()
-        
         // Keyboard manager
         IQKeyboardManager.shared.enable = true
         

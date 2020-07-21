@@ -31,7 +31,7 @@ class LandingVC: SuperViewController {
         case facebook = "facebook"
         case apple = "apple"
     }
-    
+
     private var socialLoginProvider = SocialLoginProvider.facebook.rawValue
     
     override func viewDidLoad() {

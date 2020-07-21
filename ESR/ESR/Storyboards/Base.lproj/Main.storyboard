@@ -1129,7 +1129,7 @@
         <image name="landing_bg" width="1500" height="2713"/>
         <image name="login_with_fb_bg" width="1312" height="196"/>
         <image name="logo_esr_landing" width="511" height="211"/>
-        <image name="registration_bg" width="640" height="1136"/>
+        <image name="registration_bg" width="1500" height="2708"/>
         <image name="tab_age_categories" width="29" height="25"/>
         <image name="tab_age_categories_1" width="29" height="26.5"/>
         <image name="tab_favorites" width="29" height="38.5"/>
@@ -1141,7 +1141,7 @@
         <image name="tab_tournament" width="29" height="35"/>
         <image name="tab_tournament_1" width="29" height="35"/>
         <namedColor name="navigationbarcolor">
-            <color red="0.7803921568627451" green="0.039215686274509803" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.57254904508590698" blue="0.83921569585800171" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
