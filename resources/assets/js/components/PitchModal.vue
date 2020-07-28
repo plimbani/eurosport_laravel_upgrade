@@ -14,7 +14,7 @@
           </div>
           <div class="modal-body" id="pitch_model_body">
             <div class="tabs tabs-primary">
-              <ul class="nav nav-tabs nav-justified" role="tablist">
+              <ul class="nav nav-tabs nav-justified js-match-card-tabs" role="tablist">
                 <li class="nav-item">
                   <a data-toggle="tab" class="nav-link active" href="#general_tab" role="tab">
                     <div class="wrapper-tab">General</div></a>
@@ -27,7 +27,7 @@
                 </li>                                    
               </ul>
 
-              <div class="tab-content">
+              <div class="tab-content js-match-card-tab-content">
                 <div id="general_tab" class="tab-pane active">
                   <div class="form-group row mb-0">
                     <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label>
@@ -101,7 +101,7 @@
                   <div class="form-group row">
                     <label class="col-sm-3 form-control-label">Remarks</label>
                     <div class="col-sm-9">
-                      <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
+                      <textarea class="form-control" name="comments" id="comments" v-model="matchDetail.comments">{{matchDetail.comments}}</textarea>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -430,6 +430,10 @@ var moment = require('moment');
         )
       },
       closeModal() {
+        $('#pitch_model_body').find('ul.js-match-card-tabs li a').removeClass("active");
+        $('#pitch_model_body').find('ul.js-match-card-tabs li:first a').addClass("active");
+        $('#pitch_model_body').find('.js-match-card-tab-content div.tab-pane').removeClass("active");
+        $('#pitch_model_body').find('.js-match-card-tab-content div#general_tab').addClass("active");
         $('#matchScheduleModal').modal('hide');
         if(this.refereeRemoved == 'yes'){
           // this.$root.$emit('setPitchReset')
