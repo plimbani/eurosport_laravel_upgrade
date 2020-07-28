@@ -316,7 +316,7 @@ module.exports= {
   competation_label: "Competition formats",
   competation_modal_team_interval: "Team match interval*",
   competation_modal_points_structure: "Points structure*",
-  competation_modal_category_rules: "Category rules*",
+  competation_modal_category_rules: "Group ranking*",
   competation_modal_team_interval_minutes: "minutes",
   competation_modal_team_interval_required: "Team interval is required.",
   competation_modal_comments: "Comments",
