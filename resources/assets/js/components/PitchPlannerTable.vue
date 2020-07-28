@@ -9,6 +9,7 @@
                         <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
                         <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
                         <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()">Unschedule fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleAllFixturesClick()">Unscheduled all fixtures</button>
                         <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
@@ -75,6 +76,7 @@
         </div>
         <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
             @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
+        <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingFixtures()"></UnscheduleAllFixturesModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
@@ -91,12 +93,13 @@
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
     import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
+    import UnscheduleAllFixturesModal from './UnscheduleAllFixturesModal.vue'
     import UnsavedMatchFixture from './UnsavedMatchFixture.vue'
 
     export default  {
         props: ['scheduleMatchesArray', 'isMatchScheduleInEdit'],
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnsavedMatchFixture
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnscheduleAllFixturesModal, UnsavedMatchFixture
         },
         computed: {
             GameActiveTab () {
@@ -187,6 +190,7 @@
                 'isCompetitionCallProcessed': false,
                 'formValues': this.initialState(),
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
+                'unscheduleAllFixtures': 'Are you sure you would like to unschedule all the fixtures?',
                 'matchId': null,
                 'conflictedMatchFixtures': [],
                 'isAnotherMatchScheduled': false,
@@ -513,6 +517,11 @@
                     return true;
                 }
             },
+            unscheduleAllFixturesClick() {
+                $(".match-unschedule-checkbox-div").removeClass('d-none');
+                $(".match-unschedule-checkbox").prop( "checked", true);
+                $("#unschedule_all_fixtures").modal('show');
+            },
             confirmUnscheduling() {
                 $("#bulk_unscheduled_fixtures").modal('show');
             },
@@ -542,6 +551,7 @@
                 Tournament.matchUnscheduledFixtures(matchDetail).then(
                 (response) => {
                     $('#bulk_unscheduled_fixtures').modal('hide')
+                    $('#unschedule_all_fixtures').modal('hide')
                     vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
                     if(vm.conflictedMatchFixtures.length > 0) {
                         $('#unChangedMatchFixtureModal').modal('show');
