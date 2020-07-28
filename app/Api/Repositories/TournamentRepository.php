@@ -880,6 +880,10 @@ class TournamentRepository
         }
 
         $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'])->first();
+        $teamIntervalCheck = TempFixture::where('age_group_id', $data['age_category'])->where('is_scheduled', 1)->get()->only(['id', 'match_datetime', 'match_end_time', 'home_team', 'away_team', 'home_team_placeholder_name', 'away_team_placeholder_name'])->toArray();
+
+        $minimumTeamIntervalTime = $ageCategory->minimum_team_interval; 
+        $maximumTeamIntervalTime = $ageCategory->maximum_team_interval;
 
         // for normal match
         $unscheduledMatchesForNormalMatch = null;
@@ -1081,6 +1085,55 @@ class TournamentRepository
 
                             $matchStartTimeStamp = Carbon::createFromTimestamp($timestamp);
                             $matchEndTimeStamp = (clone ($matchStartTimeStamp))->addMinute($matchTime);
+                            $homeMaximumTeamIntervalTimeCheck = false;  
+                            $awayMaximumTeamIntervalTimeCheck = false;  
+                            $isFirstMatchOfHomeTeam = true; 
+                            $isFirstMatchOfAwayTeam = true; 
+
+                            foreach($teamIntervalCheck as $matchId => $matchDetails) {  
+                                $homeTeamCondition = false; 
+                                $awayTeamCondition = false; 
+
+                                if($match->home_team!=0 && $match->away_team!=0) {  
+                                    $homeTeamCondition = ($match->home_team == $matchDetails['home_team'] || $match->home_team == $matchDetails['away_team']);  
+
+                                    $awayTeamCondition = ($match->away_team == $matchDetails['home_team'] || $match->away_team == $matchDetails['away_team']);  
+                                } else {    
+                                    $homeTeamCondition = ($match->home_team_placeholder_name == $matchDetails['home_team_placeholder_name'] || $match->home_team_placeholder_name == $matchDetails['away_team_placeholder_name']);  
+
+                                    $awayTeamCondition = ($match->away_team_placeholder_name == $matchDetails['home_team_placeholder_name'] || $match->away_team_placeholder_name == $matchDetails['away_team_placeholder_name']);  
+                                }   
+
+                                if($homeTeamCondition) {    
+                                    $isFirstMatchOfHomeTeam = false;    
+                                }   
+                                if($awayTeamCondition) {    
+                                    $isFirstMatchOfAwayTeam = false;    
+                                }   
+
+                                if($homeTeamCondition || $awayTeamCondition) {  
+                                    $minimumBeforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($minimumTeamIntervalTime);    
+                                    $minimumAfterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($minimumTeamIntervalTime); 
+                                    if((clone($matchDetails['match_datetime']))->between($minimumBeforeMatchStartTimeStamp, $minimumAfterMatchEndTimeStamp, false) || (clone($matchDetails['match_endtime']))->between($minimumBeforeMatchStartTimeStamp, $minimumAfterMatchEndTimeStamp, false)) { 
+                                        $canMatchBeSchedule = false;    
+                                    }   
+
+                                    $maximumBeforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($maximumTeamIntervalTime);    
+                                    $maximumAfterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($maximumTeamIntervalTime); 
+                                    if(((clone($matchDetails['match_datetime']))->between($maximumBeforeMatchStartTimeStamp, $maximumAfterMatchEndTimeStamp)) || ((clone($matchDetails['match_endtime']))->between($maximumBeforeMatchStartTimeStamp, $maximumAfterMatchEndTimeStamp))) {   
+                                        if($homeTeamCondition) {    
+                                            $homeMaximumTeamIntervalTimeCheck = true;   
+                                        }   
+                                        if($awayTeamCondition) {    
+                                            $awayMaximumTeamIntervalTimeCheck = true;   
+                                        }   
+                                    }   
+                                }   
+                            }   
+
+                            if((!$homeMaximumTeamIntervalTimeCheck && !$isFirstMatchOfHomeTeam) || (!$awayMaximumTeamIntervalTimeCheck && !$isFirstMatchOfAwayTeam)) {  
+                                $canMatchBeSchedule = false;    
+                            }
 
                             if ($data['competition'] == 'all') {
                                 $round = $match->competation_round_no;
