@@ -2236,7 +2236,7 @@ class MatchRepository
         ->where(function($query1) use ($teams,$teamId) {
           if($teamId){
             $query1->whereIn('home_team',$teams)
-            ->orWhereIn('away_team',$teams) ;
+            ->orWhereIn('away_team',$teams);
           } else {
             $query1->whereIn('home_team_placeholder_name',$teams)
             ->orWhereIn('away_team_placeholder_name',$teams) ;

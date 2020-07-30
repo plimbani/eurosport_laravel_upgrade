@@ -113,11 +113,13 @@ export default {
          let vm = this
           setTimeout(function(){
             vm.options = []
-             vm.value = []
+            if (vm.formValues.age_group_id.length > 0) {
+              vm.value = []
+            }
             let competitionOption =[]
              _.forEach(vm.competationList, function(competition,value) {
                let cmp = {'id':competition.id,'category_age':competition.category_age}
-              if($.inArray(competition.id,vm.formValues.age_group_id) != -1){
+              if(vm.formValues.age_group_id.length > 0 && $.inArray(competition.id,vm.formValues.age_group_id) != -1){
                 vm.value.push(cmp)
               }
               competitionOption.push(cmp)
