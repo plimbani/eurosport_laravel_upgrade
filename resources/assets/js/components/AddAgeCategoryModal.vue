@@ -427,7 +427,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">Minimum team match interval</label>
+                <label class="col-sm-4 form-control-label">Minimum team match interval*</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -442,7 +442,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">Maximum team match interval</label>
+                <label class="col-sm-4 form-control-label">Maximum team match interval*</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">

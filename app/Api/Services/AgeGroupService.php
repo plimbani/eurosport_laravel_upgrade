@@ -697,6 +697,14 @@ class AgeGroupService implements AgeGroupContract
 
       $copiedAgeCategory = TournamentCompetationTemplates::where('id', $data['ageCategoryData']['copiedAgeCategoryId'])->first();
 
+      $maximumTeams = Tournament::find($data['ageCategoryData']['tournament_id'])->maximum_teams;
+      $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['ageCategoryData']['tournament_id']);
+      $tournamentTotalTeamSum = $tournamentTotalTeamSumObj->pluck('total_teams')->sum();
+      $totalCheckTeams = $copiedAgeCategory->total_teams + $tournamentTotalTeamSum;
+      if(($totalCheckTeams > $maximumTeams)) {
+        return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
+      }
+
       $newCopiedAgeCategory = $copiedAgeCategory->replicate();
       $newCopiedAgeCategory->group_name = $data['ageCategoryData']['competition_format']['ageCategory_name'];
       $newCopiedAgeCategory->category_age = $data['ageCategoryData']['competition_format']['category_age'];
