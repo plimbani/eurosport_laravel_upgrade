@@ -34,6 +34,7 @@ class TournamentRepository
     public $slug;
     public function __construct()
     {
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
         $this->tournamentLogo = getenv('S3_URL') . '/assets/img/tournament_logo/';
     }
     public function getTournamentsByStatus($tournamentData)
@@ -880,9 +881,9 @@ class TournamentRepository
         }
 
         $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'])->first();
-        $teamIntervalCheck = TempFixture::where('age_group_id', $data['age_category'])->where('is_scheduled', 1)->get()->only(['id', 'match_datetime', 'match_end_time', 'home_team', 'away_team', 'home_team_placeholder_name', 'away_team_placeholder_name'])->toArray();
+        // $teamIntervalCheck = TempFixture::where('age_group_id', $data['age_category'])->where('is_scheduled', 1)->get()->only(['id', 'match_datetime', 'match_end_time', 'home_team', 'away_team', 'home_team_placeholder_name', 'away_team_placeholder_name'])->toArray();
 
-        $minimumTeamIntervalTime = $ageCategory->minimum_team_interval; 
+        $minimumTeamIntervalTime = $ageCategory->minimum_team_interval;
         $maximumTeamIntervalTime = $ageCategory->maximum_team_interval;
 
         // for normal match
@@ -942,7 +943,7 @@ class TournamentRepository
             $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->get();
 
             foreach ($pitchAvailability as $key => $pitchAvailable) {
-                if(!isset($data['timings'][$pitchId]['days'][$key])) {
+                if (!isset($data['timings'][$pitchId]['days'][$key])) {
                     continue;
                 }
 
@@ -952,7 +953,7 @@ class TournamentRepository
                 $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_end_time);
 
                 $pitchStartDateTime = $pitchAvailable->stage_start_date . ' ' . $data['timings'][$pitchId]['time'][$key]['start_time'] . ':00';
-                $pitchEndDateTime   = $pitchAvailable->stage_start_date . ' ' . $data['timings'][$pitchId]['time'][$key]['end_time'] . ':00';
+                $pitchEndDateTime = $pitchAvailable->stage_start_date . ' ' . $data['timings'][$pitchId]['time'][$key]['end_time'] . ':00';
 
                 $pitchStartDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchStartDateTime);
                 $pitchEndDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchEndDateTime);
@@ -972,7 +973,7 @@ class TournamentRepository
                 $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->toDateTimeString();
                 if (count($allPitchBreaks) > 0) {
                     foreach ($allPitchBreaks as $key => $break) {
-                        $availableEndTimeArray[]   = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
+                        $availableEndTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
                         $availableStartTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_end . '' . ':00';
 
                         $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
@@ -995,7 +996,7 @@ class TournamentRepository
 
                 foreach ($pitchUnAvailability as $key => $value) {
                     $pitchUnavailableStart = Carbon::parse($value->match_start_datetime);
-                    $pitchUnavailableEnd   = Carbon::parse($value->match_end_datetime);
+                    $pitchUnavailableEnd = Carbon::parse($value->match_end_datetime);
 
                     while ($pitchUnavailableStart < $pitchUnavailableEnd) {
                         $pitchUnavailableStart->addMinute(1);
@@ -1023,12 +1024,15 @@ class TournamentRepository
             $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.competition_id', $data['competition']);
         }
         $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.is_scheduled', 0)->orderBy('competitions.competation_round_no')
+            ->orderBy('temp_fixtures.display_match_number')
             ->orderBy('temp_fixtures.id')
             ->select('*', 'temp_fixtures.id as id')
             ->get();
 
         $matchScheduleArray = [];
         $roundWiseLastMatchDateTime = [];
+        $allPitchIds = array_keys($pitchAvailableTime);
+        $nextPitchIndex = 0;
         foreach ($unscheduledMatches as $match) {
             if ($match->is_final_round_match == 1) {
                 $matchTime = $finalMatchTotalTime;
@@ -1037,7 +1041,11 @@ class TournamentRepository
             }
 
             $newEndDateTime = null;
-            foreach ($pitchAvailableTime as $pitchId => $availability) {
+
+            // foreach ($pitchAvailableTime as $pitchId => $availability) {
+            for ($pitchIndex = $nextPitchIndex; $pitchIndex < count($allPitchIds); $pitchIndex++) {
+                $pitchId = $allPitchIds[$pitchIndex];
+                $availability = $pitchAvailableTime[$pitchId];
                 $i = 0;
                 $startTimeStamp = null;
                 $isMatchScheduledFlag = false;
@@ -1059,15 +1067,15 @@ class TournamentRepository
                             'venue_id' => $allPitches[$pitchId]->venue_id,
                         );
 
-                        $teamIntervalCheck[] = array(
-                            'id' => $match->id,
-                            'match_datetime' => clone($startTimeStamp),
-                            'match_endtime' => clone($endTimeStamp),
-                            'home_team' => $match->home_team,
-                            'away_team' => $match->away_team,
-                            'home_team_placeholder_name' => $match->home_team_placeholder_name,
-                            'away_team_placeholder_name' => $match->away_team_placeholder_name,
-                        );
+                        // $teamIntervalCheck[] = array(
+                        //     'id' => $match->id,
+                        //     'match_datetime' => clone($startTimeStamp),
+                        //     'match_endtime' => clone($endTimeStamp),
+                        //     'home_team' => $match->home_team,
+                        //     'away_team' => $match->away_team,
+                        //     'home_team_placeholder_name' => $match->home_team_placeholder_name,
+                        //     'away_team_placeholder_name' => $match->away_team_placeholder_name,
+                        // );
 
                         while ($startTimeStamp < $endTimeStamp) {
                             $pitchAvailableTime[$pitchId][$startTimeStamp->timestamp] = 0;
@@ -1079,61 +1087,61 @@ class TournamentRepository
                     if ($i < $matchTime && $value == 1) {
                         $canMatchBeSchedule = true;
                         if ($startTimeStamp == null) {
-                            if(!isset($pitchAvailableTime[$pitchId][Carbon::createFromTimestamp($timestamp)->addMinute($matchTime)->timestamp])) {
+                            if (!isset($pitchAvailableTime[$pitchId][Carbon::createFromTimestamp($timestamp)->addMinute($matchTime)->timestamp])) {
                                 continue;
                             }
 
                             $matchStartTimeStamp = Carbon::createFromTimestamp($timestamp);
                             $matchEndTimeStamp = (clone ($matchStartTimeStamp))->addMinute($matchTime);
-                            $homeMaximumTeamIntervalTimeCheck = false;  
-                            $awayMaximumTeamIntervalTimeCheck = false;  
-                            $isFirstMatchOfHomeTeam = true; 
-                            $isFirstMatchOfAwayTeam = true; 
+                            // $homeMaximumTeamIntervalTimeCheck = false; 
+                            // $awayMaximumTeamIntervalTimeCheck = false; 
+                            // $isFirstMatchOfHomeTeam = true;
+                            // $isFirstMatchOfAwayTeam = true;
 
-                            foreach($teamIntervalCheck as $matchId => $matchDetails) {  
-                                $homeTeamCondition = false; 
-                                $awayTeamCondition = false; 
+                            // foreach($teamIntervalCheck as $matchId => $matchDetails) {
+                            //     $homeTeamCondition = false;
+                            //     $awayTeamCondition = false;
 
-                                if($match->home_team!=0 && $match->away_team!=0) {  
-                                    $homeTeamCondition = ($match->home_team == $matchDetails['home_team'] || $match->home_team == $matchDetails['away_team']);  
+                            //     if($match->home_team!=0 && $match->away_team!=0) {
+                            //         $homeTeamCondition = ($match->home_team == $matchDetails['home_team'] || $match->home_team == $matchDetails['away_team']);
 
-                                    $awayTeamCondition = ($match->away_team == $matchDetails['home_team'] || $match->away_team == $matchDetails['away_team']);  
-                                } else {    
-                                    $homeTeamCondition = ($match->home_team_placeholder_name == $matchDetails['home_team_placeholder_name'] || $match->home_team_placeholder_name == $matchDetails['away_team_placeholder_name']);  
+                            //         $awayTeamCondition = ($match->away_team == $matchDetails['home_team'] || $match->away_team == $matchDetails['away_team']);
+                            //     } else {
+                            //         $homeTeamCondition = ($match->home_team_placeholder_name == $matchDetails['home_team_placeholder_name'] || $match->home_team_placeholder_name == $matchDetails['away_team_placeholder_name']);
 
-                                    $awayTeamCondition = ($match->away_team_placeholder_name == $matchDetails['home_team_placeholder_name'] || $match->away_team_placeholder_name == $matchDetails['away_team_placeholder_name']);  
-                                }   
+                            //         $awayTeamCondition = ($match->away_team_placeholder_name == $matchDetails['home_team_placeholder_name'] || $match->away_team_placeholder_name == $matchDetails['away_team_placeholder_name']);
+                            //     }
 
-                                if($homeTeamCondition) {    
-                                    $isFirstMatchOfHomeTeam = false;    
-                                }   
-                                if($awayTeamCondition) {    
-                                    $isFirstMatchOfAwayTeam = false;    
-                                }   
+                            //     if($homeTeamCondition) {
+                            //         $isFirstMatchOfHomeTeam = false;
+                            //     }
+                            //     if($awayTeamCondition) {
+                            //         $isFirstMatchOfAwayTeam = false;
+                            //     }
 
-                                if($homeTeamCondition || $awayTeamCondition) {  
-                                    $minimumBeforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($minimumTeamIntervalTime);    
-                                    $minimumAfterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($minimumTeamIntervalTime); 
-                                    if((clone($matchDetails['match_datetime']))->between($minimumBeforeMatchStartTimeStamp, $minimumAfterMatchEndTimeStamp, false) || (clone($matchDetails['match_endtime']))->between($minimumBeforeMatchStartTimeStamp, $minimumAfterMatchEndTimeStamp, false)) { 
-                                        $canMatchBeSchedule = false;    
-                                    }   
+                            //     if($homeTeamCondition || $awayTeamCondition) {  
+                            //         $minimumBeforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($minimumTeamIntervalTime);    
+                            //         $minimumAfterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($minimumTeamIntervalTime); 
+                            //         if((clone($matchDetails['match_datetime']))->between($minimumBeforeMatchStartTimeStamp, $minimumAfterMatchEndTimeStamp, false) || (clone($matchDetails['match_endtime']))->between($minimumBeforeMatchStartTimeStamp, $minimumAfterMatchEndTimeStamp, false)) { 
+                            //             $canMatchBeSchedule = false;    
+                            //         }   
 
-                                    $maximumBeforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($maximumTeamIntervalTime);    
-                                    $maximumAfterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($maximumTeamIntervalTime); 
-                                    if(((clone($matchDetails['match_datetime']))->between($maximumBeforeMatchStartTimeStamp, $maximumAfterMatchEndTimeStamp)) || ((clone($matchDetails['match_endtime']))->between($maximumBeforeMatchStartTimeStamp, $maximumAfterMatchEndTimeStamp))) {   
-                                        if($homeTeamCondition) {    
-                                            $homeMaximumTeamIntervalTimeCheck = true;   
-                                        }   
-                                        if($awayTeamCondition) {    
-                                            $awayMaximumTeamIntervalTimeCheck = true;   
-                                        }   
-                                    }   
-                                }   
-                            }   
+                            //         $maximumBeforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($maximumTeamIntervalTime);    
+                            //         $maximumAfterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($maximumTeamIntervalTime); 
+                            //         if(((clone($matchDetails['match_datetime']))->between($maximumBeforeMatchStartTimeStamp, $maximumAfterMatchEndTimeStamp)) || ((clone($matchDetails['match_endtime']))->between($maximumBeforeMatchStartTimeStamp, $maximumAfterMatchEndTimeStamp))) {   
+                            //             if($homeTeamCondition) {
+                            //                 $homeMaximumTeamIntervalTimeCheck = true;
+                            //             }   
+                            //             if($awayTeamCondition) {
+                            //                 $awayMaximumTeamIntervalTimeCheck = true;
+                            //             }   
+                            //         }   
+                            //     }
+                            // }   
 
-                            if((!$homeMaximumTeamIntervalTimeCheck && !$isFirstMatchOfHomeTeam) || (!$awayMaximumTeamIntervalTimeCheck && !$isFirstMatchOfAwayTeam)) {  
-                                $canMatchBeSchedule = false;    
-                            }
+                            // if((!$homeMaximumTeamIntervalTimeCheck && !$isFirstMatchOfHomeTeam) || (!$awayMaximumTeamIntervalTimeCheck && !$isFirstMatchOfAwayTeam)) {  
+                            //     $canMatchBeSchedule = false;    
+                            // }
 
                             if ($data['competition'] == 'all') {
                                 $round = $match->competation_round_no;
@@ -1150,7 +1158,7 @@ class TournamentRepository
                                 }
                             }
 
-                            if($canMatchBeSchedule == true) {
+                            if ($canMatchBeSchedule == true) {
                                 $startTimeStamp = $timestamp;
                             }
                         }
@@ -1166,11 +1174,16 @@ class TournamentRepository
                     }
                 }
                 if ($isMatchScheduledFlag == true) {
+                    if($pitchIndex === (count($allPitchIds) - 1)) {
+                        $nextPitchIndex = 0;
+                    } else {
+                        $nextPitchIndex++;
+                    }
                     break;
                 }
             }
 
-            if(count($pitchAvailableTime) > 1) {
+            if (count($pitchAvailableTime) > 1) {
                 // Rotate array
                 $pitchAvailableTimeKeys = array_keys($pitchAvailableTime);
                 $pitchAvailableTimeValues = $pitchAvailableTime[$pitchAvailableTimeKeys[0]];
@@ -1192,6 +1205,17 @@ class TournamentRepository
             $matchFixture->is_scheduled = 1;
             $matchFixture->save();
         }
+
+        $matches = [];
+        if($data['competition'] === 'all') {
+            $matches = DB::table('temp_fixtures')->where('age_group_id', $data['age_category']);
+        } else {
+            $matches = DB::table('temp_fixtures')->where('competition_id', $data['competition']);
+        }
+        $matches = $matches->where('is_scheduled',1)
+              ->get()->toArray();
+        $this->matchRepoObj->findMatchInterval($matches);
+        $this->matchRepoObj->findMaximumMatchInterval($matches);
 
         return ['status' => 'Success', 'message' => 'Matches has been scheduled.'];
     }
