@@ -66,7 +66,7 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <input type="text" class="form-control"
-                      placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
+                      placeholder="e.g. U11, U16/A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
                       <i v-show="errors.has('ageCategory_name')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
                     </div>
