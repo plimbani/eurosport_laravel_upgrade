@@ -156,6 +156,7 @@
             this.$root.$on('cancelUnscheduleFixtures', this.cancelUnscheduleFixtures);
             this.$root.$on('filterMatches', this.filterMatches);
             this.$root.$on('showUnChangedMatchFixture', this.showUnChangedMatchFixture);
+            this.$root.$on('getAllScheduledMatches', this.getAllScheduledMatches);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -172,6 +173,7 @@
             this.$root.$off('setView');
             this.$root.$off('filterMatches');
             this.$root.$off('showUnChangedMatchFixture');
+            this.$root.$off('getAllScheduledMatches');
         },
         data() {
             return {
@@ -578,7 +580,9 @@
                         vm.$root.$emit('refreshCompetitionWithGames');
                     });
                 })
-                this.getAllScheduledMatches();
+                setTimeout(function(){
+                    vm.getAllScheduledMatches();
+                },500)
             },
             saveScheduleMatchResult(matchData) {
                 this.$emit("saveScheduleMatchResult", matchData);
@@ -619,6 +623,7 @@
                     (error) => {
                     }
                 )
+                this.getAllScheduledMatches();
             },
             scheduleMatches() {
                 $('#schedule_fixtures').removeClass('btn-primary').addClass('btn-success');
@@ -779,6 +784,8 @@
                     (response) => {
                         if (response.data.temp_fixtures) {
                             this.totalNumberOfScheduledMatches = response.data.temp_fixtures.length
+                        } else {
+                            this.totalNumberOfScheduledMatches = 0;
                         }
                     },
                     (error) => {
