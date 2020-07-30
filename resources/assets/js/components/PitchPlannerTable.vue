@@ -14,8 +14,8 @@
                     </div>
                     <div>
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
-                        <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
-                        <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()"><i class="fas fa-download text-primary"></i></button>
+                        <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()" title="Print"><i class="fas fa-print text-primary"></i></button>
+                        <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()" title="Download"><i class="fas fa-download text-primary"></i></button>
                     </div>
                 </div>
             </div>
