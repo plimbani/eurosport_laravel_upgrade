@@ -908,4 +908,8 @@ class MatchController extends BaseController
     {
         return $this->matchObj->saveScheduleMatches($request->all());
     }
+    public function getScheduledMatch(Request $request) 
+    {
+        return $this->matchObj->getScheduledMatch($request->all());
+    }
 }

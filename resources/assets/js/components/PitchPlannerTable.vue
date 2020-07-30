@@ -8,8 +8,8 @@
                         <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Schedule fixtures</button>
                         <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
                         <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()">Unschedule fixtures</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleAllFixturesClick()">Unscheduled all fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unscheduled all fixtures</button>
                         <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
@@ -195,9 +195,11 @@
                 'conflictedMatchFixtures': [],
                 'isAnotherMatchScheduled': false,
                 'enableScheduleFeatureAsDefault': true,
+                'totalNumberOfScheduledMatches': 0,
             };
         },
         mounted() {
+            this.getAllScheduledMatches();
             $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
@@ -576,6 +578,7 @@
                         vm.$root.$emit('refreshCompetitionWithGames');
                     });
                 })
+                this.getAllScheduledMatches();
             },
             saveScheduleMatchResult(matchData) {
                 this.$emit("saveScheduleMatchResult", matchData);
@@ -623,6 +626,7 @@
                 $('#cancel_schedule_fixtures').show();
                 this.cancelUnscheduleFixtures();
                 $("#unschedule_fixtures").hide();
+                $("#unschedule_all_fixtures_btn").hide();
                 $("#automatic_planning").hide();
                 this.$emit('changeMatchScheduleStatus', true);
             },
@@ -632,6 +636,7 @@
                 $('#save_schedule_fixtures').hide();
                 $('#cancel_schedule_fixtures').hide();
                 $("#unschedule_fixtures").show();
+                $("#unschedule_all_fixtures_btn").show();
                 $("#automatic_planning").show();
                 this.$emit('changeMatchScheduleStatus', false);
                 this.clearScheduleMatches();
@@ -768,6 +773,17 @@
                 if(this.conflictedMatchFixtures.length > 0) {
                     $('#unChangedMatchFixtureModal').modal('show');
                 }
+            },
+            getAllScheduledMatches() {
+                Tournament.getAllScheduledMatch(this.tournamentId).then(
+                    (response) => {
+                        if (response.data.temp_fixtures) {
+                            this.totalNumberOfScheduledMatches = response.data.temp_fixtures.length
+                        }
+                    },
+                    (error) => {
+                    }
+                );
             },
         }
     }

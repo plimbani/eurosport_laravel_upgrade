@@ -1996,6 +1996,12 @@ class MatchRepository
       return ['status' => true, 'message' => 'Scores updated successfully.', 'match_data' => $updateMatchScheduleResult, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
+    public function getScheduledMatch($data)
+    {
+      $scheduledMatches = TempFixture::where('tournament_id',$data['tournamentId'])->where('is_scheduled',1)->get();
+      return $scheduledMatches;
+    }
+
     public function setAutomaticMatchSchedule($data, $allowSchedulingForcefully = false)
     {
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.minimum_team_interval', 'tournament_competation_template.maximum_team_interval','tournament_competation_template.pitch_size','temp_fixtures.*')->first()->toArray();
