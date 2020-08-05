@@ -243,61 +243,63 @@
       </thead>
       <tbody>
         @foreach($matches['results'] as $match)
-          <tr>
-            <td align="center">{{ $match->match_datetime ? Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') : '-' }}</td>
-            <td align="center">{{ $match->competation_name }}</td>
-            <td align="right" style="vertical-align: middle; padding: 5px 10px 3px 0">
-              <span>
-                @if($match->Home_id == '0')
-                            @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
-                        <?php
-                            $homeTeamDisplay = $match->displayHomeTeamPlaceholderName;
-                        ?>
-                            @else
-                                <?php $homeTeamDisplay = $match->displayHomeTeamPlaceholderName ?>
-                            @endif 
-                        <?php if(strpos($match->competition_actual_name, 'Pos') !== false)
-                            $homeTeamDisplay = 'Pos-' . $match->displayHomeTeamPlaceholderName; ?>
-                      
-                    @else
-                     <?php  $homeTeamDisplay =$match->HomeTeam; ?>
+          @if($matches['name'] == $match->competation_name)
+            <tr>
+              <td align="center">{{ $match->match_datetime ? Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') : '-' }}</td>
+              <td align="center">{{ $match->competation_name }}</td>
+              <td align="right" style="vertical-align: middle; padding: 5px 10px 3px 0">
+                <span>
+                  @if($match->Home_id == '0')
+                              @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
+                          <?php
+                              $homeTeamDisplay = $match->displayHomeTeamPlaceholderName;
+                          ?>
+                              @else
+                                  <?php $homeTeamDisplay = $match->displayHomeTeamPlaceholderName ?>
+                              @endif 
+                          <?php if(strpos($match->competition_actual_name, 'Pos') !== false)
+                              $homeTeamDisplay = 'Pos-' . $match->displayHomeTeamPlaceholderName; ?>
                         
-                    @endif
-                    <?php echo $homeTeamDisplay; ?>
-              </span>
-              @if($match->Home_id != '0')
-                <img src="{{ $match->HomeFlagLogo }}" height="10" style="display: inline;">
-              @endif
-            </td>
-            <td align="left" style="vertical-align: middle; padding: 5px 0 3px 10px">
-              @if($match->Away_id != '0')
-                <img src="{{ $match->AwayFlagLogo }}" height="10" style="display: inline;">
-              @endif
-              <span>
-                @if($match->Home_id == '0')
-                            @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
-                        <?php
-                            $awayTeamDisplay = $match->displayAwayTeamPlaceholderName;
-                        ?>
-                            @else
-                                <?php $awayTeamDisplay = $match->displayAwayTeamPlaceholderName ?>
-                            @endif 
-                        <?php if(strpos($match->competition_actual_name, 'Pos') !== false)
-                            $awayTeamDisplay = 'Pos-' . $match->displayAwayTeamPlaceholderName; ?>
-                    @else
-                     <?php  $awayTeamDisplay =$match->AwayTeam; ?>                        
-                    @endif
-                    <?php echo $awayTeamDisplay; ?>
-              </span>
-            </td>
-            <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
-            @if($matches['actual_competition_type'] == 'Elimination')
-              <td align="center">
-                {{ $match->position != null ? $match->position : 'N/A' }}
+                      @else
+                       <?php  $homeTeamDisplay =$match->HomeTeam; ?>
+                          
+                      @endif
+                      <?php echo $homeTeamDisplay; ?>
+                </span>
+                @if($match->Home_id != '0')
+                  <img src="{{ $match->HomeFlagLogo }}" height="10" style="display: inline;">
+                @endif
               </td>
-            @endif
-            <td align="center">{{ $match->venue_name . ' - ' . $match->pitch_number }}</td>
-          </tr>
+              <td align="left" style="vertical-align: middle; padding: 5px 0 3px 10px">
+                @if($match->Away_id != '0')
+                  <img src="{{ $match->AwayFlagLogo }}" height="10" style="display: inline;">
+                @endif
+                <span>
+                  @if($match->Home_id == '0')
+                              @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
+                          <?php
+                              $awayTeamDisplay = $match->displayAwayTeamPlaceholderName;
+                          ?>
+                              @else
+                                  <?php $awayTeamDisplay = $match->displayAwayTeamPlaceholderName ?>
+                              @endif 
+                          <?php if(strpos($match->competition_actual_name, 'Pos') !== false)
+                              $awayTeamDisplay = 'Pos-' . $match->displayAwayTeamPlaceholderName; ?>
+                      @else
+                       <?php  $awayTeamDisplay =$match->AwayTeam; ?>                        
+                      @endif
+                      <?php echo $awayTeamDisplay; ?>
+                </span>
+              </td>
+              <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
+              @if($matches['actual_competition_type'] == 'Elimination')
+                <td align="center">
+                  {{ $match->position != null ? $match->position : 'N/A' }}
+                </td>
+              @endif
+              <td align="center">{{ $match->venue_name . ' - ' . $match->pitch_number }}</td>
+            </tr>
+          @endif
         @endforeach
       </tbody>
     </table>
