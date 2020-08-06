@@ -51,7 +51,7 @@ class ApplicationData: NSObject {
         API_URL.BASE_URL = Environment().configuration(PlistKey.BaseURL)
         
         if let bundleID = Bundle.main.bundleIdentifier {
-            if bundleID == "com.aecordigital.eurosporting.easymatchmanager" {
+            if bundleID == "com.aecor.eurosports.easymatchmanager" {
                 ApplicationData.currentTarget = CurrentTargetList.EasyMM.rawValue
             } else if bundleID == "com.aecordigital.eurosporting" {
                 ApplicationData.currentTarget = CurrentTargetList.ESR.rawValue

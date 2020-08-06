@@ -16,7 +16,7 @@
         <!--LandingVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LandingVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LandingVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LandingVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LandingVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -140,7 +140,7 @@
         <!--LoginVC-->
         <scene sceneID="3WL-6O-81g">
             <objects>
-                <viewController storyboardIdentifier="LoginVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mrR-Lg-fs8" customClass="LoginVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mrR-Lg-fs8" customClass="LoginVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iEO-7E-87x">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -306,7 +306,7 @@
         <!--Main Tab View Controller-->
         <scene sceneID="Xy3-Hl-h2T">
             <objects>
-                <viewController storyboardIdentifier="MainTabViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rbc-hf-3eF" customClass="MainTabViewController" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainTabViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rbc-hf-3eF" customClass="MainTabViewController" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EqU-9Q-5Km">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -518,7 +518,7 @@
         <!--Forgot PasswordVC-->
         <scene sceneID="bok-Nn-qst">
             <objects>
-                <viewController storyboardIdentifier="ForgotPasswordVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="W67-Nc-pf3" customClass="ForgotPasswordVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ForgotPasswordVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="W67-Nc-pf3" customClass="ForgotPasswordVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xam-8O-OmS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -627,12 +627,12 @@
         <!--MapVC-->
         <scene sceneID="7i9-H3-AIe">
             <objects>
-                <viewController storyboardIdentifier="MapVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tKi-aS-0KW" customClass="MapVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tKi-aS-0KW" customClass="MapVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wkq-2q-GUP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QtX-Hi-O8E" customClass="TitleNavigationBar" customModule="ESR" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QtX-Hi-O8E" customClass="TitleNavigationBar" customModule="ESR_comm" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -668,7 +668,7 @@
         <!--Create AccountVC-->
         <scene sceneID="AfQ-gN-W5n">
             <objects>
-                <viewController storyboardIdentifier="CreateAccountVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aX1-N8-F1S" customClass="CreateAccountVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateAccountVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aX1-N8-F1S" customClass="CreateAccountVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sTR-dh-xju">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -768,7 +768,7 @@
         <!--Custom AlertVC-->
         <scene sceneID="Tb2-WB-gsD">
             <objects>
-                <viewController storyboardIdentifier="CustomAlertVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vJ5-Ql-EiH" customClass="CustomAlertVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomAlertVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vJ5-Ql-EiH" customClass="CustomAlertVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gqf-pj-3Pa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -863,7 +863,7 @@
         <!--PickerVC-->
         <scene sceneID="xoU-ER-DHw">
             <objects>
-                <viewController storyboardIdentifier="PickerVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ROk-yt-Oq9" customClass="PickerVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PickerVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ROk-yt-Oq9" customClass="PickerVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gK8-EA-JhQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -941,7 +941,7 @@
         <!--Custom Alert Two BtnVC-->
         <scene sceneID="Q4B-9r-KoE">
             <objects>
-                <viewController storyboardIdentifier="CustomAlertTwoBtnVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bUQ-yQ-oh2" customClass="CustomAlertTwoBtnVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomAlertTwoBtnVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bUQ-yQ-oh2" customClass="CustomAlertTwoBtnVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a2i-zY-b9t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1063,7 +1063,7 @@
         <!--View Schedule ImageVC-->
         <scene sceneID="XD7-6k-LXb">
             <objects>
-                <viewController storyboardIdentifier="ViewScheduleImageVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sDH-b5-qkR" customClass="ViewScheduleImageVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewScheduleImageVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sDH-b5-qkR" customClass="ViewScheduleImageVC" customModule="ESR_comm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0hz-pc-XYF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1123,7 +1123,7 @@
         <image name="landing_bg" width="1500" height="2713"/>
         <image name="login_with_fb_bg" width="1312" height="196"/>
         <image name="logo_esr_landing" width="600" height="600"/>
-        <image name="registration_bg" width="1500" height="2708"/>
+        <image name="registration_bg" width="640" height="1136"/>
         <image name="tab_age_categories" width="29" height="25"/>
         <image name="tab_age_categories_1" width="29" height="26.5"/>
         <image name="tab_favorites" width="29" height="38.5"/>

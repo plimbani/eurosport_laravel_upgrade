@@ -234,7 +234,6 @@
 		30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
 		30F180D02272F76600301C6F /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
 		30F180D92272F77C00301C6F /* Asset - Easymm.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */; };
-		30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */; };
 		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
 		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
@@ -268,6 +267,7 @@
 		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
 		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
 		9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
+		9ECA2C9C24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ECA2C9B24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist */; };
 		CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FCA7DD1CC88FD70BE4C440 /* Pods_ESR_comm.framework */; };
 /* End PBXBuildFile section */
 
@@ -447,7 +447,6 @@
 		30DC116422B3825300B4FC44 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		30DC116622B3827E00B4FC44 /* ESR-Bridiging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ESR-Bridiging-Header.h"; sourceTree = "<group>"; };
 		30F180D72272F76600301C6F /* ESR comm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ESR comm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Easymm.plist"; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
 		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
@@ -480,6 +479,7 @@
 		9E916C4B24B5A32B0085FBCA /* NSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLog.swift; sourceTree = "<group>"; };
 		9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeaderView.swift; sourceTree = "<group>"; };
 		9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchHeaderView.xib; sourceTree = "<group>"; };
+		9ECA2C9B24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Easymm.plist"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
 		CDE0B0C86FE94FBB25928DD9 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		E69247791F7C18957BDE38F6 /* Pods-ESR comm.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -594,7 +594,7 @@
 				30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */,
 				30C799F021CD05C800B0ECB4 /* Localizable.strings */,
 				30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */,
-				30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */,
+				9ECA2C9B24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist */,
 				30181CCF211D95B80067D65F /* esr.plist */,
 				3052EBE22298117700FD8CE8 /* esr_production.plist */,
 				3018B35522423C4900EC76F4 /* easymm.plist */,
@@ -894,6 +894,7 @@
 				E20BC93C3AD84B7DA5ED185F /* [CP] Embed Pods Frameworks */,
 				F587F5768F6A88DA3C2AFFDD /* [CP] Copy Pods Resources */,
 				9E916C2524B472550085FBCA /* ShellScript */,
+				9E24473224DBE5AC00AAE8A1 /* DSYM Script */,
 			);
 			buildRules = (
 			);
@@ -1049,7 +1050,6 @@
 				30F180BC2272F76600301C6F /* GroupSummaryStandingsHeader.xib in Resources */,
 				30F180BD2272F76600301C6F /* TeamListCell.xib in Resources */,
 				9E916C4824B5A19D0085FBCA /* upload-dsym.sh in Resources */,
-				30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */,
 				30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */,
 				30F180BF2272F76600301C6F /* Main.storyboard in Resources */,
 				30239DC223181D010027EC2C /* AgeCategoryDivisionCell.xib in Resources */,
@@ -1072,6 +1072,7 @@
 				30F180CE2272F76600301C6F /* GroupSummaryMatchesHeader.xib in Resources */,
 				9E916C4A24B5A19D0085FBCA /* strip-architectures.sh in Resources */,
 				9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
+				9ECA2C9C24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist in Resources */,
 				30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */,
 				30F180D02272F76600301C6F /* Tournament.storyboard in Resources */,
 			);
@@ -1114,6 +1115,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9E24473224DBE5AC00AAE8A1 /* DSYM Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "DSYM Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/ESR/GoogleService-Info-Easymm.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 		9E916C2524B472550085FBCA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1578,6 +1597,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1674,6 +1694,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1770,6 +1791,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1807,6 +1829,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1819,10 +1842,10 @@
 					"$(PROJECT_DIR)/TestFairySDK",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aecor.eurosports.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = "ESR_ commercialization_development";
+				PROVISIONING_PROFILE_SPECIFIER = Emm_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1841,6 +1864,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1853,10 +1877,10 @@
 					"$(PROJECT_DIR)/TestFairySDK",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aecor.eurosports.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = "ESR_ commercialization_distribution";
+				PROVISIONING_PROFILE_SPECIFIER = Emm_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1875,6 +1899,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1887,10 +1912,10 @@
 					"$(PROJECT_DIR)/TestFairySDK",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aecor.eurosports.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = "ESR_ commercialization_development";
+				PROVISIONING_PROFILE_SPECIFIER = Emm_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

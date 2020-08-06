@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>647325923706-8ngvpepkagbmekmsqffmmqi9c2n5kkd4.apps.googleusercontent.com</string>
+	<string>647325923706-8shoccik7rlev115jf4qhblh65aek1fk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.647325923706-8ngvpepkagbmekmsqffmmqi9c2n5kkd4</string>
+	<string>com.googleusercontent.apps.647325923706-8shoccik7rlev115jf4qhblh65aek1fk</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>647325923706-dmmprq3ffh6i94v28a9gvb5f8vvjqmsr.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.aecordigital.eurosporting.easymatchmanager</string>
+	<string>com.aecor.eurosports.easymatchmanager</string>
 	<key>PROJECT_ID</key>
 	<string>easy-match-manager</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:647325923706:ios:b7fae21ae7eead88</string>
+	<string>1:647325923706:ios:18de28a479a3c305087ec3</string>
 	<key>DATABASE_URL</key>
 	<string>https://easy-match-manager.firebaseio.com</string>
 </dict>

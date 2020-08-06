@@ -22,7 +22,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.aecordigital.eurosporting.easymatchmanager</string>
+			<string>com.aecor.eurosports.easymatchmanager</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>esrmmweb</string>
@@ -32,7 +32,7 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-    <key>FacebookAppID</key>
+	<key>FacebookAppID</key>
 	<string>2285199178466834</string>
 	<key>FacebookDisplayName</key>
 	<string>Commercialisation</string>
@@ -84,11 +84,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>base_url</key>
 	<string>$(base_url)</string>
 	<key>google_map_key</key>
 	<string>$(google_map_key)</string>
-    <key>UIUserInterfaceStyle</key>
-    <string>Light</string>
 </dict>
 </plist>

@@ -34,7 +34,7 @@ class LandingVC: SuperViewController {
     }
     
     private var socialLoginProvider = SocialLoginProvider.facebook.rawValue
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
