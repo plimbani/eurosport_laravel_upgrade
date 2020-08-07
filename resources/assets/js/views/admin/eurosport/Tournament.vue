@@ -14,6 +14,16 @@
                     </a>
                   </li>
                   <li class="nav-item" v-if="!isResultAdmin">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='contactDetailsTab'">
+                      <div class="wrapper-tab">{{$lang.summary_label_contact_details}}</div>
+                    </a>
+                  </li>
+                  <li class="nav-item" v-if="!isResultAdmin">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='sportsParksDetailsTab'">
+                      <div class="wrapper-tab">{{$lang.summary_label_sports_parks_details}}</div>
+                    </a>
+                  </li>
+                  <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'">
                       <div class="wrapper-tab">{{$lang.summary_label_reports}}</div>
                     </a>
@@ -54,6 +64,8 @@
 <script type="text/babel">
 
 import SummaryTab from '../../../components/SummaryTab.vue'
+import ContactDetailsTab from '../../../components/ContactDetailsTab.vue'
+import SportsParksDetailsTab from '../../../components/SportsParksDetailsTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
@@ -71,7 +83,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel
+        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 

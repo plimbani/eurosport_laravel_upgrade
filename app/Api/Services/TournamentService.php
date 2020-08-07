@@ -1036,4 +1036,16 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->saveSettings($data);
       return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
     }
+
+    public function saveContactDetails($data)
+    {
+      $data = $this->tournamentRepoObj->saveContactDetails($data);
+      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
+    }
+
+    public function saveVenueDetails($data)
+    {
+      $data = $this->tournamentRepoObj->saveVenueDetails($data);
+      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
+    }    
 }

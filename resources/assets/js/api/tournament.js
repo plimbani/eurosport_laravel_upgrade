@@ -169,6 +169,12 @@ export default {
   saveSettings(tournamentId){
     return api.post('tournament/saveSettings',{'tournamentData':tournamentId})
   },
+  saveContactDetails(tournamentId){
+    return api.post('tournament/saveContactDetails',{'tournamentData':tournamentId})
+  },
+  saveVenueDetails(tournamentId){
+    return api.post('tournament/saveVenueDetails',{'tournamentData':tournamentId})
+  },
   getPresentationSettings(tournamentId) {
     return api.get('tournament/getPresentationSettings/' + tournamentId);
   },
