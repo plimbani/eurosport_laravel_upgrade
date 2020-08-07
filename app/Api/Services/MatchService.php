@@ -2738,6 +2738,11 @@ class MatchService implements MatchContract
       return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
     }
 
+    public function getScheduledMatch($data)
+    {
+      return $this->matchRepoObj->getScheduledMatch($data);
+    }
+
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)
     {
       // Manual standing insert - start

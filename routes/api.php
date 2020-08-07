@@ -162,6 +162,7 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/fixtureUnschedule', 'Laraspace\Api\Controllers\MatchController@matchUnscheduledFixtures');
     $api->post('saveScheduleMatches', 'Laraspace\Api\Controllers\MatchController@saveScheduleMatches');
+    $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getScheduledMatch');
     
 
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
@@ -231,6 +232,8 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/getMessage', 'Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
     $api->post('/tournament/saveSettings', '\Laraspace\Api\Controllers\TournamentController@saveSettings');
+    $api->post('/tournament/saveContactDetails', '\Laraspace\Api\Controllers\TournamentController@saveContactDetails');
+    $api->post('/tournament/saveVenueDetails', '\Laraspace\Api\Controllers\TournamentController@saveVenueDetails');
     $api->get('/tournament/getPresentationSettings/{tournamentId}', '\Laraspace\Api\Controllers\TournamentController@getPresentationSettings');
 
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
