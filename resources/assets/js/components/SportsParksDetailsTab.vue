@@ -153,7 +153,7 @@ export default {
 				tournament_venue_postcode: "",
 				tournament_venue_country: "",
 				tournament_location_id:"",
-				tournament_venue_organiser: "",
+				tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
 			}]
 		}
 	},
