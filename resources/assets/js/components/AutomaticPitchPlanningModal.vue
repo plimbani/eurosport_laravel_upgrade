@@ -13,7 +13,11 @@
           <form method="post" class="js-automatic-pitch-planning-modal-form" id="automatic_pitch_planning">
             <div class="modal-body" id="pitch_model_body">
               <p>{{ $lang.pitch_planner_automatic_planning_message }}</p>
-              <p>{{ $lang.pitch_planner_automatic_planning_message_second_line }}</p>
+              <p>
+                Note:<br/>
+                - When using automatic pitch planning both minimum and maximum team match intervals are ignored.<br/>
+                - Pitches will be utilised for matches in the order they are selected in the Pitch Selection field below.
+              </p>
               <p class="help is-danger js-available-time-error-message d-none">{{ $lang.pitch_planner_automatic_planning_available_time_error_message }}</p>
               <div class="row">
                 <div class="col-sm-6">
