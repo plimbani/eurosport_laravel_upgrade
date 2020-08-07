@@ -558,6 +558,8 @@ module.exports = {
   summary_label: "FSummary",
 
   summary_label_summary: "FDashboard",
+  summary_label_contact_details: "FContact details",
+  summary_label_sports_parks_details: "FSports parks details",
   summary_label_reports: "FReports",
   summary_label_schedule: "FResult administration",
   summary_label_message: "FApp message",

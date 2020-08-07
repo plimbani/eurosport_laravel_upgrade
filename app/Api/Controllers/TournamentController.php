@@ -348,6 +348,16 @@ class TournamentController extends BaseController
         return $this->tournamentObj->saveSettings($request->all());
     }
 
+    public function saveContactDetails(Request $request)
+    {
+        return $this->tournamentObj->saveContactDetails($request->all());
+    }
+
+    public function saveVenueDetails(Request $request)
+    {
+        return $this->tournamentObj->saveVenueDetails($request->all());
+    }
+
     public function getPresentationSettings(Request $request, $tournamentId)
     {
         $tournament = Tournament::find($tournamentId);

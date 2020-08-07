@@ -225,6 +225,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
     $api->post('/tournament/saveSettings', '\Laraspace\Api\Controllers\TournamentController@saveSettings');
+    $api->post('/tournament/saveContactDetails', '\Laraspace\Api\Controllers\TournamentController@saveContactDetails');
+    $api->post('/tournament/saveVenueDetails', '\Laraspace\Api\Controllers\TournamentController@saveVenueDetails');
     $api->get('/tournament/getPresentationSettings/{tournamentId}', '\Laraspace\Api\Controllers\TournamentController@getPresentationSettings');
 
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
