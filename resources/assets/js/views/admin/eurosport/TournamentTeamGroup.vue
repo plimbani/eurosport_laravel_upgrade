@@ -153,7 +153,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_savegroups}}</button>
+                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': ageCategoryHasNoTeams}">{{$lang.teams_button_savegroups}}</button>
               </form>
     				</div>
     			</div>
