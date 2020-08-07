@@ -324,10 +324,11 @@ module.exports = {
   pitch_modal_details_size_side_indoor: "FIndoor",
   pitch_modal_button_next: "FNext",
 
-  pitch_modal_details_name: "FPitch name*",
+  pitch_modal_details_name: "FPitch number*",
   pitch_modal_availability: "FPitch availability",
   pitch_modal_action: "FActions",
   pitch_modal_availability_stage: "FDay",
+  pitch_modal_copy: "FCopy",
   pitch_modal_availability_date: "FDate",
   pitch_modal_availability_time: "FTime",
   pitch_modal_availability_capacity: "FCapacity",

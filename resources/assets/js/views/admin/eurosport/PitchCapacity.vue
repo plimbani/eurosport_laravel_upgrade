@@ -75,6 +75,7 @@
                                     <th class="text-center">{{$lang.pitch_modal_details_size}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_details_type}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_availability_stage}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_copy}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_action}}</th>
                                     <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
                                 </tr>
@@ -93,13 +94,15 @@
                                         </td>
                                         <td class="text-center">
                                             <span class="align-middle">
+                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success mx-1" style="font-size:1.1em"><i class="fas fa-copy"></i></a>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="align-middle">
                                                 <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id, 'edit')" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
-                                            </span>
-                                            <span class="align-middle">
-                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-copy"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>

@@ -472,10 +472,11 @@ module.exports= {
   pitch_modal_details_size_side_indoor: "Indoor",
   pitch_modal_button_next: "Next",
 
-  pitch_modal_details_name: "Pitch name",
+  pitch_modal_details_name: "Pitch number",
   pitch_modal_availability: "Pitch availability",
   pitch_modal_action: "Actions",
   pitch_modal_availability_stage: "Day",
+  pitch_modal_copy: "Copy",
   pitch_modal_availability_date: "Date",
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
