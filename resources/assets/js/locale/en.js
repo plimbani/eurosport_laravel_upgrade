@@ -734,6 +734,8 @@ module.exports= {
   summary_label: "Administration",
 
   summary_label_summary: "Summary",
+  summary_label_contact_details: "Contact details",
+  summary_label_sports_parks_details: "Sports parks details",
   summary_label_reports: "Reports",
   summary_label_schedule: "Match results",
   summary_label_message: "App message",

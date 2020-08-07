@@ -274,27 +274,6 @@ class TournamentRepository
         }
         // Also Update the image Logo
         unset($newdata);
-        // Now here we save the eurosport contact details
-        $tournamentContactData                  = array();
-        $tournamentContactData['first_name']    = $data['tournament_contact_first_name'];
-        $tournamentContactData['last_name']     = $data['tournament_contact_last_name'];
-        $tournamentContactData['telephone']     = $data['tournament_contact_home_phone'];
-        $tournamentContactData['tournament_id'] = $tournamentId;
-
-        // Save Tournament Contact Data
-        if (isset($data['tournamentId']) && $data['tournamentId'] != 0) {
-
-            $tournamentResult = TournamentContact::where('tournament_id', $tournamentId)->get();
-            if ($tournamentResult->count() == 0) {
-                TournamentContact::create($tournamentContactData);
-            } else {
-                $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
-            }
-        } else {
-            TournamentContact::create($tournamentContactData);
-        }
-
-        unset($tournamentContactData);
         // Save Tournament Venue Data
         // we have to loop for according to loations
         $locationCount = $data['locationCount'];
@@ -311,12 +290,6 @@ class TournamentRepository
         foreach ($locData as $location) {
             $locationData['id']            = $location['tournament_location_id'] ?? '';
             $locationData['name']          = $location['tournament_venue_name'] ?? '';
-            $locationData['address1']      = $location['touranment_venue_address'] ?? '';
-            $locationData['city']          = $location['tournament_venue_city'] ?? '';
-            $locationData['postcode']      = $location['tournament_venue_postcode'] ?? '';
-            $locationData['state']         = $location['tournament_venue_state'] ?? '';
-            $locationData['country']       = $location['tournament_venue_country'] ?? '';
-            $locationData['organiser']     = $location['tournament_venue_organiser'] ?? '';
             $locationData['tournament_id'] = $tournamentId;
             if (isset($locationData['id']) && $locationData['id'] != 0) {
                 // Update Touranment Table Data
@@ -1489,5 +1462,34 @@ class TournamentRepository
         $tournament->screen_rotate_time_in_seconds = $data['tournamentData']['screenRotateTime'];
         $tournament->save();
         return $tournament;
+    }
+
+    public function saveContactDetails($data)
+    {
+        $tournamentContact = TournamentContact::where('tournament_id', $data['tournamentData']['tournamentId'])->first();
+        $tournamentContact->first_name = $data['tournamentData']['tournament_contact_first_name'];
+        $tournamentContact->last_name = $data['tournamentData']['tournament_contact_last_name'];
+        $tournamentContact->telephone = $data['tournamentData']['tournament_contact_home_phone'];
+        $tournamentContact->save();
+        return $tournamentContact;
+    }
+
+    public function saveVenueDetails($data)
+    {
+        $locationData = [];
+        foreach ($data['tournamentData']['locations'] as $location) {
+            $locationData['id']            = $location['tournament_location_id'] ?? '';
+            $locationData['name']          = $location['tournament_venue_name'] ?? '';
+            $locationData['address1']      = $location['touranment_venue_address'] ?? '';
+            $locationData['city']          = $location['tournament_venue_city'] ?? '';
+            $locationData['postcode']      = $location['tournament_venue_postcode'] ?? '';
+            $locationData['country']       = $location['tournament_venue_country'] ?? '';
+            $locationData['organiser']     = $location['tournament_venue_organiser'] ?? '';
+            $locationData['tournament_id'] = $data['tournamentData']['tournamentId'];
+            if (isset($locationData['id']) && $locationData['id'] != 0) {
+                Venue::where('id', $locationData['id'])->update($locationData);
+            }
+        }
+        return true;
     }
 }
