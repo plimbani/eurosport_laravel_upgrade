@@ -112,6 +112,7 @@ export default {
                 team_id: '',
                 age_group_id: '',
                 team_name: '',
+                club_name: '',
                 team_place: '',
                 team_country: '',
                 team_club: '',
