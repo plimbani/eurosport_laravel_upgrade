@@ -518,6 +518,7 @@ var moment = require('moment');
                 vm.$root.$emit('reloadPitch' + vm.stageIndex);
                 vm.$root.$emit('refreshCompetitionWithGames');
               });
+              vm.$root.$emit('getAllScheduledMatches');
         })
       },
       matchPrint(ReportData) {

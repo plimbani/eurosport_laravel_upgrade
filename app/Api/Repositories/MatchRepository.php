@@ -1969,6 +1969,14 @@ class MatchRepository
       return ['status' => true, 'data' => $updateMatchFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
+    public function unscheduleAllFixtures($tournamentId)
+    {
+      $allScheduledMatches = $this->getScheduledMatch($tournamentId);
+      foreach ($allScheduledMatches as $match) {
+        $this->matchUnschedule($match->id);
+      }
+      return true;
+    }
 
     public function saveScheduleMatches($data)
     {

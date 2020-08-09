@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade bg-modal-color refdel" id="unschedule_all_fixtures" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal bg-modal-color refdel" id="unschedule_all_fixtures" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog delete-modal" role="document">
         <div class="modal-content">
             <form method="delete" class="js-delete-modal-form">
