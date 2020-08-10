@@ -93,7 +93,7 @@ export default {
     // $('#sel_ageCategory').multiSelect()
    },
   components: { Multiselect },
-   data(){
+    data(){
     return {
       isMultiple: true,
       deleteConfirmMsg: 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
@@ -105,32 +105,29 @@ export default {
 
     }
    },
-   // computed: {
-   //    isInvalid () {
-   //      return this.isTouched && this.value.length === 0
-   //    }
-   //  },
    components: {
     DeleteModal
    },
-   watch : {
-        formValues : function (value) {
-           let vm = this
-            setTimeout(function(){
-              vm.options = []
-               vm.value = []
-              let competitionOption =[]
-               _.forEach(vm.competationList, function(competition,value) {
-                 let cmp = {'id':competition.id,'category_age':competition.category_age}
-                if($.inArray(competition.id,vm.formValues.age_group_id) != -1){
-                  vm.value.push(cmp)
-                }
-                competitionOption.push(cmp)
-              });
-               // vm.options = competitionOption
-          },1000)
-        },
+    watch : {
+      formValues : function (value) {
+         let vm = this
+          setTimeout(function(){
+            vm.options = []
+            if (vm.formValues.age_group_id.length > 0) {
+              vm.value = []
+            }
+            let competitionOption =[]
+             _.forEach(vm.competationList, function(competition,value) {
+               let cmp = {'id':competition.id,'category_age':competition.category_age}
+              if(vm.formValues.age_group_id.length > 0 && $.inArray(competition.id,vm.formValues.age_group_id) != -1){
+                vm.value.push(cmp)
+              }
+              competitionOption.push(cmp)
+            });
+             // vm.options = competitionOption
+        },1000)
       },
+    },
     mounted() {
       let vm = this
       $('#refreesModal').on('click','#chk_ageCategory',function(){
@@ -145,59 +142,58 @@ export default {
         
     },
     methods: {
-
       saveReferee ()
         {
           this.isInvalid = false
           if(this.value.length === 0) {
             this.isInvalid = true
-
           }
-          this.$validator.validateAll().then(() => {
-            if(this.isInvalid != false) {
-              return false
-            }
-                let age_category = []
-                _.forEach(this.value, function(opt) {
-                  age_category.push(opt.id)
-                });
-                
-              let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId, 'is_all_age_categories_selected': $('#chk_ageCategory').prop('checked') }
-               if(this.refereeId != '') {
-                Tournament.updateReferee(ReportData).then(
-                (response) => {
-                    toastr['success']('Referee edited successfully.', 'Success');
-                    $('#refreesModal').modal('hide')
-                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
-                      if($("#save_schedule_fixtures").is(':visible') === true) {
-                        $('.js-referee-draggable-block').draggable('disable');
-                      } else {
-                        $('.js-referee-draggable-block').draggable('enable');
-                      }
-                    });
-                    // this.$root.$emit('setRefereeReset')
-                    // this.$root.$emit('setPitchPlanTab','refereeTab')
-                  }
-                )
-               } else {
-                Tournament.saveReferee(ReportData).then(
-                (response) => {
-                    toastr['success']('Referee added successfully.', 'Success');
-                    $('#refreesModal').modal('hide')
-                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
-                      if($("#save_schedule_fixtures").is(':visible') === true) {
-                        $('.js-referee-draggable-block').draggable('disable');
-                      } else {
-                        $('.js-referee-draggable-block').draggable('enable');
-                      }
-                    });
-                    // this.$root.$emit('setRefereeReset')
-                    // this.$root.$emit('setPitchPlanTab','refereeTab')
-                  }
-                )
+          this.$validator.validateAll().then((response) => {
+              if(this.isInvalid != false) {
+                return false
+              }
+              let age_category = []
+              _.forEach(this.value, function(opt) {
+                age_category.push(opt.id)
+              });
+              
+              if(response) {
+                let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId, 'is_all_age_categories_selected': $('#chk_ageCategory').prop('checked') }
+                 if(this.refereeId != '') {
+                  Tournament.updateReferee(ReportData).then(
+                  (response) => {
+                      toastr['success']('Referee edited successfully.', 'Success');
+                      $('#refreesModal').modal('hide')
+                      this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
+                        if($("#save_schedule_fixtures").is(':visible') === true) {
+                          $('.js-referee-draggable-block').draggable('disable');
+                        } else {
+                          $('.js-referee-draggable-block').draggable('enable');
+                        }
+                      });
+                      // this.$root.$emit('setRefereeReset')
+                      // this.$root.$emit('setPitchPlanTab','refereeTab')
+                    }
+                  )
+                 } else {
+                  Tournament.saveReferee(ReportData).then(
+                  (response) => {
+                      toastr['success']('Referee added successfully.', 'Success');
+                      $('#refreesModal').modal('hide')
+                      this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
+                        if($("#save_schedule_fixtures").is(':visible') === true) {
+                          $('.js-referee-draggable-block').draggable('disable');
+                        } else {
+                          $('.js-referee-draggable-block').draggable('enable');
+                        }
+                      });
+                      // this.$root.$emit('setRefereeReset')
+                      // this.$root.$emit('setPitchPlanTab','refereeTab')
+                    }
+                  )
+                }
               }
           })
-
        },
         deleteConfirmed() {
 
@@ -213,8 +209,6 @@ export default {
                     $('.js-referee-draggable-block').draggable('enable');
                   }
                 });
-               // this.$root.$emit('setRefereeReset')
-               // this.$root.$emit('setPitchPlanTab','refereeTab')
           }
           )
       },
@@ -239,6 +233,5 @@ export default {
         $("#refreesModal").modal('hide');
       },
     }
-
 }
 </script>

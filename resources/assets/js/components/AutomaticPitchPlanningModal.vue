@@ -13,6 +13,11 @@
           <form method="post" class="js-automatic-pitch-planning-modal-form" id="automatic_pitch_planning">
             <div class="modal-body" id="pitch_model_body">
               <p>{{ $lang.pitch_planner_automatic_planning_message }}</p>
+              <p>
+                Note:<br/>
+                - When using automatic pitch planning both minimum and maximum team match intervals are ignored.<br/>
+                - Pitches will be utilised for matches in the order they are selected in the Pitch Selection field below.
+              </p>
               <p class="help is-danger js-available-time-error-message d-none">{{ $lang.pitch_planner_automatic_planning_available_time_error_message }}</p>
               <div class="row">
                 <div class="col-sm-6">
@@ -52,22 +57,12 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">Minimum team match interval</label>
-                    <div class="col-sm-12">
-                      <input v-model="minimum_team_interval" name="minimum_team_interval" type="text" class="form-control" readonly="readonly">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_normal_matches_duration }}</label>
                     <div class="col-sm-12">
                       <input v-model="normal_match_duration" name="normal_match_duration" type="text" class="form-control" readonly="readonly">
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_final_matches_duration }}</label>
@@ -76,7 +71,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-6">
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_pitch_selection }}</label>
                     <div class="col-sm-12">
