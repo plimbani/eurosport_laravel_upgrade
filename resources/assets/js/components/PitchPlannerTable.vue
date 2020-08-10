@@ -76,7 +76,7 @@
         </div>
         <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
             @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
-        <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingFixtures()"></UnscheduleAllFixturesModal>
+        <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingAllFixtures()"></UnscheduleAllFixturesModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
@@ -534,8 +534,6 @@
                 }
             },
             unscheduleAllFixturesClick() {
-                $(".match-unschedule-checkbox-div").removeClass('d-none');
-                $(".match-unschedule-checkbox").prop( "checked", true);
                 $("#unschedule_all_fixtures").modal('show');
             },
             confirmUnscheduling() {
@@ -596,6 +594,26 @@
                     vm.getAllScheduledMatches();
                 },500)
             },
+            confirmUnschedulingAllFixtures() {
+                let vm = this;
+                $("body .js-loader").removeClass('d-none');
+                Tournament.unscheduleAllFixtures(this.tournamentId).then(
+                (response) => {
+                    if(response.data.status_code == '200') {
+                        $("body .js-loader").addClass('d-none');
+                        $('#unschedule_all_fixtures').modal('hide')
+                        toastr.success('All the fixtures are unscheduled successfully', 'All Fixtures Unscheduled', {timeOut: 5000});
+                        vm.$store.dispatch('setMatches')
+                        .then((response) => {
+                            _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                                vm.$root.$emit('refreshPitch' + stageIndex);
+                            });
+                            vm.$root.$emit('refreshCompetitionWithGames');
+                        });
+                        vm.getAllScheduledMatches();
+                    }
+                })
+            },
             saveScheduleMatchResult(matchData) {
                 this.$emit("saveScheduleMatchResult", matchData);
             },
@@ -635,7 +653,9 @@
                     (error) => {
                     }
                 )
-                this.getAllScheduledMatches();
+                setTimeout(function(){
+                    vm.getAllScheduledMatches();
+                },500)
             },
             scheduleMatches() {
                 $('#schedule_fixtures').removeClass('btn-primary').addClass('btn-success');

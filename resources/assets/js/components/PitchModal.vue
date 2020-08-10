@@ -532,6 +532,7 @@ var moment = require('moment-timezone');
                 vm.$root.$emit('reloadPitch' + vm.stageIndex);
                 vm.$root.$emit('refreshCompetitionWithGames');
               });
+              vm.$root.$emit('getAllScheduledMatches');
         })
       },
       matchPrint(ReportData) {
