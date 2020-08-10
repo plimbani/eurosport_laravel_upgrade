@@ -2633,6 +2633,13 @@ class MatchService implements MatchContract
       return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
+    public function unscheduleAllFixtures($tournamentId)
+    {
+      $result = $this->matchRepoObj->unscheduleAllFixtures($tournamentId);
+
+      return ['status_code' => '200', 'message' => 'All matches have been unscheduled successfully'];
+    }
+
     public function processFixtures($fixtures)
     {
       $fixtures = array_unique($fixtures);
