@@ -53,7 +53,7 @@
                       <button type="button" class="btn btn-primary" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                     </div>
                     <div v-show="this.age_category != ''" v-if="loggedInUserRole">
-                      <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}">Delete teams</button>
+                      <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete teams</button>
                     </div>
                     <div v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
                       <button type="button" class="btn btn-primary" @click="printAllocatedTeams()">Download groups</button>
@@ -153,7 +153,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_savegroups}}</button>
+                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': ageCategoryHasNoTeams}">{{$lang.teams_button_savegroups}}</button>
               </form>
     				</div>
     			</div>
@@ -491,7 +491,7 @@
         $('.selTeams').prop("disabled", true);
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
-          $('#sel_'+id+' .blnk').html(this.seleTeam)
+          $('#sel_'+id+' .blnk').html('')
         }
         if(groupValue!='' && groupValue!= undefined ){
             $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not($('.sel_'+id)).prop("disabled",true);
