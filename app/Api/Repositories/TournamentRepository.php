@@ -1126,9 +1126,11 @@ class TournamentRepository
             $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.competition_id', $data['competition']);
         }
         $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.is_scheduled', 0)->orderBy('competitions.competation_round_no')
-            ->orderBy('temp_fixtures.display_match_number')
+            //->orderByRaw('CAST(match_code_number as DECIMAL(8,2)) ASC')
+            ->orderBy('match_round_no')
+            ->orderByRaw('ABS(match_code_no)')
             ->orderBy('temp_fixtures.id')
-            ->select('*', 'temp_fixtures.id as id')
+            ->select(DB::raw('*, temp_fixtures.id as id, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no'))
             ->get();
 
         $matchScheduleArray = [];
