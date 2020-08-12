@@ -1065,6 +1065,9 @@ class TournamentRepository
                     if ($pitchStartDateTime < $pitchAvailableStart || $pitchStartDateTime > $pitchAvailableEnd) {
                         $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 0;
                     }
+                    if($pitchStartDateTime->timestamp === $pitchAvailableEnd->timestamp) {
+                        $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 2;
+                    }
                     $pitchStartDateTime->addMinute(1);
                 }
 
@@ -1088,8 +1091,11 @@ class TournamentRepository
                         $stageEndTime = Carbon::createFromFormat('d/m/Y H:i', $availability->stage_start_date . ' ' . $break->break_end);
 
                         while ($stageStartTime < $stageEndTime) {
-                            $pitchAvailableTime[$pitchId][$stageStartTime->timestamp] = 0;
                             $stageStartTime->addMinute(1);
+                            $pitchAvailableTime[$pitchId][$stageStartTime->timestamp] = 0;
+                            if($stageStartTime->timestamp === $stageEndTime->timestamp) {
+                                $pitchAvailableTime[$pitchId][$stageStartTime->timestamp] = 2;
+                            }
                         }
                     }
                 }
@@ -1103,6 +1109,9 @@ class TournamentRepository
                     while ($pitchUnavailableStart < $pitchUnavailableEnd) {
                         $pitchUnavailableStart->addMinute(1);
                         $pitchAvailableTime[$pitchId][$pitchUnavailableStart->timestamp] = 0;
+                        if($pitchUnavailableStart->timestamp === $pitchUnavailableEnd->timestamp) {
+                            $pitchAvailableTime[$pitchId][$pitchUnavailableStart->timestamp] = 2;
+                        }
                     }
                 }
 
@@ -1110,11 +1119,14 @@ class TournamentRepository
 
                 foreach ($fixtures as $fixture) {
                     $matchStartDateTime = Carbon::parse($fixture->match_datetime);
-                    $matchEndDateTime = Carbon::parse($fixture->match_endtime)->subMinute(1);
+                    $matchEndDateTime = Carbon::parse($fixture->match_endtime);
 
                     while ($matchStartDateTime < $matchEndDateTime) {
                         $matchStartDateTime->addMinute(1);
                         $pitchAvailableTime[$pitchId][$matchStartDateTime->timestamp] = 0;
+                        if($matchStartDateTime->timestamp === $matchEndDateTime->timestamp) {
+                            $pitchAvailableTime[$pitchId][$matchStartDateTime->timestamp] = 2;
+                        }
                     }
                 }
             }
@@ -1219,14 +1231,17 @@ class TournamentRepository
                         'venue_id' => $allPitches[$pitchId]->venue_id,
                     );
 
-                    while ($startTimeStamp < $endTimeStamp) {
+                    while ($startTimeStamp <= $endTimeStamp) {
                         $pitchAvailableTime[$pitchId][$startTimeStamp->timestamp] = 0;
+                        if($startTimeStamp->timestamp === $endTimeStamp->timestamp) {
+                            $pitchAvailableTime[$pitchId][$startTimeStamp->timestamp] = 2;
+                        }
                         $startTimeStamp->addMinute(1);
                     }
                     $isMatchScheduledFlag = true;
                 }
 
-                if ($i < $matchTime && $value == 1) {
+                if ($i < $matchTime && ($value == 1 || $value == 2)) {
                     $canMatchBeSchedule = true;
                     if ($startTimeStamp == null) {
                         if (!isset($pitchAvailableTime[$pitchId][Carbon::createFromTimestamp($timestamp)->addMinute($matchTime)->timestamp])) {
@@ -1245,7 +1260,7 @@ class TournamentRepository
                                 $previousRound = $roundArray[0] . ' ' . $previousRoundNumber;
                                 if(isset($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
                                     if($matchStartTimeStamp->lessThan($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
-                                        $pitchAvailableTime[$pitchId][$timestamp] = -1;
+                                        $pitchAvailableTime[$pitchId][$timestamp] = -1 * $pitchAvailableTime[$pitchId][$timestamp];
                                         $canMatchBeSchedule = false;
                                         $reCheckPitchOrder = true;
                                     }
@@ -1291,12 +1306,14 @@ class TournamentRepository
         $userSelectedPitchOrderFlipped = array_flip($userSelectedPitchOrder);
         $pitchIdWiseFirstAvailability = [];
         foreach($pitchAvailableTime as $pitchId => $pitchAvailability) {
+            $previousTimestamp = null;
             foreach ($pitchAvailability as $timestamp => $value) {
-                if($value === 1) {
-                    $pitchIdWiseFirstAvailability[$pitchId] = $timestamp;
-                    $userSelectedPitchOrderFlipped[$pitchId] = $timestamp;
+                if($value == 1) {
+                    $pitchIdWiseFirstAvailability[$pitchId] = ($previousTimestamp !== null && $pitchAvailableTime[$pitchId][$previousTimestamp] == 2) ? $previousTimestamp : $timestamp;
+                    $userSelectedPitchOrderFlipped[$pitchId] = ($previousTimestamp !== null && $pitchAvailableTime[$pitchId][$previousTimestamp] == 2) ? $previousTimestamp : $timestamp;
                     break;
                 }
+                $previousTimestamp = $timestamp;
             }
         }
         asort($pitchIdWiseFirstAvailability);
@@ -1319,8 +1336,8 @@ class TournamentRepository
     {
         foreach($pitchAvailableTime as $pitchId => $pitchAvailability) {
             foreach ($pitchAvailability as $timestamp => $value) {
-                if($value === -1) {
-                    $pitchAvailability[$pitchId][$timestamp] = 0;
+                if($value === -1 || $value === -2) {
+                    $pitchAvailableTime[$pitchId][$timestamp] = abs($pitchAvailableTime[$pitchId][$timestamp]);
                 }
             }
         }
