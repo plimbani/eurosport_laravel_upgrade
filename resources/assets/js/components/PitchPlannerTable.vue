@@ -9,7 +9,7 @@
                         <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
                         <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
                         <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule fixtures</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unscheduled all fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule all fixtures</button>
                         <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
