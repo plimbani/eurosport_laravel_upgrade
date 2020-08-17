@@ -52,7 +52,7 @@
                     <div v-show="this.age_category != ''">
                       <button type="button" class="btn btn-primary" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                     </div>
-                    <div v-show="this.age_category != ''" v-if="loggedInUserRole">
+                    <div v-show="this.age_category != ''">
                       <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete teams</button>
                     </div>
                     <div v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
@@ -153,7 +153,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': ageCategoryHasNoTeams}">{{$lang.teams_button_savegroups}}</button>
+                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
               </form>
     				</div>
     			</div>

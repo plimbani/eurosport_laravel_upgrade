@@ -1720,10 +1720,19 @@ class TournamentRepository
     public function saveContactDetails($data)
     {
         $tournamentContact = TournamentContact::where('tournament_id', $data['tournamentData']['tournamentId'])->first();
-        $tournamentContact->first_name = $data['tournamentData']['tournament_contact_first_name'];
-        $tournamentContact->last_name = $data['tournamentData']['tournament_contact_last_name'];
-        $tournamentContact->telephone = $data['tournamentData']['tournament_contact_home_phone'];
-        $tournamentContact->save();
+        if ($tournamentContact) {
+            $tournamentContact->first_name = $data['tournamentData']['tournament_contact_first_name'];
+            $tournamentContact->last_name = $data['tournamentData']['tournament_contact_last_name'];
+            $tournamentContact->telephone = $data['tournamentData']['tournament_contact_home_phone'];
+            $tournamentContact->save();
+        } else {
+            $tournamentContact = TournamentContact::create([
+                'tournament_id' => $data['tournamentData']['tournamentId'],
+                'first_name'    => $data['tournamentData']['tournament_contact_first_name'],
+                'last_name'     => $data['tournamentData']['tournament_contact_last_name'],
+                'telephone'     => $data['tournamentData']['tournament_contact_home_phone']
+            ]);
+        }
         return $tournamentContact;
     }
 
