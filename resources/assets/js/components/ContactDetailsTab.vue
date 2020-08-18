@@ -2,40 +2,38 @@
 	<div class="tab-content summary-content">
 		<div class="card">
 			<div class="card-block">
-				<div class="row">
-					<div class="col-3">
-						<h6 class="fieldset-title"><strong>Details</strong></h6>
+				<h6 class="fieldset-title"><strong>Details</strong></h6>
+				<div class="form-group row" :class="{'has-error': errors.has('tournament_contact_first_name') }">
+					<label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" name="tournament_contact_first_name"
+						v-model="tournament.tournament_contact_first_name"
+						v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_first_name') }"
+						>
+						<i v-show="errors.has('tournament_contact_first_name')" class="fas fa-warning"></i>
+						<span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">{{$lang.tournament_validation_first_name}}</span>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-4">
-						<div class="form-group" :class="{'has-error': errors.has('tournament_contact_first_name') }">
-							<label>{{$lang.tournament_first_name}}*</label>
-							<input type="text" class="form-control" name="tournament_contact_first_name"
-							v-model="tournament.tournament_contact_first_name"
-							v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_first_name') }"
-							>
-							<i v-show="errors.has('tournament_contact_first_name')" class="fas fa-warning"></i>
-							<span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">{{$lang.tournament_validation_first_name}}</span>
-						</div>
-						<div class="form-group" :class="{'has-error': errors.has('tournament_contact_last_name') }">
-							<label>{{$lang.tournament_last_name}}*</label>
-							<input type="text" class="form-control" name="tournament_contact_last_name"
-							v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_last_name') }"
-							v-model="tournament.tournament_contact_last_name"
-							>
-							<i v-show="errors.has('tournament_contact_last_name')" class="fas fa-warning"></i>
-							<span class="help is-danger" v-show="errors.has('tournament_contact_last_name')">{{$lang.tournament_validation_last_name}}</span>
-						</div>
-						<div class="form-group">
-						  <label>{{$lang.tournament_telephone}}</label>
-						  <input type="text" class="form-control"
-						  v-model="tournament.tournament_contact_home_phone">
-						</div>
-						<div class="form-group">
-							<button type="button" class="btn btn-primary" @click="saveContactDetails">{{$lang.summary_setings_screen_rotate_time_button_save}}</button>
-						</div>
+				<div class="form-group row" :class="{'has-error': errors.has('tournament_contact_last_name') }">
+					<label class="col-sm-2 form-control-label">{{$lang.tournament_last_name}}*</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" name="tournament_contact_last_name"
+						v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_last_name') }"
+						v-model="tournament.tournament_contact_last_name"
+						>
+						<i v-show="errors.has('tournament_contact_last_name')" class="fas fa-warning"></i>
+						<span class="help is-danger" v-show="errors.has('tournament_contact_last_name')">{{$lang.tournament_validation_last_name}}</span>
 					</div>
+				</div>
+				<div class="form-group row">
+				  	<label class="col-sm-2 form-control-label">{{$lang.tournament_telephone}}</label>
+						<div class="col-sm-4">
+				  		<input type="text" class="form-control"
+				  		v-model="tournament.tournament_contact_home_phone">
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" @click="saveContactDetails">{{$lang.summary_setings_screen_rotate_time_button_save}}</button>
 				</div>
 			</div>
 		</div>
