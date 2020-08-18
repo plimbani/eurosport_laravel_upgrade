@@ -66,7 +66,7 @@
 
                         {{$lang.pitch_planner_label}}
         
-                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="bottom" data-content="Plan the matches on the pitches. There are two ways to do this: 1. Drag and drop one match at a time on to the pitch. 2. Click on automatic planning. You can plan the matches by group or for a whole age category at the same time.">
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Plan the matches on the pitches. There are two ways to do this: 1. Drag and drop one match at a time on to the pitch. 2. Click on automatic planning. You can plan the matches by group or for a whole age category at the same time.">
                             <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
