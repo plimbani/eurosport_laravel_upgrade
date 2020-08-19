@@ -714,8 +714,11 @@ class AgeGroupService implements AgeGroupContract
       $newCopiedAgeCategoryDataArray = $newCopiedAgeCategory->toArray();
       $templateData = (array) $this->ageGroupObj->FindTemplate($newCopiedAgeCategoryDataArray['tournament_template_id']);
       $newCopiedAgeCategoryDataArray['ageCategory_name'] = $data['ageCategoryData']['competition_format']['ageCategory_name'];
-      $newCopiedAgeCategoryDataArray['tournamentTemplate'] = $templateData;
-
+      if ($templateData) {
+        $newCopiedAgeCategoryDataArray['tournamentTemplate'] = $templateData;
+      } else {
+        $newCopiedAgeCategoryDataArray['tournamentTemplate']['json_data'] = $newCopiedAgeCategory['template_json_data'];
+      }
       $this->addCompetationGroups($newCopiedAgeCategory->id, $newCopiedAgeCategoryDataArray);
       $this->insertPositions($newCopiedAgeCategory->id, $newCopiedAgeCategoryDataArray['tournamentTemplate']);
       
