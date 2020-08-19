@@ -91,7 +91,8 @@
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }" 
               v-if="displayTournamentFormatAndType">
                 <label class="col-sm-4 form-control-label">Tournament format*
-                  <span class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals <br> Standard - Tailor-made templates"><i class="fas fa-info-circle"></i></span>
+                  <span v-if="currentLayout === 'tmp'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals"><i class="fas fa-info-circle"></i></span>
+                  <span v-else class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals <br> Standard - Tailor-made templates"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row">
