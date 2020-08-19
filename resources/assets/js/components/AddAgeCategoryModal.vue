@@ -275,10 +275,10 @@
                         <div class="card-block">
                           <div class="row d-flex">
                             <div class="row align-items-center">
-                              <div class="col-sm-8">
+                              <div class="col-sm-12">
                                 <p class="mb-0">These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. The first round will consist of <strong>{{number_teams/group_size}}</strong> groups each with <strong>{{ group_size }}</strong> teams. Following the group stage the competition will proceed to an elimination format.</p>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-4 d-none">
                                 <a href="#" @click="viewTemplateGraphic(competation_format.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
                               </div>
                             </div>
@@ -297,10 +297,10 @@
                         <div class="card-block">
                           <div class="row d-flex">
                             <div class="row align-items-center">
-                              <div class="col-sm-8">
+                              <div class="col-sm-12">
                               <p class="mb-0">These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. Here, it will create a competition with a single Round Robin group where each team plays each other twice and placings are based on final group position.</p>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-4 d-none">
                                 <a href="#" @click="viewTemplateGraphic(competation_format.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
                               </div>
                             </div>
