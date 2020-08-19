@@ -548,6 +548,7 @@
                 $(".match-unschedule-checkbox").prop( "checked", false);
                 $("#automatic_planning").show();
                 $("#schedule_fixtures").show();
+                $("#unschedule_all_fixtures_btn").show();
             },
             confirmUnschedulingFixtures() {
                 let vm = this;
