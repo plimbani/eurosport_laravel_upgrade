@@ -105,10 +105,10 @@
           </div>
         </div>
         <!--<location :locations="locations"></location>-->
+        <div class="">
+          <h6 class="fieldset-title"><strong>{{$lang.tournament_location}}</strong></h6>
+        </div>
         <div v-for="(location, index) in locations">
-          <div class="">
-            <h6 class="fieldset-title"><strong>{{$lang.tournament_location}}</strong></h6>
-          </div>
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
             <div class="col-sm-4">
