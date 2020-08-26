@@ -191,7 +191,7 @@ export default {
 						Tournament.saveVenueDetails(vm.tournament).then(
 							(response) => {
 								if(response.data.status_code == 200) {
-									toastr.success('Sports parks details saved successfully', 'Sports parks details', {timeOut: 2000});
+									toastr.success('Sport park details saved successfully', 'Sport park details', {timeOut: 2000});
 								} else {
 									toastr.error('Something went wrong!', 'Sports parks details', {timeOut: 2000});
 								}

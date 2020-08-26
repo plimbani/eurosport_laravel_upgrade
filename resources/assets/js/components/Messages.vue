@@ -5,7 +5,7 @@
 
 	    <div class="card">
 	      <div class="card-block">
-	      	<div class="row align-items-center msg-history-add-msg">
+	      	<div class="row msg-history-add-msg">
 	            <div class="col-3">
 	               <h6 class="mb-0 fieldset-title"><strong>{{$lang.summary_table_text}}</strong></h6>
 	            </div>
