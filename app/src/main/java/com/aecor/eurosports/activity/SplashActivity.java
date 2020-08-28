@@ -54,6 +54,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
         mAppSharedPref = AppPreference.getInstance(mContext);
 
         new Handler().postDelayed(new Runnable() {
@@ -296,6 +297,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void launchHome() {
+
         if (BuildConfig.isEasyMatchManager) {
 
 

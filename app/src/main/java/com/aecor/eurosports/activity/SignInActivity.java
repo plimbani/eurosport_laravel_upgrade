@@ -65,11 +65,12 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        String access = getIntent().getStringExtra("accessCode");
-        boolean ss = getIntent().getBooleanExtra("isFromUrl", false);
+
+
         enabledDisableLoginButton(false);
         Utility.setupUI(mContext, ll_main_layout);
         mAppSharedPref = AppPreference.getInstance(mContext);
+//        mAppSharedPref = null;
         if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_EMAIL))
                 && !Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_PASSWORD))) {
             email_address.setText(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_EMAIL));
