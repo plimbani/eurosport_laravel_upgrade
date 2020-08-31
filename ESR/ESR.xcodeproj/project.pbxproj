@@ -1569,6 +1569,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1585,6 +1586,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
 				);
+				MARKETING_VERSION = 11.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
@@ -1666,6 +1668,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1682,6 +1685,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
 				);
+				MARKETING_VERSION = 11.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
@@ -1763,6 +1767,7 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1779,6 +1784,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
 				);
+				MARKETING_VERSION = 11.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
