@@ -14,9 +14,9 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E5B4BBC6DD552AC8943C7E22772FC1D3"
-               BuildableName = "GoogleMaps"
-               BlueprintName = "GoogleMaps"
+               BlueprintIdentifier = "CF903DF43E111410ECA0C288D36FA21A"
+               BuildableName = "SwiftKeychainWrapper.framework"
+               BlueprintName = "SwiftKeychainWrapper"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
