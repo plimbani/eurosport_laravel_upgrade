@@ -9,6 +9,7 @@ import UIKit
 import FacebookCore
 import FacebookLogin
 import AuthenticationServices
+import SwiftKeychainWrapper
 
 class LandingVC: SuperViewController {
 
@@ -134,39 +135,43 @@ extension LandingVC: ASAuthorizationControllerDelegate {
         switch authorization.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
                 
-                var appleSignInData: AppleSignInData = AppleSignInData()
-                
-                if let data = UserDefaults.standard.value(forKey: "appleSignInData") as? Data {
-                  if let savedObj = try? PropertyListDecoder().decode(AppleSignInData.self, from: data) {
-                     appleSignInData = savedObj
-                    
-                     paramEmail = appleSignInData.email
-                     paramLastName = appleSignInData.lastName
-                     paramFirstName = appleSignInData.firstName
-                  }
-                }
-                
                 if let email = appleIDCredential.email {
                     paramEmail = email
-                    appleSignInData.email = email
+                } else {
+                    if let email = KeychainWrapper.standard.string(forKey: "email") {
+                        paramEmail = email
+                        print("Keychain retrived email")
+                    }
                 }
-                
+
                 if let lastName = appleIDCredential.fullName?.familyName {
                     paramLastName = lastName
-                    appleSignInData.lastName = lastName
+                } else {
+                    if let lastName = KeychainWrapper.standard.string(forKey: "lastName") {
+                        paramLastName = lastName
+                        print("Keychain retrived lastName")
+                    }
                 }
-                
+
                 if let givenName = appleIDCredential.fullName?.givenName {
                     paramFirstName = givenName
-                    appleSignInData.firstName = givenName
+                } else {
+                    if let givenName = KeychainWrapper.standard.string(forKey: "firstName") {
+                        paramFirstName = givenName
+                        print("Keychain retrived firstName")
+                    }
                 }
-                
+
+                var saveSuccessful: Bool = KeychainWrapper.standard.set(paramEmail, forKey: "email")
+                print("Keychain saved email \(saveSuccessful)")
+                saveSuccessful = KeychainWrapper.standard.set(paramLastName, forKey: "lastName")
+                print("Keychain saved lastName \(saveSuccessful)")
+                saveSuccessful = KeychainWrapper.standard.set(paramFirstName, forKey: "firstName")
+                print("Keychain saved lastName \(saveSuccessful)")
+
                 paramUserIdentifier = appleIDCredential.user
-                appleSignInData.userId = paramUserIdentifier
                 socialLoginProvider = SocialLoginProvider.apple.rawValue
                 socialLoginAPI()
-            
-                UserDefaults.standard.set(try? PropertyListEncoder().encode(appleSignInData), forKey: "appleSignInData")
             default:
                 break
         }

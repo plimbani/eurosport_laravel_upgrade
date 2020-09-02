@@ -12,7 +12,7 @@ def pods_list
   pod "MBCircularProgressBar"
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
-  
+  pod 'SwiftKeychainWrapper'
 end
 
 target 'ESR' do
