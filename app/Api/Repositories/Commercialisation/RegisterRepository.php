@@ -9,6 +9,7 @@ use Hash;
 use Laraspace\Models\Country;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
+use Laraspace\Models\Settings;
 use Laraspace\Api\Repositories\PeopleRepository;
 use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Api\Repositories\CountryRepository;
@@ -61,6 +62,10 @@ class RegisterRepository
             ];
 
             $user = User::create($newUser);
+
+            $userSettings['user_id'] = $user->id;
+            $userSettings['value'] = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+            Settings::create($userSettings);
 
             $subject = 'Easy Match Manager - Set password';
             $email_templates = 'emails.users.registration';
