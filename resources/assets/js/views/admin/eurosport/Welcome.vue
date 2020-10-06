@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="d-flex mb-4" :class="isResultAdmin || isInternalAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin || isInternalAdmin ? 'col-sm-6' : 'col-sm-6'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'" v-if="!isInternalAdmin">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-6'" v-if="!isInternalAdmin">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
@@ -58,26 +58,10 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isInternalAdmin ? 'col-sm-6' : 'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
-        <div :class="{ 'card mb-0 w-100': true, 'is-disabled': currentLayout === 'commercialisation' }">
-          <div class="card-header">
-            <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
-          </div>
-          <div class="card-block text-center">
-            <div class="form-group" v-if="(userDetails.role_name != 'Tournament administrator' && userDetails.role_slug != 'Results.administrator')">
-              <button type="button" class="btn btn-primary col-sm-10" @click="addNewWebsite()">{{$lang.welcome_create_website}}</button>
-            </div>
-            <div class="form-group">
-              <websiteDropDown></websiteDropDown>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import WebsiteDropDown from '../../../components/WebsiteDropDown.vue'
 import TournamentDropDown from '../../../components/TournamentDropDown.vue'
 import AddTournamentDetailsModal  from  '../../../components/AddTournamentDetailsModal.vue'
 import Ls from '../../../services/ls'
@@ -90,7 +74,6 @@ export default {
     }
   },
   components : {
-    WebsiteDropDown,
     TournamentDropDown,
     AddTournamentDetailsModal
   },
@@ -112,9 +95,6 @@ computed: {
   mounted() {
     let tournamentAdd  = {name:'', 'currentPage':'Home'}
     this.$store.dispatch('SetTournamentName', tournamentAdd)
-
-    let websiteAdd  = {id:null, tournament_dates:null, tournament_location:null,tournament_name: null, 'currentPage':'Home'}
-    this.$store.dispatch('SetWebsite', websiteAdd)
   },
   methods : {
     addNewTournament() {
@@ -142,12 +122,6 @@ computed: {
       this.$store.dispatch('SetTournamentName', tournamentAdd)
 
       this.$router.push({ name: 'users_list' })
-    },
-    addNewWebsite() {
-      let currentNavigationData = {activeTab:'website_add', currentPage:
-      'Create Website'}
-      this.$store.dispatch('setActiveTab', currentNavigationData)
-      this.$router.push({name: 'website_add'})
     },
     templateList() {
       let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Templates'};

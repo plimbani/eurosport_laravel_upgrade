@@ -15,9 +15,6 @@
                         <li class="nav-item active">
                             <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link" id="tournamentTab"><div class="wrapper-tab">{{$lang.user_management_permission_tournament_tab}}</div></a>
                         </li>
-                        <li class="nav-item" v-if="isPermisionModalActive">
-                            <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link"><div class="wrapper-tab">{{$lang.user_management_permission_website_tab}}</div></a>
-                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="tournament-list" role="tab-pane">
@@ -27,9 +24,6 @@
                               <p class="text-danger mb-0">Please select at least one tournament.</p>
                             </div>
                           </div>
-                        </div>
-                        <div class="tab-pane" id="website-list" role="tabpanel">
-                            <website-listing :allWebsites="allWebsites" @setSelectedWebsites="setSelectedWebsites"></website-listing>
                         </div>
                     </div>
                 </div>
@@ -47,25 +41,20 @@
 
     import User from '../api/users.js'
     import Tournament from '../api/tournament.js'
-    import Website from '../api/website.js'
 
     import TournamentListing from './TournamentListing.vue'
-    import WebsiteListing from './WebsiteListing.vue'
     import { ErrorBag } from 'vee-validate';
 
     export default {
         components: {
             TournamentListing,
-            WebsiteListing,
         },
         data() {
           return {
             currentView: 'tournament',
             allTournaments: [],
-            allWebsites: [],
             formValues: {
-              tournaments: [],
-              websites: []
+              tournaments: []
             },
             selectTournamentError: false,
           }
@@ -83,17 +72,6 @@
             (error) => {
             }
           )
-
-          if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {
-            Website.getAllWebsites().then(
-              (response) => {
-                this.allWebsites = response.data.data
-              },
-              (error) => {
-              }
-            )
-          }
-
         },
         computed: {
           userDetails() {
@@ -113,10 +91,8 @@
             let vm = this;
 
             this.formValues.tournaments = [];
-            this.formValues.websites = [];
 
             this.$root.$emit('getSelectedTournaments');
-            this.$root.$emit('getSelectedWebsites');
 
             // usage as a promise (2.1.0+, see note below)
             Vue.nextTick()
@@ -131,7 +107,7 @@
                   return false;
                 }
 
-                let data = { user: vm.user, tournaments: vm.formValues.tournaments, websites: vm.formValues.websites}
+                let data = { user: vm.user, tournaments: vm.formValues.tournaments}
                 $("body .js-loader").removeClass('d-none');
                 User.changePermissions(data).then(
                   (response)=> {
@@ -149,9 +125,6 @@
           },
           setSelectedTournaments(tournaments) {
             this.formValues.tournaments = tournaments;
-          },
-          setSelectedWebsites(websites) {
-            this.formValues.websites = websites;
           }
         }
     }
