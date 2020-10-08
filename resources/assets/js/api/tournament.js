@@ -11,9 +11,6 @@ export default {
    return api.post('teams/getAllTournamentTeams', {'tournamentData': tournamentData})
   },
   
-  saveTournament(tournamentData) {
-  	return api.post('tournament/create', {'tournamentData': tournamentData})
-  },
   getAllTournamentTemplate(tournamentData){
   	return api.post('tournaments/templates', {'tournamentData': tournamentData})
   },
@@ -121,12 +118,6 @@ export default {
   getDropDownData(tournamentData) {
     return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
   },
-  setMatchSchedule(data) {
-    return api.post('match/schedule',{'data': data})
-  },
-  matchUnschedule(matchData) {
-    return api.post('match/unschedule',{'matchData': matchData})
-  },
   getAllScheduledMatch(tournamentId) {
     return api.post('match/getScheduledMatch',{'tournamentId': tournamentId})
   },
@@ -167,26 +158,11 @@ export default {
   getTournamentMessages(messageData) {
     return api.post('users/getMessage',{'messageData': messageData})
   },
-  saveSettings(tournamentId){
-    return api.post('tournament/saveSettings',{'tournamentData':tournamentId})
-  },
-  saveContactDetails(tournamentId){
-    return api.post('tournament/saveContactDetails',{'tournamentData':tournamentId})
-  },
-  saveVenueDetails(tournamentId){
-    return api.post('tournament/saveVenueDetails',{'tournamentData':tournamentId})
-  },
-  getPresentationSettings(tournamentId) {
-    return api.get('tournament/getPresentationSettings/' + tournamentId);
-  },
   changeTeamName(teamData) {
     return api.post('teams/changeTeamName', {'teamData': teamData})
   },
   saveStandingsManually(data) {
     return api.post('match/saveStandingsManually', {data})
-  },
-  addTournamentDetail(tournamentDetailData) {
-    return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
   },
   getCategoryCompetitions(data) {
     return api.post('tournament/getCategoryCompetitions', data)
@@ -245,9 +221,6 @@ export default {
   getCompetitionAndPitchDetail(data) {
     return api.post('tournament/getCompetitionAndPitchDetail', data);
   },
-  scheduleAutomaticPitchPlanning(data) {
-    return api.post('tournament/scheduleAutomaticPitchPlanning', data);
-  },
   getTeamsFairPlayData(teamData) {
     return api.get('getTeamsFairPlayData?' +teamData);
   },
@@ -278,23 +251,8 @@ export default {
   copyAgeCategory(ageCategoryData) {
     return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
   },
-  matchUnscheduledFixtures(matchData) {
-    return api.post('match/fixtureUnschedule',{'matchData': matchData})
-  },
-  unscheduleAllFixtures(tournamentId) {
-    return api.post('match/unscheduleAllFixtures',{'tournamentId':tournamentId})
-  },
   updateCategoryDivisionName(tournamentId) {
     return api.post('tournament/updateCategoryDivisionName', {'tournamentData':tournamentId});
-  },
-  duplicateTournament(copyTournamentData) {
-    return api.post('duplicateTournament', copyTournamentData)
-  },
-  duplicateTournamentList(tournamentData) {
-    return api.post('duplicateTournamentList', tournamentData)
-  },
-  saveScheduleMatches(scheduleMatchesArray) {
-    return api.post('saveScheduleMatches', scheduleMatchesArray)
   },
   getSignedUrlForGroupsViewReport(groupsViewData) {
     return api.post('getSignedUrlForGroupsViewReport?'+groupsViewData);

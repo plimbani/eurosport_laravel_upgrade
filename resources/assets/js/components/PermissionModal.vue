@@ -12,22 +12,11 @@
             <div class="modal-body">
                 <div class="tabs tabs-primary">
                     <ul role="tablist" class="nav nav-tabs">
-                        <li class="nav-item active">
-                            <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link" id="tournamentTab"><div class="wrapper-tab">{{$lang.user_management_permission_tournament_tab}}</div></a>
-                        </li>
-                        <li class="nav-item" v-if="isPermisionModalActive">
+                        <li class="nav-item active" v-if="isPermisionModalActive">
                             <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link"><div class="wrapper-tab">{{$lang.user_management_permission_website_tab}}</div></a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane" id="tournament-list" role="tab-pane">
-                          <tournament-listing :allTournaments="allTournaments" @setSelectedTournaments="setSelectedTournaments"></tournament-listing>
-                          <div class="form-group row" v-if="selectTournamentError">
-                            <div class="col-sm-12">
-                              <p class="text-danger mb-0">Please select at least one tournament.</p>
-                            </div>
-                          </div>
-                        </div>
                         <div class="tab-pane" id="website-list" role="tabpanel">
                             <website-listing :allWebsites="allWebsites" @setSelectedWebsites="setSelectedWebsites"></website-listing>
                         </div>
@@ -49,13 +38,11 @@
     import Tournament from '../api/tournament.js'
     import Website from '../api/website.js'
 
-    import TournamentListing from './TournamentListing.vue'
     import WebsiteListing from './WebsiteListing.vue'
     import { ErrorBag } from 'vee-validate';
 
     export default {
         components: {
-            TournamentListing,
             WebsiteListing,
         },
         data() {

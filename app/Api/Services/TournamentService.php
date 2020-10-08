@@ -253,142 +253,6 @@ class TournamentService implements TournamentContract
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 
-    /**
-     * create New Tournament.
-     *
-     * @param  [type]
-     * @param mixed $data
-     *
-     * @return [type]
-     */
-    public function create($data)
-    {
-        $data = $data->all();
-
-        // here first we save the tournament related Data
-        // here we have to precprocess the image
-        // Save the image
-        $id = ($data['tournamentData']['tournamentId'] !=0 || $data['tournamentData']['tournamentId'] !=0) ? $data['tournamentData']['tournamentId']:'';
-
-        $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data,$id);
-
-        $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
-
-        $this->getCoordinates($resultData);
-
-        if ($data) {
-            return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
-             'data'=>$resultData];
-        }
-    }
-    private function saveTournamentLogo($data, $id='')
-    {
-       if($data['tournamentData']['image_logo'] != '')
-       {
-            // here we check using preg_replace that if its change image or not
-            if(strpos($data['tournamentData']['image_logo'],$this->getAWSUrl) !==  false) {
-              $path = $this->getAWSUrl.'/assets/img/tournament_logo/';
-              $imageLogo = str_replace($path,"",$data['tournamentData']['image_logo']);
-              return $imageLogo;
-            }
-            $s3 = \Storage::disk('s3');
-            $imagePath = '/assets/img/tournament_logo/';
-            // here we check it for edit purpose and if image is
-            // already there we will return it
-            //if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/img/tournament_logo/'.$data['tournamentData']['image_logo']))
-
-
-              // $imagename = $data['user_image'];
-              //exit;
-            $image_string = $data['tournamentData']['image_logo'];
-
-            $img = explode(',', $image_string);
-            if(count($img)>1) {
-
-                $imgData = base64_decode($img[1]);
-            }else{
-                return '';
-            }
-
-            $name = $data['tournamentData']['name'];
-
-            if($id == '') {
-              $now = new \DateTime();
-              $timeStamp = $now->getTimestamp();
-            } else {
-              $timeStamp = $id;
-            }
-
-            //$now = new \DateTime();
-
-            //$timeStamp = $now->getTimestamp();
-
-            $path = $imagePath.$timeStamp.'.png';
-            $s3->put($path, $imgData);
-            //file_put_contents($path, $imgData);
-
-            // Resize image to 100*100
-
-            // TODO: Need to add code for Resize
-            //$img = \Image::make($imgData)->resize(250, 250);
-            // Save it
-            //$img->save($path);
-            //$s3->put($path, $img->save());
-
-            return $timeStamp.'.png';
-        } else {
-            // If its Edit
-            return '';
-        }
-    }
-    /**
-     * Edit Tournament.
-     *
-     * @param array $data
-     *
-     * @return [type]
-     */
-    public function edit($data)
-    {
-        $data = $data->all();
-        // dd($data);
-        // here first we save the tournament related Data
-        // here we have to precprocess the image
-        // Save the image
-       // $this->saveTournamentLogo($data);
-
-        //\File::put($path , $imgData);
-        //print_r($imgData);
-
-        $data = $this->tournamentRepoObj->edit($data['tournamentData']);
-
-        $this->getCoordinates($data['tournamentData']['id']);
-
-        if ($data) {
-            return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
-             'data'=>$data];
-        }
-    }
-
-    /**
-     * Delete Tournament.
-     *
-     * @param array $data
-     *
-     * @return [type]
-     */
-    public function delete($tournamentId)
-    {
-      $this->manageDeletedAndUnpublishedTournaments($tournamentId);      
-
-        DB::table('tournament_user')->where('tournament_id', $tournamentId)->delete();
-        Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
-        $data = $this->tournamentRepoObj->delete($tournamentId);
-        if ($data) {
-            return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
-        }
-    }
-
     public function manageDeletedAndUnpublishedTournaments($tournamentId)
     {
       $allUserFavourites = UserFavourites::where('tournament_id', $tournamentId)->where('is_default','=',1)->get()->map(function ($item, $key) {
@@ -868,11 +732,6 @@ class TournamentService implements TournamentContract
       }
     }
 
-    public function addTournamentDetails($tournamentDetailData)
-    {
-      $tournamentDetailData = $this->tournamentRepoObj->addTournamentDetails($tournamentDetailData['tournamentDetailData']);
-    }
-
     public function getCategoryCompetitions($data)
     {
       $competitions = $this->tournamentRepoObj->getCategoryCompetitions($data);
@@ -894,12 +753,6 @@ class TournamentService implements TournamentContract
     public function getCompetitionAndPitchDetail($data)
     {
       $data = $this->tournamentRepoObj->getCompetitionAndPitchDetail($data);
-      return ['options' => $data];
-    }
-
-    public function scheduleAutomaticPitchPlanning($data)
-    {
-      $data = $this->tournamentRepoObj->scheduleAutomaticPitchPlanning($data);
       return ['options' => $data];
     }
 
@@ -928,34 +781,5 @@ class TournamentService implements TournamentContract
     {
       $data = $this->tournamentRepoObj->updateCategoryDivisionName($data);
       return $data;
-    }
-    public function duplicateTournament($data)
-    {
-      $data = $this->tournamentRepoObj->duplicateTournament($data);
-      return ['data' => $data, 'status_code' => '200']; 
-    }
-
-    public function duplicateTournamentList($data)
-    {
-      $data = $this->tournamentRepoObj->duplicateTournamentList($data);
-      return ['data' => $data, 'status_code' => '200']; 
-    }
-
-    public function saveSettings($data)
-    {
-      $data = $this->tournamentRepoObj->saveSettings($data);
-      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
-    }
-
-    public function saveContactDetails($data)
-    {
-      $data = $this->tournamentRepoObj->saveContactDetails($data);
-      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
-    }
-
-    public function saveVenueDetails($data)
-    {
-      $data = $this->tournamentRepoObj->saveVenueDetails($data);
-      return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
-    }    
+    }  
 }

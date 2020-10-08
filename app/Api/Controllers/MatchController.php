@@ -115,14 +115,8 @@ class MatchController extends BaseController
     public function getDrawTable(GetDrawTableRequest $request) {
         return $this->matchObj->getDrawTable($request);
     }
-    public function scheduleMatch(ScheduleRequest $request) {
-        return $this->matchObj->scheduleMatch($request);
-    }
     public function checkTeamIntervalforMatches(CheckTeamIntervalRequest $request) {
         return $this->matchObj->checkTeamIntervalforMatches($request);
-    }
-    public function unscheduleMatch(UnscheduleMatchRequest $request) {
-        return $this->matchObj->unscheduleMatch($request);
     }
 
     public function getAllScheduledMatch(Request $request) {
@@ -895,24 +889,6 @@ class MatchController extends BaseController
         return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
 
-    /**
-     * Match unschedule fixtures
-    */
-
-    public function matchUnscheduledFixtures(Request $request)
-    {
-        return $this->matchObj->matchUnscheduledFixtures($request->all());
-    }
-
-    public function unscheduleAllFixtures(Request $request)
-    {
-        return $this->matchObj->unscheduleAllFixtures($request->all());
-    }
-
-    public function saveScheduleMatches(Request $request) 
-    {
-        return $this->matchObj->saveScheduleMatches($request->all());
-    }
     public function getScheduledMatch(Request $request) 
     {
         return $this->matchObj->getScheduledMatch($request->all());

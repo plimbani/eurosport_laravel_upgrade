@@ -41,39 +41,14 @@ import FrontSchedule from './views/front/FrontScheduleResults.vue'
  |--------------------------------------------------------------------------|
  */
 
-
-// EuroSport Layout
-import LayoutTournament from './views/layouts/LayoutTournament.vue'
-
 // Website Layout
 import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 
-// Full EuroSport Layout
-import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
-import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
-
-import LayoutPresentation from './views/layouts/LayoutPresentation.vue'
-
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
-import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
-import TournamentTeamGroup from './views/admin/eurosport/TournamentTeamGroup.vue'
-import TournamentPitch from './views/admin/eurosport/TournamentPitch.vue'
-import TournamentAdd from './views/admin/eurosport/TournamentAdd.vue'
-import Summary from './views/admin/eurosport/Summary.vue'
-import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
-import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
-
-import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
-
-// Template management Layout
-import LayoutTemplateManagement from './views/layouts/LayoutTemplateManagement.vue'
-
-// Duplicate Tournament Layout
-import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
@@ -92,7 +67,6 @@ import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 
 import AddTemplate from './components/Template/AddTemplate';
 import EditTemplate from './components/Template/EditTemplate';
-import TemplateList from './views/admin/templates/List.vue';
 
 // TV presentation pages
 import ShowPresentation from './views/presentation/Show.vue';
@@ -153,116 +127,12 @@ const routes = [
                 name: 'welcome'
             }
         ]
-    },
-    // Show presentation
-    {
-        path: '/admin/show-presentation/:tournamentslug', component: LayoutPresentation,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: ShowPresentation,
-                name: 'show_presentation'
-            }
-        ]
-    },
-    {
-        path: '/admin', component: LayoutTournament,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: 'tournaments_summary_details',
-                component: TournamentSummaryDetails,
-                name: 'tournaments_summary_details'
-            },
-            {
-                path: 'teams_groups',
-                component: TournamentTeamGroup,
-                name: 'teams_groups'
-            },
-            {
-                path: 'tournament_add',
-                component: TournamentAdd,
-                name: 'tournament_add'
-            },
-            {
-                path: 'competition_format',
-                component: CompetationFormat,
-                name: 'competition_format'
-            },
-            {
-                path: 'pitch_capacity',
-                component: PitchCapacity,
-                name: 'pitch_capacity'
-            },
-            {
-                path: 'match_planner',
-                component: PitchPlanner,
-                name: 'pitch_planner'
-
-            }
-
-        ]
-    },
-    {
-        path: '/admin', component: FullLayoutTournament,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: 'enlarge_match_planner',
-                component: PitchPlanner,
-                name: 'enlarge_pitch_planner'
-
-            }
-        ]
-    },
-    {
-        path: '/admin', component: PrintPitchPlannerLayout,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: 'print_match_planner',
-                component: PitchPlanner,
-                name: 'print_pitch_planner'
-
-            }
-        ]
-    },    
+    },  
     {
         path: '/users',
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
-    },
-    {
-        path: '/', component: LayoutTemplateManagement,
-        meta: { requiresAuth: true },
-        children: [
-            {
-               path: '/templates_list',
-               component: TemplateList,
-               name: 'templates_list'
-            },
-            {
-                path: '/add_new_template',
-                component: AddTemplate,
-                name: 'add_new_template'
-            },
-            {
-                path: '/edit_template/:id',
-                component: EditTemplate,
-                name: 'edit_template'
-            }
-        ]
-    },
-
-
-    // Duplicate tournament copy routes
-    {
-        path: '/tournaments',
-        component: LayoutDuplicateTournament,
-        meta: { requiresAuth: true },
-        name: 'duplicate_tournament_copy'
     },
 
     // Web site routes
@@ -376,7 +246,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let routesName = ['tournament_add', 'competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
+    let routesName = ['competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
     let data = {};
     if (routesName.indexOf(to.name) >= 0) {
         data.tournamentId = store.state.Tournament.tournamentId;
