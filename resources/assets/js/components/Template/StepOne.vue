@@ -42,7 +42,7 @@
             		<div class="form-group" :class="{'has-error': errors.has('no_of_teams') }">
             			<label v-if="templateFormDetail.stepone.editor == 'knockout'">{{$lang.add_template_modal_number_of_teams_knockout}}</label>
                         <label v-else>{{$lang.add_template_modal_number_of_teams}}</label>
-                        <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams">
+                        <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams" @change="resetGroupAndRoundTwoTeams()">
                             <option value="">Number of teams in group</option>
                             <option :value="team" v-for="team in teamsToDisplay">{{ team }}</option>
                         </select>
@@ -204,6 +204,9 @@
             },
             setTemplateFontColor(color) {
                 this.templateFormDetail.stepone.template_font_color = color;
+            },
+            resetGroupAndRoundTwoTeams() {
+                this.templateFormDetail.stepone.no_of_teams_in_round_two = '';
             },
 		}
 	}

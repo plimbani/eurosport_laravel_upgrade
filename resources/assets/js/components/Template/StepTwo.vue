@@ -3,7 +3,8 @@
         <div id="step2-template-setting">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <h5>{{ $lang.add_template_modal_step2_header }}</h5>
+                    <h5 v-if="templateFormDetail.stepone.editor === 'knockout'">Step 2: Setup round 1</h5>
+                    <h5 v-else>Step 2: Setup rounds</h5>
                     <div v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
                         <round  :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)" :isSeletedRoundTeamsAndGroupTeamsNotSame="!isSeletedRoundTeamsIsInUse(roundIndex)"></round>
                     </div>
@@ -183,7 +184,7 @@
                     }
                 });
                 return isMatched;
-            }
+            },
         },
     }
 </script>
