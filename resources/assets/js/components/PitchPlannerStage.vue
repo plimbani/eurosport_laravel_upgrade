@@ -108,6 +108,9 @@ import _ from 'lodash'
                 $(document).on('change','.match-unschedule-checkbox', function (e){
                     if($('.match-unschedule-checkbox:checked').length) {
                         // $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                        $("#automatic_planning").hide();
+                        $("#schedule_fixtures").hide();
+                        $("#unschedule_all_fixtures_btn").hide();
                         $("#unschedule_fixtures").hide();
                         $("#confirm_unscheduling").show();
                         $("#cancle_unscheduling_fixtures").show();
@@ -115,6 +118,9 @@ import _ from 'lodash'
                     } else {
                         // $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                         // $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                        $("#automatic_planning").show();
+                        $("#schedule_fixtures").show();
+                        $("#unschedule_all_fixtures_btn").show();
                         $("#confirm_unscheduling").hide();
                         $("#cancle_unscheduling_fixtures").hide();
                         $("#unschedule_fixtures").show().removeClass('btn-success').addClass('btn-primary');

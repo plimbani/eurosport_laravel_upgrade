@@ -9,7 +9,7 @@
                         <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
                         <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
                         <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule fixtures</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unscheduled all fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule all fixtures</button>
                         <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
@@ -76,7 +76,7 @@
         </div>
         <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
             @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
-        <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingFixtures()"></UnscheduleAllFixturesModal>
+        <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingAllFixtures()"></UnscheduleAllFixturesModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
@@ -522,8 +522,6 @@
                 }
             },
             unscheduleAllFixturesClick() {
-                $(".match-unschedule-checkbox-div").removeClass('d-none');
-                $(".match-unschedule-checkbox").prop( "checked", true);
                 $("#unschedule_all_fixtures").modal('show');
             },
             confirmUnscheduling() {
@@ -536,6 +534,9 @@
                 $("#cancle_unscheduling_fixtures").hide();
                 $("#confirm_unscheduling").hide();
                 $(".match-unschedule-checkbox").prop( "checked", false);
+                $("#automatic_planning").show();
+                $("#schedule_fixtures").show();
+                $("#unschedule_all_fixtures_btn").show();
             },
             confirmUnschedulingFixtures() {
                 let vm = this;
@@ -584,6 +585,26 @@
                     vm.getAllScheduledMatches();
                 },500)
             },
+            confirmUnschedulingAllFixtures() {
+                let vm = this;
+                $("body .js-loader").removeClass('d-none');
+                Tournament.unscheduleAllFixtures(this.tournamentId).then(
+                (response) => {
+                    if(response.data.status_code == '200') {
+                        $("body .js-loader").addClass('d-none');
+                        $('#unschedule_all_fixtures').modal('hide')
+                        toastr.success('All the fixtures are unscheduled successfully', 'All Fixtures Unscheduled', {timeOut: 5000});
+                        vm.$store.dispatch('setMatches')
+                        .then((response) => {
+                            _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                                vm.$root.$emit('refreshPitch' + stageIndex);
+                            });
+                            vm.$root.$emit('refreshCompetitionWithGames');
+                        });
+                        vm.getAllScheduledMatches();
+                    }
+                })
+            },
             saveScheduleMatchResult(matchData) {
                 this.$emit("saveScheduleMatchResult", matchData);
             },
@@ -623,7 +644,9 @@
                     (error) => {
                     }
                 )
-                this.getAllScheduledMatches();
+                setTimeout(function(){
+                    vm.getAllScheduledMatches();
+                },500)
             },
             scheduleMatches() {
                 $('#schedule_fixtures').removeClass('btn-primary').addClass('btn-success');
