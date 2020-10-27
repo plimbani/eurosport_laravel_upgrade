@@ -308,7 +308,7 @@ var moment = require('moment-timezone');
           currentDate: moment().tz("Europe/London").format('DD/MM/YYYY'),
        }
     },
-    props: ['matchFixture','section', 'stageIndex'],
+    props: ['drawName', 'matchFixture','section', 'stageIndex'],
     mounted() {
       let vm = this;
       this.$root.$off('getMatchData');
@@ -487,6 +487,11 @@ var moment = require('moment-timezone');
                     //
                     vm.$root.$emit('setDrawTable',matchData['competation_id']);
                     vm.$root.$emit('setStandingData',matchData['competation_id']);
+
+                    let Id = vm.drawName.id
+                    let Name = vm.drawName.name
+                    let CompetationType = vm.drawName.actual_competition_type
+                    vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
                   } else {
                     vm.$root.$emit('displayTournamentCompetationList');
                     // vm.$root.$emit('setPitchReset');
