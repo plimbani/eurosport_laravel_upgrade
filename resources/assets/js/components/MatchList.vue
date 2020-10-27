@@ -59,7 +59,7 @@
       </div>
     </div>
   <!--<span v-else>No information available</span>-->
-  <pitch-modal :matchFixture="matchFixture" v-show="setPitchModal" :section="section"></pitch-modal>
+  <pitch-modal :drawName="DrawName" :matchFixture="matchFixture" v-show="setPitchModal" :section="section"></pitch-modal>
 
   <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal>
 

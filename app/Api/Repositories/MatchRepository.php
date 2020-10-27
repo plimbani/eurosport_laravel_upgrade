@@ -1512,13 +1512,14 @@ class MatchRepository
       }
       $matchResultCount = $matchResultCount->where('age_group_id',$teamData['age_group_id'])
       ->where('id','!=',$matchData['matchId'])
+      ->whereDate('match_datetime', Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->toDateString())
       ->where(function($query1) use ($teams,$teamId) {
         if($teamId){
           $query1->whereIn('home_team',$teams)
                  ->orWhereIn('away_team',$teams);
         } else{
           $query1->whereIn('home_team_placeholder_name',$teams)
-                 ->orWhereIn('away_team_placeholder_name',$teams) ;
+                 ->orWhereIn('away_team_placeholder_name',$teams);
         }
       })->get()->keyBy('id');
 
@@ -2247,6 +2248,7 @@ class MatchRepository
         ->where('id','!=',$data->id)
         ->where('is_scheduled',1)
         ->where('age_group_id',$teamData['age_group_id'])
+        ->whereDate('match_datetime', Carbon::createFromFormat('Y-m-d H:i:s', $data->match_datetime)->toDateString())
         ->where(function($query1) use ($teams,$teamId) {
           if($teamId){
             $query1->whereIn('home_team',$teams)
