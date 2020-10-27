@@ -132,10 +132,10 @@
                         <table class="table table-hover table-bordered mb-0 pitch_size_summary" v-if="pitchSizeWiseSummaryArray">
                             <thead>
                                 <tr>
-                                    <th class="text-center">{{$lang.pitch_size}}</th>
-                                    <th class="text-center">{{$lang.pitch_available_time}}</th>
-                                    <th class="text-center">{{$lang.pitch_totaL_time}}</th>
-                                    <th class="text-center">{{$lang.pitch_balance}}</th>
+                                    <th>{{$lang.pitch_size}}</th>
+                                    <th>{{$lang.pitch_available_time}}</th>
+                                    <th>{{$lang.pitch_totaL_time}}</th>
+                                    <th>{{$lang.pitch_balance}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,10 +167,10 @@
                             <table class="table table-hover table-bordered mb-0 pitch_size_summary">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Pitch</th>
-                                        <th class="text-center">{{$lang.pitch_available_time}}</th>
-                                        <th class="text-center">Total time used</th>
-                                        <th class="text-center">{{$lang.pitch_balance}}</th>
+                                        <th>Pitch</th>
+                                        <th>{{$lang.pitch_available_time}}</th>
+                                        <th>Total time used</th>
+                                        <th>{{$lang.pitch_balance}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
