@@ -305,7 +305,7 @@ var moment = require('moment');
          'updatedMatchData': null,
        }
     },
-    props: ['matchFixture','section', 'stageIndex'],
+    props: ['drawName', 'matchFixture','section', 'stageIndex'],
     mounted() {
       let vm = this;
       this.$root.$off('getMatchData');
@@ -477,6 +477,11 @@ var moment = require('moment');
                     //
                     vm.$root.$emit('setDrawTable',matchData['competation_id']);
                     vm.$root.$emit('setStandingData',matchData['competation_id']);
+
+                    let Id = vm.drawName.id
+                    let Name = vm.drawName.name
+                    let CompetationType = vm.drawName.actual_competition_type
+                    vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
                   } else {
                     vm.$root.$emit('displayTournamentCompetationList');
                     // vm.$root.$emit('setPitchReset');
@@ -522,6 +527,7 @@ var moment = require('moment');
                 vm.$root.$emit('reloadPitch' + vm.stageIndex);
                 vm.$root.$emit('refreshCompetitionWithGames');
               });
+              vm.$root.$emit('getAllScheduledMatches');
         })
       },
       matchPrint(ReportData) {

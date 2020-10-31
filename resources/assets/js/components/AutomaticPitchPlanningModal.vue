@@ -262,6 +262,7 @@ import Tournament from '../api/tournament.js'
                         });
                         this.$store.dispatch('SetScheduledMatches');
                       }
+                      vm.$root.$emit('getAllScheduledMatches');
                     },
                     (error) => {
 

@@ -170,6 +170,12 @@ export default {
   saveSettings(tournamentId){
     return api.post('tournament/saveSettings',{'tournamentData':tournamentId})
   },
+  saveContactDetails(tournamentId){
+    return api.post('tournament/saveContactDetails',{'tournamentData':tournamentId})
+  },
+  saveVenueDetails(tournamentId){
+    return api.post('tournament/saveVenueDetails',{'tournamentData':tournamentId})
+  },
   getPresentationSettings(tournamentId) {
     return api.get('tournament/getPresentationSettings/' + tournamentId);
   },
@@ -274,6 +280,9 @@ export default {
   },
   matchUnscheduledFixtures(matchData) {
     return api.post('match/fixtureUnschedule',{'matchData': matchData})
+  },
+  unscheduleAllFixtures(tournamentId) {
+    return api.post('match/unscheduleAllFixtures',{'tournamentId':tournamentId})
   },
   updateCategoryDivisionName(tournamentId) {
     return api.post('tournament/updateCategoryDivisionName', {'tournamentData':tournamentId});

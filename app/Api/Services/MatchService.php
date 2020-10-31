@@ -2646,6 +2646,21 @@ class MatchService implements MatchContract
       return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
+    public function unscheduleAllFixtures($tournamentId)
+    {
+      $competitionIds = $this->matchRepoObj->unscheduleAllFixtures($tournamentId, true);
+      foreach ($competitionIds as $ageGroupId => $cids) {
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId['tournamentId'], 'competitionId' => $id];
+            $this->refreshCompetitionStandings($data);
+        }
+      }
+
+      return ['status_code' => '200', 'message' => 'All matches have been unscheduled successfully'];
+    }
+
     public function processFixtures($fixtures)
     {
       $fixtures = array_unique($fixtures);
@@ -2686,6 +2701,11 @@ class MatchService implements MatchContract
       }
 
       return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
+    }
+
+    public function getScheduledMatch($data)
+    {
+      return $this->matchRepoObj->getScheduledMatch($data);
     }
 
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)
