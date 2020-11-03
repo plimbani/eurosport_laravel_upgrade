@@ -70,14 +70,14 @@
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
-                                    <th class="text-center">{{$lang.pitch_modal_details_name}}</th>
-                                    <th class="text-center">{{$lang.pitch_capacity_location}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_details_size}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_details_type}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_availability_stage}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_copy}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_action}}</th>
-                                    <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
+                                    <th>{{$lang.pitch_modal_details_name}}</th>
+                                    <th>{{$lang.pitch_capacity_location}}</th>
+                                    <th>{{$lang.pitch_modal_details_size}}</th>
+                                    <th>{{$lang.pitch_modal_details_type}}</th>
+                                    <th>{{$lang.pitch_modal_availability_stage}}</th>
+                                    <th>{{$lang.pitch_modal_copy}}</th>
+                                    <th>{{$lang.pitch_modal_action}}</th>
+                                    <th v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
                             <draggable v-model="dragPitches" :element="'tbody'" @change="updatePitchOrder()" :options="{handle: '.drag-handle'}">
@@ -92,12 +92,12 @@
                                             <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
                                             <p>Day 3: 10am-2pm</p>-->
                                         </td>
-                                        <td class="text-center">
+                                        <td>
                                             <span class="align-middle">
-                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success mx-1" style="font-size:1.1em"><i class="fas fa-copy"></i></a>
+                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success mx-1" style="font-size:1.3em"><i class="fas fa-copy"></i></a>
                                             </span>
                                         </td>
-                                        <td class="text-center">
+                                        <td>
                                             <span class="align-middle">
                                                 <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id, 'edit')" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
@@ -108,7 +108,7 @@
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
                                             </span>
                                         </td>
-                                        <td v-if="!searchDisplayData" class="text-center drag-handle">
+                                        <td v-if="!searchDisplayData" class="drag-handle">
                                             <span class="align-middle text-primary draggable-handle">
                                                 <i class="fas fa-arrow-up" v-if="index > 0 && index < dragPitches.length"></i>
                                                 <i class="fas fa-arrow-down" v-if="index >= 0 && index < dragPitches.length - 1"></i>
@@ -132,10 +132,10 @@
                         <table class="table table-hover table-bordered mb-0 pitch_size_summary" v-if="pitchSizeWiseSummaryArray">
                             <thead>
                                 <tr>
-                                    <th class="text-center">{{$lang.pitch_size}}</th>
-                                    <th class="text-center">{{$lang.pitch_available_time}}</th>
-                                    <th class="text-center">{{$lang.pitch_totaL_time}}</th>
-                                    <th class="text-center">{{$lang.pitch_balance}}</th>
+                                    <th>{{$lang.pitch_size}}</th>
+                                    <th>{{$lang.pitch_available_time}}</th>
+                                    <th>{{$lang.pitch_totaL_time}}</th>
+                                    <th>{{$lang.pitch_balance}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,10 +167,10 @@
                             <table class="table table-hover table-bordered mb-0 pitch_size_summary">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Pitch</th>
-                                        <th class="text-center">{{$lang.pitch_available_time}}</th>
-                                        <th class="text-center">Total time used</th>
-                                        <th class="text-center">{{$lang.pitch_balance}}</th>
+                                        <th>Pitch</th>
+                                        <th>{{$lang.pitch_available_time}}</th>
+                                        <th>Total time used</th>
+                                        <th>{{$lang.pitch_balance}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
