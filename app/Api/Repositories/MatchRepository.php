@@ -1699,7 +1699,7 @@ class MatchRepository
       }
       return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false, 'maximum_interval_flag' => $setMaximumIntervalFlag];
     }
-    public function matchUnschedule($matchId)
+    public function matchUnschedule($matchId, $isUnscheduleAll = false)
     {
       $matchData = DB::table('temp_fixtures')->find($matchId);
 
@@ -1719,6 +1719,10 @@ class MatchRepository
       $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
             ->update($updateData);
+
+      if($isUnscheduleAll) {
+        return $updateResult;
+      }
 
       if($matchData->home_team != 0 && $matchData->away_team != 0) {
         $teamId = true;
@@ -1970,13 +1974,15 @@ class MatchRepository
       return ['status' => true, 'data' => $updateMatchFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
-    public function unscheduleAllFixtures($tournamentId)
+    public function unscheduleAllFixtures($tournamentId, $isUnscheduleAll)
     {
+      $competitionIds = [];
       $allScheduledMatches = $this->getScheduledMatch($tournamentId);
       foreach ($allScheduledMatches as $match) {
-        $this->matchUnschedule($match->id);
+        $this->matchUnschedule($match->id, $isUnscheduleAll);
+        $competitionIds[$match->age_group_id][] = $match->competition_id;
       }
-      return true;
+      return $competitionIds;
     }
 
     public function saveScheduleMatches($data)
