@@ -2711,7 +2711,15 @@ class MatchService implements MatchContract
 
     public function unscheduleAllFixtures($tournamentId)
     {
-      $result = $this->matchRepoObj->unscheduleAllFixtures($tournamentId);
+      $competitionIds = $this->matchRepoObj->unscheduleAllFixtures($tournamentId, true);
+      foreach ($competitionIds as $ageGroupId => $cids) {
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId['tournamentId'], 'competitionId' => $id];
+            $this->refreshCompetitionStandings($data);
+        }
+      }
 
       return ['status_code' => '200', 'message' => 'All matches have been unscheduled successfully'];
     }
