@@ -10,6 +10,7 @@ use Laraspace\Models\Position;
 use Laraspace\Models\Tournament;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -31,9 +32,6 @@ use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
 use Laraspace\Http\Requests\Tournament\GetUserLoginFavouriteTournamentRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
 
-// Need to Define Only Contracts
-use Laraspace\Api\Contracts\TournamentContract;
-
 /**
  * Tournament Resource Description.
  *
@@ -48,9 +46,8 @@ class TournamentController extends BaseController
     /**
      * @param object $tournamentObj
      */
-    public function __construct(TournamentContract $tournamentObj)
+    public function __construct()
     {
-        $this->tournamentObj = $tournamentObj;
     }
 
     /**
@@ -64,7 +61,9 @@ class TournamentController extends BaseController
      */
     public function index()
     {
-        return $this->tournamentObj->index();
+        $client = new HttpClient();
+        $tournaments = $client->get('/tournaments', [], []);
+        return $tournaments;
     }
 
     /**
@@ -78,7 +77,9 @@ class TournamentController extends BaseController
      */
     public function getTournamentByStatus(Request $request)
     {
-        return $this->tournamentObj->getTournamentByStatus($request);
+        $client = new HttpClient();
+        $tournamentByStatus = $client->post('/tournaments/getTournamentByStatus', [], $request->all());
+        return $tournamentByStatus;
     }
 
     public function getTournamentBySlug(GetTournamentBySlugRequest $request, $slug)
@@ -158,15 +159,22 @@ class TournamentController extends BaseController
     }
     public function getCategoryCompetitions(GetCategoryCompetitionsRequest $request)
     {
-        return $this->tournamentObj->getCategoryCompetitions($request->all());
+        $client = new HttpClient();
+        $categoryCompetitions = $client->post('/tournament/getCategoryCompetitions', [], $request->all());
+        return $categoryCompetitions;
     }
 
     public function getAllPublishedTournaments(GetAllPublishedTournamentsRequest $request) {
-        return $this->tournamentObj->getAllPublishedTournaments($request->all());
+        $client = new HttpClient();
+        $login = $client->login();
+        $allPublishedTournaments = $client->get('/getAllPublishedTournaments', ['Authorization' => 'Bearer '.json_decode($login)->token]);
+        return $allPublishedTournaments;
     }
 
     public function getFilterDropDownData(Request $request) {
-      return $this->tournamentObj->getFilterDropDownData($request->all());
+        $client = new HttpClient();
+        $filterDropDownData = $client->post('tournament/getFilterDropDownData', [], $request->all());
+        return $filterDropDownData;
     }
 
     public function getSignedUrlForTournamentReport(GetSignedUrlForTournamentReportRequest $request)

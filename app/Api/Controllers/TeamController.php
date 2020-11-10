@@ -23,15 +23,13 @@ use Laraspace\Http\Requests\Team\AllTeamColorsRequest;
 use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
 use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
 use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
 use Laraspace\Http\Requests\Team\GetTournamentTeamDetailsRequest;
 use Laraspace\Http\Requests\Team\GetSignedUrlForGroupsViewReportRequest;
-
-// Need to Define Only Contracts
-use Laraspace\Api\Contracts\TeamContract;
 
 /**
  * Teams Resource Description.
@@ -42,9 +40,8 @@ use Laraspace\Api\Contracts\TeamContract;
  */
 class TeamController extends BaseController
 {
-    public function __construct(TeamContract $teamObj)
+    public function __construct()
     {
-        $this->teamObj = $teamObj;
         $this->data = [];
     }
 
@@ -74,7 +71,9 @@ class TeamController extends BaseController
 
     public function getAllTournamentTeams(GetAllTournamentTeamsRequest $request)
     {
-      return $this->teamObj->getAllTournamentTeams($request->all());
+      $client = new HttpClient();
+      $allTournamentTeams = $client->post('/teams/teamsTournament', [], $request->all());
+      return $allTournamentTeams;
     }
     public function getAllFromCompetitionId(Request $request)
     {

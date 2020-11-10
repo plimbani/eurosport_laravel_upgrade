@@ -22,6 +22,7 @@ use Laraspace\Http\Requests\Match\GetDrawTableRequest;
 use Laraspace\Http\Requests\Match\AssignRefereeRequest;
 use Laraspace\Http\Requests\Match\RefreshStandingRequest;
 use Laraspace\Http\Requests\Match\CheckTeamIntervalRequest;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 use Laraspace\Http\Requests\Match\GetUnavailableBlockRequest;
 use Laraspace\Http\Requests\Match\RemoveAssignedRefereeRequest;
 use Laraspace\Http\Requests\Match\SaveStandingsManuallyRequest;
@@ -36,7 +37,6 @@ use DB;
 use PDF;
 use UrlSigner;
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\MatchContract;
 use JWTAuth;
 use Carbon\Carbon;
 use Laraspace\Http\Requests\Match\GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest;
@@ -50,10 +50,8 @@ use Laraspace\Http\Requests\Match\GetSignedUrlForTeamsSpreadsheetSampleDownloadR
  */
 class MatchController extends BaseController
 {
-    public function __construct(MatchContract $matchObj)
+    public function __construct()
     {
-
-        $this->matchObj = $matchObj;
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
     }
@@ -104,16 +102,22 @@ class MatchController extends BaseController
         return $this->matchObj->deleteMatch($deleteId);
     }
     public function getDraws(GetDrawsRequest $request){
-        return $this->matchObj->getDraws($request);
+        $client = new HttpClient();
+        $draws = $client->post('/match/getDraws', [], $request->all());
+        return $draws;
     }
     public function getFixtures(GetFixturesRequest $request){
-        return $this->matchObj->getFixtures($request);
+        $client = new HttpClient();
+        $fixtures = $client->post('/match/getFixtures', [], $request->all());
+        return $fixtures;
     }
     public function getStanding(GetStandingRequest $request, $refreshStanding = null){
         return $this->matchObj->getStanding($request, $refreshStanding);
     }
     public function getDrawTable(GetDrawTableRequest $request) {
-        return $this->matchObj->getDrawTable($request);
+        $client = new HttpClient();
+        $drawTable = $client->post('/match/getDrawTable', [], $request->all());
+        return $drawTable;
     }
     public function checkTeamIntervalforMatches(CheckTeamIntervalRequest $request) {
         return $this->matchObj->checkTeamIntervalforMatches($request);
@@ -169,7 +173,9 @@ class MatchController extends BaseController
     }
     public function refreshStanding(RefreshStandingRequest $request)
     {
-        return $this->matchObj->refreshStanding($request->all());
+        $client = new HttpClient();
+        $standing = $client->post('/match/refreshStanding', [], $request->all());
+        return $standing;
     }
 
     public function generateRefereeReportCard(Request $request, $refereeId){

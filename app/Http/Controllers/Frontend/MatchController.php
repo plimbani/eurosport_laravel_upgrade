@@ -6,16 +6,10 @@ use Landlord;
 use Illuminate\Http\Request;
 use Laraspace\Models\Tournament;
 use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Contracts\MatchContract;
-use Laraspace\Api\Contracts\AgeGroupContract;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 
 class MatchController extends Controller
 {
-    /**
-     * @var MatchContract
-     */
-    protected $matchContract;
-
     /**
      * @var Match page name
      */
@@ -26,12 +20,10 @@ class MatchController extends Controller
      *
      * @return void
      */
-    public function __construct(MatchContract $matchContract, PageService $pageService, AgeGroupContract $ageGroupObj)
+    public function __construct(PageService $pageService)
     {
         $this->pageService = $pageService;
-        $this->matchContract = $matchContract;
         $this->matchPageName = 'matches';
-        $this->ageGroupObj = $ageGroupObj;
     }
 
     /**
@@ -53,8 +45,9 @@ class MatchController extends Controller
         if($tournament) {
             $tournament = $tournament->toArray();
             $data['tournamentData'] = ['tournament_id' => $tournament['id']];
-            $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
-            $competitionListData = $competitionList['data'];
+            $client = new HttpClient();
+            $competitionList = $client->post('/age_group/getCompetationFormat', [], $data);
+            $competitionListData = json_decode($competitionList)->data;
         }
         $varsForView['competitionList'] = $competitionListData;
 

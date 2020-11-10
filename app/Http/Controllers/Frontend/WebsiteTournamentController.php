@@ -8,8 +8,8 @@ use Laraspace\Models\Page;
 use Illuminate\Http\Request;
 use Laraspace\Models\Tournament;
 use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Contracts\WebsiteTournamentContract;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 
 class WebsiteTournamentController extends Controller
 {
@@ -48,9 +48,8 @@ class WebsiteTournamentController extends Controller
      *
      * @return void
      */
-    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService, AgeGroupContract $ageGroupObj)
+    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService)
     {
-      $this->ageGroupObj = $ageGroupObj;
       $this->pageService = $pageService;
       $this->websiteTournamentContract = $websiteTournamentContract;
       $this->tournamentPageName = 'tournament';
@@ -127,8 +126,9 @@ class WebsiteTournamentController extends Controller
 
       if($tournament) {
         $data['tournamentData'] = ['tournament_id' => $tournament['id']];
-        $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
-        $competitionListData = $competitionList['data'];
+        $client = new HttpClient();
+        $competitionList = $client->post('/age_group/getCompetationFormat', [], $data);
+        $competitionListData = json_decode($competitionList)->data;
       }
 
       $allHistoryYears = $this->websiteTournamentContract->getAllHistoryYears($websiteId);
