@@ -10,11 +10,11 @@
                 </select>
                 <p class="text-danger" v-if="isSeletedRoundTeamsAndGroupTeamsNotSame">Round teams and group teams count should match.</p>
             </div>
-            <div class="form-group" v-if="templateFormDetail.stepone.editor == 'knockout' && isGroupShowAndDisabled()">
+            <div class="form-group" v-if="templateFormDetail.stepone.editor == 'knockout' && isGroupShowAndDisabled">
                 <label>Number of groups</label>
-                <select class="form-control ls-select2" v-model="templateFormDetail.stepone.no_of_groups" :disabled="isGroupShowAndDisabled" @change="onNumberOfGroupChange()">
+                <select class="form-control ls-select2" v-model="templateFormDetail.stepone.no_of_groups" :disabled="isGroupShowAndDisabled">
                     <option value="">Number of groups</option>
-                    <option :value="group" v-for="group in groupsToDisplay">{{ group }}</option>
+                    <option :value="group" v-for="group in groupsToDisplay()">{{ group }}</option>
                 </select>
             </div>
             

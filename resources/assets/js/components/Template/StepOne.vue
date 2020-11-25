@@ -33,7 +33,7 @@
                                 <div class="checkbox">
                                     <div class="c-input">
                                         <input class="euro-radio" type="radio" name="editor" value="knockout" v-model="templateFormDetail.stepone.editor" id="radio_knockout">
-                                        <label for="radio_knockout">Knockout</label>
+                                        <label for="radio_knockout">Standard</label>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
             		</div>
                     <div v-if="templateFormDetail.stepone.editor == 'knockout'" class="form-group" :class="{'has-error': errors.has('no_of_groups') }">
                         <label>{{$lang.add_template_modal_number_of_groups}}</label>
-                        <select class="form-control ls-select2" name="no_of_groups" v-model="templateFormDetail.stepone.no_of_groups" v-validate="'required'" :class="{'is-danger': errors.has('no_of_groups') }" data-vv-as="number of groups">
+                        <select class="form-control ls-select2" name="no_of_groups" v-model="templateFormDetail.stepone.no_of_groups" v-validate="'required'" :class="{'is-danger': errors.has('no_of_groups') }" data-vv-as="number of groups" @change="resetRoundOneGroups()">
                             <option value="">Select number of groups</option>
                             <option :value="group" v-for="group in groupsToDisplay">{{ group }}</option>
                         </select>
@@ -168,8 +168,10 @@
             },
             groupsToDisplay() {
                 var totalGroups = [];
-                for (var n = 1; n <= 15; n++) {
-                    totalGroups.push(n);
+                if(this.templateFormDetail.stepone.no_of_teams !== '') {
+                    for (var n = 1; n <= Math.floor((this.templateFormDetail.stepone.no_of_teams/3)); n++) {
+                        totalGroups.push(n);
+                    }
                 }
                 return totalGroups;
             },
@@ -178,7 +180,7 @@
                 var result = 0;
                 for(var n = 1; n < 7; n++) {
                     result = Math.pow(2, n);
-                    if (result >= this.templateFormDetail.stepone.no_of_teams) {
+                    if (result > this.templateFormDetail.stepone.no_of_teams) {
                         break;
                     }
                     totalTeams.push(result);
@@ -188,9 +190,10 @@
         },
 		methods: {
             next() {
+                let vm = this;
                 this.$validator.validateAll().then((response) => {
                     if(response) {
-            	       this.$emit('change-tab-index', 1, 2, 'stepone', _.cloneDeep(this.templateFormDetail.stepone));
+                        vm.$emit('change-tab-index', 1, 2, 'stepone', _.cloneDeep(vm.templateFormDetail.stepone));
                     }
                 }).catch((errors) => {
 
@@ -207,7 +210,38 @@
             },
             resetGroupAndRoundTwoTeams() {
                 this.templateFormDetail.stepone.no_of_teams_in_round_two = '';
+                this.templateFormDetail.stepone.no_of_groups = '';
             },
+            resetRoundOneGroups() {
+                let vm = this;
+                if(vm.templateFormDetail.stepone.editor == 'knockout' && vm.templateFormDetail.stepone.no_of_teams !== '' && vm.templateFormDetail.stepone.no_of_groups !== '') {
+                    
+                    if(vm.templateFormDetail.stepone.old_no_of_groups != '') {
+                        for(let n = 0; n < vm.templateFormDetail.stepone.old_no_of_groups - 1; n++) {
+                            vm.templateFormDetail.steptwo.rounds[0].groups.splice(0, 1);
+                        }
+                    }
+
+                    Vue.nextTick()
+                    .then(function () {
+                        let numberOfTeamsRemain = vm.templateFormDetail.stepone.no_of_teams;
+                        for(var n = 0; n < vm.templateFormDetail.stepone.no_of_groups; n++) {
+                            let numberOfTeams = Math.ceil( (numberOfTeamsRemain) / (vm.templateFormDetail.stepone.no_of_groups - n) );
+                            if(n === 0) {
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].type = "round_robin";
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].no_of_teams = numberOfTeams;
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].teams_play_each_other = "once";
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].teams = [];
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].matches = [];
+                            } else {
+                                vm.templateFormDetail.steptwo.rounds[0].groups.push({type: "round_robin", no_of_teams: numberOfTeams, teams_play_each_other: "once", teams: [], matches: []});
+                            }
+                            numberOfTeamsRemain -= numberOfTeams;
+                        }
+                    });
+                }
+                vm.templateFormDetail.stepone.old_no_of_groups = vm.templateFormDetail.stepone.no_of_groups;
+            }
 		}
 	}
 </script>

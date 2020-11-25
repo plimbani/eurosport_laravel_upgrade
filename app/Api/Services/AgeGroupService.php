@@ -111,17 +111,15 @@ class AgeGroupService implements AgeGroupContract
         $data['tournamentTemplate'] = $data['nwTemplate'];
         unset($data['nwTemplate']);
 
-        if($data['competition_type'] === 'league' || $data['competition_type'] === 'knockout') {
+        if($data['competition_type'] === 'league') {
           $data['tournamentTemplate'] = [];
           $data['tournamentTemplate']['id'] = null;
           if($data['competition_type'] === 'league') {
             $data['tournamentTemplate']['json_data'] = $this->generateTemplateJsonForLeague($data);
-          } else if($data['competition_type'] === 'knockout') {
-            $data['tournamentTemplate']['json_data'] = $this->generateTemplateJsonForKnockout($data);
           }
         }
 
-        if($data['tournament_format'] === 'advance' || $data['tournament_format'] === 'festival') {
+        if(!($data['tournament_format'] === 'basic' && $data['competition_type'] === 'league')) {
           if(is_int($data['tournamentTemplate'])){
             $nwdata = (array) $this->ageGroupObj->FindTemplate($data['tournamentTemplate']);
             $data['tournamentTemplate'] = $nwdata;
@@ -551,10 +549,10 @@ class AgeGroupService implements AgeGroupContract
 
       $finalArray = [];
       $finalArray['tournament_teams'] = $totalTeams;
-      $finalArray['remark'] = $data['remarks'];
+      $finalArray['remark'] = isset($data['remarks']) ? $data['remarks'] : '';
       $finalArray['tournament_name'] = $totalTeams. ' team league';
       $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
-      $finalArray['tournament_min_match'] = $data['min_matches'];
+      $finalArray['tournament_min_match'] = isset($data['min_matches']) ? $data['min_matches'] : '';
       $finalArray['position_type'] = 'group_ranking';
       $finalArray['tournament_competation_format'] = [];
       $finalArray['tournament_competation_format']['format_name'] = [];
@@ -970,6 +968,9 @@ class AgeGroupService implements AgeGroupContract
     {
       $templateId = (isset($templateData['templateId']) && $templateData['templateId']) ? $templateData['templateId'] : null;
       $ageCategoryId = (isset($templateData['ageCategoryId']) && $templateData['ageCategoryId']) ? $templateData['ageCategoryId'] : null;
+      $tournamentFormat = $templateData['tournamentFormat'];
+      $competitionType = $templateData['competitionType'];
+      $numberOfTeams = $templateData['numberOfTeams'];
       $tournamentId = $templateData['tournamentId'];
       $date = new \DateTime(date('H:i d M Y'));
 
@@ -1001,6 +1002,9 @@ class AgeGroupService implements AgeGroupContract
           $tournamentTemplate                  = TournamentTemplates::find($templateId);
           $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
           $tournamentTemplateData['image']     = $tournamentTemplate->image;
+      } else if($tournamentFormat === 'basic' && $competitionType === 'league') {
+          $data['total_teams'] = $numberOfTeams;
+          $tournamentTemplateData['json_data'] = $this->generateTemplateJsonForLeague($data);
       } else {
           $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
       }
