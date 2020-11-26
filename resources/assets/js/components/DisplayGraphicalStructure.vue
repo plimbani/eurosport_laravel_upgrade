@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="displaygraphicLabel">Match Schedule – Template {{ templateName }}</h5>
+            <h5 class="modal-title" id="displaygraphicLabel">Match Schedule {{ templateName ? '– Template ' + templateName : '' }}</h5>
             <div class="d-flex align-items-center">
               <button type="button" class="btn btn-primary mr-4" @click="generateMatchSchedulePrint()">Print</button>
               <button type="button" class="close js-close-btn" @click="closeViewGraphicImage()">
@@ -25,7 +25,7 @@
 <script type="text/babel">
     import Tournament from '../api/tournament.js';
     export default {
-      props: ['sectionGraphicImage', 'categoryId', 'tournamentTemplateId', 'tournamentId'],
+      props: ['sectionGraphicImage', 'categoryId', 'tournamentTemplateId', 'tournamentId', 'tournamentFormat', 'competitionType', 'numberOfTeams'],
       data() {
         return {
           templateName: '',
@@ -34,9 +34,11 @@
       },
       created: function() {
         this.$root.$on('getTemplateGraphic', this.getTemplateGraphic);
+        this.$root.$on('getTemplateGraphicOfLeague', this.getTemplateGraphicOfLeague);
       },
       beforeCreate: function() {
         this.$root.$off('getTemplateGraphic');
+        this.$root.$off('getTemplateGraphicOfLeague');
       },
       mounted() {
         var sectionGraphicImage = this.sectionGraphicImage;
@@ -64,8 +66,22 @@
             }
           );
         },
+        getTemplateGraphicOfLeague(numberOfTeams) {
+          $("body .js-loader").removeClass('d-none');
+          let templateData = {'number_of_teams': numberOfTeams};
+          Tournament.getTemplateGraphicOfLeague(templateData).then(
+            (response)=> {
+              this.templateName = '';
+              this.graphicHtml = response.data.data.graphicHtml;
+              $("body .js-loader").addClass('d-none');
+            },
+            (error) => {
+              alert('Error in getting category competitions')
+            }
+          );
+        },
         generateMatchSchedulePrint() {
-          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId, tournamentId: this.tournamentId};
+          let templateData = {'ageCategoryId': this.categoryId, 'templateId': this.tournamentTemplateId, tournamentId: this.tournamentId, 'tournamentFormat': this.tournamentFormat, 'competitionType': this.competitionType, 'numberOfTeams': this.numberOfTeams};
           let matchSchedulePrintWindow = window.open('', '_blank');
           Tournament.getSignedUrlForMatchSchedulePrint(templateData).then(
             (response) => {
