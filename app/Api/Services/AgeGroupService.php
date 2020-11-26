@@ -966,11 +966,15 @@ class AgeGroupService implements AgeGroupContract
 
     public function generateMatchSchedulePrint($templateData)
     {
+      $tournamentCompetationTemplate = null;
       $templateId = (isset($templateData['templateId']) && $templateData['templateId']) ? $templateData['templateId'] : null;
       $ageCategoryId = (isset($templateData['ageCategoryId']) && $templateData['ageCategoryId']) ? $templateData['ageCategoryId'] : null;
-      $tournamentFormat = $templateData['tournamentFormat'];
-      $competitionType = $templateData['competitionType'];
-      $numberOfTeams = $templateData['numberOfTeams'];
+      if(isset($templateData['ageCategoryId']) && $templateData['ageCategoryId']) {
+        $tournamentCompetationTemplate = TournamentCompetationTemplates::find($templateData['ageCategoryId']);
+      }
+      $tournamentFormat = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->tournament_format : $templateData['ageCategoryId'];
+      $competitionType = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->competition_type : $templateData['competitionType'];
+      $numberOfTeams = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->total_teams : $templateData['numberOfTeams'];
       $tournamentId = $templateData['tournamentId'];
       $date = new \DateTime(date('H:i d M Y'));
 
