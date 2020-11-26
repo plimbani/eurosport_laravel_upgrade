@@ -56,7 +56,7 @@
 		            $tournamentLogoBase64Data = base64_encode($tournamentLogoData);
 		            $imageData = 'data:image/' . $type . ';base64,' . $tournamentLogoBase64Data;
 		        ?>
-		  		<img src="{{ $imageData }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
+		  		<img src="{{ $imageData }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px">
 		  	@endif
 
 		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
