@@ -4,6 +4,7 @@ namespace Laraspace\Api\Services;
 
 use DB;
 use PDF;
+use URL;
 use Laraspace\Models\Tournament;
 use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
@@ -1036,7 +1037,7 @@ class AgeGroupService implements AgeGroupContract
           ->setOption('header-spacing', '0')
           ->setOption('footer-spacing', '0')
           ->setOrientation('landscape')
-          ->setOption('footer-html', route('match.schedule.pdf.footer'))
+          ->setOption('footer-html', request()->secure() ? secure_url(URL::route('match.schedule.pdf.footer', [], false)) : route('match.schedule.pdf.footer'))
           ->setOption('margin-left', 5)
           ->setOption('margin-right', 5)
           ->setOption('margin-top', 5)
