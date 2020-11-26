@@ -43,8 +43,20 @@
 	</head>
 	<body>
 		<center>
-			@if($tournamentLogo != null)	
-		  		<img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
+			@if($tournamentLogo != null)
+				<?php
+		            $arrContextOptions=array(
+		                            "ssl"=>array(
+		                                "verify_peer"=>false,
+		                                "verify_peer_name"=>false,
+		                            ),
+		                        );
+		            $type = pathinfo($tournamentLogo, PATHINFO_EXTENSION);
+		            $tournamentLogoData = file_get_contents($tournamentLogo, false, stream_context_create($arrContextOptions));
+		            $tournamentLogoBase64Data = base64_encode($tournamentLogoData);
+		            $imageData = 'data:image/' . $type . ';base64,' . $tournamentLogoBase64Data;
+		        ?>
+		  		<img src="{{ $imageData }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
 		  	@endif
 
 		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
