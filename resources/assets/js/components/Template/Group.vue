@@ -121,7 +121,6 @@
         	});
         },
         created() {
-        	console.log("group created");
         	this.displayTeams();
         },
         computed: {
