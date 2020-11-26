@@ -973,8 +973,8 @@ class AgeGroupService implements AgeGroupContract
       if(isset($templateData['ageCategoryId']) && $templateData['ageCategoryId']) {
         $tournamentCompetationTemplate = TournamentCompetationTemplates::find($templateData['ageCategoryId']);
       }
-      $tournamentFormat = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->tournament_format : $templateData['ageCategoryId'];
-      $competitionType = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->competition_type : $templateData['competitionType'];
+      $tournamentFormat = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->tournament_format : $templateData['tournamentFormat'];
+      $competitionType = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->competition_type : (isset($templateData['competitionType']) ? $templateData['competitionType'] : null);
       $numberOfTeams = $tournamentCompetationTemplate ? $tournamentCompetationTemplate->total_teams : $templateData['numberOfTeams'];
       $tournamentId = $templateData['tournamentId'];
       $date = new \DateTime(date('H:i d M Y'));
