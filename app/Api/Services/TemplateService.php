@@ -150,4 +150,15 @@ class TemplateService implements TemplateContract
         $data = $this->templateRepoObj->getTemplateGraphic($request);
         return ['data' => $data, 'status_code' => '200'];
     }
+
+    /*
+     * Get template graphic of league
+     *
+     * @return response
+     */
+    public function getTemplateGraphicOfLeague($request)
+    {
+        $data = $this->templateRepoObj->getTemplateGraphicOfLeague($request);
+        return ['data' => $data, 'status_code' => '200'];
+    }
 }

@@ -166,11 +166,11 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout' && tournament_format == 'basic'">
-                <label class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</label>
+                <label class="col-sm-4 form-control-label">Number of groups*</label>
                 <div class="col-sm-8">
                     <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }" key="group_size">
-                        <option value="">Select group size</option>
-                        <option :value="sizeIndex" v-for="(size, sizeIndex) in getAllGroupSize"> {{ size }}</option>
+                        <option value="">Select number of groups</option>
+                        <option :value="number" v-for="number in groupsToDisplay"> {{ number }}</option>
                     </select>
                     <span class="help is-danger" v-show="errors.has('group_size')">{{$lang.competation_modal_group_size_required}}</span>
                 </div>
@@ -200,7 +200,7 @@
                :class="{'has-error': errors.has('tournamentTemplate') }">
                 <label class="col-sm-4">{{$lang.competation_label_template}}</label>
                 <!-- advance or festival -->
-                <div class="col-sm-8" v-if="tournament_format == 'advance' || tournament_format == 'festival'">
+                <div class="col-sm-8" v-if="!(tournament_format == 'basic' && competition_type == 'league')">
                   <div class="row align-items-center">
                     <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
                       <span class="help is-danger"
@@ -210,7 +210,8 @@
                     </div>
 
                     <div v-if="dispTempl" class="col-sm-12 mb-2">
-                      Select number of teams and minimum matches above to view template options
+                      <span v-if="tournament_format == 'advance' || tournament_format == 'festival'">Select number of teams and minimum matches above to view template options</span>
+                      <span v-if="tournament_format == 'basic' && competition_type == 'knockout'">Select number of teams and number of groups above to view template options</span>
                     </div>
                     <div class="col-sm-12" v-for="option in options">
                       <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
@@ -267,28 +268,6 @@
                     </div>
                   </div>
                 </div>
-                  
-                <!-- knockout -->
-                <div class="col-sm-8" v-if="(tournament_format == 'basic' && competition_type == 'knockout' && number_teams != '' && group_size != '')">
-                  <div class="row align-items-center">
-                    <div class="col-sm-12">
-                      <div class="card mb-1">
-                        <div class="card-block">
-                          <div class="row d-flex">
-                            <div class="row align-items-center">
-                              <div class="col-sm-12">
-                                <p class="mb-0">These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. The first round will consist of <strong>{{number_teams/group_size}}</strong> groups each with <strong>{{ group_size }}</strong> teams. Following the group stage the competition will proceed to an elimination format.</p>
-                              </div>
-                              <div class="col-sm-4 d-none">
-                                <a href="#" @click="viewTemplateGraphic(competation_format.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>                    
-                    </div>
-                  </div>
-                </div>
 
                 <!-- league -->
                 <div class="col-sm-8" v-if="(tournament_format == 'basic' && competition_type == 'league' && number_teams != '')">
@@ -296,14 +275,12 @@
                     <div class="col-sm-12">
                       <div class="card mb-1">
                         <div class="card-block">
-                          <div class="row d-flex">
-                            <div class="row align-items-center">
-                              <div class="col-sm-12">
+                          <div class="row d-flex gutters-tiny">
+                            <div class="col-sm-9">
                               <p class="mb-0">These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. Here, it will create a competition with a single Round Robin group where each team plays each other twice and placings are based on final group position.</p>
-                              </div>
-                              <div class="col-sm-4 d-none">
-                                <a href="#" @click="viewTemplateGraphic(competation_format.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
-                              </div>
+                            </div>
+                            <div class="col-sm-3 align-self-center text-center">
+                              <a href="#" @click="viewTemplateGraphicOfLeague(competation_format.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
                             </div>
                           </div>
                         </div>
@@ -573,7 +550,7 @@
         </div>
       </div>
     </div>
-    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="$store.state.Tournament.tournamentId"></displaygraphic>
+    <displaygraphic :sectionGraphicImage="'AgeCategoryModal'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="$store.state.Tournament.tournamentId" :tournamentFormat="tournament_format" :competitionType="competition_type" :numberOfTeams="number_teams"></displaygraphic>
   </div>
 </template>
 <script type="text/babel">
@@ -645,8 +622,25 @@ export default {
         this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
+      } else if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && val != '' && this.group_size != '') {
+        this.competation_format.group_size = this.group_size
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
+        this.competation_format.competition_type = this.competition_type
+
+        this.TournamentCompetationList(this.competation_format)
       } else {
         this.options = [];
+      }
+    },
+    group_size: function(val) {
+      if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && val != '' && this.number_teams != '') {
+        this.competation_format.group_size = this.group_size
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
+        this.competation_format.competition_type = this.competition_type
+
+        this.TournamentCompetationList(this.competation_format)
       }
     },
     tournament_format: function(val) {
@@ -654,6 +648,13 @@ export default {
         this.competation_format.minimum_matches = this.minimum_matches
         this.competation_format.total_teams = this.number_teams
         this.competation_format.tournament_format = this.tournament_format
+
+        this.TournamentCompetationList(this.competation_format)
+      }  else if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && this.number_teams != '' && this.group_size != '') {
+        this.competation_format.group_size = this.group_size
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
+        this.competation_format.competition_type = this.competition_type
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -730,10 +731,8 @@ export default {
           }
       }
       if(this.tournament_format == 'basic' && this.competition_type == 'knockout') {
-          for (var n = 8; n <= 60; n++) {
-              if(n % 4 == 0 || n % 5 == 0 || n % 6 == 0) {
-                  totalTeams.push(n);
-              }
+          for (var n = 8; n <= 120; n++) {
+              totalTeams.push(n);
           }
       }
       if(this.tournament_format == 'basic' && this.competition_type == 'league') {
@@ -785,7 +784,16 @@ export default {
         return false;
       }
       return true;
-    }    
+    },
+    groupsToDisplay() {
+      var totalGroups = [];
+      if(this.number_teams != '') {
+        for (var n = 1; n <= Math.floor((this.number_teams/3)); n++) {
+            totalGroups.push(n);
+        }
+      }
+      return totalGroups;
+    },
   },
   methods: {
     checkV(id) {
@@ -795,23 +803,13 @@ export default {
       return true
     },
     checkTemplate(option){
-      // this.dispTempl = false;
-      if ($('.ttmp').length == 0  && (this.tournament_format == 'advance' || this.tournament_format == 'festival')) {
-        // this.dispTempl = true
-      }
       if ($('.ttmp').length > 0) {
        $('.dispTemplate').css('display','block')
        
       } else {
        $('.dispTemplate').css('display','none')
       }
-      if(option.minimum_matches ==  this.minimum_matches
-        && option.total_teams == this.number_teams) {
-        return true
-      } else {
-
-        return false
-      }
+      return true;
     },
     createAgeCategory(){
       this.competation_format = this.initialState()
@@ -1153,7 +1151,7 @@ export default {
     },
     validateTemplate() {
       let vm = this;
-      if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
+      if(!(this.tournament_format == 'basic' && this.competition_type == 'league')) {
         this.dispTempl = true;
       }
       if(this.tournament_format == 'basic') {
@@ -1177,6 +1175,14 @@ export default {
       this.tournamentTemplateId = templateId;
       this.$root.$emit('getTemplateGraphic', ageCategoryId, templateId);
       $('#displayGraphicImage').modal('show');
+    },
+    viewTemplateGraphicOfLeague(ageCategoryId){
+      if(ageCategoryId != '') {
+        this.viewTemplateGraphic(ageCategoryId, null);
+      } else {
+        this.$root.$emit('getTemplateGraphicOfLeague', this.number_teams);
+        $('#displayGraphicImage').modal('show');
+      }
     },
     closeAgeCategoryModal : function()
     {

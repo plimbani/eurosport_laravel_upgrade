@@ -55,6 +55,9 @@
                     stepone: {
                         templateName: '',
                         no_of_teams: '',
+                        no_of_groups: '',
+                        old_no_of_groups: '',
+                        no_of_teams_in_round_two: '',
                         editor: 'advance',
                         remarks: '',
                         template_font_color: '',
@@ -84,6 +87,7 @@
                         placings: []
                     },
                     stepfour: {
+                        round_two_knockout_teams: {}
                     }
                 }
             },

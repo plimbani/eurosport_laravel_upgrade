@@ -147,7 +147,6 @@ class TournamentService implements TournamentContract
           //TODO: here we Add Some Extra Fields For merge with TemplateData
           $newData=array();
 
-
           foreach($data1 as $key=>$value){
 
             // Now here we call a function
@@ -164,9 +163,6 @@ class TournamentService implements TournamentContract
             $newData[$key]['avg_game_team'] = $avg_game_team;
           }
           
-
-
-          //exit;
           return ['status_code' => '200', 'data' => $newData];
         }
 
