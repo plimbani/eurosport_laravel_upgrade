@@ -3,13 +3,14 @@
         <div id="step2-template-setting">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <h5>{{ $lang.add_template_modal_step2_header }}</h5>
+                    <h5 v-if="templateFormDetail.stepone.editor === 'knockout'">Step 2: Setup round 1</h5>
+                    <h5 v-else>Step 2: Setup rounds</h5>
                     <div v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
                         <round  :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)" :isSeletedRoundTeamsAndGroupTeamsNotSame="!isSeletedRoundTeamsIsInUse(roundIndex)"></round>
                     </div>
                     <division v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions" :index="divisionIndex" :divisionData="division" :templateFormDetail="templateFormDetail"></division>
                     
-                    <div class="form-group">
+                    <div class="form-group" v-if="templateFormDetail.stepone.editor != 'knockout'">
                         <button type="button" class="btn btn-success" @click="addNewRound()" :disabled="templateFormDetail.steptwo.divisions.length > 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
                         <button type="button" class="btn btn-success" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a division</button>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
@@ -87,7 +88,11 @@
                 this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: [], start_round_count: this.templateFormDetail.steptwo.round_count});
             },
             next() {
-                this.$emit('change-tab-index', 2, 3, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
+                if(this.templateFormDetail.stepone.editor === 'knockout') {
+                    this.$emit('change-tab-index', 2, 4, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
+                } else {
+                    this.$emit('change-tab-index', 2, 3, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
+                }
             },
             getPreviousRoundGroupCount(previousRoundIndex) {
                 return 0;
@@ -183,7 +188,7 @@
                     }
                 });
                 return isMatched;
-            }
+            },
         },
     }
 </script>

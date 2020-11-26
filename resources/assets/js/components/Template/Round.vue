@@ -10,12 +10,18 @@
                 </select>
                 <p class="text-danger" v-if="isSeletedRoundTeamsAndGroupTeamsNotSame">Round teams and group teams count should match.</p>
             </div>
-
+            <div class="form-group" v-if="templateFormDetail.stepone.editor == 'knockout' && isGroupShowAndDisabled">
+                <label>Number of groups</label>
+                <select class="form-control ls-select2" v-model="templateFormDetail.stepone.no_of_groups" :disabled="isGroupShowAndDisabled">
+                    <option value="">Number of groups</option>
+                    <option :value="group" v-for="group in groupsToDisplay()">{{ group }}</option>
+                </select>
+            </div>
             
             <!-- new group component -->
             <group v-for="(group, groupIndex) in roundData.groups" :index="groupIndex" :roundIndex="index" :divisionIndex="divisionIndex" :roundData="roundData" :groupData="group" :templateFormDetail="templateFormDetail"></group>
 
-            <div class="form-group mb-0">
+            <div class="form-group mb-0" v-if="templateFormDetail.stepone.editor != 'knockout'">
                 <button type="button" class="btn btn-primary" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(roundData.no_of_teams, index)"><small><i class="jv-icon jv-plus"></i></small> Add a group</button>
             </div>
         </div>
@@ -51,6 +57,9 @@
                 return 'Round ' + (this.templateFormDetail.steptwo.divisions[this.divisionIndex].start_round_count + this.index + 1);
             },
             isRoundDisabled() {
+                return (this.index === 0);
+            },
+            isGroupShowAndDisabled() {
                 return (this.index === 0);
             },
         },
@@ -99,6 +108,13 @@
                     return false;
                 }
                 this.last_selected_teams = this.roundData.no_of_teams;
+            },
+            groupsToDisplay() {
+                var totalGroups = [];
+                for (var n = 1; n <= 15; n++) {
+                    totalGroups.push(n);
+                }
+                return totalGroups;
             },
         }
     }
