@@ -56,7 +56,8 @@
                           <tr class="" v-for="template in templateList.templateData.data">
                             <td>{{ template.name }}</td>
                             <td v-if="template.editor_type =='advance'">Advanced</td>
-                            <td v-else>Festival</td>
+                            <td v-else-if="template.editor_type =='festival'">Festival</td>
+                            <td v-else>Knockout</td>
                             <td>{{ template.total_teams }}</td>
                             <td>{{ template.minimum_matches }}</td>
                             <td>{{ template.avg_matches }}</td>
