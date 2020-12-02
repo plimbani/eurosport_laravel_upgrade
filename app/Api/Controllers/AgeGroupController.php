@@ -126,13 +126,9 @@ class AgeGroupController extends BaseController
 
     public function getSignedUrlForMatchSchedulePrint(GetSignedUrlForMatchSchedulePrintRequest $request)
     {
-        $reportData = $request->all();
-        ksort($reportData);
-        $reportData  = http_build_query($reportData);
-        
-        $signedUrl = UrlSigner::sign(url('api/match/schedule/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-
-        return $signedUrl;
+        $client = new HttpClient();
+        $placingsData = $client->post('/getSignedUrlForMatchSchedulePrint', [], $request->all());
+        return $placingsData;
     }
 
     public function generateMatchSchedulePrint(Request $request)

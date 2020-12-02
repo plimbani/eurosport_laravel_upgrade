@@ -216,6 +216,7 @@ return [
          */
         Laraspace\Api\Providers\UserServiceProvider::class,
         Laraspace\Api\Providers\RefereeServiceProvider::class,
+        Laraspace\Api\Providers\MatchServiceProvider::class,
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
         Laraspace\Api\Providers\VenueServiceProvider::class,
