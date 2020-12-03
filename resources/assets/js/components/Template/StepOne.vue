@@ -43,7 +43,7 @@
             			<label v-if="templateFormDetail.stepone.editor == 'knockout'">{{$lang.add_template_modal_number_of_teams_knockout}}</label>
                         <label v-else>{{$lang.add_template_modal_number_of_teams}}</label>
                         <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams" @change="resetGroupAndRoundTwoTeams()">
-                            <option value="">Number of teams in group</option>
+                            <option value="">Number of teams</option>
                             <option :value="team" v-for="team in teamsToDisplay">{{ team }}</option>
                         </select>
                         <i v-show="errors.has('no_of_teams')" class="fa fa-warning"></i>
