@@ -16,4 +16,12 @@ class TemplateController extends BaseController
         $templateGraphic = $client->post('/getTemplateGraphic', [], $request->all());
         return $templateGraphic;
     }
+
+    /**
+     * Get template graphic of league
+     */
+    public function getTemplateGraphicOfLeague(Request $request)
+    {
+        return $this->templateObj->getTemplateGraphicOfLeague($request->all());
+    }
 }
