@@ -5,7 +5,8 @@
 				<div class="col-md-12">
 					<div class="row">
 						<div class="col-12">
-							<h5>{{ $lang.add_template_modal_step4_header }}</h5>
+							<h5 v-if="templateFormDetail.stepone.editor == 'knockout'">{{ $lang.add_template_modal_step3_header }}</h5>
+							<h5 v-else>{{ $lang.add_template_modal_step4_header }}</h5>
 						</div>
 					</div>
 					<div class="row">
@@ -45,6 +46,31 @@
 													<span v-if="roundIndex > 0" :class="{'w-180': groupPositionType(group.teams)}" v-html="getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type)"></span>
 												</div>
 												<!-- <span v-if="roundIndex > 0" class="round-matches">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span> -->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-3" v-if="templateFormDetail.stepone.editor == 'knockout'">
+						<div class="card-block">
+							<div class="row align-items-center">
+								<div class="col-12">
+									<h6 class="font-weight-bold">Round 2&nbsp;<span class="small">({{ templateFormDetail.stepone.no_of_teams_in_round_two }} teams)</span></h6>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<h6 class="font-weight-bold mb-0">PM 1</h6>
+									<ul class="list-unstyled mb-4 round-details">
+										<li v-for="(obj, index) in getKnockoutRoundTwoTeams()">
+											<div>
+												<div class="round-matches">
+													<span class="w-180">{{ obj.name }}</span>
+													<span class="w-7">{{ obj.no_of_teams }}</span>
+												</div>
 											</div>
 										</li>
 									</ul>
@@ -120,7 +146,7 @@
 						</div>
 					</div>
 
-					<div class="card mb-3">
+					<div class="card mb-3" v-if="templateFormDetail.stepone.editor !== 'knockout'">
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col-12">
@@ -209,7 +235,11 @@
                 });	        		
         	},
         	back() {
-        		this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
+        		if(this.templateFormDetail.stepone.editor === 'knockout') {
+        			this.$emit('change-tab-index', 4, 2, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
+        		} else {
+        			this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
+        		}
         	},
 			getGroupName(groupIndex, roundIndex, divisionIndex) {
 				return this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
@@ -312,7 +342,48 @@
 					return true;
 				}
 				return false;
-			}
+			},
+			nth(d) {
+				if (d > 3 && d < 21) return 'th';
+				switch (d % 10) {
+					case 1:  return "st";
+					case 2:  return "nd";
+					case 3:  return "rd";
+					default: return "th";
+				}
+			},
+			getKnockoutRoundTwoTeams() {
+				let vm = this;
+				let roundTwoTeams = [];
+				let noOfTeamsInRoundTwo = this.templateFormDetail.stepone.no_of_teams_in_round_two;
+				let noOfGroups = this.templateFormDetail.stepone.no_of_groups;
+				let noOfTeamsInRoundOneGroup = [];
+				let roundTwoTeamCount = 0;
+				let bestPlacedTeams = 1;
+				noOfTeamsInRoundOneGroup = this.templateFormDetail.steptwo.rounds[0].groups.map(x => x['no_of_teams']);
+				let minimumRoundOneGroup = _.min(noOfTeamsInRoundOneGroup);
+				while(roundTwoTeamCount < noOfTeamsInRoundTwo) {
+					let noOfTeams = 0;
+					if(minimumRoundOneGroup >= bestPlacedTeams) {
+						noOfTeams = ( (roundTwoTeamCount + (noOfGroups * 1)) <= noOfTeamsInRoundTwo) ? (noOfGroups * 1) : (noOfTeamsInRoundTwo - roundTwoTeamCount);
+					} else {
+						for (let i = 0; i < noOfTeamsInRoundOneGroup; i++) {
+							if( (noOfTeamsInRoundOneGroup[i] >= bestPlacedTeams) && ((roundTwoTeamCount + (noOfTeams + 1)) <= noOfTeamsInRoundTwo) ) {
+								noOfTeams++;
+							}
+						}
+					}
+					roundTwoTeams.push({
+						'name': 'Best ' + bestPlacedTeams + vm.nth(bestPlacedTeams) + ' placed teams',
+						'position': bestPlacedTeams,
+						'no_of_teams': noOfTeams
+					});
+					bestPlacedTeams++;
+					roundTwoTeamCount+=noOfTeams;
+				}
+				this.templateFormDetail.stepfour.round_two_knockout_teams = roundTwoTeams;
+				return roundTwoTeams;
+			},
         }
     }
 </script>

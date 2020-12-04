@@ -113,6 +113,7 @@ $api->version('v1', function ($api) {
     $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
 
     $api->post('getTemplateGraphic','Laraspace\Api\Controllers\TemplateController@getTemplateGraphic');
+    $api->post('getTemplateGraphicOfLeague','Laraspace\Api\Controllers\TemplateController@getTemplateGraphicOfLeague');
 
     $api->post('getSignedUrlForMatchSchedulePrint', 'Laraspace\Api\Controllers\AgeGroupController@getSignedUrlForMatchSchedulePrint');
 });

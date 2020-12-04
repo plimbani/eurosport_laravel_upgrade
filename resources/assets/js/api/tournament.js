@@ -305,6 +305,9 @@ export default {
   getTemplateGraphic(templateData) {
     return api.post('getTemplateGraphic', templateData);
   },
+  getTemplateGraphicOfLeague(templateData) {
+    return api.post('getTemplateGraphicOfLeague', templateData);
+  },
   getSignedUrlForMatchSchedulePrint(templateData) {
     return api.post('getSignedUrlForMatchSchedulePrint', templateData);
   },
