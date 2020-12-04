@@ -4,7 +4,7 @@
     <title>Match planner - {{ $pitchPlannerPrintData['tournamentData']->name }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <style>
         html,body {
             font-size: 12px;
@@ -14,7 +14,19 @@
 <body>
     <center>
       @if($tournamentLogo != null)  
-        <img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px">
+        <?php
+            $arrContextOptions=array(
+                            "ssl"=>array(
+                                "verify_peer"=>false,
+                                "verify_peer_name"=>false,
+                            ),
+                        );
+            $type = pathinfo($tournamentLogo, PATHINFO_EXTENSION);
+            $tournamentLogoData = file_get_contents($tournamentLogo, false, stream_context_create($arrContextOptions));
+            $tournamentLogoBase64Data = base64_encode($tournamentLogoData);
+            $imageData = 'data:image/' . $type . ';base64,' . $tournamentLogoBase64Data;
+        ?>
+        <img src="{{ $imageData }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px">
       @elseif(Config::get('config-variables.current_layout') == 'tmp')
         <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
       @elseif(Config::get('config-variables.current_layout') == 'commercialisation')

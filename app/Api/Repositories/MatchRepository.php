@@ -1513,13 +1513,14 @@ class MatchRepository
       }
       $matchResultCount = $matchResultCount->where('age_group_id',$teamData['age_group_id'])
       ->where('id','!=',$matchData['matchId'])
+      ->whereDate('match_datetime', Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->toDateString())
       ->where(function($query1) use ($teams,$teamId) {
         if($teamId){
           $query1->whereIn('home_team',$teams)
                  ->orWhereIn('away_team',$teams);
         } else{
           $query1->whereIn('home_team_placeholder_name',$teams)
-                 ->orWhereIn('away_team_placeholder_name',$teams) ;
+                 ->orWhereIn('away_team_placeholder_name',$teams);
         }
       })->get()->keyBy('id');
 
@@ -1698,7 +1699,7 @@ class MatchRepository
       }
       return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false, 'maximum_interval_flag' => $setMaximumIntervalFlag];
     }
-    public function matchUnschedule($matchId)
+    public function matchUnschedule($matchId, $isUnscheduleAll = false)
     {
       $matchData = DB::table('temp_fixtures')->find($matchId);
 
@@ -1718,6 +1719,10 @@ class MatchRepository
       $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
             ->update($updateData);
+
+      if($isUnscheduleAll) {
+        return $updateResult;
+      }
 
       if($matchData->home_team != 0 && $matchData->away_team != 0) {
         $teamId = true;
@@ -1969,13 +1974,15 @@ class MatchRepository
       return ['status' => true, 'data' => $updateMatchFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
-    public function unscheduleAllFixtures($tournamentId)
+    public function unscheduleAllFixtures($tournamentId, $isUnscheduleAll)
     {
+      $competitionIds = [];
       $allScheduledMatches = $this->getScheduledMatch($tournamentId);
       foreach ($allScheduledMatches as $match) {
-        $this->matchUnschedule($match->id);
+        $this->matchUnschedule($match->id, $isUnscheduleAll);
+        $competitionIds[$match->age_group_id][] = $match->competition_id;
       }
-      return true;
+      return $competitionIds;
     }
 
     public function saveScheduleMatches($data)
@@ -2244,6 +2251,7 @@ class MatchRepository
         ->where('id','!=',$data->id)
         ->where('is_scheduled',1)
         ->where('age_group_id',$teamData['age_group_id'])
+        ->whereDate('match_datetime', Carbon::createFromFormat('Y-m-d H:i:s', $data->match_datetime)->toDateString())
         ->where(function($query1) use ($teams,$teamId) {
           if($teamId){
             $query1->whereIn('home_team',$teams)
