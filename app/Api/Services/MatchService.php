@@ -731,7 +731,6 @@ class MatchService implements MatchContract
     private function calculateEliminationTeams($singleFixture) {
 
       //$singleFixture = $singleFixture[0];
-
       $tournament_id = $singleFixture->tournament_id;
       $ageGroupId = $singleFixture->age_group_id;
       //$compIds = $this->getCompeIds($singleFixture->competition_id);
@@ -750,7 +749,11 @@ class MatchService implements MatchContract
       $selTeams = explode('-',$teams);
       $SelhomeTeam = $selTeams[0];
       $SelawayTeam = $selTeams[1];
+      $modifiedTeams = str_replace('-','_',$teams);
       // echo "<pre>"; print_r($selTeams); echo "</pre>";
+      if (strpos($modifiedTeams, 'WR') !== false || strpos($modifiedTeams, 'LR') !== false) {
+        $this->secondRoundElimination($singleFixture);
+      }
       foreach($matches as $match) {
 
         $matchNumber = explode('.',$match->match_number);
@@ -767,69 +770,79 @@ class MatchService implements MatchContract
         // echo "<pre>"; print_r($mtsTeams); echo "</pre>";
 
         // First For Winner
-        $modifiedTeams = str_replace('-','_',$teams);
       //  echo 'Hi MOD Teams<br>';
         //print_r($modifiedTeams);exit;
-        if (strpos($modifiedTeams, 'WR') !== false) {
-          // echo "asd";echo $homeTeam;
+        // if (strpos($modifiedTeams, 'WR') !== false) {
+        //   $teams_arr = explode('.', $singleFixture->match_number);
+        //   $frs = explode("-",$teams_arr[0]);
+        //   $checkForTeam = $frs[count($frs)-1]."_".$teams_arr[1].'_';
 
-          // echo "<pre>"; print_r($mtsTeams); echo "</pre>";
-          $var = '';
-          if($SelhomeTeam == $homeTeam ) {
-            // echo "SDF";exit;
-            $match1 = $match;
-          }
-          if($homeTeam[0] == '(') {
-              if(isset($match1) && $match1 != ''){
+        //   $var = '';
+        //   $match1 = '';
+        //   //\Log::info('homeTeam' . $homeTeam);
+        //   // if($SelhomeTeam == $homeTeam ) {
+        //   if (strpos($homeTeam, $checkForTeam) !== false) {
+        //     // echo "SDF";exit;
+        //     $match1 = $match;
+        //   }
+        //   if($homeTeam[0] == '(') {
+        //       if(isset($match1) && $match1 != ''){
+        //         \Log::info('match 1:' . $match1->id);
+        //         $this->secondRoundElimination($match1);
+        //       }
+        //     }
+        //   $match2 = '';
+        //   //if($SelawayTeam==$awayTeam) {
+        //   if (strpos($awayTeam, $checkForTeam) !== false) {
+        //     $match2=$match;
+        //   }
+        //   if($awayTeam[strlen($awayTeam)-1]==')') {
+        //       if(isset($match2) && $match2 != ''){
+        //         \Log::info('match 2:' . $match2->id);
+        //         $this->secondRoundElimination($match2);
+        //       }
+        //     }
+        //   // here check for Multiple Value for detect the updated record value
 
-                $this->secondRoundElimination($match1);
-              }
-            }
-          if($SelawayTeam==$awayTeam) {
-            $match2=$match;
-          }
-          if($awayTeam[strlen($awayTeam)-1]==')') {
-              if(isset($match2) && $match2 != ''){
-                $this->secondRoundElimination($match2);
-              }
-            }
-          // here check for Multiple Value for detect the updated record value
+        // }
 
-
-
-        }
-
-        if (strpos($modifiedTeams, 'LR') !== false) {
-          // echo "<pre>"; print_r(); echo "</pre>";
-          // $selTeams = explode('-',$teams);
-          // $SelhomeTeam = $selTeams[0];
-          // $SelawayTeam = $selTeams[1];
-
-
-          $var = '';
-          if($SelhomeTeam == $homeTeam ) {
-            // here we get that Match
-            $match1 = $match;
-
-          }
-          if($homeTeam[0] == '(') {
-             if(isset($match1) && $match1 != ''){
-              $this->secondRoundElimination($match1);
-            }
-          }
-          if($SelawayTeam==$awayTeam) {
-            $match2=$match;
-          }
-          if($awayTeam[strlen($awayTeam)-1]==')'){
-              //echo 'false';exit;
-             if(isset($match2) && $match2 != ''){
-                $this->secondRoundElimination($match2);
-              }
-            }
-          // here check for Multiple Value for detect the updated record value
+        // if (strpos($modifiedTeams, 'LR') !== false) {
+        //   // echo "<pre>"; print_r(); echo "</pre>";
+        //   // $selTeams = explode('-',$teams);
+        //   // $SelhomeTeam = $selTeams[0];
+        //   // $SelawayTeam = $selTeams[1];
+        //   $teams_arr = explode('.', $singleFixture->match_number);
+        //   $frs = explode("-",$teams_arr[0]);
+        //   $checkForTeam = $frs[count($frs)-1]."_".$teams_arr[1].'_';
 
 
-        }
+        //   $var = '';
+        //   $match1 = '';
+        //   //if($SelhomeTeam == $homeTeam ) {
+        //   if (strpos($homeTeam, $checkForTeam) !== false) {
+        //     // here we get that Match
+        //     $match1 = $match;
+        //   }
+        //   if($homeTeam[0] == '(') {
+        //      if(isset($match1) && $match1 != ''){
+        //       $this->secondRoundElimination($match1);
+        //     }
+        //   }
+        //   $match2 = '';
+        //   //if($SelawayTeam==$awayTeam) {
+        //   if (strpos($awayTeam, $checkForTeam) !== false) {
+        //     $match2=$match;
+        //   }
+        //   if($awayTeam[strlen($awayTeam)-1]==')'){
+        //       //echo 'false';exit;
+        //      if(isset($match2) && $match2 != ''){
+        //         $this->secondRoundElimination($match2);
+        //       }
+        //     }
+        //   // here check for Multiple Value for detect the updated record value
+
+
+        // }
 
         $modifiedTeamsWinner = $modifiedTeams.'_WR';
 
@@ -2571,6 +2584,32 @@ class MatchService implements MatchContract
           $this->calculateCupLeagueTable($value);
         }
       }
+    }
+
+    public function matchUnscheduledFixtures($matchData)
+    {
+      $areAllMatchFixtureUnScheduled = false;
+      $result = $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+      if(sizeof($result['conflictedFixtureMatchNumber']) === 0) {
+        $areAllMatchFixtureUnScheduled = true;
+      }
+
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
+    }
+
+    public function unscheduleAllFixtures($tournamentId)
+    {
+      $competitionIds = $this->matchRepoObj->unscheduleAllFixtures($tournamentId, true);
+      foreach ($competitionIds as $ageGroupId => $cids) {
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId['tournamentId'], 'competitionId' => $id];
+            $this->refreshCompetitionStandings($data);
+        }
+      }
+
+      return ['status_code' => '200', 'message' => 'All matches have been unscheduled successfully'];
     }
 
     public function processFixtures($fixtures)
