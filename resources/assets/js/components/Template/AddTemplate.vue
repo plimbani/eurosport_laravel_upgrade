@@ -92,6 +92,7 @@
                 }
             },
             changeTabIndex(from, to, key, data) {
+                window.scrollTo(0,0);
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;

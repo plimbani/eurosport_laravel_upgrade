@@ -221,7 +221,7 @@
                               <span v-if="option.id == competation_format.tournament_template_id">
                                 <div class="checkbox">
                                   <div class="c-input">
-                                      <input type="radio" class="euro-radio ttmp" name="tournamentTemplate" checked="checked" :value="option" v-validate="'required'" id="template_option" key="tournamentTemplate">
+                                      <input type="radio" class="euro-radio ttmp" name="tournamentTemplate" checked="checked" :value="option" v-validate="'required'" key="tournamentTemplate">
                                       <label for="template_option"></label>
                                   </div>
                                 </div> 

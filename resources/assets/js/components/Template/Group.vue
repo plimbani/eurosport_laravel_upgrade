@@ -166,8 +166,6 @@
         		this.$root.$emit('updatePositions');
         	},
         	onTeamChange() {
-        		console.log('onTeamChange');
-        		return false;
  				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
  				let roundTeams = this.roundData.no_of_teams;
  				let totalTeams = this.getRoundTillNowTotalTeams(true);
