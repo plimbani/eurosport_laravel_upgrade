@@ -232,6 +232,9 @@
                                 vm.templateFormDetail.steptwo.rounds[0].groups[0].no_of_teams = numberOfTeams;
                                 vm.templateFormDetail.steptwo.rounds[0].groups[0].teams_play_each_other = "once";
                                 vm.templateFormDetail.steptwo.rounds[0].groups[0].teams = [];
+                                for (let i = 0; i < numberOfTeams; i++) {
+                                    vm.templateFormDetail.steptwo.rounds[0].groups[0].teams.push({position_type: 'placed', group: '', position: ''});
+                                }
                                 vm.templateFormDetail.steptwo.rounds[0].groups[0].matches = [];
                             } else {
                                 vm.templateFormDetail.steptwo.rounds[0].groups.push({type: "round_robin", no_of_teams: numberOfTeams, teams_play_each_other: "once", teams: [], matches: []});

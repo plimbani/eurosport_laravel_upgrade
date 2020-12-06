@@ -223,7 +223,7 @@
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been added successfully.', 'Add Template', {timeOut: 5000});
-			        				vm.$root.$emit('clearFormFields');
+			        				// vm.$root.$emit('clearFormFields');
 			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {

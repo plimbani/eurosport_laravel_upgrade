@@ -200,9 +200,9 @@ class AgeGroupRepository
           $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         }
 
-        if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'knockout') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'] || $tournamentCompetitionTemplate->group_size !== $data['group_size'] || $tournamentCompetitionTemplate->tournament_format != $data['tournament_format'] || $tournamentCompetitionTemplate->competition_type != $data['competition_type'])) {
-          $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
-        }
+        // if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'knockout') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'] || $tournamentCompetitionTemplate->group_size !== $data['group_size'] || $tournamentCompetitionTemplate->tournament_format != $data['tournament_format'] || $tournamentCompetitionTemplate->competition_type != $data['competition_type'])) {
+        //   $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
+        // }
 
         return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
@@ -224,7 +224,7 @@ class AgeGroupRepository
         $tournamentCompeationTemplate['category_age_color'] = $predefinedAgeCategoryColorsArray[$colorIndex];
         $tournamentCompeationTemplate['category_age_font_color'] = $predefinedAgeCategoryFontColorsArray[$colorIndex];
 
-        if($data['tournament_format'] == 'basic') {
+        if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
           $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         } else {
           $tournamentCompeationTemplate['template_json_data'] = null;
@@ -289,7 +289,7 @@ class AgeGroupRepository
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
-                  \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" THEN 
+                  \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" AND tournament_competation_template.competition_type = "league" THEN 
                     JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
                   ELSE tournament_template.name END) AS template_name'))
                 ->where($fieldName, $value);
