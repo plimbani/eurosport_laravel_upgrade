@@ -106,6 +106,7 @@ module.exports= {
   add_template_modal_step2_header: "Step 2: Setup rounds",
   add_template_modal_step3_header: "Step 3: Placings",
   add_template_modal_step4_header: "Step 4: Review",
+  add_template_modal_step3_header_knockout: "Step 3: Review",
   
   duplicate_tournament: "Tournaments",
   duplicate_tournamet_tournament_name: "Tournament name",
