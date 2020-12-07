@@ -32,11 +32,11 @@ public class WebViewActivity extends BaseAppCompactActivity {
         webView.setWebViewClient(new MyWebClient());
         webView.getSettings().setJavaScriptEnabled(true);
 
-        if (media_name.equalsIgnoreCase(AppConstants.ARG_FACEBOOK))
+        if (!Utility.isNullOrEmpty(media_name) && media_name.equalsIgnoreCase(AppConstants.ARG_FACEBOOK))
             webView.loadUrl(AppConstants.FACEBOOK_URL);
-        else if (media_name.equalsIgnoreCase(AppConstants.ARG_INSTAGRAM))
+        else if (!Utility.isNullOrEmpty(media_name) && media_name.equalsIgnoreCase(AppConstants.ARG_INSTAGRAM))
             webView.loadUrl(AppConstants.INSTAGRAM_URL);
-        else if (media_name.equalsIgnoreCase(AppConstants.ARG_TWITTER))
+        else if (!Utility.isNullOrEmpty(media_name) && media_name.equalsIgnoreCase(AppConstants.ARG_TWITTER))
             webView.loadUrl(AppConstants.TWITTER_URL);
     }
 
@@ -53,7 +53,6 @@ public class WebViewActivity extends BaseAppCompactActivity {
         mContext = this;
         initView();
     }
-
 
 
     protected class MyWebClient extends WebViewClient {

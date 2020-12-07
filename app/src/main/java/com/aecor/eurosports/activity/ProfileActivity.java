@@ -252,16 +252,18 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
 
         ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
-        if (!Utility.isNullOrEmpty(profileModel.getFirst_name())) {
-            input_first_name.setText(profileModel.getFirst_name());
-        } else {
-            input_first_name.setText("");
-        }
+        if (profileModel != null) {
+            if (!Utility.isNullOrEmpty(profileModel.getFirst_name())) {
+                input_first_name.setText(profileModel.getFirst_name());
+            } else {
+                input_first_name.setText("");
+            }
 
-        if (!Utility.isNullOrEmpty(profileModel.getSur_name())) {
-            input_last_name.setText(profileModel.getSur_name());
-        } else {
-            input_last_name.setText("");
+            if (!Utility.isNullOrEmpty(profileModel.getSur_name())) {
+                input_last_name.setText(profileModel.getSur_name());
+            } else {
+                input_last_name.setText("");
+            }
         }
 
         setLanguageSpinner();

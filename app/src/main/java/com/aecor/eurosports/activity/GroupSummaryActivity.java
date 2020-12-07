@@ -268,14 +268,14 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
         ll_standings_content.setVisibility(View.GONE);
         ll_match_content.setVisibility(View.GONE);
-        if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+        if (mGroupModel != null && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
             showBackButton(getString(R.string.placing_matches_summary));
         } else {
             showBackButton(getString(R.string.group_summary));
         }
         tv_view_full_league_table.setVisibility(View.GONE);
 
-        if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
+        if (mGroupModel != null && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
             if (!isApiAlreadyCalled) {
                 isApiAlreadyCalled = true;
@@ -283,7 +283,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             } else {
                 isApiAlreadyCalled = false;
             }
-        } else if (mGroupModel.getCompetation_type() != null && !Utility.isNullOrEmpty(mGroupModel.getCompetation_type()) && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION) && mGroupModel.getActual_competition_type() != null && !Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
+        } else if (mGroupModel != null && mGroupModel.getCompetation_type() != null && !Utility.isNullOrEmpty(mGroupModel.getCompetation_type()) && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION) && mGroupModel.getActual_competition_type() != null && !Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
 
             if (!isApiAlreadyCalled) {

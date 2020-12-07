@@ -178,9 +178,13 @@ public final class AppVisibilityDetector {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-            ApplicationClass.getInstance().getmActivity().clear();
-            if (DEBUG) {
-                Log.d(TAG, activity.getClass().getName() + " onActivityDestroyed");
+            try {
+                ApplicationClass.getInstance().getmActivity().clear();
+                if (DEBUG) {
+                    Log.d(TAG, activity.getClass().getName() + " onActivityDestroyed");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

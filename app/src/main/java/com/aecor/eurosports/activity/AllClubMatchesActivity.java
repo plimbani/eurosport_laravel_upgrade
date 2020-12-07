@@ -66,7 +66,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
+        if (mTeamDetailModel!=null && !Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
             showBackButton(mTeamDetailModel.getName());
         } else {
             showBackButton(getString(R.string.team_matches));

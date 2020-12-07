@@ -1,6 +1,5 @@
 package com.aecor.eurosports.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -56,11 +55,14 @@ public class VenueMapActivity extends AppCompatActivity implements OnMapReadyCal
 
     protected void initView() {
         showBackButton(getString(R.string.title_activity_venue_map));
-        Intent intent = getIntent();
-        label = intent.getStringExtra("label");
-        String[] mLocation = intent.getStringExtra("latlong").split(",");
-        latitude = Double.parseDouble(mLocation[0]);
-        longitude = Double.parseDouble(mLocation[1]);
+        if (getIntent() != null && getIntent().hasExtra("label")) {
+            label = getIntent().getStringExtra("label");
+        }
+        if (getIntent() != null && getIntent().hasExtra("latlong")) {
+            String[] mLocation = getIntent().getStringExtra("latlong").split(",");
+            latitude = Double.parseDouble(mLocation[0]);
+            longitude = Double.parseDouble(mLocation[1]);
+        }
     }
 
     @Override

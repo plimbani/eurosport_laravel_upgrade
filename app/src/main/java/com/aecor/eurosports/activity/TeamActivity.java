@@ -263,48 +263,50 @@ public class TeamActivity extends BaseAppCompactActivity {
     }
 
     private void updateUI() {
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
-            tv_team_name.setText(mTeamDetailModel.getName());
-        } else {
-            tv_team_name.setText("");
-        }
-
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
-            Glide.with(mContext)
-                    .load(mTeamDetailModel.getCountryLogo())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .dontAnimate()
-                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
-                    .into(iv_team_flag);
-
-        } else {
-            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
-                    R.drawable.globe);
-            iv_team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-        }
-
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryName())) {
-            tv_countryName.setText(mTeamDetailModel.getCountryName());
-        } else {
-            tv_countryName.setText("");
-        }
-        String groupName = "";
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getAgeGroupName())) {
-            groupName = mTeamDetailModel.getAgeGroupName();
-        }
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
-            if (!Utility.isNullOrEmpty(groupName)) {
-                groupName = groupName + ", " + mTeamDetailModel.getGroup_name();
+        if (mTeamDetailModel != null) {
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
+                tv_team_name.setText(mTeamDetailModel.getName());
             } else {
-                groupName = mTeamDetailModel.getGroup_name();
+                tv_team_name.setText("");
             }
-        }
-        tv_team_member_desc.setText(groupName);
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
-            tv_group_table_title.setText(mTeamDetailModel.getGroup_name() + " " + getString(R.string.league_table));
-        } else {
-            tv_group_table_title.setText("");
+
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
+                Glide.with(mContext)
+                        .load(mTeamDetailModel.getCountryLogo())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(iv_team_flag);
+
+            } else {
+                Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+                        R.drawable.globe);
+                iv_team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+            }
+
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryName())) {
+                tv_countryName.setText(mTeamDetailModel.getCountryName());
+            } else {
+                tv_countryName.setText("");
+            }
+            String groupName = "";
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getAgeGroupName())) {
+                groupName = mTeamDetailModel.getAgeGroupName();
+            }
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
+                if (!Utility.isNullOrEmpty(groupName)) {
+                    groupName = groupName + ", " + mTeamDetailModel.getGroup_name();
+                } else {
+                    groupName = mTeamDetailModel.getGroup_name();
+                }
+            }
+            tv_team_member_desc.setText(groupName);
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
+                tv_group_table_title.setText(mTeamDetailModel.getGroup_name() + " " + getString(R.string.league_table));
+            } else {
+                tv_group_table_title.setText("");
+            }
         }
     }
 
