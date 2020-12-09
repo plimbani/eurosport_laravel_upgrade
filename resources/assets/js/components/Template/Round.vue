@@ -111,7 +111,7 @@
             },
             groupsToDisplay() {
                 var totalGroups = [];
-                for (var n = 1; n <= 15; n++) {
+                for (var n = 1; n <= Math.floor((this.templateFormDetail.stepone.no_of_teams/3)); n++) {
                     totalGroups.push(n);
                 }
                 return totalGroups;
