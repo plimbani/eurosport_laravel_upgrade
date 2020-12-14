@@ -29,7 +29,6 @@
 </style>
 
 <center>
-  {{ asset('assets/img/tmplogo.svg') }}
   <img  src="{{ asset('assets/img/tmplogo.svg', true)}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
   
 </center>
