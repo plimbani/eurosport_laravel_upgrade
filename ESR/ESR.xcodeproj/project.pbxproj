@@ -1850,7 +1850,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/rishab-eurosport.dev.aecortech.com/api/";
-				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
+				google_map_key = AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0;
 			};
 			name = Debug;
 		};
@@ -1885,7 +1885,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/www.esrtmp.com/api/";
-				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
+				google_map_key = AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0;
 			};
 			name = "Debug ( Production )";
 		};
@@ -1920,7 +1920,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/tournament-qa.easymatchmanager.com/api/";
-				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
+				google_map_key = AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0;
 			};
 			name = "Debug ( QA )";
 		};
