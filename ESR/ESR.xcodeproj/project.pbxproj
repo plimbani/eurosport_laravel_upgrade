@@ -1919,7 +1919,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "https:/$()/comm-qa.wot.esrtmp.com/api/";
+				base_url = "https:/$()/tournament-qa.easymatchmanager.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = "Debug ( QA )";
