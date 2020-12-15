@@ -1,4 +1,13 @@
 // Table override
-.table-bordered thead th, .table-bordered thead td {
-    border-bottom-width: 1px;
+.table,
+.table-bordered {
+	thead,
+    tbody {
+
+        th,
+        td {
+        	border-color: #c7c9ca;
+            border-bottom-width: 1px;
+    	}
+    }
 }

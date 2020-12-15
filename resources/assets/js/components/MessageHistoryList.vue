@@ -5,20 +5,20 @@
          <table class="table table-hover table-bordered add-category-table" style="font-size:93%;">
           <thead>
               <tr>
-                  <th class="text-center" style="width:180px;">{{$lang.summary_table_heading_date_sent}}</th>
-                  <th class="text-center">{{$lang.summary_table_heading_message}}</th>
-                  <th class="text-center">{{$lang.summary_table_heading_sender}}</th>
-                  <th class="text-center">{{$lang.summary_table_heading_tournament}}</th>
+                  <th style="width:180px;">{{$lang.summary_table_heading_date_sent}}</th>
+                  <th>{{$lang.summary_table_heading_message}}</th>
+                  <th>{{$lang.summary_table_heading_sender}}</th>
+                  <th>{{$lang.summary_table_heading_tournament}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_status}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_details}}</th>
               </tr>
           </thead>
           <tbody>
               <tr v-for="(message, index) in messageList">
-                  <td class="text-center">{{message.created_at | formatDate}} </td>
+                  <td>{{message.created_at | formatDate}} </td>
                   <td class="text-left wordbreak">{{message.content}}</td>
-                  <td class="text-center">{{message.sender.email}}</td>
-                  <td class="text-center">{{message.tournament.name}}</td>
+                  <td>{{message.sender.email}}</td>
+                  <td>{{message.tournament.name}}</td>
                   <td class="text-center" v-if="message.status == 'queued' ">Draft</td>
                   <td class="text-center" v-else>Sent</td>
                   <td class="text-center">

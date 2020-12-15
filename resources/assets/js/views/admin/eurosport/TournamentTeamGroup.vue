@@ -98,13 +98,12 @@
       					<table class="table table-hover table-bordered">
                   <thead>
                       <tr>
-                          <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
-                          <th class="text-center">{{$lang.teams_name}}</th>
-                          <th class="text-center">{{$lang.teams_country}}</th>
-                          <th class="text-center">{{$lang.teams_place}}</th>
-                          <th class="text-center">{{$lang.teams_age_category}}</th>
-                          <th  class="text-center">{{$lang.teams_name_category}}</th>
-
+                          <th width="150px">{{$lang.teams_reference}}</th>
+                          <th>{{$lang.teams_name}}</th>
+                          <th>{{$lang.teams_country}}</th>
+                          <th>{{$lang.teams_place}}</th>
+                          <th>{{$lang.teams_age_category}}</th>
+                          <th>{{$lang.teams_name_category}}</th>
                           <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
                           <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
                           <th class="text-center">Edit</th>

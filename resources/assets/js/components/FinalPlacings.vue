@@ -5,15 +5,15 @@
       <table class="table table-hover table-bordered" v-if="competationList.length > 0">
         <thead>
           <tr>
-            <th class="text-center">{{$lang.summary_schedule_draws_categories_name}}</th>            
-            <th class="text-center">{{$lang.summary_schedule_draws_age_category}}</th>
+            <th>{{$lang.summary_schedule_draws_categories_name}}</th>            
+            <th>{{$lang.summary_schedule_draws_age_category}}</th>
             <th class="text-center">{{$lang.summary_schedule_draws_age_placings}}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="competation in competationList">
             <td>{{ competation.group_name }}</td>
-            <td class="text-center">{{ competation.category_age }}</td>
+            <td>{{ competation.category_age }}</td>
             <td class="text-center">
               <a @click="getAgeCategoryDetail(competation.id)" class="text-primary" href="#" data-toggle="modal" data-target="#viewPlacingsModal"> 
                 <u>{{ $lang.summary_schedule_view_placings }}</u>

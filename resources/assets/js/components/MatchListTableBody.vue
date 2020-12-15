@@ -1,15 +1,20 @@
 <template>
 	<tbody>
         <tr v-for="(match,index1) in matchData">
-    			<td class="text-center">{{match.match_datetime | formatDate}}</td>
-    			<td class="text-center">
+    			<td>{{match.match_datetime | formatDate}}</td>
+    			<td>
 	          <a class="pull-left text-left text-primary" href=""
 	          v-if="getCurrentScheduleView != 'drawDetails'"
 	          @click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
 	          </a>
 	          <span v-else>{{match.competation_name | formatGroup(match.round)}}</span>
 	        </td>
-	        <td class="text-center">{{displayMatch(match.displayMatchNumber)}}</td>
+          <td v-if="isHideLocation !=  false">
+            <a class="pull-left text-left">
+            {{ match.is_scheduled == 1 ? (match.venue_name + '-' + match.pitch_number) : '-' }}
+            </a>
+          </td>
+	        <td>{{displayMatch(match.displayMatchNumber)}}</td>
 	        <td align="right">
 	          <div class="matchteam-details flex-row-reverse">
 	            <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag" class="line-height-initial matchteam-flag"></span>
@@ -48,11 +53,6 @@
 	        </td>
 	        <td class="text-center" v-if="showPlacingForMatch">
 	          {{ match.position != null ? match.position : 'N/A' }}
-	        </td>
-	        <td v-if="isHideLocation !=  false">
-	          <a class="pull-left text-left">
-	          {{ match.is_scheduled == 1 ? (match.venue_name + '-' + match.pitch_number) : '-' }}
-	          </a>
 	        </td>
 	        <td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
 	          <span class="align-middle">
