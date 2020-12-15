@@ -32,14 +32,18 @@ class MainTabViewController: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let userData = ApplicationData.sharedInstance().getUserData() {
+        TestFairy.log(String(describing: self))
+        updateFCMTokenAPI()
+        self.view.backgroundColor = .AppColor()
+        
+        /*if let userData = ApplicationData.sharedInstance().getUserData() {
             if userData.enableLogs {
                 TestFairy.begin("SDK-7273syUD")
             } else {
                 TestFairy.begin(NULL_STRING)
             }
-        }
-        TestFairy.log(String(describing: self))
+        }*/
+
         initialize()
     }
     
@@ -146,7 +150,7 @@ class MainTabViewController: SuperViewController {
             accessCodeAPI()
         }*/
     }
-    
+
     @objc func callAccessCodeAPI(_ notification: NSNotification) {
         TestFairy.log(String(describing: self) + " callAccessCodeAPI")
         accessCodeAPI()
@@ -219,7 +223,7 @@ class MainTabViewController: SuperViewController {
         
         let tabFavString = (ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue) ? String.localize(key: "title_tab_follow") : String.localize(key: "title_tab_fav")
         
-        var tabTitleList = [tabFavString, String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
+        let tabTitleList = [tabFavString, String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
         
         for i in 0..<tabLabelList.count {
             tabLabelList[i].text = tabTitleList[i]
@@ -243,12 +247,40 @@ class MainTabViewController: SuperViewController {
             DispatchQueue.main.async {
                 TestFairy.log("sendAppversionRequest success")
                 self.view.hideProgressHUD()
+
+                if let enable_testfairy_ios = result.value(forKey: "enable_testfairy_ios") as? Int {
+                    if enable_testfairy_ios == 1 {
+
+                        TestFairy.begin("SDK-7273syUD")
+
+                        if let enable_testfairy_feedback_ios = result.value(forKey: "enable_testfairy_feedback_ios") as? Int {
+                            if enable_testfairy_feedback_ios == 1 {
+                                TestFairy.enableFeedbackForm("shake")
+                            } else {
+                                TestFairy.disableFeedbackForm()
+                            }
+                        }
+
+                        if let enable_testfairy_video_capture_ios = result.value(forKey: "enable_testfairy_video_capture_ios") as? Int {
+                            if enable_testfairy_video_capture_ios == 1 {
+                                TestFairy.enableVideo("always", quality: "high", framesPerSecond: 1.0)
+                            } else {
+                                TestFairy.disableVideo()
+                            }
+                        }
+
+                    } else {
+                        TestFairy.begin(nil)
+                    }
+                }
+
                 if let serverVersion = result.value(forKey: "ios_app_version") as? String {
                     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-                    
-                    // 1 - left version is greater than right version
-                    if Utils.compareVersion(serverVersion, appVersion) == 1 {
+
+                    if Utils.compareVersion(serverVersion, appVersion) != 0 {
                         self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
+
+                        ApplicationData.isAppUpdateDispalyed = true
                     }
                 }
             }
@@ -395,6 +427,32 @@ extension MainTabViewController: CustomAlertTwoBtnVCDelegate {
                 } else {
                     UIApplication.shared.openURL(url)
                 }
+            }
+        }
+    }
+}
+
+extension MainTabViewController {
+    func updateFCMTokenAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+            TestFairy.log("FCM token \(fcmToken)")
+            print("FCM token\n")
+            print("\(fcmToken)")
+            print("\n")
+            var parameters: [String: Any] = [:]
+            
+            if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+                parameters["email"] = email
+                parameters["fcm_id"] = fcmToken
+                
+                ApiManager().updateFCMTokem(parameters, success: { result in
+                    print("FCM token has updated")
+                    TestFairy.log("FCM token has updated")
+                }, failure: { result in })
             }
         }
     }

@@ -94,6 +94,18 @@ class ParseManager {
             teamFixture.competationName = text
         }
         
+        if let text = record.value(forKey: "divisionName") as? String {
+            teamFixture.divisionName = text
+        }
+        
+        if let text = record.value(forKey: "isKnockoutPlacingMatches") as? Bool {
+            teamFixture.isKnockoutPlacingMatches = text
+        }
+        
+        if let text = record.value(forKey: "competation_round_no") as? String {
+            teamFixture.competationRoundNo = text
+        }
+        
         //if let isScheduled = record.value(forKey: "is_scheduled") as? Int {
            // if isScheduled == 1 {
                 if let text = record.value(forKey: "match_datetime") as? String {
@@ -392,6 +404,7 @@ class ParseManager {
         if let userDataDic = rootDic.value(forKey: "userData") as? NSObject {
             if let email = userDataDic.value(forKey: "email") as? String {
                 userData.email = email
+                TestFairy.setUserId(email)
             }
             if let firstName = userDataDic.value(forKey: "first_name") as? String {
                 userData.firstName = firstName
@@ -414,6 +427,7 @@ class ParseManager {
             if let id = userDataDic.value(forKey: "user_id") {
                 if id is Int {
                     userData.id = id as! Int
+
                 }
             }
             

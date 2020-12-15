@@ -1,22 +1,18 @@
 
-platform :ios, '11.0'
+platform :ios, '13.0'
 
 use_frameworks!
 
 def pods_list
-  pod 'Fabric'
-  pod 'Crashlytics', '3.10'
-  pod 'Alamofire', '~> 4.7'
+
   pod 'SDWebImage', '~> 4.0'
   pod 'GoogleMaps'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod "MBCircularProgressBar"
-  pod 'MBProgressHUD', '~> 1.1.0'
-  pod 'IQKeyboardManagerSwift'
-  pod 'FacebookCore', '0.5.0'
-  pod 'FacebookLogin', '0.5.0'
-  pod 'FacebookShare', '0.5.0'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'SwiftKeychainWrapper'
 end
 
 target 'ESR' do

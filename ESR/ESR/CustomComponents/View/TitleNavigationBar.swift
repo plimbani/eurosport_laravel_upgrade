@@ -20,22 +20,18 @@ class TitleNavigationBar: UIView {
     @IBOutlet var containerView: UIView!
     @IBOutlet var btnFinalPlacings: UIButton!
     var delegate: TitleNavigationBarDelegate?
-
+    
     @IBOutlet var widthConstraintBackBtn: NSLayoutConstraint!
     @IBOutlet var widthConstraintBtnFinalPlacings: NSLayoutConstraint!
     
     let btnFinalPlacingsAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0)!,
         NSAttributedStringKey.foregroundColor : UIColor.white,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     
     var isFinalPlacings: Bool = false {
         didSet {
-            if isFinalPlacings {
-                widthConstraintBtnFinalPlacings.constant = 155
-            } else {
-                widthConstraintBtnFinalPlacings.constant = 0
-            }
+            btnFinalPlacings.isHidden = !isFinalPlacings
         }
     }
     

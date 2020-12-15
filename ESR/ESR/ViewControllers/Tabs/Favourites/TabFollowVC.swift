@@ -151,7 +151,9 @@ class TabFollowVC: SuperViewController {
                         ApplicationData.temLoginFlag = false
                     }
                 } else {
-                    UIApplication.shared.keyWindow?.rootViewController = Storyboards.Favourites.instantiateGetStartedTournamentVC()
+                    if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                        keyWindow.rootViewController = Storyboards.Favourites.instantiateGetStartedTournamentVC()
+                    }
                     return
                 }
                 

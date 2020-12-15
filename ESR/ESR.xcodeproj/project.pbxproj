@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,7 +11,6 @@
 		3003EF3C231569D0008F47E4 /* AgeCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3003EF3B231569CF008F47E4 /* AgeCategoryData.swift */; };
 		3009A36021CA56A8002769CF /* AllMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009A35F21CA56A8002769CF /* AllMatchesVC.swift */; };
 		30181CC4211D95B60067D65F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
-		30181CC9211D95B60067D65F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CC7211D95B60067D65F /* Main.storyboard */; };
 		30181CCB211D95B80067D65F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCA211D95B80067D65F /* Assets.xcassets */; };
 		30181CD9211D98720067D65F /* SuperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CD8211D98720067D65F /* SuperViewController.swift */; };
 		30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDC211D99F50067D65F /* AppConstantsList.swift */; };
@@ -49,7 +48,6 @@
 		30181D77212AB9CE0067D65F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
 		30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
-		3018B35622423C4A00EC76F4 /* easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3018B35522423C4900EC76F4 /* easymm.plist */; };
 		3018B35922423D7B00EC76F4 /* GetStartedTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3018B35822423D7B00EC76F4 /* GetStartedTournamentVC.swift */; };
 		301D9C02222407A400EF8E76 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C01222407A400EF8E76 /* CustomAlertVC.swift */; };
 		301D9C042224184A00EF8E76 /* CustomAlertTwoBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */; };
@@ -108,7 +106,6 @@
 		30AF116B21BBA82000BE50F4 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116A21BBA82000BE50F4 /* TeamVC.swift */; };
 		30AF116E21BBDD7000BE50F4 /* TeamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */; };
 		30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
-		30C562AE229E7E8D00B3AC27 /* easymm_production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C562AD229E7E8C00B3AC27 /* easymm_production.plist */; };
 		30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B321CD045F00B0ECB4 /* Favourites.storyboard */; };
 		30C799B421CD046C00B0ECB4 /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
 		30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B921CD047700B0ECB4 /* Teams.storyboard */; };
@@ -116,17 +113,11 @@
 		30C799EE21CD05C800B0ECB4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C799F021CD05C800B0ECB4 /* Localizable.strings */; };
 		30C799F921CD105100B0ECB4 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C799F821CD105100B0ECB4 /* BundleExtension.swift */; };
 		30C799FB21D35E3B00B0ECB4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
-		30DC115822B3820D00B4FC44 /* upload-dsym.sh in Resources */ = {isa = PBXBuildFile; fileRef = 30DC115522B3820C00B4FC44 /* upload-dsym.sh */; };
-		30DC115922B3820D00B4FC44 /* upload-dsym.sh in Resources */ = {isa = PBXBuildFile; fileRef = 30DC115522B3820C00B4FC44 /* upload-dsym.sh */; };
-		30DC115A22B3820D00B4FC44 /* libTestFairy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115622B3820C00B4FC44 /* libTestFairy.a */; };
-		30DC115B22B3820D00B4FC44 /* libTestFairy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115622B3820C00B4FC44 /* libTestFairy.a */; };
 		30DC115E22B3823700B4FC44 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115C22B3823700B4FC44 /* CoreMotion.framework */; };
 		30DC115F22B3823700B4FC44 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115D22B3823700B4FC44 /* CoreMedia.framework */; };
 		30DC116122B3824200B4FC44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116022B3824200B4FC44 /* AVFoundation.framework */; };
 		30DC116322B3824B00B4FC44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */; };
 		30DC116522B3825300B4FC44 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116422B3825300B4FC44 /* OpenGLES.framework */; };
-		30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC116722B38AE000B4FC44 /* TestFairyLog.swift */; };
-		30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC116722B38AE000B4FC44 /* TestFairyLog.swift */; };
 		30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116422B3825300B4FC44 /* OpenGLES.framework */; };
 		30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */; };
 		30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116022B3824200B4FC44 /* AVFoundation.framework */; };
@@ -243,7 +234,6 @@
 		30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
 		30F180D02272F76600301C6F /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
 		30F180D92272F77C00301C6F /* Asset - Easymm.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */; };
-		30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */; };
 		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
 		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
@@ -261,6 +251,23 @@
 		30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
 		30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
 		95F3BE40B389C5CC4E55AA26 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E3585225E1C4B006C3E71 /* Pods_ESR.framework */; };
+		9E345593245C1C1E00EAAD26 /* AppleSignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */; };
+		9E6385452462C02E00C87FEB /* AppleSignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */; };
+		9E87005624A4D7DE00172776 /* easymm_production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C562AD229E7E8C00B3AC27 /* easymm_production.plist */; };
+		9E87005724A4D7E700172776 /* esr.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCF211D95B80067D65F /* esr.plist */; };
+		9E916C2824B476340085FBCA /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2724B476340085FBCA /* FacebookCore */; };
+		9E916C2A24B476340085FBCA /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2924B476340085FBCA /* FacebookLogin */; };
+		9E916C2D24B476880085FBCA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */; };
+		9E916C3024B476A00085FBCA /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C2F24B476A00085FBCA /* MBProgressHUD */; };
+		9E916C3324B476EA0085FBCA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9E916C3224B476EA0085FBCA /* Alamofire */; };
+		9E916C4824B5A19D0085FBCA /* upload-dsym.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9E916C4424B5A19C0085FBCA /* upload-dsym.sh */; };
+		9E916C4924B5A19D0085FBCA /* libTestFairy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E916C4524B5A19C0085FBCA /* libTestFairy.a */; };
+		9E916C4A24B5A19D0085FBCA /* strip-architectures.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9E916C4724B5A19C0085FBCA /* strip-architectures.sh */; };
+		9E916C4C24B5A32B0085FBCA /* NSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E916C4B24B5A32B0085FBCA /* NSLog.swift */; };
+		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
+		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
+		9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
+		9ECA2C9C24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ECA2C9B24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist */; };
 		CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FCA7DD1CC88FD70BE4C440 /* Pods_ESR_comm.framework */; };
 /* End PBXBuildFile section */
 
@@ -433,18 +440,13 @@
 		30C799F721CD05D500B0ECB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30C799F821CD105100B0ECB4 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		30DC115522B3820C00B4FC44 /* upload-dsym.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-dsym.sh"; sourceTree = "<group>"; };
-		30DC115622B3820C00B4FC44 /* libTestFairy.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFairy.a; sourceTree = "<group>"; };
-		30DC115722B3820C00B4FC44 /* TestFairy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFairy.h; sourceTree = "<group>"; };
 		30DC115C22B3823700B4FC44 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		30DC115D22B3823700B4FC44 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		30DC116022B3824200B4FC44 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		30DC116422B3825300B4FC44 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		30DC116622B3827E00B4FC44 /* ESR-Bridiging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ESR-Bridiging-Header.h"; sourceTree = "<group>"; };
-		30DC116722B38AE000B4FC44 /* TestFairyLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFairyLog.swift; sourceTree = "<group>"; };
 		30F180D72272F76600301C6F /* ESR comm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ESR comm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Easymm.plist"; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
 		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
@@ -469,6 +471,15 @@
 		63A4807390D4C10A2CAE9B6B /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		9D33C6FF4AAA827E10AB8D2D /* Pods-ESR comm.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( production ).xcconfig"; sourceTree = "<group>"; };
+		9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInData.swift; sourceTree = "<group>"; };
+		9E916C4424B5A19C0085FBCA /* upload-dsym.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-dsym.sh"; sourceTree = "<group>"; };
+		9E916C4524B5A19C0085FBCA /* libTestFairy.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFairy.a; sourceTree = "<group>"; };
+		9E916C4624B5A19C0085FBCA /* TestFairy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFairy.h; sourceTree = "<group>"; };
+		9E916C4724B5A19C0085FBCA /* strip-architectures.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "strip-architectures.sh"; sourceTree = "<group>"; };
+		9E916C4B24B5A32B0085FBCA /* NSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLog.swift; sourceTree = "<group>"; };
+		9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeaderView.swift; sourceTree = "<group>"; };
+		9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchHeaderView.xib; sourceTree = "<group>"; };
+		9ECA2C9B24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Easymm.plist"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
 		CDE0B0C86FE94FBB25928DD9 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		E69247791F7C18957BDE38F6 /* Pods-ESR comm.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -486,7 +497,6 @@
 				30DC115E22B3823700B4FC44 /* CoreMotion.framework in Frameworks */,
 				30DC115F22B3823700B4FC44 /* CoreMedia.framework in Frameworks */,
 				10EA25F1696796FDDB9B648E /* Pods_ESR.framework in Frameworks */,
-				30DC115A22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
 				95F3BE40B389C5CC4E55AA26 /* Pods_ESR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,11 +507,16 @@
 			files = (
 				30DC117222B3AB8700B4FC44 /* CoreMedia.framework in Frameworks */,
 				CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */,
-				30DC115B22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
 				30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */,
 				30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */,
+				9E916C2D24B476880085FBCA /* IQKeyboardManagerSwift in Frameworks */,
+				9E916C3024B476A00085FBCA /* MBProgressHUD in Frameworks */,
+				9E916C2A24B476340085FBCA /* FacebookLogin in Frameworks */,
+				9E916C4924B5A19D0085FBCA /* libTestFairy.a in Frameworks */,
 				30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */,
+				9E916C3324B476EA0085FBCA /* Alamofire in Frameworks */,
 				30DC117322B3AB8900B4FC44 /* CoreMotion.framework in Frameworks */,
+				9E916C2824B476340085FBCA /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,7 +562,7 @@
 			children = (
 				30181CC2211D95B60067D65F /* ESR */,
 				30181CC1211D95B60067D65F /* Products */,
-				30DC115422B3820C00B4FC44 /* TestFairySDK-1.19.5 */,
+				9E916C4324B5A19C0085FBCA /* TestFairySDK */,
 				023496BC20B01812C3B358A9 /* Pods */,
 				2BDEF858AB329BF64FB52540 /* Frameworks */,
 			);
@@ -579,13 +594,13 @@
 				30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */,
 				30C799F021CD05C800B0ECB4 /* Localizable.strings */,
 				30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */,
-				30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */,
+				9ECA2C9B24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist */,
 				30181CCF211D95B80067D65F /* esr.plist */,
 				3052EBE22298117700FD8CE8 /* esr_production.plist */,
 				3018B35522423C4900EC76F4 /* easymm.plist */,
 				30C562AD229E7E8C00B3AC27 /* easymm_production.plist */,
 				30DC116622B3827E00B4FC44 /* ESR-Bridiging-Header.h */,
-				30DC116722B38AE000B4FC44 /* TestFairyLog.swift */,
+				9E916C4B24B5A32B0085FBCA /* NSLog.swift */,
 			);
 			path = ESR;
 			sourceTree = "<group>";
@@ -688,6 +703,8 @@
 				306B80F32316826E005634C2 /* AgeCategoryDivisionCell.xib */,
 				30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */,
 				30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */,
+				9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */,
+				9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -827,18 +844,20 @@
 				30FB3116212FEA4B00ABA22A /* Tournament.swift */,
 				307949DE2137F78100DE23A3 /* TeamFixture.swift */,
 				3086BC83213D344A00810CC8 /* GroupStanding.swift */,
+				9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		30DC115422B3820C00B4FC44 /* TestFairySDK-1.19.5 */ = {
+		9E916C4324B5A19C0085FBCA /* TestFairySDK */ = {
 			isa = PBXGroup;
 			children = (
-				30DC115522B3820C00B4FC44 /* upload-dsym.sh */,
-				30DC115622B3820C00B4FC44 /* libTestFairy.a */,
-				30DC115722B3820C00B4FC44 /* TestFairy.h */,
+				9E916C4424B5A19C0085FBCA /* upload-dsym.sh */,
+				9E916C4524B5A19C0085FBCA /* libTestFairy.a */,
+				9E916C4624B5A19C0085FBCA /* TestFairy.h */,
+				9E916C4724B5A19C0085FBCA /* strip-architectures.sh */,
 			);
-			path = "TestFairySDK-1.19.5";
+			path = TestFairySDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -874,12 +893,21 @@
 				30F180AB2272F76600301C6F /* Resources */,
 				E20BC93C3AD84B7DA5ED185F /* [CP] Embed Pods Frameworks */,
 				F587F5768F6A88DA3C2AFFDD /* [CP] Copy Pods Resources */,
+				9E916C2524B472550085FBCA /* ShellScript */,
+				9E24473224DBE5AC00AAE8A1 /* DSYM Script */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "ESR comm";
+			packageProductDependencies = (
+				9E916C2724B476340085FBCA /* FacebookCore */,
+				9E916C2924B476340085FBCA /* FacebookLogin */,
+				9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */,
+				9E916C2F24B476A00085FBCA /* MBProgressHUD */,
+				9E916C3224B476EA0085FBCA /* Alamofire */,
+			);
 			productName = ESR;
 			productReference = 30F180D72272F76600301C6F /* ESR comm.app */;
 			productType = "com.apple.product-type.application";
@@ -935,6 +963,12 @@
 				fr,
 			);
 			mainGroup = 30181CB7211D95B60067D65F;
+			packageReferences = (
+				9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				9E916C2B24B476880085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				9E916C2E24B476A00085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+				9E916C3124B476EA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 30181CC1211D95B60067D65F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -950,12 +984,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E87005724A4D7E700172776 /* esr.plist in Resources */,
 				30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */,
 				30181D81212AF0590067D65F /* SettingsList.plist in Resources */,
 				30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */,
 				306B80F52316826E005634C2 /* AgeCategoryDivisionCell.xib in Resources */,
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
-				30C562AE229E7E8D00B3AC27 /* easymm_production.plist in Resources */,
 				3044DE5F2240CFF9005E8C86 /* FollowTournamentCell.xib in Resources */,
 				3086BC92213EB09F00810CC8 /* VenueFieldList.plist in Resources */,
 				306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */,
@@ -965,7 +999,6 @@
 				30C799BA21CD047E00B0ECB4 /* Settings.storyboard in Resources */,
 				30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */,
 				30C799EE21CD05C800B0ECB4 /* Localizable.strings in Resources */,
-				30DC115822B3820D00B4FC44 /* upload-dsym.sh in Resources */,
 				30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */,
 				306B80F9231697F1005634C2 /* AgeCategoryDivisionView.xib in Resources */,
 				30181CCB211D95B80067D65F /* Assets.xcassets in Resources */,
@@ -973,9 +1006,8 @@
 				30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */,
 				30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */,
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
-				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
-				3018B35622423C4A00EC76F4 /* easymm.plist in Resources */,
+				9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
 				307542B021745D03003715C7 /* TextViewCell.xib in Resources */,
@@ -1009,6 +1041,7 @@
 				30F180B32272F76600301C6F /* GroupDetailsCell.xib in Resources */,
 				30F180B42272F76600301C6F /* GoogleService-Info.plist in Resources */,
 				30F180B52272F76600301C6F /* AgeCategoryCell.xib in Resources */,
+				9E87005624A4D7DE00172776 /* easymm_production.plist in Resources */,
 				30F180B62272F76600301C6F /* Settings.storyboard in Resources */,
 				30F180B72272F76600301C6F /* FavouriteTournamentCell.xib in Resources */,
 				30F180B82272F76600301C6F /* Localizable.strings in Resources */,
@@ -1016,7 +1049,7 @@
 				30F180BB2272F76600301C6F /* FinalPlacingsCell.xib in Resources */,
 				30F180BC2272F76600301C6F /* GroupSummaryStandingsHeader.xib in Resources */,
 				30F180BD2272F76600301C6F /* TeamListCell.xib in Resources */,
-				30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */,
+				9E916C4824B5A19D0085FBCA /* upload-dsym.sh in Resources */,
 				30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */,
 				30F180BF2272F76600301C6F /* Main.storyboard in Resources */,
 				30239DC223181D010027EC2C /* AgeCategoryDivisionCell.xib in Resources */,
@@ -1028,7 +1061,6 @@
 				30F180C52272F76600301C6F /* GroupSummaryStandingsCell.xib in Resources */,
 				30F180D92272F77C00301C6F /* Asset - Easymm.xcassets in Resources */,
 				30F180C62272F76600301C6F /* LabelCell.xib in Resources */,
-				30DC115922B3820D00B4FC44 /* upload-dsym.sh in Resources */,
 				30F180C72272F76600301C6F /* TwoLabelCell.xib in Resources */,
 				30F180C82272F76600301C6F /* LabelSelectionCell.xib in Resources */,
 				30F180C92272F76600301C6F /* GroupSummaryMatchesCell.xib in Resources */,
@@ -1038,6 +1070,9 @@
 				30F180CC2272F76600301C6F /* LaunchScreen.storyboard in Resources */,
 				30F180CD2272F76600301C6F /* TabAgeCategoriesCell.xib in Resources */,
 				30F180CE2272F76600301C6F /* GroupSummaryMatchesHeader.xib in Resources */,
+				9E916C4A24B5A19D0085FBCA /* strip-architectures.sh in Resources */,
+				9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
+				9ECA2C9C24DBCCAA005F58BC /* GoogleService-Info-Easymm.plist in Resources */,
 				30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */,
 				30F180D02272F76600301C6F /* Tournament.storyboard in Resources */,
 			);
@@ -1069,18 +1104,53 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9E24473224DBE5AC00AAE8A1 /* DSYM Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "DSYM Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/ESR/GoogleService-Info-Easymm.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+		};
+		9E916C2524B472550085FBCA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/FirebaseCrashlytics/run\n";
 		};
 		B82C6BB7CBACFCF625928264 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1109,41 +1179,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1156,44 +1197,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1206,16 +1214,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1230,7 +1233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */,
-				30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
 				30FB311D213550C600ABA22A /* AgeCategoriesGroupsVC.swift in Sources */,
@@ -1284,6 +1286,7 @@
 				30A7FF42222EA92900056A90 /* PickerVC.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				306B80F42316826E005634C2 /* AgeCategoryDivisionCell.swift in Sources */,
+				9E345593245C1C1E00EAAD26 /* AppleSignInData.swift in Sources */,
 				3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
@@ -1317,7 +1320,6 @@
 			files = (
 				30239DC323181D080027EC2C /* AgeCategoryDivisionCell.swift in Sources */,
 				30F1805E2272F76600301C6F /* GroupDetailsVC.swift in Sources */,
-				30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30F1805F2272F76600301C6F /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30F180602272F76600301C6F /* AgeCategoryCell.swift in Sources */,
 				30F180612272F76600301C6F /* AgeCategoriesGroupsVC.swift in Sources */,
@@ -1326,6 +1328,7 @@
 				30F180642272F76600301C6F /* GroupSummaryStandingsHeader.swift in Sources */,
 				30F180652272F76600301C6F /* ViewScheduleImageVC.swift in Sources */,
 				30F180662272F76600301C6F /* TeamListCell.swift in Sources */,
+				9E916C4C24B5A32B0085FBCA /* NSLog.swift in Sources */,
 				30F180672272F76600301C6F /* ApiManager.swift in Sources */,
 				30F180682272F76600301C6F /* TabTeamsVC.swift in Sources */,
 				30F180692272F76600301C6F /* MainTabViewController.swift in Sources */,
@@ -1335,6 +1338,7 @@
 				30F1806D2272F76600301C6F /* FinalPlacingsCell.swift in Sources */,
 				30F1806E2272F76600301C6F /* FinalPlacingsVC.swift in Sources */,
 				30F1806F2272F76600301C6F /* Environments.swift in Sources */,
+				9E6385452462C02E00C87FEB /* AppleSignInData.swift in Sources */,
 				30F180702272F76600301C6F /* TournamentClubCell.swift in Sources */,
 				30F180712272F76600301C6F /* FavouriteTournamentCell.swift in Sources */,
 				30F180722272F76600301C6F /* GroupStanding.swift in Sources */,
@@ -1371,6 +1375,7 @@
 				30239DC623181D8E0027EC2C /* GroupSummaryDropdownCell.swift in Sources */,
 				30F180902272F76600301C6F /* FollowTournamentCell.swift in Sources */,
 				30F180912272F76600301C6F /* ButtonCell.swift in Sources */,
+				9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */,
 				30F180922272F76600301C6F /* TabTournamentVC.swift in Sources */,
 				30F180932272F76600301C6F /* UIViewExtentions.swift in Sources */,
 				30F180942272F76600301C6F /* TeamListingVC.swift in Sources */,
@@ -1575,7 +1580,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1592,13 +1597,14 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ESR/esr.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1610,11 +1616,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_dev;
+				PROVISIONING_PROFILE_SPECIFIER = ESR_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "http:/$()/mukesh-wot.dev.aecortech.com/api/";
+				base_url = "http:/$()/usama-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
@@ -1671,7 +1677,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1688,13 +1694,14 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ESR/esr_production.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1706,7 +1713,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_dev;
+				PROVISIONING_PROFILE_SPECIFIER = ESR_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1767,7 +1774,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1782,15 +1789,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ESR/esr_production.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1802,7 +1810,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_dev;
+				PROVISIONING_PROFILE_SPECIFIER = ESR_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1819,9 +1827,11 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1829,16 +1839,18 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
+					"$(PROJECT_DIR)/TestFairySDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aecor.eurosports.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = Emm_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/rishab-eurosport.dev.aecortech.com/api/";
-				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
+				google_map_key = AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0;
 			};
 			name = Debug;
 		};
@@ -1848,11 +1860,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1860,16 +1874,18 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
+					"$(PROJECT_DIR)/TestFairySDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aecor.eurosports.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = Emm_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/www.esrtmp.com/api/";
-				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
+				google_map_key = AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0;
 			};
 			name = "Debug ( Production )";
 		};
@@ -1881,9 +1897,11 @@
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1891,16 +1909,18 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TestFairySDK-1.19.5",
+					"$(PROJECT_DIR)/TestFairySDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aecor.eurosports.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = Emm_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "https:/$()/comm-qa.wot.esrtmp.com/api/";
-				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
+				base_url = "https:/$()/tournament-qa.easymatchmanager.com/api/";
+				google_map_key = AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0;
 			};
 			name = "Debug ( QA )";
 		};
@@ -1938,6 +1958,69 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+		9E916C2B24B476880085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.5;
+			};
+		};
+		9E916C2E24B476A00085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		9E916C3124B476EA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9E916C2724B476340085FBCA /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		9E916C2924B476340085FBCA /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2624B476340085FBCA /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		9E916C2C24B476880085FBCA /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2B24B476880085FBCA /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+		9E916C2F24B476A00085FBCA /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C2E24B476A00085FBCA /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+		9E916C3224B476EA0085FBCA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E916C3124B476EA0085FBCA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 30181CB8211D95B60067D65F /* Project object */;
 }

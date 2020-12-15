@@ -97,7 +97,7 @@ class TeamVC: SuperViewController {
     }
     
     let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 18.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 18.0)!,
         NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     
@@ -207,6 +207,7 @@ class TeamVC: SuperViewController {
     
     @IBAction func btnViewSchedulePressed(_ sender: UIButton) {
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
+        viewController.isFromTeamVC = true
         viewController.base64String = viewGraphicImgURL
         self.navigationController?.pushViewController(viewController, animated: true)
     }
@@ -354,7 +355,10 @@ class TeamVC: SuperViewController {
                     if let error = result.value(forKey: "error") as? String {
                         if error == "token_expired"{
                             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
-                            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+
+                            if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                                keyWindow.rootViewController = UINavigationController(rootViewController:  Storyboards.Main.instantiateLandingVC())
+                            }
                         }
                     }
                 }
@@ -515,7 +519,7 @@ extension TeamVC: TitleNavigationBarDelegate {
 extension TeamVC: GroupSummaryStandingsCellDelegate {
     func groupSummaryStandingsCellBtnTeamNamePressed(indexPath: IndexPath) {
         
-        let selectedTeam = groupStandingsList[indexPath.row] as! GroupStanding
+        let selectedTeam = groupStandingsList[indexPath.row]
         
         var change = false
         

@@ -74,7 +74,7 @@
 	<string>$(PRODUCT_NAME) requires to access your photo library.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -102,5 +102,7 @@
 	<string>$(base_url)</string>
 	<key>google_map_key</key>
 	<string>$(google_map_key)</string>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 </dict>
 </plist>

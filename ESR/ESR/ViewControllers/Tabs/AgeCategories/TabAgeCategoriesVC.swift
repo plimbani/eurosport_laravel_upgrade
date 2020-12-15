@@ -122,7 +122,10 @@ class TabAgeCategoriesVC: SuperViewController {
                     if let error = result.value(forKey: "error") as? String {
                         if error == "token_expired"{
                             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
-                            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+
+                            if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                                keyWindow.rootViewController = UINavigationController(rootViewController:  Storyboards.Main.instantiateLandingVC())
+                            }
                         }
                     }
                 }
@@ -150,7 +153,7 @@ extension TabAgeCategoriesVC: TabAgeCategoriesCellDelegate {
     func tabAgeCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
         TestFairy.log(String(describing: self) + " tabAgeCategoriesCellBtnViewSchedulePressed")
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
-        
+        viewController.isFromTabAgeCategoriesVC = true
         /*if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
             viewController.base64String = imgURLValue
         }*/

@@ -14,47 +14,55 @@ protocol TabAgeCategoriesCellDelegate {
 
 class TabAgeCategoriesCell: UITableViewCell {
 
+    @IBOutlet var rightArrowView: UIView!
+    @IBOutlet var viewScheduleView: UIView!
+    @IBOutlet var infoView: UIView!
+    
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var btnInfo: UIButton!
     @IBOutlet var btnViewSchedule: UIButton!
-    
-    @IBOutlet var widthConstraintBtnInfo: NSLayoutConstraint!
-    @IBOutlet var widthConstraintBtnViewSchedule: NSLayoutConstraint!
     
     var delegate: TabAgeCategoriesCellDelegate?
     var record: NSDictionary!
     var indexPath: IndexPath!
     
     let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0)!,
         NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        widthConstraintBtnInfo.constant = 0
-        widthConstraintBtnViewSchedule.constant = 0
-        btnInfo.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        viewScheduleView.isHidden = true
+        infoView.isHidden = true
+        
         lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
         lblTitle.textColor = UIColor.txtDefaultTxt
         btnViewSchedule.setAttributedTitle(NSMutableAttributedString(string: "View schedule",
                                                                          attributes: btnViewScheduleAttributes), for: .normal)
+        
+        viewScheduleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewScheduleViewTap)))
+        infoView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(infoViewTap)))
     }
     
     func showInfoButton() {
-        widthConstraintBtnInfo.constant = 25
-        btnInfo.imageEdgeInsets = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 3)
+        // widthConstraintBtnInfo.constant = 25
+        // btnInfo.imageEdgeInsets = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 3)
+        
+        infoView.isHidden = false
     }
     
     func showViewScheduleButton(hide: Bool = false) {
-        widthConstraintBtnViewSchedule.constant = hide ? 0 : 105
+        // widthConstraintBtnViewSchedule.constant = hide ? 0 : 105
+        
+        btnViewSchedule.isHidden = hide
     }
     
-    @IBAction func btnInfoPressed(_ sender: Any) {
+    @objc func infoViewTap() {
         delegate?.tabAgeCategoriesCellBtnInfoPressed(indexPath)
     }
     
-    @IBAction func btnViewSchedulePressed(_ sender: UIButton) {
+    @objc func viewScheduleViewTap() {
         delegate?.tabAgeCategoriesCellBtnViewSchedulePressed(indexPath)
     }
     

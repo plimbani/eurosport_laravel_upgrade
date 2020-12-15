@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,7 +42,6 @@
 		30181D42212558900067D65F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D41212558900067D65F /* Utils.swift */; };
 		30181D4A212588340067D65F /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D49212588340067D65F /* Reachability.swift */; };
 		30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4B212590E30067D65F /* ImageNavigationBar.swift */; };
-		30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D4D212590EC0067D65F /* ImageNavigationBar.xib */; };
 		30181D502126BB520067D65F /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4F2126BB520067D65F /* ApiManager.swift */; };
 		30181D642126D7850067D65F /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D632126D7850067D65F /* Environments.swift */; };
 		30181D662126EB460067D65F /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
@@ -57,6 +56,12 @@
 		301D9C062225228D00EF8E76 /* ViewScheduleImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */; };
 		30239DC02317F6720027EC2C /* GroupSummaryDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */; };
 		30239DC12317F6720027EC2C /* GroupSummaryDropdownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */; };
+		30239DC223181D010027EC2C /* AgeCategoryDivisionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306B80F32316826E005634C2 /* AgeCategoryDivisionCell.xib */; };
+		30239DC323181D080027EC2C /* AgeCategoryDivisionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B80F22316826E005634C2 /* AgeCategoryDivisionCell.swift */; };
+		30239DC423181D130027EC2C /* AgeCategoryDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B80F6231697E5005634C2 /* AgeCategoryDivisionView.swift */; };
+		30239DC523181D160027EC2C /* AgeCategoryDivisionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306B80F8231697F1005634C2 /* AgeCategoryDivisionView.xib */; };
+		30239DC623181D8E0027EC2C /* GroupSummaryDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */; };
+		30239DC723181D970027EC2C /* GroupSummaryDropdownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */; };
 		30371E09220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		3044DE5B223F9E99005E8C86 /* TabFollowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */; };
 		3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */; };
@@ -255,7 +260,15 @@
 		30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */; };
 		30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
 		30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
+<<<<<<< HEAD
 		95F3BE40B389C5CC4E55AA26 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E3585225E1C4B006C3E71 /* Pods_ESR.framework */; };
+=======
+		9E345593245C1C1E00EAAD26 /* AppleSignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */; };
+		9EB2F68623F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
+>>>>>>> 1be24c63... Apple login code changes
+		9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */; };
+		9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
+		9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */; };
 		CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FCA7DD1CC88FD70BE4C440 /* Pods_ESR_comm.framework */; };
 /* End PBXBuildFile section */
 
@@ -464,6 +477,9 @@
 		63A4807390D4C10A2CAE9B6B /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		9D33C6FF4AAA827E10AB8D2D /* Pods-ESR comm.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( production ).xcconfig"; sourceTree = "<group>"; };
+		9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInData.swift; sourceTree = "<group>"; };
+		9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeaderView.swift; sourceTree = "<group>"; };
+		9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchHeaderView.xib; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
 		CDE0B0C86FE94FBB25928DD9 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		E69247791F7C18957BDE38F6 /* Pods-ESR comm.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR comm.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR comm/Pods-ESR comm.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -683,6 +699,8 @@
 				306B80F32316826E005634C2 /* AgeCategoryDivisionCell.xib */,
 				30239DBE2317F6720027EC2C /* GroupSummaryDropdownCell.swift */,
 				30239DBF2317F6720027EC2C /* GroupSummaryDropdownCell.xib */,
+				9EB2F68523F2B66C004E0AAA /* MatchHeaderView.swift */,
+				9EB2F68B23F2B6A5004E0AAA /* MatchHeaderView.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -822,6 +840,7 @@
 				30FB3116212FEA4B00ABA22A /* Tournament.swift */,
 				307949DE2137F78100DE23A3 /* TeamFixture.swift */,
 				3086BC83213D344A00810CC8 /* GroupStanding.swift */,
+				9E345592245C1C1E00EAAD26 /* AppleSignInData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -970,6 +989,7 @@
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
+				9EB2F68C23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				3018B35622423C4A00EC76F4 /* easymm.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
@@ -981,12 +1001,7 @@
 				30181D342122C0370067D65F /* LabelSelectionCell.xib in Resources */,
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
-				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
-<<<<<<< HEAD
-=======
 				30239DC12317F6720027EC2C /* GroupSummaryDropdownCell.xib in Resources */,
-				30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */,
->>>>>>> 68c25701e... Changes Age group category - Divisions
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */,
@@ -1005,6 +1020,7 @@
 				30F180B02272F76600301C6F /* FollowTournamentCell.xib in Resources */,
 				30F180B12272F76600301C6F /* VenueFieldList.plist in Resources */,
 				30F180B22272F76600301C6F /* TournamentClubCell.xib in Resources */,
+				30239DC723181D970027EC2C /* GroupSummaryDropdownCell.xib in Resources */,
 				30F180B32272F76600301C6F /* GroupDetailsCell.xib in Resources */,
 				30F180B42272F76600301C6F /* GoogleService-Info.plist in Resources */,
 				30F180B52272F76600301C6F /* AgeCategoryCell.xib in Resources */,
@@ -1018,6 +1034,7 @@
 				30F180E1227850C500301C6F /* GoogleService-Info-Easymm.plist in Resources */,
 				30F180BE2272F76600301C6F /* TournamentDetailsView.xib in Resources */,
 				30F180BF2272F76600301C6F /* Main.storyboard in Resources */,
+				30239DC223181D010027EC2C /* AgeCategoryDivisionCell.xib in Resources */,
 				30F180C02272F76600301C6F /* ProfileList.plist in Resources */,
 				30F180C12272F76600301C6F /* easymm.plist in Resources */,
 				30F180C22272F76600301C6F /* CreateAccountFieldList.plist in Resources */,
@@ -1032,9 +1049,11 @@
 				30F180C92272F76600301C6F /* GroupSummaryMatchesCell.xib in Resources */,
 				30F180CA2272F76600301C6F /* ButtonCell.xib in Resources */,
 				30F180CB2272F76600301C6F /* ImageNavigationBar.xib in Resources */,
+				30239DC523181D160027EC2C /* AgeCategoryDivisionView.xib in Resources */,
 				30F180CC2272F76600301C6F /* LaunchScreen.storyboard in Resources */,
 				30F180CD2272F76600301C6F /* TabAgeCategoriesCell.xib in Resources */,
 				30F180CE2272F76600301C6F /* GroupSummaryMatchesHeader.xib in Resources */,
+				9EB2F68D23F2B6A5004E0AAA /* MatchHeaderView.xib in Resources */,
 				30F180CF2272F76600301C6F /* AgeCategories.storyboard in Resources */,
 				30F180D02272F76600301C6F /* Tournament.storyboard in Resources */,
 			);
@@ -1066,13 +1085,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1106,41 +1124,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1153,44 +1142,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1203,16 +1159,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR comm/Pods-ESR comm-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1227,6 +1178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */,
+				9EB2F68623F2B66C004E0AAA /* MatchHeaderView.swift in Sources */,
 				30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
@@ -1281,6 +1233,7 @@
 				30A7FF42222EA92900056A90 /* PickerVC.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				306B80F42316826E005634C2 /* AgeCategoryDivisionCell.swift in Sources */,
+				9E345593245C1C1E00EAAD26 /* AppleSignInData.swift in Sources */,
 				3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
@@ -1312,6 +1265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30239DC323181D080027EC2C /* AgeCategoryDivisionCell.swift in Sources */,
 				30F1805E2272F76600301C6F /* GroupDetailsVC.swift in Sources */,
 				30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */,
 				30F1805F2272F76600301C6F /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
@@ -1358,13 +1312,16 @@
 				30F180882272F76600301C6F /* ImageNavigationBar.swift in Sources */,
 				30F180892272F76600301C6F /* TextFieldCell.swift in Sources */,
 				30F1808A2272F76600301C6F /* TournamentDetailsView.swift in Sources */,
+				30239DC423181D130027EC2C /* AgeCategoryDivisionView.swift in Sources */,
 				30F1808B2272F76600301C6F /* Tournament.swift in Sources */,
 				30F1808C2272F76600301C6F /* GroupSummaryMatchesCell.swift in Sources */,
 				30F1808D2272F76600301C6F /* BundleExtension.swift in Sources */,
 				30F1808E2272F76600301C6F /* PickerVC.swift in Sources */,
 				30F1808F2272F76600301C6F /* LandingVC.swift in Sources */,
+				30239DC623181D8E0027EC2C /* GroupSummaryDropdownCell.swift in Sources */,
 				30F180902272F76600301C6F /* FollowTournamentCell.swift in Sources */,
 				30F180912272F76600301C6F /* ButtonCell.swift in Sources */,
+				9EB2F68723F2B66C004E0AAA /* MatchHeaderView.swift in Sources */,
 				30F180922272F76600301C6F /* TabTournamentVC.swift in Sources */,
 				30F180932272F76600301C6F /* UIViewExtentions.swift in Sources */,
 				30F180942272F76600301C6F /* TeamListingVC.swift in Sources */,
@@ -1592,7 +1549,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ESR/esr.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1604,11 +1561,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
+				PROVISIONING_PROFILE_SPECIFIER = ESR_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "http:/$()/mukesh-wot.dev.aecortech.com/api/";
+				base_url = "http:/$()/usama-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
@@ -1688,7 +1645,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ESR/esr_production.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1700,7 +1657,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
+				PROVISIONING_PROFILE_SPECIFIER = ESR_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1784,7 +1741,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ESR/esr_production.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1796,7 +1753,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = PROD_ESR_5_mar_2019;
+				PROVISIONING_PROFILE_SPECIFIER = ESR_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1815,7 +1772,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1827,7 +1784,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev_18_mar;
+				PROVISIONING_PROFILE_SPECIFIER = "ESR_ commercialization_development";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1846,7 +1803,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1858,7 +1815,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Production_18_mar;
+				PROVISIONING_PROFILE_SPECIFIER = "ESR_ commercialization_distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1877,7 +1834,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
 				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm_production.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1889,7 +1846,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev_18_mar;
+				PROVISIONING_PROFILE_SPECIFIER = "ESR_ commercialization_development";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/ESR/ESR-Bridiging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

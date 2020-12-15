@@ -100,7 +100,11 @@ class GetStartedTournamentVC: SuperViewController {
                         ApplicationData.sharedInstance().saveUserData(userData)
                     }
                     
-                    UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+
+
+                    if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                        keyWindow.rootViewController = Storyboards.Main.instantiateMainVC()
+                    }
                 }
             }
         }, failure: { result in

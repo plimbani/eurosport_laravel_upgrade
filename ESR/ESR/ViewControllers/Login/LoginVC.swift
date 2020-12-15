@@ -184,21 +184,20 @@ class LoginVC: SuperViewController {
             return
         }
         
-        var parameters: [String: Any] = [:]
-        
-        ApiManager().getUserDetails(parameters, success: { result in
+        ApiManager().getUserDetails([:], success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
                 if let authenticated = result.value(forKey: "authenticated") as? Bool {
                     if authenticated {
                         ParseManager.parseLogin(result)
-                        if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
-                            self.updateFCMTokenAPI(fcmToken)
-                        }
+                        self.updateFCMTokenAPI()
                         
                         ApplicationData.temLoginFlag = true
-                        UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+
+                        if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                            keyWindow.rootViewController =  Storyboards.Main.instantiateMainVC()
+                        }
                     } else {
                         if let message = result.value(forKey: "message") as? String {
                             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
@@ -220,30 +219,6 @@ class LoginVC: SuperViewController {
                 }
             }
         })
-    }
-    
-    func updateFCMTokenAPI(_ token: String) {
-        if APPDELEGATE.reachability.connection == .none {
-            return
-        }
-        
-        var parameters: [String: Any] = [:]
-        
-        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
-            parameters["email"] = email
-            parameters["fcm_id"] = token
-            
-            ApiManager().updateFCMTokem(parameters, success: { result in
-                DispatchQueue.main.async {
-                }
-            }, failure: { result in
-                DispatchQueue.main.async {
-                    if result.allKeys.count == 0 {
-                        return
-                    }
-                }
-            })
-        }
     }
     
     func resendEmailAPI(email: String) {
@@ -305,6 +280,32 @@ extension LoginVC: CustomAlertVCDelegate {
     func customAlertVCOkBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.resendEmail.rawValue {
             resendEmailAPI(email: txtEmail.text!)
+        }
+    }
+}
+
+extension LoginVC {
+    func updateFCMTokenAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+            TestFairy.log("FCM token \(fcmToken)")
+            print("FCM token\n")
+            print("\(fcmToken)")
+            print("\n")
+            var parameters: [String: Any] = [:]
+            
+            if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+                parameters["email"] = email
+                parameters["fcm_id"] = fcmToken
+                
+                ApiManager().updateFCMTokem(parameters, success: { result in
+                    print("FCM token has updated")
+                    TestFairy.log("FCM token has updated")
+                }, failure: { result in })
+            }
         }
     }
 }

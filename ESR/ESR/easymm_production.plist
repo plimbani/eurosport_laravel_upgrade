@@ -17,39 +17,25 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.aecor.eurosports.easymatchmanager</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>esrmmweb</string>
+				<string>fb2285199178466834</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FacebookAppID</key>
 	<string>2285199178466834</string>
 	<key>FacebookDisplayName</key>
 	<string>Commercialisation</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>esrmmweb</string>
-				<string>fb2285199178466834</string>
-			</array>
-			<key>CFBundleURLName</key>
-			<string>com.aecordigital.eurosporting.easymatchmanager</string>
-		</dict>
-	</array>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>58c4cde33a8a37c94c26a26e31b96fc092baafce</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-		</array>
-	</dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechromes</string>
@@ -74,7 +60,7 @@
 	<string>$(PRODUCT_NAME) requires to access your photo library.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -98,6 +84,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>base_url</key>
 	<string>$(base_url)</string>
 	<key>google_map_key</key>

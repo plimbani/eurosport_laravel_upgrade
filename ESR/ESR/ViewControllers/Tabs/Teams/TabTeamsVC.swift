@@ -29,6 +29,10 @@ class TabTeamsVC: SuperViewController {
         initialize()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.refreshTabView()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
        
         if rotateToPortrait {
@@ -41,10 +45,6 @@ class TabTeamsVC: SuperViewController {
             
             if let mainTabViewController = self.parent!.parent as? MainTabViewController {
                 mainTabViewController.hideTabbar(flag: false)
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.refreshTabView()
             }
         }
     }

@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>647325923706-8ngvpepkagbmekmsqffmmqi9c2n5kkd4.apps.googleusercontent.com</string>
+	<string>526117351139-lngfgd49ntgnpr1gvbsdvk7r4fslkg47.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.647325923706-8ngvpepkagbmekmsqffmmqi9c2n5kkd4</string>
+	<string>com.googleusercontent.apps.526117351139-lngfgd49ntgnpr1gvbsdvk7r4fslkg47</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>647325923706-dmmprq3ffh6i94v28a9gvb5f8vvjqmsr.apps.googleusercontent.com</string>
+	<string>526117351139-cqp48j5lvose1j3se5fileuhor687g76.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAYFFuaAo3sc9H2JyAmdJbKmwAl3JfRUhU</string>
+	<string>AIzaSyC99FJ25VHII9r2aFpPOrE01XQ5TMRN3e0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>647325923706</string>
+	<string>526117351139</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.aecordigital.eurosporting.easymatchmanager</string>
+	<string>com.aecor.eurosports.easymatchmanager</string>
 	<key>PROJECT_ID</key>
-	<string>easy-match-manager</string>
+	<string>esr-emm</string>
 	<key>STORAGE_BUCKET</key>
-	<string>easy-match-manager.appspot.com</string>
+	<string>esr-emm.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:647325923706:ios:b7fae21ae7eead88</string>
-	<key>DATABASE_URL</key>
-	<string>https://easy-match-manager.firebaseio.com</string>
+	<string>1:526117351139:ios:f8878f83ca07010c52dfd6</string>
 </dict>
 </plist>
