@@ -29,7 +29,7 @@
 </style>
 
 <center>
-  <img  src="{{ asset('assets/img/tmplogo.svg', true)}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <img  src="{{ secure_asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
   
 </center>
   <h4>{{ $pitchReport['pitch_number'] }} - Match Schedule</h4>
