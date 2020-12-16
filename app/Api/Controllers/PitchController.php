@@ -113,9 +113,7 @@ class PitchController extends BaseController
 
     public function getSignedUrlForPitchMatchReport(GetSignedUrlForPitchMatchReportRequest $request, $pitchId)
     {
-        \Log::info('signed url' . secure_url('api/pitch/reportCard/' . $pitchId));
         $signedUrl = UrlSigner::sign(secure_url('api/pitch/reportCard/' . $pitchId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-        \Log::info($signedUrl);
 
         return $signedUrl;
     }

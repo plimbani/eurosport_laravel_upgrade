@@ -32,13 +32,15 @@ Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@
 
 $api = app('Dingo\Api\Routing\Router');
 
+// Need to check later
+$api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport')->name('pitch.reportcard');
+
 $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('match/report/generate/{ageGroupId}/{tournamentId}',
         'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
     $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
-    $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
     $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
 
