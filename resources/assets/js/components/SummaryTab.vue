@@ -13,43 +13,6 @@
 				<h6 class="mb-2 text-muted">{{$lang.summary_dates}}: {{tournamentDates}} </h6>
 			 </div>
 			</div>
-			<div class="col-md-6">
-				<div class="row gutters-tiny align-items-center justify-content-end">
-				<label for="status_rules" class="col-md-2 text-right mb-0">{{$lang.summary_status}}:
-					<span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
-					</span>
-					<div v-bind:id="'status_rules'" style="display:none;">
-                		<div class="popover-body">
-                			Preview = publish key details of the tournament only to the app<br /><br />
-                			Published = publish all details of the tournament to the app<br /><br />
-                			Unpublished = no information about the tournament is published to the app
-                		</div>
-					</div>
-                </label>
-				<div class="col-md-6">
-					<TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
-				</div>
-
- 				<UnPublishedTournament>
-				</UnPublishedTournament>
-
-				<PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
-				</PublishTournament>
-
- 				<PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
-				</PreviewTournament>
-
-				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
-					<button type="button" data-toggle="modal"
-					data-confirm-msg="Are you sure you would like to delete this user record?"
-					data-target="#delete_modal"
-					class="btn btn-danger w-100" 
-					>{{$lang.summary_button_delete}}</button>
-					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-					<!--<DeleteTournament></DeleteTournament>-->
-				</div>
-				</div>
-			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
@@ -104,10 +67,18 @@
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-9">
 			<span>{{$lang.summary_age_groups}}: {{tournamentSummary.tournament_groups}}</span><br>
 				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
 				<span>{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
+			</div>
+			<div class="col-md-3" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+				<button type="button" data-toggle="modal"
+				data-confirm-msg="Are you sure you would like to delete this user record?"
+				data-target="#delete_modal"
+				class="btn btn-danger w-100"
+				>{{$lang.summary_button_delete}}</button>
+				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 			</div>
 		</div>
 	</div>
@@ -115,12 +86,6 @@
 </template>
 
 <script type="text/babel">
-	import PublishTournament from './PublishTournament.vue'
-	import UnPublishedTournament from './UnPublishedTournament.vue'
-	import PreviewTournament from './PreviewTournament.vue'
-	import TournamentStatus from './TournamentStatus.vue'
-
-
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
 
@@ -136,7 +101,7 @@
 	    	}
 	    },
 	    components: {
-	        PublishTournament, DeleteModal,UnPublishedTournament,TournamentStatus,PreviewTournament
+	        DeleteModal
 	    },
 	    mounted() {
 	       // First Set Menu and ActiveTab
