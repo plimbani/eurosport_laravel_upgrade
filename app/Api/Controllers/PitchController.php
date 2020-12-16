@@ -209,7 +209,7 @@ class PitchController extends BaseController
 
     public function getSignedUrlForPitchPlannerExport(GetSignedUrlForPitchPlannerExportRequest $request, $tournamentId)
     {
-        $signedUrl = UrlSigner::sign(url('api/pitchPlanner/export/' . $tournamentId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(secure_url('api/pitchPlanner/export/' . $tournamentId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }
