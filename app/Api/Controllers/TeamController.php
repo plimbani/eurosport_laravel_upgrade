@@ -359,7 +359,7 @@ class TeamController extends BaseController
       $groupsViewData = $request->all();
       ksort($groupsViewData);
       $groupsViewData  = http_build_query($groupsViewData);
-      $signedUrl = UrlSigner::sign(url('api/teams/getGroupsViewData/report/print?' . $groupsViewData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+      $signedUrl = UrlSigner::sign(secure_url('api/teams/getGroupsViewData/report/print?' . $groupsViewData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
       return $signedUrl;
     }
