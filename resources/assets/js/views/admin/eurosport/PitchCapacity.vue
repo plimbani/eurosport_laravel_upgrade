@@ -118,7 +118,9 @@
                             </draggable>
                         </table>
                         <div v-else>
-                            <p class="text-muted">No pitch found.</p>
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
