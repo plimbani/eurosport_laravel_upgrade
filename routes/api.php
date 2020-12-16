@@ -33,29 +33,30 @@ Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
-    $api->get('match/report/generate/{ageGroupId}/{tournamentId}',
-        'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
     $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
-    $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
-    $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
-    $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
 
-    $api->get('teams/getTeamsFairPlayData/report/reportExport', 'Laraspace\Api\Controllers\TeamController@exportTeamFairPlayReport');
     $api->get('teams/getTeamsFairPlayData/report/print', 'Laraspace\Api\Controllers\TeamController@printTeamFairPlayReport');
     $api->get('pitchPlanner/print/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerPrint');
-    $api->get('referee/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\RefereeController@downloadSampleUploadSheet');
-    $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
-    $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
-
-    $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
 
     $api->get('generateTemplateGraphic/{ageCategoryId}','Laraspace\Api\Controllers\TemplateController@generateTemplateGraphic');
     $api->get('match/schedule/print', 'Laraspace\Api\Controllers\AgeGroupController@generateMatchSchedulePrint');
 });
 
 $api->version('v1', function ($api) {
+    // Need to check later
+    $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport')->name('pitch.reportcard');
+    $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
+    $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
+    $api->get('referee/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\RefereeController@downloadSampleUploadSheet');
+    $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
+    $api->get('match/report/generate/{ageGroupId}/{tournamentId}',
+        'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
+    $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
+    $api->get('teams/getTeamsFairPlayData/report/reportExport', 'Laraspace\Api\Controllers\TeamController@exportTeamFairPlayReport');
+    $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
+
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
 
