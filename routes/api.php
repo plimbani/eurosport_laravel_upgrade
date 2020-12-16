@@ -48,8 +48,6 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
     $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
 
-    $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
-
     $api->get('generateTemplateGraphic/{ageCategoryId}','Laraspace\Api\Controllers\TemplateController@generateTemplateGraphic');
     $api->get('match/schedule/print', 'Laraspace\Api\Controllers\AgeGroupController@generateMatchSchedulePrint');
 });
@@ -57,6 +55,7 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
 $api->version('v1', function ($api) {
     // Need to check later
     $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport')->name('pitch.reportcard');
+    $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
 
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
