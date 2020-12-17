@@ -149,7 +149,7 @@ class BuyLicenseController extends BaseController
         ksort($data);
         $reportData  = http_build_query($data);
 
-        $signedUrl = UrlSigner::sign(url('api/license/receipt/generate/'. $tournamentId.'?'.$reportData),Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(secure_url('api/license/receipt/generate/'. $tournamentId.'?'.$reportData),Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
 
         return $signedUrl;
