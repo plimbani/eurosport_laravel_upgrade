@@ -32,7 +32,7 @@
   <?php 
     $logo = ($currentLayout == "commercialisation") ? 'assets/img/easy-match-manager/emm.svg' : 'assets/img/tmplogo.png';
   ?>
-  <img src="{{ asset($logo)}}" alt="Euro-Sportring Logo" width="auto" height="auto"/> 
+  <img src="{{ asset($logo)}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
   <h4>{{ $pitchReport['pitch_number'] }} - Match Schedule</h4>
  
