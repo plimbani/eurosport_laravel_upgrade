@@ -41,7 +41,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('v1/canManageTemplateSection', '\Laraspace\Api\Controllers\Commercialisation\TemplateController@canManageTemplateSection');
 });
 
-$api->version('v1', ['middleware' => 'signedurl'], function($api) {
+$api->version('v1', [], function($api) {
     $api->get('license/receipt/generate/{tournamentId}', 'Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generatePaymentReceipt');
 });
 
