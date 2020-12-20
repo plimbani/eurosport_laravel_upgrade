@@ -36,8 +36,6 @@ interface MatchContract
      * @return response
      */
     public function deleteMatch($deleteId);
-    public function scheduleMatch($matchData);
-    public function unscheduleMatch($matchData);
     public function getAllScheduledMatch($matchData);
     public function getMatchDetail($matchData);
     public function removeAssignedReferee($matchData);

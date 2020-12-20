@@ -166,46 +166,6 @@ class MatchService implements MatchContract
         }
     }
 
-    public function scheduleMatch($data) {
-        $matchFixturesStatusArray = [];
-        $areAllMatchFixtureScheduled = false;
-        $data = $data->all()['data'];
-        $scheduledResult = $this->matchRepoObj->setMatchSchedule($data);
-
-        $unChangedFixturesArray = [];
-        if($scheduledResult['status'] === false) {
-          $unChangedFixturesArray[] = $scheduledResult['data']['match_number'];
-        }
-
-        if(count($unChangedFixturesArray) === 0) {
-          $areAllMatchFixtureScheduled = true;
-        }
-
-        if ($scheduledResult) {
-            if($scheduledResult != -1 && $scheduledResult != -2 && $scheduledResult != -3){
-              $message = 'Match has been scheduled successfully';
-              if(isset($scheduledResult['maximum_interval_flag']) && $scheduledResult['maximum_interval_flag'] === 1) {
-                if($data['isMultiSchedule'] === false) {
-                  $message = 'The match has been scheduled but it does exceed the maximum team interval.';
-                } else {
-                  $message = 'The match will get schedule but it does exceed the maximum team interval.';
-                }
-              }
-
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => $message, 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
-            } else if($scheduledResult == -1){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
-            } else if($scheduledResult == -2){
-               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'This pitch is the wrong pitch size for this fixture.'];
-            }
-            // else if($scheduledResult == -3){
-            //    return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
-            // }
-        } else {
-            return ['status_code' => '300', 'message' => $scheduledResult];
-        }
-    }
-
     public function getAllScheduledMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->getAllScheduledMatches($matchData->all());
         if ($scheduledResult) {
@@ -441,15 +401,6 @@ class MatchService implements MatchContract
       }
     }
 
-    public function unscheduleMatch($matchData) {
-        $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
-
-        if ($scheduledResult) {
-            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
-        } else {
-            return ['status_code' => '300', 'message' => $scheduledResult];
-        }
-    }
     public function saveUnavailableBlock($matchData) {
         $scheduledResult = $this->matchRepoObj->setUnavailableBlock($matchData->all()['matchData']);
         if ($scheduledResult) {
@@ -2670,37 +2621,6 @@ class MatchService implements MatchContract
           $this->calculateCupLeagueTable($fixture, false);
         }
       }
-    }
-
-    public function saveScheduleMatches($scheduleMatches)
-    {
-      $matchFixturesStatusArray = [];
-      $areAllMatchFixtureScheduled = false;
-      $ageCategories = [];
-      $tournamentId = "";
-      foreach ($scheduleMatches as $scheduleMatch) {
-        $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
-        $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
-        
-        if($data['status'] == false) {
-          $matchFixturesStatusArray[] = $data['match_data']->match_number;
-        }
-
-        $ageCategories[] = $scheduleMatch['ageGroupId'];
-        $tournamentId = $scheduleMatch['tournamentId'];
-      }
-
-      if(sizeof($matchFixturesStatusArray) === 0) {
-        $areAllMatchFixtureScheduled = true;
-      }
-
-      foreach($ageCategories as $ageCategoryId) {
-        $matchData = array('tournamentId' => $tournamentId, 'ageGroupId' => $ageCategoryId);
-        $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
-        $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
-      }
-
-      return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
     }
 
     public function getScheduledMatch($data)
