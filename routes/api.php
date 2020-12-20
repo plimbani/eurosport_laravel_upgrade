@@ -333,76 +333,11 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     // Website & Tournament permissions
     $api->post('user/changePermissions','Laraspace\Api\Controllers\UserController@changePermissions');
-    $api->get('user/getUserWebsites/{id}','Laraspace\Api\Controllers\UserController@getUserWebsites');
 
-    // Websites APIs
-    $api->get('websites', 'Laraspace\Api\Controllers\WebsiteController@index');
-    $api->get('getUserAccessibleWebsites', 'Laraspace\Api\Controllers\WebsiteController@getUserAccessibleWebsites');
-    $api->post('saveWebsiteData', 'Laraspace\Api\Controllers\WebsiteController@saveWebsiteData');
-    $api->post('websites/websiteSummary', 'Laraspace\Api\Controllers\WebsiteController@websiteSummary');
-    $api->get('websites/customisation/options', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisationOptions');
-    $api->get('websites/getWebsiteDefaultPages', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDefaultPages');
-
-    $api->post('websites/uploadTournamentLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadTournamentLogo');
-    $api->post('websites/uploadSocialGraphic', 'Laraspace\Api\Controllers\WebsiteController@uploadSocialGraphic');
-    $api->post('websites/uploadSponsorImage', 'Laraspace\Api\Controllers\WebsiteController@uploadSponsorImage');
-    $api->post('websites/uploadHeroImage', 'Laraspace\Api\Controllers\WebsiteController@uploadHeroImage');
-    $api->post('websites/uploadWelcomeImage', 'Laraspace\Api\Controllers\WebsiteController@uploadWelcomeImage');
-    $api->post('websites/uploadOrganiserLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadOrganiserLogo');
-
-    $api->get('getWebsiteDetails/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDetails');
-
-    //Website homepage
-    $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
-    $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
-    $api->get('getSponsors/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getSponsors');
-    $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
-
-    $api->post('saveWebsiteTournamentPageData', 'Laraspace\Api\Controllers\WebsiteTournamentController@savePageData');
-    $api->get('getWebsiteTournamentPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTournamentController@getPageData');
-
-    $api->get('getHomePageData/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getPageData');
-
-    //Website staypage
-    $api->post('saveStayPageData', 'Laraspace\Api\Controllers\StayController@saveStayPageData');
-    $api->get('getStayPageData/{websiteId}', 'Laraspace\Api\Controllers\StayController@getStayPageData');
-
-    // Website programpage
-    $api->get('getItineraries/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getItineraries');
-    $api->post('saveProgramPageData', 'Laraspace\Api\Controllers\ProgramController@saveProgramPageData');
-    $api->get('getProgramPageData/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageData');
-
-    // Image path
-    $api->get('getConfigurationDetail', 'Laraspace\Api\Controllers\WebsiteController@getConfigurationDetail');
-
-    // Website visitor
-    $api->post('saveVisitorPageData', 'Laraspace\Api\Controllers\VisitorController@savePageData');
-    $api->get('getVisitorPageData/{websiteId}', 'Laraspace\Api\Controllers\VisitorController@getPageData');
-
-    // Website team
-    $api->get('getAgeCategories/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getAgeCategories');
-    $api->get('getTeamPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getPageData');
-    $api->post('saveTeamPageData', 'Laraspace\Api\Controllers\WebsiteTeamController@savePageData');
-    $api->post('importAgeCategoryAndTeamData', 'Laraspace\Api\Controllers\WebsiteTeamController@importAgeCategoryAndTeamData');
-
-    // Website media
-    $api->get('getPhotos/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getPhotos');
-    $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
-    $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
-    $api->post('media/uploadMediaPhoto', 'Laraspace\Api\Controllers\MediaController@uploadMediaPhoto');
-    $api->post('media/uploadDocument', 'Laraspace\Api\Controllers\MediaController@uploadDocument');
-    // Website venue
-    $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
-    $api->get('getMarkers/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getMarkers');
-    $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
-
-    // Contact
-    $api->get('getContactDetails/{websiteId}', 'Laraspace\Api\Controllers\ContactController@getContactDetails');
-    $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
+    // Image path   
+    $api->get('getConfigurationDetail', 'Laraspace\Api\Controllers\TournamentController@getConfigurationDetail');
 
     $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
-
-    $api->post('generatePreviewUrl/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@generatePreviewUrl');
     
 });
 

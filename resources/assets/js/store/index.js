@@ -9,7 +9,6 @@ import Tournament from './modules/tournament'
 import Users from './modules/users'
 import Pitch from './modules/pitch'
 import Website from './modules/website'
-import Image from './modules/image'
 import Configuration from './modules/configuration'
 
 import createPersistedState from 'vuex-persistedstate'
@@ -73,7 +72,6 @@ export default new Vuex.Store({
     Pitch,
     Users,
     Website,
-    Image,
     Configuration,
   },
   strict: debug

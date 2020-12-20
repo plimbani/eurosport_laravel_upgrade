@@ -49,9 +49,6 @@ export default {
   getUserTournaments(userId) {
     return api.get('user/getUserTournaments/' + userId)
   },
-  getUserWebsites(userId) {
-    return api.get('user/getUserWebsites/' + userId)
-  },
   getSignedUrlForUsersTableData(userData) {
     return api.post('getSignedUrlForUsersTableData?' +userData);
   },

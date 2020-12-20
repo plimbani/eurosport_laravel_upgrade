@@ -31,7 +31,6 @@ export const setScoreAutoUpdate = ({ commit }, scoreAutoUpdate) => {
 }*/
 
 export const setConfigurationDetail = ({ commit }, configurationDetail) => {
-  commit(types.SET_IMAGE_PATH, configurationDetail['imagePath'])
   commit(types.SET_MAP_KEY, configurationDetail['googleMapKey'])
   commit(types.SET_CURRENT_LAYOUT, configurationDetail['currentLayout'])
   commit(types.SET_MATCH_IDLETIME, configurationDetail['matchIdleTime'])
