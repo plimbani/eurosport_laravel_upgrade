@@ -30,6 +30,7 @@ use Laraspace\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
 use Laraspace\Http\Requests\Tournament\GetUserLoginFavouriteTournamentRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
+use Laraspace\Http\Requests\Tournament\GetConfigurationDetailRequest;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TournamentContract;
@@ -417,5 +418,14 @@ class TournamentController extends BaseController
                     'screen_rotate_time_in_seconds' => $tournament->screen_rotate_time_in_seconds,
                     'show_presentation' => count($ageCategoryIds) > 0 ? true : false,
                 ];
+    }
+
+    /*  
+    * Get image path 
+    *    
+    * @return response   
+    */   
+    public function getConfigurationDetail(GetConfigurationDetailRequest $request) {   
+        return $this->tournamentObj->getConfigurationDetail();    
     }
 }

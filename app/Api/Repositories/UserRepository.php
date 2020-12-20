@@ -343,8 +343,6 @@ class UserRepository {
 
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
-      $user->websites()->sync([]);
-      $user->websites()->attach($data['websites']);
 
       if($user->hasRole('Results.administrator') && $user->tournaments()->count() == 0) {
         $mobileUserRole = Role::where('slug', 'mobile.user')->first();
@@ -417,9 +415,8 @@ class UserRepository {
         }
     }
 
-    public function getAllCountries()
-    {
-        return $contries = Country::orderBy('name')->get();
+    public function getAllCountries() {
+      return $contries = Country::orderBy('name')->get();
     }
 
     public function getAllLanguages()
