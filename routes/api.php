@@ -333,6 +333,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Website & Tournament permissions
     $api->post('user/changePermissions','Laraspace\Api\Controllers\UserController@changePermissions');
 
+    // Image path   
+    $api->get('getConfigurationDetail', 'Laraspace\Api\Controllers\TournamentController@getConfigurationDetail');
+
     $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
     
 });

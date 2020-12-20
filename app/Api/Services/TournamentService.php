@@ -953,5 +953,22 @@ class TournamentService implements TournamentContract
     {
       $data = $this->tournamentRepoObj->saveVenueDetails($data);
       return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
-    }    
+    }
+
+    /*  
+     * Get configuration detail 
+     *  
+     * @return response 
+     */ 
+    public function getConfigurationDetail()  
+    { 
+      $data = []; 
+      $googleMapKey = env('GOOGLE_API_KEY');  
+      $data['googleMapKey'] = $googleMapKey;  
+      $data['currentLayout'] = config('config-variables.current_layout'); 
+      $matchIdleTime = config('config-variables.match_idle_time');  
+      $data['matchIdleTime'] = $matchIdleTime;  
+
+      return $data; 
+    } 
 }
