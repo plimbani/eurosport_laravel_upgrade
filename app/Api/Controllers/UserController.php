@@ -271,11 +271,6 @@ class UserController extends BaseController
       return $this->userObj->getUserTournaments($id);
     }
 
-    public function getUserWebsites(GetUserWebsitesRequest $request, $id)
-    {
-        return $this->userObj->getUserWebsites($id);
-    }
-
     public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
     { 
 
