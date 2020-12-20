@@ -1699,6 +1699,7 @@ class MatchRepository
       }
       return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false, 'maximum_interval_flag' => $setMaximumIntervalFlag];
     }
+
     public function matchUnschedule($matchId, $isUnscheduleAll = false)
     {
       $matchData = DB::table('temp_fixtures')->find($matchId);

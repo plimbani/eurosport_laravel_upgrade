@@ -7,11 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laraspace\Models\Position;
 use Laraspace\Http\Requests\AgeGroup\TeamDetailsRequest;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 use Laraspace\Http\Requests\AgeGroup\GetCompetationFormatRequest;
 use Laraspace\Http\Requests\AgeGroup\CreateCompetationFomatRequest;
 use Laraspace\Http\Requests\AgeGroup\DeleteCompetitionFormatRequest;
-// Need to Define Only Contracts
-use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Http\Requests\AgeGroup\GetSignedUrlForMatchSchedulePrintRequest;
 
 /**
@@ -23,9 +22,8 @@ use Laraspace\Http\Requests\AgeGroup\GetSignedUrlForMatchSchedulePrintRequest;
  */
 class AgeGroupController extends BaseController
 {
-    public function __construct(AgeGroupContract $ageGroupObj)
+    public function __construct()
     {
-        $this->ageGroupObj = $ageGroupObj;
     }
 
     /**
@@ -100,14 +98,18 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->createCompetationFomat($request->all());
     }
     public function getCompetationFormat(GetCompetationFormatRequest $request) {
-        return $this->ageGroupObj->GetCompetationFormat($request);
+        $client = new HttpClient();
+        $competationFormat = $client->post('/age_group/getCompetationFormat', [], $request->all());
+        return $competationFormat;
     }
     public function deleteCompetationFormat(DeleteCompetitionFormatRequest $request) {
        return $this->ageGroupObj->deleteCompetationFormat($request);
     }
 
     public function getPlacingsData(TeamDetailsRequest $request) {
-        return $this->ageGroupObj->getPlacingsData($request->all());
+        $client = new HttpClient();
+        $placingsData = $client->post('/age_group/getPlacingsData', [], $request->all());
+        return $placingsData;
     }
 
     public function copyAgeCategory(Request $request) {
@@ -124,13 +126,9 @@ class AgeGroupController extends BaseController
 
     public function getSignedUrlForMatchSchedulePrint(GetSignedUrlForMatchSchedulePrintRequest $request)
     {
-        $reportData = $request->all();
-        ksort($reportData);
-        $reportData  = http_build_query($reportData);
-        
-        $signedUrl = UrlSigner::sign(url('api/match/schedule/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-
-        return $signedUrl;
+        $client = new HttpClient();
+        $placingsData = $client->post('/getSignedUrlForMatchSchedulePrint', [], $request->all());
+        return $placingsData;
     }
 
     public function generateMatchSchedulePrint(Request $request)

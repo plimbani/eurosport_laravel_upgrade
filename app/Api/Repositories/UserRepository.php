@@ -313,31 +313,8 @@ class UserRepository {
       $loggedInUser = $this->getCurrentLoggedInUserDetail();
       $user = User::find($data['user']['id']);
 
-      $userTournamentsIds = $user->tournaments->pluck('id')->toArray();
-      $userSelectedTournamentsIds = $data['tournaments'];
-      $newlySelectedTournamentsIds = array_diff($userSelectedTournamentsIds, $userTournamentsIds);
-
-      $user->tournaments()->sync([]);
-      $user->tournaments()->attach($data['tournaments']);
       $user->websites()->sync([]);
       $user->websites()->attach($data['websites']);
-
-      if($user->hasRole('Results.administrator') && $user->tournaments()->count() == 0) {
-        $mobileUserRole = Role::where('slug', 'mobile.user')->first();
-        $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])->update(['role_id' => $mobileUserRole->id]);
-      }
-      if($loggedInUser->hasRole('tournament.administrator') && $user->hasRole('Results.administrator')) {
-        $tournamentsArray = Tournament::whereIn('id', $newlySelectedTournamentsIds)->get()->toArray();
-        foreach ($tournamentsArray as $key => $tournament) {
-          $email_details['userName'] = $data['user']['first_name'];
-          $email_details['tournamentId'] = $tournament['id'];
-          $email_details['tournamentName'] = $tournament['name'];
-          $userEmail = $data['user']['email'];
-          $subject = 'Euro-Sportring Tournament Planner - New tournament access';
-          $email_templates = 'emails.users.result_administrator_tournament_access';
-          Mail::to($userEmail)->send(new SendMail($email_details, $subject, $email_templates, NULL, NULL, NULL));
-        }      
-      }
 
       return true;
     } 
