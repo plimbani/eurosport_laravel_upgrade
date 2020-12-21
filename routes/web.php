@@ -30,7 +30,9 @@ Route::group(['domain' => config('app.domain')], function() {
 
 	Route::get('/{vue?}', function () {
 		return view('app');
-	})->where('vue', '[\/\w\.-]*')->name('home');
+	})
+	->where('vue', '^((?!assets).)*$')
+	->where('vue', '[\/\w\.-]*')->name('home');
 	
 	Route::post('/passwordactivate', [
 		'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
