@@ -179,5 +179,7 @@ return [
     ],
     'tournament' => [
         'apiurl' => env('TOURNAMENT_API_URL'),
+        'apiemail'  => env('TOURNAMENT_API_EMAIL'),
+        'apipassword'  => env('TOURNAMENT_API_PASSWORD')
     ],
 ];
