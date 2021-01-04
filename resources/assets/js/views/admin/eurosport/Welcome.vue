@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="d-flex mb-4" :class="isResultAdmin || isInternalAdmin ? 'col-sm-6' : 'col-sm-6'">
+      <div class="d-flex mb-4" :class="isInternalAdmin ? 'col-sm-6 offset-sm-3' : 'col-sm-6'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
