@@ -344,6 +344,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getMarkers/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getMarkers');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
 
+    // Contact
+    $api->get('getContactDetails/{websiteId}', 'Laraspace\Api\Controllers\ContactController@getContactDetails');
+    $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
+
     $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
 
     $api->post('generatePreviewUrl/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@generatePreviewUrl');
