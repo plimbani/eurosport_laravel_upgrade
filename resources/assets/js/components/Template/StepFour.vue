@@ -5,7 +5,7 @@
 				<div class="col-md-12">
 					<div class="row">
 						<div class="col-12">
-							<h5 v-if="templateFormDetail.stepone.editor == 'knockout'">{{ $lang.add_template_modal_step3_header }}</h5>
+							<h5 v-if="templateFormDetail.stepone.editor == 'knockout'">{{ $lang.add_template_modal_step3_header_knockout }}</h5>
 							<h5 v-else>{{ $lang.add_template_modal_step4_header }}</h5>
 						</div>
 					</div>
@@ -223,7 +223,7 @@
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been added successfully.', 'Add Template', {timeOut: 5000});
-			        				vm.$root.$emit('clearFormFields');
+			        				// vm.$root.$emit('clearFormFields');
 			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {

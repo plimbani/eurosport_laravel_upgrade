@@ -120,6 +120,6 @@ class HttpClient
 
     public function login()
     {
-    	return $this->post('/auth/login', [], ['email' => 'rstenson@aecordigital.com', 'password' => 'password']);
+    	return $this->post('/auth/login', [], ['email' => config('config-variables.tournament.apiemail'), 'password' => config('config-variables.tournament.apipassword')]);
     }
 }
