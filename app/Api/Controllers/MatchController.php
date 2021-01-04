@@ -837,7 +837,7 @@ class MatchController extends BaseController
     public function getSignedUrlForMatchReport(GetSignedUrlForMatchReportRequest $request)
     {
         $requestData = $request->all();
-        $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $requestData['ageCategoryData']['ageCategory'].'/'.$requestData['ageCategoryData']['tournament_id']), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(secure_url('api/match/report/generate/' . $requestData['ageCategoryData']['ageCategory'].'/'.$requestData['ageCategoryData']['tournament_id']), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         
         return $signedUrl;
     }
@@ -877,7 +877,7 @@ class MatchController extends BaseController
      */
     public function getSignedUrlForTeamsSpreadsheetSampleDownload(GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest $request)
     {
-        $signedUrl = UrlSigner::sign(url('api/match/downloadSampleUploadSheet'), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(secure_url('api/match/downloadSampleUploadSheet'), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }

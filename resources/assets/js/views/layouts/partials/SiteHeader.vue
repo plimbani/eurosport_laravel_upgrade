@@ -102,6 +102,7 @@
         // Here we call Function to get User Details
         let userData = {'email':email}
         this.getUserDetails(userData);
+        this.getConfigurationDetail();
          },
         methods : {
             getUserDetails(emailData){
@@ -130,6 +131,15 @@
                   (error)=> {
                   }
                 );
+            },
+            getConfigurationDetail() {  
+                Website.getConfigurationDetail().then(  
+                  (response)=> {    
+                    this.$store.dispatch('setConfigurationDetail', response.data);  
+                  },    
+                  (error)=> {   
+                  } 
+                );  
             },
             initialState() {
                 return {
