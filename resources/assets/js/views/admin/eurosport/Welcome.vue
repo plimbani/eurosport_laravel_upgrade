@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isInternalAdmin ? 'col-sm-6' : 'col-sm-6'" v-if="userDetails.role_slug != 'Results.administrator'">
+      <div class="d-flex mb-4" :class="isInternalAdmin ? 'col-sm-6 offset-sm-3' : 'col-sm-6'" v-if="userDetails.role_slug != 'Results.administrator'">
         <div :class="{ 'card mb-0 w-100': true, 'is-disabled': currentLayout === 'commercialisation' }">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
