@@ -75,9 +75,9 @@
                                     <th>{{$lang.pitch_modal_details_size}}</th>
                                     <th>{{$lang.pitch_modal_details_type}}</th>
                                     <th>{{$lang.pitch_modal_availability_stage}}</th>
-                                    <th>{{$lang.pitch_modal_copy}}</th>
-                                    <th>{{$lang.pitch_modal_action}}</th>
-                                    <th v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
+                                    <th class="text-center">{{$lang.pitch_modal_copy}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_action}}</th>
+                                    <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
                             <draggable v-model="dragPitches" :element="'tbody'" @change="updatePitchOrder()" :options="{handle: '.drag-handle'}">
@@ -92,12 +92,12 @@
                                             <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
                                             <p>Day 3: 10am-2pm</p>-->
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="align-middle">
                                                  <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success mx-1" style="font-size:1.3em"><i class="fas fa-copy"></i></a>
                                             </span>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="align-middle">
                                                 <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id, 'edit')" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
@@ -108,7 +108,7 @@
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
                                             </span>
                                         </td>
-                                        <td v-if="!searchDisplayData" class="drag-handle">
+                                        <td v-if="!searchDisplayData" class="drag-handle text-center">
                                             <span class="align-middle text-primary draggable-handle">
                                                 <i class="fas fa-arrow-up" v-if="index > 0 && index < dragPitches.length"></i>
                                                 <i class="fas fa-arrow-down" v-if="index >= 0 && index < dragPitches.length - 1"></i>

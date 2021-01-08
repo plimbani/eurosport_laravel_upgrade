@@ -5,12 +5,12 @@
          <table class="table table-hover table-bordered add-category-table">
           <thead>
               <tr>
-                  <th class="text-center">{{$lang.competation_name_category}}</th>
-                  <th class="text-center">{{$lang.competation_category_age}}</th>
-                  <th class="text-center">{{$lang.compeattion_template}}</th>
-                  <th class="text-center">{{$lang.competation_competation_format}}</th>
-                  <th class="text-center">{{$lang.competation_total_matches}}</th>
-                  <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
+                  <th>{{$lang.competation_name_category}}</th>
+                  <th>{{$lang.competation_category_age}}</th>
+                  <th>{{$lang.compeattion_template}}</th>
+                  <th>{{$lang.competation_competation_format}}</th>
+                  <th>{{$lang.competation_total_matches}}</th>
+                  <th width="90px">{{$lang.competation_total_time}}</th>
                   <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
               </tr>
           </thead>
@@ -27,7 +27,7 @@
                   </span>
                 </div>
               </td>
-              <td class="text-center">{{competation.total_match}}</td>
+              <td class="text-left">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
               <td class="text-center">
