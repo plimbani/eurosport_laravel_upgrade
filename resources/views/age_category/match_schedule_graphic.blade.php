@@ -524,7 +524,7 @@
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
                                                         @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
-                                                          <br>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}
+                                                          <br>{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}
                                                         @endif
                                                       </td>
                                                     @endif
@@ -733,7 +733,7 @@
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
                                                         @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
-                                                          <br>{{$homeTeamScoreValue}}-{{$awayTemScoreValue}}
+                                                          <br>{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}
                                                         @endif
                                                       </td>
                                                     @endif
