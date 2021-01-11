@@ -66,7 +66,7 @@
 			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
-		<div class="row">
+		<div class="row gutters-tiny">
 			<div class="col-md-9">
 			<span>{{$lang.summary_age_groups}}: {{tournamentSummary.tournament_groups}}</span><br>
 				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
