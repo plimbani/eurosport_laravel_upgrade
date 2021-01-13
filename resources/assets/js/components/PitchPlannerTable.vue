@@ -583,6 +583,7 @@
                 })
                 setTimeout(function(){
                     vm.getAllScheduledMatches();
+                    vm.clearScheduleMatchesCount();
                 },500)
             },
             confirmUnschedulingAllFixtures() {
@@ -602,6 +603,7 @@
                             vm.$root.$emit('refreshCompetitionWithGames');
                         });
                         vm.getAllScheduledMatches();
+                        vm.clearScheduleMatchesCount();
                     }
                 })
             },
@@ -610,6 +612,9 @@
             },
             clearScheduleMatches() {
                 this.$emit("clearScheduleMatchesArray");
+            },
+            clearScheduleMatchesCount() {
+                this.$emit("clearAllScheduleMatchesArray");
             },
             saveScheduleMatches() {
                 let vm = this;

@@ -19,7 +19,7 @@
             </div>
           </div>
 	  			<div class="mt-4" >
-	  				<pitch-planner-table :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" @changeMatchScheduleStatus="changeMatchScheduleStatus" @saveScheduleMatchResult="saveScheduleMatchResult" @clearScheduleMatchesArray="clearScheduleMatchesArray"></pitch-planner-table>
+	  				<pitch-planner-table :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" @changeMatchScheduleStatus="changeMatchScheduleStatus" @saveScheduleMatchResult="saveScheduleMatchResult" @clearScheduleMatchesArray="clearScheduleMatchesArray" @clearAllScheduleMatchesArray="clearAllScheduleMatchesArray"></pitch-planner-table>
             <UnsavedMatchPlannerModel :scheduleMatchesArray="scheduleMatchesArray" @movetoNextRoute="movetoNextRoute"></UnsavedMatchPlannerModel>
 	  			</div>
 			</div>
@@ -27,7 +27,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="pull-right">
-            <button class="btn btn-primary" :class="{'is-disabled': scheduleMatchesArray.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+            <button class="btn btn-primary" :class="{'is-disabled': allScheduleMatches.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
@@ -50,6 +50,7 @@ var moment = require('moment');
           'isVertical': true,
           'isHorizontal': false,
           'scheduleMatchesArray': [],
+          'allScheduleMatches': [],
           'isMatchScheduleInEdit': false,
           'movetoNextRouteName': null,
        }
@@ -119,12 +120,17 @@ var moment = require('moment');
         let matchIndex = _.findIndex(this.scheduleMatchesArray, function(o) { return o.matchId == matchData.matchId; });
         if(matchIndex === -1) {
             this.scheduleMatchesArray.push(matchData);
+            this.allScheduleMatches.push(matchData);
         } else {
             this.scheduleMatchesArray[matchIndex] = matchData;
+            this.allScheduleMatches[matchIndex] = matchData;
         }
       },
       clearScheduleMatchesArray() {
         this.scheduleMatchesArray = [];
+      },
+      clearAllScheduleMatchesArray() {
+        this.allScheduleMatches = [];
       },
       movetoNextRoute() {
         if(this.movetoNextRouteName) {
