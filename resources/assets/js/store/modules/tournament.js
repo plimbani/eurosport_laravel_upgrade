@@ -372,7 +372,7 @@ const mutations = {
 
               displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
 
-              var matchData = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id,'competitionId':match.competitionId,'venueId':match.venueId,'categoryAgeColor':match.category_age_color,'categoryAgeFontColor':match.category_age_font_color, 'scheduleLastUpdateDateTime':match.schedule_last_update_date_time};
+              var matchData = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id,'competitionId':match.competitionId,'venueId':match.venueId,'categoryAgeColor':match.category_age_color,'categoryAgeFontColor':match.category_age_font_color, 'scheduleLastUpdateDateTime':match.schedule_last_update_date_time, 'actualRound': match.actual_round, 'matchRoundNo': match.match_round_no, 'matchCodeNo': match.match_code_no};
               comp.push(matchData)
 
               if(match.is_scheduled != 1){
