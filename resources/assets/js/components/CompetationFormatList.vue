@@ -209,6 +209,7 @@ export default {
             };
           });
           this.competationList = response.data.data
+          this.$store.dispatch('setCompetationList',this.competationList)          
           let time_sum= 0;
           this.competationList.reduce(function (a,b) {
             time_sum += b['total_time']
