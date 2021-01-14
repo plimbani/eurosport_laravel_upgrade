@@ -13,7 +13,7 @@
             </div>
             <div class="text-center mt-3 matchClass"
             v-if="match.isScheduled!=1"
-            v-for="(match,matchIndex) in competition.matchList"
+            v-for="(match,matchIndex) in getMatchesOfCompetition(competition)"
             :data-text="match.displayMatchName" :key="'match'+competitionIndex+matchIndex">
                 <draggable-match-event :match="match" :fixtureBackgroundColor="competition.category_age_color" :fixtureTextColor="competition.category_age_font_color"></draggable-match-event>
             </div>
@@ -49,10 +49,6 @@ export default {
     }
   },
   computed: {
-    // competitionWithGames(){
-    //   return this.refreshCompetitionWithGames();
-    // },
-
     matches(){
       return this.$store.state.Tournament.matches
     }
@@ -68,11 +64,6 @@ export default {
     $("#game-list").mCustomScrollbar({
       'autoHideScrollbar':true
     });
-
-    // let vm = this;
-    // $("body").on('DOMSubtreeModified', "#game-list", function() {
-    //   vm.calculateUnscheduleMatches();
-    // });
   },
   methods: {
     filterCompetition(competition)
@@ -194,6 +185,29 @@ export default {
         {
             $('#gameReferee span.gameCount').html('('+$("#game-list .matchClass > .js-draggable-events").length+')');
         }
+    },
+    getMatchesOfCompetition(competition)
+    {
+      let matchList = new Array();
+      let allRoundMatches = _.groupBy(competition.matchList, match => match.matchRoundNo);
+      _.forEach(allRoundMatches, function(roundMatches) {
+        let roundTypeMatches = _.groupBy(roundMatches, match => match.actualRound);
+        let roundType = "Round Robin";
+        _.forEach(roundTypeMatches, function(roundTypeMatches) {
+          _.forEach(roundTypeMatches, function(match) {
+            if(match.actualRound == 'Elimination') {
+              roundType = "Elimination";
+              return false;
+            }
+          });
+          if(roundType == 'Elimination') {
+            console.log('roundTypeMatches', roundTypeMatches);
+            roundTypeMatches = _.orderBy(roundTypeMatches, [function(o) { return parseInt(o.matchCodeNo); }], ['desc']);
+          }
+          matchList = $.merge(matchList, roundTypeMatches);
+        });
+      });
+      return matchList;
     }
   }
 }
