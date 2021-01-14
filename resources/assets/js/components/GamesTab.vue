@@ -201,7 +201,6 @@ export default {
             }
           });
           if(roundType == 'Elimination') {
-            console.log('roundTypeMatches', roundTypeMatches);
             roundTypeMatches = _.orderBy(roundTypeMatches, [function(o) { return parseInt(o.matchCodeNo); }], ['desc']);
           }
           matchList = $.merge(matchList, roundTypeMatches);
