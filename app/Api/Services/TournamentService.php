@@ -378,7 +378,7 @@ class TournamentService implements TournamentContract
       $this->manageDeletedAndUnpublishedTournaments($tournamentId);      
 
         DB::table('tournament_user')->where('tournament_id', $tournamentId)->delete();
-        Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
+        // Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
         $data = $this->tournamentRepoObj->delete($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
