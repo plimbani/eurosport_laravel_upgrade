@@ -30,7 +30,7 @@
 
 <center>
   <?php 
-    $logo = (Config::get('config-variables.current_layout') == 'tmp') ? 'assets/img/tmplogo.svg' : 'assets/img/easy-match-manager/emm.svg';
+    $logo = (Config::get('config-variables.current_layout') == 'tmp') ? 'assets/img/logo-desk.svg' : 'assets/img/easy-match-manager/emm.svg';
   ?>
   <img  src="{{ asset($logo)}}" alt="Laraspace Logo" width="200px">
 </center>

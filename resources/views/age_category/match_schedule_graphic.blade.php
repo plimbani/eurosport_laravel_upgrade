@@ -440,7 +440,7 @@
             @if($tournamentData->tournamentLogo != null)
               <img src="{{ $tournamentData->tournamentLogo }}" alt="Laraspace Logo" height="20px">
             @elseif(Config::get('config-variables.current_layout') == 'tmp')
-              <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" height="20px">
+              <img  src="{{ asset('assets/img/logo-desk.svg')}}" alt="Laraspace Logo" height="20px">
             @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
               <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo"  height="20px">
             @endif
