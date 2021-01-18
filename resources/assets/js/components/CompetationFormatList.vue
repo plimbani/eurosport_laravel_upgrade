@@ -30,7 +30,7 @@
               <td class="text-left">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
-              <td class="text-center">
+              <td class="text-center nowrap">
                 <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
                   @click="editCompFormat(competation.id)"><i class="fas fa-pencil"></i></a>

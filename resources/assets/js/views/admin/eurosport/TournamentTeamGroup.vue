@@ -133,8 +133,8 @@
                           <td>{{team.category_age}} </td>
                           <td>{{team.age_name}} </td>
 
-                          <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
-                          <td :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
+                          <td class="text-center" width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                          <td class="text-center" :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
                             <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
                           </td>
                           <td class="text-center">
