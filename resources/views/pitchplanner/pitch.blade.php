@@ -35,7 +35,7 @@
 </style>
 
 <center>
-  <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <img  src="{{ asset('assets/img/logo-desk.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">

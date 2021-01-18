@@ -60,7 +60,7 @@
 		  	@endif
 
 		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
-	  			<img src="{{ asset('assets/img/tmplogo.svg')}}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
+	  			<img src="{{ asset('assets/img/logo-desk.svg')}}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
 		  	@endif
 
 		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'commercialisation')
