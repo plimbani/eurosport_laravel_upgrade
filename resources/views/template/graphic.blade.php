@@ -36,7 +36,7 @@
                         <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
                         @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
                           <span>
-                            {{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}
+                            <span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}</span>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}<span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}</span>
                           </span>
                         @endif
                       </div>
@@ -158,7 +158,7 @@
                     <div class="bordered-box d-flex flex-column justify-content-center"><span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
                       @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
                         <span>
-                          {{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}
+                          <span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}</span>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}<span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}</span>
                         </span>
                       @endif
                     </div>
