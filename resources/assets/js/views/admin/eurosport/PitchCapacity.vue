@@ -119,7 +119,7 @@
                         </table>
                         <div v-else>
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                                <button type="button" class="btn btn-success" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                             </div>
                         </div>
                     </div>
