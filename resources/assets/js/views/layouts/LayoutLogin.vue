@@ -10,7 +10,7 @@
             <router-view></router-view>
             <div class="page-copyright">
 
-                <p>Copyright {{currentYear}} TMP Applications BV.<br/>
+                <p>Copyright {{currentYear}} Euro-Sportring.<br/>
                 Developed by <a class="aecor-anchor" href="http://aecordigital.com" target="_blank">aecor</a>.</p>
             </div>
         </div>

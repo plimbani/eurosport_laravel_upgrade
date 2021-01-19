@@ -243,7 +243,7 @@
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;">
-                          <p style="line-height:14px"><small>Copyright {{ Carbon\Carbon::now()->format('Y') }} TMP Applications BV.<br/>Developer by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor</a>.</small></p>
+                          <p style="line-height:14px"><small>Copyright {{ Carbon\Carbon::now()->format('Y') }} Euro-Sportring.<br/>Developer by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor</a>.</small></p>
                         </div>
                       </td>
                     </tr>

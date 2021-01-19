@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="page-copyright">
-                    <p>Copyright {{ Carbon\Carbon::now()->format('Y') }} TMP Applications BV.<br/>Developed  by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor</a>.</p>
+                    <p>Copyright {{ Carbon\Carbon::now()->format('Y') }} Euro-Sportring.<br/>Developed  by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor</a>.</p>
                 </div>
             </div>
         </div>
