@@ -93,7 +93,7 @@
                 </div>
             </div>
             <div class="page-copyright">
-                <p>Copyright {{ date('Y') }} TMP Applications BV.</br>Developed  by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor </a>.</p>
+                <p>Copyright {{ date('Y') }} Euro-Sportring.</br>Developed  by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor </a>.</p>
             </div>
         </div>
     </div>

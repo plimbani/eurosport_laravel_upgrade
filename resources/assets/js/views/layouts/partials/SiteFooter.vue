@@ -1,7 +1,7 @@
 <template>    
     <footer class="site-footer d-flex justify-content-center">
         <div class="page-copyright align-self-center">
-            <small>Copyright {{currentYear}} TMP Applications BV. Developed  by <a href="http://aecordigital.com" target="_blank"><font color="#fff" style="text-decoration: underline">aecor</font></a>.</small>
+            <small>Copyright {{currentYear}} Euro-Sportring. Developed  by <a href="http://aecordigital.com" target="_blank"><font color="#fff" style="text-decoration: underline">aecor</font></a>.</small>
         </div>
     </footer>
 </template>
