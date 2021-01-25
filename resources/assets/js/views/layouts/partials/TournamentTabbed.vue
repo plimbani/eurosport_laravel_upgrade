@@ -60,7 +60,7 @@
                     </a>                    
                 </li>
                 <li class="nav-item" v-if="!isResultAdmin">                    
-                    <a :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
+                    <a id="matchPlannerTab" :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -74,7 +74,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a :class="[(activePath == 'tournaments_summary_details' ? 'active' : ''), (isScoreUpdated ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
+                    <a id="administrationTab" :class="[(activePath == 'tournaments_summary_details' ? 'active' : ''), (isScoreUpdated ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
                     
