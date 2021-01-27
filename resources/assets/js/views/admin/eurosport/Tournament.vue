@@ -81,18 +81,6 @@
 				</div>
 			</div>
 		</div>
-    <div class="row" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
-      <div class="col-md-12">
-        <div class="pull-right">
-          <button type="button" data-toggle="modal"
-          data-confirm-msg="Are you sure you would like to delete this user record?"
-          data-target="#delete_modal"
-          class="btn btn-danger w-135"
-          >{{$lang.summary_button_delete}}</button>
-          <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-        </div>
-      </div>
-    </div>
 	</div>
 </template>
 
@@ -113,7 +101,6 @@ import UnPublishedTournament from '../../../components/UnPublishedTournament.vue
 import PreviewTournament from '../../../components/PreviewTournament.vue'
 import TournamentStatus from '../../../components/TournamentStatus.vue'
 import Tournament from '../../../api/tournament.js'
-import DeleteModal from '../../../components/DeleteModal.vue'
 
 export default {
 
@@ -127,7 +114,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament, DeleteModal
+        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 
@@ -264,22 +251,6 @@ export default {
       },
       unChangedMatchScoresModal(data) {
         this.$parent.setUnChangedMatchScoresModal(data);
-      },
-      deleteConfirmed() {
-        Tournament.deleteTournament(this.tournamentId).then(
-          (response) => {
-            if(response.data.status_code==200){
-               $("#delete_modal").modal("hide");
-               toastr.success('Tournament has been deleted successfully.', 'Delete Tournament', {timeOut: 5000});
-               //Redirect on Login Page
-               setTimeout(this.$router.push({name: 'welcome'}), 5000);
-               //this.displayTournamentCompetationList();
-            }
-          },
-          (error) => {
-            alert('error occur')
-          }
-        )
       },
     }
 }

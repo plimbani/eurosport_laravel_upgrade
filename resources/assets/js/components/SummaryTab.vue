@@ -72,12 +72,21 @@
 				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
 				<span>{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
 			</div>
+			<div class="col-md-3" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+				<button type="button" data-toggle="modal"
+				data-confirm-msg="Are you sure you would like to delete this user record?"
+				data-target="#delete_modal"
+				class="btn btn-danger w-100"
+				>{{$lang.summary_button_delete}}</button>
+				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+			</div>
 		</div>
 	</div>
 
 </template>
 
 <script type="text/babel">
+	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
 
 	export default {
@@ -85,12 +94,13 @@
 	    	return {
 	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
 	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',tournamentStatus:'',
+	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: '',
                 canDuplicateFavourites: false,
 	    	}
 	    },
 	    components: {
-
+	    	DeleteModal
 	    },
 	    mounted() {
 	       // First Set Menu and ActiveTab
@@ -216,6 +226,22 @@
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
 
 		 }
+	    },
+	    deleteConfirmed() {
+			Tournament.deleteTournament(this.tournamentId).then(
+	        (response) => {
+	          if(response.data.status_code==200){
+	             $("#delete_modal").modal("hide");
+	             toastr.success('Tournament has been deleted successfully.', 'Delete Tournament', {timeOut: 5000});
+               //Redirect on Login Page
+               setTimeout(this.$router.push({name: 'welcome'}), 5000);
+	             //this.displayTournamentCompetationList();
+	          }
+	        },
+	        (error) => {
+	          alert('error occur')
+	        }
+	      )
 	    },
 	    }
 	}
