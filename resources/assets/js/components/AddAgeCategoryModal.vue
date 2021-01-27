@@ -1018,6 +1018,7 @@ export default {
     },
     onChange (value) {
       this.value = value
+      this.competation_format.ageCategory_name = $('#category_age').val();
     },
     onSelect (option) {
       if (option === 'Disable me!') this.isDisabled = true
