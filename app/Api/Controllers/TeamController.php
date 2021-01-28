@@ -121,7 +121,7 @@ class TeamController extends BaseController
             $reader->each(function($sheet) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet) {
               //$sheet->tournamentData = $this->data;
               $ageCategory = trim($sheet['agecategory']);
-              $categoryName = trim($sheet['categoryname']);
+              $categoryName = trim($sheet['categoryname']) == '' ? trim($sheet['agecategory']) : trim($sheet['categoryname']);
               $ageCategoryId = null;
               if($ageCategory != '' && $categoryName != '') {
                 $toProcessTeam = true;
