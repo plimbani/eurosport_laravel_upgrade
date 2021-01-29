@@ -64,9 +64,6 @@
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-success" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                        </div>
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
@@ -117,6 +114,9 @@
                                     </tr>
                             </draggable>
                         </table>
+                        <div class="pt-3">
+                            <button type="button" class="btn btn-success" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                        </div>
                     </div>
                 </div>
                 <div class="row my-3">
