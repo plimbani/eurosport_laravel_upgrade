@@ -126,14 +126,14 @@
                 <label class="col-sm-4 form-control-label">Type*</label>
                 <div class="col-sm-8">
                   <div class="row">
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
                           <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('league')" key="competition_type">
                           <label for="radio_league">League</label>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
@@ -1128,8 +1128,8 @@ export default {
       }
       if(this.tournament_format == 'basic') {
         if(this.competation_format.competition_type == null) {
-          this.competition_type = 'league';
-          this.setNumberTeams('league');
+          this.competition_type = 'knockout';
+          this.setNumberTeams('knockout');
         }
         this.dispTempl = false;
       }

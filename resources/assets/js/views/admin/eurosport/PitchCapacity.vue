@@ -28,9 +28,6 @@
                                v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
                                placeholder="Search for a pitch">
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                            </div>
                         </form>
                     </div>
 
@@ -67,6 +64,9 @@
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                        </div>
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
@@ -117,11 +117,6 @@
                                     </tr>
                             </draggable>
                         </table>
-                        <div v-else>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-success" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row my-3">
