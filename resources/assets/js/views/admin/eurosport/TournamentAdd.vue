@@ -129,7 +129,7 @@
           </div>
          <div class="row">
           <div class="col-sm-3">
-            <button class="btn btn-success w-75" @click.prevent="addLocationClick"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
+            <button class="btn btn-success w-135" @click.prevent="addLocationClick"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
           </div>
         </div>
       </form>
