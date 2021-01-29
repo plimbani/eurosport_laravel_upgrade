@@ -47,19 +47,6 @@
                 </li>
 
                 <li class="nav-item" v-if="!isResultAdmin">                    
-                    <a :class="[(activePath == 'teams_groups' ? 'active' : ''),(teamsCount.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
-                      <div class="wrapper-tab">
-                        <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
-
-                        {{$lang.teams_groups_label}}
-
-                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Upload your teams, allocate teams to age categories and edit team colours">
-                            <i class="fas fa-info-circle"></i>
-                        </span>
-                      </div>
-                    </a>                    
-                </li>
-                <li class="nav-item" v-if="!isResultAdmin">                    
                     <a :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
@@ -67,6 +54,20 @@
                         {{$lang.pitch_planner_label}}
         
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Plan the matches on the pitches. There are two ways to do this: 1. Drag and drop one match at a time on to the pitch. 2. Click on automatic planning. You can plan the matches by group or for a whole age category at the same time.">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                      </div>
+                    </a>                    
+                </li>
+
+                <li class="nav-item" v-if="!isResultAdmin">                    
+                    <a :class="[(activePath == 'teams_groups' ? 'active' : ''),(teamsCount.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
+                      <div class="wrapper-tab">
+                        <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
+
+                        {{$lang.teams_groups_label}}
+
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Upload your teams, allocate teams to age categories and edit team colours">
                             <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
