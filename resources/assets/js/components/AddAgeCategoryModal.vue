@@ -164,7 +164,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout' && tournament_format == 'basic'">
+              <!-- <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout' && tournament_format == 'basic'">
                 <label class="col-sm-4 form-control-label">Number of groups*</label>
                 <div class="col-sm-8">
                     <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }" key="group_size">
@@ -173,7 +173,7 @@
                     </select>
                     <span class="help is-danger" v-show="errors.has('group_size')">{{$lang.competation_modal_group_size_required}}</span>
                 </div>
-              </div>
+              </div> -->
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.minimum_matches') }" v-if="tournament_format == 'advance' || tournament_format == 'festival'">
                 <label class="col-sm-4 form-control-label">{{$lang.competation_label_minimum_matches}}</label>
                 <div class="col-sm-8">
@@ -593,7 +593,7 @@ export default {
       templateFontColors: ['rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'],
       tournament_format: 'advance',
       competition_type: 'league',
-      group_size: '',
+      // group_size: '',
       remarks: '',
       maximum_limit_for_maximum_team_interval: 120,
       currentLayout: this.$store.state.Configuration.currentLayout,
@@ -620,8 +620,8 @@ export default {
         this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
-      } else if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && val != '' && this.group_size != '') {
-        this.competation_format.group_size = this.group_size
+      } else if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && val != '') {
+        // this.competation_format.group_size = this.group_size
         this.competation_format.total_teams = this.number_teams
         this.competation_format.tournament_format = this.tournament_format
         this.competation_format.competition_type = this.competition_type
@@ -631,7 +631,7 @@ export default {
         this.options = [];
       }
     },
-    group_size: function(val) {
+    /*group_size: function(val) {
       if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && val != '' && this.number_teams != '') {
         this.competation_format.group_size = this.group_size
         this.competation_format.total_teams = this.number_teams
@@ -640,7 +640,7 @@ export default {
 
         this.TournamentCompetationList(this.competation_format)
       }
-    },
+    },*/
     tournament_format: function(val) {
       if(this.minimum_matches != '' && this.number_teams != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.competation_format.minimum_matches = this.minimum_matches
@@ -648,8 +648,8 @@ export default {
         this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
-      }  else if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && this.number_teams != '' && this.group_size != '') {
-        this.competation_format.group_size = this.group_size
+      }  else if(this.tournament_format == 'basic' && this.competition_type == 'knockout' && this.number_teams != '') {
+        // this.competation_format.group_size = this.group_size
         this.competation_format.total_teams = this.number_teams
         this.competation_format.tournament_format = this.tournament_format
         this.competation_format.competition_type = this.competition_type
@@ -899,11 +899,11 @@ export default {
             });
 
             this.competation_format.competition_type = resp.competition_type;
-            this.competation_format.group_size = resp.group_size != null ? resp.group_size : '';
+            // this.competation_format.group_size = resp.group_size != null ? resp.group_size : '';
 
             this.tournament_format = resp.tournament_format;
             this.competition_type = resp.competition_type;
-            this.group_size = resp.group_size != null ? resp.group_size : '';
+            // this.group_size = resp.group_size != null ? resp.group_size : '';
             this.remarks = resp.remarks;
 
             this.validateTemplate();
@@ -963,7 +963,7 @@ export default {
 
      this.competation_format.tournament_format = this.tournament_format;
      this.competation_format.competition_type = this.tournament_format == 'basic' ? this.competition_type : null;
-     this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : null;
+     // this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : null;
      this.competation_format.remarks = this.remarks ? this.remarks : null;
 
      this.$validator.validateAll().then(
@@ -1187,20 +1187,20 @@ export default {
     setNumberTeams(type) {
       if(this.competation_format.id != '' && this.competation_format.tournament_format == 'basic' && (type == this.competation_format.competition_type)) {
         this.number_teams = this.competation_format.total_teams;
-        if(type == 'knockout') {
+        /*if(type == 'knockout') {
           this.group_size = this.competation_format.group_size;
-        }
+        }*/
       } else {
         this.number_teams = '';
-        if(type == 'knockout') {
+        /*if(type == 'knockout') {
           this.group_size = '';
-        }
+        }*/
       }
     },
     onNumberOfTeamsChange() {
-      if(this.competation_format.tournament_format == 'basic' && (this.competation_format.competition_type === 'knockout')) {
+      /*if(this.competation_format.tournament_format == 'basic' && (this.competation_format.competition_type === 'knockout')) {
         this.group_size = '';
-      }
+      }*/
     },
     getMaximumTeamMatchIntervalRules() {
       if(this.currentLayout === 'tmp') {
