@@ -1,20 +1,26 @@
 <template>
   <div class="tab-content">
     <div class="card">
-      <div class="card-block">
+      <div class="card-block card-teams">
           <label class="error" v-if="competitionList.length === 0">*Add competition formats.</label>
           <h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
 
             <div class="row align-items-center">
-              <div class="col-md-5">Click here to download and view team list spreadsheet example.</div>
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-11">
+                    <h6>Click here to download and view team list spreadsheet example.</h6>
+                  </div>
+                </div>
+              </div>
               <div class="col-md-7">
                 <div class="content-card">
-                  <div class="row gutters-tiny">
+                  <div class="row align-items-center gutters-tiny">
                     <div class="col-md-4">
                       <button class="btn btn-primary btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
                     </div>
-                    <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" @click="previewSpredsheetSample()">View example</button>
+                    <div class="col-md-3 text-center">
+                      <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
                     </div>
                   </div>
                 </div>
@@ -25,7 +31,11 @@
 
             <div class="row">
               <div class="col-md-5">
-                Once this team list is completed select the file and click on “Upload teams”:
+                <div class="row">
+                  <div class="col-11">
+                    <h6>Once this team list is completed select the file and click on “Upload teams”:</h6>
+                  </div>
+                </div>
               </div>
               <div class="col-md-7">
                 <div class="content-card">
@@ -52,8 +62,12 @@
 
             <div class="row">
               <div class="col-md-5">
-                Allocate the teams to groups by selecting an age category. After teams have been allocated save your selection.<br>
-                <span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected
+                <div class="row">
+                  <div class="col-11">
+                    <h6>Allocate the teams to groups by selecting an age category. After teams have been allocated save your selection.</h6>
+                    <div class="small text-muted font-italic"><span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected</div>
+                  </div>
+                </div>
               </div>
               <div class="col-md-7">
                 <div class="content-card">
@@ -70,15 +84,15 @@
                     </div>
                   </div>
 
-                  <div class="row gutters-tiny btn-group-agecategory">
-                    <div class="col-md-4" v-show="this.age_category != ''">
-                      <button type="button" class="btn btn-primary btn-block mt-3" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
+                  <div class="row align-items-center gutters-tiny mt-3 btn-group-agecategory" v-show="this.age_category != ''">
+                    <div class="col-md-4">
+                      <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                     </div>
-                    <div class="col-md-4" v-show="this.age_category != ''">
-                      <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary btn-block mt-3" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete teams</button>
+                    <div class="col-md-3 text-center">
+                      <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete teams</a>
                     </div>
-                    <div class="col-md-4" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
-                      <button type="button" class="btn btn-primary btn-block mt-3" @click="printAllocatedTeams()">Download groups</button>
+                    <div class="col-md-3">
+                      <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
                     </div>
                   </div>
                 </div>
