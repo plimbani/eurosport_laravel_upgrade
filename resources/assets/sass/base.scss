@@ -80,3 +80,11 @@ code, .code {
   background-color: #f9f9f9;
   padding: 20px;
 }
+
+.border-bottom-dashed--primary {
+  border-bottom: 1px dashed $brand-primary;
+}
+
+.border-bottom-dashed--danger {
+  border-bottom: 1px dashed $brand-danger;
+}
