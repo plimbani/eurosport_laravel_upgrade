@@ -122,7 +122,7 @@ class TeamController extends BaseController
               //$sheet->tournamentData = $this->data;
               $sheet['categoryname'] = ($sheet['categoryname'] == '') ? $sheet['agecategory'] : $sheet['categoryname'];
               $ageCategory = trim($sheet['agecategory']);
-              $categoryName = trim($sheet['categoryname']) == '' ? trim($sheet['agecategory']) : trim($sheet['categoryname']);
+              $categoryName = trim($sheet['categoryname']);
               $ageCategoryId = null;
               if($ageCategory != '' && $categoryName != '') {
                 $toProcessTeam = true;
