@@ -117,7 +117,7 @@
                         <p class="text-primary left">
                           <strong>
                             <span :class="groupFlag(group,n)"></span>
-                            <span :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                            <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event)" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
                           </strong>
                         </p>
                        </div>
@@ -465,17 +465,19 @@
        groupName(group,no){
         let vm =this;
         let groupName = this.getGroupPlaceHolderName(group, no);
+        let displayId = 0;
         let displayName = groupName.fullName;
         let actualFullName = groupName.actualFullName;
         let isHolderName = true;
 
         _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
+            displayId =  team.id
             displayName =  team.name
             isHolderName = false;
           }
         });
-        return {'displayName': displayName, 'isHolderName': isHolderName}
+        return {'displayId': displayId, 'displayName': displayName, 'isHolderName': isHolderName}
       },
       getGroupPlaceHolderName(group, no) {
         let fullName = null
