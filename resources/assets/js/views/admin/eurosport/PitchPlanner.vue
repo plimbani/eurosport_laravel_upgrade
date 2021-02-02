@@ -142,9 +142,9 @@ var moment = require('moment');
         }
       },
       next() {
-        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
+        let currentNavigationData = {activeTab:'teams_groups', currentPage: 'Teams and groups'}
         this.$store.dispatch('setActiveTab', currentNavigationData)
-        this.$router.push({name:'tournaments_summary_details'})
+        this.$router.push({name:'teams_groups'})
       },
     },
     components: {
