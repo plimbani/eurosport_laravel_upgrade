@@ -47,6 +47,8 @@
                         @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                         @if($homeTeamScoreValue != null)
                           <span>{{ $homeTeamScoreValue }}</span>
+                        @else
+                         <span>0</span>
                         @endif
                       </div>
                     @endif
@@ -58,6 +60,8 @@
                         @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                         @if($awayTeamScoreValue != null)
                           <span>{{ $awayTeamScoreValue }}</span>
+                        @else
+                          <span>0</span>
                         @endif
                       </div>
                     @endif
@@ -162,6 +166,8 @@
                       @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                       @if($homeTeamScoreValue != null)
                         <span>{{ $homeTeamScoreValue }}</span>
+                      @else
+                         <span>0</span>
                       @endif
                     </div>
                   @endif
@@ -172,6 +178,8 @@
                         @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                         @if($awayTeamScoreValue != null)
                           <span>{{ $awayTeamScoreValue }}</span>
+                        @else
+                         <span>0</span>
                         @endif
                     </div>
                   @endif

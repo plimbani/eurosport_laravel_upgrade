@@ -548,6 +548,8 @@
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
                                                           @if($homeTeamScoreValue != null)
                                                             <br>{{ $homeTeamScoreValue }}
+                                                          @else
+                                                            <br>0
                                                           @endif
                                                       </td>
                                                     @endif
@@ -559,6 +561,8 @@
                                                           @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                                                           @if($awayTeamScoreValue != null)
                                                             <br>{{ $awayTeamScoreValue }}
+                                                          @else
+                                                            <br>0
                                                           @endif
                                                       </td>
                                                     @endif
@@ -757,6 +761,8 @@
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
                                                         @if($homeTeamScoreValue != null)
                                                           <br>{{ $homeTeamScoreValue }}
+                                                        @else
+                                                            <br>0
                                                         @endif
                                                       </td>
                                                     @endif
@@ -768,6 +774,8 @@
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
                                                         @if($awayTeamScoreValue != null)
                                                           <br>{{ $awayTeamScoreValue }}
+                                                        @else
+                                                            <br>0
                                                         @endif
                                                       </td>
                                                     @endif
