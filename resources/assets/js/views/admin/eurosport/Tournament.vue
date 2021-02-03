@@ -5,9 +5,9 @@
         <div class="d-flex align-items-center justify-content-between mb-4">
           <label for="status_rules" class="mb-0"><b>{{$lang.summary_status}}:</b> </label>
 
-          <div class="d-flex status-rules-btns">
+          <div class="d-flex btn-status-rules">
             <div>
-                <button class="btn btn-default btn-sm" :class="{'is-previewed': tournamentStatus == 'Preview'}" data-toggle="modal" data-target="#preview_modal"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#preview_status_rules'">Preview</span></button>
+                <button class="btn btn-default btn-sm" :class="{'is-previewed': tournamentStatus == 'Preview'}" data-toggle="modal" data-target="#preview_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#preview_status_rules'">Preview</span></button>
                 <div v-bind:id="'preview_status_rules'" style="display: none;">
                     <div class="popover-body">
                         Publish key details of the tournament only to the app
@@ -16,8 +16,9 @@
             </div>
 
             <div class="btn-group status-rules-btn-group ml-2">
-                <button class="btn btn-default btn-sm" :class="{'is-published': tournamentStatus == 'Published'}" data-toggle="modal" data-target="#publish_modal"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#publish_status_rules'">Published</span></button>
-                <button class="btn btn-default btn-sm" :class="{'is-unpublished': tournamentStatus == 'Unpublished'}"data-toggle="modal" data-target="#unpublish_modal"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span></button>
+                <button class="btn btn-default btn-sm" :class="{'is-published': tournamentStatus == 'Published'}" data-toggle="modal" data-target="#publish_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#publish_status_rules'">Published</span></button>
+
+                <button class="btn btn-default btn-sm" :class="{'is-unpublished': tournamentStatus == 'Unpublished'}"data-toggle="modal" data-target="#unpublish_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span></button>
             </div>
 
             <div v-bind:id="'publish_status_rules'" style="display: none;">
