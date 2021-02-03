@@ -29,16 +29,18 @@
 
                     @if(!checkIfWinnerLoserMatch($match['match_number']))
                       <div class="bordered-box d-flex flex-column justify-content-center">
-                        <?php
-                          $homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge);
-                          $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
-                        ?>
-                        <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
-                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
-                          <span>
-                            {{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}
-                          </span>
-                        @endif
+                        <div>
+                          <?php
+                            $homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge);
+                            $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
+                          ?>
+                          <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
+                          @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                            <span class="team-scores">
+                              @if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'])<span class="circle-badge left-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}@if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'])<span class="circle-badge right-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif
+                            </span>
+                          @endif
+                        </div>
                       </div>
                     @endif
 
@@ -155,12 +157,15 @@
                       $homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge);
                       $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
                     ?>
-                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
-                      @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
-                        <span>
-                          {{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}
-                        </span>
-                      @endif
+                    <div class="bordered-box d-flex flex-column justify-content-center">
+                      <div>
+                        <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
+                          @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                            <span class="team-scores">
+                              @if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'])<span class="circle-badge left-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}@if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'])<span class="circle-badge right-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif
+                            </span>
+                          @endif
+                        </div>
                     </div>
                   @endif
                   @if(checkIfWinnerLoserMatch($match['match_number']))

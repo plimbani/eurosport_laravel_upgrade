@@ -152,7 +152,7 @@ class AgeGroupRepository
 
       $tournamentCompeationTemplate['tournament_format']= $data['tournament_format'];
       $tournamentCompeationTemplate['competition_type']= ($data['tournament_format'] == 'basic' && $data['competition_type']) ? $data['competition_type'] : null;
-      $tournamentCompeationTemplate['group_size']= $data['group_size'] ? $data['group_size'] : null;
+      $tournamentCompeationTemplate['group_size']= isset($data['group_size']) ? $data['group_size'] : null;
       $tournamentCompeationTemplate['remarks']= $data['remarks'] ? $data['remarks'] : null;
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
