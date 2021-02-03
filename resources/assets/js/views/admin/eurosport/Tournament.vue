@@ -7,8 +7,7 @@
 
           <div class="d-flex status-rules-btns">
             <div>
-                <button class="btn btn-default btn-sm"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#preview_status_rules'">Preview</span></button>
-
+                <button class="btn btn-default btn-sm" :class="{'is-previewed': tournamentStatus == 'Preview'}" data-toggle="modal" data-target="#preview_modal"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#preview_status_rules'">Preview</span></button>
                 <div v-bind:id="'preview_status_rules'" style="display: none;">
                     <div class="popover-body">
                         Publish key details of the tournament only to the app
@@ -17,9 +16,8 @@
             </div>
 
             <div class="btn-group status-rules-btn-group ml-2">
-                <button class="btn btn-default btn-sm"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#publish_status_rules'">Published</span></button>
-
-                <button class="btn btn-default btn-sm"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span></button>
+                <button class="btn btn-default btn-sm" :class="{'is-published': tournamentStatus == 'Published'}" data-toggle="modal" data-target="#publish_modal"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#publish_status_rules'">Published</span></button>
+                <button class="btn btn-default btn-sm" :class="{'is-unpublished': tournamentStatus == 'Unpublished'}"data-toggle="modal" data-target="#unpublish_modal"><span data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span></button>
             </div>
 
             <div v-bind:id="'publish_status_rules'" style="display: none;">
@@ -35,29 +33,12 @@
             </div>
           </div>
         </div>
-
-        <!-- <div class="row gutters-tiny align-items-center justify-content-end">
-          <label for="status_rules" class="col-md-2 text-right mb-0"><b>{{$lang.summary_status}}:</b>
-            <span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
-            </span>
-            <div v-bind:id="'status_rules'" style="display:none;">
-                      <div class="popover-body">
-                        Preview = publish key details of the tournament only to the app<br /><br />
-                        Published = publish all details of the tournament to the app<br /><br />
-                        Unpublished = no information about the tournament is published to the app
-                      </div>
-            </div>
-          </label>
-          <div class="col-md-3">
-            <TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
-          </div>
-          <UnPublishedTournament>
-          </UnPublishedTournament>
-          <PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
-          </PublishTournament>
-          <PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
-          </PreviewTournament>
-        </div> -->
+        <UnPublishedTournament>
+        </UnPublishedTournament>
+        <PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
+        </PublishTournament>
+        <PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
+        </PreviewTournament>
 
 				<div class="row">
 					<div class="col-lg-12">

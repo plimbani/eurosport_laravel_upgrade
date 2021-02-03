@@ -124,53 +124,12 @@
 		    },
 	    },
 	    created: function() {
-       		this.$root.$on('StatusUpdate', this.updateStatus);
+
   		},
   		beforeCreate: function() {
-			this.$root.$off('StatusUpdate');
+
 		},
 	    methods: {
-	      updateStatus(status, switchDefaultTournament){
-	      	// here we call method to update Status
-	      	let tournamentId = this.$store.state.Tournament.tournamentId;
-	      	let tournamentData = {'tournamentId': tournamentId, 'status': status, 'switchDefaultTournament': switchDefaultTournament};
-	      	if(tournamentId != undefined)
-	    	{
-	    		Tournament.updateStatus(tournamentData).then(
-	    		(response) => {
-	    			if(response.data.status_code == 200) {
-
-	    			if ( status == 'Published')
-	    			{
-	    				var modal = "publish_modal";
-	    			}
-
-	    			if ( status == 'Unpublished')
-	    			{
-	    				var modal = "unpublish_modal";
-	    			}
-
-	    			if ( status == 'Preview')
-	    			{
-	    				var modal = "preview_modal";
-	    			}
-	    			
-              		$("#"+modal).modal("hide");
-	    				this.tournamentStatus = status
-	    				if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
-	    					this.canDuplicateFavourites = false;
-	    				}
-	    				toastr['success']('This tournament has been '+status, 'Success');
-	    				let tournamentField = {'tournamentStatus': status}
-	    				this.$store.dispatch('setTournamentStatus',tournamentField)
-            }
-	    		},
-	    		(error) => {
-	    		}
-	    		);
-
-	    	}
-	      },
         redirectToHomePage(){
           this.$router.push({name: 'welcome'})
         },
