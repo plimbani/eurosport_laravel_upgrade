@@ -863,9 +863,9 @@ import draggable from 'vuedraggable';
                 this.searchDisplayData = false;
             },
             next() {
-                let currentNavigationData = {activeTab:'teams_groups', currentPage: 'Teams and groups'}
+                let currentNavigationData = {activeTab:'pitch_planner', currentPage: 'Match Planner'}
                 this.$store.dispatch('setActiveTab', currentNavigationData)
-                this.$router.push({name:'teams_groups'})
+                this.$router.push({name:'pitch_planner'})
             },
         }
     }

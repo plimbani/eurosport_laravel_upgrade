@@ -934,9 +934,9 @@
         )
       },
       next() {
-        let currentNavigationData = {activeTab:'pitch_planner', currentPage: 'Match Planner'}
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
         this.$store.dispatch('setActiveTab', currentNavigationData)
-        this.$router.push({name:'pitch_planner'})
+        this.$router.push({name:'tournaments_summary_details'})
       },
     }
   }
