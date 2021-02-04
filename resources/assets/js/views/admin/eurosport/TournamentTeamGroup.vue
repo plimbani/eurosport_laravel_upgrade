@@ -359,7 +359,7 @@
       this.fetchAllTeamColors();
       let fixmeTop = $('#age_category_block').offset().top;
       let HeaderHeight = $('.site-header').height();
-      let fixmeTopOffset = fixmeTop - 60;
+      let fixmeTopOffset = fixmeTop - 197;
       $(window).scroll(function() {
         let categoryDivHeight = $('#age_category_block').height();
         let teamTableHeight = $(window).height() - (fixmeTop);
