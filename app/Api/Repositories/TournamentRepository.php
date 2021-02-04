@@ -442,7 +442,6 @@ class TournamentRepository
 
         // get sponsor Image data
         $sponsorData = TournamentSponsor::where('tournament_id', $tournamentId)->get();
-
         $sponsortempData = array();
         $summaryData['sponsors'] = array();
         if (count($sponsorData) > 0) {
@@ -450,7 +449,6 @@ class TournamentRepository
                 $sponsortempData['sponsorData'][$sponsor['id']]['imageUrl'] = getenv('S3_URL') . '/assets/img/tournament_sponsor/'.$sponsor['logo'];
                  $sponsortempData['sponsorData'][$sponsor['id']]['id'] = $sponsor['id'];
             }
-
             $summaryData['sponsors'] = $sponsortempData['sponsorData'];
         }
 
@@ -550,10 +548,6 @@ class TournamentRepository
         $newdata = array();
         $newdata['status'] = $tournamentData['status'];
         $tournamentId = $tournamentData['tournamentId'];
-
-        if ($tournamentData['status'] == "Unpublished") {
-            Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
-        }
 
         $tournament = Tournament::find($tournamentId);
         $tournament->status = $tournamentData['status'];
