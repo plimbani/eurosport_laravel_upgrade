@@ -120,8 +120,9 @@ class TeamController extends BaseController
         \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, $resultEnteredAgeCategories, &$notProcessedAgeCategoriesDueToResultEntered, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet) {
             $reader->each(function($sheet) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet) {
               //$sheet->tournamentData = $this->data;
+              $sheet['categoryname'] = ($sheet['categoryname'] == '') ? $sheet['agecategory'] : $sheet['categoryname'];
               $ageCategory = trim($sheet['agecategory']);
-              $categoryName = trim($sheet['categoryname']) == '' ? trim($sheet['agecategory']) : trim($sheet['categoryname']);
+              $categoryName = trim($sheet['categoryname']);
               $ageCategoryId = null;
               if($ageCategory != '' && $categoryName != '') {
                 $toProcessTeam = true;
