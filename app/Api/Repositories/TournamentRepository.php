@@ -459,8 +459,8 @@ class TournamentRepository
         $newdata['status'] = $tournamentData['status'];
         $tournamentId      = $tournamentData['tournamentId'];
 
-        if($tournamentData['status'] == "Unpublished") {    
-            Website::where('linked_tournament',$tournamentId)->update(['linked_tournament' => NULL]);   
+        if($tournamentData['status'] == "Unpublished") {
+            Website::where('linked_tournament',$tournamentId)->update(['linked_tournament' => NULL]);
         }
 
         $tournament = Tournament::find($tournamentId);
