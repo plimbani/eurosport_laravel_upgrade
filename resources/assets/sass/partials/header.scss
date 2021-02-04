@@ -125,3 +125,37 @@
         }
     }
 }
+
+.header-scrolled {
+    .page-header,
+    .nav-tabs.edit-tournament-tab {
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 5;
+    }
+
+    .page-header {
+        top: 60px;
+        background: #eee;
+        padding: 4px 15px;
+
+        ol {
+            margin-bottom: 0;
+        }
+    }
+
+    .nav-tabs {
+        &.edit-tournament-tab {
+            top: 105px;
+            margin: 0 15px;
+            padding: 1.25rem;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-bottom: 0;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+            box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.09);
+        }
+    }
+}
