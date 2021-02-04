@@ -190,8 +190,8 @@ class TournamentRepository
         if (is_array($data) && count($data['tournamentData']) > 0) {
             if (($data['tournamentData']['tournament_format'] == 'advance' || $data['tournamentData']['tournament_format'] == 'festival') && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
                 return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
-            } else if($data['tournamentData']['tournament_format'] == 'basic' && $data['tournamentData']['competition_type'] == 'knockout' && $data['tournamentData']['group_size'] != '' && $data['tournamentData']['total_teams'] != '') {
-                return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'total_groups' => $data['tournamentData']['group_size']])->where('editor_type', $data['tournamentData']['competition_type'])->where('is_latest', 1)->orderBy('name')->get();
+            } else if($data['tournamentData']['tournament_format'] == 'basic' && $data['tournamentData']['competition_type'] == 'knockout' && $data['tournamentData']['total_teams'] != '') {
+                return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams']])->where('editor_type', $data['tournamentData']['competition_type'])->where('is_latest', 1)->orderBy('name')->get();
             }
         } else {
             return;
@@ -550,10 +550,6 @@ class TournamentRepository
         $newdata = array();
         $newdata['status'] = $tournamentData['status'];
         $tournamentId = $tournamentData['tournamentId'];
-
-        if ($tournamentData['status'] == "Unpublished") {
-            Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
-        }
 
         $tournament = Tournament::find($tournamentId);
         $tournament->status = $tournamentData['status'];
