@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
           <h6 class="m-0 fieldset-title"><strong>{{$lang.summary_label}}</strong></h6>
           <div class="d-flex align-items-center justify-content-end btn-status-rules">
             <label for="status_rules" class="mb-0 mr-2"><b>{{$lang.summary_status}}:</b> </label>
