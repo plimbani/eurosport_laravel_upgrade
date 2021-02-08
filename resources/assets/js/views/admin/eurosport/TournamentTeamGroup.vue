@@ -117,7 +117,7 @@
                         <p class="text-primary left">
                           <strong>
                             <span :class="groupFlag(group,n)"></span>
-                            <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event)" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                            <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
                           </strong>
                         </p>
                        </div>
@@ -159,7 +159,7 @@
                           <td width="150px">{{team.esr_reference}}</td>
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                              <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
+                              <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event,'team')">{{team.name}}</span>
                               <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
                             </div>
                             <div v-show="(team.id in teamsInEdit)">
@@ -341,6 +341,8 @@
         'notProcessedAgeCategoriesDuetoSameTeamInUploadSheet': [],
         'resultEnteredTeams': [],
         'ageCategoryHasNoTeams': false,
+        'dragFrom':'',
+        'dragFromTeamId':0
       }
     },
 
@@ -474,7 +476,7 @@
           if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayId =  team.id
             displayName =  team.name
-            isHolderName = false;
+            // isHolderName = false;
           }
         });
         return {'displayId': displayId, 'displayName': displayName, 'isHolderName': isHolderName}
@@ -534,7 +536,6 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
-        $('.selTeams').prop("disabled", true);
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           $('#sel_'+id+' .blnk').html('')
@@ -542,14 +543,17 @@
         if(groupValue!='' && groupValue!= undefined ){
             $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not($('.sel_'+id)).prop("disabled",true);
         }
+
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
+
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
         } else {
           this.selectedGroupsTeam = [];
         }
+
         var index = this.availableGroupsTeam.indexOf(groupValue);
         if (index > -1) {
           this.availableGroupsTeam.splice(index, 1);
@@ -874,14 +878,37 @@
         ev.preventDefault();
         let teamId = ev.dataTransfer.getData("id");
         let teamSelectId = $('#' + teamId).data('select-id');
-        $('#sel_' + teamSelectId).val($('#' + ev.target.id).data('group-name'));
+
+        let secondTeamId = ev.target.id;
+        let secondteamSelectId = $('#' + secondTeamId).data('select-id');
+
+        let teamGroupName = $('#' + secondTeamId).data('group-name');
+        let secondTeamGroupName = $('#' + teamId).data('group-name');
+
+        $('#sel_' + teamSelectId).val(teamGroupName);
         $('#sel_' + teamSelectId).trigger('select2:select');
-        this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+
+
+        //this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+        this.assignTeamGroupName(teamSelectId, $('#' + secondTeamId).data('group-name'));
         this.onAssignGroup($('#' + teamId).data('select-id'));
+
+        if(this.dragFrom == 'group')
+        {
+          $('#sel_' + secondteamSelectId).val(secondTeamGroupName);
+          $('#sel_' + secondteamSelectId).trigger('select2:select');
+
+
+          //this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+          this.assignTeamGroupName(secondteamSelectId, $('#' + teamId).data('group-name'));
+          this.onAssignGroup($('#' + secondTeamId).data('select-id'));
+          //this.swapSecondTeamInGroup();
+        }
       },
-      onTeamDrag(ev) {
+      onTeamDrag(ev,section) {
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
+        this.dragFrom= section;
       },
       printAllocatedTeams() {
         let data = 'tournamentId='+this.$store.state.Tournament.tournamentId+'&'+'ageCategoryId='+this.age_category.id+'&'+'tournamentTemplateId='+this.age_category.tournament_template_id;
