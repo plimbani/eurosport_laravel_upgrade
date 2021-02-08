@@ -18,7 +18,7 @@
               <label class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</label>
             </div>
           </div>
-	  			<div class="mt-4" >
+	  			<div class="mt-2">
 	  				<pitch-planner-table :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" @changeMatchScheduleStatus="changeMatchScheduleStatus" @saveScheduleMatchResult="saveScheduleMatchResult" @clearScheduleMatchesArray="clearScheduleMatchesArray" @clearAllScheduleMatchesArray="clearAllScheduleMatchesArray"></pitch-planner-table>
             <UnsavedMatchPlannerModel :scheduleMatchesArray="scheduleMatchesArray" @movetoNextRoute="movetoNextRoute"></UnsavedMatchPlannerModel>
 	  			</div>

@@ -3,7 +3,7 @@
 <div>
 <div class="card">
   <div class="card-block">
-      <h6 class="fieldset-title"><strong>{{$lang.tournament_information}}</strong></h6>
+      <h6 class="fieldset-title mt-10"><strong>{{$lang.tournament_information}}</strong></h6>
       <form name="tournamentName" enctype="multipart/form-data">
         <div class="row">
           <div class="col-sm-6">

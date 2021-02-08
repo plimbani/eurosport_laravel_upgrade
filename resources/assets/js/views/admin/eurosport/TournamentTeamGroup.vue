@@ -3,7 +3,7 @@
   	<div class="card">
   		<div class="card-block">
           <label class="error" v-if="competitionList.length === 0">*Add competition formats.</label>
-      		<h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
+      		<h6 class="fieldset-title mt-10"><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
                 Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
