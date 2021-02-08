@@ -244,7 +244,11 @@ export default {
               if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
                 this.canDuplicateFavourites = false;
               }
-              toastr['success']('This tournament has been '+status, 'Success');
+              var msg = 'This tournament has been '+status;
+              if (this.tournamentStatus === 'Preview') {
+                msg = 'This tournament has been set to '+status;
+              }
+              toastr['success'](msg, 'Success');
               let tournamentField = {'tournamentStatus': status}
               this.$store.dispatch('setTournamentStatus',tournamentField)
             }
