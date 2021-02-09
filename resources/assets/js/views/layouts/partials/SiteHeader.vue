@@ -103,9 +103,6 @@
         let userData = {'email':email}
         this.getUserDetails(userData);
         this.getConfigurationDetail();
-        this.getWebsiteDetails();
-
-
          },
         methods : {
             getUserDetails(emailData){
@@ -135,35 +132,14 @@
                   }
                 );
             },
-            getConfigurationDetail() {
-                Website.getConfigurationDetail().then(
-                  (response)=> {
-                    this.$store.dispatch('setConfigurationDetail', response.data);
-                  },
-                  (error)=> {
-                  }
-                );
-            },
-            getWebsiteDetails() {
-              if(this.getWebsiteId !== null) {
-                Website.getWebsiteDetails(this.getWebsiteId).then(
-                  (response)=> {
-                    var websiteDetail = response.data.data;
-                    let website  = {
-                      id: websiteDetail.id,
-                      tournament_name: websiteDetail.tournament_name,
-                      tournament_dates: websiteDetail.tournament_dates,
-                      tournament_location: websiteDetail.tournament_location,
-                      pages: websiteDetail.pages,
-                      preview_domain: websiteDetail.preview_domain,
-                      preview_domain_generated_at: websiteDetail.preview_domain_generated_at
-                    };
-                    this.$store.dispatch('SetWebsite', website);
-                  },
-                  (error)=> {
-                  }
-                );
-              }
+            getConfigurationDetail() {  
+                Website.getConfigurationDetail().then(  
+                  (response)=> {    
+                    this.$store.dispatch('setConfigurationDetail', response.data);  
+                  },    
+                  (error)=> {   
+                  } 
+                );  
             },
             initialState() {
                 return {
@@ -238,9 +214,6 @@
             },
             userId() {
                 return this.$store.state.Users.userDetails.id
-            },
-            getWebsiteId() {
-              return this.$store.state.Website.id;
             },
             // userData() {
             //     return this.$store.state.Users.userDetails

@@ -327,4 +327,12 @@ class TemplateController extends BaseController
     {
         return $this->templateObj->getTemplateGraphic($request->all());
     }
+
+    /**
+     * Get template graphic of league
+     */
+    public function getTemplateGraphicOfLeague(Request $request)
+    {
+        return $this->templateObj->getTemplateGraphicOfLeague($request->all());
+    }
 }

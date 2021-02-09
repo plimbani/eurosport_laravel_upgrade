@@ -53,6 +53,9 @@
                     stepone: {
                         templateName: '',
                         no_of_teams: '',
+                        no_of_groups: '',
+                        old_no_of_groups: '',
+                        no_of_teams_in_round_two: '',
                         editor: 'advance',
                         remarks: '',
                         template_font_color: '',
@@ -82,10 +85,12 @@
                         placings: []
                     },
                     stepfour: {
+                        round_two_knockout_teams: {}
                     }
                 }
             },
             changeTabIndex(from, to, key, data) {
+                window.scrollTo(0,0);
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;

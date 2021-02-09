@@ -52,6 +52,7 @@
         },
 		methods: {
             changeTabIndex(from, to, key, data) {
+                window.scrollTo(0,0);
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;
@@ -65,6 +66,7 @@
                   (response)=> {
                     this.editTournamentDetail = response.data.data;
                     this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
+                    this.templateFormDetail.stepone.old_no_of_groups = this.templateFormDetail.stepone.no_of_groups;
                     this.showEditForm = true;
                     if(response.data.isTemplateInUse === true) {
                         this.templateFormDetail.stepone.templateName = '';

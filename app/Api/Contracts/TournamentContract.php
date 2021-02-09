@@ -41,4 +41,11 @@ interface TournamentContract
     public function generateReport($request);
 
     public function saveSettings($request);
+
+    /*  
+     * Get configuration detail 
+     *  
+     * @return response 
+     */ 
+    public function getConfigurationDetail();
 }

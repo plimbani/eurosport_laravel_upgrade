@@ -29,19 +29,46 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="checkbox">
+                                    <div class="c-input">
+                                        <input class="euro-radio" type="radio" name="editor" value="knockout" v-model="templateFormDetail.stepone.editor" id="radio_knockout">
+                                        <label for="radio_knockout">Standard</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>                        
                     </div>                   
             		<div class="form-group" :class="{'has-error': errors.has('no_of_teams') }">
-            			<label>{{$lang.add_template_modal_number_of_teams}}</label>
-                        <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams">
-                            <option value="">Number of teams in group</option>
+            			<label v-if="templateFormDetail.stepone.editor == 'knockout'">{{$lang.add_template_modal_number_of_teams_knockout}}</label>
+                        <label v-else>{{$lang.add_template_modal_number_of_teams}}</label>
+                        <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams" @change="resetGroupAndRoundTwoTeams()">
+                            <option value="">Select number of teams</option>
                             <option :value="team" v-for="team in teamsToDisplay">{{ team }}</option>
                         </select>
                         <i v-show="errors.has('no_of_teams')" class="fa fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('no_of_teams')">{{ errors.first('no_of_teams') }}</span>
             		</div>
+                    <div v-if="templateFormDetail.stepone.editor == 'knockout'" class="form-group" :class="{'has-error': errors.has('no_of_groups') }">
+                        <label>{{$lang.add_template_modal_number_of_groups}}</label>
+                        <select class="form-control ls-select2" name="no_of_groups" v-model="templateFormDetail.stepone.no_of_groups" v-validate="'required'" :class="{'is-danger': errors.has('no_of_groups') }" data-vv-as="number of groups" @change="resetRoundOneGroups()">
+                            <option value="">Select number of groups</option>
+                            <option :value="group" v-for="group in groupsToDisplay">{{ group }}</option>
+                        </select>
+                        <i v-show="errors.has('no_of_groups')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('no_of_groups')">{{ errors.first('no_of_groups') }}</span>
+                    </div>
+                    <div v-if="templateFormDetail.stepone.editor == 'knockout'" class="form-group" :class="{'has-error': errors.has('no_of_teams_in_round_two') }">
+                        <label>{{$lang.add_template_modal_teams_in_round_two}}</label>
+                        <select class="form-control ls-select2" name="no_of_teams_in_round_two" v-model="templateFormDetail.stepone.no_of_teams_in_round_two" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams_in_round_two') }" data-vv-as="number of groups">
+                            <option value="">Select number of teams</option>
+                            <option :value="team" v-for="team in teamsToDisplayInRoundTwo">{{ team }} teams</option>
+                        </select>
+                        <i v-show="errors.has('no_of_teams_in_round_two')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('no_of_teams_in_round_two')">{{ errors.first('no_of_teams_in_round_two') }}</span>
+                    </div>
                     <form>
-                        <div class="form-group" :class="{'has-error': errors.has('minimum_match') }">
+                        <div v-if="templateFormDetail.stepone.editor != 'knockout'" class="form-group" :class="{'has-error': errors.has('minimum_match') }">
                             <label for="remarks">Tournament minimum matches*</label>
                             <input name="minimum_match" type="text" class="form-control" v-model="templateFormDetail.stepone.minimum_match" placeholder="Minimum match" v-validate="'required|numeric'" :class="{'is-danger': errors.has('minimum_match') }" data-vv-as="minimum matches">
                             <i v-show="errors.has('minimum_match')" class="fa fa-warning"></i>
@@ -130,19 +157,43 @@
 		},
         computed: {
             teamsToDisplay() {
+                var start = this.templateFormDetail.stepone.editor == 'knockout' ? 8 : 2;
+                var end = this.templateFormDetail.stepone.editor == 'knockout' ? 120 : 60;
                 var totalTeams = [];
-                for (var n = 2; n <= 60; n++) {
+                for (var n = start; n <= end; n++) {
                     totalTeams.push(n);
                 }
 
                 return totalTeams;
             },
+            groupsToDisplay() {
+                var totalGroups = [];
+                if(this.templateFormDetail.stepone.no_of_teams !== '') {
+                    for (var n = 1; n <= Math.floor((this.templateFormDetail.stepone.no_of_teams/3)); n++) {
+                        totalGroups.push(n);
+                    }
+                }
+                return totalGroups;
+            },
+            teamsToDisplayInRoundTwo() {
+                var totalTeams = [];
+                var result = 0;
+                for(var n = 1; n < 7; n++) {
+                    result = Math.pow(2, n);
+                    if (result > this.templateFormDetail.stepone.no_of_teams) {
+                        break;
+                    }
+                    totalTeams.push(result);
+                }
+                return totalTeams;
+            },
         },
 		methods: {
             next() {
+                let vm = this;
                 this.$validator.validateAll().then((response) => {
                     if(response) {
-            	       this.$emit('change-tab-index', 1, 2, 'stepone', _.cloneDeep(this.templateFormDetail.stepone));
+                        vm.$emit('change-tab-index', 1, 2, 'stepone', _.cloneDeep(vm.templateFormDetail.stepone));
                     }
                 }).catch((errors) => {
 
@@ -157,6 +208,43 @@
             setTemplateFontColor(color) {
                 this.templateFormDetail.stepone.template_font_color = color;
             },
+            resetGroupAndRoundTwoTeams() {
+                this.templateFormDetail.stepone.no_of_teams_in_round_two = '';
+                this.templateFormDetail.stepone.no_of_groups = '';
+            },
+            resetRoundOneGroups() {
+                let vm = this;
+                if(vm.templateFormDetail.stepone.editor == 'knockout' && vm.templateFormDetail.stepone.no_of_teams !== '' && vm.templateFormDetail.stepone.no_of_groups !== '') {
+                    
+                    if(vm.templateFormDetail.stepone.old_no_of_groups != '') {
+                        for(let n = 0; n < vm.templateFormDetail.stepone.old_no_of_groups - 1; n++) {
+                            vm.templateFormDetail.steptwo.rounds[0].groups.splice(0, 1);
+                        }
+                    }
+
+                    Vue.nextTick()
+                    .then(function () {
+                        let numberOfTeamsRemain = vm.templateFormDetail.stepone.no_of_teams;
+                        for(var n = 0; n < vm.templateFormDetail.stepone.no_of_groups; n++) {
+                            let numberOfTeams = Math.ceil( (numberOfTeamsRemain) / (vm.templateFormDetail.stepone.no_of_groups - n) );
+                            if(n === 0) {
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].type = "round_robin";
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].no_of_teams = numberOfTeams;
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].teams_play_each_other = "once";
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].teams = [];
+                                for (let i = 0; i < numberOfTeams; i++) {
+                                    vm.templateFormDetail.steptwo.rounds[0].groups[0].teams.push({position_type: 'placed', group: '', position: ''});
+                                }
+                                vm.templateFormDetail.steptwo.rounds[0].groups[0].matches = [];
+                            } else {
+                                vm.templateFormDetail.steptwo.rounds[0].groups.push({type: "round_robin", no_of_teams: numberOfTeams, teams_play_each_other: "once", teams: [], matches: []});
+                            }
+                            numberOfTeamsRemain -= numberOfTeams;
+                        }
+                    });
+                }
+                vm.templateFormDetail.stepone.old_no_of_groups = vm.templateFormDetail.stepone.no_of_groups;
+            }
 		}
 	}
 </script>

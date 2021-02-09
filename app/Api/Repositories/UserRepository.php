@@ -319,8 +319,6 @@ class UserRepository {
 
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
-      $user->websites()->sync([]);
-      $user->websites()->attach($data['websites']);
 
       if($user->hasRole('Results.administrator') && $user->tournaments()->count() == 0) {
         $mobileUserRole = Role::where('slug', 'mobile.user')->first();
@@ -345,11 +343,6 @@ class UserRepository {
     public function getUserTournaments($id) {
       $user = User::find($id);
       return $user->tournaments()->pluck('id');
-    }
-
-    public function getUserWebsites($id) {
-      $user = User::find($id);
-      return $user->websites()->pluck('id');
     }
 
     public function getAllCountries() {

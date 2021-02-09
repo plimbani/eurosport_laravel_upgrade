@@ -94,6 +94,9 @@ module.exports= {
   add_template_modal_step1_header: "Step 1: Template settings",
   add_template_modal_template_name: "Template name*",
   add_template_modal_number_of_teams: "Number of teams*",
+  add_template_modal_number_of_teams_knockout: "Number of teams in knockout template*",
+  add_template_modal_number_of_groups: "Number of groups*",
+  add_template_modal_teams_in_round_two: "Number of teams in round 2*",
   add_template_modal_group_size: "Group size*",
   add_template_modal_header: "New Template",
   add_template_modal_next_button: "Next",
@@ -103,6 +106,7 @@ module.exports= {
   add_template_modal_step2_header: "Step 2: Setup rounds",
   add_template_modal_step3_header: "Step 3: Placings",
   add_template_modal_step4_header: "Step 4: Review",
+  add_template_modal_step3_header_knockout: "Step 3: Review",
   
   duplicate_tournament: "Tournaments",
   duplicate_tournamet_tournament_name: "Tournament name",

@@ -2,9 +2,9 @@
 	<div>
 	    <div class="card mb-3">
 	    	<div class="card-block">
-		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
+		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right" v-if="templateFormDetail.stepone.editor != 'knockout'"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
 		        <div class="form-group">
-		        	<div class="radio">
+		        	<div class="radio" v-if="templateFormDetail.stepone.editor != 'knockout'">
 	                    <div class="c-input">
 	                        <input :name="'group_type' + divisionIndex + roundIndex + index" type="radio" :id="'round_robin' + divisionIndex + roundIndex + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
 	                        <label :for="'round_robin' + divisionIndex + roundIndex + index" class="d-inline-flex mr-5">Round robin</label>
@@ -28,7 +28,7 @@
 		                </div>
 		            </div>
 
-		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
+		            <div class="col-md-6" v-if="groupData.type == 'round_robin' && templateFormDetail.stepone.editor != 'knockout'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
 		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches('teams_play_each_other_change')">
@@ -145,7 +145,6 @@
 		    			teams.push(i);
 		    		}
 	    		}
-
 		    	return teams;
 		    }
         },

@@ -438,19 +438,7 @@
         <tr>
           <td style="vertical-align: middle; border-color: transparent; text-align: left; min-width: 150px;">
             @if($tournamentData->tournamentLogo != null)
-              <?php
-                  $arrContextOptions=array(
-                                  "ssl"=>array(
-                                      "verify_peer"=>false,
-                                      "verify_peer_name"=>false,
-                                  ),
-                              );
-                  $type = pathinfo($tournamentData->tournamentLogo, PATHINFO_EXTENSION);
-                  $tournamentLogoData = file_get_contents($tournamentData->tournamentLogo, false, stream_context_create($arrContextOptions));
-                  $tournamentLogoBase64Data = base64_encode($tournamentLogoData);
-                  $imageData = 'data:image/' . $type . ';base64,' . $tournamentLogoBase64Data;
-              ?>
-              <img src="{{ $imageData }}" alt="Laraspace Logo" height="20px">
+              <img src="{{ $tournamentData->tournamentLogo }}" alt="Laraspace Logo" height="20px">
             @elseif(Config::get('config-variables.current_layout') == 'tmp')
               <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" height="20px">
             @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
