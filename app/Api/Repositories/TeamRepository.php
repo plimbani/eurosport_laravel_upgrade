@@ -37,9 +37,7 @@ class TeamRepository
     public function getAllFromFilter($data)
     {
 
-    $teamData =  Team::join('countries', function ($join) {
-                  $join->on('teams.country_id', '=', 'countries.id');
-              })
+    $teamData =  Team::leftJoin('countries', 'countries.id', '=', 'teams.country_id')
           ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
           ->join('clubs', 'clubs.id', '=', 'teams.club_id')
           // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
@@ -99,9 +97,7 @@ class TeamRepository
     public function getAllTournamentTeams($tournamentId)
     {
 
-    return Team::join('countries', function ($join) {
-                    $join->on('teams.country_id', '=', 'countries.id');
-                })
+    return Team::leftJoin('countries', 'countries.id', '=', 'teams.country_id')
                 ->leftJoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                 ->leftJoin('competitions','competitions.id','=','teams.competation_id')
                 ->where('teams.tournament_id', '=',$tournamentId)

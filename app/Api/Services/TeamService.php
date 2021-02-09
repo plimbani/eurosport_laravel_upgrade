@@ -133,9 +133,9 @@ class TeamService implements TeamContract
     public function create($data, $tournamentId)
     {
         if($data['country']!=''){
-            $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
+            $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : null;
         } else {
-            $data['country_id'] = '1';
+            $data['country_id'] = null;
         }
         $data['age_group_id'] = 0;
 
