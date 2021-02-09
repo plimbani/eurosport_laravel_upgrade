@@ -2,7 +2,6 @@
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
-          <label class="error" v-if="competitionList.length === 0">*Add competition formats.</label>
       		<h6 class="fieldset-title mt-10"><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
