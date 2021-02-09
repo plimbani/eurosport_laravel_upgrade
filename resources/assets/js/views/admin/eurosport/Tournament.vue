@@ -2,28 +2,44 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-        <div class="row gutters-tiny align-items-center justify-content-end">
-          <label for="status_rules" class="col-md-2 text-right mb-0"><b>{{$lang.summary_status}}:</b>
-            <span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
-            </span>
-            <div v-bind:id="'status_rules'" style="display:none;">
-                      <div class="popover-body">
-                        Preview = publish key details of the tournament only to the app<br /><br />
-                        Published = publish all details of the tournament to the app<br /><br />
-                        Unpublished = no information about the tournament is published to the app
-                      </div>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <label for="status_rules" class="mb-0"><b>{{$lang.summary_status}}:</b> </label>
+
+          <div class="d-flex btn-status-rules">
+            <div>
+                <button class="btn btn-default btn-sm" :class="{'is-previewed': tournamentStatus == 'Preview'}" data-toggle="modal" data-target="#preview_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#preview_status_rules'">Preview</span></button>
+                <div v-bind:id="'preview_status_rules'" style="display: none;">
+                    <div class="popover-body">
+                        Publish key details of the tournament only to the app
+                    </div>
+                </div>
             </div>
-          </label>
-          <div class="col-md-3">
-            <TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
+
+            <div class="btn-group status-rules-btn-group ml-2">
+                <button class="btn btn-default btn-sm" :class="{'is-published': tournamentStatus == 'Published'}" data-toggle="modal" data-target="#publish_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#publish_status_rules'">Published</span></button>
+
+                <button class="btn btn-default btn-sm" :class="{'is-unpublished': tournamentStatus == 'Unpublished'}"data-toggle="modal" data-target="#unpublish_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span></button>
+            </div>
+
+            <div v-bind:id="'publish_status_rules'" style="display: none;">
+              <div class="popover-body">
+                  Publish all details of the tournament to the app
+              </div>
+            </div>
+
+            <div v-bind:id="'unpublish_status_rules'" style="display: none;">
+              <div class="popover-body">
+                  No information about the tournament is published to the app
+              </div>
+            </div>
           </div>
-          <UnPublishedTournament>
-          </UnPublishedTournament>
-          <PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
-          </PublishTournament>
-          <PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
-          </PreviewTournament>
         </div>
+        <UnPublishedTournament>
+        </UnPublishedTournament>
+        <PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
+        </PublishTournament>
+        <PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
+        </PreviewTournament>
 
 				<div class="row">
 					<div class="col-lg-12">
@@ -81,18 +97,6 @@
 				</div>
 			</div>
 		</div>
-    <div class="row" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
-      <div class="col-md-12">
-        <div class="pull-right">
-          <button type="button" data-toggle="modal"
-          data-confirm-msg="Are you sure you would like to delete this user record?"
-          data-target="#delete_modal"
-          class="btn btn-danger w-135"
-          >{{$lang.summary_button_delete}}</button>
-          <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-        </div>
-      </div>
-    </div>
 	</div>
 </template>
 
@@ -113,7 +117,6 @@ import UnPublishedTournament from '../../../components/UnPublishedTournament.vue
 import PreviewTournament from '../../../components/PreviewTournament.vue'
 import TournamentStatus from '../../../components/TournamentStatus.vue'
 import Tournament from '../../../api/tournament.js'
-import DeleteModal from '../../../components/DeleteModal.vue'
 
 export default {
 
@@ -127,7 +130,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament, DeleteModal
+        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 
@@ -264,22 +267,6 @@ export default {
       },
       unChangedMatchScoresModal(data) {
         this.$parent.setUnChangedMatchScoresModal(data);
-      },
-      deleteConfirmed() {
-        Tournament.deleteTournament(this.tournamentId).then(
-          (response) => {
-            if(response.data.status_code==200){
-               $("#delete_modal").modal("hide");
-               toastr.success('Tournament has been deleted successfully.', 'Delete Tournament', {timeOut: 5000});
-               //Redirect on Login Page
-               setTimeout(this.$router.push({name: 'welcome'}), 5000);
-               //this.displayTournamentCompetationList();
-            }
-          },
-          (error) => {
-            alert('error occur')
-          }
-        )
       },
     }
 }

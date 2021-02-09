@@ -74,6 +74,21 @@
 
 <script type="text/javascript" src="{{mix('/assets/js/core/plugins.js')}}"></script>
 <script type="text/javascript" src="{{mix('/assets/js/app.js')}}"></script>
+
+<script type="text/javascript">
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 100) {
+            $(".main-content").addClass("header-scrolled");
+
+            if(($('#administrationTab').hasClass('active')) || ($('#matchPlannerTab').hasClass('active'))){
+                $(".main-content").removeClass("header-scrolled");
+            }
+
+        } else {
+            $(".main-content").removeClass("header-scrolled");
+        }
+    });
+</script>
 </body>
 
 </html>
