@@ -587,6 +587,7 @@ import _ from 'lodash'
                         let rdata = response.data.data
                         let sMatches = []
 
+                        rdata = this.sortEliminationMatchesByMatchCode(rdata);
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
                             let locationCheckFlag = true;
@@ -746,6 +747,8 @@ import _ from 'lodash'
                             sMatches.push(mData)
                             }
                         });
+
+                        console.log("sMatches",sMatches);
 
                         let sPitch = []
 
@@ -1038,6 +1041,31 @@ import _ from 'lodash'
                 matchScheduleChk.then((successMessage) => {
                     vm.reloadAllEvents();
                 });
+            },
+            sortEliminationMatchesByMatchCode(matchData)
+            {
+              let matchList = new Array();
+              let allRoundMatches = _.groupBy(matchData, match => match.match_round_no);
+              _.forEach(allRoundMatches, function(roundMatches) {
+                let roundTypeMatches = _.groupBy(roundMatches, match => match.actual_round);
+                let roundType = "Round Robin";
+                _.forEach(roundTypeMatches, function(roundTypeMatches) {
+                  _.forEach(roundTypeMatches, function(match) {
+                    if(match.actual_round == 'Elimination') {
+                      roundType = "Elimination";
+                      return false;
+                    }
+                  });
+                  if(roundType == 'Elimination') {
+                    roundTypeMatches = _.orderBy(roundTypeMatches, [function(o) {
+                            return parseInt(o.match_code_no); 
+                    }], ['desc']);
+
+                  }
+                  matchList = $.merge(matchList, roundTypeMatches);
+                });
+              });
+              return matchList;
             },
         }
     };
