@@ -72,11 +72,11 @@
 				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
 				<span>{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
 			</div>
-			<div class="col-md-3" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+			<div class="col-md-3 text-right" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
 				<button type="button" data-toggle="modal"
 				data-confirm-msg="Are you sure you would like to delete this user record?"
 				data-target="#delete_modal"
-				class="btn btn-danger w-100"
+				class="btn btn-outline-danger"
 				>{{$lang.summary_button_delete}}</button>
 				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 			</div>
