@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
           <h6 class="m-0 fieldset-title"><strong>{{$lang.summary_label}}</strong></h6>
           <div class="d-flex align-items-center justify-content-end btn-status-rules">
             <label for="status_rules" class="mb-0 mr-2"><b>{{$lang.summary_status}}:</b> </label>
@@ -244,7 +244,11 @@ export default {
               if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
                 this.canDuplicateFavourites = false;
               }
-              toastr['success']('This tournament has been '+status, 'Success');
+              var msg = 'This tournament has been '+status;
+              if (this.tournamentStatus === 'Preview') {
+                msg = 'This tournament has been set to '+status;
+              }
+              toastr['success'](msg, 'Success');
               let tournamentField = {'tournamentStatus': status}
               this.$store.dispatch('setTournamentStatus',tournamentField)
             }
