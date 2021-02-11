@@ -1527,7 +1527,6 @@ class TournamentRepository
     public function sortEliminationMatchesByMatchCode($matches) {
         // make arreay group by round no and actual round
         $matchesArray = [];
-        //$matches = $matches->toArray();
         foreach ($matches as $match) {
             $matchesArray[$match->match_round_no][$match->competation_type][] = $match;
         }
