@@ -999,6 +999,7 @@ class TournamentRepository
             ->select(DB::raw('*, temp_fixtures.id as id, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no'))
             ->get();
 
+        $unscheduledMatches = $this->sortEliminationMatchesByMatchCode($unscheduledMatches);
         $matchScheduleArray = [];
         $roundWiseLastMatchDateTime = [];
         $userSelectedPitchOrder = array_keys($pitchAvailableTime);
@@ -1521,5 +1522,26 @@ class TournamentRepository
             }
         }
         return true;
+    }
+
+    public function sortEliminationMatchesByMatchCode($matches) {
+        // make arreay group by round no and actual round
+        $matchesArray = [];
+        //$matches = $matches->toArray();
+        foreach ($matches as $match) {
+            $matchesArray[$match->match_round_no][$match->competation_type][] = $match;
+        }
+
+        $sortingPlacingMatchesArray = [];
+        foreach ($matchesArray as $key => $rounds) {
+            foreach ($rounds as $roundType =>$match) {
+                if($roundType == 'Elimination'){
+                    $matchCodeNo = array_column($match, 'match_code_no');
+                    array_multisort($matchCodeNo, SORT_DESC, $match);
+                }
+                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray,$match);
+            }
+        }
+        return collect($sortingPlacingMatchesArray);
     }
 }
