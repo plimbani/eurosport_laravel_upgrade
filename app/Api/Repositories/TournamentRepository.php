@@ -1525,7 +1525,7 @@ class TournamentRepository
     }
 
     public function sortEliminationMatchesByMatchCode($matches) {
-        // make arreay group by round no and actual round
+        // make arreay group by round no and competition type
         $matchesArray = [];
         foreach ($matches as $match) {
             $matchesArray[$match->match_round_no][$match->competation_type][] = $match;
@@ -1533,12 +1533,12 @@ class TournamentRepository
 
         $sortingPlacingMatchesArray = [];
         foreach ($matchesArray as $key => $rounds) {
-            foreach ($rounds as $roundType =>$match) {
+            foreach ($rounds as $roundType =>$roundMatches) {
                 if($roundType == 'Elimination'){
-                    $matchCodeNo = array_column($match, 'match_code_no');
-                    array_multisort($matchCodeNo, SORT_DESC, $match);
+                    $matchCodeNo = array_column($roundMatches, 'match_code_no');
+                    array_multisort($matchCodeNo, SORT_DESC, $roundMatches);
                 }
-                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray,$match);
+                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray,$roundMatches);
             }
         }
         return collect($sortingPlacingMatchesArray);
