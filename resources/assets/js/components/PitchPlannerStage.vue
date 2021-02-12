@@ -747,6 +747,8 @@ import _ from 'lodash'
                             }
                         });
 
+                        console.log("sMatches",sMatches);
+
                         let sPitch = []
 
                         _.forEach(this.stage.pitches, (pitch) => {
