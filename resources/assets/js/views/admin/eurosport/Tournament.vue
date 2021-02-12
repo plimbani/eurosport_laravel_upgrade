@@ -2,10 +2,10 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-          <label for="status_rules" class="mb-0"><b>{{$lang.summary_status}}:</b> </label>
-
-          <div class="d-flex btn-status-rules">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h6 class="m-0 fieldset-title"><strong>{{$lang.summary_label}}</strong></h6>
+          <div class="d-flex align-items-center justify-content-end btn-status-rules">
+            <label for="status_rules" class="mb-0 mr-2"><b>{{$lang.summary_status}}:</b> </label>
             <div>
                 <button class="btn btn-default btn-sm" :class="{'is-previewed': tournamentStatus == 'Preview'}" data-toggle="modal" data-target="#preview_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#preview_status_rules'">Preview</span></button>
                 <div v-bind:id="'preview_status_rules'" style="display: none;">
@@ -244,7 +244,11 @@ export default {
               if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
                 this.canDuplicateFavourites = false;
               }
-              toastr['success']('This tournament has been '+status, 'Success');
+              var msg = 'This tournament has been '+status;
+              if (this.tournamentStatus === 'Preview') {
+                msg = 'This tournament has been set to '+status;
+              }
+              toastr['success'](msg, 'Success');
               let tournamentField = {'tournamentStatus': status}
               this.$store.dispatch('setTournamentStatus',tournamentField)
             }
