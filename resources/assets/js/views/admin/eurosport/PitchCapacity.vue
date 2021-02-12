@@ -10,9 +10,7 @@
                     <div class="col-md-9">
                         <form class="form-inline justify-content-end pitch-capacity-form">
                             <div class="form-group">
-                                <label><strong>Select:</strong></label>
-                            </div>
-                            <div class="form-group">
+                                <label class="mr-2"><strong>Select:</strong></label>
                                 <select class="form-control m-w-130"
                                     v-model="selectedVenue" name="selected_venue" id="selected_venue"
                                     @change="getPitchSearchData()">
