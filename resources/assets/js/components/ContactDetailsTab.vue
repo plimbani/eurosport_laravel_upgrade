@@ -110,6 +110,9 @@ export default {
 		}
 	},
 	mounted() {
+		$('#btnSelect').on('click',function(){
+			$('#selectFileT').trigger('click')
+		})
 		this.tournament.tournamentId = this.$store.state.Tournament.tournamentId
 		Tournament.tournamentSummaryData(this.tournament.tournamentId).then(
 		(response) => {
@@ -118,6 +121,9 @@ export default {
 					this.tournament.tournament_contact_first_name = response.data.data.tournament_contact.first_name
 					this.tournament.tournament_contact_last_name = response.data.data.tournament_contact.last_name
 					this.tournament.tournament_contact_home_phone = response.data.data.tournament_contact.telephone
+					this.tournament.website = response.data.data.tournament_detail.website
+					this.tournament.facebook = response.data.data.tournament_detail.facebook
+					this.tournament.twitter =  response.data.data.tournament_detail.twitter
 				}
 			}
 		},
@@ -128,9 +134,6 @@ export default {
 			this.image = this.$store.state.Tournament.tournamentLogo
 			this.imagePath = ''
 		}
-		this.tournament.website =this.$store.state.Tournament.website
-		this.tournament.facebook =this.$store.state.Tournament.facebook
-		this.tournament.twitter = this.$store.state.Tournament.twitter
 	},
 	methods: {
 		saveContactDetails() {
