@@ -301,5 +301,10 @@
 .pitch-planner-item {
   .card {
     border-color: #c7c9ca;
-  }
+    .card-teams {
+      h6 {
+        line-height: 22px;
+      }
+    }
+   } 
 }

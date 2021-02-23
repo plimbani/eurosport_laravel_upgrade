@@ -60,7 +60,7 @@
                 <editPitchDetail :pitchAction="pitchAction" v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 
-                <div class="row mt-4">
+                <div class="row mt-2">
                     <div class="result col-md-12">
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
