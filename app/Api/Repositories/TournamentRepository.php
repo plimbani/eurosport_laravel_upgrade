@@ -186,17 +186,7 @@ class TournamentRepository
         $newdata['maximum_teams'] = $data['maximum_teams'];
         $newdata['start_date']    = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date']      = $data['end_date'] ? $data['end_date'] : '';
-        $newdata['website']       = $data['website'] ? $data['website'] : '';
-        $newdata['facebook']      = $data['facebook'] ? $data['facebook'] : '';
-        $newdata['twitter']       = $data['twitter'] ? $data['twitter'] : '';
 
-        // For New One We set Status as Unpublished
-
-        if ($data['image_logo'] != '') {
-            $newdata['logo'] = $data['image_logo'];
-        } else {
-            $newdata['logo'] = null;
-        }
         // Now here we Save it For Tournament
         $imageChanged = true;
         if (isset($data['tournamentId']) && $data['tournamentId'] != 0) {
@@ -311,13 +301,8 @@ class TournamentRepository
             'name'                => $data['name'],
             'tournamentStartDate' => $data['start_date'],
             'tournamentEndDate'   => $data['end_date'],
-
             'tournamentStatus'    => 'Unpublished',
-            'tournamentLogo'      => ($data['image_logo'] != '') ? $this->tournamentLogo . $data['image_logo'] : '',
             'tournamentDays'      => ($tournamentDays) ? $tournamentDays : '2',
-            'facebook'            => $data['facebook'],
-            'twitter'             => $data['twitter'],
-            'website'             => $data['website'],
             'maximum_teams'       => $data['maximum_teams'],
         );
 
@@ -1484,6 +1469,13 @@ class TournamentRepository
 
     public function saveContactDetails($data)
     {
+        $tournament = Tournament::find($data['tournamentData']['tournamentId']);
+        $tournament->website = $data['tournamentData']['website'];
+        $tournament->facebook = $data['tournamentData']['facebook'];
+        $tournament->twitter = $data['tournamentData']['twitter'];
+        $tournament->logo = $data['tournamentData']['image_logo'] != '' ? $data['tournamentData']['image_logo'] : null;
+        $tournament->save();
+
         $tournamentContact = TournamentContact::where('tournament_id', $data['tournamentData']['tournamentId'])->first();
         if ($tournamentContact) {
             $tournamentContact->first_name = $data['tournamentData']['tournament_contact_first_name'];
