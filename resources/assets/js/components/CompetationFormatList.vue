@@ -6,8 +6,8 @@
           <thead>
               <tr>
                   <th>{{$lang.competation_category_age}}</th>
-                  <th>{{$lang.competation_team}}</th>
                   <th>{{$lang.competation_name_category}}</th>
+                  <th>{{$lang.competation_team}}</th>
                   <th>{{$lang.competation_competation_format}}</th>
                   <th>{{$lang.competation_total_matches}}</th>
                   <th width="90px">{{$lang.competation_total_time}}</th>
@@ -17,8 +17,8 @@
           <tbody>
             <tr v-for="(competation, index) in competationList">
               <td class="text-left">{{competation.category_age}}</td>
-              <td class="text-left">{{competation.total_teams}}</td>
               <td class="text-left">{{competation.group_name}} </td>
+              <td class="text-left">{{competation.total_teams}}</td>
               <td class="text-left">
                 <div class="d-flex justify-content-between align-items-center">
                   {{competation.disp_format_name}} 
