@@ -875,29 +875,29 @@
       onTeamDrop(ev) {
         ev.preventDefault();
         let teamId = ev.dataTransfer.getData("id");
-        let teamSelectId = $('#' + teamId).data('select-id');
+        let teamSelectId = $('#' + teamId).attr('data-select-id');
+
         let secondTeamId = ev.target.id;
-        let secondteamSelectId = $('#' + secondTeamId).data('select-id');
-        let teamGroupName = $('#' + secondTeamId).data('group-name');
-        let secondTeamGroupName = $('#' + teamId).data('group-name');
+        let secondteamSelectId = $('#' + secondTeamId).attr('data-select-id');
+
+        let teamGroupName = $('#' + secondTeamId).attr('data-group-name');
+        let secondTeamGroupName = $('#' + teamId).attr('data-group-name');
 
         $('#sel_' + teamSelectId).val(teamGroupName);
         $('#sel_' + teamSelectId).trigger('select2:select');
 
-
         //this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
-        this.assignTeamGroupName(teamSelectId, $('#' + secondTeamId).data('group-name'));
-        this.onAssignGroup($('#' + teamId).data('select-id'));
+        this.assignTeamGroupName(teamSelectId, $('#' + secondTeamId).attr('data-group-name'));
+        this.onAssignGroup($('#' + teamId).attr('data-select-id'));
 
         if(this.dragFrom == 'group')
         {
           $('#sel_' + secondteamSelectId).val(secondTeamGroupName);
           $('#sel_' + secondteamSelectId).trigger('select2:select');
 
-
           //this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
-          this.assignTeamGroupName(secondteamSelectId, $('#' + teamId).data('group-name'));
-          this.onAssignGroup($('#' + secondTeamId).data('select-id'));
+          this.assignTeamGroupName(secondteamSelectId, $('#' + teamId).attr('data-group-name'));
+          this.onAssignGroup($('#' + secondTeamId).attr('data-select-id'));
           //this.swapSecondTeamInGroup();
         }
       },
