@@ -10,7 +10,7 @@
               <div class="col-md-5">
                 <div class="row">
                   <div class="col-11">
-                    <h6 class="m-0"><b>Step 1:</b> Download the team list spreadsheet</h6>
+                    <h6 class="m-0"><b>Step 1:</b> Download team list</h6>
                   </div>
                 </div>
               </div>
@@ -18,7 +18,7 @@
                 <div class="content-card">
                   <div class="row align-items-center gutters-tiny">
                     <div class="col-md-4">
-                      <button class="btn btn-primary btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
+                      <button class="btn btn-success btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
                     </div>
                     <div class="col-md-3 text-center">
                       <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
@@ -61,7 +61,7 @@
               <div class="col-md-5">
                 <div class="row">
                   <div class="col-11">
-                    <h6 class="m-0"><b>Step 3:</b> Allocate the teams...."</h6>
+                    <h6 class="m-0"><b>Step 3:</b> Allocate teams</h6>
                     <div class="small text-muted font-italic"><span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected</div>
                   </div>
                 </div>
@@ -85,7 +85,7 @@
                           <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                         </div>
                         <div class="col-md-4 text-center">
-                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete teams</a>
+                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
                         </div>
                         <div class="col-md-4">
                           <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
@@ -95,11 +95,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div id="step4" class="row d-none">
               <div class="col-md-12">
-                <h6 class="m-0"><b>Step 4:</b> Ensure you repeat..."</h6>
                 <div class="block-bg age-category mt-4" id="age_category_block">
                   <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
                     <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
@@ -198,7 +194,7 @@
               </div>
             </div>
             <button v-show="currentStep > 1" type="button" class="btn btn-primary" @click="back()">Back</button>
-            <button v-show="currentStep < 4" type="button" class="btn btn-primary" @click="next()">Next</button>
+            <button v-show="currentStep < 3" type="button" class="btn btn-success" @click="next()">Next</button>
           </div>
         </div>
       </div>
