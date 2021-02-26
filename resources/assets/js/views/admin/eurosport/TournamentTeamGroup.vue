@@ -6,199 +6,196 @@
         <h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
         <div class="card mb-0">
           <div class="card-block">
-              <div id="step1" class="row align-items-center">
-                <div class="col-md-5">
-                  <div class="row">
-                    <div class="col-11">
-                      <h6 class="m-0"><b>Step 1:</b> Download the team list spreadsheet</h6>
+            <div id="step1" class="row align-items-center">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-11">
+                    <h6 class="m-0"><b>Step 1:</b> Download team list</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="content-card">
+                  <div class="row align-items-center gutters-tiny">
+                    <div class="col-md-4">
+                      <button class="btn btn-success btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
+                    </div>
+                    <div class="col-md-3 text-center">
+                      <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-7">
-                  <div class="content-card">
-                    <div class="row align-items-center gutters-tiny">
-                      <div class="col-md-4">
-                        <button class="btn btn-primary btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
+              </div>
+            </div>
+
+            <div id="step2" class="row d-none">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-11">
+                    <h6 class="m-0"><b>Step 2:</b> Once this team list is completed select the file and click on “Upload teams”:</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="content-card">
+                  <div class="mb-0" :class="{'form-group': true, 'is-disabled': competitionList.length === 0}">
+                    <label>Import file</label>
+                    <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+                      <div class="row gutters-tiny">
+                        <div class="col-md-6">
+                          <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
+                        </div>
+                        <div class="col-md-4 btn-group-agecategory">
+                          <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams</button>
+                        </div>
                       </div>
-                      <div class="col-md-3 text-center">
-                        <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
+                      <span id="filename"></span>
+                      <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="step3" class="row d-none">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-11">
+                    <h6 class="m-0"><b>Step 3:</b> Allocate teams</h6>
+                    <div class="small text-muted font-italic"><span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="content-card">
+                  <div class="row align-items-end">
+                    <div class="col-md-4">
+                      <div class="form-group mb-0">
+                        <label>Select age category</label>
+                        <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
+                          <option value="">{{$lang.teams_all_age_category}}</option>
+                          <option v-for="option in options"
+                           v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="row align-items-center gutters-tiny btn-group-agecategory" v-show="this.age_category != ''">
+                        <div class="col-md-4">
+                          <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
+                        </div>
+                        <div class="col-md-4 text-center">
+                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
+                        </div>
+                        <div class="col-md-4">
+                          <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
+
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div id="step2" class="row d-none">
-                <div class="col-md-5">
-                  <div class="row">
-                    <div class="col-11">
-                      <h6 class="m-0"><b>Step 2:</b> Once this team list is completed select the file and click on “Upload teams”:</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-7">
-                  <div class="content-card">
-                    <div class="mb-0" :class="{'form-group': true, 'is-disabled': competitionList.length === 0}">
-                      <label>Import file</label>
-                      <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
-                        <div class="row gutters-tiny">
-                          <div class="col-md-6">
-                            <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
-                          </div>
-                          <div class="col-md-4 btn-group-agecategory">
-                            <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams</button>
-                          </div>
-                        </div>
-                        <span id="filename"></span>
-                        <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="step3" class="row d-none">
-                <div class="col-md-5">
-                  <div class="row">
-                    <div class="col-11">
-                      <h6 class="m-0"><b>Step 3:</b> Allocate the teams...."</h6>
-                      <div class="small text-muted font-italic"><span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-7">
-                  <div class="content-card">
-                    <div class="row align-items-end">
-                      <div class="col-md-4">
-                        <div class="form-group mb-0">
-                          <label>Select age category</label>
-                          <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                            <option value="">{{$lang.teams_all_age_category}}</option>
-                            <option v-for="option in options"
-                             v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-8">
-                        <div class="row align-items-center gutters-tiny btn-group-agecategory" v-show="this.age_category != ''">
-                          <div class="col-md-4">
-                            <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete teams</a>
-                          </div>
-                          <div class="col-md-4">
-                            <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
-                          </div>
+              <div class="col-md-12">
+                <div class="block-bg age-category mt-4" id="age_category_block">
+                  <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
+                    <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
+                      <div class="m_card hoverable h-100 m-0">
+                        <div class="card-content">
+                           <span class="card-title text-primary"><strong>
+                           {{ getGroupName(group) }}</strong></span>
+                           <div v-for="(n, pindex) in group['group_count']">
+                            <p class="text-primary left">
+                              <strong>
+                                <span :class="groupFlag(group,n)"></span>
+                                <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                              </strong>
+                            </p>
+                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div id="step4" class="row d-none">
-                <div class="col-md-12">
-                  <h6 class="m-0"><b>Step 4:</b> Ensure you repeat..."</h6>
-                  <div class="block-bg age-category mt-4" id="age_category_block">
-                    <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
-                      <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
-                        <div class="m_card hoverable h-100 m-0">
-                          <div class="card-content">
-                             <span class="card-title text-primary"><strong>
-                             {{ getGroupName(group) }}</strong></span>
-                             <div v-for="(n, pindex) in group['group_count']">
-                              <p class="text-primary left">
-                                <strong>
-                                  <span :class="groupFlag(group,n)"></span>
-                                  <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event)" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
-                                </strong>
-                              </p>
-                             </div>
-                          </div>
+                  <div v-else class="d-flex justify-content-center">
+                    <div class="col-sm-9  m-8">
+                        <div class="card-content">
+                           <span class="card-title"> {{ $lang.teams_name_select }}</span>
                         </div>
-                      </div>
-                    </div>
-                    <div v-else class="d-flex justify-content-center">
-                      <div class="col-sm-9  m-8">
-                          <div class="card-content">
-                             <span class="card-title"> {{ $lang.teams_name_select }}</span>
-                          </div>
-                      </div>
                     </div>
                   </div>
-                  <div class="row mt-4 team-table">
-                    <div class="col-md-12 text-muted">
-                      <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
-                    </div>
-                    <div class="col-md-12">
-                      <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
-                        <table class="table table-hover table-bordered">
-                          <thead>
-                              <tr>
-                                  <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
-                                  <th class="text-center">{{$lang.teams_name}}</th>
-                                  <th class="text-center">{{$lang.teams_country}}</th>
-                                  <th class="text-center">{{$lang.teams_place}}</th>
-                                  <th class="text-center">{{$lang.teams_age_category}}</th>
-                                  <th  class="text-center">{{$lang.teams_name_category}}</th>
+                </div>
+                <div class="row mt-4 team-table">
+                  <div class="col-md-12 text-muted">
+                    <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
+                  </div>
+                  <div class="col-md-12">
+                    <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
+                      <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
+                                <th class="text-center">{{$lang.teams_name}}</th>
+                                <th class="text-center">{{$lang.teams_country}}</th>
+                                <th class="text-center">{{$lang.teams_place}}</th>
+                                <th class="text-center">{{$lang.teams_age_category}}</th>
+                                <th  class="text-center">{{$lang.teams_name_category}}</th>
 
-                                  <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
-                                  <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
-                                  <th class="text-center">Edit</th>
+                                <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
+                                <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
+                                <th class="text-center">Edit</th>
+                            </tr>
+                        </thead>
+                          <tbody v-if="teams.length!=0">
+                              <tr v-for="(team, index) in teams">
+                                <td width="150px">{{team.esr_reference}}</td>
+                                <td class="team-edit-section">
+                                  <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
+                                    <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event,'team')">{{team.name}}</span>
+                                    <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
+                                  </div>
+                                  <div v-show="(team.id in teamsInEdit)">
+                                    <div class="btn-group btn-group-sm w-100" role="group">
+                                      <input type="text" class="form-control" v-model="team.name" />
+                                      <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-times text-center text-danger" aria-hidden="true"></i></a>
+                                      <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-check text-center text-primary" aria-hidden="true"></i></a>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
+                                    <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
+                                </td>
+                                <td>{{team.place}} </td>
+                                <td>{{team.category_age}} </td>
+                                <td>{{team.age_name}} </td>
+
+                                <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                                <td :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
+                                  <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
+                                </td>
+                                <td class="text-center">
+                                  <a class="text-primary" href="javascript:void(0)"
+                                   @click="editTeam(team.id)">
+                                    <i class="fas fa-pencil"></i>
+                                  </a>
+                                </td>
                               </tr>
-                          </thead>
-                            <tbody v-if="teams.length!=0">
-                                <tr v-for="(team, index) in teams">
-                                  <td width="150px">{{team.esr_reference}}</td>
-                                  <td class="team-edit-section">
-                                    <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                                      <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
-                                      <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
-                                    </div>
-                                    <div v-show="(team.id in teamsInEdit)">
-                                      <div class="btn-group btn-group-sm w-100" role="group">
-                                        <input type="text" class="form-control" v-model="team.name" />
-                                        <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-times text-center text-danger" aria-hidden="true"></i></a>
-                                        <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-check text-center text-primary" aria-hidden="true"></i></a>
-                                      </div>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
-                                      <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
-                                  </td>
-                                  <td>{{team.place}} </td>
-                                  <td>{{team.category_age}} </td>
-                                  <td>{{team.age_name}} </td>
 
-                                  <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
-                                  <td :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
-                                    <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
-                                  </td>
-                                  <td class="text-center">
-                                    <a class="text-primary" href="javascript:void(0)"
-                                     @click="editTeam(team.id)">
-                                      <i class="fas fa-pencil"></i>
-                                    </a>
-                                  </td>
-                                </tr>
-
-                            </tbody>
-                            <tbody v-else>
-                              <tr>
-                                <td colspan="8"> No teams available</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
-                      </form>
-                    </div>
+                          </tbody>
+                          <tbody v-else>
+                            <tr>
+                              <td colspan="8"> No teams available</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
+                    </form>
                   </div>
                 </div>
               </div>
-              <button v-show="currentStep > 1" type="button" class="btn btn-primary" @click="back()">Back</button>
-              <button v-show="currentStep < 4" type="button" class="btn btn-primary" @click="nextStep()">Next</button>
+            </div>
+            <button v-show="currentStep > 1" type="button" class="btn btn-primary" @click="back()">Back</button>
+            <button v-show="currentStep < 3" type="button" class="btn btn-success" @click="next()">Next</button>
           </div>
         </div>
       </div>
@@ -349,6 +346,8 @@
         'resultEnteredTeams': [],
         'ageCategoryHasNoTeams': false,
         'currentStep': 1,
+        'dragFrom':'',
+        'dragFromTeamId':0
       }
     },
 
@@ -482,7 +481,7 @@
           if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayId =  team.id
             displayName =  team.name
-            isHolderName = false;
+            // isHolderName = false;
           }
         });
         return {'displayId': displayId, 'displayName': displayName, 'isHolderName': isHolderName}
@@ -542,7 +541,6 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
-        $('.selTeams').prop("disabled", true);
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           $('#sel_'+id+' .blnk').html('')
@@ -881,15 +879,36 @@
       onTeamDrop(ev) {
         ev.preventDefault();
         let teamId = ev.dataTransfer.getData("id");
-        let teamSelectId = $('#' + teamId).data('select-id');
-        $('#sel_' + teamSelectId).val($('#' + ev.target.id).data('group-name'));
+        let teamSelectId = $('#' + teamId).attr('data-select-id');
+
+        let secondTeamId = ev.target.id;
+        let secondteamSelectId = $('#' + secondTeamId).attr('data-select-id');
+
+        let teamGroupName = $('#' + secondTeamId).attr('data-group-name');
+        let secondTeamGroupName = $('#' + teamId).attr('data-group-name');
+
+        $('#sel_' + teamSelectId).val(teamGroupName);
         $('#sel_' + teamSelectId).trigger('select2:select');
-        this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
-        this.onAssignGroup($('#' + teamId).data('select-id'));
+
+        //this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+        this.assignTeamGroupName(teamSelectId, $('#' + secondTeamId).attr('data-group-name'));
+        this.onAssignGroup($('#' + teamId).attr('data-select-id'));
+
+        if(this.dragFrom == 'group')
+        {
+          $('#sel_' + secondteamSelectId).val(secondTeamGroupName);
+          $('#sel_' + secondteamSelectId).trigger('select2:select');
+
+          //this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+          this.assignTeamGroupName(secondteamSelectId, $('#' + teamId).attr('data-group-name'));
+          this.onAssignGroup($('#' + secondTeamId).attr('data-select-id'));
+          //this.swapSecondTeamInGroup();
+        }
       },
-      onTeamDrag(ev) {
+      onTeamDrag(ev,section) {
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
+        this.dragFrom= section;
       },
       printAllocatedTeams() {
         let data = 'tournamentId='+this.$store.state.Tournament.tournamentId+'&'+'ageCategoryId='+this.age_category.id+'&'+'tournamentTemplateId='+this.age_category.tournament_template_id;
