@@ -6,7 +6,7 @@
         <h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
         <div class="card mb-0">
           <div class="card-block">
-            <div id="step1" class="row align-items-center">
+            <div id="step1" class="row">
               <div class="col-md-5">
                 <div class="row">
                   <div class="col-11">
@@ -32,7 +32,7 @@
               <div class="col-md-5">
                 <div class="row">
                   <div class="col-11">
-                    <h6 class="m-0"><b>Step 2:</b> Once this team list is completed select the file and click on “Upload teams”:</h6>
+                    <h6 class="m-0"><b>Step 2:</b> Once this team list is completed select the file and click on “Upload teams”</h6>
                   </div>
                 </div>
               </div>
@@ -46,7 +46,7 @@
                           <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
                         </div>
                         <div class="col-md-4 btn-group-agecategory">
-                          <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-primary': competitionList.length > 0, 'btn-outline-primary': competitionList.length === 0 }">Upload teams</button>
+                          <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-success': competitionList.length > 0, 'btn-outline-success': competitionList.length === 0, 'is-disabled': !this.isFileUploaded }">Upload teams</button>
                         </div>
                       </div>
                       <span id="filename"></span>
@@ -58,15 +58,15 @@
             </div>
 
             <div id="step3" class="row d-none">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <div class="row">
                   <div class="col-11">
-                    <h6 class="m-0"><b>Step 3:</b> Allocate teams</h6>
+                    <h6 class="mb-2"><b>Step 3:</b> Allocate teams</h6>
                     <div class="small text-muted font-italic"><span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected</div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-8">
                 <div class="content-card">
                   <div class="row align-items-end">
                     <div class="col-md-4">
@@ -188,14 +188,14 @@
                               </tr>
                           </tbody>
                       </table>
-                      <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
             <button v-show="currentStep > 1" type="button" class="btn btn-primary" @click="back()">Back</button>
-            <button v-show="currentStep < 3" type="button" class="btn btn-success" @click="next()">Next</button>
+            <button v-show="currentStep < 3" type="button" class="btn btn-success" @click="nextStep()">Next</button>
+            <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
           </div>
         </div>
       </div>
@@ -347,7 +347,8 @@
         'ageCategoryHasNoTeams': false,
         'currentStep': 1,
         'dragFrom':'',
-        'dragFromTeamId':0
+        'dragFromTeamId':0,
+        'isFileUploaded': false
       }
     },
 
@@ -507,6 +508,7 @@
         }
       },
       setFileName(file, event) {
+        this.isFileUploaded = true;
         this.canUploadTeamFile = true;
         var extensionsplit = event.target.files[0].name.split(".");
         var extension = extensionsplit[extensionsplit.length - 1];

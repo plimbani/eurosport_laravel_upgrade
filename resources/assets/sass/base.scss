@@ -82,6 +82,12 @@ code, .code {
 .content-card {    
   background-color: #f9f9f9;
   padding: 20px;
+  height: 110px;
+  display: flex;
+}
+
+.content-card > div{
+  flex-grow: 1;
 }
 
 .border-bottom-dashed--primary {
