@@ -99,14 +99,15 @@ class AgeGroupController extends BaseController
     }
     public function getCompetationFormat(GetCompetationFormatRequest $request) {
         $client = new HttpClient();
-        $competationFormat = $client->post('/age_group/getCompetationFormat', [], $request->all());
+        $login = $client->login();
+        $competationFormat = $client->post('/age_group/getCompetationFormat', ['Authorization' => 'Bearer '.json_decode($login)->token], $request->all());
         return $competationFormat;
     }
     public function deleteCompetationFormat(DeleteCompetitionFormatRequest $request) {
        return $this->ageGroupObj->deleteCompetationFormat($request);
     }
 
-    public function getPlacingsData(TeamDetailsRequest $request) {
+    public function getPlacingsData(Request $request) {
         $client = new HttpClient();
         $placingsData = $client->post('/age_group/getPlacingsData', [], $request->all());
         return $placingsData;

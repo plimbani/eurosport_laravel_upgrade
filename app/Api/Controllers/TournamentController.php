@@ -157,10 +157,11 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->getTournamentClub($request->all());
     }
-    public function getCategoryCompetitions(GetCategoryCompetitionsRequest $request)
+    public function getCategoryCompetitions(Request $request)
     {
         $client = new HttpClient();
-        $categoryCompetitions = $client->post('/tournament/getCategoryCompetitions', [], $request->all());
+        $login = $client->login();
+        $categoryCompetitions = $client->post('/tournament/getCategoryCompetitions', ['Authorization' => 'Bearer '.json_decode($login)->token], $request->all());
         return $categoryCompetitions;
     }
 
@@ -173,7 +174,8 @@ class TournamentController extends BaseController
 
     public function getFilterDropDownData(Request $request) {
         $client = new HttpClient();
-        $filterDropDownData = $client->post('tournament/getFilterDropDownData', [], $request->all());
+        $login = $client->login();
+        $filterDropDownData = $client->post('tournament/getFilterDropDownData', ['Authorization' => 'Bearer '.json_decode($login)->token], $request->all());
         return $filterDropDownData;
     }
 

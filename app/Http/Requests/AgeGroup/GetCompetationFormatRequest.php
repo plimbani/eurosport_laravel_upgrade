@@ -6,6 +6,7 @@ use JWTAuth;
 use Laraspace\Models\Tournament;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 
 class GetCompetationFormatRequest extends FormRequest
 {
@@ -29,7 +30,9 @@ class GetCompetationFormatRequest extends FormRequest
                 $tournament_id = $data['tournament_id'];
             }
 
-            $tournament = Tournament::where('id',$tournament_id)->first();
+            $client = new HttpClient();
+            $login = $client->login();
+            $tournament = json_decode($client->post('/tournaments/tournamentSummary', ['Authorization' => 'Bearer '.json_decode($login)->token], ['tournamentId' => $tournament_id]))->data->tournament_detail;
             $isTournamentPublished = $this->isTournamentPublished($tournament);
             if(!$isTournamentPublished) {
                 return false;

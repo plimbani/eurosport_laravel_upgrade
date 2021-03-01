@@ -6,6 +6,7 @@ use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Api\Services\TournamentAPI\Client\HttpClient;
 
 class GetCategoryCompetitionsRequest extends FormRequest
 {
