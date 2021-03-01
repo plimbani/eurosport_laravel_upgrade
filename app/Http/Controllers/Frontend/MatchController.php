@@ -37,16 +37,18 @@ class MatchController extends Controller
         $website = Landlord::getTenants()['website'];
         $websiteId = $website->id;
         $pageDetail = $this->pageService->getPageDetails($this->matchPageName, $websiteId);
-        $tournament = $website->linked_tournament!=null ? Tournament::where('id', $website->linked_tournament)->where('status', 'Published')->first() : null;
+        $client = new HttpClient();
+        $login = $client->login();
+        $tournament = $website->linked_tournament!=null ? json_decode($client->post('/tournaments/tournamentSummary', ['Authorization' => 'Bearer '.json_decode($login)->token], ['tournamentId' => $website->linked_tournament]))->data->tournament_detail : null;
 
         $data = [];
         $competitionListData = [];
 
         if($tournament) {
-            $tournament = $tournament->toArray();
-            $data['tournamentData'] = ['tournament_id' => $tournament['id']];
+            $data['tournamentData'] = ['tournament_id' => $tournament->id];
             $client = new HttpClient();
-            $competitionList = $client->post('/age_group/getCompetationFormat', [], $data);
+            $login = $client->login();
+            $competitionList = $client->post('/age_group/getCompetationFormat', ['Authorization' => 'Bearer '.json_decode($login)->token], $data);
             $competitionListData = json_decode($competitionList)->data;
         }
         $varsForView['competitionList'] = $competitionListData;

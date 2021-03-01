@@ -127,7 +127,8 @@ class WebsiteTournamentController extends Controller
       if($tournament) {
         $data['tournamentData'] = ['tournament_id' => $tournament['id']];
         $client = new HttpClient();
-        $competitionList = $client->post('/age_group/getCompetationFormat', [], $data);
+        $login = $client->login();
+        $competitionList = $client->post('/age_group/getCompetationFormat', ['Authorization' => 'Bearer '.json_decode($login)->token], $data);
         $competitionListData = json_decode($competitionList)->data;
       }
 

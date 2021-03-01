@@ -19,7 +19,7 @@
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
-          <displaygraphic :sectionGraphicImage="'DrawList'" :categoryId="categoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="tournamentData.id"></displaygraphic>
+          <displaygraphic :sectionGraphicImage="'DrawList'" :categoryId="currentCategoryId" :tournamentTemplateId="tournamentTemplateId" :tournamentId="tournamentData.id"></displaygraphic>
 				</tbody>
 			</table>
 		</div>

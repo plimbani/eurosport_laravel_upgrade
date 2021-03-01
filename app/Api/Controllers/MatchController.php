@@ -103,12 +103,14 @@ class MatchController extends BaseController
     }
     public function getDraws(GetDrawsRequest $request){
         $client = new HttpClient();
-        $draws = $client->post('/match/getDraws', [], $request->all());
+        $login = $client->login();
+        $draws = $client->post('/match/getDraws', ['Authorization' => 'Bearer '.json_decode($login)->token], $request->all());
         return $draws;
     }
     public function getFixtures(GetFixturesRequest $request){
         $client = new HttpClient();
-        $fixtures = $client->post('/match/getFixtures', [], $request->all());
+        $login = $client->login();
+        $fixtures = $client->post('/match/getFixtures', ['Authorization' => 'Bearer '.json_decode($login)->token], $request->all());
         return $fixtures;
     }
     public function getStanding(GetStandingRequest $request, $refreshStanding = null){
