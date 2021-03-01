@@ -99,7 +99,12 @@
 
                     span {
                         font-size: 12px;
-                        display: inline-block;
+                        &.small {
+                            display: block;
+                        }
+                        &.team-scores {
+                            display: inline-block;
+                        }
                     }
 
                     &.position-wrapper {
