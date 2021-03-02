@@ -535,7 +535,7 @@
                                                       ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                                                           <br>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}
                                                         @endif
                                                       </td>
@@ -744,7 +744,7 @@
                                                       ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                                                           <br>{{$homeTeamScoreValue}}-{{$awayTemScoreValue}}
                                                         @endif
                                                       </td>
