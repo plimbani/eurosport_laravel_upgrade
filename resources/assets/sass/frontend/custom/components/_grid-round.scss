@@ -1,0 +1,41 @@
+.bordered-box {
+    span {
+        &.small {
+            display: block;
+        }
+        &.team-scores {
+            display: inline-block;
+            position: relative;
+        }
+    }
+}
+
+.circle-badge {
+    top: -3px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background: $primary;
+    border-radius: 50%;
+    color: $white;
+    display: inline-flex;
+    align-items: center;
+    font-size: 8px !important;
+    justify-content: center;
+
+    &.right-input {
+        right: -10px;
+    }
+
+    &.left-input {
+        left: -10px;
+    }
+
+    &.right-text {
+        right: -9px;
+    }
+
+    &.left-text {
+        left: -9px;
+    }
+}
