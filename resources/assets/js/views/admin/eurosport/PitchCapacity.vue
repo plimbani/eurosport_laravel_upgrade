@@ -10,9 +10,7 @@
                     <div class="col-md-9">
                         <form class="form-inline justify-content-end pitch-capacity-form">
                             <div class="form-group">
-                                <label><strong>Filter by:</strong></label>
-                            </div>
-                            <div class="form-group">
+                                <label class="mr-2"><strong>Select:</strong></label>
                                 <select class="form-control m-w-130"
                                     v-model="selectedVenue" name="selected_venue" id="selected_venue"
                                     @change="getPitchSearchData()">
@@ -67,11 +65,11 @@
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
-                                    <th>{{$lang.pitch_modal_details_name}}</th>
+                                    <th>{{$lang.summary_pitch}}</th>
                                     <th>{{$lang.pitch_capacity_location}}</th>
                                     <th>{{$lang.pitch_modal_details_size}}</th>
                                     <th>{{$lang.pitch_modal_details_type}}</th>
-                                    <th>{{$lang.pitch_modal_availability_stage}}</th>
+                                    <th>{{$lang.pitch_modal_timetable}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_copy}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_action}}</th>
                                     <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
@@ -130,7 +128,7 @@
                             <thead>
                                 <tr>
                                     <th>{{$lang.pitch_size}}</th>
-                                    <th>{{$lang.pitch_available_time}}</th>
+                                    <th>Pitch capacity</th>
                                     <th>{{$lang.pitch_totaL_time}}</th>
                                     <th>{{$lang.pitch_balance}}</th>
                                 </tr>
@@ -287,7 +285,7 @@ import draggable from 'vuedraggable';
               this.$router.push({name: 'welcome'});
             } else {
                 // First Set Menu and ActiveTab
-              let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitch Capacity'}
+              let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitches'}
                 this.$store.dispatch('setActiveTab', currentNavigationData)
             }
             Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker', 'addstage'])
