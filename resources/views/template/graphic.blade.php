@@ -34,7 +34,7 @@
                           $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
                         ?>
                         <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
-                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                           <span>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}</span>
                         @endif
                       </div>
@@ -153,7 +153,7 @@
                       $homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge);
                       $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
                     ?>
-                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>@if($homeTeamScoreValue != null && $awayTemScoreValue != null)<span>{{$homeTeamScoreValue}}-{{$awayTemScoreValue}}</span>@endif</div>
+                    <div class="bordered-box d-flex flex-column justify-content-center"><span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>@if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))<span>{{$homeTeamScoreValue}}-{{$awayTemScoreValue}}</span>@endif</div>
                   @endif
                   @if(checkIfWinnerLoserMatch($match['match_number']))
                     @php($homeTeamCode = getTeamCodeInSearch($match, 'home'))
