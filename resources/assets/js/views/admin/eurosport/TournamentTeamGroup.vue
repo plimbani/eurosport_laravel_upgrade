@@ -57,7 +57,7 @@
             </div>
 
             <div id="step3" class="row d-none">
-              <div class="col-md-4">
+              <div class="col-md-5">
                 <div class="row">
                   <div class="col-11">
                     <h6 class="mb-2"><b>Step 3:</b> Allocate teams</h6>
@@ -65,9 +65,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-7">
                 <div class="content-card">
-                  <div class="row align-items-end">
+                  <div class="row align-items-end gutters-tiny">
                     <div class="col-md-4">
                       <div class="form-group mb-0">
                         <label>Select age category</label>
@@ -84,10 +84,10 @@
                           <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                         </div>
                         <div class="col-md-4 text-center">
-                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
+                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger font-13" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
                         </div>
                         <div class="col-md-4">
-                          <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
+                          <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary font-13" @click="printAllocatedTeams()">Download groups</a>
 
                         </div>
                       </div>

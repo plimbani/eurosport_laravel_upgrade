@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" @click.prevent="cancelStatusChange()">{{$lang.summary_tab_popup_preview_cancel_button}}</button>
+                    <button type="button" class="btn btn-primary" @click.prevent="cancelStatusChange()">No</button>
                     <button type="submit" class="btn btn-primary"
-                    @click.prevent="updateStatus">{{$lang.summary_tab_popup_preview_confirm_button}}</button>
+                    @click.prevent="updateStatus">Yes</button>
                 </div>
         </div>
       </div>
