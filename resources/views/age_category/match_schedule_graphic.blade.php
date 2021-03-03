@@ -523,7 +523,7 @@
                                                       ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                                                           <br>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}
                                                         @endif
                                                       </td>
@@ -534,7 +534,7 @@
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}">
                                                           @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
-                                                          @if($homeTeamScoreValue != null)
+                                                          @if(!is_null($homeTeamScoreValue))
                                                             <br>{{ $homeTeamScoreValue }}
                                                           @endif
                                                       </td>
@@ -545,7 +545,7 @@
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}">
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
                                                           @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
-                                                          @if($awayTeamScoreValue != null)
+                                                          @if(!is_null($awayTeamScoreValue))
                                                             <br>{{ $awayTeamScoreValue }}
                                                           @endif
                                                       </td>
@@ -732,7 +732,7 @@
                                                       ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                                                           <br>{{$homeTeamScoreValue}}-{{$awayTemScoreValue}}
                                                         @endif
                                                       </td>
@@ -743,7 +743,7 @@
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}">
                                                         @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue))
                                                           <br>{{ $homeTeamScoreValue }}
                                                         @endif
                                                       </td>
@@ -754,7 +754,7 @@
                                                       <td style="min-width: 100px; background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}">
                                                         @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($awayTeamScoreValue != null)
+                                                        @if(!is_null($awayTeamScoreValue))
                                                           <br>{{ $awayTeamScoreValue }}
                                                         @endif
                                                       </td>
