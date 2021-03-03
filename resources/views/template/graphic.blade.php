@@ -35,7 +35,7 @@
                             $awayTemScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge);
                           ?>
                           <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
-                          @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                          @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                             <span class="team-scores">
                               @if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'])<span class="circle-badge left-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}@if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'])<span class="circle-badge right-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif
                             </span>
@@ -49,7 +49,7 @@
                       <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}">
                         <span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span>
                         @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
-                        @if($homeTeamScoreValue != null)
+                        @if(!is_null($homeTeamScoreValue))
                           <span>{{ $homeTeamScoreValue }}</span>
                         @endif
                       </div>
@@ -60,7 +60,7 @@
                       <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}">
                         <span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
                         @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
-                        @if($awayTeamScoreValue != null)
+                        @if(!is_null($awayTeamScoreValue))
                           <span>{{ $awayTeamScoreValue }}</span>
                         @endif
                       </div>
@@ -160,7 +160,7 @@
                     <div class="bordered-box d-flex flex-column justify-content-center">
                       <div>
                         <span class="small">{{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
-                          @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                          @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                             <span class="team-scores">
                               @if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'])<span class="circle-badge left-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}@if($matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'])<span class="circle-badge right-input"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></span>@endif
                             </span>
@@ -173,7 +173,7 @@
                     <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$homeTeamCode]['text'] : '' }}">
                       <span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}</span>
                       @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
-                      @if($homeTeamScoreValue != null)
+                      @if(!is_null($homeTeamScoreValue))
                         <span>{{ $homeTeamScoreValue }}</span>
                       @endif
                     </div>
@@ -183,7 +183,7 @@
                     <div class="bordered-box d-flex flex-column justify-content-center" style="background-color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['background'] : '' }}; color: {{ isset($colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]) ? $colorCodes['homeAwayTeamWithColorCode'][$awayTeamCode]['text'] : '' }}">
                         <span class="small">{{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}</span>
                         @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
-                        @if($awayTeamScoreValue != null)
+                        @if(!is_null($awayTeamScoreValue))
                           <span>{{ $awayTeamScoreValue }}</span>
                         @endif
                     </div>
