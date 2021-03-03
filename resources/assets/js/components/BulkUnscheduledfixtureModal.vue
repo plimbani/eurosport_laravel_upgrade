@@ -9,7 +9,7 @@
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ unscheduleFixture }}</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"  @click="hideModal()">No</button>
+                    <button type="button" class="btn btn-primary w-58"  @click="hideModal()">No</button>
                     <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">Yes</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />
