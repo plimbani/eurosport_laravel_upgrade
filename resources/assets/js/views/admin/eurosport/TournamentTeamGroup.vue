@@ -6,14 +6,14 @@
         <div class="card mb-0">
           <div class="card-block">
             <div id="step1" class="row">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <div class="row">
                   <div class="col-11">
                     <h6 class="m-0"><b>Step 1:</b> Download team list</h6>
                   </div>
                 </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-8">
                 <div class="content-card">
                   <div class="row align-items-center gutters-tiny">
                     <div class="col-md-4">
@@ -28,14 +28,14 @@
             </div>
 
             <div id="step2" class="row d-none">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <div class="row">
                   <div class="col-11">
-                    <h6 class="m-0"><b>Step 2:</b> Once this team list is completed select the file and click on “Upload teams”</h6>
+                    <h6 class="m-0"><b>Step 2:</b> Upload your team list</h6>
                   </div>
                 </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-8">
                 <div class="content-card">
                   <div class="mb-0" :class="{'form-group': true, 'is-disabled': competitionList.length === 0}">
                     <label>Import file</label>
@@ -57,7 +57,7 @@
             </div>
 
             <div id="step3" class="row d-none">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <div class="row">
                   <div class="col-11">
                     <h6 class="mb-2"><b>Step 3:</b> Allocate teams</h6>
@@ -65,9 +65,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-8">
                 <div class="content-card">
-                  <div class="row align-items-end gutters-tiny">
+                  <div class="row align-items-end">
                     <div class="col-md-4">
                       <div class="form-group mb-0">
                         <label>Select age category</label>
@@ -84,10 +84,10 @@
                           <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
                         </div>
                         <div class="col-md-4 text-center">
-                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger font-13" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
+                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
                         </div>
                         <div class="col-md-4">
-                          <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary font-13" @click="printAllocatedTeams()">Download groups</a>
+                          <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
 
                         </div>
                       </div>
@@ -192,9 +192,9 @@
                 </div>
               </div>
             </div>
-            <button v-show="currentStep > 1" type="button" class="btn btn-primary" @click="back()">Back</button>
-            <button v-show="currentStep < 3" type="button" class="btn btn-success" @click="nextStep()">Next</button>
-            <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
+            <button v-show="currentStep > 1" type="button" class="btn btn-primary mt-2" @click="back()">Back</button>
+            <button v-show="currentStep < 3" type="button" class="btn btn-success mt-2 pull-right" @click="nextStep()">Next</button>
+            <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary mt-2 pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
           </div>
         </div>
       </div>
@@ -292,7 +292,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="pull-right">
-            <button class="btn btn-primary" :class="{'is-disabled': teams.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+            <button v-if="currentStep == 3" class="btn btn-primary" :class="{'is-disabled': teams.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
