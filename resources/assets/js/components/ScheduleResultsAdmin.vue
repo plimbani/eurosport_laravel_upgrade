@@ -65,6 +65,13 @@
 				<!-- </div> -->
 			</div>
 		</div>
+		<div class="row">
+	      	<div class="col-md-12">
+	        	<div class="pull-right">
+	            	<button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+	        	</div>
+	      	</div>
+	    </div>
 	</div>
 <!-- </div> -->
 </template>
@@ -88,11 +95,20 @@ export default {
 		}
 	},
 	mounted(){
+		let tournamentId = this.$store.state.Tournament.tournamentId
+        if(tournamentId == null || tournamentId == '') {
+          	toastr['error']('Please Select Tournament', 'Error');
+          	this.$router.push({name: 'welcome'});
+        } else {
+            // First Set Menu and ActiveTab
+          	let currentNavigationData = {activeTab:'match_results', currentPage: 'Match results'}
+            this.$store.dispatch('setActiveTab', currentNavigationData)
+        }
 		// here we set drawsListing as currentView
-	this.currentView = 'drawsListing'
-    this.$store.dispatch('setCurrentView',this.currentView)
-    this.$store.dispatch('isAdmin',true)
-    // Also Call Api For Getting the last Updated Record
+		this.currentView = 'drawsListing'
+	    this.$store.dispatch('setCurrentView',this.currentView)
+	    this.$store.dispatch('isAdmin',true)
+	    // Also Call Api For Getting the last Updated Record
 	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
@@ -176,7 +192,12 @@ export default {
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}
-		}
+		},
+		next() {
+	        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
+	        this.$store.dispatch('setActiveTab', currentNavigationData)
+	        this.$router.push({name:'tournaments_summary_details'})
+      	}
 	}
 }
 </script>

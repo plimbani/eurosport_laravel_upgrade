@@ -747,7 +747,6 @@ import _ from 'lodash'
                             }
                         });
 
-                        console.log("sMatches",sMatches);
 
                         let sPitch = []
 
