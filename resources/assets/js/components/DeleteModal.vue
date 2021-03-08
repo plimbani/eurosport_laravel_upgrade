@@ -9,9 +9,9 @@
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
                 <div class="modal-footer">
-                    <button v-if="this.$store.state.activePath == 'competition_format'" type="button" class="btn btn-primary"  @click="hideModal()">No</button>
+                    <button v-if="this.$store.state.activePath == 'competition_format' || this.$store.state.activePath == 'pitch_capacity'" type="button" class="btn btn-primary w-58"  @click="hideModal()">No</button>
                     <button v-else type="button" class="btn btn-danger"  @click="hideModal()">{{$lang.user_management_cancel}}</button>
-                    <button v-if="this.$store.state.activePath == 'competition_format'" type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">Yes</button>
+                    <button v-if="this.$store.state.activePath == 'competition_format' || this.$store.state.activePath == 'pitch_capacity'" type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">Yes</button>
                     <button v-else type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_save}}</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />

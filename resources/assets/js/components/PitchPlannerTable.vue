@@ -695,7 +695,6 @@
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
-
                 _.forEach(this.tournamentStages, function(stage, stageIndex) {
                     let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
                     let events = _.filter(allEvents, function(o) { return o.matchId != -1; });

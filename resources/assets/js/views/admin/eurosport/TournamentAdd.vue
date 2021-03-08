@@ -3,7 +3,7 @@
 <div>
 <div class="card">
   <div class="card-block">
-      <h6 class="fieldset-title"><strong>{{$lang.tournament_information}}</strong></h6>
+      <h6 class="fieldset-title mt-10"><strong>{{$lang.tournament_information}}</strong></h6>
       <form name="tournamentName" enctype="multipart/form-data">
         <div class="row">
           <div class="col-sm-6">
@@ -55,57 +55,8 @@
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-block p-3" role="tab" id="headingOne">
-              <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne" class="panel-title">
-                  <i id="opt_icon"  class="fas fa-plus"></i> {{$lang.tournament_show_optional_details}}
-              </a>
-          </div>
-          <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-            <div class="card-block">
-              <div class="form">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                        <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
-                        <input type="text" class="col-md-7 form-control" v-model="tournament.website">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
-                        <input type="text" class="col-md-7 form-control" v-model="tournament.facebook">
-                    </div>
-                    <div class="form-group row mb-0">
-                        <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
-                        <input type="text" v-model="tournament.twitter" class="col-md-7 form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
-                      <div class="pull-right">
-                        <div v-if="!image">
-                            <img src="/assets/img/noimage.png" class="thumb-size" />
-                            <!--<button type="button" name="btnSelect" id="btnSelect">-->
-                            <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-                            <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
-                            <p class="help-block">Maximum size of 1 MB.<br/>
-                            Image dimensions 250 x 250.</p>
-                        </div>
-                        <div v-else>
-                            <img :src="imagePath + image"
-                             class="thumb-size" />
-                            <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <!--<location :locations="locations"></location>-->
-        <div class="">
+        <div class="mt-4">
           <h6 class="fieldset-title"><strong>{{$lang.tournament_location}}</strong></h6>
         </div>
         <div v-for="(location, index) in locations">
@@ -158,8 +109,8 @@ import _ from 'lodash'
 export default {
 data() {
 return {
-tournament: {name:'',website:'',facebook:'',twitter:'',
-image_logo:'',test_value:'',del_location:[],maximum_teams:''
+tournament: {name:'',
+test_value:'',del_location:[],maximum_teams:''
 },
 userRole:this.$store.state.Users.userDetails.role_name,
 locations: [
@@ -168,10 +119,8 @@ tournament_venue_name: "",
 tournament_location_id:"",
 }
 ],
-image:'',
 customCount:0,
 tournamentId: 0,
-imagePath :'',
 tournamentDateDiff: 0,
 'removeVenue': 'Before this venue can be deleted all pitches associated with it must be re-allocated to an alternative venue.',
 }
@@ -183,9 +132,6 @@ mounted(){
 Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
 // here we dispatch methods
 // First we check that if tournament id is Set then dont dispatch it
-$('#btnSelect').on('click',function(){
-  $('#selectFileT').trigger('click')
-})
 
 let tId = this.$store.state.Tournament.tournamentId
 
@@ -222,15 +168,7 @@ Tournament.tournamentSummaryData(this.tournamentId).then(
 // here we set data from state for tournament
 this.tournament.name = this.$store.state.Tournament.tournamentName
 this.tournament.maximum_teams = this.$store.state.Tournament.maximumTeams
-if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
-{
-this.image = this.$store.state.Tournament.tournamentLogo
-this.imagePath = ''
-}
 
-this.tournament.website =this.$store.state.Tournament.website
-this.tournament.facebook =this.$store.state.Tournament.facebook
-this.tournament.twitter = this.$store.state.Tournament.twitter
 var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
 
 // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
@@ -297,30 +235,6 @@ tournament_venue_name: "",
 tournament_location_id: ""
 });
 },
-onFileChangeT(e) {
-var files = e.target.files || e.dataTransfer.files;
-if (!files.length)
-return;
-if(Plugin.ValidateImageSize(files) == true) {
-  this.createImage(files[0]);
-}
-},
-createImage(file) {
-this.imagePath='';
-var image = new Image();
-var reader = new FileReader();
-var vm = this;
-reader.onload = (e) => {
-vm.image = e.target.result;
-};
-
-reader.readAsDataURL(file);
-},
-removeImage: function (e) {
-this.image = '';
-this.imagePath='';
-e.preventDefault();
-},
 removeLocation (index, location){
     let pitches = this.$store.state.Pitch.pitches;
     if(pitches) {
@@ -355,7 +269,6 @@ this.$validator.validateAll().then(
     this.tournament.start_date = document.getElementById('tournament_start_date').value
     this.tournament.end_date = document.getElementById('tournament_end_date').value
 
-    this.tournament.image_logo = this.image
     this.tournament.locations = this.locations
     // here we check if tournament id is Set then
     this.tournament.tournamentId = this.tournamentId

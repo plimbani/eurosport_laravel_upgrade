@@ -626,6 +626,7 @@ textarea {
                 }
 
                 border-bottom-color: $ls-color-blue;
+
                 &.doc-filled{
                     .icon-football-block {
                         border-color: $white;
@@ -635,10 +636,12 @@ textarea {
                     .icon-football-block {
                         color: $white;
                     }
+
                     &:hover{
                         .icon-football-block {
                             border-color: $ls-color-blue;
                         }
+
                         .text-tooltip {
                             color: $ls-color-blue;
                         }
@@ -672,21 +675,97 @@ textarea {
                 .text-tooltip {
                     color: $ls-color-blue;
                 }
+
                 .wrapper-tab{
                     background-color: rgba(81, 173, 246, 0.3);
                 }
             }
         }
     }
+
     .tabs-primary{
         .nav-tabs {
             border-bottom-color:$ls-color-blue;
         }
     }
     .nav-tabs {
-        .nav-link{
-            &.active{
-                background-color:transparent;
+        .nav-link {
+            &.active {
+                background-color: transparent;
+            }
+        }
+    }
+
+    &.has-arrows {
+        >.nav-tabs {
+            .nav-item {
+                .nav-link {
+                    .wrapper-tab {
+                        position: relative;
+                        border-radius: 0;
+                        background-color: rgba(213, 236, 255, 0.4);
+                    }
+
+                    &.active {
+                        .wrapper-tab {
+                            background-color: $ls-color-blue;
+
+                            &:before {
+                                border-left-color: #2196F3;
+                            }
+
+                            &:after {
+                                border-left-color: #0960a5;
+                            }
+                        }
+                    }
+
+                    &:hover,
+                    &.active:hover {
+                        .wrapper-tab {
+                            background-color: rgba(81, 173, 246, 0.3);
+
+                            &:before {
+                                border-left-color: #cae6fc;
+                            }
+                        }
+                    }
+                }
+
+                +.nav-item {
+                    .nav-link {
+                        .wrapper-tab {
+                            margin-left: -5px;
+                            padding-left: 20px;
+                        }
+                    }
+                }
+
+                &:not(:last-child) {
+                    .wrapper-tab {
+
+                        &:before,
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            border-top: 24px solid transparent;
+                            border-bottom: 24px solid transparent;
+                            border-left: 13px solid #eff8ff;
+                        }
+
+                        &:before {
+                            right: -11px;
+                            z-index: 3;
+                        }
+
+                        &:after {
+                            right: -13px;
+                            z-index: 2;
+                            border-left-color: #b2dcff;
+                        }
+                    }
+                }
             }
         }
     }

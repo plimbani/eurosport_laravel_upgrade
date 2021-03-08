@@ -18,7 +18,7 @@
               <label class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</label>
             </div>
           </div>
-	  			<div class="mt-4" >
+	  			<div class="mt-2">
 	  				<pitch-planner-table :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" @changeMatchScheduleStatus="changeMatchScheduleStatus" @saveScheduleMatchResult="saveScheduleMatchResult" @clearScheduleMatchesArray="clearScheduleMatchesArray" @clearAllScheduleMatchesArray="clearAllScheduleMatchesArray"></pitch-planner-table>
             <UnsavedMatchPlannerModel :scheduleMatchesArray="scheduleMatchesArray" @movetoNextRoute="movetoNextRoute"></UnsavedMatchPlannerModel>
 	  			</div>
@@ -142,9 +142,9 @@ var moment = require('moment');
         }
       },
       next() {
-        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
+        let currentNavigationData = {activeTab:'teams_groups', currentPage: 'Teams and groups'}
         this.$store.dispatch('setActiveTab', currentNavigationData)
-        this.$router.push({name:'tournaments_summary_details'})
+        this.$router.push({name:'teams_groups'})
       },
     },
     components: {

@@ -186,17 +186,7 @@ class TournamentRepository
         $newdata['maximum_teams'] = $data['maximum_teams'];
         $newdata['start_date']    = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date']      = $data['end_date'] ? $data['end_date'] : '';
-        $newdata['website']       = $data['website'] ? $data['website'] : '';
-        $newdata['facebook']      = $data['facebook'] ? $data['facebook'] : '';
-        $newdata['twitter']       = $data['twitter'] ? $data['twitter'] : '';
 
-        // For New One We set Status as Unpublished
-
-        if ($data['image_logo'] != '') {
-            $newdata['logo'] = $data['image_logo'];
-        } else {
-            $newdata['logo'] = null;
-        }
         // Now here we Save it For Tournament
         $imageChanged = true;
         if (isset($data['tournamentId']) && $data['tournamentId'] != 0) {
@@ -311,13 +301,8 @@ class TournamentRepository
             'name'                => $data['name'],
             'tournamentStartDate' => $data['start_date'],
             'tournamentEndDate'   => $data['end_date'],
-
             'tournamentStatus'    => 'Unpublished',
-            'tournamentLogo'      => ($data['image_logo'] != '') ? $this->tournamentLogo . $data['image_logo'] : '',
             'tournamentDays'      => ($tournamentDays) ? $tournamentDays : '2',
-            'facebook'            => $data['facebook'],
-            'twitter'             => $data['twitter'],
-            'website'             => $data['website'],
             'maximum_teams'       => $data['maximum_teams'],
         );
 
@@ -458,10 +443,6 @@ class TournamentRepository
         $newdata           = array();
         $newdata['status'] = $tournamentData['status'];
         $tournamentId      = $tournamentData['tournamentId'];
-
-        if($tournamentData['status'] == "Unpublished") {
-            Website::where('linked_tournament',$tournamentId)->update(['linked_tournament' => NULL]);
-        }
 
         $tournament = Tournament::find($tournamentId);
         $tournament->status = $tournamentData['status'];
@@ -999,6 +980,7 @@ class TournamentRepository
             ->select(DB::raw('*, temp_fixtures.id as id, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no'))
             ->get();
 
+        $unscheduledMatches = $this->sortEliminationMatchesByMatchCode($unscheduledMatches);
         $matchScheduleArray = [];
         $roundWiseLastMatchDateTime = [];
         $userSelectedPitchOrder = array_keys($pitchAvailableTime);
@@ -1487,6 +1469,13 @@ class TournamentRepository
 
     public function saveContactDetails($data)
     {
+        $tournament = Tournament::find($data['tournamentData']['tournamentId']);
+        $tournament->website = $data['tournamentData']['website'];
+        $tournament->facebook = $data['tournamentData']['facebook'];
+        $tournament->twitter = $data['tournamentData']['twitter'];
+        $tournament->logo = $data['tournamentData']['image_logo'] != '' ? $data['tournamentData']['image_logo'] : null;
+        $tournament->save();
+
         $tournamentContact = TournamentContact::where('tournament_id', $data['tournamentData']['tournamentId'])->first();
         if ($tournamentContact) {
             $tournamentContact->first_name = $data['tournamentData']['tournament_contact_first_name'];
@@ -1521,5 +1510,25 @@ class TournamentRepository
             }
         }
         return true;
+    }
+
+    public function sortEliminationMatchesByMatchCode($matches) {
+        // make arreay group by round no and competition type
+        $matchesArray = [];
+        foreach ($matches as $match) {
+            $matchesArray[$match->match_round_no][$match->competation_type][] = $match;
+        }
+
+        $sortingPlacingMatchesArray = [];
+        foreach ($matchesArray as $key => $rounds) {
+            foreach ($rounds as $roundType =>$roundMatches) {
+                if($roundType == 'Elimination'){
+                    $matchCodeNo = array_column($roundMatches, 'match_code_no');
+                    array_multisort($matchCodeNo, SORT_DESC, $roundMatches);
+                }
+                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray,$roundMatches);
+            }
+        }
+        return collect($sortingPlacingMatchesArray);
     }
 }

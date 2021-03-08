@@ -12,8 +12,8 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" @click.prevent="cancelStatusChange()">{{$lang.summary_tab_popup_unpublish_cancel_button}}</button>
-                <button type="submit" class="btn btn-primary" @click.prevent="updateStatus">{{$lang.summary_tab_popup_unpublish_confirm_button}}</button>
+                <button type="button" class="btn btn-primary w-58" @click.prevent="cancelStatusChange()">No</button>
+                <button type="submit" class="btn btn-primary" @click.prevent="updateStatus">Yes</button>
             </div>
         </div>
       </div>
