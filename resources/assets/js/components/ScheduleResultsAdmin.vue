@@ -101,7 +101,7 @@ export default {
           	this.$router.push({name: 'welcome'});
         } else {
             // First Set Menu and ActiveTab
-          	let currentNavigationData = {activeTab:'match_results', currentPage: 'Match results'}
+          	let currentNavigationData = {activeTab:'match_results', currentPage: 'Match Results'}
             this.$store.dispatch('setActiveTab', currentNavigationData)
         }
 		// here we set drawsListing as currentView

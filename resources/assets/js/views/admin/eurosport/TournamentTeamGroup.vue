@@ -1002,7 +1002,7 @@
         )
       },
       next() {
-        let currentNavigationData = {activeTab:'match_results', currentPage: 'Match results'}
+        let currentNavigationData = {activeTab:'match_results', currentPage: 'Match Results'}
         this.$store.dispatch('setActiveTab', currentNavigationData)
         this.$router.push({name:'match_results'})
       },
