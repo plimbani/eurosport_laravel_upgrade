@@ -67,7 +67,7 @@
               </div>
               <div class="col-md-8">
                 <div class="content-card">
-                  <div class="row align-items-end">
+                  <div class="row align-items-end gutters-tiny">
                     <div class="col-md-4">
                       <div class="form-group mb-0">
                         <label>Select age category</label>
