@@ -523,7 +523,7 @@
                                                       ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                                                           <br><span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}</span>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}<span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}</span>
                                                         @endif
                                                       </td>
@@ -732,7 +732,7 @@
                                                       ?>
                                                       <td style="min-width: 100px;">
                                                         {{ getPlacingTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}-{{ getPlacingTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
-                                                        @if($homeTeamScoreValue != null && $awayTemScoreValue != null)
+                                                        @if(!is_null($homeTeamScoreValue) && !is_null($awayTemScoreValue))
                                                           <br><span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}</span>{{ $homeTeamScoreValue }}-{{ $awayTemScoreValue }}<span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}</span>
                                                         @endif
                                                       </td>
