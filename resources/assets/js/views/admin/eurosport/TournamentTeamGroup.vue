@@ -192,9 +192,9 @@
                 </div>
               </div>
             </div>
-            <button v-show="currentStep > 1" type="button" class="btn btn-primary mt-2" @click="back()">Back</button>
-            <button v-show="currentStep < 3" type="button" class="btn btn-success mt-2 pull-right" @click="nextStep()">Next</button>
-            <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary mt-2 pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
+            <button v-show="currentStep > 1" type="button" class="btn btn-primary mt-20px" @click="back()">Back</button>
+            <button v-show="currentStep < 3" type="button" class="btn btn-success mt-20px pull-right" @click="nextStep()">Next</button>
+            <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary mt-20px pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
           </div>
         </div>
       </div>
@@ -292,7 +292,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="pull-right">
-            <button v-if="currentStep == 3" class="btn btn-primary" :class="{'is-disabled': teams.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+            <button v-if="currentStep == 3" class="btn btn-primary" :class="{'is-disabled': teams.length == 0 }" @click="next()">Next&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
