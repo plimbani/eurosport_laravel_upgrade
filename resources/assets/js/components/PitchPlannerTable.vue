@@ -5,7 +5,7 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <button class="btn btn-primary btn-md" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
-                        <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Schedule fixtures</button>
+                        <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Manual planning</button>
                         <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
                         <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
                         <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule fixtures</button>
@@ -19,6 +19,13 @@
                         <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()" title="Download"><i class="fas fa-download text-primary"></i></button>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12 mb-3">
+                Viewing mode:
+                <span class="match-planner-view">
+                   <a href="javascript:void(0)" class="horizontal js-horizontal-view" :class="{ 'active-view': isHorizontal }"  @click="setPlannerView('timelineDay')">{{$lang.pitch_planner_horizontal}}</a> /
+                   <a href="javascript:void(0)" class="vertical" :class="{ 'active-view': isVertical }"  @click="setPlannerView('agendaDay')">{{$lang.pitch_planner_vertical}}</a>
+                 </span>
             </div>
         </div>
 
@@ -198,6 +205,8 @@
                 'isAnotherMatchScheduled': false,
                 'enableScheduleFeatureAsDefault': true,
                 'totalNumberOfScheduledMatches': 0,
+                'isHorizontal': false,
+                'isVertical': true,
             };
         },
         mounted() {
@@ -818,6 +827,17 @@
                     (error) => {
                     }
                 );
+            },
+            setPlannerView(view) {
+                if(view == 'timelineDay') {
+                  this.isVertical = false;
+                  this.isHorizontal = true;
+                }
+                if(view == 'agendaDay') {
+                  this.isHorizontal = false;
+                  this.isVertical = true;
+                }
+                this.$root.$emit('setView', view);
             },
         }
     }

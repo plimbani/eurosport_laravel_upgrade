@@ -152,7 +152,10 @@
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
               {
     	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name + ' (' +b.country +')'+', '
+    			        locations += b.name
+    			        if (b.country != null) {
+    			        	locations += ' (' +b.country +')'+', '
+    			        }
                   },0);
                 // remove last comma
                 if(locations.length > 0)

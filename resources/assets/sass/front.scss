@@ -835,6 +835,10 @@ a.active-view:hover {
     @extend .text-primary;
 }
 
+a.horizontal, a.vertical {
+    text-decoration: underline;
+}
+
 #age_category_block {
     position: relative;
 

@@ -61,7 +61,7 @@
         </div>
         <div v-for="(location, index) in locations">
           <div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
+            <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}} {{ index + 1 }}*</label>
             <div class="col-sm-4">
               <input type="text" class="form-control" placeholder=""
               :name="'tournament_validation_venue'+index"

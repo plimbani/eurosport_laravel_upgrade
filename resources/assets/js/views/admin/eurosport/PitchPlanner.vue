@@ -5,10 +5,6 @@
           <div class="row align-items-center justify-content-start">
             <div class="col-5 align-self-center">
               <h6 class="m-0 fieldset-title" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong>
-                <span class="match-planner-view">
-                  (<a href="javascript:void(0)" class="horizontal js-horizontal-view" :class="{ 'active-view': isHorizontal }"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</a> /
-                   <a href="javascript:void(0)" class="vertical" :class="{ 'active-view': isVertical }"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</a>)
-                 </span>
               </h6>
             </div>
             <div class="col-7 align-self-center">
@@ -47,8 +43,6 @@ var moment = require('moment');
        return {
           'tournamentId': this.$store.state.Tournament.tournamentId,
           'section':'pitchPlanner',
-          'isVertical': true,
-          'isHorizontal': false,
           'scheduleMatchesArray': [],
           'allScheduleMatches': [],
           'isMatchScheduleInEdit': false,
@@ -101,17 +95,6 @@ var moment = require('moment');
     },
     methods: {
       setFilter() {
-      },
-      setView(view) {
-        if(view == 'timelineDay') {
-          this.isVertical = false;
-          this.isHorizontal = true;
-        }
-        if(view == 'agendaDay') {
-          this.isHorizontal = false;
-          this.isVertical = true;
-        }
-        this.$root.$emit('setView', view);
       },
       changeMatchScheduleStatus(status) {
         this.isMatchScheduleInEdit = status;
