@@ -62,6 +62,7 @@ import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
 import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
+import ScheduleResultsAdmin from './components/ScheduleResultsAdmin.vue'
 
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
@@ -185,6 +186,11 @@ const routes = [
                 component: PitchPlanner,
                 name: 'pitch_planner'
 
+            },
+            {
+                path: 'match_results',
+                component: ScheduleResultsAdmin,
+                name: 'match_results'
             }
 
         ]
@@ -303,7 +309,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let routesName = ['tournament_add', 'competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
+    let routesName = ['tournament_add', 'competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details', 'match_results'];
     let data = {};
     if (routesName.indexOf(to.name) >= 0) {
         data.tournamentId = store.state.Tournament.tournamentId;

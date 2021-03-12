@@ -1002,9 +1002,9 @@
         )
       },
       next() {
-        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
+        let currentNavigationData = {activeTab:'match_results', currentPage: 'Match Results'}
         this.$store.dispatch('setActiveTab', currentNavigationData)
-        this.$router.push({name:'tournaments_summary_details'})
+        this.$router.push({name:'match_results'})
       },
       nextStep() {
         $('#step'+this.currentStep).addClass('d-none');

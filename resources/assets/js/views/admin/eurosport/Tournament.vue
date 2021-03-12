@@ -67,11 +67,6 @@
                       <div class="wrapper-tab">{{$lang.summary_label_reports}}</div>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" :class="isResultAdmin ? 'active' : ''" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">
-                      <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
-                    </a>
-                  </li>
                   <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
@@ -106,7 +101,6 @@ import SummaryTab from '../../../components/SummaryTab.vue'
 import ContactDetailsTab from '../../../components/ContactDetailsTab.vue'
 import SportsParksDetailsTab from '../../../components/SportsParksDetailsTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
-import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 import PresentationSettings from '../../../components/PresentationSettings.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
@@ -130,7 +124,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
+        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 
@@ -148,9 +142,6 @@ export default {
     },
     mounted() {
       this.getSummaryData()
-      if(this.isResultAdmin) {
-        this.currentView = 'scheduleResultsAdmin';
-      }
     	let tournamentId = this.$store.state.Tournament.tournamentId
       if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
       	toastr['error']('Please Select Tournament', 'Error');

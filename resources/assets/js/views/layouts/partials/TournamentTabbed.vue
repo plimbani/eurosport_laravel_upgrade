@@ -75,6 +75,18 @@
                 </li>
 
                 <li class="nav-item">
+                    <a :class="[(activePath == 'match_results' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#match_results" role="tab"  @click="GetSelectComponent('match_results')">
+                      <div class="wrapper-tab">
+                        <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
+                          {{$lang.summary_label_schedule}}
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Match results">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                      </div>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a id="administrationTab" :class="[(activePath == 'tournaments_summary_details' ? 'active' : ''), (isScoreUpdated ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
