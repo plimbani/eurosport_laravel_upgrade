@@ -153,9 +153,10 @@
               {
     	    			response.data.data.locations.reduce(function (a,b) {
     			        locations += b.name
-    			        if (b.country != null) {
-    			        	locations += ' (' +b.country +')'+', '
+    			        if (b.country && b.country != null) {
+    			        	locations += ' (' +b.country +')'
     			        }
+    			        locations += ', '
                   },0);
                 // remove last comma
                 if(locations.length > 0)

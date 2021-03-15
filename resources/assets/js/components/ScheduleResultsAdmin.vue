@@ -1,9 +1,10 @@
 <template>
     <div class="tab-content summary-content">
-	    <div class="row">
-	    	<div class="col-sm-12">
-				<!-- <div class="card"> -->
-					<!-- <div class="card-block"> -->
+    	<div class="card">
+      		<div class="card-block">
+    			<h6 class="fieldset-title mt-10"><strong>Match results</strong></h6>
+			    <div class="row">
+			    	<div class="col-sm-12">
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
 								<p class="mb-0 last-updated-time pl-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
@@ -47,22 +48,13 @@
 										</ul>
 										<div class="tab-content summary-content">
 										<component :is="currentView" :currentView="currentView"></component>
-											<!--<div class="card">
-												<div class="card-block">
-													<component :is="currentView" :currentView="currentView"></component>
-												</div>
-											</div> -->
 										</div>
 									</div>
 								</div>
 							</div>
-								<!--<div class="col-md-4">
-									<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
-								</div>-->
 						</div>
-					<!-- </div> -->
-
-				<!-- </div> -->
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -73,7 +65,6 @@
 	      	</div>
 	    </div>
 	</div>
-<!-- </div> -->
 </template>
 <script type="text/babel">
 
