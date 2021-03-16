@@ -304,7 +304,7 @@ module.exports= {
 
 
   competation_add_age_categories: "Select",
-  competation_age_categories: "Age categories",
+  competation_age_categories: "Categories",
   competation_add_age_category: "Add category",
   competation_button_back: "Back",
   competation_button_next: "Next",
@@ -742,7 +742,7 @@ module.exports= {
 
   summary_label_summary: "Dashboard",
   summary_label_contact_details: "Contact details",
-  summary_label_sports_parks_details: "Venues details",
+  summary_label_sports_parks_details: "Venue details",
   summary_label_reports: "Reports",
   summary_label_schedule: "Match results",
   summary_label_message: "App message",
