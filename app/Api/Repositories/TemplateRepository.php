@@ -349,17 +349,17 @@ class TemplateRepository
     }
 
     public function setLastRoundPositionInKnockout($lastRoundMatches) {
-      $positions = [];
-      foreach ($lastRoundMatches as $key => $match) {
-        if ($key == 0) {
-          $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
-          $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'loser'];
-        } else {
-          $positions[2] = ['position' => 3, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
-          $positions[3] = ['position' => 4, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'loser'];
+        $positions = [];
+        foreach ($lastRoundMatches as $key => $match) {
+            if ($key == 0) {
+                $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
+                $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'loser'];
+            } else {
+                $positions[2] = ['position' => 3, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
+                $positions[3] = ['position' => 4, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'loser'];
+            }
         }
-      }
-      return $positions;
+        return $positions;
     }
 
     public function setTemplateMatchesForSecondRound($group1, $group2, $currentRound)
