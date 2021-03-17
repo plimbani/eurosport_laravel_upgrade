@@ -2,24 +2,28 @@
     <div class="tab-content summary-content">
     	<div class="card">
       		<div class="card-block">
-    			<h6 class="fieldset-title mt-10"><strong>Match results</strong></h6>
+                <div class="row align-items-center">
+                	<div class="col-md-7 align-self-center">
+    					<h6 class="fieldset-title mb-0"><strong>Match results</strong></h6>
+                  	</div>
+                    <div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
+						<div class="align-items-center d-flex justify-content-end">
+							<select class="form-control ls-select2 col-sm-6" v-model="ageCategory">
+								<option value="">Select age category</option>
+								<option v-for="category in competationList" :value="category.id">
+									{{category.group_name}} ({{category.category_age}})
+								</option>
+							</select>
+							<button class="btn btn-primary ml-1" @click="exportCategoryReport()">Download</button>
+						</div>
+                    </div>
+                </div>
 			    <div class="row">
 			    	<div class="col-sm-12">
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
 								<p class="mb-0 last-updated-time pl-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
 							        : {{lastUpdatedDateValue}}</small> </p>
-							</div>
-							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
-								<div class="align-items-center d-flex justify-content-end">
-									<select class="form-control ls-select2 col-sm-6" v-model="ageCategory">
-										<option value="">Select age category</option>
-										<option v-for="category in competationList" :value="category.id">
-											{{category.group_name}} ({{category.category_age}})
-										</option>
-									</select>
-									<button class="btn btn-primary ml-1" @click="exportCategoryReport()">Download</button>
-								</div>
 							</div>
 						</div>
 						<div class="tab-content summary-report-content">
