@@ -305,7 +305,7 @@ class TemplateRepository
         $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
         if($round == 0) {
           $nextRoundTeams = $this->teamsForRoundTwo($roundTwoKnockoutTeams);
-          shuffle($nextRoundTeams);
+          //shuffle($nextRoundTeams);
         } else {
           $dividedRoundMatches = sizeof($nextRoundTeams) / 2;
           for ($i=0; $i<$dividedRoundMatches; $i++) {
@@ -314,6 +314,7 @@ class TemplateRepository
           }
 
           if($round == 1) {
+            $group2 = array_reverse($group2);
             $matches[$round] = $this->setTemplateMatchesForSecondRound($group1, $group2, $round);
           } else {
             $previousRound =  $round - 1;
@@ -341,13 +342,24 @@ class TemplateRepository
 
       $lastRoundMatches = end($matches);
 
-      $positions = [];
-      $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'winner'];
-      $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'loser'];
-
+      $positions = $this->setLastRoundPositionInKnockout($lastRoundMatches);
       $finalArray['tournament_positions'] = $positions;
 
       return $finalArray;
+    }
+
+    public function setLastRoundPositionInKnockout($lastRoundMatches) {
+        $positions = [];
+        foreach ($lastRoundMatches as $key => $match) {
+            if ($key == 0) {
+                $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
+                $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'loser'];
+            } else {
+                $positions[2] = ['position' => 3, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
+                $positions[3] = ['position' => 4, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'loser'];
+            }
+        }
+        return $positions;
     }
 
     public function setTemplateMatchesForSecondRound($group1, $group2, $currentRound)
@@ -399,7 +411,10 @@ class TemplateRepository
             'display_home_team_placeholder_name' => "$previousRound.$homeDisplayMatchNumber[2]",
             'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
           ];
+
+          $loser_match_number = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.(' .$homeMatchNumber[1]. '_'. $homeMatchNumber[2] .'_LR)-(' .$awayMatchNumber[1]. '_'. $awayMatchNumber[2]. '_LR)';
         } else {
+
           $nextRoundMatches[] = [
             'in_between' => 'CAT.PM' .$previousRound. '.G' .$homeDisplayMatchNumber[2]. 'WR-CAT.PM' .$previousRound. '.G' .$awayDisplayMatchNumber[2]. 'WR',
             'match_number' => 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_WR-' .$awayMatch. '_WR',
@@ -407,7 +422,20 @@ class TemplateRepository
             'display_home_team_placeholder_name' => "$previousRound.$homeDisplayMatchNumber[2]",
             'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
           ];
+
+          $loser_match_number = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_LR-' .$awayMatch. '_LR';
+          
         }
+
+        if( sizeof($group1) == 1) {
+            $nextRoundMatches[] = [
+              'in_between' => 'CAT.PM' .$previousRound. '.G' .$homeDisplayMatchNumber[2]. 'LR-CAT.PM' .$previousRound. '.G' .$awayDisplayMatchNumber[2]. 'LR',
+              'match_number' => $loser_match_number,
+              'display_match_number' => 'CAT.' .$currentRound. '.' .$currentMatch. '.lrs.(@HOME-@AWAY)',
+              'display_home_team_placeholder_name' => "$previousRound.$homeDisplayMatchNumber[2]",
+              'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
+            ];
+          }
       }
 
       return $nextRoundMatches;
