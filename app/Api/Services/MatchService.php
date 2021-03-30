@@ -2784,7 +2784,7 @@ class MatchService implements MatchContract
         foreach ($standingsPositionWise as $position => $teamStandings) {
           $standings = $teamStandings;
           $params = [];
-          if ($competitionType != 'knockout') {
+          //if ($competitionType != 'knockout') {
             $params[] = $pointsTeamWise[$position];
             $params[] = SORT_DESC;
             $params[] = $gdTeamWise[$position];
@@ -2793,7 +2793,7 @@ class MatchService implements MatchContract
             $params[] = SORT_DESC;
             $params[] = &$standings;
             array_multisort(...$params);
-          }
+          //}
           $standingsPositionWise[$position] = array_values($standings);
         }
 

@@ -304,7 +304,7 @@ class TemplateRepository
         $group2 = [];        
         $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
         if($round == 0) {
-          $nextRoundTeams = $this->teamsForRoundTwo($roundTwoKnockoutTeams);
+          $nextRoundTeams = $this->teamsForRoundTwo($roundTwoKnockoutTeams, $totalGroups);
           //shuffle($nextRoundTeams);
         } else {
           $dividedRoundMatches = sizeof($nextRoundTeams) / 2;
@@ -441,12 +441,16 @@ class TemplateRepository
       return $nextRoundMatches;
     }
 
-    public function teamsForRoundTwo($roundTwoKnockoutTeams)
+    public function teamsForRoundTwo($roundTwoKnockoutTeams, $totalGroups)
     {
         $teamsForRoundTwo = [];
         foreach ($roundTwoKnockoutTeams as $bestPlaced) {
             for($i = 1; $i <= $bestPlaced['no_of_teams']; $i++){
-                $teamsForRoundTwo[] = $this->getOrdinal($i) . '#' . $bestPlaced['position'];
+                if ($bestPlaced['no_of_teams'] < $totalGroups) {
+                  $teamsForRoundTwo[] = $this->getOrdinal($i) . '#' . $bestPlaced['position'];
+                } else {
+                  $teamsForRoundTwo[] = $bestPlaced['position'].chr(65 + ($i -1));
+                }
             }
         }
 
