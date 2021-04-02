@@ -1458,7 +1458,7 @@ class MatchService implements MatchContract
         $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageCategoryId);
         $isBestRankingExist = $this->checkBestRankingExistInSecondRound($ageGroupId, $temptournamentId);
         if($isBestRankingExist) {
-          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id);
+          $firstRoundPositionWiseStandings = $this->getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentCompetationTemplate->tournament_id, $tournamentCompetationTemplate->competition_type);
         }
 
         // print_r($matches);exit;
@@ -2007,6 +2007,7 @@ class MatchService implements MatchContract
             DB::table('match_standing')->insert($data3);
         }
       }
+
       if($assignTeamsToFurtherRounds) {
         $this->TeamPMAssignKp($cup_competition_id);
       }
@@ -2745,7 +2746,7 @@ class MatchService implements MatchContract
                       ->where('competitions.tournament_competation_template_id', '=', $ageCategoryId)->delete();
     }
 
-    public function getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentId)
+    public function getPositionWiseStandingsForAllGroupsOfRound($ageCategoryId, $tournamentId , $competitionType)
     {
       $standingResData = [];
       $standingsPositionWise = [];
@@ -2767,6 +2768,7 @@ class MatchService implements MatchContract
         $pointsTeamWise = [];
         $gdTeamWise = [];
         $gfTeamWise = [];
+
         foreach ($standingResData as $competitionId => $standings) {
           $index = 1;
           foreach($standings as $standing) {
@@ -2778,19 +2780,23 @@ class MatchService implements MatchContract
             $index++;
           }
         }
+
         foreach ($standingsPositionWise as $position => $teamStandings) {
           $standings = $teamStandings;
           $params = [];
-          $params[] = $pointsTeamWise[$position];
-          $params[] = SORT_DESC;
-          $params[] = $gdTeamWise[$position];
-          $params[] = SORT_DESC;
-          $params[] = $gfTeamWise[$position];
-          $params[] = SORT_DESC;
-          $params[] = &$standings;
-          array_multisort(...$params);
+          //if ($competitionType != 'knockout') {
+            $params[] = $pointsTeamWise[$position];
+            $params[] = SORT_DESC;
+            $params[] = $gdTeamWise[$position];
+            $params[] = SORT_DESC;
+            $params[] = $gfTeamWise[$position];
+            $params[] = SORT_DESC;
+            $params[] = &$standings;
+            array_multisort(...$params);
+          //}
           $standingsPositionWise[$position] = array_values($standings);
         }
+
       } else {
         $allMatches = DB::table('temp_fixtures')
         ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber',
