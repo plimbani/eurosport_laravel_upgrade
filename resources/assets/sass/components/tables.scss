@@ -9,5 +9,24 @@
         	border-color: #c7c9ca;
             border-bottom-width: 1px;
     	}
+    	.btn-actions {
+			span {
+				position: relative;
+				font-size: 18px;
+
+				&:not(:last-child) {
+					padding-right: 15px;
+
+					&:after {
+						content: '|';
+					    position: absolute;
+					    right: 4px;
+					    top: -4px;
+					    color: #595959;
+					    font-size: 18px;
+					}
+				}
+			}
+		}
     }
 }

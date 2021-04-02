@@ -4,8 +4,6 @@
 			<div class="card-block pb-0">
           <div class="row align-items-center justify-content-start">
             <div class="col-5 align-self-center">
-              <h6 class="m-0 fieldset-title" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong>
-              </h6>
             </div>
             <div class="col-7 align-self-center">
               <pitchPlannerFilter :section="section"></pitchPlannerFilter>
