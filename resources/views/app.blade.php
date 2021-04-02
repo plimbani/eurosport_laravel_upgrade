@@ -76,17 +76,38 @@
 <script type="text/javascript" src="{{mix('/assets/js/app.js')}}"></script>
 
 <script type="text/javascript">
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > 100) {
-            $(".main-content").addClass("header-scrolled");
+    $(document).ready(function() {
+        function setStickey() {
+            $(window).scroll(function() {
+                var navHeight = $('.site-header').height();
+                var breadcrumbHeight = $('.page-header').outerHeight();
+                var editTournamentTabHeight = $('.edit-tournament-tab').outerHeight();
+                var stickyVal1 = navHeight + breadcrumbHeight;
+                var stickyVal2 = stickyVal1 + editTournamentTabHeight;
+                if ($(this).scrollTop() > 0) {
+                    $(".main-content--tab > .row").addClass("sticky");
+                    $(".edit-tournament-tab").addClass("sticky");
+                    $('.edit-tournament-tab').css('top', stickyVal1);
+                    $('.age-category').css('top', stickyVal2);
 
-            if(($('#administrationTab').hasClass('active')) || ($('#matchPlannerTab').hasClass('active'))){
-                $(".main-content").removeClass("header-scrolled");
-            }
+                    if (($('#administrationTab').hasClass('active')) || ($('#matchPlannerTab').hasClass('active'))) {
+                        $(".main-content--tab > .row").removeClass("sticky");
+                        $(".edit-tournament-tab").removeClass("sticky");
+                    }
+                } else {
+                    $(".main-content--tab > .row").removeClass("sticky");
+                    $(".edit-tournament-tab").removeClass("sticky");
+                    $('.edit-tournament-tab').css('top', 0);
+                    $('.age-category').css('top', 0);
+                }
+            });
+        };
 
-        } else {
-            $(".main-content").removeClass("header-scrolled");
-        }
+        setStickey();
+
+        $(window).resize(function() {
+            setStickey();
+        });
     });
 </script>
 </body>
