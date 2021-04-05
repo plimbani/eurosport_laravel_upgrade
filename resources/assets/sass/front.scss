@@ -839,18 +839,18 @@ a.horizontal, a.vertical {
     text-decoration: underline;
 }
 
-#age_category_block {
-    position: relative;
+// #age_category_block {
+    // position: relative;
 
-    &.is-fixed {
-        position: fixed;
-        top: 197px;
-        z-index: 99;
-        width: auto;
-        left: 57px;
-        right: 57px;
-    }
-}
+//     &.is-fixed {
+//         position: fixed;
+//         top: 197px;
+//         z-index: 99;
+//         width: auto;
+//         left: 57px;
+//         right: 57px;
+//     }
+// }
 
 .displayGraphicImage .modal-dialog {
     // max-width: 900px;

@@ -23,8 +23,8 @@
             <div class="col-md-12 mb-3">
                 Viewing mode:
                 <span class="match-planner-view">
-                   <a href="javascript:void(0)" class="horizontal js-horizontal-view" :class="{ 'active-view': isHorizontal }"  @click="setPlannerView('timelineDay')">{{$lang.pitch_planner_horizontal}}</a> /
-                   <a href="javascript:void(0)" class="vertical" :class="{ 'active-view': isVertical }"  @click="setPlannerView('agendaDay')">{{$lang.pitch_planner_vertical}}</a>
+                   <button class="btn btn-sm horizontal js-horizontal-view" :class="{ 'btn-primary': isHorizontal }"  @click="setPlannerView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button> /
+                   <button class="btn btn-sm vertical" :class="{ 'btn-primary': isVertical }"  @click="setPlannerView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                  </span>
             </div>
         </div>

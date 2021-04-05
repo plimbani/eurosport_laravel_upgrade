@@ -1,6 +1,6 @@
 <template>
   <div class="card main-card">
-    <div class="card-block">
+    <div class="card-block pt-0">
       <div class="row">
         <div class="col-lg-12">
           <div class="tabs tabs-primary has-arrows">

@@ -444,7 +444,7 @@ module.exports= {
   pitch_total_capacity: "Total pitch capacity",
   pitch_available_time: "Total available time",
   pitch_balance: "Balance",
-  pitch_summary: "Pitch summary",
+  pitch_summary: "Summary all pitches",
   pitch_totals: "Pitch totals",
   totals: "Totals",
 

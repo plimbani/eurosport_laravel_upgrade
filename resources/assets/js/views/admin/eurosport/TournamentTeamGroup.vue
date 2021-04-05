@@ -97,19 +97,26 @@
               </div>
               <div class="col-md-12">
                 <div class="block-bg age-category mt-4" id="age_category_block">
-                  <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
-                    <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
+                  <div class="age-category-grid" v-if="grpsView.length != 0">
+                    <div class="age-category-grid-block" v-for="(group, index) in grpsView">
                       <div class="m_card hoverable h-100 m-0">
+                        <div class="card-header">
+                          {{ getGroupName(group) }}
+                        </div>
                         <div class="card-content">
-                           <span class="card-title text-primary"><strong>
-                           {{ getGroupName(group) }}</strong></span>
+                           
                            <div v-for="(n, pindex) in group['group_count']">
-                            <p class="text-primary left">
-                              <strong>
-                                <span :class="groupFlag(group,n)"></span>
-                                <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
-                              </strong>
-                            </p>
+                            <div class="draggable-item">
+                              <span class="draggable-handle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.5 12"  xmlns:v="https://vecta.io/nano"><path d="M3,10.5A1.5,1.5,0,1,1,1.5,9,1.5,1.5,0,0,1,3,10.5Zm-1.5-6A1.5,1.5,0,1,0,3,6,1.5,1.5,0,0,0,1.5,4.5ZM1.5,0A1.5,1.5,0,1,0,3,1.5,1.5,1.5,0,0,0,1.5,0ZM6,3A1.5,1.5,0,1,0,4.5,1.5,1.5,1.5,0,0,0,6,3ZM6,4.5A1.5,1.5,0,1,0,7.5,6,1.51,1.51,0,0,0,6,4.5ZM6,9a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,6,9Z" fill="#eeeeee" fill-rule="evenodd"/></svg>
+                              </span>
+                              <span>
+                                <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">
+                                  <span :class="groupFlag(group,n)"></span>
+                                  <span class="team-name">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                                </span>
+                              </span>
+                            </div>
                            </div>
                         </div>
                       </div>
@@ -118,7 +125,7 @@
                   <div v-else class="d-flex justify-content-center">
                     <div class="col-sm-9  m-8">
                         <div class="card-content">
-                           <span class="card-title"> {{ $lang.teams_name_select }}</span>
+                           <div class="card-title text-center mb-0"> {{ $lang.teams_name_select }}</div>
                         </div>
                     </div>
                   </div>
@@ -408,27 +415,27 @@
       this.fetchAllCountries();
       this.fetchAllClubs();
       this.fetchAllTeamColors();
-      let fixmeTop = $('#age_category_block').offset().top;
-      let HeaderHeight = $('.site-header').height();
-      let fixmeTopOffset = fixmeTop - 197;
-      $(window).scroll(function() {
-        let categoryDivHeight = $('#age_category_block').height();
-        let teamTableHeight = $(window).height() - (fixmeTop);
-        let currentScroll = $(window).scrollTop();
-        if ($('.team-table').height() > teamTableHeight) {
-          if((currentScroll) < fixmeTopOffset) {
-            $('#age_category_block').removeClass("is-fixed");
-            $('.team-table').css({"padding-top": 0});
-          } else {
-            let fixmeHeight= ($('#age_category_block').height() + 49);
-            $('.team-table').css({"padding-top": fixmeHeight});
-            $('#age_category_block').addClass("is-fixed");
-          }
-        } else {
-          $('#age_category_block').removeClass("is-fixed");
-          $('.team-table').css({"padding-top": 0});
-        }
-      });
+      // let fixmeTop = $('#age_category_block').offset().top;
+      // let HeaderHeight = $('.site-header').height();
+      // let fixmeTopOffset = fixmeTop - 197;
+      // $(window).scroll(function() {
+      //   let categoryDivHeight = $('#age_category_block').height();
+      //   let teamTableHeight = $(window).height() - (fixmeTop);
+      //   let currentScroll = $(window).scrollTop();
+      //   if ($('.team-table').height() > teamTableHeight) {
+      //     if((currentScroll) < fixmeTopOffset) {
+      //       $('#age_category_block').removeClass("is-fixed");
+      //       $('.team-table').css({"padding-top": 0});
+      //     } else {
+      //       let fixmeHeight= ($('#age_category_block').height() + 49);
+      //       $('.team-table').css({"padding-top": fixmeHeight});
+      //       $('#age_category_block').addClass("is-fixed");
+      //     }
+      //   } else {
+      //     $('#age_category_block').removeClass("is-fixed");
+      //     $('.team-table').css({"padding-top": 0});
+      //   }
+      // });
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);

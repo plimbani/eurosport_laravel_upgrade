@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
-                <label>{{$lang.tournament_name}}*</label>
+                <label>{{$lang.tournament_name}}</label>
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'" readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
                     <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-else  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
@@ -19,7 +19,7 @@
           </div>
           <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
-              <label>{{$lang.maximum_teams}}*</label>
+              <label>{{$lang.maximum_teams}}</label>
               <div class="input-group">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
@@ -32,7 +32,7 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="tournament_end_date">{{$lang. tournament_start_date}}*</label>
+              <label for="tournament_end_date">{{$lang. tournament_start_date}}</label>
               <div class="input-group">
                   <span class="input-group-addon">
                       <i class="fas fa-calendar"></i>
@@ -63,7 +63,7 @@
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}} {{ index + 1 }}*</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" placeholder=""
+              <input type="text" class="form-control" :placeholder="'Name venue ' + (index+1)"
               :name="'tournament_validation_venue'+index"
                v-model="location.tournament_venue_name" v-validate="'required'"
                :class="{'is-danger':errors.has('tournament_validation_venue'+index) }">
