@@ -6,14 +6,8 @@
         <div class="card mb-0">
           <div class="card-block">
             <div id="step1" class="row">
-              <div class="col-md-4">
-                <div class="row">
-                  <div class="col-11">
-                    <h6 class="m-0"><b>Step 1:</b> Download team list</h6>
-                  </div>
-                </div>
-              </div>
               <div class="col-md-8">
+                <h6><b>Step 1:</b> Download team list</h6>
                 <div class="content-card">
                   <div class="row align-items-center gutters-tiny">
                     <div class="col-md-4">
@@ -28,24 +22,17 @@
             </div>
 
             <div id="step2" class="row d-none">
-              <div class="col-md-4">
-                <div class="row">
-                  <div class="col-11">
-                    <h6 class="m-0"><b>Step 2:</b> Upload your team list</h6>
-                  </div>
-                </div>
-              </div>
               <div class="col-md-8">
+                <h6><b>Step 2:</b> Upload your team list</h6>
                 <div class="content-card">
                   <div class="mb-0" :class="{'form-group': true, 'is-disabled': competitionList.length === 0}">
-                    <label>Import file</label>
                     <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
                       <div class="row gutters-tiny">
                         <div class="col-md-6">
                           <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
                         </div>
                         <div class="col-md-4 btn-group-agecategory">
-                          <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-success': competitionList.length > 0, 'btn-outline-success': competitionList.length === 0, 'is-disabled': !this.isFileUploaded }">Upload teams</button>
+                          <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-success': competitionList.length > 0, 'btn-outline-success': competitionList.length === 0, 'is-disabled': !this.isFileUploaded }">Upload list</button>
                         </div>
                       </div>
                       <span id="filename"></span>
@@ -57,20 +44,13 @@
             </div>
 
             <div id="step3" class="row d-none">
-              <div class="col-md-4">
-                <div class="row">
-                  <div class="col-11">
-                    <h6 class="mb-2"><b>Step 3:</b> Allocate teams</h6>
-                    <div class="small text-muted font-italic"><span class="font-weight-bold">Note:</span> teams can either be allocated manually, or automatically at random by clicking on the “Allocate teams” button that appears once an age category is selected</div>
-                  </div>
-                </div>
-              </div>
               <div class="col-md-8">
+                <h6><b>Step 3:</b> Allocate teams</h6>
                 <div class="content-card">
                   <div class="row align-items-end gutters-tiny">
                     <div class="col-md-4">
                       <div class="form-group mb-0">
-                        <label>Select age category</label>
+                        <label>Select category</label>
                         <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
                           <option value="">{{$lang.teams_all_age_category}}</option>
                           <option v-for="option in options"
@@ -81,7 +61,7 @@
                     <div class="col-md-8">
                       <div class="row align-items-center gutters-tiny btn-group-agecategory" v-show="this.age_category != ''">
                         <div class="col-md-4">
-                          <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Allocate teams</button>
+                          <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Team allocation</button>
                         </div>
                         <div class="col-md-4 text-center">
                           <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
@@ -104,20 +84,19 @@
                           {{ getGroupName(group) }}
                         </div>
                         <div class="card-content">
-                           
-                           <div v-for="(n, pindex) in group['group_count']">
+                          <div v-for="(n, pindex) in group['group_count']">
                             <div class="draggable-item">
                               <span class="draggable-handle">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.5 12"  xmlns:v="https://vecta.io/nano"><path d="M3,10.5A1.5,1.5,0,1,1,1.5,9,1.5,1.5,0,0,1,3,10.5Zm-1.5-6A1.5,1.5,0,1,0,3,6,1.5,1.5,0,0,0,1.5,4.5ZM1.5,0A1.5,1.5,0,1,0,3,1.5,1.5,1.5,0,0,0,1.5,0ZM6,3A1.5,1.5,0,1,0,4.5,1.5,1.5,1.5,0,0,0,6,3ZM6,4.5A1.5,1.5,0,1,0,7.5,6,1.51,1.51,0,0,0,6,4.5ZM6,9a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,6,9Z" fill="#eeeeee" fill-rule="evenodd"/></svg>
                               </span>
                               <span>
-                                <span draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">
+                                <span>
                                   <span :class="groupFlag(group,n)"></span>
-                                  <span class="team-name">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                                  <span class="team-name" draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
                                 </span>
                               </span>
                             </div>
-                           </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -553,9 +532,9 @@
         if(groupValue == '') {
           $('#sel_'+id+' .blnk').html('')
         }
-        if(groupValue!='' && groupValue!= undefined ){
+        /*if(groupValue!='' && groupValue!= undefined ){
             $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not($('.sel_'+id)).prop("disabled",true);
-        }
+        }*/
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
