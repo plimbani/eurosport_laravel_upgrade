@@ -61,13 +61,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-	      	<div class="col-md-12">
-	        	<div class="pull-right">
-	            	<button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
-	        	</div>
-	      	</div>
-	    </div>
 	</div>
 </template>
 <script type="text/babel">
@@ -188,11 +181,6 @@ export default {
     			toastr['error']('Please select age category.', 'Error');
 			}
 		},
-		next() {
-	        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
-	        this.$store.dispatch('setActiveTab', currentNavigationData)
-	        this.$router.push({name:'tournaments_summary_details'})
-      	}
 	}
 }
 </script>
