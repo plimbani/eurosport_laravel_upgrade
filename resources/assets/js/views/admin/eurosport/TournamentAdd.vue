@@ -31,27 +31,31 @@
         </div>
         <div class="row">
           <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group" :class="{'has-error': errors.has('tournament.tournament_start_date') }">
               <label for="tournament_end_date">{{$lang. tournament_start_date}}</label>
               <div class="input-group">
                   <span class="input-group-addon">
                       <i class="fas fa-calendar"></i>
                   </span>
                   <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_start_date">
-                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date" name="tournament_start_date" v-validate="'required'" :class="{'is-danger': errors.has('tournament_start_date') }">
+                  <i v-show="errors.has('tournament_start_date')" class="fas fa-warning"></i>
               </div>
+              <span class="help is-danger" v-show="errors.has('tournament_start_date')">Start tournament required</span>
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group" :class="{'has-error': errors.has('tournament.tournament_end_date') }">
               <label for="tournament_end_date">{{$lang. tournament_end_date}}*</label>
               <div class="input-group">
                   <span class="input-group-addon">
                       <i class="fas fa-calendar"></i>
                   </span>
                   <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_end_date">
-                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date" name="tournament_end_date" v-validate="'required'" :class="{'is-danger': errors.has('tournament_end_date') }">
+                  <i v-show="errors.has('tournament_end_date')" class="fas fa-warning"></i>
               </div>
+              <span class="help is-danger" v-show="errors.has('tournament_end_date')">End tournament required</span>
             </div>
           </div>
         </div>
@@ -180,7 +184,7 @@ let currentNavigationData = {activeTab:'tournament_add', currentPage:
 'Edit Tournament'}
 this.$store.dispatch('setActiveTab', currentNavigationData)
 } else {
-let tournamentAdd  = {name:'Your Tournament',
+let tournamentAdd  = {name:'',
 currentPage:'TournamentAdd'}
 this.$store.dispatch('SetTournamentName', tournamentAdd)
 start_date = moment().format('DD/MM/YYYY')
