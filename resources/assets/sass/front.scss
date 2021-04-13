@@ -247,7 +247,7 @@ select.form-control {
 
 .unscheduled-match-content-strip {
     position: absolute;
-    right: 0;
+    left: 0;
     width: 15px;
     top: 0px;
     height: 100%;
@@ -269,7 +269,7 @@ select.form-control {
 
 .scheduled-match-content-strip {
     position: absolute;
-    right: 0;
+    // right: 0;
     width: 15px;
     top: 0px;
     height: 100%;

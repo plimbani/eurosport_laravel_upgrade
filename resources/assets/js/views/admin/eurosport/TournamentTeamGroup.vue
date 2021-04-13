@@ -6,15 +6,19 @@
         <div class="card mb-0">
           <div class="card-block">
             <div id="step1" class="row">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <h6><b>Step 1:</b> Download team list</h6>
                 <div class="content-card">
                   <div class="row align-items-center gutters-tiny">
-                    <div class="col-md-4">
-                      <button class="btn btn-success btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
-                    </div>
-                    <div class="col-md-3 text-center">
-                      <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
+                    <div class="col-md-8">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <button class="btn btn-success btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
+                        </div>
+                        <div class="col-md-3 text-center">
+                          <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -22,53 +26,55 @@
             </div>
 
             <div id="step2" class="row d-none">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <h6><b>Step 2:</b> Upload your team list</h6>
                 <div class="content-card">
-                  <div class="mb-0" :class="{'form-group': true, 'is-disabled': competitionList.length === 0}">
-                    <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
-                      <div class="row gutters-tiny">
-                        <div class="col-md-6">
-                          <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
+                  <div class="row mb-0 align-items-center" :class="{'form-group': true, 'is-disabled': competitionList.length === 0}">
+                    <div class="col-md-8">
+                      <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+                        <div class="row gutters-tiny">
+                          <div class="col-md-6">
+                            <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
+                          </div>
+                          <div class="col-md-4 btn-group-agecategory">
+                            <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-success': competitionList.length > 0, 'btn-outline-success': competitionList.length === 0, 'is-disabled': !this.isFileUploaded }">Upload list</button>
+                          </div>
                         </div>
-                        <div class="col-md-4 btn-group-agecategory">
-                          <button type="button" @click="csvImport()" class="btn-block" :class="{ 'btn': true, 'btn-success': competitionList.length > 0, 'btn-outline-success': competitionList.length === 0, 'is-disabled': !this.isFileUploaded }">Upload list</button>
-                        </div>
-                      </div>
-                      <span id="filename"></span>
-                      <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
-                    </form>
+                        <span id="filename"></span>
+                        <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div id="step3" class="row d-none">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <h6><b>Step 3:</b> Allocate teams</h6>
                 <div class="content-card">
-                  <div class="row align-items-end gutters-tiny">
-                    <div class="col-md-4">
-                      <div class="form-group mb-0">
-                        <label>Select category</label>
-                        <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                          <option value="">{{$lang.teams_all_age_category}}</option>
-                          <option v-for="option in options"
-                           v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
-                        </select>
-                      </div>
-                    </div>
+                  <div class="row">
                     <div class="col-md-8">
-                      <div class="row align-items-center gutters-tiny btn-group-agecategory" v-show="this.age_category != ''">
+                      <div class="row align-items-end gutters-tiny">
                         <div class="col-md-4">
-                          <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Team allocation</button>
+                          <div class="form-group mb-0">
+                            <label>Select category</label>
+                            <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
+                              <option value="">{{$lang.teams_all_age_category}}</option>
+                              <option v-for="option in options"
+                               v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
+                            </select>
+                          </div>
                         </div>
-                        <div class="col-md-4 text-center">
-                          <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
-                        </div>
-                        <div class="col-md-4">
-                          <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
-
+                        <div class="col-md-8">
+                          <div class="row align-items-center gutters-tiny btn-group-agecategory" v-show="this.age_category != ''">
+                            <div class="col-md-4">
+                              <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Team allocation</button>
+                            </div>
+                            <div class="col-md-4 text-center">
+                              <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -110,8 +116,11 @@
                   </div>
                 </div>
                 <div class="row mt-4 team-table">
-                  <div class="col-md-12 text-muted">
+                  <div class="col-md-9 text-muted">
                     <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
+                  </div>
+                  <div class="col-md-3" v-show="this.age_category != ''">
+                    <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary pull-right" @click="printAllocatedTeams()">Download groups</a>
                   </div>
                   <div class="col-md-12">
                     <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
