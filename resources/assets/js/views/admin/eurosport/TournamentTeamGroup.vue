@@ -74,10 +74,6 @@
                             <div class="col-md-4 text-center">
                               <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
                             </div>
-                            <div class="col-md-4">
-                              <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary" @click="printAllocatedTeams()">Download groups</a>
-
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -120,8 +116,11 @@
                   </div>
                 </div>
                 <div class="row mt-4 team-table">
-                  <div class="col-md-12 text-muted">
+                  <div class="col-md-9 text-muted">
                     <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
+                  </div>
+                  <div class="col-md-3" v-show="this.age_category != ''">
+                    <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary pull-right" @click="printAllocatedTeams()">Download groups</a>
                   </div>
                   <div class="col-md-12">
                     <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
