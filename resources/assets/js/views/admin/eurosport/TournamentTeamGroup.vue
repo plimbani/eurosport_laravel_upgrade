@@ -120,7 +120,7 @@
                     <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
                   </div>
                   <div class="col-md-3" v-show="this.age_category != ''">
-                    <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="text-primary border-bottom-dashed--primary pull-right" @click="printAllocatedTeams()">Download groups</a>
+                    <a href="javascript:void(0);" v-if="this.role_slug != 'mobile.user'" class="btn btn-primary mb-4 pull-right" @click="printAllocatedTeams()">Download groups</a>
                   </div>
                   <div class="col-md-12">
                     <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
