@@ -595,6 +595,7 @@
                 })
                 setTimeout(function(){
                     vm.getAllScheduledMatches();
+                    vm.clearScheduleMatchesCount();
                 },500)
             },
             confirmUnschedulingAllFixtures() {
@@ -614,6 +615,7 @@
                             vm.$root.$emit('refreshCompetitionWithGames');
                         });
                         vm.getAllScheduledMatches();
+                        vm.clearScheduleMatchesCount();
                     }
                 })
             },
@@ -622,6 +624,9 @@
             },
             clearScheduleMatches() {
                 this.$emit("clearScheduleMatchesArray");
+            },
+            clearScheduleMatchesCount() {
+                this.$emit("clearAllScheduleMatchesArray");
             },
             saveScheduleMatches() {
                 let vm = this;
@@ -702,7 +707,6 @@
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
-
                 _.forEach(this.tournamentStages, function(stage, stageIndex) {
                     let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
                     let events = _.filter(allEvents, function(o) { return o.matchId != -1; });

@@ -138,3 +138,29 @@
         }
     }
 }
+
+.w-135 {
+    width: 135px;
+}
+
+.btn-status-rules {
+    .btn {
+        padding: 0;
+
+        &.is-previewed,
+        &.is-unpublished {
+            background-color: rgba(#FFBF00, 0.2);
+            border-color: transparent;
+            color: #FFBF00;
+        }
+        &.is-published {
+            background-color: rgba($ls-color-green, 0.2);
+            border-color: transparent;
+            color: $ls-color-green;
+        }
+        >span {
+            padding: 0.5rem 0.75rem;
+            display: block;
+        }
+    }
+}

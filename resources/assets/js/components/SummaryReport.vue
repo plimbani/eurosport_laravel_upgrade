@@ -217,12 +217,12 @@
 									<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : reports.length == 0, 'display_block' : reports.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 										<thead>
 						                    <tr>
-												<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fas fa-sort"></i></th>
-						                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fas fa-sort"></i></th>
-						                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fas fa-sort"></i></th>
-						                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fas fa-sort"></i></th>
-						                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fas fa-sort"></i></th>
-						                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fas fa-sort"></i></th>
+												<th @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fas fa-sort"></i></th>
+						                        <th @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fas fa-sort"></i></th>
+						                        <th @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fas fa-sort"></i></th>
+						                        <th @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fas fa-sort"></i></th>
+						                        <th @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fas fa-sort"></i></th>
+						                        <th @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fas fa-sort"></i></th>
 					                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fas fa-sort"></i></th>
 					                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fas fa-sort"></i></th>
 					                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}&nbsp;<i class="fas fa-sort"></i></th>
@@ -302,38 +302,38 @@
 								</div>
 							</div>
 						</div>
-						<div class="row mt-4" id="summary_fair_play_report_table">
-							<div class="col-md-12">
-								<div class="table-responsive">
-								 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
-										<thead>
-									      	<tr>
-												<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fas fa-sort"></i></th>
-							                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fas fa-sort"></i></th>
-							                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fas fa-sort"></i></th>
-							                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fas fa-sort"></i></th>
-							                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fas fa-sort"></i></th>
-							                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fas fa-sort"></i></th>
-							                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fas fa-sort"></i></th>
-								            </tr>
-					          			</thead>
-		                				<tbody>
-						                	<tr v-for="team in teamsFairPlayData">
-						                		<td>{{ team.team_id }}</td>
-						                		<td>{{ team.name }}</td>
-						                		<td>{{ team.club_name }}</td>
-						                		<td>{{ team.country_name }}</td>
-						                		<td>{{ team.age_name }}</td>
-						                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
-						                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
-						                	</tr>
-		                				</tbody>
-		              				</table>
-				    			</div>
-							    <span v-if="teams.length == 0">
-					         		No information available
-					    		</span>
-							</div>
+					</div>
+					<div class="row mt-4" id="summary_fair_play_report_table">
+						<div class="col-md-12">
+							<div class="table-responsive">
+							 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+									<thead>
+								      	<tr>
+											<th @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fas fa-sort"></i></th>
+						                    <th @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fas fa-sort"></i></th>
+						                    <th @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fas fa-sort"></i></th>
+						                    <th @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fas fa-sort"></i></th>
+						                    <th @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fas fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fas fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fas fa-sort"></i></th>
+							            </tr>
+				          			</thead>
+	                				<tbody>
+					                	<tr v-for="team in teamsFairPlayData">
+					                		<td>{{ team.team_id }}</td>
+					                		<td>{{ team.name }}</td>
+					                		<td>{{ team.club_name }}</td>
+					                		<td>{{ team.country_name }}</td>
+					                		<td>{{ team.age_name }}</td>
+					                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+					                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
+					                	</tr>
+	                				</tbody>
+	              				</table>
+			    			</div>
+						    <span v-if="teams.length == 0">
+				         		No information available
+				    		</span>
 						</div>
 					</div>
 				</div>

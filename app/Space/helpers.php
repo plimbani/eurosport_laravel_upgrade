@@ -185,6 +185,10 @@ function getMatchDetail($fixtures, $match, $groupName, $categoryAge) {
             'pitch_name' => $fixtures[$matchNumber]['pitch_name'],
             'venue_name' => $fixtures[$matchNumber]['venue_name'],
             'match_datetime' => $fixtures[$matchNumber]['match_datetime'],
+            'is_result_override' => $fixtures[$matchNumber]['is_result_override'],
+            'match_winner' => $fixtures[$matchNumber]['match_winner'],
+            'home_team' => $fixtures[$matchNumber]['home_team'],
+            'away_team' => $fixtures[$matchNumber]['away_team'],
         ];
     }
     return null;
