@@ -58,97 +58,8 @@
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-block p-3" role="tab" id="headingOne">
-              <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne" class="panel-title">
-                  <i id="opt_icon"  class="fas fa-plus"></i> {{$lang.tournament_show_optional_details}}
-              </a>
-          </div>
-          <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-            <div class="card-block">
-              <div class="form">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row" :class="{'has-error': errors.has('tournament.website') }">
-                            <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
-                            <div class="col-md-7">
-                              <input type="text" name="website" class="form-control" v-model="tournament.website" v-validate="{url: {require_protocol: true }}" :class="{'is-danger': errors.has('website') }">
-                              <i v-show="errors.has('website')" class="fas fa-warning"></i>
-                              <span class="help is-danger" v-show="errors.has('website')">Please enter valid URL</span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
-                            <div class="col-md-7">
-                              <input type="text" class="form-control" v-model="tournament.facebook">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-0">
-                            <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
-                            <div class="col-md-7">
-                              <input type="text" v-model="tournament.twitter" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                        <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
-                            <div class="col-md-8">
-                                <div v-if="!image">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-4">
-                                        <img src="/assets/img/noimage.png" class="thumb-size" />
-                                        <!--<button type="button" name="btnSelect" id="btnSelect">-->
-                                    </div>
-                                    <div class="col-md-8">
-                                        <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-                                        <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
-                                     </div>
-                                </div>
-                                <p class="help-block">Maximum size of 1 MB.<br/>
-                                    Image dimensions 250 x 250.</p>
-                            </div>
-                            <div v-else>
-                                <div class="row align-items-center">
-                                    <div class="col-md-4">
-                                        <img :src="imagePath + image"
-                                         class="thumb-size" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                       <label class="col-md-4 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
-                       <div class="col-md-8">
-                            <div class="row align-items-center mb-4" v-for="(sponsor, index) in sponsorImage">
-                                <div class="col-md-4">
-                                    <transition-image v-if="sponsor.tournament_sponsor_logo != ''"
-                                      :image_url="sponsor.tournament_sponsor_logo" :image_class="'img-fluid'">
-                                    </transition-image>
-                                    <img v-if="sponsor.tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
-                                </div>
-                                <div class="col-md-8">
-                                    <button type="button" :disabled="is_sponsor_logo_uploading" v-if="sponsor.tournament_sponsor_logo != ''" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
-                                    <button v-else :disabled="is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index" type="button" class="btn btn-default js-tournament-sponsor-image" :data-index="index">{{ is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                                    <input type="file" :disabled="is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index" class="select-tournament-sponsor-image" :id="'tournament_sponsor_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <!--<location :locations="locations"></location>-->
-        <div class="">
+        <div class="mt-4">
           <h6 class="fieldset-title"><strong>{{$lang.tournament_location}}</strong></h6>
         </div>
         <div v-for="(location, index) in locations">
@@ -172,7 +83,7 @@
           </div>
          <div class="row">
           <div class="col-sm-3">
-            <button class="btn btn-success w-75" @click.prevent="addLocationClick"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
+            <button class="btn btn-success w-135" @click.prevent="addLocationClick"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
           </div>
         </div>
       </form>
@@ -185,7 +96,7 @@
           <button class="btn btn-primary" @click="backward()"><i class="fas fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
       </div>
       <div class="float-right">
-          <button class="btn btn-primary" :disabled="is_sponsor_logo_uploading" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
       </div>
     </div>
   </div>
@@ -205,46 +116,38 @@ import Ls from './../../../services/ls'
 import TransitionImage from '../../../components/TransitionImage.vue'
 import _ from 'lodash'
 export default {
-data() {
-return {
-tournament: {name:'',website:'',facebook:'',twitter:'',
-image_logo:'',test_value:'',del_location:[],maximum_teams:'', tournament_sponsor:[], access_code:'',
-},
-userRole:this.$store.state.Users.userDetails.role_name,
-locations: [
-{
-tournament_venue_name: "",
-tournament_location_id:"",
-tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
-}
-],
-sponsorImage: [],
-image:'',
-customCount:0,
-tournamentId: 0,
-imagePath :'',
-is_sponsor_logo_uploading: false,
-is_sponsor_logo_uploading_index: 0,
-tournamentDateDiff: 0,
-'removeVenue': 'Before this venue can be deleted all pitches associated with it must be re-allocated to an alternative venue.',
-currentLayout: this.$store.state.Configuration.currentLayout,
-}
-},
-components: {
-  RemoveVenueModal, TransitionImage
-},
-filters: {
-  upperCase: function(value) {
-    return value.toUpperCase()
-  }
-},
+  data() {
+    return {
+    tournament: {name:'',
+    test_value:'',del_location:[],maximum_teams:''
+    },
+    userRole:this.$store.state.Users.userDetails.role_name,
+    locations: [
+    {
+    tournament_venue_name: "",
+    tournament_location_id:"",
+    tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
+    }
+    ],
+    customCount:0,
+    tournamentId: 0,
+    tournamentDateDiff: 0,
+    'removeVenue': 'Before this venue can be deleted all pitches associated with it must be re-allocated to an alternative venue.',
+    currentLayout: this.$store.state.Configuration.currentLayout,
+    }
+  },
+  components: {
+    RemoveVenueModal, TransitionImage
+  },
+  filters: {
+    upperCase: function(value) {
+      return value.toUpperCase()
+    }
+  },
   mounted(){
     Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
     // here we dispatch methods
     // First we check that if tournament id is Set then dont dispatch it
-    $('#btnSelect').on('click',function(){
-      $('#selectFileT').trigger('click')
-    });
 
     let tId = this.$store.state.Tournament.tournamentId
 
@@ -252,316 +155,210 @@ filters: {
       this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
       this.tournamentId = this.$store.state.Tournament.tournamentId
       // Now here we call method for getting the tournament Data
-      // we call Summary
-      Tournament.tournamentSummaryData(this.tournamentId).then(
-      (response) => {
-        if(response.data.status_code == 200) {
-          // Also Add Locations
-          let locations = response.data.data.locations
-          if(locations != undefined || locations != null )
-          {
-              // Initially Set with Zero
-              this.locations = []
-              for(let i=0;i<locations.length;i++){
-
-                this.locations.push ({
-                    tournament_venue_name: locations[i]['name'],
-                    tournament_location_id: locations[i]['id'],
-                });
+        // we call Summary
+        Tournament.tournamentSummaryData(this.tournamentId).then(
+          (response) => {
+            if(response.data.status_code == 200) {
+              // Also Add Locations
+              let locations = response.data.data.locations
+              if(locations != undefined || locations != null )
+              {
+                  // Initially Set with Zero
+                  this.locations = []
+                  for(let i=0;i<locations.length;i++){
+                    this.locations.push ({
+                        tournament_venue_name: locations[i]['name'],
+                        tournament_location_id: locations[i]['id'],
+                    });
+                  }
               }
+                // this.tournamentSummary = response.data.data;
+                // fetch data and set it
+            }
+          },
+          (error) => {
+            // if no Response Set Zero
+            //
           }
+        );
+      // here we set data from state for tournament
+      this.tournament.name = this.$store.state.Tournament.tournamentName
+      this.tournament.maximum_teams = this.$store.state.Tournament.maximumTeams
 
-          let tournamentSponsors = response.data.data.sponsors
-          var vm = this;
-          if( Object.keys(tournamentSponsors).length > 0 )
-          {
-              // Initially Set with Zero
-              this.sponsorImage = []
-              var vm = this;
-              $.each(tournamentSponsors, function(key, value ) {
-                vm.sponsorImage.push({tournament_sponsor_logo: value.imageUrl,id:key});
-              });
+      var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
 
-              // for(let i=0;i< Object.keys(tournamentSponsors).length;i++){
-              //   console.log(tournamentSponsors[i]);
-              //   // this.sponsorImage.push({
-              //   //     tournament_sponsor_logo: tournamentSponsors[i].imageUrl,
-              //   //     id:tournamentSponsors[i].id
-              //   // });
-
-              //   console.log(this.sponsorImage);
-              // }
-          }
-          else
-          {
-            vm.sponsorImage.push({tournament_sponsor_logo: '',id:0});
-          }
-            // this.tournamentSummary = response.data.data;
-            // fetch data and set it
-        }
-      },
-      (error) => {
-        // if no Response Set Zero
-        //
-      }
-    );
-    // here we set data from state for tournament
-    this.tournament.name = this.$store.state.Tournament.tournamentName
-    this.tournament.maximum_teams = this.$store.state.Tournament.maximumTeams
-    if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
-    {
-    this.image = this.$store.state.Tournament.tournamentLogo
-    this.imagePath = ''
-    }
-
-    this.tournament.access_code = this.$store.state.Tournament.access_code
-    this.tournament.website =this.$store.state.Tournament.website
-    this.tournament.facebook =this.$store.state.Tournament.facebook
-    this.tournament.twitter = this.$store.state.Tournament.twitter
-    var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-
-    // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
-    // document.getElementById('tournament_start_date').value
-    //         = start_format_date
-    // document.getElementById('tournament_end_date').value
-    //         = this.$store.state.Tournament.tournamentEndDate
-    let currentNavigationData = {activeTab:'tournament_add', currentPage:'Edit Tournament'}
-
+      // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
+      // document.getElementById('tournament_start_date').value
+      //         = start_format_date
+      // document.getElementById('tournament_end_date').value
+      //         = this.$store.state.Tournament.tournamentEndDate
+      let currentNavigationData = {activeTab:'tournament_add', currentPage:
+      'Edit Tournament'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
-
     } else {
       let tournamentAdd  = {name:'Your Tournament',
       currentPage:'TournamentAdd'}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
       start_date = moment().format('DD/MM/YYYY')
       $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
-    // Plugin.setCurrentDate()
+      // Plugin.setCurrentDate()
     }
     // $('#tournament_start_date').val()
-
     if(start_date != ''){
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-
-
     let tEndDate = ''
     if(this.$store.state.Tournament.tournamentEndDate!= undefined){
-    tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
+      tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
       $('#tournament_end_date').datepicker('setDate', tEndDate)
     } else {
       $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
     }
-
-    let vm = this;
-    let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
-    let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
-        this.tournamentDateDiff = endDate.diff(startDate, 'days')
+    let vm = this
+      let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
+      let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
+      this.tournamentDateDiff = endDate.diff(startDate, 'days')
       $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
-          $('#tournament_start_date').datepicker().on('changeDate',function(){
+    $('#tournament_start_date').datepicker().on('changeDate',function(){
 
-        let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(vm.tournamentDateDiff, 'days');
+      let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(vm.tournamentDateDiff, 'days');
       if(vm.tournamentId != 0) {
         $('#tournament_end_date').datepicker('setStartDate', newEndDate.format("DD/MM/YYYY"))
         $('#tournament_end_date').datepicker('setDate', newEndDate.format("DD/MM/YYYY"));
       } else {
-          $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+        let tournamentAdd  = {name:'Your Tournament',
+        currentPage:'TournamentAdd'}
+        this.$store.dispatch('SetTournamentName', tournamentAdd)
+        start_date = moment().format('DD/MM/YYYY')
+        $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+      // Plugin.setCurrentDate()
       }
-    // $('#tournament_end_date').datepicker('clearDates')
-    });
-    //this.handleValidation()
-    $('.panel-title').on('click',function(){
-      if($('#opt_icon').hasClass('fa-plus') == true){
-        $('#opt_icon').addClass('fa-minus')
-        $('#opt_icon').removeClass('fa-plus')
-      }else{
-        $('#opt_icon').addClass('fa-plus')
-        $('#opt_icon').removeClass('fa-minus')
+      // $('#tournament_start_date').val()
+
+      if(start_date != ''){
+        $('#tournament_start_date').datepicker('setDate', start_date)
       }
-    });
-},
-methods: {
-selectImage() {
-$('#selectFile').trigger('click')
-},
 
-addLocationClick() {
-this.locations.push ({
-tournament_venue_name: "",
-tournament_location_id: ""
-});
-},
-addTournamentSponsorImage() {
-this.sponsorImage.push({
-tournament_sponsor_logo: "",id:0
-});
-},
-onFileChangeT(e) {
-var files = e.target.files || e.dataTransfer.files;
-if (!files.length)
-return;
-if(Plugin.ValidateImageSize(files) == true) {
-  this.createImage(files[0]);
-}
-},
-createImage(file) {
-this.imagePath='';
-var image = new Image();
-var reader = new FileReader();
-var vm = this;
-reader.onload = (e) => {
-vm.image = e.target.result;
-};
 
-reader.readAsDataURL(file);
-},
-removeImage: function (e) {
-this.image = '';
-this.imagePath='';
-e.preventDefault();
-},
-removeLocation (index, location){
-    let pitches = this.$store.state.Pitch.pitches;
-    if(pitches) {
-        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]);
-        if(removeVenue) {
-          $("#remove_venue").modal('show');
-        }  else {
-              // here first we get the location id of it
-              if(this.locations[index].tournament_location_id != '') {
-                this.tournament.del_location.push(this.locations[index].tournament_location_id)
-              }
-              this.locations.splice(index,1)
-        }
-    } else {
-              // here first we get the location id of it
-              if(this.locations[index].tournament_location_id != '') {
-                this.tournament.del_location.push(this.locations[index].tournament_location_id)
-              }
-              this.locations.splice(index,1)
-    }
-},
-next() {
-let vm = this;
-// this.handleValidation()
-// First Validate it
-// SET The Date Value for tournament
+      let tEndDate = ''
+      if(this.$store.state.Tournament.tournamentEndDate!= undefined){
+        tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
+        $('#tournament_end_date').datepicker('setDate', tEndDate)
+      } else {
+        $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+      }
 
-this.$validator.validateAll().then(
-(response) => {
-  if(response) {
-    // if its return true then proceed
-    this.tournament.start_date = document.getElementById('tournament_start_date').value
-    this.tournament.end_date = document.getElementById('tournament_end_date').value
-
-    this.tournament.image_logo = this.image
-    this.tournament.tournament_sponsor = this.sponsorImage
-    this.tournament.locations = this.locations
-    // here we check if tournament id is Set then
-    this.tournament.tournamentId = this.tournamentId
-    // we can take length of how much we have to move for loop
-    this.tournament.locationCount = this.customCount;
-    this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
-    let msg=''
-    if(this.tournament.tournamentId == 0){
-      msg = 'Tournament details added successfully.'
-    } else {
-      msg = 'Tournament details edited successfully.'
-    }
-
-    $("body .js-loader").removeClass('d-none');
-
-    Tournament.saveTournament(vm.tournament).then(
-      (response) => {
-        if(response.data.status_code == 200) {
-          toastr['success'](msg, 'Success');
-          vm.$store.dispatch('SaveTournamentDetails', response.data.data);
-          $("body .js-loader").addClass('d-none');
-          vm.redirectCompetation();
+      let vm = this;
+      let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
+      let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
+          this.tournamentDateDiff = endDate.diff(startDate, 'days')
+        $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+      $('#tournament_start_date').datepicker().on('changeDate',function(){
+        let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(vm.tournamentDateDiff, 'days');
+        if(vm.tournamentId != 0) {
+          $('#tournament_end_date').datepicker('setStartDate', newEndDate.format("DD/MM/YYYY"))
+          $('#tournament_end_date').datepicker('setDate', newEndDate.format("DD/MM/YYYY"));
         } else {
-          alert('Error Occured');
+            $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+        }
+        // $('#tournament_end_date').datepicker('clearDates')
+      });
+      //this.handleValidation()
+      $('.panel-title').on('click',function(){
+        if($('#opt_icon').hasClass('fa-plus') == true){
+          $('#opt_icon').addClass('fa-minus')
+          $('#opt_icon').removeClass('fa-plus')
+        }else{
+          $('#opt_icon').addClass('fa-plus')
+          $('#opt_icon').removeClass('fa-minus')
+        }
+      });
+    });
+  },
+  methods: {
+    addLocationClick() {
+      this.locations.push ({
+      tournament_venue_name: "",
+      tournament_location_id: ""
+      });
+    },
+    removeLocation (index, location){
+        let pitches = this.$store.state.Pitch.pitches;
+        if(pitches) {
+            let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]);
+            if(removeVenue) {
+              $("#remove_venue").modal('show');
+            }  else {
+                  // here first we get the location id of it
+                  if(this.locations[index].tournament_location_id != '') {
+                    this.tournament.del_location.push(this.locations[index].tournament_location_id)
+                  }
+                  this.locations.splice(index,1)
+            }
+        } else {
+                  // here first we get the location id of it
+                  if(this.locations[index].tournament_location_id != '') {
+                    this.tournament.del_location.push(this.locations[index].tournament_location_id)
+                  }
+                  this.locations.splice(index,1)
+        }
+    },
+    next() {
+      let vm = this;
+      // this.handleValidation()
+      // First Validate it
+      // SET The Date Value for tournament
+
+      this.$validator.validateAll().then(
+      (response) => {
+        if(response) {
+          // if its return true then proceed
+          this.tournament.start_date = document.getElementById('tournament_start_date').value
+          this.tournament.end_date = document.getElementById('tournament_end_date').value
+
+          this.tournament.locations = this.locations
+          // here we check if tournament id is Set then
+          this.tournament.tournamentId = this.tournamentId
+          // we can take length of how much we have to move for loop
+          this.tournament.locationCount = this.customCount;
+          this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
+          let msg=''
+          if(this.tournament.tournamentId == 0){
+            msg = 'Tournament details added successfully.'
+          } else {
+            msg = 'Tournament details edited successfully.'
+          }
+
+          $("body .js-loader").removeClass('d-none');
+
+          Tournament.saveTournament(vm.tournament).then(
+            (response) => {
+              if(response.data.status_code == 200) {
+                toastr['success'](msg, 'Success');
+                vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+                $("body .js-loader").addClass('d-none');
+                vm.redirectCompetation();
+              } else {
+                alert('Error Occured');
+              }
+            },
+            (error) => {
+            }
+          );
         }
       },
       (error) => {
       }
-    );
+      )
+    },
+    redirectCompetation() {
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+      this.$router.push({name:'competition_format'})
+    },
+    backward() {
+      this.$router.push({name:'welcome'})
+    }
   }
-},
-(error) => {
-}
-)
-},
-onSponsorLogoChange(e,i) {
-        var vm = this;
-        var files = e.target.files || e.dataTransfer.files;
-        if (!files.length)
-        return;
-        if(Plugin.ValidateImageType(files[0]) == false) {
-            toastr['error']('Social sharing graphic is not a valid image', 'Error');
-            return;
-        }
-        var reader = new FileReader();
-        reader.onload = (r) => {
-        var image = new Image();
-        image.src = r.target.result;
-
-        image.onload = function () {
-            // if(Plugin.ValidateImageDimension(this, 250, 250) == false) {
-            //     toastr['error']('Sponsor image size should be 250x250', 'Error');
-            // } else {
-                // vm.sponsorImage = r.target.result;
-              vm.is_sponsor_logo_uploading = true;
-              vm.is_sponsor_logo_uploading_index = i;
-
-              var formData = new FormData();
-              formData.append('image', files[0]);
-
-              axios.post('/api/tournament/uploadSponsorLogo', formData).then(
-                  (response)=> {
-                      if ( vm.sponsorImage.length > i)
-                      {
-                        //let tournamentSponsorImage = response.data;
-                        vm.sponsorImage[i]['tournament_sponsor_logo'] = response.data;
-                            // tournament_sponsor_logo: img
-
-                        // vm.tournament_sponsor_logo = response.data;
-                        vm.is_sponsor_logo_uploading = false;
-                        vm.is_sponsor_logo_uploading_index = 0;
-                      }
-                      else
-                      {
-                        vm.is_sponsor_logo_uploading = false;
-                        vm.is_sponsor_logo_uploading_index = 0;
-                      }
-                  },
-                  (error)=>{
-                  }
-                );
-            // }
-        };
-      };
-      reader.readAsDataURL(files[0]);
-    },
-
-    removeTournamentSponserImage: function (e,i) {
-      this.sponsorImage.splice(i, 1);
-      let vm = this;
-
-      if ( vm.sponsorImage.length == 0)
-      {
-        setTimeout(function(){
-          vm.addTournamentSponsorImage();
-        },200);
-      }
-
-    },
-redirectCompetation() {
-  let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
-  this.$store.dispatch('setActiveTab', currentNavigationData)
-  this.$router.push({name:'competition_format'})
-},
-backward() {
-this.$router.push({name:'welcome'})
-}
-}
 }
 </script>

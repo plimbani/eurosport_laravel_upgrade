@@ -279,12 +279,6 @@ class TournamentService implements TournamentContract
 
 
         // here first we save the tournament related Data
-        // here we have to precprocess the image
-        // Save the image
-        $id = ($data['tournamentData']['tournamentId'] !=0 || $data['tournamentData']['tournamentId'] !=0) ? $data['tournamentData']['tournamentId']:'';
-
-        $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data,$id);
-
         $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
 
         $this->getCoordinates($resultData);
@@ -322,8 +316,6 @@ class TournamentService implements TournamentContract
             }else{
                 return '';
             }
-
-            $name = $data['tournamentData']['name'];
 
             if($id == '') {
               $now = new \DateTime();
@@ -1035,6 +1027,7 @@ class TournamentService implements TournamentContract
 
     public function saveContactDetails($data)
     {
+      $data['tournamentData']['image_logo'] = $this->saveTournamentLogo($data, $data['tournamentData']['tournamentId']);
       $data = $this->tournamentRepoObj->saveContactDetails($data);
       return ['data' => $data, 'status_code' => '200', 'message' => self::SUCCESS_MSG]; 
     }

@@ -5,8 +5,8 @@
 	<div class="col-md-12">
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
-			<th class="text-center">{{$lang.teams_team_label}}</th>
-			<th class="text-center">{{$lang.teams_categories_label}}</th>
+			<th>{{$lang.teams_team_label}}</th>
+			<th>{{$lang.teams_categories_label}}</th>
 		</thead>
 		<tbody>
 			<tr v-for="team in paginated('teamlist')">

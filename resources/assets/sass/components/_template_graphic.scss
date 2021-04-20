@@ -64,6 +64,19 @@
                             margin-right: 0;
                             border-right: 0;
                         }
+
+                        .team-scores {
+                            position: relative;
+                            .circle-badge {
+                                font-size: 8px;
+                                &.left-input {
+                                    left: -10px;
+                                }
+                                &.right-input {
+                                    right: -10px;
+                                }
+                            }
+                        }
                     }
 
                     &:last-child {
@@ -86,6 +99,7 @@
 
                     span {
                         font-size: 12px;
+                        display: inline-block;
                     }
 
                     &.position-wrapper {

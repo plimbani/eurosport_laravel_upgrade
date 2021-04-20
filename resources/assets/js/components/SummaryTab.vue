@@ -13,43 +13,6 @@
 				<h6 class="mb-2 text-muted">{{$lang.summary_dates}}: {{tournamentDates}} </h6>
 			 </div>
 			</div>
-			<div class="col-md-6">
-				<div class="row gutters-tiny align-items-center justify-content-end">
-				<label for="status_rules" class="col-md-3 text-right mb-0">{{$lang.summary_status}}:
-					<span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
-					</span>
-					<div v-bind:id="'status_rules'" style="display:none;">
-                		<div class="popover-body">
-                			Preview = publish key details of the tournament only to the app<br /><br />
-                			Published = publish all details of the tournament to the app<br /><br />
-                			Unpublished = no information about the tournament is published to the app
-                		</div>
-					</div>
-                </label>
-				<div class="col-md-6">
-					<TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
-				</div>
-
- 				<UnPublishedTournament>
-				</UnPublishedTournament>
-
-				<PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
-				</PublishTournament>
-
- 				<PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
-				</PreviewTournament>
-
-				<div class="col-sm-3" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
-					<button type="button" data-toggle="modal"
-					data-confirm-msg="Are you sure you would like to delete this user record?"
-					data-target="#delete_modal"
-					class="btn btn-danger w-100" 
-					>{{$lang.summary_button_delete}}</button>
-					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-					<!--<DeleteTournament></DeleteTournament>-->
-				</div>
-				</div>
-			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
@@ -103,12 +66,20 @@
 			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
-		<div class="row">
-			<div class="col-md-12">
+		<div class="row gutters-tiny">
+			<div class="col-md-9">
 			<span>{{$lang.summary_age_groups}}: {{tournamentSummary.tournament_groups}}</span><br>
 				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
 				<span v-if="currentLayout == 'commercialisation'">{{$lang.summary_easy_match_manager_main_contact}}:  {{tournamentSummary.tournament_contact}}</span>
 				<span v-else>{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
+			</div>
+			<div class="col-md-3 text-right" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+				<button type="button" data-toggle="modal"
+				data-confirm-msg="Are you sure you would like to delete this user record?"
+				data-target="#delete_modal"
+				class="btn btn-outline-danger"
+				>{{$lang.summary_button_delete}}</button>
+				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 			</div>
 		</div>
 	</div>
@@ -116,12 +87,6 @@
 </template>
 
 <script type="text/babel">
-	import PublishTournament from './PublishTournament.vue'
-	import UnPublishedTournament from './UnPublishedTournament.vue'
-	import PreviewTournament from './PreviewTournament.vue'
-	import TournamentStatus from './TournamentStatus.vue'
-
-
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
 
@@ -130,7 +95,6 @@
 	    	return {
 	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
 	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',tournamentStatus:'',
-
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: '',
                 currentLayout: this.$store.state.Configuration.currentLayout,
@@ -138,7 +102,7 @@
 	    	}
 	    },
 	    components: {
-	        PublishTournament, DeleteModal,UnPublishedTournament,TournamentStatus,PreviewTournament
+	    	DeleteModal
 	    },
 	    mounted() {
 	       // First Set Menu and ActiveTab
@@ -162,53 +126,12 @@
 		    },
 	    },
 	    created: function() {
-       		this.$root.$on('StatusUpdate', this.updateStatus);
+
   		},
   		beforeCreate: function() {
-			this.$root.$off('StatusUpdate');
+
 		},
 	    methods: {
-	      updateStatus(status, switchDefaultTournament){
-	      	// here we call method to update Status
-	      	let tournamentId = this.$store.state.Tournament.tournamentId;
-	      	let tournamentData = {'tournamentId': tournamentId, 'status': status, 'switchDefaultTournament': switchDefaultTournament};
-	      	if(tournamentId != undefined)
-	    	{
-	    		Tournament.updateStatus(tournamentData).then(
-	    		(response) => {
-	    			if(response.data.status_code == 200) {
-
-	    			if ( status == 'Published')
-	    			{
-	    				var modal = "publish_modal";
-	    			}
-
-	    			if ( status == 'Unpublished')
-	    			{
-	    				var modal = "unpublish_modal";
-	    			}
-
-	    			if ( status == 'Preview')
-	    			{
-	    				var modal = "preview_modal";
-	    			}
-	    			
-              		$("#"+modal).modal("hide");
-	    				this.tournamentStatus = status
-	    				if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
-	    					this.canDuplicateFavourites = false;
-	    				}
-	    				toastr['success']('This tournament has been '+status, 'Success');
-	    				let tournamentField = {'tournamentStatus': status}
-	    				this.$store.dispatch('setTournamentStatus',tournamentField)
-            }
-	    		},
-	    		(error) => {
-	    		}
-	    		);
-
-	    	}
-	      },
         redirectToHomePage(){
           this.$router.push({name: 'welcome'})
         },
@@ -265,7 +188,7 @@
 
 		 }
 	    },
-		deleteConfirmed() {
+	    deleteConfirmed() {
 			Tournament.deleteTournament(this.tournamentId).then(
 	        (response) => {
 	          if(response.data.status_code==200){

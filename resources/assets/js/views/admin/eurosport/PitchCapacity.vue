@@ -10,9 +10,7 @@
                     <div class="col-md-9">
                         <form class="form-inline justify-content-end pitch-capacity-form">
                             <div class="form-group">
-                                <label><strong>Filter by:</strong></label>
-                            </div>
-                            <div class="form-group">
+                                <label class="mr-2"><strong>Select:</strong></label>
                                 <select class="form-control m-w-130"
                                     v-model="selectedVenue" name="selected_venue" id="selected_venue"
                                     @change="getPitchSearchData()">
@@ -27,9 +25,6 @@
                                 <input type="text" class="form-control"
                                v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
                                placeholder="Search for a pitch">
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                             </div>
                         </form>
                     </div>
@@ -70,14 +65,14 @@
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
-                                    <th>{{$lang.pitch_modal_details_name}}</th>
+                                    <th>{{$lang.summary_pitch}}</th>
                                     <th>{{$lang.pitch_capacity_location}}</th>
                                     <th>{{$lang.pitch_modal_details_size}}</th>
                                     <th>{{$lang.pitch_modal_details_type}}</th>
-                                    <th>{{$lang.pitch_modal_availability_stage}}</th>
-                                    <th>{{$lang.pitch_modal_copy}}</th>
-                                    <th>{{$lang.pitch_modal_action}}</th>
-                                    <th v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
+                                    <th>{{$lang.pitch_modal_timetable}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_copy}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_action}}</th>
+                                    <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
                             <draggable v-model="dragPitches" :element="'tbody'" @change="updatePitchOrder()" :options="{handle: '.drag-handle'}">
@@ -92,12 +87,12 @@
                                             <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
                                             <p>Day 3: 10am-2pm</p>-->
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="align-middle">
                                                  <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success mx-1" style="font-size:1.3em"><i class="fas fa-copy"></i></a>
                                             </span>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="align-middle">
                                                 <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id, 'edit')" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
@@ -108,7 +103,7 @@
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
                                             </span>
                                         </td>
-                                        <td v-if="!searchDisplayData" class="drag-handle">
+                                        <td v-if="!searchDisplayData" class="drag-handle text-center">
                                             <span class="align-middle text-primary draggable-handle">
                                                 <i class="fas fa-arrow-up" v-if="index > 0 && index < dragPitches.length"></i>
                                                 <i class="fas fa-arrow-down" v-if="index >= 0 && index < dragPitches.length - 1"></i>
@@ -117,8 +112,8 @@
                                     </tr>
                             </draggable>
                         </table>
-                        <div v-else>
-                            <p class="text-muted">No pitch found.</p>
+                        <div class="pt-3">
+                            <button type="button" class="btn btn-success" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                         </div>
                     </div>
                 </div>
@@ -133,7 +128,7 @@
                             <thead>
                                 <tr>
                                     <th>{{$lang.pitch_size}}</th>
-                                    <th>{{$lang.pitch_available_time}}</th>
+                                    <th>Pitch capacity</th>
                                     <th>{{$lang.pitch_totaL_time}}</th>
                                     <th>{{$lang.pitch_balance}}</th>
                                 </tr>
@@ -190,6 +185,13 @@
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button class="btn btn-primary" :class="{'is-disabled': locationWiseSummaryData.allPitches.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
@@ -283,7 +285,7 @@ import draggable from 'vuedraggable';
               this.$router.push({name: 'welcome'});
             } else {
                 // First Set Menu and ActiveTab
-              let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitch Capacity'}
+              let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitches'}
                 this.$store.dispatch('setActiveTab', currentNavigationData)
             }
             Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker', 'addstage'])
@@ -857,7 +859,12 @@ import draggable from 'vuedraggable';
                 this.selectedVenue = '';
                 this.pitchDataSearch = '';
                 this.searchDisplayData = false;
-            }
+            },
+            next() {
+                let currentNavigationData = {activeTab:'teams_groups', currentPage: 'Teams and groups'}
+                this.$store.dispatch('setActiveTab', currentNavigationData)
+                this.$router.push({name:'teams_groups'})
+            },
         }
     }
 </script>

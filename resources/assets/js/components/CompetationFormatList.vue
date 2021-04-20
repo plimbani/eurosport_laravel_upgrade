@@ -5,20 +5,20 @@
          <table class="table table-hover table-bordered add-category-table">
           <thead>
               <tr>
-                  <th class="text-center">{{$lang.competation_name_category}}</th>
-                  <th class="text-center">{{$lang.competation_category_age}}</th>
-                  <th class="text-center">{{$lang.compeattion_template}}</th>
-                  <th class="text-center">{{$lang.competation_competation_format}}</th>
-                  <th class="text-center">{{$lang.competation_total_matches}}</th>
-                  <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
+                  <th>{{$lang.competation_category_age}}</th>
+                  <th>{{$lang.competation_name_category}}</th>
+                  <th>{{$lang.competation_team}}</th>
+                  <th>{{$lang.competation_competation_format}}</th>
+                  <th>{{$lang.competation_total_matches}}</th>
+                  <th width="90px">{{$lang.competation_total_time}}</th>
                   <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
               </tr>
           </thead>
           <tbody>
             <tr v-for="(competation, index) in competationList">
-              <td class="text-left">{{competation.group_name}} </td>
               <td class="text-left">{{competation.category_age}}</td>
-              <td class="text-left">{{competation.template_name}}</td>
+              <td class="text-left">{{competation.group_name}} </td>
+              <td class="text-left">{{competation.total_teams}}</td>
               <td class="text-left">
                 <div class="d-flex justify-content-between align-items-center">
                   {{competation.disp_format_name}} 
@@ -27,10 +27,10 @@
                   </span>
                 </div>
               </td>
-              <td class="text-center">{{competation.total_match}}</td>
+              <td class="text-left">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
-              <td class="text-center">
+              <td class="text-center nowrap">
                 <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
                   @click="editCompFormat(competation.id)"><i class="fas fa-pencil"></i></a>
@@ -78,7 +78,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-       <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
+       <button type="button" class="btn btn-success" @click="addCategory()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
       </div>
     </div>
   </div>
@@ -209,6 +209,7 @@ export default {
             };
           });
           this.competationList = response.data.data
+          this.$store.dispatch('setCompetationList',this.competationList)          
           let time_sum= 0;
           this.competationList.reduce(function (a,b) {
             time_sum += b['total_time']

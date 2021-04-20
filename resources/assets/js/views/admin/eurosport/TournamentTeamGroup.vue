@@ -98,13 +98,12 @@
       					<table class="table table-hover table-bordered">
                   <thead>
                       <tr>
-                          <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
-                          <th class="text-center">{{$lang.teams_name}}</th>
-                          <th class="text-center">{{$lang.teams_country}}</th>
-                          <th class="text-center">{{$lang.teams_place}}</th>
-                          <th class="text-center">{{$lang.teams_age_category}}</th>
-                          <th  class="text-center">{{$lang.teams_name_category}}</th>
-
+                          <th width="150px">{{$lang.teams_reference}}</th>
+                          <th>{{$lang.teams_name}}</th>
+                          <th>{{$lang.teams_country}}</th>
+                          <th>{{$lang.teams_place}}</th>
+                          <th>{{$lang.teams_age_category}}</th>
+                          <th>{{$lang.teams_name_category}}</th>
                           <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
                           <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
                           <th class="text-center">Edit</th>
@@ -134,8 +133,8 @@
                           <td>{{team.category_age}} </td>
                           <td>{{team.age_name}} </td>
 
-                          <td width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
-                          <td :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
+                          <td class="text-center" width="130px" v-if="(age_category == '')">{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                          <td class="text-center" :class="{'is-disabled': !canChangeTeamOption(team.id)}" width="130px" v-else style="position: relative">
                             <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName" :canChangeTeamOption="canChangeTeamOption(team.id)"></teamSelect>
                           </td>
                           <td class="text-center">
@@ -247,6 +246,13 @@
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-right">
+            <button class="btn btn-primary" :class="{'is-disabled': teams.length == 0 }" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+        </div>
       </div>
     </div>
   </div>
@@ -926,7 +932,12 @@
             $("body .js-loader").addClass('d-none');
           }
         )
-      }
+      },
+      next() {
+        let currentNavigationData = {activeTab:'pitch_planner', currentPage: 'Match Planner'}
+        this.$store.dispatch('setActiveTab', currentNavigationData)
+        this.$router.push({name:'pitch_planner'})
+      },
     }
   }
 </script>

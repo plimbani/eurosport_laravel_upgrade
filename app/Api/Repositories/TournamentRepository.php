@@ -135,7 +135,7 @@ class TournamentRepository
         $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)
             ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
-            ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime','temp_fixtures.hometeam_score','temp_fixtures.awayteam_score'])
+            ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime','temp_fixtures.hometeam_score','temp_fixtures.awayteam_score','temp_fixtures.is_result_override','temp_fixtures.match_winner'])
             ->where('temp_fixtures.deleted_at', NULL)
             ->get()->keyBy('match_number')->toArray();
         $tempFixtures = array_map(function($object){
@@ -216,19 +216,8 @@ class TournamentRepository
         $newdata = array();
         $newdata['name'] = $data['name'];
         $newdata['maximum_teams'] = $data['maximum_teams'];
-        $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
-        $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
-        $newdata['website'] = $data['website'] ? $data['website'] : '';
-        $newdata['facebook'] = $data['facebook'] ? $data['facebook'] : '';
-        $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
-
-        // For New One We set Status as Unpublished
-
-        if ($data['image_logo'] != '') {
-            $newdata['logo'] = $data['image_logo'];
-        } else {
-            $newdata['logo'] = null;
-        }
+        $newdata['start_date']    = $data['start_date'] ? $data['start_date'] : '';
+        $newdata['end_date']      = $data['end_date'] ? $data['end_date'] : '';
 
         // Now here we Save it For Tournament
         $imageChanged = true;
@@ -336,64 +325,14 @@ class TournamentRepository
         $tournamentData = array();
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
-
-        // Tournament sponser data
-        // get sponsor Image data
-        $DbSponsorData = TournamentSponsor::where('tournament_id', $tournamentId)->pluck('logo','id');
-        if ( isset($DbSponsorData) )
-        {
-            $DbSponsorData = $DbSponsorData->toArray();
-        }
-
-        foreach ($data['tournament_sponsor'] as $tournamentSponsor) {
-            $tournamentSponsorData = [];
-            if ( !empty($tournamentSponsor['tournament_sponsor_logo']) && $tournamentSponsor['id'] == '0' )
-            {
-                $data['tournament_sponsor'] = basename(parse_url($tournamentSponsor['tournament_sponsor_logo'])['path']);
-                
-                $tournamentSponsorData = [
-                    'tournament_id' => $tournamentId,
-                    'logo' => $data['tournament_sponsor'],
-                ];
-
-                $createTournamentSponsor = TournamentSponsor::create($tournamentSponsorData)->id;
-            }
-            else
-            {
-                if ( array_key_exists($tournamentSponsor['id'], $DbSponsorData))
-                {
-                    //$keyOfarray = array_search($tournamentSponsor['id'],$DbSponsorDataId);
-                    unset($DbSponsorData[$tournamentSponsor['id']]);
-                }
-            }
-
-        }
-        
-        // Delete sponsor from db and s3 which is deleted by admin
-        foreach ($DbSponsorData as $dbkey => $dbvalue) {
-            $tournamentsponsorLogoPath = config('wot.imagePath.tournament_sponsor');
-            $filename = $DbSponsorData[$dbkey];
-            if ( $this->disk->exists($tournamentsponsorLogoPath . $filename) ) {
-                $this->disk->delete($tournamentsponsorLogoPath . $filename);
-            }
-
-            DB::table('tournament_sponsors')->where('id',$dbkey)->delete();
-        }
-
-
         $tournamentData = array(
             'id' => $tournamentId,
             'name' => $data['name'],
             'tournamentStartDate' => $data['start_date'],
-            'tournamentEndDate' => $data['end_date'],
-            'tournamentStatus' => 'Unpublished',
-            'tournamentLogo' => ($data['image_logo'] != '') ? $this->tournamentLogo . $data['image_logo'] : '',
-            'tournamentDays' => ($tournamentDays) ? $tournamentDays : '2',
-            'facebook' => $data['facebook'],
-            'twitter' => $data['twitter'],
-            'website' => $data['website'],
-            'maximum_teams' => $data['maximum_teams'],
-            
+            'tournamentEndDate'   => $data['end_date'],
+            'tournamentStatus'    => 'Unpublished',
+            'tournamentDays'      => ($tournamentDays) ? $tournamentDays : '2',
+            'maximum_teams'       => $data['maximum_teams'],
         );
         
         return $tournamentData;
@@ -1108,6 +1047,7 @@ class TournamentRepository
             ->select(DB::raw('*, temp_fixtures.id as id, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no'))
             ->get();
 
+        $unscheduledMatches = $this->sortEliminationMatchesByMatchCode($unscheduledMatches);
         $matchScheduleArray = [];
         $roundWiseLastMatchDateTime = [];
         $userSelectedPitchOrder = array_keys($pitchAvailableTime);
@@ -1709,6 +1649,13 @@ class TournamentRepository
 
     public function saveContactDetails($data)
     {
+        $tournament = Tournament::find($data['tournamentData']['tournamentId']);
+        $tournament->website = $data['tournamentData']['website'];
+        $tournament->facebook = $data['tournamentData']['facebook'];
+        $tournament->twitter = $data['tournamentData']['twitter'];
+        $tournament->logo = $data['tournamentData']['image_logo'] != '' ? $data['tournamentData']['image_logo'] : null;
+        $tournament->save();
+
         $tournamentContact = TournamentContact::where('tournament_id', $data['tournamentData']['tournamentId'])->first();
         if ($tournamentContact) {
             $tournamentContact->first_name = $data['tournamentData']['tournament_contact_first_name'];
@@ -1743,5 +1690,25 @@ class TournamentRepository
             }
         }
         return true;
+    }
+
+    public function sortEliminationMatchesByMatchCode($matches) {
+        // make arreay group by round no and competition type
+        $matchesArray = [];
+        foreach ($matches as $match) {
+            $matchesArray[$match->match_round_no][$match->competation_type][] = $match;
+        }
+
+        $sortingPlacingMatchesArray = [];
+        foreach ($matchesArray as $key => $rounds) {
+            foreach ($rounds as $roundType =>$roundMatches) {
+                if($roundType == 'Elimination'){
+                    $matchCodeNo = array_column($roundMatches, 'match_code_no');
+                    array_multisort($matchCodeNo, SORT_DESC, $roundMatches);
+                }
+                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray,$roundMatches);
+            }
+        }
+        return collect($sortingPlacingMatchesArray);
     }
 }

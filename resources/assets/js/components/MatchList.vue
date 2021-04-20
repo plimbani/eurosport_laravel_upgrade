@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <table class="table table-hover table-bordered table-sm matchSchedule" v-if="matchData.length > 0 && isDivExist == 0 && isKnockoutPlacingMatches === false">
+  <table class="table table-hover table-bordered matchSchedule" v-if="matchData.length > 0 && isDivExist == 0 && isKnockoutPlacingMatches === false">
       <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
       
       <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="getMatchList()" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
@@ -24,7 +24,7 @@
       <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
       <label class="mb-0" :class="getCompetitionIdFromMatch(matches)"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 
-      <table class="table table-hover table-bordered table-sm matchSchedule">
+      <table class="table table-hover table-bordered matchSchedule">
         <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
         <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 

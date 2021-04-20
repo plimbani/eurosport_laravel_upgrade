@@ -396,8 +396,9 @@ class MatchRepository
               'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
               'temp_fixtures.score_last_update_date_time',
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'),
-              'temp_fixtures.schedule_last_update_date_time'
-              )
+              'temp_fixtures.schedule_last_update_date_time',
+              DB::raw('((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no')
+            )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
 
         if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' && $tournamentData['tournamentDate'] !== 'all')
