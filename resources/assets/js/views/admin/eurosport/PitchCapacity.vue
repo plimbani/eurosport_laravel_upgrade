@@ -60,7 +60,7 @@
                 <editPitchDetail :pitchAction="pitchAction" v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 
-                <div class="row mt-4">
+                <div class="row mt-2">
                     <div class="result col-md-12">
                          <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
@@ -70,8 +70,7 @@
                                     <th>{{$lang.pitch_modal_details_size}}</th>
                                     <th>{{$lang.pitch_modal_details_type}}</th>
                                     <th>{{$lang.pitch_modal_timetable}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_copy}}</th>
-                                    <th class="text-center">{{$lang.pitch_modal_action}}</th>
+                                    <th class="text-center"></th>
                                     <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
@@ -87,17 +86,15 @@
                                             <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
                                             <p>Day 3: 10am-2pm</p>-->
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center btn-actions">
                                             <span class="align-middle">
-                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success mx-1" style="font-size:1.3em"><i class="fas fa-copy"></i></a>
+                                                 <a href="javascript:void(0)" @click="editPitch(pitch.id, 'duplicate')" title="Copy pitch" class="text-success"><i class="fas fa-copy"></i></a>
                                             </span>
-                                        </td>
-                                        <td class="text-center">
                                             <span class="align-middle">
                                                 <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id, 'edit')" title="Edit pitch"><i class="fas fa-pencil"></i></a>
                                             </span>
                                             <span class="align-middle">
-                                                 <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
+                                                 <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary"><i class="fas fa-download"></i></a>
                                             </span>
                                             <span class="align-middle">
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
@@ -861,9 +858,9 @@ import draggable from 'vuedraggable';
                 this.searchDisplayData = false;
             },
             next() {
-                let currentNavigationData = {activeTab:'teams_groups', currentPage: 'Teams and groups'}
+                let currentNavigationData = {activeTab:'pitch_planner', currentPage: 'Match Planner'}
                 this.$store.dispatch('setActiveTab', currentNavigationData)
-                this.$router.push({name:'teams_groups'})
+                this.$router.push({name:'pitch_planner'})
             },
         }
     }

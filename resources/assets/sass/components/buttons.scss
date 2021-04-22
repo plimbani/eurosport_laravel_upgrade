@@ -131,9 +131,7 @@
 
 .btn-group-agecategory {
     > div {
-        padding:0 5px;
         .btn {
-            width: 180px;
             padding: $btn-padding-y;
         }
     }
@@ -163,4 +161,11 @@
             display: block;
         }
     }
+}
+.w-58 {
+    width: 58px;
+}
+
+.mt-20px {
+    margin-top: 20px;
 }

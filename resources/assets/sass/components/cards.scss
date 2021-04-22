@@ -230,8 +230,17 @@
     }
   }
 
+  .card-header {
+    background-color: #f9f9f9;
+    padding: 6px;
+    text-align: center;
+    font-size: 12px;
+    border-bottom: 0;
+    font-weight: $font-weight-bold;
+  }
+
   .card-content {
-    padding: $card-spacer-y $card-spacer-x;
+    padding: 0.375rem;
     border-radius: 0 0 2px 2px;
 
     p {
@@ -301,5 +310,10 @@
 .pitch-planner-item {
   .card {
     border-color: #c7c9ca;
-  }
+    .card-teams {
+      h6 {
+        line-height: 22px;
+      }
+    }
+   } 
 }

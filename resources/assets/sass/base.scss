@@ -74,3 +74,34 @@ code, .code {
 .nowrap {
   white-space: nowrap;
 }
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.content-card {    
+  background-color: #f9f9f9;
+  padding: 20px;
+  height: 110px;
+  display: flex;
+}
+
+.content-card > div{
+  flex-grow: 1;
+}
+
+.border-bottom-dashed--primary {
+  border-bottom: 1px dashed $brand-primary;
+}
+
+.border-bottom-dashed--danger {
+  border-bottom: 1px dashed $brand-danger;
+}
+
+.font-13 {
+  font-size: 13px;
+}
+
+.sticky {
+  position: sticky;
+}

@@ -1,34 +1,38 @@
 <template>
     <div class="tab-content summary-content">
-	    <div class="row">
-	    	<div class="col-sm-12">
-				<!-- <div class="card"> -->
-					<!-- <div class="card-block"> -->
-
-						<div class="row">
-							<div class="col-md-12" v-if="currentView == 'matchListing'">
-							    <p v-if="tournamentStartDataDisplay" class="result-administration-date">
-							    	<small class="text-muted">Result
-							     	administration will be available from 
-							        {{ tournamentStartDate | formatDate }}</small> 
-							    </p>  
-							</div>
+    	<div class="card">
+      		<div class="card-block">
+      			<div class="row">
+					<div class="col-md-12" v-if="currentView == 'matchListing'">
+					    <p v-if="tournamentStartDataDisplay" class="result-administration-date">
+					    	<small class="text-muted">Result
+					     	administration will be available from 
+					        {{ tournamentStartDate | formatDate }}</small> 
+					    </p>  
+					</div>
+				</div>
+                <div class="row align-items-center">
+                	<div class="col-md-7 align-self-center">
+    					<h6 class="fieldset-title mb-0"><strong>Match results</strong></h6>
+                  	</div>
+                    <div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
+						<div class="align-items-center d-flex justify-content-end">
+							<select class="form-control ls-select2 col-sm-6" v-model="ageCategory">
+								<option value="">Select age category</option>
+								<option v-for="category in competationList" :value="category.id">
+									{{category.group_name}} ({{category.category_age}})
+								</option>
+							</select>
+							<button class="btn btn-primary ml-1" @click="exportCategoryReport()">Download</button>
 						</div>
+                    </div>
+                </div>
+			    <div class="row">
+			    	<div class="col-sm-12">
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
 								<p class="mb-0 last-updated-time pl-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
 							        : {{lastUpdatedDateValue}}</small> </p>
-							</div>
-							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
-								<div class="align-items-center d-flex justify-content-end">
-									<select class="form-control ls-select2 col-sm-6" v-model="ageCategory">
-										<option value="">Select age category</option>
-										<option v-for="category in competationList" :value="category.id">
-											{{category.group_name}} ({{category.category_age}})
-										</option>
-									</select>
-									<button class="btn btn-primary ml-1" @click="exportCategoryReport()">Download</button>
-								</div>
 							</div>
 						</div>
 						<div class="tab-content summary-report-content">
@@ -66,17 +70,12 @@
 									</div>
 								</div>
 							</div>
-								<!--<div class="col-md-4">
-									<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
-								</div>-->
 						</div>
-					<!-- </div> -->
-
-				<!-- </div> -->
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-<!-- </div> -->
 </template>
 <script type="text/babel">
 
@@ -125,11 +124,20 @@ export default {
 	    }
 	  },
 	mounted(){
+		let tournamentId = this.$store.state.Tournament.tournamentId
+        if(tournamentId == null || tournamentId == '') {
+          	toastr['error']('Please Select Tournament', 'Error');
+          	this.$router.push({name: 'welcome'});
+        } else {
+            // First Set Menu and ActiveTab
+          	let currentNavigationData = {activeTab:'match_results', currentPage: 'Match Results'}
+            this.$store.dispatch('setActiveTab', currentNavigationData)
+        }
 		// here we set drawsListing as currentView
-	this.currentView = 'drawsListing'
-    this.$store.dispatch('setCurrentView',this.currentView)
-    this.$store.dispatch('isAdmin',true)
-    // Also Call Api For Getting the last Updated Record
+		this.currentView = 'drawsListing'
+	    this.$store.dispatch('setCurrentView',this.currentView)
+	    this.$store.dispatch('isAdmin',true)
+	    // Also Call Api For Getting the last Updated Record
 	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
@@ -215,7 +223,6 @@ export default {
     			toastr['error']('Please select age category.', 'Error');
 			}
 		},
-
 		tournamentEndDateDisplyMessage() {
 			this.TournamentId = this.$store.state.Tournament.tournamentId
 

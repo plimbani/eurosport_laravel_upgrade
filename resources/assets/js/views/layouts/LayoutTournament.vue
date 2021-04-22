@@ -3,9 +3,7 @@
         <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
         <site-commercialisation-front-header v-if="getCurrentLayout === 'commercialisation' && isUserLoggedIn && userRole == 'customer'"></site-commercialisation-front-header>
         <site-commercialisation-header v-else-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
-
-
-          <div class="main-content container-fluid" id="dashboardPage">
+          <div class="main-content container-fluid main-content--tab" id="dashboardPage">
             <breadCrum></breadCrum>
             <tournamentTabbed></tournamentTabbed>
           </div>             

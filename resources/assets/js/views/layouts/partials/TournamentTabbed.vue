@@ -1,16 +1,16 @@
 <template>
   <div class="card main-card">
-    <div class="card-block">
-        <div class="row">
-            <div class="col-md-12">
-                <p v-if="tournamentEndDateTimeDisplayMessage" class="result-administration-date">
-                    <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ getTournamentExpireDateValue | formatDate }} </small> 
-                </p>  
-            </div>
+    <div class="card-block pt-0">
+      <div class="row">
+        <div class="col-md-12">
+          <p v-if="tournamentEndDateTimeDisplayMessage" class="result-administration-date">
+            <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ getTournamentExpireDateValue | formatDate }} </small> 
+          </p>  
         </div>
+      </div>
       <div class="row">
         <div class="col-lg-12">
-          <div class="tabs tabs-primary">
+          <div class="tabs tabs-primary has-arrows">
             <ul class="nav nav-tabs edit-tournament-tab" role="tablist">
                 <li class="nav-item" v-if="!isResultAdmin">
                     <a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link','doc-filled']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">
@@ -54,20 +54,7 @@
                 </li>
 
                 <li class="nav-item" v-if="!isResultAdmin">                    
-                    <a :class="[(activePath == 'teams_groups' ? 'active' : ''),(teamsCount.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
-                      <div class="wrapper-tab">
-                        <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
-
-                        {{$lang.teams_groups_label}}
-
-                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Upload your teams, allocate teams to age categories and edit team colours">
-                            <i class="fas fa-info-circle"></i>
-                        </span>
-                      </div>
-                    </a>                    
-                </li>
-                <li class="nav-item" v-if="!isResultAdmin">                    
-                    <a :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
+                    <a id="matchPlannerTab" :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -80,8 +67,22 @@
                     </a>                    
                 </li>
 
+                <li class="nav-item" v-if="!isResultAdmin">
+                    <a :class="[(activePath == 'teams_groups' ? 'active' : ''),(teamsCount.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
+                      <div class="wrapper-tab">
+                        <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
+
+                        {{$lang.teams_groups_label}}
+
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Upload your teams, allocate teams to age categories and edit team colours">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                      </div>
+                    </a>                    
+                </li>
+
                 <li class="nav-item">
-                    <a :class="[(activePath == 'tournaments_summary_details' ? 'active' : ''), (isScoreUpdated ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
+                    <a id="administrationTab" :class="[(activePath == 'tournaments_summary_details' ? 'active' : ''), (isScoreUpdated ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
                     
@@ -92,6 +93,18 @@
                         </span>
                       </div>
                     </a>                    
+                </li>
+
+                <li class="nav-item">
+                    <a :class="[(activePath == 'match_results' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#match_results" role="tab"  @click="GetSelectComponent('match_results')">
+                      <div class="wrapper-tab">
+                        <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
+                          {{$lang.summary_label_schedule}}
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Match results">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                      </div>
+                    </a>
                 </li>
             </ul>
           <router-view></router-view>

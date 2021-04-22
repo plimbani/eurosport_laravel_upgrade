@@ -247,7 +247,7 @@ select.form-control {
 
 .unscheduled-match-content-strip {
     position: absolute;
-    right: 0;
+    left: 0;
     width: 15px;
     top: 0px;
     height: 100%;
@@ -269,7 +269,7 @@ select.form-control {
 
 .scheduled-match-content-strip {
     position: absolute;
-    right: 0;
+    // right: 0;
     width: 15px;
     top: 0px;
     height: 100%;
@@ -847,18 +847,22 @@ a.active-view:hover {
     @extend .text-primary;
 }
 
-#age_category_block {
-    position: relative;
-
-    &.is-fixed {
-        position: fixed;
-        top: 60px;
-        z-index: 99;
-        width: auto;
-        left: 35px;
-        right: 35px;
-    }
+a.horizontal, a.vertical {
+    text-decoration: underline;
 }
+
+// #age_category_block {
+    // position: relative;
+
+//     &.is-fixed {
+//         position: fixed;
+//         top: 197px;
+//         z-index: 99;
+//         width: auto;
+//         left: 57px;
+//         right: 57px;
+//     }
+// }
 
 .displayGraphicImage .modal-dialog {
     // max-width: 900px;
