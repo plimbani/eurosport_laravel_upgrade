@@ -66,10 +66,10 @@
                         </div>
                         <div class="col-md-8">
                           <div class="row align-items-center gutters-tiny btn-group-agecategory" v-show="this.age_category != ''">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                               <button type="button" class="btn btn-primary btn-block" :class="{'is-disabled': (selectedGroupsTeam.length > 0 || ageCategoryHasNoTeams)}" @click="allocateTeams(age_category.id)">Team allocation</button>
                             </div>
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-5 text-center">
                               <a href="javascript:void(0);" data-toggle="modal" data-target="#reset_modal" class="text-danger border-bottom-dashed--danger" :class="{'is-disabled': ageCategoryHasNoTeams}">Delete selected teams</a>
                             </div>
                           </div>

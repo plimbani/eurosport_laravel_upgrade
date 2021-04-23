@@ -128,9 +128,9 @@
 
 .main-content--tab {
     > .row {
-        top: 60px;
+        top: 63px;
         z-index: 10;
-        background-color: #eee;
+        background-color: #fff;
     }
 
     .page-header {
@@ -145,7 +145,6 @@
 }
 
 .edit-tournament-tab {
-    padding-top: 1.25rem;
     background-color: #fff;
     z-index: 9;
 }
