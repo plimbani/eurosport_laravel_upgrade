@@ -350,7 +350,7 @@ class TemplateRepository
 
     public function setLastRoundPositionInKnockout($lastRoundMatches) {
         $positions = [];
-        $lastRoundMatches = array_reverse($lastRoundMatches);
+        // $lastRoundMatches = array_reverse($lastRoundMatches);
         foreach ($lastRoundMatches as $key => $match) {
             if ($key == 0) {
                 $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
