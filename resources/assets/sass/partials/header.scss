@@ -125,3 +125,29 @@
         }
     }
 }
+
+.main-content--tab {
+    > .row {
+        top: 63px;
+        z-index: 10;
+        background-color: #fff;
+    }
+
+    .page-header {
+        position: relative;
+        padding: 6px 0;
+        transition: all 0.15s ease-in;
+
+        .breadcrumb {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.edit-tournament-tab {
+    background-color: #fff;
+    z-index: 9;
+}
+
+
+

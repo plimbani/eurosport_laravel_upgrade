@@ -8366,16 +8366,29 @@ TimeGrid.mixin({
 			warningText = 'One or more teams playing outside maximum team match interval';
 		}
 
-		return '<a class="' + classes.join(' ') + '"' +
-			(event.url ?
-				' href="' + htmlEscape(event.url) + '"' :
-				''
-				) +
-			(skinCss ?
-				' style="' + skinCss + '"' :
-				''
-				) +
-			'>' +
+		var tootipHtml = '';
+	    if(event.matchId != -1) {
+	      tootipHtml = "<div style='color: " + event.textColor + "'>";
+	      if(event.refereeId != '' && event.refereeId > 0) {
+	        tootipHtml += "<span>" + event.refereeText + "</span><br/>";
+	      }
+	      tootipHtml += "<span>" + moment.utc(event.start).format("HH:mm") + " - " + moment.utc(event.end).format("HH:mm") + "</span><br/>";
+	      tootipHtml += "<span>" + event.title + "</span><br/>";
+	      if((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined')) {
+	        tootipHtml += '<div>' +
+	        ((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +
+	        htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+	        ((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.awayTeam) ? '*' : '') +
+	        '</div>';
+	      }
+	      if(event.remarks) {
+	        tootipHtml += '<div class="tootltip-bubble"><i class="fas fa-comment-dots"></i></div>';
+	      }
+	      tootipHtml += "</div>";
+	    }
+	    tootipHtml = htmlentities.encode(tootipHtml);
+
+		return '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml +'" class="' + classes.join(' ') + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + (skinCss ? ' style="' + skinCss + '"' : '') +'>' +
 				'<div class="scheduled-match-content">' +
 					((event.matchId !== -1 && event.matchId !== '') ? '<span data-placement="top" data-toggle="popover" data-content="' + warningText + '" class="match-planner-warning text-tooltip" style="display: ' + displayFlag + '"><i class="fas fa-exclamation-triangle"></i></span>' : '')+
 					'<div class="fc-content">' +
@@ -8385,8 +8398,7 @@ TimeGrid.mixin({
 							' data-start="' + htmlEscape(startTimeText) + '"' +
 							' data-full="' + htmlEscape(fullTimeText) + '"' +
 							'>' +
-								'<span>' + htmlEscape(timeText) + '</span>' +
-								(event.competition_type == 'Round Robin' ? '<span> (' + event.groupName + '</span>) ' : '') +
+								(event.competition_type == 'Round Robin' ? '<span>' + event.groupName + '</span>' : '') +
 								(event.remarks ? '<span class="match-fixture-comment"><i class="fas fa-comment-dots"></i></span>' : '') +
 							'</div>' :
 							''
@@ -8398,6 +8410,7 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
+						(timeText ? '<div class="fc-time"><span>' + htmlEscape(timeText) + '</span></div>' : '') +
 						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
 							'<div class="fc-score">' +
 								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +

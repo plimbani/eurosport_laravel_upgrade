@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
       <div class="card-block">
-          <h6 class="mt4 fieldset-title"><strong>{{$lang.competation_age_categories}}</strong></h6>
+          <h6 class="fieldset-title mt-10"><strong>{{$lang.competation_age_categories}}</strong></h6>
           <competationFormatList></competationFormatList>
       </div>
 		</div>

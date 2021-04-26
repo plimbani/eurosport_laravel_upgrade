@@ -230,6 +230,7 @@ table {
     .fc-content {
         padding: 1px;
         padding-right: 10px;
+        padding-left: 15px;
     }
 }
 
@@ -238,9 +239,13 @@ table {
     line-height: 0.85em;
 
     span {
-        font-size: 0.8em;
-        line-height: 0.85em;
-        font-weight: 800;
+        font-size: 8px;
+        line-height: 1;
+        font-weight: 900;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 999999;
     }
 }
 

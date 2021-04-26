@@ -11,7 +11,7 @@
                   <th>{{$lang.competation_competation_format}}</th>
                   <th>{{$lang.competation_total_matches}}</th>
                   <th width="90px">{{$lang.competation_total_time}}</th>
-                  <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
+                  <th class="text-center" width="79px"></th>
               </tr>
           </thead>
           <tbody>
@@ -30,15 +30,15 @@
               <td class="text-left">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
-              <td class="text-center nowrap">
-                <span class="align-middle pr-1">
+              <td class="text-center nowrap btn-actions">
+                <span class="align-middle">
                   <a class="text-primary" href="#"
                   @click="editCompFormat(competation.id)"><i class="fas fa-pencil"></i></a>
                 </span>
-                <span class="align-middle pr-1">
+                <span class="align-middle">
                   <a class="text-primary" href="#"
                   @click="copyCompFormat(competation.id)"><i class="fas fa-copy"></i></a>
-                </span>                
+                </span>
                 <span class="align-middle">
                   <a href="javascript:void(0)"
                   data-confirm-msg="Are you sure you would like to delete this user record?"

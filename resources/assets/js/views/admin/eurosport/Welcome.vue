@@ -99,7 +99,7 @@ computed: {
   methods : {
     addNewTournament() {
       // we have to Dispatch there is New Tournament
-      let tournamentAdd  = {name:'Your Tournament',
+      let tournamentAdd  = {name:'',
       'currentPage':'TournamentAdd','tournamentStartDate': '','tournamentEndDate':'','tournamentDays': 0,'tournamentStatus': '','id': ''}
       let currentNavigationData = {activeTab:'tournament_add', currentPage:
       'Add Tournament'}

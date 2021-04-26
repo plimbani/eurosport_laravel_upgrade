@@ -97,6 +97,13 @@
 				</div>
 			</div>
 		</div>
+    <div class="row">
+        <div class="col-md-12">
+          <div class="pull-right">
+              <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+    </div>
 	</div>
 </template>
 
@@ -106,7 +113,6 @@ import SummaryTab from '../../../components/SummaryTab.vue'
 import ContactDetailsTab from '../../../components/ContactDetailsTab.vue'
 import SportsParksDetailsTab from '../../../components/SportsParksDetailsTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
-import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 import PresentationSettings from '../../../components/PresentationSettings.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
@@ -130,7 +136,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, ScheduleResultsAdmin, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
+        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
     },
     beforeRouteLeave(to, from, next) {
       let redirectName = to.name; 
@@ -148,9 +154,6 @@ export default {
     },
     mounted() {
       this.getSummaryData()
-      if(this.isResultAdmin) {
-        this.currentView = 'scheduleResultsAdmin';
-      }
     	let tournamentId = this.$store.state.Tournament.tournamentId
       if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
       	toastr['error']('Please Select Tournament', 'Error');
@@ -275,6 +278,11 @@ export default {
       unChangedMatchScoresModal(data) {
         this.$parent.setUnChangedMatchScoresModal(data);
       },
+      next() {
+        let currentNavigationData = {activeTab:'match_results', currentPage: 'Match Results'}
+        this.$store.dispatch('setActiveTab', currentNavigationData)
+        this.$router.push({name:'match_results'})
+      }
     }
 }
 </script>

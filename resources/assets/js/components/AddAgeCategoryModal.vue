@@ -28,7 +28,7 @@
                   <div class="row">
                     <div class="col-sm-12">
                     <select class="form-control" name="category_age" id="category_age"
-                      v-model="competation_format.category_age" @input="onChange" @close="onTouch" @select="onSelect" :disabled="isAgeCategoryDisabled" v-validate="'required'" style="width:100%;" :class="{'is-danger': errors.has('category_age') }">
+                      v-model="competation_format.category_age" @change="onChange" @close="onTouch" @select="onSelect" :disabled="isAgeCategoryDisabled" v-validate="'required'" style="width:100%;" :class="{'is-danger': errors.has('category_age') }">
                       <option value="">{{$lang.competation_add_age_categories}}</option>
                       <option v-for="categoryAge in categoryAgeArr"
                         :value="categoryAge">{{categoryAge}}
@@ -1047,6 +1047,7 @@ export default {
     },
     onChange (value) {
       this.value = value
+      this.competation_format.ageCategory_name = this.competation_format.category_age;
     },
     onSelect (option) {
       if (option === 'Disable me!') this.isDisabled = true

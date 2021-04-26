@@ -131,9 +131,9 @@ textarea {
 }
 
 .block-bg {
-    padding: 1.25em;
+    padding: 0.75rem;
     background-color: #f8f8f8;
-    text-align: center;
+    // text-align: center;
     width: 100%;
     margin: 0 auto;
 }
@@ -617,6 +617,7 @@ textarea {
             &.active {
                 .icon-football-block {
                     background-color: $link-color;
+                    background-image: linear-gradient(90deg, #0078AB, #00B2FF);
                     border-color: $white;
                 }
 
@@ -626,6 +627,7 @@ textarea {
                 }
 
                 border-bottom-color: $ls-color-blue;
+
                 &.doc-filled{
                     .icon-football-block {
                         border-color: $white;
@@ -635,10 +637,12 @@ textarea {
                     .icon-football-block {
                         color: $white;
                     }
+
                     &:hover{
                         .icon-football-block {
-                            border-color: $ls-color-blue;
+                            border-color: $white;
                         }
+
                         .text-tooltip {
                             color: $ls-color-blue;
                         }
@@ -665,28 +669,107 @@ textarea {
 
                 .icon-football-block {
                     background-color: $ls-color-blue;
+                    background-image: linear-gradient(90deg, #0078AB, #00B2FF);
                     color: $white;
-                    border-color: $ls-color-blue;
+                    border-color: $white;
                 }
 
                 .text-tooltip {
                     color: $ls-color-blue;
                 }
+
                 .wrapper-tab{
                     background-color: rgba(81, 173, 246, 0.3);
                 }
             }
         }
     }
+
     .tabs-primary{
         .nav-tabs {
             border-bottom-color:$ls-color-blue;
         }
     }
     .nav-tabs {
-        .nav-link{
-            &.active{
-                background-color:transparent;
+        .nav-link {
+            &.active {
+                background-color: transparent;
+            }
+        }
+    }
+
+    &.has-arrows {
+        >.nav-tabs {
+            .nav-item {
+                .nav-link {
+                    .wrapper-tab {
+                        position: relative;
+                        border-radius: 0;
+                        background-color: rgba(213, 236, 255, 0.4);
+                        font-size: 12px;
+                        padding: 0.75em 0.45em;
+                    }
+
+                    &.active {
+                        .wrapper-tab {
+                            background-color: $ls-color-blue;
+
+                            &:before {
+                                border-left-color: #23b0fa;
+                            }
+
+                            &:after {
+                                border-left-color: #0960a5;
+                            }
+                        }
+                    }
+
+                    &:hover,
+                    &.active:hover {
+                        .wrapper-tab {
+                            background-color: rgba(81, 173, 246, 0.3);
+
+                            &:before {
+                                border-left-color: #23b0fa;
+                            }
+                        }
+                    }
+                }
+
+                +.nav-item {
+                    .nav-link {
+                        .wrapper-tab {
+                            margin-left: -5px;
+                            padding-left: 20px;
+                        }
+                    }
+                }
+
+                &:not(:last-child) {
+                    .wrapper-tab {
+
+                        &:before,
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            border-top: 21px solid transparent;
+                            border-bottom: 23px solid transparent;
+                            border-left: 13px solid #eff8ff;
+                        }
+
+                        &:before {
+                            right: -12px;
+                            z-index: 3;
+                        }
+
+                        &:after {
+                            right: -13px;
+                            z-index: 2;
+                            border-left-color: #b2dcff;
+                        }
+                    }
+                }
             }
         }
     }
