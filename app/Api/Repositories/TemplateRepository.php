@@ -350,6 +350,7 @@ class TemplateRepository
 
     public function setLastRoundPositionInKnockout($lastRoundMatches) {
         $positions = [];
+        // $lastRoundMatches = array_reverse($lastRoundMatches);
         foreach ($lastRoundMatches as $key => $match) {
             if ($key == 0) {
                 $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
@@ -412,22 +413,11 @@ class TemplateRepository
             'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
           ];
 
-          $loser_match_number = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.(' .$homeMatchNumber[1]. '_'. $homeMatchNumber[2] .'_LR)-(' .$awayMatchNumber[1]. '_'. $awayMatchNumber[2]. '_LR)';
-        } else {
+          $currentMatch = ( sizeof($group1) == 1 ) ? $currentMatch + 1 : $currentMatch;
 
-          $nextRoundMatches[] = [
-            'in_between' => 'CAT.PM' .$previousRound. '.G' .$homeDisplayMatchNumber[2]. 'WR-CAT.PM' .$previousRound. '.G' .$awayDisplayMatchNumber[2]. 'WR',
-            'match_number' => 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_WR-' .$awayMatch. '_WR',
-            'display_match_number' => 'CAT.' .$currentRound. '.' .$currentMatch. '.wrs.(@HOME-@AWAY)',
-            'display_home_team_placeholder_name' => "$previousRound.$homeDisplayMatchNumber[2]",
-            'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
-          ];
+          if( sizeof($group1) == 1) {
+            $loser_match_number = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.(' .$homeMatchNumber[1]. '_'. $homeMatchNumber[2] .'_LR)-(' .$awayMatchNumber[1]. '_'. $awayMatchNumber[2]. '_LR)';
 
-          $loser_match_number = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_LR-' .$awayMatch. '_LR';
-          
-        }
-
-        if( sizeof($group1) == 1) {
             $nextRoundMatches[] = [
               'in_between' => 'CAT.PM' .$previousRound. '.G' .$homeDisplayMatchNumber[2]. 'LR-CAT.PM' .$previousRound. '.G' .$awayDisplayMatchNumber[2]. 'LR',
               'match_number' => $loser_match_number,
@@ -436,6 +426,29 @@ class TemplateRepository
               'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
             ];
           }
+         
+        } else {
+          $nextRoundMatches[] = [
+            'in_between' => 'CAT.PM' .$previousRound. '.G' .$homeDisplayMatchNumber[2]. 'WR-CAT.PM' .$previousRound. '.G' .$awayDisplayMatchNumber[2]. 'WR',
+            'match_number' => 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_WR-' .$awayMatch. '_WR',
+            'display_match_number' => 'CAT.' .$currentRound. '.' .$currentMatch. '.wrs.(@HOME-@AWAY)',
+            'display_home_team_placeholder_name' => "$previousRound.$homeDisplayMatchNumber[2]",
+            'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
+          ];
+
+          $currentMatch = ( sizeof($group1) == 1 ) ? $currentMatch + 1 : $currentMatch;
+
+          if( sizeof($group1) == 1) {
+            $loser_match_number = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_LR-' .$awayMatch. '_LR';
+            $nextRoundMatches[] = [
+              'in_between' => 'CAT.PM' .$previousRound. '.G' .$homeDisplayMatchNumber[2]. 'LR-CAT.PM' .$previousRound. '.G' .$awayDisplayMatchNumber[2]. 'LR',
+              'match_number' => $loser_match_number,
+              'display_match_number' => 'CAT.' .$currentRound. '.' .$currentMatch. '.lrs.(@HOME-@AWAY)',
+              'display_home_team_placeholder_name' => "$previousRound.$homeDisplayMatchNumber[2]",
+              'display_away_team_placeholder_name' => "$previousRound.$awayDisplayMatchNumber[2]",
+            ];
+          }
+        }
       }
 
       return $nextRoundMatches;
