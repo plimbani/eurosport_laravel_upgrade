@@ -442,7 +442,7 @@ export default {
           matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
           matchData.score_last_update_date_time = value.score_last_update_date_time;
           matchDataArray[index] = matchData;
-          if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
+          if(value.round == 'Elimination' && parseInt(value.homeScore) == parseInt(value.AwayScore) && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             isSameScore = true;
             $('.matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
           }          
