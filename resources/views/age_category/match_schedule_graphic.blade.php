@@ -535,7 +535,7 @@
                                                           @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
                                                           @if(!is_null($homeTeamScoreValue))
-                                                            <br>{{ $homeTeamScoreValue }}
+                                                            <br><span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}</span>{{ $homeTeamScoreValue }}
                                                           @endif
                                                       </td>
                                                     @endif
@@ -546,7 +546,7 @@
                                                           {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
                                                           @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                                                           @if(!is_null($awayTeamScoreValue))
-                                                            <br>{{ $awayTeamScoreValue }}
+                                                            <br>{{ $awayTeamScoreValue }}<span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}</span>
                                                           @endif
                                                       </td>
                                                     @endif
@@ -744,7 +744,7 @@
                                                         @php($homeTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'home', $groupName, $categoryAge))
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'home', $groupName, $categoryAge) }}
                                                         @if(!is_null($homeTeamScoreValue))
-                                                          <br>{{ $homeTeamScoreValue }}
+                                                          <br><span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['home_team'] ? '*' : '' }}</span>{{ $homeTeamScoreValue }}
                                                         @endif
                                                       </td>
                                                     @endif
@@ -755,7 +755,7 @@
                                                         @php($awayTeamScoreValue = getHomeAndAwayTeamScore($fixtures, $match, 'away', $groupName, $categoryAge))
                                                         {{ getPlacingWinnerLoserTeam($fixtures, $match, 'away', $groupName, $categoryAge) }}
                                                         @if(!is_null($awayTeamScoreValue))
-                                                          <br>{{ $awayTeamScoreValue }}
+                                                          <br>{{ $awayTeamScoreValue }}<span style="font-size: 15px;">{{ $matchDetail['is_result_override'] == 1 && $matchDetail['match_winner'] == $matchDetail['away_team'] ? '*' : '' }}</span>
                                                         @endif
                                                       </td>
                                                     @endif
