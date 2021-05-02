@@ -47,7 +47,7 @@ class TemplateRepository
         }
 
         $templates->whereNull('tournament_template.deleted_at');
-        $templates->orderBy('tournament_template.name');
+        $templates->orderBy($data['sortBy'], $data['sortOrder']);
         $templates->select('tournament_template.*', 'users.email as userEmail');
         $templatesData = $templates->get();
         
