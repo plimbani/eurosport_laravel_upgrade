@@ -28,6 +28,9 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     var dicGroup: NSDictionary!
     
     var teamFixuteuresList = [TeamFixture]()
+    var teamFixuteuresDivisionsList = [String]()
+    var teamFixuteuresDictionariesList = [[String: [TeamFixture]]]()
+    
     var groupStandingsList = [GroupStanding]()
     
     var ageCategoriesGroupsDropDownList = NSMutableArray()
@@ -38,11 +41,16 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     
     var dropDownCellHeight: CGFloat = 40
     
+    var isElimination = false
+    @IBOutlet var lblTabMatchHeader: UILabel!
+    
     @IBOutlet var dropdownTableView: UITableView!
     
     // var selectedPickerPosition = -1
     
     @IBOutlet var stackViewTab: UIStackView!
+    
+    var isDivisionRow = false
     
     var hideDropDownTableView: Bool = true {
         didSet {
@@ -73,9 +81,12 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     func initialize() {
         dropdownTableView.reloadData()
         hideDropDownTableView = true
-        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 60, right: 0)
         table.contentInset = adjustForTabbarInsets
         table.scrollIndicatorInsets = adjustForTabbarInsets
+        table.register(UINib(nibName: "MatchHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "MatchHeaderView")
+        
+        // table.contentInset = UIEdgeInsets.init(top: -30, left: 0, bottom: 0, right: 0)
         
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups_summary")
         titleNavigationBar.delegate = self
@@ -189,7 +200,231 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         viewController.groupName = lblGroupName.text!
         self.navigationController?.pushViewController(viewController, animated: true)
     }
+}
+
+extension AgeCategoriesGroupsSummaryVC: CustomAlertVCDelegate {
+    func customAlertVCOkBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.tournamentExpire.rawValue {
+            NotificationCenter.default.post(name: .goToTabFollow, object: nil)
+        }
+    }
+}
+
+extension AgeCategoriesGroupsSummaryVC : TitleNavigationBarDelegate {
+    func titleNavBarBackBtnPressed() {
+        hideDropDownTableView = true
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDelegate {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        if tableView == dropdownTableView {
+            return 1
+        }
+        
+        if isDivisionRow || isElimination {
+            return teamFixuteuresDivisionsList.count
+        }
+        
+        return 1
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if tableView == dropdownTableView {
+            return ageCategoriesGroupsDropDownList.count
+        } else {
+            if selectedTab == 0 {
+                return groupStandingsList.count
+            }
+            if isDivisionRow || isElimination {
+                if teamFixuteuresDictionariesList.count > 0 {
+                    return teamFixuteuresDictionariesList[section].values.first?.count ?? 0
+                }
+            }
+            return teamFixuteuresList.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if tableView == dropdownTableView {
+            return dropDownCellHeight
+        } else {
+            if selectedTab == 0 {
+                return heightGroupSummaryStandingsCell
+            }
+            
+            return heightGroupSummaryMatchesCell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if tableView == dropdownTableView {
+            return 0
+        } else {
+            if selectedTab == 0 {
+                return 60
+            } else {
+                if isDivisionRow || isElimination {
+                    return 40
+                }
+                
+                return CGFloat.leastNormalMagnitude
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if tableView == dropdownTableView {
+            return 0
+        } else {
+            if selectedTab == 0 {
+                return 50
+            } else {
+                return 0
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if tableView == dropdownTableView {
+            return UIView()
+        } else {
+            if selectedTab == 0 {
+                return headerGroupStandingView
+            } else {
+                if isDivisionRow || isElimination {
+                    let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MatchHeaderView" ) as! MatchHeaderView
+                    
+                    if let divisionName = self.dicGroup.value(forKey: "divisionName") as? String {
+                        headerView.lblTitle.text = divisionName + " - " + teamFixuteuresDivisionsList[section]
+                        
+                        var competation_round_no = ""
+                        
+                        if teamFixuteuresDictionariesList.count > 0 {
+                            competation_round_no = (teamFixuteuresDictionariesList[section].values.first?[0].competationRoundNo ?? "")
+                            headerView.lblTitle.text = divisionName + " - " + teamFixuteuresDivisionsList[section] + " (\(competation_round_no))"
+                        }
+                    }
+                    
+                    if isElimination {
+                        headerView.lblTitle.text = teamFixuteuresDivisionsList[section]
+                    }
+                    
+                    return headerView
+                }
+                return UIView()
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if tableView == dropdownTableView {
+            return UIView()
+        } else {
+            if selectedTab == 0 {
+                return footerGroupStandingView
+            } else {
+                return UIView()
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if tableView == dropdownTableView {
+            var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryDropdownCell") as? GroupSummaryDropdownCell
+            if cell == nil {
+                _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryDropdownCell")
+                cell = cellOwner.cell as? GroupSummaryDropdownCell
+            }
+            let dic = ageCategoriesGroupsDropDownList[indexPath.row] as! NSDictionary
+            
+            if dic[ApplicationData.dicKeyDivision] as! Bool {
+                if let title = dic.value(forKey: "title") as? String {
+                    cell?.lblTitle.text = title
+                    cell?.lblTitle.font = UIFont.init(name: Font.HELVETICA_MEDIUM, size: Font.Size.commonLblSize)
+                }
+            } else {
+                if let title = dic.value(forKey: "display_name") as? String {
+                    cell?.lblTitle.text = title
+                    cell?.lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
+                }
+                cell?.leadingConstraintLblTitle.constant = 25
+            }
+            
+            return cell!
+        } else {
+            if selectedTab == 0 {
+                var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryStandingsCell") as? GroupSummaryStandingsCell
+                if cell == nil {
+                    _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryStandingsCell")
+                    cell = cellOwner.cell as? GroupSummaryStandingsCell
+                }
+                cell?.record = groupStandingsList[indexPath.row]
+                cell?.isFromAgecategory = true
+                cell?.reloadCell()
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryMatchesCell") as? GroupSummaryMatchesCell
+                if cell == nil {
+                    _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryMatchesCell")
+                    cell = cellOwner.cell as? GroupSummaryMatchesCell
+                }
+                
+                if isDivisionRow || isElimination {
+                    if let arrayOfDivision = teamFixuteuresDictionariesList[indexPath.section].values.first {
+                        cell?.record = arrayOfDivision[indexPath.row]
+                    }
+                } else {
+                    cell?.record = teamFixuteuresList[indexPath.row]
+                }
+                
+                cell?.reloadCell()
+                return cell!
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
+        
+        if tableView == dropdownTableView {
+            dicGroup = ageCategoriesGroupsDropDownList[indexPath.row] as! NSDictionary
+            
+            let isDivision = dicGroup[ApplicationData.dicKeyDivision]! as! Bool
+            
+            if !isDivision {
+                hideDropDownTableView = true
+                refreshListByGroup()
+            }
+        } else {
+            if selectedTab == 1 {
+                let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
+                
+                if isDivisionRow || isElimination {
+                    if let arrayOfDivision = teamFixuteuresDictionariesList[indexPath.section].values.first {
+                        viewController.dicTeamFixture = arrayOfDivision[indexPath.row]
+                    }
+                } else {
+                    viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
+                }
+                
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
+    }
+}
+
+extension AgeCategoriesGroupsSummaryVC {
+    
+    // TAB Matches
     func sendGetFixturesRequest() {
         if APPDELEGATE.reachability.connection == .none {
             return
@@ -239,6 +474,116 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                     }
                 }
                 
+                if self.isDivisionRow {
+                    
+                    self.teamFixuteuresDivisionsList.removeAll()
+                    self.teamFixuteuresDictionariesList.removeAll()
+                    
+                    // Fill section array
+                    for i in 0..<self.teamFixuteuresList.count {
+                        
+                        let sectionName = self.teamFixuteuresList[i].competitionActualName
+                        
+                        if !self.teamFixuteuresDivisionsList.contains(sectionName) {
+                            self.teamFixuteuresDivisionsList.append(sectionName)
+                        }
+                    }
+                    
+                    var sectionToScroll = -1
+                    
+                    // Create dictionary array
+                    for i in 0..<self.teamFixuteuresDivisionsList.count {
+                        
+                        let section = self.teamFixuteuresDivisionsList[i]
+                        
+                        var newDictionary: [String: [TeamFixture]] = [:]
+                        
+                        let filteredArray = self.teamFixuteuresList.filter {
+                            $0.competitionActualName == section
+                        }
+                        
+                        newDictionary[section] = filteredArray
+                        
+                        self.teamFixuteuresDictionariesList.append(newDictionary)
+                        
+                        if let id = self.dicGroup.value(forKey: "id") as? Int {
+                            for fixture in filteredArray {
+                                if fixture.competitionId == id {
+                                    sectionToScroll = i
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Scroll to round section
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.table.beginUpdates()
+                        self.table.endUpdates()
+                        
+                        if sectionToScroll != -1 {
+                            self.table.scrollToRow(at: IndexPath(row: 0, section: sectionToScroll), at: .middle, animated: true)
+                        }
+                    }
+                }
+                
+                if self.isElimination {
+                    if self.teamFixuteuresList.count > 0  && self.teamFixuteuresList[0].isKnockoutPlacingMatches {
+                        print("isElimination")
+                        
+                        self.teamFixuteuresDivisionsList.removeAll()
+                        self.teamFixuteuresDictionariesList.removeAll()
+                        
+                        // Fill section array
+                        for i in 0..<self.teamFixuteuresList.count {
+                            
+                            let sectionName = self.teamFixuteuresList[i].competationRoundNo
+                            
+                            if !self.teamFixuteuresDivisionsList.contains(sectionName) {
+                                self.teamFixuteuresDivisionsList.append(sectionName)
+                            }
+                        }
+                        
+                        var sectionToScroll = -1
+                        
+                        // Create dictionary array
+                        for i in 0..<self.teamFixuteuresDivisionsList.count {
+                            
+                            let section = self.teamFixuteuresDivisionsList[i]
+                            
+                            var newDictionary: [String: [TeamFixture]] = [:]
+                            
+                            let filteredArray = self.teamFixuteuresList.filter {
+                                $0.competationRoundNo == section
+                            }
+                            
+                            newDictionary[section] = filteredArray
+                            
+                            self.teamFixuteuresDictionariesList.append(newDictionary)
+                            
+                            if let id = self.dicGroup.value(forKey: "id") as? Int {
+                                for fixture in filteredArray {
+                                    if fixture.competitionId == id {
+                                        sectionToScroll = i
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Scroll to round section
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.table.beginUpdates()
+                            self.table.endUpdates()
+                            
+                            if sectionToScroll != -1 {
+                                self.table.scrollToRow(at: IndexPath(row: 0, section: sectionToScroll), at: .middle, animated: true)
+                            }
+                        }
+                        
+                    } else {
+                        self.isElimination = false
+                    }
+                }
+                
                 self.table.reloadData()
             }
         }, failure: { result in
@@ -265,6 +610,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         })
     }
     
+    // TAB Standings
     func sendGetGroupStadingsRequest() {
         if APPDELEGATE.reachability.connection == .none {
             return
@@ -312,6 +658,9 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             lblGroupName.text = title
         }
         
+        isDivisionRow = dicGroup[ApplicationData.dicKeyDivisionRow] as! Bool
+        print("isDivisionRow: \(isDivisionRow)")
+        
         groupId = dicGroup.value(forKey: "id") as! Int
         
         if let type = dicGroup.value(forKey: "competation_type") as? String {
@@ -325,6 +674,11 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                 
                 // Selects tab 1
                 selectedTab = 1
+                
+                if !isDivisionRow {
+                    isElimination = true
+                }
+                
                 sendGetFixturesRequest()
             } else {
                 tabStandingView.backgroundColor = .white
@@ -335,168 +689,9 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                     tabMatchesSeparator.backgroundColor = .clear
                 }
                 
+                isElimination = false
                 sendGetFixturesRequest()
                 sendGetGroupStadingsRequest()
-            }
-        }
-    }
-}
-
-extension AgeCategoriesGroupsSummaryVC: CustomAlertVCDelegate {
-    func customAlertVCOkBtnPressed(requestCode: Int) {
-        if requestCode == AlertRequestCode.tournamentExpire.rawValue {
-            NotificationCenter.default.post(name: .goToTabFollow, object: nil)
-        }
-    }
-}
-
-extension AgeCategoriesGroupsSummaryVC : TitleNavigationBarDelegate {
-    func titleNavBarBackBtnPressed() {
-        hideDropDownTableView = true
-        self.navigationController?.popViewController(animated: true)
-    }
-}
-
-extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if tableView == dropdownTableView {
-            return ageCategoriesGroupsDropDownList.count
-        } else {
-            if selectedTab == 0 {
-                return groupStandingsList.count
-            }
-            
-            return teamFixuteuresList.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if tableView == dropdownTableView {
-            return dropDownCellHeight
-        } else {
-            if selectedTab == 0 {
-                return heightGroupSummaryStandingsCell
-            }
-            
-            return heightGroupSummaryMatchesCell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        if tableView == dropdownTableView {
-            return 0
-        } else {
-            if selectedTab == 0 {
-                return 60
-            } else {
-                return 40
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if tableView == dropdownTableView {
-            return 0
-        } else {
-            if selectedTab == 0 {
-                return 50
-            } else {
-                return 0
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if tableView == dropdownTableView {
-            return UIView()
-        } else {
-            if selectedTab == 0 {
-                return headerGroupStandingView
-            } else {
-                return headerGroupMatchesView
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if tableView == dropdownTableView {
-            return UIView()
-        } else {
-            if selectedTab == 0 {
-                return footerGroupStandingView
-            } else {
-                return UIView()
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if tableView == dropdownTableView {
-            var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryDropdownCell") as? GroupSummaryDropdownCell
-            if cell == nil {
-                _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryDropdownCell")
-                cell = cellOwner.cell as? GroupSummaryDropdownCell
-            }
-            let dic = ageCategoriesGroupsDropDownList[indexPath.row] as! NSDictionary
-            
-            if dic[ApplicationData.dicKeyDivision] as! Bool {
-                if let title = dic.value(forKey: "title") as? String {
-                    cell?.lblTitle.text = title
-                }
-            } else {
-                if let title = dic.value(forKey: "display_name") as? String {
-                    cell?.lblTitle.text = title
-                }
-                cell?.leadingConstraintLblTitle.constant = 25
-            }
-            
-            return cell!
-        } else {
-            if selectedTab == 0 {
-                var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryStandingsCell") as? GroupSummaryStandingsCell
-                if cell == nil {
-                    _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryStandingsCell")
-                    cell = cellOwner.cell as? GroupSummaryStandingsCell
-                }
-                cell?.record = groupStandingsList[indexPath.row]
-                cell?.isFromAgecategory = true
-                cell?.reloadCell()
-                return cell!
-            } else {
-                var cell = tableView.dequeueReusableCell(withIdentifier: "GroupSummaryMatchesCell") as? GroupSummaryMatchesCell
-                if cell == nil {
-                    _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryMatchesCell")
-                    cell = cellOwner.cell as? GroupSummaryMatchesCell
-                }
-                cell?.record = teamFixuteuresList[indexPath.row]
-                cell?.reloadCell()
-                return cell!
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        TestFairy.log(String(describing: self) + " didSelectRowAt")
-        
-        if tableView == dropdownTableView {
-            dicGroup = ageCategoriesGroupsDropDownList[indexPath.row] as! NSDictionary
-            
-            let isDivision = dicGroup[ApplicationData.dicKeyDivision]! as! Bool
-            
-            if !isDivision {
-                hideDropDownTableView = true
-                refreshListByGroup()
-            }
-        } else {
-            if selectedTab == 1 {
-                let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
-                viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
-                self.navigationController?.pushViewController(viewController, animated: true)
             }
         }
     }

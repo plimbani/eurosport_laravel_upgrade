@@ -30,6 +30,10 @@ class MainTabViewController: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateFCMTokenAPI()
+        self.view.backgroundColor = .AppColor()
+        
         if let userData = ApplicationData.sharedInstance().getUserData() {
             if userData.enableLogs {
                 TestFairy.begin("SDK-7273syUD")
@@ -231,12 +235,29 @@ class MainTabViewController: SuperViewController {
             DispatchQueue.main.async {
                 TestFairy.log("sendAppversionRequest success")
                 self.view.hideProgressHUD()
-                if let serverVersion = result.value(forKey: "ios_app_version") as? String {
-                    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-                    
-                    // 1 - left version is greater than right version
-                    if Utils.compareVersion(serverVersion, appVersion) == 1 {
-                        self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
+                if let enable_testfairy_ios = result.value(forKey: "enable_testfairy_ios") as? Int {
+                    if enable_testfairy_ios == 1 {
+
+                        TestFairy.begin("SDK-7273syUD")
+
+                        if let enable_testfairy_feedback_ios = result.value(forKey: "enable_testfairy_feedback_ios") as? Int {
+                            if enable_testfairy_feedback_ios == 1 {
+                                TestFairy.enableFeedbackForm("shake")
+                            } else {
+                                TestFairy.disableFeedbackForm()
+                            }
+                        }
+
+                        if let enable_testfairy_video_capture_ios = result.value(forKey: "enable_testfairy_video_capture_ios") as? Int {
+                            if enable_testfairy_video_capture_ios == 1 {
+                                TestFairy.enableVideo("always", quality: "high", framesPerSecond: 1.0)
+                            } else {
+                                TestFairy.disableVideo()
+                            }
+                        }
+
+                    } else {
+                        TestFairy.begin(nil)
                     }
                 }
             }
@@ -325,10 +346,10 @@ class MainTabViewController: SuperViewController {
         
         let vc = viewControllers[selectedIndex]
         
-        addChildViewController(vc)
+        addChild(vc)
         vc.view.frame = contentView.bounds
         contentView.addSubview(vc.view)
-        vc.didMove(toParentViewController: self)
+        vc.didMove(toParent: self)
     }
     
     @objc func onTabSelected(btn: UIButton) {
@@ -356,9 +377,9 @@ class MainTabViewController: SuperViewController {
             
             // Remove previous view controller
             let previousVC = viewControllers[previousIndex]
-            previousVC.willMove(toParentViewController: nil)
+            previousVC.willMove(toParent: nil)
             previousVC.view.removeFromSuperview()
-            previousVC.removeFromParentViewController()
+            previousVC.removeFromParent()
             
             addViewControllerToContentView(true)
         }
@@ -379,7 +400,7 @@ extension MainTabViewController: CustomAlertTwoBtnVCDelegate {
             if let url = URL(string: APPSTORE_APP_URL),
                 UIApplication.shared.canOpenURL(url){
                 if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
                 } else {
                     UIApplication.shared.openURL(url)
                 }
@@ -388,3 +409,32 @@ extension MainTabViewController: CustomAlertTwoBtnVCDelegate {
     }
 }
 
+extension MainTabViewController {
+    func updateFCMTokenAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+            print("FCM token\n")
+            print("\(fcmToken)")
+            print("\n")
+            var parameters: [String: Any] = [:]
+            
+            if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+                parameters["email"] = email
+                parameters["fcm_id"] = fcmToken
+                
+                ApiManager().updateFCMTokem(parameters, success: { result in
+                    print("FCM token has updated")
+                }, failure: { result in })
+            }
+        }
+    }
+}
+
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}

@@ -49,7 +49,7 @@ class PrivacyAndTermsVC: SuperViewController {
                 let location: CGPoint = gestureRecognizer.location(in: txtViewTermsNPrivacy)
                 
                 let tapPosition: UITextPosition = txtViewTermsNPrivacy.closestPosition(to: location)!
-                let textRange: UITextRange? = txtViewTermsNPrivacy.tokenizer.rangeEnclosingPosition(tapPosition, with: UITextGranularity.word, inDirection: UITextLayoutDirection.right.rawValue)
+                let textRange: UITextRange? = txtViewTermsNPrivacy.tokenizer.rangeEnclosingPosition(tapPosition, with: UITextGranularity.word, inDirection: UITextDirection(rawValue: UITextLayoutDirection.right.rawValue))
                 
                 if textRange != nil {
                     let textClicked = txtViewTermsNPrivacy.text(in: textRange!)

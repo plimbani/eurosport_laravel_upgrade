@@ -17,8 +17,8 @@ class ImageNavigationBar: UIView {
         
         self.baseView.frame = bounds
         self.baseView.autoresizingMask = [
-            UIViewAutoresizing.flexibleWidth,
-            UIViewAutoresizing.flexibleHeight
+            UIView.AutoresizingMask.flexibleWidth,
+            UIView.AutoresizingMask.flexibleHeight
         ]
         self.addSubview(self.baseView)
     }

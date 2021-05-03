@@ -12,6 +12,9 @@ protocol AgeCategoryCellDelegate {
 }
 
 class AgeCategoryCell: UITableViewCell {
+    
+    @IBOutlet var rightArrowView: UIView!
+    @IBOutlet var viewScheduleView: UIView!
 
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var btnViewSchedule: UIButton!
@@ -22,29 +25,31 @@ class AgeCategoryCell: UITableViewCell {
     var indexPath: IndexPath!
     var isAgeGroup = false
     
-    @IBOutlet var widthConstraintBtnViewSchedule: NSLayoutConstraint!
-    
     @IBOutlet var leadingConstraintLblTitle: NSLayoutConstraint!
     
-    let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
-        NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
-        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    let btnViewScheduleAttributes : [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
+        NSAttributedString.Key.foregroundColor : UIColor.viewScheduleBlue,
+        NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        viewScheduleView.isHidden = true
+        
         lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
         lblTitle.textColor = UIColor.txtDefaultTxt
-        widthConstraintBtnViewSchedule.constant = 0
         btnViewSchedule.setAttributedTitle(NSMutableAttributedString(string: "View schedule",
                                                                      attributes: btnViewScheduleAttributes), for: .normal)
+        
+        viewScheduleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewScheduleViewTap)))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    @IBAction func btnViewSchedulePressed(_ sender: UIButton) {
+    @objc func viewScheduleViewTap() {
         delegate?.ageCategoriesCellBtnViewSchedulePressed(indexPath)
     }
     
@@ -53,7 +58,8 @@ class AgeCategoryCell: UITableViewCell {
     }
     
     func showViewScheduleButton(hide: Bool = false) {
-        widthConstraintBtnViewSchedule.constant = hide ? 0 : 105
+        // widthConstraintBtnViewSchedule.constant = hide ? 0 : 105
+        viewScheduleView.isHidden = hide
     }
     
     func reloadCell() {

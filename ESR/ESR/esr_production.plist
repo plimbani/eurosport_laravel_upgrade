@@ -2,22 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>esrweb</string>
-				<string>fb865056057203614</string>
-			</array>
-			<key>CFBundleURLName</key>
-			<string>com.aecordigital.eurosporting</string>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>865056057203614</string>
-	<key>FacebookDisplayName</key>
-	<string>Euro-Sportring</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -33,9 +17,21 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>6.3</string>
+	<string>11.0.1</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.aecordigital.eurosporting</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>esrweb</string>
+				<string>fb865056057203614</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>9</string>
+	<string>11</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -50,6 +46,10 @@
 			</dict>
 		</array>
 	</dict>
+	<key>FacebookAppID</key>
+	<string>865056057203614</string>
+	<key>FacebookDisplayName</key>
+	<string>Euro-Sportring</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechromes</string>
@@ -74,7 +74,6 @@
 	<string>$(PRODUCT_NAME) requires to access your photo library.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -98,6 +97,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>base_url</key>
 	<string>$(base_url)</string>
 	<key>google_map_key</key>

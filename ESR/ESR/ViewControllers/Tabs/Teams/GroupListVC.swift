@@ -40,7 +40,7 @@ class GroupListVC: SuperViewController {
     
     func initialize() {
         table.estimatedRowHeight = 200
-        table.rowHeight = UITableViewAutomaticDimension
+        table.rowHeight = UITableView.automaticDimension
         table.tableHeaderView = UIView()
         
         txtSearch.placeholder = String.localize(key: "placeholder_search_tab_group")
@@ -193,7 +193,7 @@ extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Fabric
-import Crashlytics
 import GoogleMaps
 import UserNotifications
 import Firebase
@@ -15,6 +13,7 @@ import FirebaseMessaging
 import AudioToolbox
 import IQKeyboardManagerSwift
 import FacebookCore
+import FirebaseInstanceID
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,10 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceOrientation = UIInterfaceOrientationMask.portrait
     var mainTabVC: MainTabViewController?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         _ = ApplicationData.sharedInstance()
-        TestFairy.disableVideo()
-        TestFairy.didLastSessionCrash()
+        
+        if #available(iOS 13.0, *) {} else {
+            if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+                statusBar.backgroundColor = UIColor.AppColor()
+            }
+        }
         
         // Keyboard manager
         IQKeyboardManager.shared.enable = true
@@ -53,18 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                          name: NSNotification.Name.InstanceIDTokenRefresh,
                                                          object: nil)
         
-        updateToken()
-        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
-            statusBar.backgroundColor = UIColor.AppColor()
-        }
-        
         // Facebook
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
-        // Fabric
-        Fabric.with([Crashlytics.self])
-        
+
         if let userData = ApplicationData.sharedInstance().getUserData() {
            // Notifies app to change language
             Bundle.set(languageCode: userData.locale)
@@ -109,24 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.updateFCMToken(result.token)
             }
         }
-        
-        // Connect to FCM since connection may have failed when attempted before having a token.
-        connectToFcm()
     }
-    // [END refresh_token]
-    
-    // [START connect_to_fcm]
-    func connectToFcm() {
-        Messaging.messaging().connect { (error) in
-            if (error != nil) {
-                print("Unable to connect with FCM. \(error)")
-            } else {
-                print("Connected to FCM.")
-            }
-        }
-    }
-    
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
             let incomingURL = userActivity.webpageURL,
@@ -165,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         print("absoluteString: \(url.absoluteString)")
         if let dicURL = URL(string: url.absoluteString) {
             print("code: \(dicURL["code"])")
@@ -175,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        let facebookHandler = SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        let facebookHandler = ApplicationDelegate.shared.application(app, open: url, options: options)
         return facebookHandler
     }
     
@@ -185,28 +166,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
+    func applicationWillResignActive(_ application: UIApplication) {}
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
+    func applicationDidEnterBackground(_ application: UIApplication) {}
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        updateToken()
-    }
+    func applicationWillEnterForeground(_ application: UIApplication) {}
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
+    func applicationDidBecomeActive(_ application: UIApplication) {}
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
+    func applicationWillTerminate(_ application: UIApplication) {}
     
     func updateFCMToken(_ token: String) {
         if APPDELEGATE.reachability.connection == .none {
@@ -222,33 +190,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ApiManager().updateFCMTokem(parameters, success: { result in
                 DispatchQueue.main.async {
                     
-                }
-            }, failure: { result in
-                DispatchQueue.main.async {
-                    if result.allKeys.count == 0 {
-                        return
-                    }
-                }
-            })
-        }
-    }
-    
-    func updateToken() {
-        if APPDELEGATE.reachability.connection == .none {
-            return
-        }
-        
-        var parameters: [String: Any] = [:]
-        
-        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String,  let password = USERDEFAULTS.value(forKey: kUserDefaults.password) as? String {
-            parameters["email"] = email
-            parameters["password"] = password
-            
-            ApiManager().login(parameters, success: { result in
-                DispatchQueue.main.async {
-                    if let token = result.value(forKey: "token") as? String {
-                        USERDEFAULTS.set(token, forKey: kUserDefaults.token)
-                    }
                 }
             }, failure: { result in
                 DispatchQueue.main.async {

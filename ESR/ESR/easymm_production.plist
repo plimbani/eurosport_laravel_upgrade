@@ -18,24 +18,20 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>FacebookAppID</key>
-	<string>2285199178466834</string>
-	<key>FacebookDisplayName</key>
-	<string>Commercialisation</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.aecordigital.eurosporting.easymatchmanager</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>esrweb</string>
 				<string>fb2285199178466834</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>com.aecordigital.eurosporting.easymatchmanager</string>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -50,6 +46,10 @@
 			</dict>
 		</array>
 	</dict>
+	<key>FacebookAppID</key>
+	<string>2285199178466834</string>
+	<key>FacebookDisplayName</key>
+	<string>Commercialisation</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechromes</string>
@@ -74,7 +74,6 @@
 	<string>$(PRODUCT_NAME) requires to access your photo library.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

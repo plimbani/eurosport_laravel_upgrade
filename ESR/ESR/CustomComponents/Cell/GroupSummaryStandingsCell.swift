@@ -28,10 +28,10 @@ class GroupSummaryStandingsCell: UITableViewCell {
     
     var isFromAgecategory = false
     
-    let btnAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 17.0),
-        NSAttributedStringKey.foregroundColor : UIColor.black,
-        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    let btnAttributes : [NSAttributedString.Key: Any] = [
+        NSAttributedString.Key.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 17.0),
+        NSAttributedString.Key.foregroundColor : UIColor.black,
+        NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]
     
     override func awakeFromNib() {
         super.awakeFromNib()

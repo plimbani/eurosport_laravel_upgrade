@@ -31,7 +31,8 @@ class AgeCategoryDivisionCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
+        lblTitle.font = UIFont.init(name: Font.HELVETICA_MEDIUM, size: Font.Size.commonLblSize)
+        lblTitle.textColor = .txtDefaultTxt
     }
     
     func showHideDivisions() {
@@ -77,7 +78,7 @@ class AgeCategoryDivisionCell: UITableViewCell {
                         tap.cancelsTouchesInView = false
                         newView.addGestureRecognizer(tap)
                         
-                        newView.addConstraint(NSLayoutConstraint(item: newView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 40))
+                        newView.addConstraint(NSLayoutConstraint(item: newView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40))
                         newView.isHidden = true
                         
                         stackView.addArrangedSubview(newView)

@@ -59,7 +59,7 @@ class CategoryListVC: SuperViewController {
     }
     
     func initialize() {
-        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 60, right: 0)
         table.contentInset = adjustForTabbarInsets
         table.scrollIndicatorInsets = adjustForTabbarInsets
         

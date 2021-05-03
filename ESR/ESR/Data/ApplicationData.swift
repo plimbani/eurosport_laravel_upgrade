@@ -28,6 +28,8 @@ class ApplicationData: NSObject {
     static var facebookDetailsPending = false
     
     static let dicKeyDivision = "isDivision"
+    static let dicKeyDivisionRow = "isDivisionRow"
+    static let dicKeyDivisionName = "dicKeyDivisionName"
     
     // For maintaining targets
     enum CurrentTargetList: String {
@@ -90,8 +92,8 @@ class ApplicationData: NSObject {
         textField.setLeftPaddingPoints(10)
         
         textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [
-            NSAttributedStringKey.foregroundColor: UIColor.txtPlaceholderTxt,
-            NSAttributedStringKey.font : UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldPlaceholder)!
+            NSAttributedString.Key.foregroundColor: UIColor.txtPlaceholderTxt,
+            NSAttributedString.Key.font : UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldPlaceholder)!
             ])
     }
     

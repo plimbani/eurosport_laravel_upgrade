@@ -87,10 +87,10 @@ class TabTeamsVC: SuperViewController {
         
         let vc = viewControllers[selectedIndex]
         
-        addChildViewController(vc)
+        addChild(vc)
         vc.view.frame = contentView.bounds
         contentView.addSubview(vc.view)
-        vc.didMove(toParentViewController: self)
+        vc.didMove(toParent: self)
     }
     
     @objc func onTabSelected(sender : UITapGestureRecognizer) {
@@ -111,9 +111,9 @@ class TabTeamsVC: SuperViewController {
                 
                 // Remove previous view controller
                 let previousVC = viewControllers[previousIndex]
-                previousVC.willMove(toParentViewController: nil)
+                previousVC.willMove(toParent: nil)
                 previousVC.view.removeFromSuperview()
-                previousVC.removeFromParentViewController()
+                previousVC.removeFromParent()
                 
                 addViewControllerToContentView(true)
             }

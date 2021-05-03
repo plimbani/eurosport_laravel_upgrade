@@ -110,8 +110,8 @@ class ApiManager {
         postRequest(API_ENDPOINT.LOGIN, parameters, success: success, failure: failure)
     }
     
-    func loginFacebook(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
-        postRequest(API_ENDPOINT.LOGIN_FACEBOOK, parameters, success: success, failure: failure)
+    func socialMediaLogin(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.SOCIAL_LOGIN, parameters, success: success, failure: failure)
     }
     
     func register(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {

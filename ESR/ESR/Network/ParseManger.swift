@@ -94,6 +94,18 @@ class ParseManager {
             teamFixture.competationName = text
         }
         
+        if let text = record.value(forKey: "divisionName") as? String {
+            teamFixture.divisionName = text
+        }
+        
+        if let text = record.value(forKey: "isKnockoutPlacingMatches") as? Bool {
+            teamFixture.isKnockoutPlacingMatches = text
+        }
+        
+        if let text = record.value(forKey: "competation_round_no") as? String {
+            teamFixture.competationRoundNo = text
+        }
+        
         //if let isScheduled = record.value(forKey: "is_scheduled") as? Int {
            // if isScheduled == 1 {
                 if let text = record.value(forKey: "match_datetime") as? String {

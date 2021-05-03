@@ -47,7 +47,7 @@ class TabAgeCategoriesVC: SuperViewController {
     }
     
     func initialize() {
-        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 60, right: 0)
         table.contentInset = adjustForTabbarInsets
         table.scrollIndicatorInsets = adjustForTabbarInsets
         
@@ -209,6 +209,7 @@ extension TabAgeCategoriesVC: UITableViewDataSource, UITableViewDelegate {
         cell?.record = ageCategoriesList[indexPath.row] as! NSDictionary
         cell?.indexPath = indexPath
         cell?.delegate = self
+        cell?.showViewSchedule = true
         cell?.reloadCell()
         return cell!
     }
