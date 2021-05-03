@@ -873,6 +873,7 @@
         ev.preventDefault();
       },
       onTeamDrop(ev) {
+        $('#' + ev.dataTransfer.getData("id")).removeClass('is-active');
         ev.preventDefault();
         let teamId = ev.dataTransfer.getData("id");
         let teamSelectId = $('#' + teamId).attr('data-select-id');
@@ -903,6 +904,7 @@
         }
       },
       onTeamDrag(ev,section) {
+        $('#' + ev.target.id).addClass('is-active');
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
         this.dragFrom= section;
