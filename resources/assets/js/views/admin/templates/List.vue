@@ -278,7 +278,7 @@
           },
           getResults(page = 1) {
             this.page = page;
-              this.getTemplates(this.teamSearch,this.createdBySearch, page, this.no_of_records);
+            this.getTemplates(this.teamSearch,this.createdBySearch, page, this.no_of_records, this.sortKey, this.sortBy);
           },
           onNoOfRecordsChange() {
               this.getTemplates(this.teamSearch,this.createdBySearch, 1, this.no_of_records);
