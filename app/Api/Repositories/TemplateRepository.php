@@ -344,6 +344,14 @@ class TemplateRepository
         }
       }
 
+      foreach($finalArray['tournament_competation_format']['format_name'][$allRounds - 1]['match_type'] as $groupIndex=>$group) {
+        $i=1;
+        foreach($group['groups']['match'] as $matchIndex => $match) {
+          $finalArray['tournament_competation_format']['format_name'][$allRounds - 1]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['position'] = $i . '-' . ($i+1);
+          $i = $i+2;
+        }
+      }
+
       $lastRoundMatches = end($matches);
 
       $positions = $this->setLastRoundPositionInKnockout($lastRoundMatches);
@@ -354,7 +362,7 @@ class TemplateRepository
 
     public function setLastRoundPositionInKnockout($lastRoundMatches) {
         $positions = [];
-        $lastRoundMatches = array_reverse($lastRoundMatches);
+        // $lastRoundMatches = array_reverse($lastRoundMatches);
         foreach ($lastRoundMatches as $key => $match) {
             if ($key == 0) {
                 $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $match['match_number'], 'result_type' => 'winner'];
