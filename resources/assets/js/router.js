@@ -510,6 +510,7 @@ router.beforeEach((to, from, next) => {
 
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
+    let restrictCustomerRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact','welcome','users_list','userstourmanent'];
     // If the next route is requires user to be Logged IN
 
     if (to.matched.some(m => m.meta.requiresAuth)){
