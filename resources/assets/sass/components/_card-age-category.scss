@@ -1,6 +1,8 @@
 .age-category {
     position: sticky;
     z-index: 8;
+    height: 210px;
+    overflow-y: auto;
 
     .age-category-grid {
         display: grid;
