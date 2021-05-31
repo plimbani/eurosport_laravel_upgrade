@@ -29,7 +29,6 @@ class DeleteWebsiteTables extends Migration
         Schema::dropIfExists('photos');
         Schema::dropIfExists('sponsors');
         Schema::dropIfExists('statistics');
-        Schema::dropIfExists('website_settings');
         Schema::dropIfExists('website_user');
         Schema::dropIfExists('websites');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
