@@ -39,16 +39,16 @@
                       <table class="table add-category-table tbl-template">
                         <thead>
                             <tr>
-                                <th>{{$lang.template_name}}</th>
-                                <th>{{$lang.template_type}}</th>
-                                <th>{{$lang.template_teams}}</th>
-                                <th>{{$lang.template_min_matches}}</th>
-                                <th>{{$lang.template_avg_teams}}</th>
-                                <th>{{$lang.template_total_matches}}</th>
-                                <th>{{$lang.template_divisions}}</th>
-                                <th>{{$lang.template_version}}</th>
-                                <th>{{$lang.template_created_date}}</th>
-                                <th>{{$lang.template_created_by}}</th>
+                                <th @click="sortData('name')">{{$lang.template_name}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('editor_type')">{{$lang.template_type}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('total_teams')">{{$lang.template_teams}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('minimum_matches')">{{$lang.template_min_matches}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('avg_matches')">{{$lang.template_avg_teams}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('total_matches')">{{$lang.template_total_matches}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('no_of_divisions')">{{$lang.template_divisions}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('version')">{{$lang.template_version}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('created_at')">{{$lang.template_created_date}}&nbsp;<i class="fas fa-sort"></i></th>
+                                <th @click="sortData('users.email')">{{$lang.template_created_by}}&nbsp;<i class="fas fa-sort"></i></th>
                                 <th>{{$lang.template_action}}</th>
                             </tr>
                         </thead>
@@ -64,8 +64,8 @@
                             <td>{{ template.total_matches }}</td>
                             <td>{{ template.no_of_divisions }}</td>
                             <td>{{ template.version }}</td>
-                            <td>{{ template.created_at | createdAtFilter }}</td>
-                            <td>{{ template.userEmail }}</td>
+                            <td class="nowrap">{{ template.created_at | createdAtFilter }}</td>
+                            <td class="nowrap">{{ template.userEmail }}</td>
                             <td>
                               <div class="d-flex align-items-center">
                                 <a class="text-primary" href="javascript:void(0)"
@@ -136,7 +136,7 @@
         data() {
             return {
                 users: '',
-                page: '',
+                page: 1,
                 // paginate: ['templateData'],
                 shown: false,
                 no_of_records: 20,
@@ -155,6 +155,10 @@
                 },
                 isListGettingUpdate: true,
                 templateEdit: null,
+                dataQuery:'',
+                sortKey: 'name',
+                sortBy: 'asc',
+                reverse: false,
             }
         },
         filters: {
@@ -281,13 +285,14 @@
             )
           },
           getResults(page = 1) {
-              this.getTemplates(this.teamSearch,this.createdBySearch, page, this.no_of_records);
+            this.page = page;
+            this.getTemplates(this.teamSearch,this.createdBySearch, page, this.no_of_records, this.sortKey, this.sortBy);
           },
           onNoOfRecordsChange() {
               this.getTemplates(this.teamSearch,this.createdBySearch, 1, this.no_of_records);
           },
 
-          getTemplates(teamSearch='', createdBySearch='', currentPage=1, noOfRecords=20) {
+          getTemplates(teamSearch='', createdBySearch='', currentPage=1, noOfRecords=20, sortBy='name', sortOrder='asc') {
             let templateData = {};
             this.isListGettingUpdate = true;
 
@@ -301,6 +306,8 @@
             if(createdBySearch != '') {
                   templateData.createdBySearch = createdBySearch;
               }
+            templateData.sortBy = sortBy;
+            templateData.sortOrder = sortOrder;
 
             $("body .js-loader").removeClass('d-none');
             Template.getTemplates(templateData).then(
@@ -321,8 +328,20 @@
           },
           clearSearch() {
             this.getTemplates();
+          },
+          sortData(filter) {
+            if(this.templateList.templateData.data && this.templateList.templateCount > 0) {
+              let data = this.dataQuery
+              this.reverse = (this.sortKey == filter) ? ! this.reverse : false;
+              this.sortKey = filter
+              if(this.reverse == false) {
+                this.sortBy = 'asc'
+              } else {
+                this.sortBy = 'desc'
+              }
+              this.getTemplates(this.teamSearch,this.createdBySearch, this.page, this.no_of_records, filter, this.sortBy);
+            }
           }
-
         }
     }
 </script>

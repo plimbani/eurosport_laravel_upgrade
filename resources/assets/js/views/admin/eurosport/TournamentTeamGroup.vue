@@ -80,7 +80,7 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="block-bg age-category mt-4" id="age_category_block">
+                <div class="block-bg age-category mt-4" id="age_category_block" :class="{'age-category-selected': this.age_category != ''}">
                   <div class="age-category-grid" v-if="grpsView.length != 0">
                     <div class="age-category-grid-block" v-for="(group, index) in grpsView">
                       <div class="m_card hoverable h-100 m-0">
@@ -89,14 +89,14 @@
                         </div>
                         <div class="card-content">
                           <div v-for="(n, pindex) in group['group_count']">
-                            <div class="draggable-item">
+                            <div class="draggable-item" draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">
                               <span class="draggable-handle">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.5 12"  xmlns:v="https://vecta.io/nano"><path d="M3,10.5A1.5,1.5,0,1,1,1.5,9,1.5,1.5,0,0,1,3,10.5Zm-1.5-6A1.5,1.5,0,1,0,3,6,1.5,1.5,0,0,0,1.5,4.5ZM1.5,0A1.5,1.5,0,1,0,3,1.5,1.5,1.5,0,0,0,1.5,0ZM6,3A1.5,1.5,0,1,0,4.5,1.5,1.5,1.5,0,0,0,6,3ZM6,4.5A1.5,1.5,0,1,0,7.5,6,1.51,1.51,0,0,0,6,4.5ZM6,9a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,6,9Z" fill="#eeeeee" fill-rule="evenodd"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.5 12"  xmlns:v="https://vecta.io/nano"><path d="M3,10.5A1.5,1.5,0,1,1,1.5,9,1.5,1.5,0,0,1,3,10.5Zm-1.5-6A1.5,1.5,0,1,0,3,6,1.5,1.5,0,0,0,1.5,4.5ZM1.5,0A1.5,1.5,0,1,0,3,1.5,1.5,1.5,0,0,0,1.5,0ZM6,3A1.5,1.5,0,1,0,4.5,1.5,1.5,1.5,0,0,0,6,3ZM6,4.5A1.5,1.5,0,1,0,7.5,6,1.51,1.51,0,0,0,6,4.5ZM6,9a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,6,9Z" fill="#e3e3e3" fill-rule="evenodd"/></svg>
                               </span>
                               <span>
                                 <span>
                                   <span :class="groupFlag(group,n)"></span>
-                                  <span class="team-name" draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                                  <span class="team-name">{{ groupName(group, n).displayName | truncate(20) }}</span>
                                 </span>
                               </span>
                             </div>
@@ -871,11 +871,13 @@
         ev.preventDefault();
       },
       onTeamDrop(ev) {
+        $('#' + ev.dataTransfer.getData("id")).removeClass('is-active');
         ev.preventDefault();
         let teamId = ev.dataTransfer.getData("id");
         let teamSelectId = $('#' + teamId).attr('data-select-id');
 
-        let secondTeamId = ev.target.id;
+        // let secondTeamId = ev.target.id;
+        let secondTeamId = $(ev.target.closest('.draggable-item')).attr('id');
         let secondteamSelectId = $('#' + secondTeamId).attr('data-select-id');
 
         let teamGroupName = $('#' + secondTeamId).attr('data-group-name');
@@ -900,6 +902,7 @@
         }
       },
       onTeamDrag(ev,section) {
+        $('#' + ev.target.id).addClass('is-active');
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
         this.dragFrom= section;
