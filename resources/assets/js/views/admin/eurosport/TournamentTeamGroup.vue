@@ -82,7 +82,7 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="block-bg age-category mt-4" id="age_category_block">
+                <div class="block-bg age-category mt-4" id="age_category_block" :class="{'age-category-selected': this.age_category != ''}">
                   <div class="age-category-grid" v-if="grpsView.length != 0">
                     <div class="age-category-grid-block" v-for="(group, index) in grpsView">
                       <div class="m_card hoverable h-100 m-0">
