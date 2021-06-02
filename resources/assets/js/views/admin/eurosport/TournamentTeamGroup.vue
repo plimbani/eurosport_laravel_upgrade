@@ -93,7 +93,7 @@
                           <div v-for="(n, pindex) in group['group_count']">
                             <div class="draggable-item" draggable="true" :data-select-id="groupName(group, n).displayId" :data-team-name="groupName(group, n).displayName" :data-group-name="getGroupName(group)+n" :id="'group_' + index + '_' + pindex" @dragstart="onTeamDrag($event,'group')" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">
                               <span class="draggable-handle">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.5 12"  xmlns:v="https://vecta.io/nano"><path d="M3,10.5A1.5,1.5,0,1,1,1.5,9,1.5,1.5,0,0,1,3,10.5Zm-1.5-6A1.5,1.5,0,1,0,3,6,1.5,1.5,0,0,0,1.5,4.5ZM1.5,0A1.5,1.5,0,1,0,3,1.5,1.5,1.5,0,0,0,1.5,0ZM6,3A1.5,1.5,0,1,0,4.5,1.5,1.5,1.5,0,0,0,6,3ZM6,4.5A1.5,1.5,0,1,0,7.5,6,1.51,1.51,0,0,0,6,4.5ZM6,9a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,6,9Z" fill="#e3e3e3" fill-rule="evenodd"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7.5 12"  xmlns:v="https://vecta.io/nano"><path d="M3,10.5A1.5,1.5,0,1,1,1.5,9,1.5,1.5,0,0,1,3,10.5Zm-1.5-6A1.5,1.5,0,1,0,3,6,1.5,1.5,0,0,0,1.5,4.5ZM1.5,0A1.5,1.5,0,1,0,3,1.5,1.5,1.5,0,0,0,1.5,0ZM6,3A1.5,1.5,0,1,0,4.5,1.5,1.5,1.5,0,0,0,6,3ZM6,4.5A1.5,1.5,0,1,0,7.5,6,1.51,1.51,0,0,0,6,4.5ZM6,9a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,6,9Z" fill="#cccccc" fill-rule="evenodd"/></svg>
                               </span>
                               <span>
                                 <span>

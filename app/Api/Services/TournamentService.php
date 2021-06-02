@@ -961,6 +961,7 @@ class TournamentService implements TournamentContract
       $data['currentLayout'] = config('config-variables.current_layout'); 
       $matchIdleTime = config('config-variables.match_idle_time');  
       $data['matchIdleTime'] = $matchIdleTime;  
+      $data['showBasicTournamentFormat'] = env('SHOW_BASIC_TOURNAMENT_FORMAT');
 
       return $data; 
     } 
