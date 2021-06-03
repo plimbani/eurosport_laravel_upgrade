@@ -261,6 +261,10 @@ router.beforeEach((to, from, next) => {
         Ls.set('redirect_tournament_id', to.query.redirect_tournament_id);
     }
 
+    if(to.name == 'home' || to.name == 'front_schedule') {
+        return next({ path : '/login'})
+    }
+
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
     // If the next route is requires user to be Logged IN
