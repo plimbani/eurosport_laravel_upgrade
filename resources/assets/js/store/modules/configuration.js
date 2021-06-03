@@ -5,6 +5,7 @@ const state = {
   'googleMapKey': null,
   'currentLayout': null,
   'matchIdleTime': 0,
+  'showBasicTournamentFormat': null,
 };
 
 // getters
@@ -26,6 +27,9 @@ const mutations = {
 	},
 	[types.SET_MATCH_IDLETIME] (state, matchIdleTime) {
 		state.matchIdleTime = matchIdleTime;
+	},
+	[types.SET_SHOW_BASIC_TOURNAMENT_FORMAT] (state, showBasicTournamentFormat) {
+		state.showBasicTournamentFormat = showBasicTournamentFormat;
 	},
 };
 

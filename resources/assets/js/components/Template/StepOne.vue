@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" v-if="this.$store.state.Configuration.showBasicTournamentFormat">
                                 <div class="checkbox">
                                     <div class="c-input">
                                         <input class="euro-radio" type="radio" name="editor" value="knockout" v-model="templateFormDetail.stepone.editor" id="radio_knockout">

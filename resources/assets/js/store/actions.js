@@ -34,4 +34,5 @@ export const setConfigurationDetail = ({ commit }, configurationDetail) => {
   commit(types.SET_MAP_KEY, configurationDetail['googleMapKey'])
   commit(types.SET_CURRENT_LAYOUT, configurationDetail['currentLayout'])
   commit(types.SET_MATCH_IDLETIME, configurationDetail['matchIdleTime'])
+  commit(types.SET_SHOW_BASIC_TOURNAMENT_FORMAT, configurationDetail['showBasicTournamentFormat'])
 }
