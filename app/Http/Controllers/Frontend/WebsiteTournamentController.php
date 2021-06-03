@@ -118,14 +118,19 @@ class WebsiteTournamentController extends Controller
       $pageDetail = $this->pageService->getPageDetails($this->historyPageName, $websiteId);
       $pageParentId = $pageDetail->parent_id;
       $parentPage = Page::find($pageParentId);
-      $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament)->toArray() : null;
+      $tournament = null;
+      if($website->linked_tournament != null) {
+        $client = new HttpClient();
+        $login = $client->login();
+        $tournament = json_decode($client->post('/tournaments/tournamentSummary', ['Authorization' => 'Bearer '.json_decode($login)->token], ['tournamentId' => $website->linked_tournament]))->data->tournament_detail;
+      }
 
       // Get competition list for final placing.
       $data = [];
       $competitionListData = [];
 
       if($tournament) {
-        $data['tournamentData'] = ['tournament_id' => $tournament['id']];
+        $data['tournamentData'] = ['tournament_id' => $tournament->id];
         $client = new HttpClient();
         $login = $client->login();
         $competitionList = $client->post('/age_group/getCompetationFormat', ['Authorization' => 'Bearer '.json_decode($login)->token], $data);
