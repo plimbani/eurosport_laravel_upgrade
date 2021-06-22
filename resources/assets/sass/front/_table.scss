@@ -154,8 +154,8 @@ table {
             &>.fc-row {
                 border-left-width: 1px;
                 border-right-width: 0 !important;
-                left: 40px;
-                width: calc(100% - 40px - 14px);
+                left: 30px;
+                width: calc(100% - 30px - 14px);
                 overflow-x: hidden;
 
                 th:first-child {
@@ -180,7 +180,7 @@ table {
             overflow-x: scroll;
             overflow-y: hidden;
             height: 100%;
-            left: 40px;
+            left: 30px;
 
             &>table {
                 td {
