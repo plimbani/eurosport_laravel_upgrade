@@ -299,6 +299,7 @@ class TournamentRepository
         $tournamentData = array(
             'id'                  => $tournamentId,
             'name'                => $data['name'],
+            'slug'                => Tournament::where('id', $tournamentId)->first()->slug,
             'tournamentStartDate' => $data['start_date'],
             'tournamentEndDate'   => $data['end_date'],
             'tournamentStatus'    => 'Unpublished',
