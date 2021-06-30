@@ -30,6 +30,7 @@ export default {
     return  {
       unChangedMatchScores: [],
       unChangedMatchScoresInfoModalOpen: false,
+      isSameScore: false,
     }
   },
   mounted() {
@@ -38,7 +39,7 @@ export default {
       var sectionVal = window.sectionVal;
       var getCurrentScheduleView = vm.$store.state.currentScheduleView;
       var currentView = vm.$store.state.setCurrentView;
-     
+      var matchResultChange = vm.$store.state.Tournament.matchResultChange;
       vm.$store.dispatch('UnsaveMatchData',[]);
       vm.$store.dispatch('UnsaveMatchStatus',false);
       if( sectionVal == 0)
@@ -82,7 +83,7 @@ export default {
             $('.summary-content ul.nav-tabs li:eq('+liIndex+')').trigger('click');
           });
         }
-      }else if ( sectionVal == -1)
+      }else if ( sectionVal == -1 && !vm.isSameScore)
       {
         var redirectName = window.redirectPath;
         vm.$router.push({'name':redirectName});
@@ -122,7 +123,8 @@ export default {
   },
   methods: {
     saveMatchData(){
-      let isSameScore = false;
+      let vm = this;
+      vm.isSameScore = false;
       let matchDataArray = {};
       let matchPostData = {};
       let tournamentId = this.$store.state.Tournament.tournamentId;
@@ -132,6 +134,7 @@ export default {
 
       if( matchResultChange )
       {
+        $('.matchSchedule').find('.js-edit-match').removeClass('match-list-editicon');
         $.each(unsaveMatchData, function (index,value){
             var matchData = {};
             matchData.matchId = value.fid;
@@ -140,11 +143,12 @@ export default {
             matchData.score_last_update_date_time = value.score_last_update_date_time;
             matchDataArray[index] = matchData;
             if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
-              isSameScore = true;
+              vm.isSameScore = true;
+              $('.matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon');
             }          
         });
 
-        if (isSameScore == true) {
+        if (vm.isSameScore == true) {
           toastr.error('Please complete the results override information for the elimination fixtures.','Action Required');
 
           $('#unSaveMatchModal').modal('hide');
