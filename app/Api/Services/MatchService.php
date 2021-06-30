@@ -2680,6 +2680,11 @@ class MatchService implements MatchContract
       $ageCategories = [];
       $tournamentId = "";
       foreach ($scheduleMatches as $scheduleMatch) {
+        $scheduledResult = $this->matchRepoObj->setMatchSchedule(['isMultiSchedule' => true, 'matchData' => ['ageGroupId' => $scheduleMatch['ageGroupId'],'matchEndDate' => $scheduleMatch['matchEndDate'],'matchId' => $scheduleMatch['matchId'],'matchStartDate' => $scheduleMatch['matchStartDate'],'pitchId' => $scheduleMatch['pitchId'],'scheduleLastUpdateDateTime' => $scheduleMatch['scheduleLastUpdateDateTime'],'tournamentId' => $scheduleMatch['tournamentId']], 'scheduleMatchesArray' => []]);
+        if($scheduledResult == -1){
+          return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.', 'conflictedFixturesArray' => [], 'areAllMatchFixtureScheduled' => false];
+        }
+
         $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
         $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
         

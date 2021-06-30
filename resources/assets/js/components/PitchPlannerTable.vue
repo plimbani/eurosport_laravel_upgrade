@@ -638,6 +638,8 @@
                         if(response.data.status_code == '200') {
                             if(response.data.areAllMatchFixtureScheduled == true) {
                               toastr.success('Match has been scheduled successfully.', 'Schedule Match');
+                            } else {
+                              toastr.error(response.data.message, 'Schedule Match');
                             }
                             vm.resetScheduleMatches();
                             vm.$store.dispatch('setMatches')
