@@ -52,6 +52,7 @@
 										</ul>
 										<div class="tab-content summary-content">
 										<component :is="currentView" :currentView="currentView"></component>
+										<UnsaveMatchScoreModel @unchanged-match-scores="unChangedMatchScoresModal"></UnsaveMatchScoreModel>
 										</div>
 									</div>
 								</div>
@@ -71,6 +72,7 @@ import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
 import FinalPlacings from './FinalPlacings.vue'
+import UnsaveMatchScoreModel from './UnsaveMatchScoreModel.vue'
 
 export default {
 	data() {
@@ -82,6 +84,19 @@ export default {
 			lastUpdatedDateValue: ''
 		}
 	},
+	beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'match_results')
+      { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
+        $('#unSaveMatchModal').modal('show');
+      } else {
+        next();
+      }
+    },
 	mounted(){
 		let tournamentId = this.$store.state.Tournament.tournamentId
         if(tournamentId == null || tournamentId == '') {
@@ -99,7 +114,7 @@ export default {
 	    // Also Call Api For Getting the last Updated Record
 	},
 	components: {
-		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
+		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings,UnsaveMatchScoreModel
 	},
 	created: function() {
     	this.$root.$on('changeComp1', this.setMatchData1);
@@ -181,6 +196,9 @@ export default {
     			toastr['error']('Please select age category.', 'Error');
 			}
 		},
+		unChangedMatchScoresModal(data) {
+	    	this.$parent.setUnChangedMatchScoresModal(data);
+	    },
 	}
 }
 </script>

@@ -728,19 +728,23 @@
           this.filterStatus = false;
           $("body .js-loader").removeClass('d-none');
           axios.post('/api/team/create', files).then(response =>  {
-            let errorFlag = false;
-            if(response.data.nonExistingAgeCategories.length > 0 || response.data.teamNotMatchingAgeCategories.length > 0 || Object.keys(response.data.teamsNotUploadedOfAgeCategory).length > 0 || Object.keys(response.data.teamsInDifferentAgeCategory).length > 0 || response.data.notProcessedAgeCategoriesDueToResultEntered.length > 0 || response.data.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet.length > 0) {
-              errorFlag = true;
-              vm.nonExistingAgeCategories = response.data.nonExistingAgeCategories;
-              vm.teamNotMatchingAgeCategories = response.data.teamNotMatchingAgeCategories;
-              vm.teamsNotUploadedOfAgeCategory = response.data.teamsNotUploadedOfAgeCategory;
-              vm.teamsInDifferentAgeCategory = response.data.teamsInDifferentAgeCategory;
-              vm.notProcessedAgeCategoriesDueToResultEntered = response.data.notProcessedAgeCategoriesDueToResultEntered;
-              vm.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet = response.data.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet;
-              $('#team_upload_summary').modal('show');
-            }
-            if(!errorFlag) {
-              toastr['success']('Teams are uploaded successfully', 'Success');
+            if (response.data.status_code == 422) {
+                toastr['error'](response.data.message, 'Error');
+            } else {
+              let errorFlag = false;
+              if(response.data.nonExistingAgeCategories.length > 0 || response.data.teamNotMatchingAgeCategories.length > 0 || Object.keys(response.data.teamsNotUploadedOfAgeCategory).length > 0 || Object.keys(response.data.teamsInDifferentAgeCategory).length > 0 || response.data.notProcessedAgeCategoriesDueToResultEntered.length > 0 || response.data.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet.length > 0) {
+                errorFlag = true;
+                vm.nonExistingAgeCategories = response.data.nonExistingAgeCategories;
+                vm.teamNotMatchingAgeCategories = response.data.teamNotMatchingAgeCategories;
+                vm.teamsNotUploadedOfAgeCategory = response.data.teamsNotUploadedOfAgeCategory;
+                vm.teamsInDifferentAgeCategory = response.data.teamsInDifferentAgeCategory;
+                vm.notProcessedAgeCategoriesDueToResultEntered = response.data.notProcessedAgeCategoriesDueToResultEntered;
+                vm.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet = response.data.notProcessedAgeCategoriesDuetoSameTeamInUploadSheet;
+                $('#team_upload_summary').modal('show');
+              }
+              if(!errorFlag) {
+                toastr['success']('Teams are uploaded successfully', 'Success');
+              }
             }
             this.filterStatus = true;
             this.getTeams();
