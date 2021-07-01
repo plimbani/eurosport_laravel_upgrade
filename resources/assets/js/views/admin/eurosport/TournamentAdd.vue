@@ -293,15 +293,6 @@ this.$validator.validateAll().then(
         if(response.data.status_code == 200) {
           toastr['success'](msg, 'Success');
           vm.$store.dispatch('SaveTournamentDetails', response.data.data);
-          let tournamentSel  = {
-            id: response.data.data.id,
-            name: response.data.data.name,
-            slug: response.data.data.slug,
-            maximum_teams: response.data.data.maximum_teams,
-            tournamentStartDate: response.data.data.tournamentStartDate,
-            tournamentEndDate: response.data.data.tournamentEndDate
-          }
-          this.$store.dispatch('SetTournamentName', tournamentSel)
           $("body .js-loader").addClass('d-none');
           vm.redirectCompetation();
         } else {
