@@ -298,8 +298,8 @@ this.$validator.validateAll().then(
             name: response.data.data.name,
             slug: response.data.data.slug,
             maximum_teams: response.data.data.maximum_teams,
-            start_date: response.data.data.tournamentStartDate,
-            end_date: response.data.data.tournamentEndDate
+            tournamentStartDate: response.data.data.tournamentStartDate,
+            tournamentEndDate: response.data.data.tournamentEndDate
           }
           this.$store.dispatch('SetTournamentName', tournamentSel)
           $("body .js-loader").addClass('d-none');
