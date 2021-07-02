@@ -40,8 +40,10 @@ export default {
       var getCurrentScheduleView = vm.$store.state.currentScheduleView;
       var currentView = vm.$store.state.setCurrentView;
       var matchResultChange = vm.$store.state.Tournament.matchResultChange;
-      vm.$store.dispatch('UnsaveMatchData',[]);
-      vm.$store.dispatch('UnsaveMatchStatus',false);
+      if (!vm.isSameScore) {
+        vm.$store.dispatch('UnsaveMatchData',[]);
+        vm.$store.dispatch('UnsaveMatchStatus',false);
+      }
       if( sectionVal == 0)
       {
         if ( getCurrentScheduleView == "teamDetails")

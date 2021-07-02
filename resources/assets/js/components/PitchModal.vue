@@ -463,6 +463,8 @@ var moment = require('moment');
                   vm.matchFixtureDetail();
                   $('#matchScheduleModal').modal('hide')
                   toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+                  vm.$store.dispatch('UnsaveMatchData',[]);
+                  vm.$store.dispatch('UnsaveMatchStatus',false);
                   let matchData = {};
 
                   matchData['home_score'] = $('#home_team_score').val()
