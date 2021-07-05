@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+              <button type="button" class="btn btn-danger" @click="closeModal">No</button>
               <button type="button" class="btn btn-primary" @click="saveMatchData" >Yes, save it</button>
           </div>
       </div>
@@ -170,6 +170,12 @@ export default {
           )
         }
       }
+    },
+    closeModal(){
+      this.$store.dispatch('UnsaveMatchData',[]);
+      this.$store.dispatch('UnsaveMatchStatus',false);
+      $('#unSaveMatchModal').modal('hide');
+      this.$router.push({'name': window.redirectPath});
     }
   }
 }
