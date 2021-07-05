@@ -374,6 +374,7 @@ import _ from 'lodash'
                                             vm.matchFixture = {}
                                             vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                            $('.tooltip').removeClass('show');
                                         }
                                     }
                                 },
@@ -479,6 +480,7 @@ import _ from 'lodash'
                                     }else{
                                         revertFunc();
                                         toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                        $('.tooltip').removeClass('show');
                                     }
                                 },
                                 (error) => {
