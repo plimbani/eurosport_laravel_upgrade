@@ -27,7 +27,7 @@ import _ from 'lodash';
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyBa2EjSYfQCTOGXlxbkElOi56nGm_GA7Ko',
+    key: 'AIzaSyCm1qztINWAJS2JH-xk9UZsDAoR66k6KAo',
     libraries: 'places',
   }
 });
