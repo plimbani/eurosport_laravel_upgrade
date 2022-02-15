@@ -255,16 +255,17 @@ select.form-control {
 
 .match-unschedule-checkbox-div {
     position: absolute;
-    bottom: 2px;
-    width: 23px;
-    right: 15px;
-    height: 23px;
+    bottom: 0.25rem;
+    right: 0.25rem;
+    width: 22px;
+    height: 22px;
+    z-index: 3;
 }
 
 .scheduled-match-content {
     height: 100%;
     position: relative;
-    padding-right: 1.5rem !important;
+    padding-right: 0.75rem !important;
 }
 
 .scheduled-match-content-strip {
@@ -875,7 +876,7 @@ a.horizontal, a.vertical {
 
 .match-planner-warning {
     position: absolute;
-    right: 18px;
+    right: 0.45rem;
     top: 2px;
     z-index: 3;
 }
