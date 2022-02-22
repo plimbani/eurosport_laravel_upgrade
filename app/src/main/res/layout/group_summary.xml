@@ -8,6 +8,7 @@
     <include layout="@layout/toolbar_header" />
 
     <ScrollView
+        android:id="@+id/mParentScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -146,22 +147,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/ll_match_header"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/view_line"
-                        android:orientation="horizontal"
-                        android:padding="15dp">
-
-                        <TextView
-                            style="@style/text_black_sub_title"
-                            android:layout_marginLeft="8dp"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text="@string/game_information"
-                            android:textStyle="bold" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_matches"

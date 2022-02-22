@@ -83,6 +83,11 @@ public class GroupsSpinnerAdapter extends ArrayAdapter<ClubGroupModel> {
         return rowview;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     protected class ViewHolder {
         @BindView(R.id.tv_spinner)
         protected TextView tv_spinner;

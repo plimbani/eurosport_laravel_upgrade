@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -16,9 +17,9 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
@@ -54,7 +55,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -78,8 +82,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
     @BindView(R.id.tv_view_full_league_table)
     protected TextView tv_view_full_league_table;
-    @BindView(R.id.ll_match_header)
-    protected LinearLayout ll_match_header;
+
     @BindView(R.id.tv_standing_selector)
     protected View tv_standing_selector;
     @BindView(R.id.tv_matches_selector)
@@ -100,11 +103,14 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_match_content;
     @BindView(R.id.sp_groups)
     protected Spinner sp_groups;
+    @BindView(R.id.mParentScroll)
+    protected ScrollView mParentScroll;
     private List<ClubGroupModel> mGroupList;
     private AgeGroupModel mAgeGroupData;
     private boolean isApiAlreadyCalled = false;
     private boolean isFixApiAlreadyCalled = false;
     private boolean isShowDivisionAlso = false;
+    private HashMap<String, ArrayList<TeamFixturesModel>> mFixturesResult;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -263,7 +269,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
     private void initUI() {
         tv_view_all_club_matches.setVisibility(View.GONE);
-        ll_match_header.setVisibility(View.GONE);
+
         ll_standings_content.setVisibility(View.GONE);
         ll_match_content.setVisibility(View.GONE);
         if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
@@ -367,23 +373,72 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
-                                ll_match_header.setVisibility(View.VISIBLE);
                                 ll_match_content.setVisibility(View.VISIBLE);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
                                     Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
                                         public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
-                                            if (o1.getMatch_datetime() == null) {
-                                                return (o2.getMatch_datetime() == null) ? 0 : -1;
+                                            if (o1.getCompetation_round_no() == null) {
+                                                return (o2.getCompetation_round_no() == null) ? 0 : -1;
                                             }
-                                            if (o2.getMatch_datetime() == null) {
+                                            if (o2.getCompetation_round_no() == null) {
                                                 return 1;
                                             }
-                                            return o1.getMatch_datetime().compareTo(o2.getMatch_datetime());
+                                            return o1.getCompetation_round_no().compareTo(o2.getCompetation_round_no());
                                         }
                                     });
                                     ll_matches.removeAllViews();
-                                    for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
-                                        addMatchesRow(aMTeamFixtureData);
+
+                                    mFixturesResult = new HashMap<>();
+                                    if (mTeamFixtureData != null && mTeamFixtureData[0] != null &&
+
+                                            (!Utility.isNullOrEmpty(mTeamFixtureData[0].getIsDivExist())
+                                                    && mTeamFixtureData[0].getIsDivExist().equalsIgnoreCase("1")) || (!Utility.isNullOrEmpty(mTeamFixtureData[0].getIsKnockoutPlacingMatches())
+                                            && mTeamFixtureData[0].getIsKnockoutPlacingMatches().equalsIgnoreCase("true"))) {
+                                        for (int i = 0; i < mTeamFixtureData.length; i++) {
+                                            if (mTeamFixtureData[i] != null && !Utility.isNullOrEmpty(mTeamFixtureData[i].getCompetation_name())) {
+                                                if (mFixturesResult != null && mFixturesResult.size() > 0
+                                                        && mFixturesResult.containsKey(mTeamFixtureData[i].getCompetation_name())) {
+                                                    ArrayList<TeamFixturesModel> mExistingList = mFixturesResult.get(mTeamFixtureData[i].getCompetation_name());
+                                                    mExistingList.add(mTeamFixtureData[i]);
+                                                    mFixturesResult.put(mTeamFixtureData[i].getCompetation_name(), mExistingList);
+                                                } else {
+                                                    ArrayList<TeamFixturesModel> mNewData = new ArrayList<>();
+                                                    mNewData.add(mTeamFixtureData[i]);
+                                                    mFixturesResult.put(mTeamFixtureData[i].getCompetation_name(), mNewData);
+                                                }
+                                            }
+                                        }
+                                        Map<String, ArrayList<TeamFixturesModel>> treeMap = new TreeMap<String, ArrayList<TeamFixturesModel>>(mFixturesResult);
+
+                                        for (Map.Entry<String, ArrayList<TeamFixturesModel>> item : treeMap.entrySet()) {
+                                            String mGroupName = item.getKey();
+                                            ArrayList<TeamFixturesModel> teamFixturesModels = item.getValue();
+                                            if (!Utility.isNullOrEmpty(mGroupName) && teamFixturesModels != null
+                                                    && teamFixturesModels.size() > 0) {
+                                                addMatchHeader(teamFixturesModels.get(0));
+
+                                                Collections.sort(teamFixturesModels, new Comparator<TeamFixturesModel>() {
+                                                    public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
+                                                        if (o1.getMatch_datetime() == null) {
+                                                            return (o2.getMatch_datetime() == null) ? 0 : -1;
+                                                        }
+                                                        if (o2.getMatch_datetime() == null) {
+                                                            return 1;
+                                                        }
+                                                        return o1.getMatch_datetime().compareTo(o2.getMatch_datetime());
+                                                    }
+                                                });
+                                                for (TeamFixturesModel aMTeamFixtureData : teamFixturesModels) {
+                                                    addMatchesRow(aMTeamFixtureData);
+                                                }
+                                            }
+                                        }
+
+
+                                    } else {
+                                        for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
+                                            addMatchesRow(aMTeamFixtureData);
+                                        }
                                     }
                                 } else {
                                     addNoItemTeamFixtureView();
@@ -699,6 +754,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             }
         }
         ll_matches.addView(matchesView);
+
+
     }
 
     private void addNoItemTeamFixtureView() {
@@ -707,6 +764,31 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         tv_noMatchesView.setText(getString(R.string.no_matches_available));
         ll_matches.addView(noMatchesView);
         tv_view_all_club_matches.setVisibility(View.GONE);
+    }
+
+    private void addMatchHeader(TeamFixturesModel mFixtureModel) {
+        final View mMatchDivisionHeader = getLayoutInflater().inflate(R.layout.match_division_header, null);
+        TextView tv_match_division_name = (TextView) mMatchDivisionHeader.findViewById(R.id.tv_match_division_name);
+        if (mFixtureModel != null && !Utility.isNullOrEmpty(mFixtureModel.getIsDivExist()) &&
+                mFixtureModel.getIsDivExist().equalsIgnoreCase("1")) {
+            tv_match_division_name.setText(mGroupModel.getDivisionName() + " - " + mFixtureModel.getCompetation_name() + " (" + mFixtureModel.getCompetation_round_no() + ")");
+        } else {
+            tv_match_division_name.setText(mFixtureModel.getCompetation_name() + " (" + mFixtureModel.getCompetation_round_no() + ")");
+        }
+        ll_matches.addView(mMatchDivisionHeader);
+        AppLogger.LogE(TAG, "match division name" + tv_match_division_name.getText().toString());
+        AppLogger.LogE(TAG, "spinner groups " + mGroupModel.getDisplay_name());
+
+        if (sp_groups.getSelectedItemPosition() > 0 && tv_match_division_name.getText().toString().contains(mGroupModel.getDisplay_name())) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    mParentScroll.smoothScrollTo(0, mMatchDivisionHeader.getTop());
+                }
+            });
+        }
+
+
     }
 
     @OnClick(R.id.tv_view_full_league_table)

@@ -345,6 +345,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeamShortsColor())) {
             ll_team_dress.setVisibility(View.VISIBLE);
             ll_color_team_1.setVisibility(View.VISIBLE);
+
             iv_short_team_1.setColorFilter(Color.parseColor(mTeamFixturesModel.getHomeTeamShortsColor()), PorterDuff.Mode.SRC_IN);
         }
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeamShirtColor())) {

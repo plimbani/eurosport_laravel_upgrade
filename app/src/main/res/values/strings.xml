@@ -32,6 +32,7 @@
     <string name="button_ok">Ok</string>
     <string name="select_tournament">Select tournament</string>
     <string name="select_default_tournament">Select default tournament</string>
+    <string name="round">Round</string>
     <string name="select_language">Select language</string>
     <string name="register_success">Please check your inbox to verify your email address and complete your account registration</string>
     <string name="update_profile_message">Profile updated successfully.</string>
