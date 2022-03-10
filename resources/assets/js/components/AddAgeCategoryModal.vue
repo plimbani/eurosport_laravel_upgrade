@@ -1018,7 +1018,7 @@ export default {
     },
     onChange (value) {
       this.value = value
-      this.competation_format.ageCategory_name = this.competation_format.category_age;
+      this.competation_format.ageCategory_name = this.competation_format.category_age.replace('-', '');
     },
     onSelect (option) {
       if (option === 'Disable me!') this.isDisabled = true
