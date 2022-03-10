@@ -154,7 +154,7 @@
 			},
 		    onChange (value) {		      
 		      this.value = value
-		      this.competition_format.ageCategory_name = this.competition_format.category_age;
+		      this.competition_format.ageCategory_name = this.competition_format.category_age.replace('-', '');
 		    },
 		    onSelect (option) {
 		      if (option === 'Disable me!') this.isDisabled = true
