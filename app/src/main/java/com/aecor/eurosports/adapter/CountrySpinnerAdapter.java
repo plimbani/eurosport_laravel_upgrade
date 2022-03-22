@@ -3,17 +3,17 @@ package com.aecor.eurosports.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.model.CountriesModel;
-import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
 
 import java.util.List;

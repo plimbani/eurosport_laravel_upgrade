@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubModel;
@@ -22,8 +23,6 @@ import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,14 +81,11 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
         if (!Utility.isNullOrEmpty(clubModel.getCountryLogo())) {
             Glide.with(mContext)
                     .load(clubModel.getCountryLogo())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            holder.iv_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                        }
-                    });
+                    .dontAnimate()
+                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                    .into(holder.iv_flag);
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);

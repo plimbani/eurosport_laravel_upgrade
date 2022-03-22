@@ -5,8 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,8 +33,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.json.JSONObject;
@@ -50,7 +46,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -124,20 +119,12 @@ public class HomeActivity extends BaseAppCompactActivity {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
                     Glide.with(mContext)
                             .load(mTournamentList.get(position).getTournamentLogo())
-                            .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                    super.onLoadFailed(e, errorDrawable);
-                                    iv_tournamentLogo.setImageResource(R.drawable.globe);
-                                }
-
-                                @Override
-                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                    iv_tournamentLogo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
-                                }
-                            });
+                            .dontAnimate()
+                            .error(R.drawable.globe)
+                            .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                            .into(iv_tournamentLogo);
                 } else {
                     iv_tournamentLogo.setImageResource(R.drawable.globe);
                 }
@@ -208,7 +195,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     public void getDateDifference(String FutureDate) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
 
         try {

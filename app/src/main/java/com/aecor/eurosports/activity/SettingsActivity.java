@@ -5,8 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.IntentCompat;
+
+import androidx.annotation.Nullable;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.ui.ViewDialog;

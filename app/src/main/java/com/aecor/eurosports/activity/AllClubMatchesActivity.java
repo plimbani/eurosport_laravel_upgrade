@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
@@ -65,7 +66,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
+        if (mTeamDetailModel!=null && !Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
             showBackButton(mTeamDetailModel.getName());
         } else {
             showBackButton(getString(R.string.team_matches));

@@ -7,10 +7,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
@@ -33,18 +33,18 @@ import com.android.volley.VolleyError;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -238,14 +238,6 @@ public class LandingActivity extends BaseActivity {
                             if (jsonObject.has("profile_image_url")) {
                                 mAppPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             }
-                            if (response != null && response.has("enable_logs_android")) {
-                                String enable_logs_android = response.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
-                                    TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
-                                    TestFairy.setUserId(jsonObject.getString("user_id"));
-                                }
-                            }
                             if (jsonObject.has("role")) {
                                 mAppPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
                             }
@@ -285,6 +277,7 @@ public class LandingActivity extends BaseActivity {
                                 mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
 //                                mAppPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             }
+                            Utility.setTFFlags(mContext);
                             checkIfNewTokenIsAvailable(true);
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
@@ -370,17 +363,22 @@ public class LandingActivity extends BaseActivity {
         }
     }
 
-    private void checkIfNewTokenIsAvailable(boolean isFromFB) {
-        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER)) && mAppPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER).equalsIgnoreCase("true")) {
-            launchHome(isFromFB);
-        } else {
-            if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.FIREBASE_TOKEN))) {
-                postTokenOnServer(mAppPref.getString(AppConstants.FIREBASE_TOKEN), isFromFB);
-            } else {
-                launchHome(isFromFB);
-            }
+    private void checkIfNewTokenIsAvailable(final boolean isFromFB) {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            AppLogger.LogE(TAG, "getInstanceId failed" + task.getException());
+                            launchHome(isFromFB);
+                            return;
+                        }
 
-        }
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        postTokenOnServer(token, isFromFB);
+                    }
+                });
     }
 
     private void postTokenOnServer(String mFcmToken, final boolean isFromFB) {

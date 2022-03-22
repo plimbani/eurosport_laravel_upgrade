@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +19,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TeamSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
@@ -30,7 +29,6 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.model.TeamDetailModel;
 import com.aecor.eurosports.model.TeamFixturesModel;
-import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
@@ -46,8 +44,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -267,50 +263,50 @@ public class TeamActivity extends BaseAppCompactActivity {
     }
 
     private void updateUI() {
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
-            tv_team_name.setText(mTeamDetailModel.getName());
-        } else {
-            tv_team_name.setText("");
-        }
-
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
-            Glide.with(mContext)
-                    .load(mTeamDetailModel.getCountryLogo())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            iv_team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                        }
-                    });
-        } else {
-            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
-                    R.drawable.globe);
-            iv_team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-        }
-
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryName())) {
-            tv_countryName.setText(mTeamDetailModel.getCountryName());
-        } else {
-            tv_countryName.setText("");
-        }
-        String groupName = "";
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getAgeGroupName())) {
-            groupName = mTeamDetailModel.getAgeGroupName();
-        }
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
-            if (!Utility.isNullOrEmpty(groupName)) {
-                groupName = groupName + ", " + mTeamDetailModel.getGroup_name();
+        if (mTeamDetailModel != null) {
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
+                tv_team_name.setText(mTeamDetailModel.getName());
             } else {
-                groupName = mTeamDetailModel.getGroup_name();
+                tv_team_name.setText("");
             }
-        }
-        tv_team_member_desc.setText(groupName);
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
-            tv_group_table_title.setText(mTeamDetailModel.getGroup_name() + " " + getString(R.string.league_table));
-        } else {
-            tv_group_table_title.setText("");
+
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
+                Glide.with(mContext)
+                        .load(mTeamDetailModel.getCountryLogo())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(iv_team_flag);
+
+            } else {
+                Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+                        R.drawable.globe);
+                iv_team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+            }
+
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryName())) {
+                tv_countryName.setText(mTeamDetailModel.getCountryName());
+            } else {
+                tv_countryName.setText("");
+            }
+            String groupName = "";
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getAgeGroupName())) {
+                groupName = mTeamDetailModel.getAgeGroupName();
+            }
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
+                if (!Utility.isNullOrEmpty(groupName)) {
+                    groupName = groupName + ", " + mTeamDetailModel.getGroup_name();
+                } else {
+                    groupName = mTeamDetailModel.getGroup_name();
+                }
+            }
+            tv_team_member_desc.setText(groupName);
+            if (!Utility.isNullOrEmpty(mTeamDetailModel.getGroup_name())) {
+                tv_group_table_title.setText(mTeamDetailModel.getGroup_name() + " " + getString(R.string.league_table));
+            } else {
+                tv_group_table_title.setText("");
+            }
         }
     }
 
@@ -503,15 +499,11 @@ public class TeamActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
             Glide.with(mContext)
                     .load(mLeagueModel.getTeamFlag())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                        }
-                    });
+                    .dontAnimate()
+                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                    .into(team_flag);
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);

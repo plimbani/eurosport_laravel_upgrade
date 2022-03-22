@@ -7,8 +7,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.LandingActivity;
@@ -29,6 +29,8 @@ import com.testfairy.TestFairy;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import okhttp3.internal.Util;
+
 public class AutoLoginUtils {
     private final static String TAG = "AutoLoginUtils";
     private static AppPreference mAppSharedPref;
@@ -41,7 +43,7 @@ public class AutoLoginUtils {
 
     public static void checkAppVersion(final Context mContext) {
         if (Utility.isInternetAvailable(mContext)) {
-            String url = ApiConstants.APP_VERSION;
+            String url = ApiConstants.PROJECT_CONFIGURATION;
             final JSONObject requestJson = new JSONObject();
 
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
@@ -57,6 +59,17 @@ public class AutoLoginUtils {
                         if (response.has("android_app_version")) {
                             serverVersion = response.getString("android_app_version");
                         }
+
+                        if (response != null && response.has("enable_testfairy_android")) {
+                            mAppSharedPref.setString(AppConstants.KEY_ENABLE_TF_ANDROID, response.getString("enable_testfairy_android"));
+                        }
+                        if (response != null && response.has("enable_testfairy_video_capture_android")) {
+                            mAppSharedPref.setString(AppConstants.KEY_ENABLE_TF_VIDEO_ANDROID, response.getString("enable_testfairy_video_capture_android"));
+                        }
+                        if (response != null && response.has("enable_testfairy_feedback_android")) {
+                            mAppSharedPref.setString(AppConstants.KEY_ENABLE_TF_FEEDBACK_ANDROID, response.getString("enable_testfairy_feedback_android"));
+                        }
+                        Utility.setTFFlags(mContext);
                         AppLogger.LogD("TAG", "server apk version " + serverVersion);
                         PackageManager manager = mContext.getPackageManager();
                         PackageInfo info;
@@ -76,7 +89,6 @@ public class AutoLoginUtils {
                             showUpdateDialog(ApplicationClass.getInstance().getmActivity().get());
                         }
                         checkStoreCredentials(mContext);
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -268,14 +280,6 @@ public class AutoLoginUtils {
                                 mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
                                 Utility.setLocale(mContext, jsonObject.getString("locale"));
                             }
-                            if (response != null && response.has("enable_logs_android")) {
-                                String enable_logs_android = response.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
-                                    TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppSharedPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
-                                    TestFairy.setUserId(jsonObject.getString("user_id"));
-                                }
-                            }
                             if (jsonObject.has("settings")) {
                                 JSONObject mSettingsJson = jsonObject.getJSONObject("settings");
                                 if (mSettingsJson.has("value") && !Utility.isNullOrEmpty(mSettingsJson.getString("value"))) {
@@ -389,8 +393,10 @@ public class AutoLoginUtils {
         }
     }
 
-    private static void postUserDeviceDetails(final Context mContext) {
 
+
+    private static void postUserDeviceDetails(final Context mContext) {
+        Utility.setTFFlags(mContext);
         if (Utility.isInternetAvailable(mContext)) {
             PackageManager manager = mContext.getPackageManager();
             PackageInfo info;
