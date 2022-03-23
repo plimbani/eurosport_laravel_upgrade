@@ -8,7 +8,7 @@
 		'rules' => 'Regler',
 		'history' => 'Historie',
 		'program' => 'Program',
-		'stay' => 'Gæstfrihed',
+		'stay' => 'Jeres ophold',
 		'meals' => 'Mad',
 		'accommodation' => 'Indkvartering',
 		'visitors' => 'Tjekke ind',
@@ -62,7 +62,7 @@
 		'close' => 'Luk',
 		'main_menu' => 'Hovedmenu',
 		'age_categories' => 'Alderskategorier',
-		'program_overview' => 'Undersøgelsen',
+		'program_overview' => 'Oversigt',
 		'tips' => 'Tips',
 	]
 ?>
