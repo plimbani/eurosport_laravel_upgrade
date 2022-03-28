@@ -313,16 +313,15 @@ import Tournament from '../api/tournament.js'
                   Vue.nextTick()
                   .then(function () {
                     setTimeout(function(){
-                      $.each(vm.allPitchesWithDays, function(pitchIndex, pitch) {
-                        $.each(pitch.days, function(dayIndex, dayDetail) {
-                          $('.start-time-' + pitch.id + '-' + dayDetail.stage_no + ', .end-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker({
-                            'minTime': pitch.time[dayIndex].start_time,
-                            'maxTime': pitch.time[dayIndex].end_time,
-                            'timeFormat': 'H:i',
-                          });
-                          $('.start-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker('setTime', pitch.time[dayIndex].start_time);
-                          $('.end-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker('setTime', pitch.time[dayIndex].end_time);
+                      let pitch = vm.allPitchesWithDays[pitchId];
+                      $.each(pitch.days, function(dayIndex, dayDetail) {
+                        $('.start-time-' + pitch.id + '-' + dayDetail.stage_no + ', .end-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker({
+                          'minTime': pitch.time[dayIndex].start_time,
+                          'maxTime': pitch.time[dayIndex].end_time,
+                          'timeFormat': 'H:i',
                         });
+                        $('.start-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker('setTime', pitch.time[dayIndex].start_time);
+                        $('.end-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker('setTime', pitch.time[dayIndex].end_time);
                       });
                     }, 500);
                     vm.$forceUpdate();

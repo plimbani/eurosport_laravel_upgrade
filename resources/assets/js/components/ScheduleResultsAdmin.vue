@@ -61,6 +61,7 @@
 										</ul>
 										<div class="tab-content summary-content">
 										<component :is="currentView" :tournamentStartDate ="this.tournamentStartDate" :currentView="currentView"></component>
+										<UnsaveMatchScoreModel @unchanged-match-scores="unChangedMatchScoresModal"></UnsaveMatchScoreModel>
 											<!--<div class="card">
 												<div class="card-block">
 													<component :is="currentView" :currentView="currentView"></component>
@@ -86,6 +87,7 @@ import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
 import FinalPlacings from './FinalPlacings.vue'
 var moment = require('moment-timezone');
+import UnsaveMatchScoreModel from './UnsaveMatchScoreModel.vue'
 
 export default {
 	data() {
@@ -99,8 +101,6 @@ export default {
 			currentDate: moment().tz("Europe/London").format('YYYY-MM-DD'),
 		}
 	},
-
-
 	computed: {
     	tournamentStartDataDisplay() {
 	     	let startDate = this.tournamentStartDate;
@@ -113,7 +113,6 @@ export default {
 	    }
   	},
 
-
 	filters: {
 	    formatDate: function(date) {
 	      if(date != null ) {
@@ -123,6 +122,19 @@ export default {
 	      }
 	    }
 	  },
+	beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'match_results')
+      { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
+        $('#unSaveMatchModal').modal('show');
+      } else {
+        next();
+      }
+    },
 	mounted(){
 		let tournamentId = this.$store.state.Tournament.tournamentId
         if(tournamentId == null || tournamentId == '') {
@@ -140,7 +152,7 @@ export default {
 	    // Also Call Api For Getting the last Updated Record
 	},
 	components: {
-		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
+		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings,UnsaveMatchScoreModel
 	},
 	created: function() {
     	this.$root.$on('changeComp1', this.setMatchData1);
@@ -236,6 +248,9 @@ export default {
 			  	}
 			)
 		}
+		unChangedMatchScoresModal(data) {
+	    	this.$parent.setUnChangedMatchScoresModal(data);
+	    },
 	}
 }
 </script>

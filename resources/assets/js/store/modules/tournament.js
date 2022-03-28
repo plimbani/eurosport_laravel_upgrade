@@ -128,10 +128,12 @@ const actions = {
 	)
   },
   SetTeams ({commit},tournamentId) {
+    $("body .js-loader").removeClass('d-none');
     let tournamentData = { 'tournamentId': tournamentId };
     Tournament.getAllTeams(tournamentData).then (
       (response) => {
         commit(types.SET_TEAMS, response.data.data)
+        $("body .js-loader").addClass('d-none');
       },
       (error) => {
       }
