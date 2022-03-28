@@ -326,8 +326,9 @@ class TournamentRepository
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
         $tournamentData = array(
-            'id' => $tournamentId,
-            'name' => $data['name'],
+            'id'                  => $tournamentId,
+            'name'                => $data['name'],
+            'slug'                => Tournament::where('id', $tournamentId)->first()->slug,
             'tournamentStartDate' => $data['start_date'],
             'tournamentEndDate'   => $data['end_date'],
             'tournamentStatus'    => 'Unpublished',

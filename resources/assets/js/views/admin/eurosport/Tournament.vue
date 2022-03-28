@@ -91,7 +91,6 @@
                 </div>
               </div>
 							<component :is="currentView"> </component>
-              <UnsaveMatchScoreModel @unchanged-match-scores="unChangedMatchScoresModal"></UnsaveMatchScoreModel>
 						</div>
 					</div>
 				</div>
@@ -116,7 +115,6 @@ import SummaryReport from '../../../components/SummaryReport.vue'
 import Messages from '../../../components/Messages.vue'
 import PresentationSettings from '../../../components/PresentationSettings.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
-import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 // import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
 import PublishTournament from '../../../components/PublishTournament.vue'
 import UnPublishedTournament from '../../../components/UnPublishedTournament.vue'
@@ -136,21 +134,7 @@ export default {
        }
     },
     components: {
-        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, Messages, PresentationSettings, AddMessageModel, UnsaveMatchScoreModel,PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
-    },
-    beforeRouteLeave(to, from, next) {
-      let redirectName = to.name; 
-      let matchResultChange = this.$store.state.Tournament.matchResultChange;
-      let currentSection = from.name;
-      if ( matchResultChange && currentSection == 'tournaments_summary_details')
-      { 
-        window.sectionVal = -1;
-        window.redirectPath = redirectName;
-        $('#unSaveMatchModal').modal('show');
-      }
-      else{
-        next();
-      }
+        SummaryTab, ContactDetailsTab, SportsParksDetailsTab, SummaryReport, Messages, PresentationSettings, AddMessageModel, PublishTournament, UnPublishedTournament, TournamentStatus, PreviewTournament
     },
     mounted() {
       this.getSummaryData()
@@ -274,9 +258,6 @@ export default {
               vm.messageStatus = false
           });
         },500)
-      },
-      unChangedMatchScoresModal(data) {
-        this.$parent.setUnChangedMatchScoresModal(data);
       },
       next() {
         let currentNavigationData = {activeTab:'match_results', currentPage: 'Match Results'}

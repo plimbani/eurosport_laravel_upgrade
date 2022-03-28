@@ -473,6 +473,8 @@ var moment = require('moment-timezone');
                   vm.matchFixtureDetail();
                   $('#matchScheduleModal').modal('hide')
                   toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+                  vm.$store.dispatch('UnsaveMatchData',[]);
+                  vm.$store.dispatch('UnsaveMatchStatus',false);
                   let matchData = {};
 
                   matchData['home_score'] = $('#home_team_score').val()
@@ -488,10 +490,10 @@ var moment = require('moment-timezone');
                     vm.$root.$emit('setDrawTable',matchData['competation_id']);
                     vm.$root.$emit('setStandingData',matchData['competation_id']);
 
-                    let Id = vm.drawName.id
+                    /*let Id = vm.drawName.id
                     let Name = vm.drawName.name
                     let CompetationType = vm.drawName.actual_competition_type
-                    vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+                    vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);*/
                   } else {
                     vm.$root.$emit('displayTournamentCompetationList');
                     // vm.$root.$emit('setPitchReset');
