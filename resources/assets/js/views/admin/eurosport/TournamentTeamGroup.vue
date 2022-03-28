@@ -555,8 +555,7 @@
           this.availableGroupsTeam.splice(index, 1);
         }
         document.activeElement.blur();
-        $('.selTeams').prop("disabled", false);
-        $('.selTeams').select2({ minimumResultsForSearch: Infinity });
+        
       },
       assignTeamGroupName(id,val) {
         _.map(this.teams, function(team){
@@ -585,6 +584,8 @@
                   $('.selTeams').each(function( index ) {
                     that.initialfunc($(this).data('id'))
                   });
+                  $('.selTeams').prop("disabled", false);
+                  $('.selTeams').select2({ minimumResultsForSearch: Infinity });
                 }, 500);
               });
           },
@@ -904,6 +905,8 @@
           this.onAssignGroup($('#' + secondTeamId).attr('data-select-id'));
           //this.swapSecondTeamInGroup();
         }
+        $('.selTeams').prop("disabled", false);
+        $('.selTeams').select2({ minimumResultsForSearch: Infinity });
       },
       onTeamDrag(ev,section) {
         $('#' + ev.target.id).addClass('is-active');
