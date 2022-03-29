@@ -4,11 +4,12 @@
             <div class="col-md-12 mb-3">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <button class="btn btn-primary btn-md" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
-                        <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Manual planning</button>
+                        <button class="btn btn-primary btn-md" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}} <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="You can automatically plan the matches per category on the pitches you select"><i class="fas fa-info-circle text-white"></i></span></button>
+                        <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Manual planning <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="You can manually drag and drop the matches from the right hand side on to the pitches to allocate the matches"><i class="fas fa-info-circle text-white"></i></span></button>
                         <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
                         <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0 && currentLayout === 'tmp'">Unschedule fixtures</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0 && currentLayout === 'commercialisation'">Unschedule matches</button>
                         <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule all fixtures</button>
                         <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
@@ -59,7 +60,14 @@
                                 <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
                                 data-toggle="tab" role="tab" href="#game-list">
-                                <div class="wrapper-tab">Games <span class="gameCount">({{totalMatchCount}})</span></div></a>
+                                    <div class="wrapper-tab" v-if="currentLayout === 'commercialisation'">Matches 
+                                        <span class="gameCount">({{totalMatchCount}})</span>
+                                        <span class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Matches to be planned. Time is including breaks."><i class="fas fa-info-circle text-white"></i></span>
+                                    </div>
+                                    <div class="wrapper-tab" v-else>Games 
+                                        <span class="gameCount">({{totalMatchCount}})</span>
+                                    </div>
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link']"
@@ -207,6 +215,7 @@
                 'totalNumberOfScheduledMatches': 0,
                 'isHorizontal': false,
                 'isVertical': true,
+                currentLayout: this.$store.state.Configuration.currentLayout,
             };
         },
         mounted() {
