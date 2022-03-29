@@ -16,7 +16,7 @@
                         <div class="col-md-5">
                           <select class="form-control ls-select2" v-model="teamSearch" name="teams" id="teams" v-on:change="filterData">
                               <option value="">Number of teams</option>
-                              <option v-for="n in 120" v-if="n >=4" :value="n">{{ n }}</option>
+                              <option v-for="n in 120" v-if="n >=3" :value="n">{{ n }}</option>
                           </select>
                         </div>
                         <div class="col-md-5">
