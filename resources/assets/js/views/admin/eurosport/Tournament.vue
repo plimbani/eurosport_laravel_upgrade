@@ -16,9 +16,15 @@
             </div>
 
             <div class="btn-group status-rules-btn-group ml-2">
-                <button class="btn btn-default btn-sm" :class="{'is-published': tournamentStatus == 'Published'}" data-toggle="modal" data-target="#publish_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#publish_status_rules'">Published</span></button>
+                <button class="btn btn-default btn-sm" :class="{'is-published': tournamentStatus == 'Published'}" data-toggle="modal" data-target="#publish_modal">
+                  <span v-if="tournamentStatus != 'Published' && currentLayout === 'commercialisation'" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#publish_status_rules'">Publish</span>
+                  <span v-else data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#publish_status_rules'">Published</span>
+                </button>
 
-                <button class="btn btn-default btn-sm" :class="{'is-unpublished': tournamentStatus == 'Unpublished'}"data-toggle="modal" data-target="#unpublish_modal"><span data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span></button>
+                <button class="btn btn-default btn-sm" :class="{'is-unpublished': tournamentStatus == 'Unpublished'}"data-toggle="modal" data-target="#unpublish_modal">
+                  <span v-if="tournamentStatus != 'Unpublished' && currentLayout === 'commercialisation'" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublish</span>
+                  <span v-else data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#unpublish_status_rules'" tabindex="0">Unpublished</span>
+                </button>
             </div>
 
             <div v-bind:id="'publish_status_rules'" style="display: none;">
@@ -126,6 +132,7 @@ export default {
         tournamentStatus:'',
         canDuplicateFavourites: false,
         deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
+        currentLayout: this.$store.state.Configuration.currentLayout,
        }
     },
     components: {
