@@ -725,6 +725,9 @@ export default {
     teamsToDisplay() {
       var totalTeams = [];
       if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
+          if(this.currentLayout === 'tmp') {
+            totalTeams.push(3);
+          }
           for (var n = 4; n <= 40; n++) {
               totalTeams.push(n);
           }
