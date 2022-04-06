@@ -355,7 +355,9 @@ var moment = require('moment');
             pitchData: function () {
               var pitchData = _.cloneDeep(this.$store.state.Pitch.pitchData);
               if (this.pitchAction == 'duplicate') {
-                pitchData.pitchdetail.pitch_number = '';
+                if(typeof pitchData.pitchdetail != "undefined") {
+                  pitchData.pitchdetail.pitch_number = '';
+                }
               }
               return pitchData
             },
