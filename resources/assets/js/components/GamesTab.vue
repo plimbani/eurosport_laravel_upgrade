@@ -8,8 +8,11 @@
         <div class="text-center" v-else v-for="(competition,competitionIndex) in gamesMatchListRecord">
           <div v-if="competition.matchList &&  competition.matchList.length > 0" >
             <h6 class="mb-1 mt-1"><strong>{{competition.group_name}}</strong></h6>
-            <div v-if="competition.matchCount == 0">
+            <div v-if="competition.matchCount == 0 && currentLayout === 'tmp'">
                 {{$lang.pitch_planner_no_games}}
+            </div>
+            <div v-if="competition.matchCount == 0 && currentLayout === 'commercialisation'">
+                {{$lang.pitch_planner_no_matches}}
             </div>
             <div class="text-center mt-3 matchClass"
             v-if="match.isScheduled!=1"
@@ -46,6 +49,7 @@ export default {
       'filterStatus': true,
       'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
       'gamesMatchListRecord': _.cloneDeep(this.$store.getters.getAllCompetitionWithGames),
+      currentLayout: this.$store.state.Configuration.currentLayout,
     }
   },
   computed: {

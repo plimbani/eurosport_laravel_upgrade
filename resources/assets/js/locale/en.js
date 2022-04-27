@@ -518,6 +518,7 @@ module.exports= {
   pitch_planner_label: "Match planner",
   pitch_planner_text: "*Add pitches.",
   pitch_planner_no_games: "All games scheduled",
+  pitch_planner_no_matches: "All matches scheduled",
   pitch_planner_horizontal: "Horizontal",
   pitch_planner_vertical: "Vertical",
 
