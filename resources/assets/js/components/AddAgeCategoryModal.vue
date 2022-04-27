@@ -88,14 +88,15 @@
                     <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                   </div>
               </div>
-              <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }">
+              <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }" 
+              v-if="displayTournamentFormatAndType">
                 <label class="col-sm-4 form-control-label">Tournament format*
                   <span v-if="currentLayout === 'tmp'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals"><i class="fas fa-info-circle"></i></span>
-                  <!-- <span v-else class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals <br> Standard - Tailor-made templates"><i class="fas fa-info-circle"></i></span> -->
+                  <span v-else class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals <br> Standard - Tailor-made templates"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row">
-                    <div class="col-md-4" v-if="currentLayout === 'tmp'">
+                    <div class="col-md-4">
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format" @change="validateTemplate()">
@@ -103,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" v-if="currentLayout === 'tmp'">
+                    <div class="col-md-4">
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format" @change="validateTemplate()">
@@ -115,15 +116,14 @@
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format" @change="validateTemplate()">
-                                <label for="radio_basic" v-if="currentLayout === 'tmp'">Basic</label>
-                                <label for="radio_basic" v-else>Standard knock out</label>
+                                <label for="radio_basic">Basic</label>
                             </div>
                         </div>
                     </div>                
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'" :class="{'has-error': errors.has('competition_type') }">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic' && isTournamentTypeShown" :class="{'has-error': errors.has('competition_type') }">
                 <label class="col-sm-4 form-control-label">Type*</label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -244,7 +244,7 @@
                                 </div>
                               </span>
                             </div>
-                            <div class="col-sm-8 align-self-center">
+                            <div class="col-sm-7 align-self-center">
                               <span for="one"
                               v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
                               {{option.name}}<br>{{displayRoundSchedule(option)}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
@@ -256,7 +256,7 @@
                               <span v-else>Avg games per team: Not applicable </span>
                               </span>
                             </div>
-                            <div class="col-sm-3 align-self-center text-center">
+                            <div class="col-sm-4 align-self-center text-center">
                               <a href="#" @click="viewTemplateGraphic(null, option.id)" class="btn btn-outline-primary btn-sm">View schedule</a>
                             </div>
                           </div>
@@ -300,7 +300,7 @@
                 <label class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                       <select class="form-control ls-select2" name="halves_RR" v-model="competation_format.halves_RR" @change="showHideHalfTimeBreakRR()">
                         <option value="1">1 x</option>
                         <option value="2">2 x</option>
@@ -325,7 +325,7 @@
                 <label class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
-                     <div class="col-sm-2">
+                     <div class="col-sm-3">
                         <select id="duration" name="halves_FM" v-model="competation_format.halves_FM" class="form-control ls-select2" @change="showHideHalfTimeBreakFM()">
                           <option value="1">1 x</option>
                           <option value="2">2 x</option>
@@ -415,7 +415,6 @@
                         <input type="number" placeholder="" v-validate="'required'"  name="minimum_team_interval"  v-model="competation_format.minimum_team_interval"
                        min="0" class="form-control">
                         <i v-show="errors.has('minimum_team_interval')" class="fas fa-warning"></i>
-                     
                     </div>
                     <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
                   </div>
@@ -533,7 +532,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
-                <div class="col-sm-4 form-control-label">Remarks</div>
+                <label class="col-sm-4 form-control-label">Remarks</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-12">
@@ -590,13 +589,14 @@ export default {
       haveTwoHalvesFM: true,
       initialHalfBreakRR: '5',
       initialHalfBreakFM: '5',      
-      categoryAgeArr: ['U7/5','U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15', 'U15/7','U15/8','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
+      categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15', 'U15/7','U15/8','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
       allCategoryRules: [],
       templateFontColors: ['rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'],
-      tournament_format: this.$store.state.Configuration.currentLayout === 'tmp' ? 'advance' : 'basic',
+      tournament_format: 'advance',
       competition_type: 'league',
       // group_size: '',
       remarks: '',
+      isTournamentTypeShown: true,
       maximum_limit_for_maximum_team_interval: 120,
       currentLayout: this.$store.state.Configuration.currentLayout,
       categoryId: null,
@@ -760,6 +760,33 @@ export default {
       });
 
       return groupSize;
+    },
+    currentTournamentDetail() {
+      return this.$store.state.Tournament;
+    },
+    displayTournamentFormatAndType() {
+      if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 0) {
+        this.isTournamentTypeShown = false;
+        this.tournament_format = 'basic';
+        this.competition_type = 'knockout';
+        this.dispTempl = false;
+        return false;
+      }
+      if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 1) {
+        this.dispTempl = false;
+        this.isTournamentTypeShown = false;
+        if(this.tournament_format == 'basic') {
+          this.competition_type = 'knockout';
+        }
+      }
+      if(this.currentTournamentDetail.tournament_type == 'league') {
+        this.isTournamentTypeShown = false;
+        this.tournament_format = 'basic';
+        this.competition_type = 'league';
+        this.dispTempl = false;
+        return false;
+      }
+      return true;
     },
     groupsToDisplay() {
       var totalGroups = [];
@@ -1023,7 +1050,7 @@ export default {
     },
     onChange (value) {
       this.value = value
-      this.competation_format.ageCategory_name = this.competation_format.category_age.replace('-', '');
+      this.competation_format.ageCategory_name = this.competation_format.category_age;
     },
     onSelect (option) {
       if (option === 'Disable me!') this.isDisabled = true
