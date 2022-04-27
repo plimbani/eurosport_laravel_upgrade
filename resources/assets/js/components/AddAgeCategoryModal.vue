@@ -346,8 +346,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-show="haveTwoHalvesRR">
-                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}
-                <span v-if="currentLayout === 'commercialisation'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="The break time between the first and second half"><i class="fas fa-info-circle"></i></span>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}<span v-if="currentLayout === 'commercialisation'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="The break time between the first and second half"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -374,9 +373,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval}}
-                <span v-if="currentLayout === 'commercialisation'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Time planned between the matches to change teams"><i class="fas fa-info-circle"></i></span>
-                </label>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval}}<span v-if="currentLayout === 'commercialisation'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Time planned between the matches to change teams"><i class="fas fa-info-circle"></i></span></label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -411,9 +408,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">Minimum team match interval*
-                <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Minimum time that a team has to wait for their next match"><i class="fas fa-info-circle"></i></span>
-                </label>
+                <label class="col-sm-4 form-control-label">Minimum team match interval*<span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Minimum time that a team has to wait for their next match"><i class="fas fa-info-circle"></i></span></label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -427,8 +422,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">Maximum team match interval* <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Maximum time that a team has to wait for their next match"><i class="fas fa-info-circle"></i></span>
-                </label>
+                <label class="col-sm-4 form-control-label">Maximum team match interval* <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Maximum time that a team has to wait for their next match"><i class="fas fa-info-circle"></i></span></label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
