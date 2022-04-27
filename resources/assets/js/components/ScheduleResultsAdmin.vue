@@ -247,7 +247,7 @@ export default {
 			    (error) => {
 			  	}
 			)
-		}
+		},
 		unChangedMatchScoresModal(data) {
 	    	this.$parent.setUnChangedMatchScoresModal(data);
 	    },
