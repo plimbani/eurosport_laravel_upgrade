@@ -69,11 +69,11 @@
                       <div class="wrapper-tab">{{$lang.summary_label_reports}}</div>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" :class="isResultAdmin ? 'active' : ''" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">
                       <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
                     </a>
-                  </li>
+                  </li> -->
                   <li class="nav-item" v-if="!isResultAdmin && !isCustomer">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
