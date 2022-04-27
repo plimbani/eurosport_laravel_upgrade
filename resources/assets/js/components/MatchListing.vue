@@ -118,7 +118,7 @@ export default {
 		    	} else {
         			this.filterKey1 = filterKey
 		    	}
-            // this.filterValue1 = filterValue
+            this.filterValue1 = filterValue;
 
             // this.getAllMatches(this.currentDate, this.matchScoreFilter, this.filterKey1,this.filterValue1)
   	        this.getAllMatches(this.currentDate, this.matchScoreFilter, this.filterKey1,filterValue)
@@ -137,10 +137,10 @@ export default {
 	          (response) => {
 	            this.teams = response.data.data
 
-	            _.forEach(response.data.data, function(key,team) {
-	             //  console.log(team.id)
-	             // this.teamsIdList=team.id
-	            });
+	            // _.forEach(response.data.data, function(key,team) {
+	            //  //  console.log(team.id)
+	            //  // this.teamsIdList=team.id
+	            // });
 	          },
 	        (error) => {
 	        }
