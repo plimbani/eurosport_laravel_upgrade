@@ -62,7 +62,7 @@
                                 data-toggle="tab" role="tab" href="#game-list">
                                 <div class="wrapper-tab" v-if="currentLayout === 'commercialisation'">Matches 
                                         <span class="gameCount">({{totalMatchCount}})</span>
-                                        <span class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Matches to be planned. Time is including breaks."><i class="fas fa-info-circle text-white"></i></span>
+                                        <span class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="left" data-content="Matches to be planned. Time is including breaks."><i class="fas fa-info-circle text-white"></i></span>
                                     </div>
                                     <div class="wrapper-tab" v-else>Games 
                                         <span class="gameCount">({{totalMatchCount}})</span>
