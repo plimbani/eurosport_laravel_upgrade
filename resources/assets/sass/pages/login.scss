@@ -68,17 +68,6 @@
         }
     }
 
-    .btn-login-inverse {
-        border-color: $ls-color-primary;
-        background-color: $white;
-        pointer-events: none;
-        // color: $ls-color-secondary;
-        color: color('shades','black');
-
-        &:hover {
-            background-color: darken($white, 5%);
-        }
-    }
 }
 
 .login-box .c-input {

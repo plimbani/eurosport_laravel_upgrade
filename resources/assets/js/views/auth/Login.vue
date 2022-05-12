@@ -32,6 +32,22 @@
                             </div>
 
                             <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="checkbox">
+                                        <div class="c-input">
+                                            <input type="checkbox" class="euro-checkbox" id="terms" 
+                                             name="terms"
+                                             v-model.lazy="loginData.terms"
+                                             true-value="true"
+                                            false-value="false"
+                                            @change="persist($event)">
+                                            <label for="terms"><router-link :to="'/termsandconditions'"><a href="#" class="forgot-link">{{$lang.login_terms_message}}</a></router-link></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-lg-5 col-md-6">
                                     <div class="form-group">
                                         <button class="btn btn-success btn-block" :disabled="disabled">{{$lang.login_button}}</button>
@@ -85,11 +101,18 @@
                     password: '',
                     remember: '',
                     forgotpassword: 0,
+                    terms: false,
                 },
                 disabled:false,
                 fromRegister:0
             }
         },
+        created() {
+            if (localStorage.terms) {
+              this.loginData.terms = localStorage.terms;
+            }
+            this.loginBtnDisabled();
+          },
         mounted()
         {
             if ( Ls.get('registrationMessage') )
@@ -215,6 +238,17 @@
                   (error)=> {
                   }
                 );            
+            },
+            persist($event) {
+                localStorage.terms = $event.target.checked;
+                this.loginBtnDisabled();
+            },
+            loginBtnDisabled() {
+                if (this.loginData.terms == 'true') {
+                    this.disabled = false;
+                } else {
+                    this.disabled = true;
+                }
             }
         }
     }
