@@ -20,7 +20,7 @@
                                 <label for="email-id">Email Address</label>
                                 <input type="email" class="form-control" id="email-id" placeholder="e.g name@domain.com" name="email"
                        v-model="loginData.email" v-validate="{ rules: { required: true, email: true } }">
-                            		<span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+                                    <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
                                         <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                             </div>
 
@@ -120,10 +120,10 @@
                         this.getUserDetails(userData);
                         this.getConfigurationDetail();
 
-						let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
-						if(indxOfCustomer > -1){
-							Ls.set('user_role','customer')
-						}
+                        let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
+                        if(indxOfCustomer > -1){
+                            Ls.set('user_role','customer')
+                        }
 
                         if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
                             // console.log("tournamentDetails::",tournamentDetails);

@@ -449,7 +449,7 @@ const routes = [
             }
         ]
     },
-	{
+    {
         path: '/paymentfailure', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
         children: [
