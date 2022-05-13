@@ -127,7 +127,7 @@
                                     <th>{{$lang.pitch_size}}</th>
                                     <th>Pitch capacity</th>
                                     <th>{{$lang.pitch_totaL_time}}</th>
-                                    <th>{{$lang.pitch_balance}}<span v-if="currentLayout === 'commercialisation'" class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="top" data-content="A positive or negative time indicates if there is sufficient or not enough pitch time to play the whole tournament"><i class="fas fa-info-circle"></i></span></th>
+                                    <th>{{$lang.pitch_balance}}<span v-if="currentLayout === 'commercialisation'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="top" data-content="A positive or negative time indicates if there is sufficient or not enough pitch time to play the whole tournament"><i class="fas fa-info-circle"></i></span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -369,6 +369,10 @@ import draggable from 'vuedraggable';
             let this3 = this
             this.getVenuesDropDownData();
 
+            $('.js-basic-popover[data-toggle=popover]').popover({
+                html : true,
+                trigger: 'hover'
+            });
         },
         methods: {
             displayPitch(value) {
