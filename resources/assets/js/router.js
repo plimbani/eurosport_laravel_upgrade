@@ -18,6 +18,7 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 
 //Login : Auth
 import Login from './views/auth/Login.vue'
+import Terms from './views/auth/Terms.vue'
 import PasswordReset from './views/auth/Reset.vue'
 import Register from './views/auth/Register.vue'
 import PasswordSet from './views/auth/PasswordSet.vue'
@@ -353,6 +354,11 @@ const routes = [
         ]
     },
     {
+        path: '/termsandconditions',
+        component: Terms,
+        name: 'terms'
+    },
+    {
         path: '/', component: LayoutCommercialisation,
         // meta: { requiresAuth: true },
         children: [
@@ -449,7 +455,7 @@ const routes = [
             }
         ]
     },
-	{
+    {
         path: '/paymentfailure', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
         children: [

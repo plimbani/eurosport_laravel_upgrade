@@ -20,7 +20,7 @@
                                 <label for="email-id">Email Address</label>
                                 <input type="email" class="form-control" id="email-id" placeholder="e.g name@domain.com" name="email"
                        v-model="loginData.email" v-validate="{ rules: { required: true, email: true } }">
-                            		<span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+                                    <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
                                         <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                             </div>
 
@@ -29,6 +29,22 @@
                                  <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password"
                                 v-model="loginData.password" v-validate data-vv-rules="required">
                                  <span class="help is-danger" v-show="errors.has('password')">{{$lang.login_password_validation_message}}</span> 
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="checkbox">
+                                        <div class="c-input">
+                                            <input type="checkbox" class="euro-checkbox" id="terms" 
+                                             name="terms"
+                                             v-model.lazy="loginData.terms"
+                                             true-value="true"
+                                            false-value="false"
+                                            @change="persist($event)">
+                                            <label for="terms"><router-link :to="'/termsandconditions'"><a href="#" class="forgot-link">{{$lang.login_terms_message}}</a></router-link></label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -85,11 +101,18 @@
                     password: '',
                     remember: '',
                     forgotpassword: 0,
+                    terms: false,
                 },
                 disabled:false,
                 fromRegister:0
             }
         },
+        created() {
+            if (localStorage.terms) {
+              this.loginData.terms = localStorage.terms;
+            }
+            this.loginBtnDisabled();
+          },
         mounted()
         {
             if ( Ls.get('registrationMessage') )
@@ -120,10 +143,10 @@
                         this.getUserDetails(userData);
                         this.getConfigurationDetail();
 
-						let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
-						if(indxOfCustomer > -1){
-							Ls.set('user_role','customer')
-						}
+                        let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
+                        if(indxOfCustomer > -1){
+                            Ls.set('user_role','customer')
+                        }
 
                         if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
                             // console.log("tournamentDetails::",tournamentDetails);
@@ -215,6 +238,17 @@
                   (error)=> {
                   }
                 );            
+            },
+            persist($event) {
+                localStorage.terms = $event.target.checked;
+                this.loginBtnDisabled();
+            },
+            loginBtnDisabled() {
+                if (this.loginData.terms == 'true') {
+                    this.disabled = false;
+                } else {
+                    this.disabled = true;
+                }
             }
         }
     }
