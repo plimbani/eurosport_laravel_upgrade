@@ -39,6 +39,7 @@ module.exports= {
   login_email_validation_message: "This field is required.",
   login_password_validation_message: "This field is required.",
   login_remember_message: "Remember me",
+  login_terms_message: "I accept the general conditions",
   login_forgotpassword_message: "Forgot password?",
   login_button: "Login",
   login_forgot_password_message: "Enter your e-mail address below to reset your password.",

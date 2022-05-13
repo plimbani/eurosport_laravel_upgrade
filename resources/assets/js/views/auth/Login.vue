@@ -30,7 +30,22 @@
                 <a href="#" class="forgot-link" @click="forgotPasswordOpen()">{{$lang.login_forgotpassword_message}}</a>
             </div>
         </div>
-        <button class="btn btn-login btn-full euro-button">{{$lang.login_button}}</button>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="checkbox">
+                    <div class="c-input">
+                        <input type="checkbox" class="euro-checkbox" id="terms" 
+                         name="terms"
+                         v-model.lazy="loginData.terms"
+                         true-value="true"
+                        false-value="false"
+                        @change="persist($event)">
+                        <label for="terms"><router-link :to="'/termsandconditions'"><a href="#" class="forgot-link">{{$lang.login_terms_message}}</a></router-link></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button v-bind:class = "loginBtnClass()" class="btn btn-full euro-button">{{$lang.login_button}}</button>
     </form>
     </div>
     <div v-else>
@@ -69,10 +84,16 @@
                     email: '',
                     password: '',
                     remember: '',
-                    forgotpassword: 0
+                    forgotpassword: 0,
+                    terms: false,
                 }
             }
         },
+        created() {
+            if (localStorage.terms) {
+              this.loginData.terms = localStorage.terms;
+            }
+          },
         methods: {
             validateBeforeSubmit(e){
                 this.$validator.validateAll();
@@ -111,7 +132,19 @@
                     }
                 });
             });
-            }
+            },
+            persist($event) {
+                localStorage.terms = $event.target.checked;
+            },
+            loginBtnClass() {
+                var result = [];
+                if (this.loginData.terms == 'true') {
+                    result.push('btn-login');
+                } else {
+                    result.push('btn-login-inverse');
+                }
+                return result;
+            },
         },
     }
 </script>

@@ -18,6 +18,7 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 
 //Login : Auth
 import Login from './views/auth/Login.vue'
+import Terms from './views/auth/Terms.vue'
 import Register from './views/auth/Register.vue'
 import PasswordReset from './views/auth/Reset.vue'
 import PasswordSet from './views/auth/PasswordSet.vue'
@@ -293,6 +294,12 @@ const routes = [
             },
             
         ]
+    },
+
+    {
+        path: '/termsandconditions',
+        component: Terms,
+        name: 'terms'
     },
 
     // DEFAULT ROUTE
