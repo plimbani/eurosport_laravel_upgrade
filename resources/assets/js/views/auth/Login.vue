@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <button v-bind:class = "loginBtnClass()" class="btn btn-full euro-button">{{$lang.login_button}}</button>
+        <button v-bind:class = "loginBtnClass()" :disabled="disabled" class="btn btn-full euro-button">{{$lang.login_button}}</button>
     </form>
     </div>
     <div v-else>
@@ -86,13 +86,15 @@
                     remember: '',
                     forgotpassword: 0,
                     terms: false,
-                }
+                },
+                disabled:false,
             }
         },
         created() {
             if (localStorage.terms) {
               this.loginData.terms = localStorage.terms;
             }
+            this.loginBtnDisabled();
           },
         methods: {
             validateBeforeSubmit(e){
@@ -135,6 +137,7 @@
             },
             persist($event) {
                 localStorage.terms = $event.target.checked;
+                this.loginBtnDisabled();
             },
             loginBtnClass() {
                 var result = [];
@@ -145,6 +148,13 @@
                 }
                 return result;
             },
+            loginBtnDisabled() {
+                if (this.loginData.terms == 'true') {
+                    this.disabled = false;
+                } else {
+                    this.disabled = true;
+                }
+            }
         },
     }
 </script>
