@@ -38,13 +38,13 @@
 		by Euro-Sportring under an agreement with the Tournament Organiser. </span></p>
 
 		<p style='margin-bottom:3.0pt;'><b><span
-		lang=EN-GB style='color:#202124;'>Euro-Sportring</span></b><span
-		lang=EN-GB style='color:#202124;'>: </span><span lang=EN-GB>Stichting
+		lang=EN-GB>Euro-Sportring</span></b><span
+		lang=EN-GB>: </span><span lang=EN-GB>Stichting
 		Euro-Sportring of Baarn, the Netherlands. </span></p>
 
 		<p style='margin-bottom:3.0pt;'><b><span
-		lang=EN-GB style='color:#202124;'>General Data Protection
-		Regulation</span></b><span lang=EN-GB style='color:#202124;'>&nbsp;(GDPR)</span><span
+		lang=EN-GB>General Data Protection
+		Regulation</span></b><span lang=EN-GB>&nbsp;(GDPR)</span><span
 		lang=EN-GB>: European Union and UK legislation relating to personal data and
 		all other legislation and regulatory requirements in force from time to time
 		which apply to a party relating to the use of personal data (including, without
