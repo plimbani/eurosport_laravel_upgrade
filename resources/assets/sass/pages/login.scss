@@ -72,8 +72,8 @@
         border-color: $ls-color-primary;
         background-color: $white;
         pointer-events: none;
-        // color: $ls-color-secondary;
-        color: color('shades','black');
+        color: $ls-color-primary;
+        //color: color('shades',$ls-color-primary);
 
         &:hover {
             background-color: darken($white, 5%);
