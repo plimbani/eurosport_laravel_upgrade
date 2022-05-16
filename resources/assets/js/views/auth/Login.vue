@@ -41,7 +41,7 @@
                                              true-value="true"
                                             false-value="false"
                                             @change="persist($event)">
-                                            <label for="terms"><router-link :to="'/termsandconditions'"><a href="#" class="forgot-link">{{$lang.login_terms_message}}</a></router-link></label>
+                                            <label for="terms"><router-link :to="'/termsandconditions'"><a href="#">{{$lang.login_terms_message}}</a></router-link></label>
                                         </div>
                                     </div>
                                 </div>

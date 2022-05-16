@@ -5,7 +5,7 @@
 .register-section {
     background: $white;
 
-    p {
+    p,label {
         a {
             color: $theme-color-primary;
             text-decoration: underline;
