@@ -337,6 +337,7 @@ var moment = require('moment');
                 'stage_break': [],
                 'breakEnable': [],
                 isSaveInProcess: false,
+                componentLoaded: false,
                 }
         },
         computed: {
@@ -354,6 +355,12 @@ var moment = require('moment');
             },
             pitchData: function () {
               var pitchData = _.cloneDeep(this.$store.state.Pitch.pitchData);
+              if(! this.componentLoaded) {
+                pitchData.pitchdetail = [];
+                pitchData.pitchdetail.venue_id = '';
+                return pitchData;
+              }
+
               if (this.pitchAction == 'duplicate') {
                 if(typeof pitchData.pitchdetail != "undefined") {
                   pitchData.pitchdetail.pitch_number = '';
@@ -384,6 +391,7 @@ var moment = require('moment');
 
         },
         mounted(){
+            this.componentLoaded = true;
             Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker', 'addstage'])
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
