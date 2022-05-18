@@ -112,6 +112,7 @@ export default {
       this.$root.$emit('changeComp', Id, Name);
     },
     changeDrawDetails(competition) {
+      $('.js-loader').removeClass('d-none');
     	this.$emit('changeDrawDetails',competition);
     },
     changeTeamDetails() {
