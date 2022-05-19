@@ -144,8 +144,8 @@ lang=EN-GB>8.2 The exclusions in clause 8.1 shall apply to the fullest extent pe
 <p style='margin-bottom:3.0pt;'><span
 lang=EN-GB>8.3 All references to TMP in clause 8.1 shall, for the purposes of this clause only, be treated as including Euro-Sportring, who shall have the benefit of the exclusions and limitations of liability set out in this clause, in accordance with clause 14.</span></p>
 
-<p style='margin-bottom:3.0pt;'><span
-lang=EN-GB>9. </span><b><span lang=EN-GB style='color:#202124;background:white'>General
+<p style='margin-bottom:3.0pt;'><b><span
+lang=EN-GB>9. </span><span lang=EN-GB>General
 Data Protection Regulation</span></b><span lang=EN-GB style='color:#202124;
 background:white'>&nbsp;</span></p>
 
