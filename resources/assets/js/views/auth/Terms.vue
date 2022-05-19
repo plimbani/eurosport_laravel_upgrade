@@ -144,10 +144,9 @@ lang=EN-GB>8.2 The exclusions in clause 8.1 shall apply to the fullest extent pe
 <p style='margin-bottom:3.0pt;'><span
 lang=EN-GB>8.3 All references to TMP in clause 8.1 shall, for the purposes of this clause only, be treated as including Euro-Sportring, who shall have the benefit of the exclusions and limitations of liability set out in this clause, in accordance with clause 14.</span></p>
 
-<p style='margin-bottom:3.0pt;'><span
-lang=EN-GB>9. </span><b><span lang=EN-GB style='color:#202124;background:white'>General
-Data Protection Regulation</span></b><span lang=EN-GB style='color:#202124;
-background:white'>&nbsp;</span></p>
+<p style='margin-bottom:3.0pt;'><b><span
+lang=EN-GB>9. </span><span lang=EN-GB>General
+Data Protection Regulation</span></b></p>
 
 <p style='margin-bottom:3.0pt;'><span
 lang=EN-GB>9.1 TMP undertakes to use the Personal Data obtained from you exclusively for managing the Application, assisted by TMP. TMP will, and will cause Euro-Sportring to, refrain from providing personal data to a third party and ensure that everyone involved in the Processing of Personal Data treats that Personal Data confidentially.</span></p>
