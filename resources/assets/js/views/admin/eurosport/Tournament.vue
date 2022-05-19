@@ -62,7 +62,7 @@
                       <div class="wrapper-tab">{{$lang.summary_label_sports_parks_details}}</div>
                     </a>
                   </li>
-                  <li class="nav-item" v-if="!isResultAdmin">
+                  <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'">
                       <div class="wrapper-tab">{{$lang.summary_label_reports}}</div>
                     </a>
