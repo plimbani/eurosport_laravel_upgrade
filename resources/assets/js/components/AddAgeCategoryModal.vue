@@ -111,11 +111,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" v-if="this.$store.state.Configuration.showBasicTournamentFormat">
+                    <div class="col-md-4 p-0" v-if="this.$store.state.Configuration.showBasicTournamentFormat">
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format" @change="validateTemplate()">
-                                <label for="radio_basic" v-if="currentLayout === 'tmp'">Basic</label>
+                                 <label for="radio_basic" v-if="currentLayout === 'tmp'">Basic</label>
                                 <label for="radio_basic" v-else>Standard knock out</label>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'" :class="{'has-error': errors.has('competition_type') }">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic' && currentLayout === 'tmp'" :class="{'has-error': errors.has('competition_type') }">
                 <label class="col-sm-4 form-control-label">Type*</label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -593,7 +593,7 @@ export default {
       allCategoryRules: [],
       templateFontColors: ['rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'],
       tournament_format: this.$store.state.Configuration.currentLayout === 'tmp' ? 'advance' : 'basic',
-      competition_type: 'league',
+      competition_type: this.$store.state.Configuration.currentLayout === 'tmp' ? 'league' : 'knockout',
       // group_size: '',
       remarks: '',
       maximum_limit_for_maximum_team_interval: 120,
