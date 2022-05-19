@@ -123,7 +123,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'" :class="{'has-error': errors.has('competition_type') }">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic' && currentLayout === 'tmp'" :class="{'has-error': errors.has('competition_type') }">
                 <label class="col-sm-4 form-control-label">Type*</label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -593,7 +593,7 @@ export default {
       allCategoryRules: [],
       templateFontColors: ['rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'],
       tournament_format: this.$store.state.Configuration.currentLayout === 'tmp' ? 'advance' : 'basic',
-      competition_type: 'league',
+      competition_type: this.$store.state.Configuration.currentLayout === 'tmp' ? 'league' : 'knockout',
       // group_size: '',
       remarks: '',
       isTournamentTypeShown: true,
