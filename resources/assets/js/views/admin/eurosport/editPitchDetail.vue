@@ -36,7 +36,7 @@
                       <div class="form-group row">
                         <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}*</label>
                         <div class="col-sm-6">
-                          <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number') }" v-validate="'required'"   name="pitch_number"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
+                          <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number') }" v-validate="'required'" name="pitch_number"  value="" class="form-control">
                           <i v-show="errors.has('pitch_number')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
                         </div>
