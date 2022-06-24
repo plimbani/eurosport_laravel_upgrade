@@ -91,7 +91,6 @@
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }">
                 <label class="col-sm-4 form-control-label">Tournament format*
                   <span v-if="currentLayout === 'tmp'" class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals"><i class="fas fa-info-circle"></i></span>
-                  <span v-else class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Advanced - Templates with round robin and knock-out matches <br> Festival - Round robin matches, no finals <br> Standard - Tailor-made templates"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -111,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" v-if="this.$store.state.Configuration.showBasicTournamentFormat">
+                    <div :class="{'col-md-4': currentLayout === 'tmp', 'col-md-6': currentLayout !== 'tmp' }" v-if="this.$store.state.Configuration.showBasicTournamentFormat">
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format" @change="validateTemplate()">
@@ -123,7 +122,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'" :class="{'has-error': errors.has('competition_type') }">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic' && currentLayout === 'tmp'" :class="{'has-error': errors.has('competition_type') }">
                 <label class="col-sm-4 form-control-label">Type*</label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -593,10 +592,9 @@ export default {
       allCategoryRules: [],
       templateFontColors: ['rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'],
       tournament_format: this.$store.state.Configuration.currentLayout === 'tmp' ? 'advance' : 'basic',
-      competition_type: 'league',
+      competition_type: this.$store.state.Configuration.currentLayout === 'tmp' ? 'league' : 'knockout',
       // group_size: '',
       remarks: '',
-      isTournamentTypeShown: true,
       maximum_limit_for_maximum_team_interval: 120,
       currentLayout: this.$store.state.Configuration.currentLayout,
       categoryId: null,
