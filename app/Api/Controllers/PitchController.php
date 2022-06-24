@@ -276,6 +276,7 @@ class PitchController extends BaseController
                             ->where('pitch_availibility.stage_start_date', $startDate)
                             ->where('pitches.tournament_id', $tournamentId)
                             ->where('pitches.deleted_at', '=', NULL)
+                            ->where('pitch_availibility.deleted_at', '=', NULL)
                             ->select('pitches.*')
                             ->get();
 

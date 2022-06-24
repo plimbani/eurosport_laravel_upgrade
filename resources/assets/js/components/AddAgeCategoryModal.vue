@@ -595,7 +595,6 @@ export default {
       competition_type: this.$store.state.Configuration.currentLayout === 'tmp' ? 'league' : 'knockout',
       // group_size: '',
       remarks: '',
-      isTournamentTypeShown: true,
       maximum_limit_for_maximum_team_interval: 120,
       currentLayout: this.$store.state.Configuration.currentLayout,
       categoryId: null,

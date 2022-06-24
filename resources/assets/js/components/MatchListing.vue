@@ -227,6 +227,7 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
+						$('.js-loader').addClass('d-none');
 
 						this.matchData = response.data.data
 						// here we add extra Field Fot Not Displat Location
