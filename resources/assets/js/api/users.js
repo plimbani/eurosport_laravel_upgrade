@@ -18,7 +18,7 @@ export default {
   },
 
   getUserTableData(param) {
-    return api.get('users/getUserTableData?=report_download=yes&registerType=desktop')
+    return api.get('users/getUserTableData?report_download=yes&registerType=desktop')
   },
 
   // getUserReportData() {
