@@ -131,10 +131,10 @@ class DownloadUsers implements ShouldQueue
             'Name', 'Surname' ,'Email address', 'Source', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile', 'Default app tournament'
         ];
 
-        $storagePath = storage_path('excel/exports');
+        $storagePath = storage_path('/exports');
         \Laraspace\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams,'xlsx','no', '', $storagePath);
 
-        $filePath = storage_path('excel/exports/userreport.xlsx');
+        $filePath = storage_path('/exports/userreport.xlsx');
 
         $zipFile = $this->createZip($filePath);
 
@@ -146,7 +146,7 @@ class DownloadUsers implements ShouldQueue
 
         $zip = new \ZipArchive();
 
-        $fileName = 'excel/exports/user_report.zip';
+        $fileName = 'exports/user_report.zip';
 
         if ($zip->open(storage_path($fileName), \ZipArchive::CREATE) === TRUE) {
 
