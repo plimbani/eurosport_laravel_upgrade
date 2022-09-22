@@ -400,12 +400,14 @@
 
                 userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
                 $("body .js-loader").removeClass('d-none');
-                User.getSignedUrlForUsersTableData(userData).then(
-                  (response) => {
-                    window.location.href = response.data;
+                User.getUserTableData(userData).then(
+                  (response)=> {
+                    toastr.success('Downloaded file will be sent to you shortly via email', 'File sent', {timeOut: 5000});
                     $("body .js-loader").addClass('d-none');
-                   },
-                  (error) => {
+                    //setTimeout(Plugin.reloadPage, 500);
+                  },
+                  (error)=>{
+                    $("body .js-loader").addClass('d-none');
                   }
                 )
              },

@@ -716,9 +716,8 @@
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
                 _.forEach(this.tournamentStages, function(stage, stageIndex) {
-                    let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
+                    /*let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
                     let events = _.filter(allEvents, function(o) { return o.matchId != -1; });
-
                     events = _.map(events, function(event) {
                         let scheduleBlock = false;
                         if(filterKey == 'age_category'){
@@ -733,7 +732,6 @@
                                 scheduleBlock = true;
                             }
                         }
-
                         if(scheduleBlock){
                             event.color = 'grey';
                             event.textColor = '#FFFFFF';
@@ -750,7 +748,6 @@
                                 borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, 40);
                             }
                             let fixtureStripColor = event.competitionColorCode != null ? event.competitionColorCode : '#FFFFFF';
-
                             event.color = event.categoryAgeColor;
                             event.textColor = event.categoryAgeFontColor;
                             event.borderColor = borderColorVal;
@@ -760,7 +757,11 @@
                         }
                         return event;
                     });
-                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);*/
+                    if( filterValue != '' ) {
+                        $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('rerenderEvents');
+                        $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('refetchResources');
+                    }
                 });
             },
             LightenDarkenColor(colorCode, amount) {

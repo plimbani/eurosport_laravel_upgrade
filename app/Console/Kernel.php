@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         Commands\addDivisionAndUpdateExistingDataType3::class,
         Commands\addDivisionAndUpdateExistingDataType4::class,
         Commands\generateFavicon::class,
+        Commands\downloadUsers::class,
     ];
 
     /**
