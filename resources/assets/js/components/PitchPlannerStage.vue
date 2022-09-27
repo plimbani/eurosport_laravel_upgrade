@@ -64,9 +64,21 @@ import _ from 'lodash'
                 });*/
 
               let pitches = this.stage.pitches;
+
               if (this.tournamentFilter.filterKey === 'location' && this.tournamentFilter.filterValue !== '') {
+
                 pitches = this.stage.pitches.filter(pitch => pitch.venue_id === this.tournamentFilter.filterValue.id);
-              } else if (this.tournamentFilter.filterKey === 'type' && this.tournamentFilter.filterValue !== '') {
+
+              } /*else if (this.tournamentFilter.filterKey === 'age_category' && this.tournamentFilter.filterValue !== '' && this.tournamentFilter.filterDependentValue === '') {
+
+                pitches = this.stage.pitches.filter(pitch => pitch.matchAgeGroupId === this.tournamentFilter.filterValue.id);
+
+              } else if (this.tournamentFilter.filterKey === 'age_category' && this.tournamentFilter.filterValue !== '' && this.tournamentFilter.filterDependentValue !== '') {
+
+                pitches = this.stage.pitches.filter(pitch => pitch.matchCompetitionId === this.tournamentFilter.filterDependentValue);
+
+              }*/ else if (this.tournamentFilter.filterKey === 'pitch_type' && this.tournamentFilter.filterValue !== '') {
+
                 pitches = this.stage.pitches.filter(pitch => pitch.type === this.tournamentFilter.filterValue.id);
               }
 
@@ -560,13 +572,17 @@ import _ from 'lodash'
                         default:'300px',
                     },
                     eventRender: function eventRender(event, element, view) {
-                        if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
+
+                      // if event is break then no need to filter
+                      if (event.matchId === -1) return true;
+
+                      if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
                             return ['all', event.matchVenueId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
                         } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue === '') {
                             return ['all', event.matchAgeGroupId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
                         } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue !== '') {
                             return ['all', event.matchCompetitionId].indexOf(vm.tournamentFilter.filterDependentValue) >= 0
-                        } else if (vm.tournamentFilter.filterKey === 'type' && vm.tournamentFilter.filterValue !== '') {
+                        } else if (vm.tournamentFilter.filterKey === 'pitch_type' && vm.tournamentFilter.filterValue !== '') {
                           return ['all', event.resourceType].indexOf(vm.tournamentFilter.filterValue.id) >= 0
                         } else {
                             return true;

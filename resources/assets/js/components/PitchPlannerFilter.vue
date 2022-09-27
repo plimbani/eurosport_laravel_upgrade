@@ -10,14 +10,14 @@
         <option value="">All</option>
         <option value="age_category">{{$lang.tournament_filter_age_category}}</option>
         <option value="location">{{$lang.teams_location}}</option>
-        <option value="type">{{$lang.pitch_type}}</option>
+        <option value="pitch_type">{{$lang.pitch_type}}</option>
       </select>
     </div>
     <div class="form-group" v-show="filterBy != ''">
       <select class="form-control ls-select2 m-w-130" v-model="dropDown" @change="setFilterValue()">
         <option value="" v-if="filterBy == 'age_category'">Select category</option>
         <option value="" v-if="filterBy == 'location'">Select venue</option>
-        <option value="" v-if="filterBy == 'type'">Select type</option>
+        <option value="" v-if="filterBy == 'pitch_type'">Select pitch type</option>
         <option :value="option.id"
         v-for="option in options"
         v-bind:value="option">
@@ -107,7 +107,7 @@ export default {
           (error) => {
           }
         )
-      } else if (this.filterBy == 'type') {
+      } else if (this.filterBy == 'pitch_type') {
         this.options = [
           { id: 'grass', name: 'Grass' },
           { id: 'artificial', name: 'Artificial' },
