@@ -274,7 +274,6 @@ import _ from 'lodash'
                     },
                     events: vm.scheduledMatches,
                     drop: function(date, jsEvent, ui, resourceId) {
-                      console.log('dropped1');
                         vm.currentScheduledMatch = $(this);
                         // jsEvent.draggedEl.parentNode.removeChild(jsEvent.draggedEl);
                         // $(this).remove();
