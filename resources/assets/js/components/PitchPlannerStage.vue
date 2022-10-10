@@ -1118,7 +1118,7 @@ import _ from 'lodash'
     function arrangeLeftColumn() {
         var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');
         var index = 1;
-        var plannerwidth = $('.pitch_planner_section').width()/8;
+        var plannerwidth = $('.pitch_planner_section').width()/16;
         $('.stage-top-horizontal-scroll').hide();
         [].forEach.call(scrollableBodys, function(scrollableBody) {
             var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
