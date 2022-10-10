@@ -132,7 +132,7 @@ class TeamService implements TeamContract
     }
     public function create($data, $tournamentId)
     {
-        if($data['country']!=''){
+        if(isset($data['country']) && $data['country'] != ''){
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : null;
         } else {
             $data['country_id'] = null;
@@ -141,14 +141,14 @@ class TeamService implements TeamContract
 
         $ageCategory = trim($data['agecategory']);
         $categoryName = trim($data['categoryname']);
-        if($ageCategory!= '' && $categoryName!=''){
-          $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
+        if($ageCategory!= ''){
+          $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->first();
           if($competitionData){ 
             $data['age_group_id'] = $competitionData['id'];
           }
         }
 
-        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
+        //$teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
         if($data['club']!='')
         {
             // Here we first find the club name in Database
@@ -189,10 +189,10 @@ class TeamService implements TeamContract
             }
         }
 
-        if($data['age_group_id'] != 0){
+        /*if($data['age_group_id'] != 0){
             if(isset($teamData['id']) ){
                 $editData =  [
-                    'id' => $teamData['id'],
+                    //'id' => $teamData['id'],
                     'name' => $data['team'],
                     'place' => $data['place'],
                     'country_id' => $data['country_id'],
@@ -204,10 +204,10 @@ class TeamService implements TeamContract
                 ];
 
                 $data = $this->teamRepoObj->edit($editData, $teamData['id']);
-            } else {
+            } else {*/
                 $data = $this->teamRepoObj->create($data, $tournamentId);
-            }
-        }
+            /*}
+        }*/
 
         if ($data) {
           return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];

@@ -7,13 +7,18 @@
           <div class="card-block">
             <div id="step1" class="row">
               <div class="col-md-12">
+
+                <h6 class="text-danger" v-if="competitionList.length === 0">
+                  Before you can upload your teams create an age category in the Competition Formats area.
+                </h6>
+
                 <h6><b>Step 1:</b> Download team list</h6>
                 <div class="content-card">
                   <div class="row align-items-center gutters-tiny">
                     <div class="col-md-8">
                       <div class="row">
                         <div class="col-md-4">
-                          <button class="btn btn-success btn-block" @click="downloadTeamsSpreadsheetSample()">Download</button>
+                          <button class="btn btn-success btn-block" :class="{'is-disabled': competitionList.length === 0 }" @click="downloadTeamsSpreadsheetSample()">Download</button>
                         </div>
                         <div class="col-md-3 text-center">
                           <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
@@ -186,7 +191,8 @@
               </div>
             </div>
             <button v-show="currentStep > 1" type="button" class="btn btn-primary mt-20px" @click="back()">Back</button>
-            <button v-show="currentStep < 3" type="button" class="btn btn-success mt-20px pull-right" @click="nextStep()">Next</button>
+            <button v-show="currentStep < 3" type="button" class="btn btn-success mt-20px pull-right"
+                    :class="{'is-disabled': competitionList.length === 0 }" @click="nextStep()">Next</button>
             <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary mt-20px pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
           </div>
         </div>
@@ -428,6 +434,7 @@
       this.$root.$on('updateTeamList', this.getTeams);
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
+      this.checkAgeCategoryValidation();
     },
     beforeCreate: function() {
       // Remove custom event listener
@@ -555,7 +562,7 @@
           this.availableGroupsTeam.splice(index, 1);
         }
         document.activeElement.blur();
-        
+
       },
       assignTeamGroupName(id,val) {
         _.map(this.teams, function(team){
@@ -1018,6 +1025,11 @@
         $('#step'+this.currentStep).addClass('d-none');
         this.currentStep = this.currentStep - 1;
         $('#step'+this.currentStep).removeClass('d-none');
+      },
+      checkAgeCategoryValidation() {
+        if (this.$store.state.Tournament.competationList.length) {
+
+        }
       }
     }
   }

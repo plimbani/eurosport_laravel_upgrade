@@ -141,15 +141,20 @@ class TeamRepository
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
         $shirtColor = (isset($data['shirtcolor']) && $data['shirtcolor']) ? $teamColors[$data['shirtcolor']] : NULL;
         $shortsColor = (isset($data['shortscolor']) && $data['shortscolor']) ? $teamColors[$data['shortscolor']] : NULL;
+
+        $teams = Team::orderByDesc('id')->limit(1)->first();
+
+        $reference_no = "Team" . $teams->id;
+
         return Team::create([
             'name' => $teamName,
             'esr_reference' => $reference_no,
             'place' => $place,
-            'country_id' => $data['country_id'],
+            'country_id' => isset($data['country_id']) ? $data['country_id'] : '',
             'tournament_id' => $tournamentId,
             'age_group_id' => $data['age_group_id'],
             'club_id'=>$data['club_id'],
-            'comments'=>$data['teamcomment'],
+            'comments'=>isset($data['teamcomment']) ? $data['teamcomment'] : '',
             'shirt_color'=>$shirtColor,
             'shorts_color'=>$shortsColor,
             ]);
