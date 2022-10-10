@@ -79,7 +79,7 @@ import _ from 'lodash'
 
               }*/ else if (this.tournamentFilter.filterKey === 'pitch_type' && this.tournamentFilter.filterValue !== '') {
 
-                pitches = this.stage.pitches.filter(pitch => pitch.type === this.tournamentFilter.filterValue.id);
+                pitches = this.stage.pitches.filter(pitch => pitch.type.toLowerCase() === this.tournamentFilter.filterValue.id.toLowerCase());
               }
 
               pitches = pitches.map(function(pitch){
@@ -266,7 +266,7 @@ import _ from 'lodash'
                     timeFormat: 'H:mm',
                     // uncomment this line to hide the all-day slot
                     allDaySlot: false,
-                    filterResourcesWithEvents: true,
+                    //filterResourcesWithEvents: true,
                     resourceAreaWidth: '400px',
                     //resources: vm.pitchesData,
                     resources: function(callback) {

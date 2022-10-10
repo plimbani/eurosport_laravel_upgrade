@@ -8,7 +8,7 @@
             <div id="step1" class="row">
               <div class="col-md-12">
 
-                <h6 class="text-danger" v-if="competitionList.length === 0">
+                <h6 class="text-danger" v-if="competitionList.length === 0 && currentLayout === 'commercialisation'">
                   Before you can upload your teams create an age category in the Competition Formats area.
                 </h6>
 
@@ -18,7 +18,7 @@
                     <div class="col-md-8">
                       <div class="row">
                         <div class="col-md-4">
-                          <button class="btn btn-success btn-block" :class="{'is-disabled': competitionList.length === 0 }" @click="downloadTeamsSpreadsheetSample()">Download</button>
+                          <button class="btn btn-success btn-block" :class="{'is-disabled': competitionList.length === 0 && currentLayout === 'commercialisation'}" @click="downloadTeamsSpreadsheetSample()">Download</button>
                         </div>
                         <div class="col-md-3 text-center">
                           <a href="javascript:void(0);" class="text-primary border-bottom-dashed--primary" @click="previewSpredsheetSample()">View example</a>
@@ -192,12 +192,13 @@
             </div>
             <button v-show="currentStep > 1" type="button" class="btn btn-primary mt-20px" @click="back()">Back</button>
             <button v-show="currentStep < 3" type="button" class="btn btn-success mt-20px pull-right"
-                    :class="{'is-disabled': competitionList.length === 0 }" @click="nextStep()">Next</button>
+                :class="{'is-disabled': competitionList.length === 0 && currentLayout === 'commercialisation'}" @click="nextStep()">Next</button>
             <button type="button" v-if="age_category != '' && currentStep == 3" @click="groupUpdate()" class="btn btn-primary mt-20px pull-right" :class="{'is-disabled': (ageCategoryHasNoTeams || selectedGroupsTeam.length == 0)}">{{$lang.teams_button_savegroups}}</button>
           </div>
         </div>
       </div>
     </div>
+
     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
     <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog"
       aria-labelledby="resetModalLabel">
@@ -346,7 +347,8 @@
         'currentStep': 1,
         'dragFrom':'',
         'dragFromTeamId':0,
-        'isFileUploaded': false
+        'isFileUploaded': false,
+        currentLayout: this.$store.state.Configuration.currentLayout,
       }
     },
 

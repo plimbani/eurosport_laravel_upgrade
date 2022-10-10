@@ -154,9 +154,11 @@ module.exports= {
   team_edit_team_id: "TeamID*",
   team_edit_team_name: "Team*",
   team_edit_team_shirt_color: "Shirt colour",
-  team_edit_team_shorts_color: "Shorts colour",
+  team_edit_team_shorts_color: "Shorts colour"
+  team_edit_team_place_mandatory: "Place*",
   team_edit_team_place: "Place",
   team_edit_comment: "Comment",
+  team_edit_country_mandatory: "Country*",
   team_edit_country: "Country",
   team_edit_country_required: "The country field is required.",
   team_edit_club: "Club*",
