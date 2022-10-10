@@ -2,6 +2,8 @@
 
 namespace Laraspace\Api\Repositories;
 
+use Illuminate\Support\Facades\Log;
+use Laraspace\Jobs\DownloadUsers;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Models\UserFavourites;
@@ -53,9 +55,16 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
+
+        if (isset($data['report_download']) &&  $data['report_download'] == 'yes') {
+            DownloadUsers::dispatch($loggedInUser, $data);
+            return response(['status' => 'OK'])->status(200);
+        }
+
         set_time_limit(0);
         ini_set('memory_limit', '512M');
-        $loggedInUser = $this->getCurrentLoggedInUserDetail();
+
         $currentLayout = config('config-variables.current_layout');
 
         if($loggedInUser == null){
@@ -113,49 +122,6 @@ class UserRepository {
 
         $user->orderBy('people.last_name','asc');
         $userData = $user->withCount('tournaments')->get(); 
-
-        $dataArray = array();
-
-        if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-            foreach ($userData as $user) {
-                $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
-                $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
-                $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
-                $userListLanguages = $user->locale != '' ? $languages[$user->locale] : '';
-                $defaultTournament = ($user->defaultFavouriteTournament && $user->defaultFavouriteTournament->count() > 0 && $user->defaultFavouriteTournament[0]['tournament']) ? $user->defaultFavouriteTournament[0]['tournament']->name : '';
-                
-                $ddata = [
-                        $user->first_name,
-                        $user->last_name,
-                        $user->email,
-                        $user->provider,
-                        $user->role_name,
-                        $user->role,
-                        $user->country,
-                        $userListLanguages,
-                        $status,
-                        $user->device,
-                        $user->app_version,
-                        $isDesktopUser,
-                        $isMobileUser,
-                        $defaultTournament,
-                    ];
-
-                array_push($dataArray, $ddata);
-            }
-
-            $otherParams = [
-                'sheetTitle' => "UserReport",
-                'sheetName' => "UserReport",
-                'boldLastRow' => false
-            ];
-
-            $lableArray = [
-                'Name', 'Surname' ,'Email address', 'Source', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile', 'Default app tournament'
-            ];
-            //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-            \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-        }
 
         $currentPage = $data['currentPage']; // You can set this to any page you want to paginate to
         // before querying users

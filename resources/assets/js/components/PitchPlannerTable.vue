@@ -18,6 +18,10 @@
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()" title="Print"><i class="fas fa-print text-primary"></i></button>
                         <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()" title="Download"><i class="fas fa-download text-primary"></i></button>
+                        <button class="btn btn-default btn-md vertical" @click="isMatchSidebarOpen = !isMatchSidebarOpen"
+                                :title="[isMatchSidebarOpen === false ? 'Open Games/Referee\'s section' : 'Close Games/Referee\'s section']">
+                          <i class="fas text-primary text-center" :class="[isMatchSidebarOpen === false ? 'fa-list' : 'fa-times']"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -31,7 +35,7 @@
         </div>
 
         <div class="row">
-            <div class="pitch_planner_section pitch" v-bind:class="[isPrintPitchPlanner == 0 ? (isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10') : 'col-md-12' ]">
+            <div class="pitch_planner_section pitch" :class="[isPrintPitchPlanner == 0 ? (isPitchPlannerInEnlargeMode == 0 ? (isMatchSidebarOpen == true ? 'col-md-9' : 'col-md-12') : 'col-md-10') : 'col-md-12' ]">
                 <div class="pitch-planner-wrapper">
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="(stage, stageIndex) in tournamentStages">
                         <div class="card">
@@ -52,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']" v-if="isPrintPitchPlanner == 0">
+            <div class="" id="outerGame" :class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']" v-if="isPrintPitchPlanner == 0" v-show="isMatchSidebarOpen">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
                         <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -215,9 +219,17 @@
                 'totalNumberOfScheduledMatches': 0,
                 'isHorizontal': false,
                 'isVertical': true,
+                'isMatchSidebarOpen': true,
                 currentLayout: this.$store.state.Configuration.currentLayout,
             };
         },
+
+        watch: {
+            isMatchSidebarOpen(value) {
+                this.setView(this.defaultView);
+            }
+        },
+
         mounted() {
             this.getAllScheduledMatches();
             $('.pitch_planner_section').mCustomScrollbar({
@@ -248,7 +260,7 @@
                 var stickyHeaderTop = (($('#gameReferee').offset().top ) - siteHeaderTop);
                 $( window ).scroll(function() {
                     let tabWith = $('#gameReferee').width()+10;
-                    
+
                     if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
                         
                         var headerHeight;
@@ -728,9 +740,8 @@
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
                 _.forEach(this.tournamentStages, function(stage, stageIndex) {
-                    let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
+                    /*let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
                     let events = _.filter(allEvents, function(o) { return o.matchId != -1; });
-
                     events = _.map(events, function(event) {
                         let scheduleBlock = false;
                         if(filterKey == 'age_category'){
@@ -745,7 +756,6 @@
                                 scheduleBlock = true;
                             }
                         }
-
                         if(scheduleBlock){
                             event.color = 'grey';
                             event.textColor = '#FFFFFF';
@@ -762,7 +772,6 @@
                                 borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, 40);
                             }
                             let fixtureStripColor = event.competitionColorCode != null ? event.competitionColorCode : '#FFFFFF';
-
                             event.color = event.categoryAgeColor;
                             event.textColor = event.categoryAgeFontColor;
                             event.borderColor = borderColorVal;
@@ -772,7 +781,11 @@
                         }
                         return event;
                     });
-                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);*/
+                    if( filterValue != '' ) {
+                        $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('rerenderEvents');
+                        $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('refetchResources');
+                    }
                 });
             },
             LightenDarkenColor(colorCode, amount) {

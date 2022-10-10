@@ -44,7 +44,7 @@ import _ from 'lodash'
         },
         computed: {
             pitchesData() {
-                if(this.tournamentFilter.filterKey == 'location' && this.tournamentFilter.filterValue != ''){
+              /*if(this.tournamentFilter.filterKey == 'location' && this.tournamentFilter.filterValue != ''){
                     var pitches = _.remove(this.stage.pitches, (pitch) => {
                         let assign = false;
                         pitch.title = pitch.pitch_number+' ('+pitch.size+')';
@@ -55,14 +55,41 @@ import _ from 'lodash'
 
                         return assign;
                     });
-                    
                     return pitches;
                 }
 
                 return _.forEach(this.stage.pitches, (pitch) => {
                     pitch.title = pitch.pitch_number+' ('+pitch.size+')';
                     pitch.resourceAreaWidth = '500px';
-                });
+                });*/
+
+              let pitches = this.stage.pitches;
+
+              if (this.tournamentFilter.filterKey === 'location' && this.tournamentFilter.filterValue !== '') {
+
+                pitches = this.stage.pitches.filter(pitch => pitch.venue_id === this.tournamentFilter.filterValue.id);
+
+              } /*else if (this.tournamentFilter.filterKey === 'age_category' && this.tournamentFilter.filterValue !== '' && this.tournamentFilter.filterDependentValue === '') {
+
+                pitches = this.stage.pitches.filter(pitch => pitch.matchAgeGroupId === this.tournamentFilter.filterValue.id);
+
+              } else if (this.tournamentFilter.filterKey === 'age_category' && this.tournamentFilter.filterValue !== '' && this.tournamentFilter.filterDependentValue !== '') {
+
+                pitches = this.stage.pitches.filter(pitch => pitch.matchCompetitionId === this.tournamentFilter.filterDependentValue);
+
+              }*/ else if (this.tournamentFilter.filterKey === 'pitch_type' && this.tournamentFilter.filterValue !== '') {
+
+                pitches = this.stage.pitches.filter(pitch => pitch.type === this.tournamentFilter.filterValue.id);
+              }
+
+              pitches = pitches.map(function(pitch){
+                var pitch = pitch;
+                pitch.title = pitch.pitch_number+' ('+pitch.size+')';
+                pitch.resourceAreaWidth = '500px';
+                return pitch;
+              });
+
+              return pitches;
             },
             currentView() {
                return this.$store.getters.curStageView
@@ -166,7 +193,7 @@ import _ from 'lodash'
                 return this.$store.getters.scheduledMatches
             },
             pitchBreakAdd() {
-                
+
                 let sPitch = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
@@ -239,8 +266,12 @@ import _ from 'lodash'
                     timeFormat: 'H:mm',
                     // uncomment this line to hide the all-day slot
                     allDaySlot: false,
+                    filterResourcesWithEvents: true,
                     resourceAreaWidth: '400px',
-                    resources: vm.pitchesData,
+                    //resources: vm.pitchesData,
+                    resources: function(callback) {
+                        callback(vm.pitchesData);
+                    },
                     events: vm.scheduledMatches,
                     drop: function(date, jsEvent, ui, resourceId) {
                         vm.currentScheduledMatch = $(this);
@@ -367,7 +398,7 @@ import _ from 'lodash'
                                                     vm.reloadPitch();
                                                 });
                                             }
-                                        } 
+                                        }
                                         else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
@@ -404,7 +435,7 @@ import _ from 'lodash'
 
                             tt.on('shown.bs.tooltip', function() {
                                 var tooltipId = $(this).attr('aria-describedby');
-                                
+
                                 $('#' + tooltipId + ' .tooltip-inner').css('background-color', categoryColor);
 
                                 $('<style>#' + tooltipId + ' .tooltip-inner::before { border-top-color: '+ fixtureStripColor +'; }</style>' ).appendTo( 'head');
@@ -417,6 +448,7 @@ import _ from 'lodash'
                         // if(totalPitches > 8) {
                         //     $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
                         // }
+                      arrangeLeftColumn();
                     },
                     eventDragStart: function( event, jsEvent, ui, view ) {
                     },
@@ -539,6 +571,23 @@ import _ from 'lodash'
                     resourceAreaWidth: {
                         default:'300px',
                     },
+                    eventRender: function eventRender(event, element, view) {
+
+                      // if event is break then no need to filter
+                      if (event.matchId === -1) return true;
+
+                      if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
+                            return ['all', event.matchVenueId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
+                        } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue === '') {
+                            return ['all', event.matchAgeGroupId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
+                        } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue !== '') {
+                            return ['all', event.matchCompetitionId].indexOf(vm.tournamentFilter.filterDependentValue) >= 0
+                        } else if (vm.tournamentFilter.filterKey === 'pitch_type' && vm.tournamentFilter.filterValue !== '') {
+                          return ['all', event.resourceType].indexOf(vm.tournamentFilter.filterValue.id) >= 0
+                        } else {
+                            return true;
+                        }
+                    },
                     //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                     schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
@@ -566,7 +615,7 @@ import _ from 'lodash'
                 let ev = this.$el;
                 $(ev).fullCalendar('removeEvents');
                 $("body .js-loader").removeClass('d-none');
-                
+
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                     arrangeLeftColumn();
@@ -638,7 +687,7 @@ import _ from 'lodash'
                             match.match_number = mtc
 
                             displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
-                            
+
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
@@ -653,11 +702,11 @@ import _ from 'lodash'
                                         locationCheckFlag = false;
                                     }
                                 }
-                                
+
                               let colorVal = match.category_age_color;
                               var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
                               let borderColorVal;
-                              
+
                               let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
@@ -702,7 +751,7 @@ import _ from 'lodash'
                               if(ageCategoryColor != null) {
                                 colorVal = ageCategoryColor;
                               }
-                              
+
                               if(groupColor != null) {
                                 fixtureStripColor = groupColor;
                               }
@@ -710,6 +759,7 @@ import _ from 'lodash'
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
+                                    'resourceType': match.pitchType,
                                     'start':moment.utc(match.match_datetime,'YYYY-MM-DD HH:mm:ss'),
                                     'end': moment.utc(match.match_endtime,'YYYY-MM-DD HH:mm:ss'),
                                     'refereeId': refereeId,
@@ -758,6 +808,7 @@ import _ from 'lodash'
                                     let mData1 = {
                                         'id': 'start_'+counter,
                                         'resourceId': pitch.id,
+                                        'resourceType': pitch.type,
                                         'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
@@ -798,8 +849,9 @@ import _ from 'lodash'
                                 }
                                 if(availability.stage_end_time != '23:00'){
                                     let mData2 = {
-                                        'id': 'end_'+counter,   
+                                        'id': 'end_'+counter,
                                         'resourceId': pitch.id,
+                                        'resourceType': pitch.type,
                                         'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
                                         'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
@@ -843,6 +895,7 @@ import _ from 'lodash'
                                         let mData = {
                                             'id': counter,
                                             'resourceId': pitch.id,
+                                            'resourceType': pitch.type,
                                             'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
                                             'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                                             'refereeId': -1,
@@ -1063,10 +1116,10 @@ import _ from 'lodash'
     }
 
     function arrangeLeftColumn() {
-        var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');        
+        var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');
         var index = 1;
-        var plannerwidth = $('.pitch_planner_section').width()/8;
-        $('.stage-top-horizontal-scroll').hide();      
+        var plannerwidth = $('.pitch_planner_section').width()/16;
+        $('.stage-top-horizontal-scroll').hide();
         [].forEach.call(scrollableBodys, function(scrollableBody) {
             var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
             if(totalPitches>7){
