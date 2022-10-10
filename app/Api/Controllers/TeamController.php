@@ -125,6 +125,7 @@ class TeamController extends BaseController
             $reader->each(function($sheet) use(&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet, &$clubValidation, &$teamValidation, &$placeValidation, &$ageCategoryValidation) {
               if (!$sheet->filter()->isEmpty()) {
                 //$sheet->tournamentData = $this->data;
+
                 $club = trim($sheet['club']);
                 if ($club == null || $club == '') {
                   $clubValidation = true;
@@ -134,108 +135,171 @@ class TeamController extends BaseController
                   $teamValidation = true;
                   return false;
                 }
-                if (trim($sheet['place']) == null || trim($sheet['place']) == '') {
-                  $placeValidation = true;
-                  return false;
-                }
-                if (trim($sheet['agecategory']) == null || trim($sheet['place']) == '') {
-                  $ageCategoryValidation = true;
-                  return false;
-                }
-                $sheet['categoryname'] = ($sheet['categoryname'] == '') ? $sheet['agecategory'] : $sheet['categoryname'];
-                $ageCategory = trim($sheet['agecategory']);
-                $categoryName = trim($sheet['categoryname']);
-                $ageCategoryId = null;
-                if($ageCategory != '' && $categoryName != '') {
-                  $toProcessTeam = true;
+                
+                if (config('config-variables.current_layout') === 'tmp') {
 
-                  $notToProcessAgeCategory = array_filter($furtherNotToProcessAgeCategories, function($category) use($ageCategory, $categoryName){
-                    return $ageCategory == $category['ageCategory'] && strtolower($categoryName) == strtolower($category['categoryName']);
-                  });
-
-                  $notToProcessNonExistingAgeCategory = array_filter($nonExistingAgeCategories, function($category) use($ageCategory, $categoryName){
-                    return $ageCategory == $category['ageCategory'] && strtolower($categoryName) == strtolower($category['categoryName']);
-                  });
-
-                  if(count($notToProcessAgeCategory) > 0 || count($notToProcessNonExistingAgeCategory) > 0) {
-                    $toProcessTeam = false;
+                  if (trim($sheet['place']) == null || trim($sheet['place']) == '') {
+                    $placeValidation = true;
+                    return false;
                   }
+                  if (trim($sheet['agecategory']) == null || trim($sheet['place']) == '') {
+                    $ageCategoryValidation = true;
+                    return false;
+                  }
+                  $sheet['categoryname'] = ($sheet['categoryname'] == '') ? $sheet['agecategory'] : $sheet['categoryname'];
 
-                  if($toProcessTeam) {
-                    $matchingAgeCategory = array_filter($allAgeCategories, function($category) use($ageCategory, $categoryName){
-                      return $ageCategory == $category['category_age'] && strtolower($categoryName) == strtolower($category['group_name']);
+                  $ageCategory = trim($sheet['agecategory']);
+                  $categoryName = trim($sheet['categoryname']);
+                  $ageCategoryId = null;
+                  if($ageCategory != '' && $categoryName != '') {
+                    $toProcessTeam = true;
+
+                    $notToProcessAgeCategory = array_filter($furtherNotToProcessAgeCategories, function($category) use($ageCategory, $categoryName){
+                      return $ageCategory == $category['ageCategory'] && strtolower($categoryName) == strtolower($category['categoryName']);
                     });
 
-                    if(count($matchingAgeCategory) === 0) {
-                      $nonExistingAgeCategories[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                    } else {
-                      $ageCategoryId = current($matchingAgeCategory)['id'];
+                    $notToProcessNonExistingAgeCategory = array_filter($nonExistingAgeCategories, function($category) use($ageCategory, $categoryName){
+                      return $ageCategory == $category['ageCategory'] && strtolower($categoryName) == strtolower($category['categoryName']);
+                    });
+
+                    if(count($notToProcessAgeCategory) > 0 || count($notToProcessNonExistingAgeCategory) > 0) {
+                      $toProcessTeam = false;
                     }
 
-                    if($ageCategoryId) {
-                      $teamExist = array_filter($alreadyUploadedTeams, function($team) use($sheet) {
-                        return ($team['esr_reference'] == $sheet['teamid']);
+                    if($toProcessTeam) {
+                      $matchingAgeCategory = array_filter($allAgeCategories, function($category) use($ageCategory, $categoryName){
+                        return $ageCategory == $category['category_age'] && strtolower($categoryName) == strtolower($category['group_name']);
                       });
-                      $resultMatchingAgeCategory = array_filter($resultEnteredAgeCategories, function($category) use($ageCategory, $categoryName){
-                        return $ageCategory == $category['category_age'] && strtolower($categoryName) == strtolower($category['category_age']);
-                      });
-                      if(count($resultMatchingAgeCategory) > 0) {
-                        $notProcessedAgeCategoriesDueToResultEntered[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                        $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+
+                      if(count($matchingAgeCategory) === 0) {
+                        $nonExistingAgeCategories[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                      } else {
+                        $ageCategoryId = current($matchingAgeCategory)['id'];
                       }
-                      if((count($teamExist) > 0 && $ageCategoryId != current($teamExist)['age_group_id'])) {
-                        $teamsInDifferentAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                        $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                      }
-                      if(isset($alreadyUploadedTeamsByAgeCategory[$ageCategoryId]) && count($teamExist) == 0) {
-                        $teamsNotUploadedOfAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                        $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                      }
-                      $teamExistInUploadSheet = array_filter($allTeamsInSheet, function($team) use($sheet) {
-                        return ($team['teamid'] == $sheet['teamid']);
-                      });
-                      $allTeams[$ageCategoryId][] = $sheet;
-                      $allTeamsInSheet[] = $sheet;
-                      if(count($teamExistInUploadSheet) > 0)
-                      {
-                        $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                        $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
-                        foreach($teamExistInUploadSheet as $team) {
-                          $ageCategoryDetail = array_filter($allAgeCategories, function($category) use($team){
-                            return trim($team['agecategory']) == $category['category_age'] && strtolower(trim($team['categoryname'])) == strtolower($category['group_name']);
-                          });
-                          if(count($ageCategoryDetail) > 0) {
-                            if(!isset($furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']])) {
-                              $furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
-                            }
-                            $checkIfAlreadyExist = array_filter($notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, function($category) use($team){
-                              return trim($team['agecategory']) == $category['ageCategory'] && strtolower(trim($team['categoryname'])) == strtolower($category['categoryName']);
+
+                      if($ageCategoryId) {
+                        $teamExist = array_filter($alreadyUploadedTeams, function($team) use($sheet) {
+                          return ($team['esr_reference'] == $sheet['teamid']);
+                        });
+                        $resultMatchingAgeCategory = array_filter($resultEnteredAgeCategories, function($category) use($ageCategory, $categoryName){
+                          return $ageCategory == $category['category_age'] && strtolower($categoryName) == strtolower($category['category_age']);
+                        });
+                        if(count($resultMatchingAgeCategory) > 0) {
+                          $notProcessedAgeCategoriesDueToResultEntered[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                          $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                        }
+                        if((count($teamExist) > 0 && $ageCategoryId != current($teamExist)['age_group_id'])) {
+                          $teamsInDifferentAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                          $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                        }
+                        if(isset($alreadyUploadedTeamsByAgeCategory[$ageCategoryId]) && count($teamExist) == 0) {
+                          $teamsNotUploadedOfAgeCategory[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                          $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                        }
+                        $teamExistInUploadSheet = array_filter($allTeamsInSheet, function($team) use($sheet) {
+                          return ($team['teamid'] == $sheet['teamid']);
+                        });
+                        $allTeams[$ageCategoryId][] = $sheet;
+                        $allTeamsInSheet[] = $sheet;
+                        if(count($teamExistInUploadSheet) > 0)
+                        {
+                          $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                          $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory, 'categoryName' => $categoryName];
+                          foreach($teamExistInUploadSheet as $team) {
+                            $ageCategoryDetail = array_filter($allAgeCategories, function($category) use($team){
+                              return trim($team['agecategory']) == $category['category_age'] && strtolower(trim($team['categoryname'])) == strtolower($category['group_name']);
                             });
-                            if(count($checkIfAlreadyExist) === 0) {
-                              $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                            if(count($ageCategoryDetail) > 0) {
+                              if(!isset($furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']])) {
+                                $furtherNotToProcessAgeCategories[current($ageCategoryDetail)['id']] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                              }
+                              $checkIfAlreadyExist = array_filter($notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, function($category) use($team){
+                                return trim($team['agecategory']) == $category['ageCategory'] && strtolower(trim($team['categoryname'])) == strtolower($category['categoryName']);
+                              });
+                              if(count($checkIfAlreadyExist) === 0) {
+                                $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet[] = ['ageCategory' => trim($team['agecategory']), 'categoryName' => trim($team['categoryname'])];
+                              }
                             }
                           }
                         }
                       }
                     }
                   }
+
+                } else {
+
+                  if (trim($sheet['agecategory']) == null) {
+                    $ageCategoryValidation = true;
+                    return false;
+                  }
+                  $sheet['categoryname'] = ($sheet['agecategory'] == '') ? $sheet['agecategory'] : '';
+
+                  $ageCategory = trim($sheet['agecategory']);
+                  $ageCategoryId = null;
+                  if($ageCategory != '') {
+                    $toProcessTeam = true;
+
+                    $notToProcessAgeCategory = array_filter($furtherNotToProcessAgeCategories, function($category) use($ageCategory){
+                      return $ageCategory == $category['ageCategory'];
+                    });
+
+                    $notToProcessNonExistingAgeCategory = array_filter($nonExistingAgeCategories, function($category) use($ageCategory){
+                      return $ageCategory == $category['ageCategory'];
+                    });
+
+                    if(count($notToProcessAgeCategory) > 0 || count($notToProcessNonExistingAgeCategory) > 0) {
+                      $toProcessTeam = false;
+                    }
+
+                    if($toProcessTeam) {
+
+                      $matchingAgeCategory = array_filter($allAgeCategories, function($category) use($ageCategory){
+                        return $ageCategory == $category['category_age'];
+                      });
+
+                      if(count($matchingAgeCategory) === 0) {
+                        $nonExistingAgeCategories[] = ['ageCategory' => $ageCategory];
+                      } else {
+                        $ageCategoryId = current($matchingAgeCategory)['id'];
+                      }
+
+                      if($ageCategoryId) {
+                        $resultMatchingAgeCategory = array_filter($resultEnteredAgeCategories, function($category) use($ageCategory){
+                          return $ageCategory == $category['category_age'];
+                        });
+                        if(count($resultMatchingAgeCategory) > 0) {
+                          $notProcessedAgeCategoriesDueToResultEntered[] = ['ageCategory' => $ageCategory];
+                          $furtherNotToProcessAgeCategories[$ageCategoryId] = ['ageCategory' => $ageCategory];
+                        }
+                        
+                        $allTeams[$ageCategoryId][] = $sheet;
+                        $allTeamsInSheet[] = $sheet;
+                      }
+                    }
+                  }
+
                 }
               }
             });
         }, 'ISO-8859-1');
+
         if ($clubValidation) {
           return ['status_code' => '422', 'message' => 'Please upload a sheet with valid club data.'];
         }
         if ($teamValidation) {
           return ['status_code' => '422', 'message' => 'Please upload a sheet with valid team data.'];
         }
-        if ($placeValidation) {
+
+        if (config('config-variables.current_layout') === 'tmp' && $placeValidation) {
           return ['status_code' => '422', 'message' => 'Please upload a sheet with valid place data.'];
         }
+        
         if ($ageCategoryValidation) {
           return ['status_code' => '422', 'message' => 'Please upload a sheet with valid age category data.'];
         }
+
         foreach($allTeams as $ageCategoryId=>$ageCategoryTeams) {
+
           $matchingAgeCategory = array_filter($allAgeCategories, function($category) use($ageCategoryId){
             return $ageCategoryId == $category['id'];
           });

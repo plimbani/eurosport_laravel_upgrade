@@ -11,12 +11,14 @@
 		            </div>
 		            <div class="modal-body">
 		            	<div class="form-group row" :class="{'has-error': errors.has('teamID') }">
-		                  <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_id}}</label>
+		                  	<label class="col-sm-5 form-control-label">{{$lang.team_edit_team_id}}</label>
 			                <div class="col-sm-6">
 			                    <input v-model="formValues.team_id"  v-validate="'required'"  
 			                      :class="{'is-danger': errors.has('teamID') }"
 			                      name="teamID" type="text"
-			                      class="form-control">
+			                      class="form-control"
+			                      :readonly="currentLayout === 'commercialisation'"
+			                     >
 			                    <i v-show="errors.has('teamID')" class="fas fa-warning"></i>
 			                    <span class="help is-danger" v-show="errors.has('teamID')">{{ errors.first('teamID') }}
 			                    </span>
@@ -24,8 +26,9 @@
 			                    </span>
 			                </div>
 		                </div>
-		                <div class="form-group row">
-		                	<label class="col-sm-5 form-control-label">{{$lang.team_edit_country}}</label>
+
+		                <div v-if="currentLayout === 'tmp'" class="form-group row">
+		                	<label class="col-sm-5 form-control-label">{{$lang.team_edit_country_mandatory}}</label>
 		                	<div class="col-sm-6">
 								<select name="country" id="country" class="form-control" v-model="formValues.team_country" v-validate="'required'" :class="{'is-danger': errors.has('country') }">
 								  <option value="">{{$lang.countries_list}}</option>
@@ -35,6 +38,17 @@
 								<span class="help is-danger" v-show="errors.has('country')">{{$lang.team_edit_country_required}}</span>
 		                	</div>
 		                </div>
+		                <div v-else class="form-group row">
+		                	<label class="col-sm-5 form-control-label">{{$lang.team_edit_country}}</label>
+		                	<div class="col-sm-6">
+								<select name="country" id="country" class="form-control" v-model="formValues.team_country">
+								  <option value="">{{$lang.countries_list}}</option>
+								  <option v-for="country in countries"
+								   v-bind:value="country.id"> {{country.name}}</option>
+								</select>
+		                	</div>
+		                </div>
+
 		                <div class="form-group row">
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_name}}</label>
 		                    <div class="col-sm-6">
@@ -75,14 +89,22 @@
 		                      </span>	
 		                    </div>
 		                </div>		                
-		                <div class="form-group row">
-		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_place}}</label>
+		                
+		                <div v-if="currentLayout === 'tmp'" class="form-group row">
+		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_place_mandatory}}</label>
 		                    <div class="col-sm-6">
 		                        <input v-model="formValues.team_place" v-validate="'required'" :class="{'is-danger': errors.has('place') }" name="place" type="text" class="form-control">
 		                        <i v-show="errors.has('place')" class="fas fa-warning"></i>
 		                        <span class="help is-danger" v-show="errors.has('place')">{{ errors.first('place') }}</span>
 		                    </div>
 		                </div>
+		                <div v-else class="form-group row">
+		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_place}}</label>
+		                    <div class="col-sm-6">
+		                        <input v-model="formValues.team_place" name="place" type="text" class="form-control">
+		                    </div>
+		                </div>
+
 		                <div class="form-group row">
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_comment}}</label>
 		                    <div class="col-sm-6">
@@ -123,6 +145,7 @@ export default {
             },
             teamEsrReferenceAvailable: false,
             confirmation:'test',
+            currentLayout: this.$store.state.Configuration.currentLayout,
 		}
 	},
 
