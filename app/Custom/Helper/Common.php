@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Common {
 
-    static function toExcel($lableArray, $dataArray, $otherParams,$output = 'xlsx',$download='yes',$columnFormat=''){
+    static function toExcel($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat='') {
         $excelCreateObj = \Excel::create(str_slug($otherParams['sheetTitle']), function($excel) use($lableArray, $dataArray, $otherParams,$columnFormat) {
             $excel->setTitle($otherParams['sheetTitle']);
             $excel->sheet($otherParams['sheetName'], function($sheet) use($lableArray, $dataArray, $otherParams,$columnFormat) {
@@ -35,7 +35,8 @@ class Common {
                 }
             });
         });
-         $excelCreateObj->export($output);   
+
+        $download == 'yes' ? $excelCreateObj->export($output) : $excelCreateObj->store($output);
        
     }
 

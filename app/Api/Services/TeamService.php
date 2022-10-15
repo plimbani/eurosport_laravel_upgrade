@@ -132,7 +132,7 @@ class TeamService implements TeamContract
     }
     public function create($data, $tournamentId)
     {
-        if($data['country']!=''){
+        if (isset($data['country']) && $data['country'] != '') {
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : null;
         } else {
             $data['country_id'] = null;
@@ -141,14 +141,25 @@ class TeamService implements TeamContract
 
         $ageCategory = trim($data['agecategory']);
         $categoryName = trim($data['categoryname']);
-        if($ageCategory!= '' && $categoryName!=''){
-          $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
-          if($competitionData){ 
-            $data['age_group_id'] = $competitionData['id'];
-          }
+        
+        if (config('config-variables.current_layout') === 'tmp') {
+            if($ageCategory!= '' && $categoryName!=''){
+              $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
+              if($competitionData){ 
+                $data['age_group_id'] = $competitionData['id'];
+              }
+            }
+
+            $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
+        } else {
+            if($ageCategory!= ''){
+              $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->first();
+              if($competitionData){ 
+                $data['age_group_id'] = $competitionData['id'];
+              }
+            }
         }
 
-        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
         if($data['club']!='')
         {
             // Here we first find the club name in Database
@@ -189,24 +200,28 @@ class TeamService implements TeamContract
             }
         }
 
-        if($data['age_group_id'] != 0){
-            if(isset($teamData['id']) ){
-                $editData =  [
-                    'id' => $teamData['id'],
-                    'name' => $data['team'],
-                    'place' => $data['place'],
-                    'country_id' => $data['country_id'],
-                    'club_id' => $data['club_id'],
-                    'age_group_id' => $data['age_group_id'],
-                    'comments' => $data['teamcomment'],
-                    'shirt_color' => $data['shirtcolor'],
-                    'shorts_color' => $data['shortscolor'],
-                ];
+        if (config('config-variables.current_layout') === 'tmp') {
+            if($data['age_group_id'] != 0){
+                if(isset($teamData['id']) ){
+                    $editData =  [
+                        'id' => $teamData['id'],
+                        'name' => $data['team'],
+                        'place' => $data['place'],
+                        'country_id' => $data['country_id'],
+                        'club_id' => $data['club_id'],
+                        'age_group_id' => $data['age_group_id'],
+                        'comments' => $data['teamcomment'],
+                        'shirt_color' => $data['shirtcolor'],
+                        'shorts_color' => $data['shortscolor'],
+                    ];
 
-                $data = $this->teamRepoObj->edit($editData, $teamData['id']);
-            } else {
-                $data = $this->teamRepoObj->create($data, $tournamentId);
+                    $data = $this->teamRepoObj->edit($editData, $teamData['id']);
+                } else {
+                    $data = $this->teamRepoObj->create($data, $tournamentId);
+                }
             }
+        } else {
+            $data = $this->teamRepoObj->create($data, $tournamentId);
         }
 
         if ($data) {
