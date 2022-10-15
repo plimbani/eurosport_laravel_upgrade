@@ -135,24 +135,39 @@ class TeamRepository
         $teamColors = array_flip($teamColors);
 
         $age_group_id = 0;
-        $reference_no =  isset($data['teamid']) ? $data['teamid'] : '';
-        $teamName =  isset($data['team']) ? $data['team'] : '';
-        $place =  isset($data['place']) ? $data['place'] : '';
-        $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
-        $shirtColor = (isset($data['shirtcolor']) && $data['shirtcolor']) ? $teamColors[$data['shirtcolor']] : NULL;
-        $shortsColor = (isset($data['shortscolor']) && $data['shortscolor']) ? $teamColors[$data['shortscolor']] : NULL;
+
+        if (config('config-variables.current_layout') === 'tmp') {
+          $reference_no =  isset($data['teamid']) ? $data['teamid'] : ''; 
+          $place =  isset($data['place']) ? $data['place'] : '';
+          $country_id = $data['country_id'];
+          $team_comment = $data['teamcomment'];
+          $shirtColor = (isset($data['shirtcolor']) && $data['shirtcolor']) ? $teamColors[$data['shirtcolor']] : NULL;
+          $shortsColor = (isset($data['shortscolor']) && $data['shortscolor']) ? $teamColors[$data['shortscolor']] : NULL;
+        } else {
+          $teams = Team::orderByDesc('id')->limit(1)->first();
+          $reference_no = "Team" . $teams->id;
+          $place = NULL;
+          $country_id = NULL;
+          $team_comment = NULL;
+          $shirtColor = NULL;
+          $shortsColor = NULL;
+        }
+        
+        $teamName = isset($data['team']) ? $data['team'] : '';        
+        $club_id = isset($data['club_id']) ? $data['club_id'] : '';
+        
         return Team::create([
-            'name' => $teamName,
-            'esr_reference' => $reference_no,
-            'place' => $place,
-            'country_id' => $data['country_id'],
-            'tournament_id' => $tournamentId,
-            'age_group_id' => $data['age_group_id'],
-            'club_id'=>$data['club_id'],
-            'comments'=>$data['teamcomment'],
-            'shirt_color'=>$shirtColor,
-            'shorts_color'=>$shortsColor,
-            ]);
+          'name' => $teamName,
+          'esr_reference' => $reference_no,
+          'place' => $place,
+          'country_id' => $country_id,
+          'tournament_id' => $tournamentId,
+          'age_group_id' => $data['age_group_id'],
+          'club_id' => $club_id,
+          'comments' => $team_comment,
+          'shirt_color' => $shirtColor,
+          'shorts_color' => $shortsColor,
+        ]);
     }
 
     public function getAllUpdatedTeam($teamdata)
