@@ -291,9 +291,16 @@ function isAnyRankingInPosition($templateData, $groupName, $groupCount) {
     return $isAnyRankingInPosition;
 }
 
-function getRoundRobinAssignedTeam($assignedTeams, $groupName, $teamIndex) {
-    $assignedTeam = array_filter($assignedTeams, function($o) use($groupName, $teamIndex) { return $o['group_name'] === "Group-" . $groupName . $teamIndex; });
-    $assignedTeam = reset($assignedTeam);
+function getRoundRobinAssignedTeam($assignedTeams, $groupName, $teamIndex, $tournamentHasStandings = false) {
+    if ($tournamentHasStandings) {
+        $assignedTeams = array_values(array_filter($assignedTeams, function($o) use($groupName, $teamIndex) { return $o['assigned_group'] === "Group-" . $groupName; }));    
+        $assignedTeam = "";
+        if (isset($assignedTeams[$teamIndex - 1])) { $assignedTeam = $assignedTeams[$teamIndex - 1]; } 
+    } else {
+        $assignedTeam = array_filter($assignedTeams, function($o) use($groupName, $teamIndex) { return $o['group_name'] === "Group-" . $groupName . $teamIndex; });
+        $assignedTeam = reset($assignedTeam);
+    }
+
     if($assignedTeam) {
       return $assignedTeam['name'];
     }
