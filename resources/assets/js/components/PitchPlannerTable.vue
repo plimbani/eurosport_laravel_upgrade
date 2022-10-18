@@ -770,10 +770,10 @@
                         return event;
                     });
                     $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);*/
-                    if( filterValue != '' ) {
+                    //if( filterValue != '' ) {
                         $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('rerenderEvents');
                         $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('refetchResources');
-                    }
+                    //}
                 });
             },
             LightenDarkenColor(colorCode, amount) {
