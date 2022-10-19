@@ -311,6 +311,17 @@ class TeamController extends BaseController
             $teamNotMatchingAgeCategories[] = ['ageCategory' => current($matchingAgeCategory)['category_age'], 'categoryName' => current($matchingAgeCategory)['group_name']];
             continue;
           }
+          
+          if (config('config-variables.current_layout') === 'commercialisation') {
+            // remove teams if alreay exist in same age category
+            $requestData = new \Illuminate\Http\Request();
+            $requestData->replace([
+              'ageCategoryId' => $ageCategoryId,
+              'tournamentId' => $teamData['tournamentId']
+            ]);
+            $this->teamObj->resetAllTeams($requestData);
+          }
+
           foreach($ageCategoryTeams as $team) {
             $this->teamObj->create($team, $teamData['tournamentId']);
           }
