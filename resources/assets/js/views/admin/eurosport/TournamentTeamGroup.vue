@@ -231,7 +231,9 @@
              </button>
           </div>
           <div class="modal-body">
-            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+            <img :src="currentLayout === 'commercialisation' 
+            ? '/assets/img/teams_groups_preview/TeamsGroupsPreviewEMM.png' 
+            : '/assets/img/teams_groups_preview/TeamsGroupsPreview.png'" class="img-fluid">
           </div>
          </div>
       </div>
