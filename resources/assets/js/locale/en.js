@@ -427,7 +427,7 @@ module.exports= {
   pitch_detail_delete_stage: "Delete day",
   pitch_availability: "Availability",
   pitch_number: "Number",
-  pitch_type: "Pitch Type",
+  pitch_type: "Pitch type",
   pitch_type_grass: "Grass",
   pitch_type_artificial: "Artificial",
   pitch_type_indoor: "Indoor",
