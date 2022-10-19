@@ -312,13 +312,15 @@ class TeamController extends BaseController
             continue;
           }
           
-          // remove teams if alreay exist in same age category
-          $requestData = new \Illuminate\Http\Request();
-          $requestData->replace([
-            'ageCategoryId' => $ageCategoryId,
-            'tournamentId' => $teamData['tournamentId']
-          ]);
-          $this->teamObj->resetAllTeams($requestData);
+          if (config('config-variables.current_layout') === 'commercialisation') {
+            // remove teams if alreay exist in same age category
+            $requestData = new \Illuminate\Http\Request();
+            $requestData->replace([
+              'ageCategoryId' => $ageCategoryId,
+              'tournamentId' => $teamData['tournamentId']
+            ]);
+            $this->teamObj->resetAllTeams($requestData);
+          }
 
           foreach($ageCategoryTeams as $team) {
             $this->teamObj->create($team, $teamData['tournamentId']);
