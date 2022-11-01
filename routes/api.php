@@ -54,6 +54,7 @@ $api->version('v1', function ($api) {
     $api->get('match/report/generate/{ageGroupId}/{tournamentId}',
         'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
     $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
+    $api->get('tournament/report/reportDownloadAllTeam','Laraspace\Api\Controllers\TournamentController@downloadReportAllTeam');
     $api->get('teams/getTeamsFairPlayData/report/reportExport', 'Laraspace\Api\Controllers\TeamController@exportTeamFairPlayReport');
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
 
@@ -268,6 +269,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForMatchReport', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
 
     $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
+
+    $api->post('getSignedUrlForTournamentReportAllTeam', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportAllTeam');
 
     $api->post('getSignedUrlForMatchPrint', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
 

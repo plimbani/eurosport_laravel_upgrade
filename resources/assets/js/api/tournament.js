@@ -1,4 +1,4 @@
- import api from './siteconfig'
+import api from './siteconfig'
 
 export default {
   getAllTournaments() {
@@ -226,6 +226,9 @@ export default {
   },
   getSignedUrlForTournamentReport(reportData) {
     return api.post('getSignedUrlForTournamentReport?'+reportData);
+  },
+  getSignedUrlForTournamentReportAllTeam(reportData) {
+    return api.post('getSignedUrlForTournamentReportAllTeam?'+reportData);
   },
   getSignedUrlForTournamentReportExport(reportData) {
     return api.post('getSignedUrlForTournamentReportExport?' + reportData);
