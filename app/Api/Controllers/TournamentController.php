@@ -162,6 +162,9 @@ class TournamentController extends BaseController
     public function exportReport(Request $request) {
        return $this->tournamentObj->generateReport($request->all());
     }
+    public function downloadReportAllTeam(Request $request) {
+        return $this->tournamentObj->generatePrintAllTeam($request->all());
+     }
     public function generateReport(GenerateReportRequest $request) {
        return $this->tournamentObj->generateReport($request->all());
     }
@@ -223,6 +226,17 @@ class TournamentController extends BaseController
 
         $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForTournamentReportAllTeam(GetSignedUrlForTournamentReportRequest $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/tournament/report/reportDownloadAllTeam?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        
         return $signedUrl;
     }
 

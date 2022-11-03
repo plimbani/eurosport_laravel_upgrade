@@ -1240,28 +1240,29 @@ class TemplateRepository
         }
         $allMatches = array_merge($roundMatches, $divisionMatches);
 
-        $standingData = new \Laraspace\Api\Repositories\MatchRepository();
-        $assignedTeamsNew = [];
-        $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
-        $tournament_id = $assignedTeams[0]['tournament_id'];
-        foreach($competations as $competation) {
-            $assignedTeamsData = $standingData->getStanding([
-                'competitionId' => $competation,
-                'tournamentId' => $tournament_id,
-            ]);
+        $assignedTeamsData = [];
+        if ($assignedTeams) { 
+            $standingData = new \Laraspace\Api\Repositories\MatchRepository();
+            $assignedTeamsNew = [];
+            $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
+            $tournament_id = $assignedTeams[0]['tournament_id'];
+            foreach($competations as $competation) {
+                $assignedTeamsDataRes = $standingData->getStanding([
+                    'competitionId' => $competation,
+                    'tournamentId' => $tournament_id,
+                ]);
+                $assignedTeamsNew = array_merge($assignedTeamsNew, $assignedTeamsDataRes->all());
+            }
+            
+            foreach($assignedTeamsNew as $item) {
+                $assignedTeamsData[] = (array) $item;
+            }
 
-            $assignedTeamsNew = array_merge($assignedTeamsNew, $assignedTeamsData->all());
+            if (count($assignedTeamsData) != count($assignedTeams)) {
+                $assignedTeamsData = [];
+            }
         }
         
-        $assignedTeamsData = [];
-        foreach($assignedTeamsNew as $item) {
-            $assignedTeamsData[] = (array) $item;
-        }
-
-        if (count($assignedTeamsData) != count($assignedTeams)) {
-            $assignedTeamsData = [];
-        }
-
         $templateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
             'templateData' => $jsonData,

@@ -82,7 +82,7 @@
                           <div class="m-0 font-weight-bold group-title">{{ "Group " . getGroupName($group['groups']['group_name']) }}</div>
                           @for($teamIndex=1; $teamIndex <= $group['group_count']; $teamIndex++)
                             <div class="bordered-box">
-                              <span class="small">{{ getRoundRobinAssignedTeam($assignedTeams, getGroupName($group['groups']['group_name']), $teamIndex, $tournamentHasStandings) }}</span>
+                              <span class="small">{{ getRoundRobinAssignedTeam($assignedTeams, getGroupName($group['groups']['group_name']), $teamIndex, isset($tournamentHasStandings) ? $tournamentHasStandings : '') }}</span>
                             </div>
                           @endfor
                       </div>

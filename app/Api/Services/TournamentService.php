@@ -5,6 +5,7 @@ use Laraspace\Api\Contracts\TournamentContract;
 use Laraspace\Api\Repositories\TournamentRepository;
 use DB;
 use Carbon\Carbon;
+use File;
 use PDF;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Team;
@@ -16,8 +17,8 @@ use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\TempFixture;
+use Response;
 use View;
-use File;
 use Storage;
 use Config;
 
@@ -635,11 +636,9 @@ class TournamentService implements TournamentContract
         }
     }
 
-
-    public function generatePrint($data)
+    public function generatePrint($data, $save = false)
     {
-      $tournamentData = Tournament::where('id', '=', $data['tournament_id'])->select(DB::raw('CONCAT("'.$this->tournamentLogo.'", logo) AS tournamentLogo'))->first();
-
+      $tournamentData = Tournament::where('id', '=', $data['tournament_id'])->select(DB::raw('CONCAT("'.$this->tournamentLogo.'", logo) AS tournamentLogo'), 'name')->first();
 
         $reportQuery = DB::table('temp_fixtures')
             ->leftJoin('tournaments', 'temp_fixtures.tournament_id', '=', 'tournaments.id')
@@ -786,6 +785,7 @@ class TournamentService implements TournamentContract
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
+        
         $date = new \DateTime(date('H:i d M Y'));
         // $footer = View::make('summary.footer');
         // $date->setTimezone();.
@@ -799,7 +799,63 @@ class TournamentService implements TournamentContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
+
+        if ($save) {
+
+          $fileName = '/exports/all_teams_report/' . $tournamentData['name'] . ' ' . $data['sel_team_name'].'.pdf';
+          if (File::exists(storage_path($fileName))) {
+            File::delete(storage_path($fileName));
+          }
+
+          $pdf->save(storage_path($fileName));
+          
+          return true;
+        }
+
         return $pdf->inline('Summary.pdf');
+    }
+
+    public function generatePrintAllTeam($data)
+    {
+
+      set_time_limit(0);
+
+      $teams = Team::where('tournament_id','=',$data['tournament_id']);
+      if (isset($data['sel_teams'])) {
+        $teams = $teams->where('id', $data['sel_teams']);
+      }
+      $teams = $teams->get();
+      
+      // delete the already exist files
+      $files = File::files(storage_path('/exports/all_teams_report/'));
+      foreach ($files as $key => $value){
+        if (File::exists($value)) {
+          File::delete($value);
+        }
+      }
+      if (File::exists(storage_path('/exports/all_teams_report.zip'))) {
+        File::delete(storage_path('/exports/all_teams_report.zip'));
+      }
+
+      foreach($teams as $team) {
+        $data['sel_teams'] = $team->id;
+        $data['sel_team_name'] = $team->name;
+        $this->generatePrint($data, true);
+      }
+
+      // create zip file
+      $zip = new \ZipArchive();
+      $fileName = '/exports/all_teams_report.zip';
+      if ($zip->open(storage_path($fileName), \ZipArchive::CREATE) == TRUE) {
+          $files = File::files(storage_path('/exports/all_teams_report/'));
+          foreach ($files as $key => $value){
+              $relativeName = basename($value);
+              $zip->addFile($value, $relativeName);
+          }
+          $zip->close();
+      }
+
+      return Response::download(storage_path($fileName));
     }
 
     public function updateStatus($data)
