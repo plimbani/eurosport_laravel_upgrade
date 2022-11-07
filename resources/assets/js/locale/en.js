@@ -652,6 +652,7 @@ module.exports= {
   summary_message: "Use the filters below to generate a report.",
   summary_button_download: "Download",
   summary_button_print: "Print",
+  summary_button_print_all: "Download all teams",
   summary_age_category: "Category",
   summary_club: "Club",
   summary_team: "Team",
