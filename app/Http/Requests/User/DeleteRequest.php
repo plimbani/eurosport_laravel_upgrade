@@ -20,6 +20,10 @@ class DeleteRequest extends FormRequest
         $id = $this->route('id');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $currentLayout = config('config-variables.current_layout');
+        if ($loggedInUser->id == $id) {
+            return true;
+        }
+
         if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
           return false;
         }
