@@ -156,7 +156,7 @@ class TeamRepository
         $teamName = isset($data['team']) ? $data['team'] : '';        
         $club_id = isset($data['club_id']) ? $data['club_id'] : '';
         
-        return Team::create([
+        $team = Team::create([
           'name' => $teamName,
           'esr_reference' => $reference_no,
           'place' => $place,
@@ -168,6 +168,10 @@ class TeamRepository
           'shirt_color' => $shirtColor,
           'shorts_color' => $shortsColor,
         ]);
+
+        if (config('config-variables.current_layout') === 'commercialisation') { $team->update(['esr_reference' => "Team" . $team->id]); }
+
+        return $team;
     }
 
     public function getAllUpdatedTeam($teamdata)
