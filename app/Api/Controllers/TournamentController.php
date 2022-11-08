@@ -235,7 +235,7 @@ class TournamentController extends BaseController
         ksort($reportData);
         $reportData  = http_build_query($reportData);
 
-        $signedUrl = UrlSigner::sign(url('api/tournament/report/reportDownloadAllTeam?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(secure_url('api/tournament/report/reportDownloadAllTeam?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         
         return $signedUrl;
     }
