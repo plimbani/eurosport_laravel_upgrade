@@ -802,7 +802,7 @@ class TournamentService implements TournamentContract
 
         if ($save) {
 
-          $fileName = '/exports/all_teams_report/' . $tournamentData['name'] . ' ' . $data['sel_team_name'].'.pdf';
+          $fileName = '/exports/all_teams_report/' . mb_convert_encoding($tournamentData['name'], 'UTF-8') . ' ' . mb_convert_encoding($data['sel_team_name'], 'UTF-8').'.pdf';
           if (File::exists(storage_path($fileName))) {
             File::delete(storage_path($fileName));
           }
