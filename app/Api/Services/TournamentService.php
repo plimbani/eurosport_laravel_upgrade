@@ -786,7 +786,12 @@ class TournamentService implements TournamentContract
 
         if ($save) {
 
-          $fileName = '/exports/all_teams_report/' . mb_convert_encoding($tournamentData['name'], 'UTF-8') . ' ' . mb_convert_encoding($data['sel_team_name'], 'UTF-8').'.pdf';
+          $fileName = '/exports/all_teams_report/' . $tournamentData['name'] . ' ' . $data['sel_team_name'] . '.pdf';
+          
+          $fileName = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+              return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+          }, $fileName);
+
           if (File::exists(storage_path($fileName))) {
             File::delete(storage_path($fileName));
           }
