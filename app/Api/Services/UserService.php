@@ -372,9 +372,11 @@ class UserService implements UserContract
      */
     public function delete($id)
     {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $data = $this->userRepoObj->delete($id);
         if ($data) {
-            return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
+          $message = $id == $loggedInUser->id ? 'You have successfully deleted your account' : 'Data Successfully Deleted';
+          return ['status_code' => '200', 'message' => $message];
         }
     }
     /**
