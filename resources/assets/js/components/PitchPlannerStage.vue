@@ -1122,7 +1122,7 @@ import _ from 'lodash'
         $('.stage-top-horizontal-scroll').hide();
         [].forEach.call(scrollableBodys, function(scrollableBody) {
             var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
-            if(totalPitches>7){
+            if(totalPitches>13){
                 var pitchplanneritem = document.querySelectorAll('.pitch-planner-item:nth-child('+index+')');
                 pitchplanneritem[0].classList.add("ppitem");
                 var width = (plannerwidth*(totalPitches+2));
