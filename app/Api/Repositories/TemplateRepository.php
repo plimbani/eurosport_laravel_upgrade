@@ -1248,14 +1248,14 @@ class TemplateRepository
                     'tournamentId' => $tournament_id,
                 ]);
                 $assignedTeamsNew = array_merge($assignedTeamsNew, $assignedTeamsDataRes->all());
+                if (!count($assignedTeamsDataRes)) {
+                    $competationWithoutStandings = collect($assignedTeams)->where('competation_id', $competation)->where('tournament_id', $tournament_id)->all();
+                    $assignedTeamsNew = array_merge($assignedTeamsNew, $competationWithoutStandings);
+                }
             }
             
             foreach($assignedTeamsNew as $item) {
                 $assignedTeamsData[] = (array) $item;
-            }
-
-            if (count($assignedTeamsData) != count($assignedTeams)) {
-                $assignedTeamsData = [];
             }
         }
         
