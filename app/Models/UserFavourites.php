@@ -19,6 +19,7 @@ class UserFavourites extends Model
         'id',
         'user_id',
         'tournament_id',
+        'team_id',
         'is_default'
     ];
 

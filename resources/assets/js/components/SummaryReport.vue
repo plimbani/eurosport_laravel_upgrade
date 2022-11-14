@@ -263,17 +263,9 @@
 					</div>
 				</div>
 				<div id="fair_play_tab" class="tab-pane">
-					<div v-if="isShowReport">	
-						<div class="row align-items-center">
-							<div class="col-md-6">
-								<span>{{$lang.summary_message}}</span>
-							</div>
-							<div class="col-md-6">
-								<div class="d-flex align-items-center justify-content-end">
-									<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
-									<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
-								</div>
-							</div>
+				  <div class="row align-items-center">
+						<div class="col-md-6">
+							<span>{{$lang.summary_message}}</span>
 						</div>
 					</div>
 					<div class="block-bg mt-4">
@@ -297,12 +289,14 @@
 								</div>
 							</div>
 						</form>
-						<div class="row align-items-center mt-4">
-							<div class="col-md-12">
-								<div class="d-flex align-items-center justify-content-end">
-									<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
-									<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
-								</div>
+					</div>
+					<div class="row align-items-center mt-4">
+						<div class="col-md-12">
+							<div class="d-flex align-items-center justify-content-end">
+								<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
+								<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary mr-1" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
+								<button type="button" class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
+								<button type="button" class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
 							</div>
 						</div>
 					</div>
@@ -788,9 +782,11 @@ export default {
 	downloadAllTeam() {
 		let ReportData = this.reportQuery
 		if(ReportData!=''){
-			Tournament.getSignedUrlForTournamentReportAllTeam(ReportData).then(
+			Tournament.downloadReportAllTeam(ReportData).then(
 				(response) => {
-					window.location.href = response.data;	        
+					//window.location.href = response.data;	        
+					toastr.success('Downloaded file will be sent to you shortly via email', 'File sent', {timeOut: 5000});
+                    $("body .js-loader").addClass('d-none');
 				},
 				(error) => {
 
