@@ -266,8 +266,8 @@ export default {
   getSignedUrlForPitchPlannerPrint(tournamentId) {
     return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);
   },
-  getSignedUrlForRefereeSampleDownload() {
-    return api.post('getSignedUrlForRefereeSampleDownload');
+  downloadReportAllTeam(reportData) {
+    return api.get('tournament/report/reportDownloadAllTeam?' + reportData);
   },
   getSignedUrlForTeamsSpreadsheetSampleDownload() {
     return api.post('getSignedUrlForTeamsSpreadsheetSampleDownload');

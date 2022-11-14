@@ -270,8 +270,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
 
-    $api->post('getSignedUrlForTournamentReportAllTeam', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportAllTeam');
-
     $api->post('getSignedUrlForMatchPrint', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
 
     $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');

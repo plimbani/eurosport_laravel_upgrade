@@ -775,9 +775,11 @@ export default {
 	downloadAllTeam() {
 		let ReportData = this.reportQuery
 		if(ReportData!=''){
-			Tournament.getSignedUrlForTournamentReportAllTeam(ReportData).then(
+			Tournament.downloadReportAllTeam(ReportData).then(
 				(response) => {
-					window.location.href = response.data;	        
+					//window.location.href = response.data;	        
+					toastr.success('Downloaded file will be sent to you shortly via email', 'File sent', {timeOut: 5000});
+                    $("body .js-loader").addClass('d-none');
 				},
 				(error) => {
 
