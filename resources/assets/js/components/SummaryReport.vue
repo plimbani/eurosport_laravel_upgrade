@@ -260,12 +260,6 @@
 						<div class="col-md-6">
 							<span>{{$lang.summary_message}}</span>
 						</div>
-						<div class="col-md-6">
-							<div class="d-flex align-items-center justify-content-end">
-								<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
-								<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
-							</div>
-						</div>
 					</div>
 					<div class="block-bg mt-4">
 						<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
@@ -294,7 +288,9 @@
 						<div class="col-md-12">
 							<div class="d-flex align-items-center justify-content-end">
 								<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
-								<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
+								<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary mr-1" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
+								<button type="button" class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
+								<button type="button" class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
 							</div>
 						</div>
 					</div>
