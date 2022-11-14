@@ -400,44 +400,37 @@ class UserService implements UserContract
     // Here we add entry in database
     public function setFavourite($data)
     {
+      $data = UserFavourites::updateOrCreate([
+          'user_id' =>  $data['user_id'],
+          'tournament_id' => $data['tournament_id'],
+        ], [
+        'user_id' =>  $data['user_id'],
+        'tournament_id' => $data['tournament_id'],
+        'team_id' => $data['team_id'],
+      ]);
 
-      \Log::info('setFavourite Method Called');
-      \Log::info('UserId'.$data['user_id'].'TournamentId'.$data['tournament_id']);
-      // here we have to entry in database
-      $user_id = $data['user_id'];
-      $tournament_id = $data['tournament_id'];
-      // First check if its exist if not then insert it
-      $data = UserFavourites::where('user_id','=',$user_id)
-              ->where('tournament_id','=',$tournament_id)->get();
-      if(count($data) == 0) {
-        //  Insert it
-        \Log::info('setFavouriteData inserted');
-        $userFavouriteData = array();
-        $userFavouriteData['user_id'] =  $user_id;
-        $userFavouriteData['tournament_id']  = $tournament_id;
-        $data =   UserFavourites::create($userFavouriteData);
-        if($data) {
-          \Log::info('setFavouriteData Return');
-          return ['status_code'=>'200','message'=>'User favourite data is inserted'];
-        }
-      } else {
-        \Log::info('setFavouriteData not Return');
-          return ['status_code'=>'200','message'=>'alreay set favourite'];
-      }
+      return ['status_code'=>'200','message'=>'User favourite team has been added successfully'];  
     }
+
     public function removeFavourite($data)
     {
        $user_id = $data['user_id'];
        $tournament_id = $data['tournament_id'];
+       $team_id = $data['team_id'];
+       
        // remvoe it from database
        $data = UserFavourites::where('user_id','=',$user_id)
-              ->where('tournament_id','=',$tournament_id)->delete();
-       $msg = 'User favourite data deleted';
+              ->where('tournament_id','=',$tournament_id)
+              ->where('team_id','=',$team_id)
+              ->delete();
+
+       $msg = 'User favourite team has been removed successfully';
 
        if($data == 0)
-          $msg = 'User favourite already deleted';
+          $msg = 'User favourite team already removed';
       return ['status_code'=>'200','message'=>$msg];
     }
+
     public function setDefaultFavourite($data)
     {
        $user_id = $data['user_id'];

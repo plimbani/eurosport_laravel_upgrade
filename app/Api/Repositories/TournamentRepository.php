@@ -619,52 +619,16 @@ class TournamentRepository
             ->where('tournaments.deleted_at', '=', NULL)
             ->leftJoin('tournaments', 'tournaments.id', '=', 'users_favourite.tournament_id')
             ->leftJoin('tournament_contact', 'tournaments.id', '=', 'tournament_contact.tournament_id')
-            ->select('tournaments.*',
-                'users_favourite.*',
-                'tournaments.id as TournamentId',
-                'tournaments.start_date as TournamentStartTime',
-                'tournament_contact.first_name',
-                'tournament_contact.last_name',
-                'tournament_contact.telephone',
-                'tournament_contact.email',
-                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo) AS tournamentLogo'))
+            ->leftJoin('teams', 'teams.id', '=', 'users_favourite.team_id')
+            ->select(
+                'tournaments.id as tournament_id',
+                'users_favourite.team_id as team_id',
+                'teams.club_id as club_id')
             ->get()->toArray();
-        $tournament_ids = array();
-        if (count($userData) > 0) {
-            foreach ($userData as $tournamentData) {
-                $tournament_ids[] = $tournamentData['TournamentId'];
-            }
-
-            // now call function and send tournament ids
-            $tournamentStartTimeArr = $this->getTournamentPitchStartTime($tournament_ids);
-
-            foreach ($userData as $index => $userData1) {
-
-                if ($tournamentStartTimeArr) {
-                    foreach ($tournamentStartTimeArr as $key => $tournamentTime) {
-                        if ($userData1['TournamentId'] == $tournamentTime['TId']) {
-                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentTime['TournamentStartTime']));
-                        }
-                    }
-                }
-                /*else {
-            //return $userData;
-            }*/
-            }
-
+            
             return $userData;
-
-        } else {
-            return array();
-        }
-
-        // Now here we calculate
-        /*if(count($userData) > 0) {
-    return $userData;
-    } else {
-    return array();
-    } */
     }
+    
     public function getTournamentClub($data)
     {
         // Find teams for that tournament and clubs for that teams
