@@ -132,13 +132,38 @@ class TournamentRepository
             }
         }
         $allMatches = array_merge($roundMatches, $divisionMatches);
+
+        $assignedTeamsData = [];
+        if ($assignedTeams) { 
+            $standingData = new \Laraspace\Api\Repositories\MatchRepository();
+            $assignedTeamsNew = [];
+            $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
+            $tournament_id = $assignedTeams[0]['tournament_id'];
+            foreach($competations as $competation) {
+                $assignedTeamsDataRes = $standingData->getStanding([
+                    'competitionId' => $competation,
+                    'tournamentId' => $tournament_id,
+                ]);
+                $assignedTeamsNew = array_merge($assignedTeamsNew, $assignedTeamsDataRes->all());
+                if (!count($assignedTeamsDataRes)) {
+                    $competationWithoutStandings = collect($assignedTeams)->where('competation_id', $competation)->where('tournament_id', $tournament_id)->all();
+                    $assignedTeamsNew = array_merge($assignedTeamsNew, $competationWithoutStandings);
+                }
+            }
+            
+            foreach($assignedTeamsNew as $item) {
+                $assignedTeamsData[] = (array) $item;
+            }
+        }
+
         $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
             'templateData' => $jsonData,
-            'assignedTeams' => $assignedTeams,
+            'assignedTeams' => $assignedTeamsData ? $assignedTeamsData : $assignedTeams,
             'categoryAge' => $tournamentCompetitionTemplate->category_age,
             'groupName' => $tournamentCompetitionTemplate->group_name,
             'allMatches' => $allMatches,
+            'tournamentHasStandings' => $assignedTeamsData ? true : false,
         ])->render();
 
         return $tournamentTemplateData;
