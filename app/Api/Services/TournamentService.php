@@ -13,6 +13,7 @@ use Laraspace\Models\Website;
 use Laraspace\Models\Tournament;
 use Validate;
 use JWTAuth;
+use Laraspace\Jobs\DownloadAllTeams;
 use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
@@ -804,45 +805,11 @@ class TournamentService implements TournamentContract
 
     public function generatePrintAllTeam($data)
     {
+      $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-      set_time_limit(0);
-
-      $teams = Team::where('tournament_id','=',$data['tournament_id']);
-      if (isset($data['sel_teams'])) {
-        $teams = $teams->where('id', $data['sel_teams']);
-      }
-      $teams = $teams->get();
+      DownloadAllTeams::dispatch($loggedInUser, $data);
       
-      // delete the already exist files
-      $files = File::files(storage_path('/exports/all_teams_report/'));
-      foreach ($files as $key => $value){
-        if (File::exists($value)) {
-          File::delete($value);
-        }
-      }
-      if (File::exists(storage_path('/exports/all_teams_report.zip'))) {
-        File::delete(storage_path('/exports/all_teams_report.zip'));
-      }
-
-      foreach($teams as $team) {
-        $data['sel_teams'] = $team->id;
-        $data['sel_team_name'] = $team->name;
-        $this->generatePrint($data, true);
-      }
-
-      // create zip file
-      $zip = new \ZipArchive();
-      $fileName = '/exports/all_teams_report.zip';
-      if ($zip->open(storage_path($fileName), \ZipArchive::CREATE) == TRUE) {
-          $files = File::files(storage_path('/exports/all_teams_report/'));
-          foreach ($files as $key => $value){
-              $relativeName = basename($value);
-              $zip->addFile($value, $relativeName);
-          }
-          $zip->close();
-      }
-
-      return Response::download(storage_path($fileName));
+      return response(['status' => 'OK'])->status(200);
     }
 
     public function updateStatus($data)
