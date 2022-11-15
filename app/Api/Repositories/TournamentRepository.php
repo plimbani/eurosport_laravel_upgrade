@@ -162,13 +162,38 @@ class TournamentRepository
             }
         }
         $allMatches = array_merge($roundMatches, $divisionMatches);
+
+        $assignedTeamsData = [];
+        if ($assignedTeams) { 
+            $standingData = new \Laraspace\Api\Repositories\MatchRepository();
+            $assignedTeamsNew = [];
+            $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
+            $tournament_id = $assignedTeams[0]['tournament_id'];
+            foreach($competations as $competation) {
+                $assignedTeamsDataRes = $standingData->getStanding([
+                    'competitionId' => $competation,
+                    'tournamentId' => $tournament_id,
+                ]);
+                $assignedTeamsNew = array_merge($assignedTeamsNew, $assignedTeamsDataRes->all());
+                if (!count($assignedTeamsDataRes)) {
+                    $competationWithoutStandings = collect($assignedTeams)->where('competation_id', $competation)->where('tournament_id', $tournament_id)->all();
+                    $assignedTeamsNew = array_merge($assignedTeamsNew, $competationWithoutStandings);
+                }
+            }
+            
+            foreach($assignedTeamsNew as $item) {
+                $assignedTeamsData[] = (array) $item;
+            }
+        }
+
         $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
             'templateData' => $jsonData,
-            'assignedTeams' => $assignedTeams,
+            'assignedTeams' => $assignedTeamsData ? $assignedTeamsData : $assignedTeams,
             'categoryAge' => $tournamentCompetitionTemplate->category_age,
             'groupName' => $tournamentCompetitionTemplate->group_name,
             'allMatches' => $allMatches,
+            'tournamentHasStandings' => $assignedTeamsData ? true : false,
         ])->render();
 
         return $tournamentTemplateData;
@@ -665,6 +690,7 @@ class TournamentRepository
             ->where('tournaments.deleted_at', '=', NULL)
             ->leftJoin('tournaments', 'tournaments.id', '=', 'users_favourite.tournament_id')
             ->leftJoin('tournament_contact', 'tournaments.id', '=', 'tournament_contact.tournament_id')
+            ->leftJoin('teams', 'teams.id', '=', 'users_favourite.team_id')
             ->select('tournaments.*',
                 'users_favourite.*',
                 'tournaments.id as TournamentId',
@@ -673,9 +699,13 @@ class TournamentRepository
                 'tournament_contact.last_name',
                 'tournament_contact.telephone',
                 'tournament_contact.email',
+                'users_favourite.team_id as teamId',
+                'teams.club_id as clubId',
                 \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo) AS tournamentLogo'))
             ->get()->toArray();
+
         $tournament_ids = array();
+
         if (count($userData) > 0) {
             foreach ($userData as $tournamentData) {
                 $tournament_ids[] = $tournamentData['TournamentId'];
@@ -693,24 +723,21 @@ class TournamentRepository
                         }
                     }
                 }
-                else {
-                    $userData[$index]['TournamentStartTime'] = Carbon::parse($userData[$index]['TournamentStartTime'])->format('Y-m-d') . " 08:00:00";
-                } 
+                /*else {
+            //return $userData;
+            }*/
             }
 
+
             return $userData;
+
         } else {
             return array();
         }
-
-        // Now here we calculate
-        /* if(count($userData) > 0) {
-          return $userData;
-          } else {
-          return array();
-          } */
+            
+            return $userData;
     }
-
+    
     public function getTournamentClub($data)
     {
         // Find teams for that tournament and clubs for that teams
