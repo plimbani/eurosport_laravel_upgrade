@@ -11,6 +11,13 @@
 		min-height: 22.7cm;
 		margin: 0cm auto;
 	}
+  .flex-container {
+    display: -webkit-box; /* wkhtmltopdf uses this one */
+    display: flex;
+    box-align: center; /* As specified */
+    -moz-box-align: center; /* Mozilla */
+    
+  }
 </style>
 <center>
 @if($tournamentData->tournamentLogo != null)
@@ -66,49 +73,54 @@
     		<td align="center"></td>
     		@endif
     		<td>{{ str_replace('@HOME',$report->displayHomeTeamPlaceholder,str_replace('@AWAY',$report->displayAwayTeamPlaceholder,$report->displayMatchNumber)) }}</td>
-            <td align="right">
-                <span class="text-center">
-                    @if($report->homeTeam == '0')
-                            @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
-                        <?php
-                            if(strpos($report->displayHomeTeamPlaceholder, '#')  !== false ){
-                              $homeTeam = $report->displayHomeTeamPlaceholder;
-                            } else {
-                              if(strpos($report->displayMatchNumber, 'wrs') != false ){
-                                $matchPrec = 'wrs.'; 
-                              } if(strpos($report->displayMatchNumber, 'lrs') != false){
-                                $matchPrec = 'lrs.'; 
-                              }
-                              $homeTeam = $matchPrec.$report->displayHomeTeamPlaceholder;
+          <td align="right">
+            <table>
+              <tr>
+                <td >
+                @if($report->homeTeam == '0')
+                    @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
+                      <?php
+                          if(strpos($report->displayHomeTeamPlaceholder, '#')  !== false ){
+                            $homeTeam = $report->displayHomeTeamPlaceholder;
+                          } else {
+                            if(strpos($report->displayMatchNumber, 'wrs') != false ){
+                              $matchPrec = 'wrs.'; 
+                            } if(strpos($report->displayMatchNumber, 'lrs') != false){
+                              $matchPrec = 'lrs.'; 
                             }
-                           
-                            $homeTeamDisplay =  $homeTeam;
-
-                        ?>
-                            @else
-                                <?php $homeTeamDisplay = $report->displayHomeTeamPlaceholder ?>
-
-                            @endif 
+                            $homeTeam = $matchPrec.$report->displayHomeTeamPlaceholder;
+                          }
                         
-                        <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayHomeTeamPlaceholder, "." ) == false)
-                             $homeTeamDisplay = 'Pos-' . $report->displayHomeTeamPlaceholder; ?>
-
-                        
+                          $homeTeamDisplay =  $homeTeam;
+                      ?>
                     @else
-                     <?php  $homeTeamDisplay =$report->HomeTeam; ?>
-                        
-                    @endif
-                    <?php echo $homeTeamDisplay; ?>
-                </span>
-               <img src="{{ $report->HomeFlagLogo }}" width="20">&nbsp;
-            </td>
-            <td align="left">
-            &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
-                <span class="text-center">
-                    @if($report->awayTeam == '0')
-                       
-                            @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
-                       <?php
+                      <?php $homeTeamDisplay = $report->displayHomeTeamPlaceholder ?>
+                    @endif 
+                      
+                    <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayHomeTeamPlaceholder, "." ) == false)
+                      $homeTeamDisplay = 'Pos-' . $report->displayHomeTeamPlaceholder; ?>  
+                  @else
+                    <?php  $homeTeamDisplay = $report->HomeTeam; ?>  
+                  @endif
+
+                  <span style="font-size: 12px;"><?php echo $homeTeamDisplay; ?></span>
+                </td>
+                <td>
+                  <img src="{{ $report->HomeFlagLogo }}" width="20">
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td align="left">
+            <table>
+                <tr>
+                  <td>
+                    <img src="{{ $report->AwayFlagLogo }}" width="20">
+                  </td>
+                  <td >
+                    @if($report->awayTeam == '0')        
+                      @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
+                        <?php
                             if(strpos($report->displayAwayTeamPlaceholder, '#')  !== false ){
                               $awayTeam = $report->displayAwayTeamPlaceholder;
                             } else {
@@ -119,27 +131,22 @@
                               }
                               $awayTeam = $matchPrec.$report->displayAwayTeamPlaceholder;
                             }
-                           
+                            
                             $awayTeamDisplay =  $awayTeam;
-
-                        ?>
-                           
-                        @else
-                                <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
-                        
-                        @endif
+                        ?>  
+                      @else
+                        <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
+                      @endif
                         <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayAwayTeamPlaceholder, "." ) == false)
-                             $awayTeamDisplay = 'Pos-' . $report->displayAwayTeamPlaceholder; ?>
-
-                        
+                            $awayTeamDisplay = 'Pos-' . $report->displayAwayTeamPlaceholder; ?>
                     @else
-                     <?php  $awayTeamDisplay =$report->AwayTeam; ?>
-                        
+                      <?php  $awayTeamDisplay =$report->AwayTeam; ?>
                     @endif
-                    <?php echo $awayTeamDisplay; ?>
-                    
-                </span>
-            </td>
+                    <span style="font-size: 12px;"><?php echo $awayTeamDisplay; ?></span>
+                  </td>
+                </tr>
+            </table>
+          </td>
             <td align="center">
                 @if($report->position != null)
                     {{$report->position}}
