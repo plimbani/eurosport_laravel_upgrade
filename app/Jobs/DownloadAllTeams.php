@@ -26,6 +26,9 @@ class DownloadAllTeams implements ShouldQueue
     protected $getAWSUrl;
     protected $tournamentLogo;
 
+    public $timeout = 0;
+    public $tries = 1;
+
     /**
      * Create a new job instance.
      *
@@ -253,11 +256,12 @@ class DownloadAllTeams implements ShouldQueue
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
 
-        
-
-          $fileName = '/exports/all_teams_report/' . $tournamentData['name'] . ' ' . $data['sel_team_name'] . '.pdf';
+          $fileName = $tournamentData['name'] . ' ' . $data['sel_team_name'] . '.pdf';
           $fileName = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $fileName);
           $fileName = str_replace(" ", "_", $fileName);
+          $fileName = str_replace("/", "_", $fileName);
+
+          $fileName = '/exports/all_teams_report/' . $fileName;
 
           if (File::exists(storage_path($fileName))) {
             File::delete(storage_path($fileName));
