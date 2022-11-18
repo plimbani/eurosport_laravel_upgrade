@@ -7,7 +7,7 @@
 
 	}
 	.tblpage{
-		width: 18cm;
+		width: 100%;
 		min-height: 22.7cm;
 		margin: 0cm auto;
 	}
@@ -73,10 +73,10 @@
     		<td align="center"></td>
     		@endif
     		<td>{{ str_replace('@HOME',$report->displayHomeTeamPlaceholder,str_replace('@AWAY',$report->displayAwayTeamPlaceholder,$report->displayMatchNumber)) }}</td>
-          <td align="right">
+          <td align="right" width="180px;">
             <table>
               <tr>
-                <td >
+                <td align="right">
                 @if($report->homeTeam == '0')
                     @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
                       <?php
@@ -111,13 +111,13 @@
               </tr>
             </table>
           </td>
-          <td align="left">
+          <td align="left" width="180px;">
             <table>
                 <tr>
                   <td>
                     <img src="{{ $report->AwayFlagLogo }}" width="20">
                   </td>
-                  <td >
+                  <td align="left">
                     @if($report->awayTeam == '0')        
                       @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
                         <?php
