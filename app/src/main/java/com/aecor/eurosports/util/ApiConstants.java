@@ -25,6 +25,7 @@ public class ApiConstants {
     public static final String GET_SETTINGS_ATTRIBUTE = BASE_URL + "users/getSetting";
     public static final String UPDATE_USER_SETTINGS = BASE_URL + "users/postSetting";
     public static final String UPDATE_PROFILE = BASE_URL + "user/update/";
+    public static final String DELETE_USER_ACCOUNT = BASE_URL + "user/delete/";
     public static final String SET_TOURNAMENT_AS_FAVOURITE = BASE_URL + "users/setFavourite";
     public static final String REMOVE_TOURNAMENT_FROM_FAVOURITE = BASE_URL + "users/removeFavourite";
     public static final String GET_USER_FAVOURITE_LIST = BASE_URL + "users/getLoginUserFavouriteTournament";

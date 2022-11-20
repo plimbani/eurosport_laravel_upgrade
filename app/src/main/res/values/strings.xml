@@ -270,4 +270,5 @@
 
     <string name="please_update_profile">Please update your profile first</string>
     <string name="tournament_contact">Tournament Contact</string>
+    <string name="favorite_team">Favorite Team</string>
 </resources>

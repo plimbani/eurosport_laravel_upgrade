@@ -63,6 +63,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_no_data;
     @BindView(R.id.tv_no_item)
     protected TextView tv_no_item;
+    private TeamAdapter adapter;
 
     @Override
     protected void initView() {
@@ -226,7 +227,19 @@ public class TeamListingActivity extends BaseAppCompactActivity {
                 return lhs.getName().compareTo(rhs.getName());
             }
         });
-        TeamAdapter adapter = new TeamAdapter(mContext, list);
+        adapter = new TeamAdapter(mContext, list, new TeamAdapter.OnFavClick() {
+            @Override
+            public void onFavClick(int position, boolean isFavAdded) {
+//call api and update list
+                for (int i = 0; i < list.size(); i++) {
+                    adapter.getItem(i).setFavorite(false);
+                }
+                list.get(position).setFavorite(isFavAdded);
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
         lv_team.setAdapter(adapter);
     }
 

@@ -342,7 +342,9 @@ public class HomeActivity extends BaseAppCompactActivity {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
                                 if (mTournamentList != null && mTournamentList.length > 0) {
+                                    AppPreference.getInstance(HomeActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(mTournamentList));
                                     setTournamnetSpinnerAdapter(mTournamentList);
+                                    TournamentModel[] temp = AppPreference.getInstance(HomeActivity.this).getTournamentList(HomeActivity.this);
                                 } else {
                                     if (BuildConfig.isEasyMatchManager) {
                                         Intent intent = new Intent(HomeActivity.this, GetStartedActivity.class);

@@ -102,9 +102,19 @@
         style="@style/text_black_title"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/btn_disable"
         android:text="@string/update" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        style="@style/text_black_title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:background="@color/appColorPrimary"
+        android:text="Delete account" />
 
     <include layout="@layout/layout_footer" />
 

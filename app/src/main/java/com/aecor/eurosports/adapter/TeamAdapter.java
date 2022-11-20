@@ -25,6 +25,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,12 +39,14 @@ public class TeamAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context mContext;
     private List<TeamDetailModel> list;
+    private OnFavClick onFavClick;
 
-    public TeamAdapter(Context context, List<TeamDetailModel> list) {
+    public TeamAdapter(Context context, List<TeamDetailModel> list, OnFavClick onFavClick) {
         mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
+        this.onFavClick = onFavClick;
     }
 
     @Override
@@ -86,6 +89,27 @@ public class TeamAdapter extends BaseAdapter {
         }
         holder.individual_list_item.setText(mTeamNameWithGroupName);
 
+        holder.iv_fav.setVisibility(View.VISIBLE);
+
+        if (rowItem.isFavorite()) {
+            holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+        } else {
+            holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+        }
+
+        holder.iv_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!rowItem.isFavorite()) {
+                    holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+                    onFavClick.onFavClick(position, true);
+                } else {
+                    holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+                    onFavClick.onFavClick(position, false);
+                }
+            }
+        });
+
         holder.iv_flag.setVisibility(View.VISIBLE);
         if (!Utility.isNullOrEmpty(rowItem.getCountryLogo())) {
 
@@ -104,7 +128,6 @@ public class TeamAdapter extends BaseAdapter {
             holder.iv_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
         }
 
-
         return rowview;
     }
 
@@ -115,11 +138,17 @@ public class TeamAdapter extends BaseAdapter {
         protected LinearLayout ll_list_parent;
         @BindView(R.id.iv_flag)
         protected ImageView iv_flag;
+        @BindView(R.id.favourite_imageview)
+        protected ImageView iv_fav;
 
         public ViewHolder(View rowView) {
             super(rowView);
             ButterKnife.bind(this, rowView);
         }
+    }
+
+    public interface OnFavClick {
+        void onFavClick(int position, boolean isFavAdded);
     }
 
 }

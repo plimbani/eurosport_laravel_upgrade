@@ -43,7 +43,36 @@ public class TournamentModel {
     private String first_name;
     private String last_name;
     private String telephone;
-private String mTempStartDate;
+    private String mTempStartDate;
+
+    private String teamId;
+    private String clubId;
+    private String TournamentId;
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(String clubId) {
+        this.clubId = clubId;
+    }
+
+    public String getTournamentId() {
+        return TournamentId;
+    }
+
+    public void setTournamentId(String tournamentId) {
+        TournamentId = tournamentId;
+    }
+
     public String getTournamentStartTime() {
         return TournamentStartTime;
     }
