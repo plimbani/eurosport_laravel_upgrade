@@ -236,7 +236,7 @@ class PitchService implements PitchContract
                                                     ->orderBy('match_datetime','asc')->get();
         $pitchRecord = $pitch->toArray();
 
-        $pitchResult = pitch::find($pitchId);
+        $pitchResult = pitch::with('venue')->find($pitchId);
         $pitchReport = $pitchResult->toArray();
         $currentLayout = config('config-variables.current_layout');
         $date = new \DateTime(date('H:i d M Y'));
