@@ -182,9 +182,8 @@ class MatchController extends BaseController
 
         $refereeData = Referee::where('id',$refereeId)->first();
 
-        $referee = TempFixture::with('pitch','referee')->where('referee_id', $refereeId)
+        $referee = TempFixture::with('pitch','pitch.venue','referee')->where('referee_id', $refereeId)
                                 ->orderBy('match_datetime','asc')->get();
-
         $resultData = $referee->toArray();
 
         $date = new \DateTime(date('H:i d M Y'));

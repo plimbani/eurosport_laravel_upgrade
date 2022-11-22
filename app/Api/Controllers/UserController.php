@@ -3,7 +3,6 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Carbon\Carbon;
 use DB;
 use JWTAuth;
@@ -33,7 +32,9 @@ use Laraspace\Http\Requests\User\GetUserTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
-use UrlSigner;
+use Illuminate\Http\Response;
+use Laraspace\Http\Requests\User\RemoveFavouriteTeamRequest;
+use Laraspace\Http\Requests\User\SetFavouriteTeamRequest;
 
 /**
  * Users Resource Description.
@@ -221,12 +222,18 @@ class UserController extends BaseController
     {
         return $this->userObj->setFavourite($request->all());
     }
-
+    public function setFavouriteTeam(SetFavouriteTeamRequest $request)
+    {
+      return $this->userObj->setFavouriteTeam($request->all());
+    }
     public function removeFavourite(RemoveFavouriteRequest $request)
     {
         return$this->userObj->removeFavourite($request->all());
     }
-
+    public function removeFavouriteTeam(RemoveFavouriteTeamRequest $request)
+    {
+      return$this->userObj->removeFavouriteTeam($request->all());
+    }
     public function setDefaultFavourite(SetDefaultFavouriteRequest $request)
     {
         return $this->userObj->setDefaultFavourite($request->all());
