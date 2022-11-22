@@ -242,7 +242,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TournamentController@generateReport');
 
     $api->post('users/setFavourite','Laraspace\Api\Controllers\UserController@setFavourite');
+    $api->post('users/setFavouriteTeam','Laraspace\Api\Controllers\UserController@setFavouriteTeam');
     $api->post('users/removeFavourite','Laraspace\Api\Controllers\UserController@removeFavourite');
+    $api->post('users/removeFavouriteTeam','Laraspace\Api\Controllers\UserController@removeFavouriteTeam');
     $api->post('users/setDefaultFavourite','Laraspace\Api\Controllers\UserController@setDefaultFavourite');
 
     $api->post('users/getLoginUserFavouriteTournament',

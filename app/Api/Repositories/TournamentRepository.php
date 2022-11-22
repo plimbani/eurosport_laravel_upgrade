@@ -653,9 +653,8 @@ class TournamentRepository
                 'tournament_contact.last_name',
                 'tournament_contact.telephone',
                 'tournament_contact.email',
-                'users_favourite.team_id as teamId',
-                'teams.club_id as clubId',
-                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo) AS tournamentLogo'))
+                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo) AS tournamentLogo'),
+                \DB::raw('IFNULL(teams.club_id, 0) AS club_id'))
             ->get()->toArray();
 
         $tournament_ids = array();

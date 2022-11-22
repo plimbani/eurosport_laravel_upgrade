@@ -6,120 +6,149 @@
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }
-  .headfoot th{
-    background-color: #eee;
-    border-bottom: solid 1px #ccc;
-    border-top: solid 1px #ccc;
-  }
-  .headfoot th:first-child{
-    border-left: solid 1px #ccc;
-  }
-  .headfoot th:last-child{
-    border-right: solid 1px #ccc;
-  }
-  .foot th{
-    padding: 8px 4px;
+  
+  table, th, td {
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 10px;
   }
 
-  .tblpage{
-    width: 18cm;
-    min-height: 22.7cm;
-    margin: 0.35cm auto;
+  .mb-100 {
+    margin-bottom: 100px;
   }
+
+  .title {
+    font-weight: bold;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .p-0 {
+    padding: 0px;
+  }
+
+  .border-none {
+    border: none;
+  }
+
+  .border-y-none {
+    border-top: none; 
+    border-bottom: none;
+  }
+
+  .bg-black {
+    background-color: black;
+  }
+
+  .no-break {
+    page-break-inside: avoid;
+  } 
 </style>
 
 <center>
-  <img  src="{{ secure_asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <img  src="{{ secure_asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
   
 </center>
   <h4>{{ $pitchReport['pitch_number'] }} - Match Schedule</h4>
- 
+
   @foreach($pitchRecord as $data)
-    <table class="tblpage" border="1" cellpadding="1" cellspacing="0">
-        <thead>
-          <tr>
-            <td width="230px">&nbsp;Match number</td>
-            <td>&nbsp;{{ $data['display_match_number'] }}</td>
-          </tr>
-          <tr>
-            <td width="230px">&nbsp;Match</td>
-            <td>&nbsp;Team 1 
-                @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
-                    @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                        ({{ $data['display_home_team_placeholder_name'] }})
-                    @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                        ({{ 'Pos-' . $data['display_home_team_placeholder_name'] }})
-                    @endif
-                @elseif($data['home_team'] != 0)
-                    ({{ $data['home_team_name'] }})
-                @else
-                    ({{ $data['display_home_team_placeholder_name'] }})
-                @endif
-                 and Team 2
-                @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
-                    @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                        ({{ $data['display_away_team_placeholder_name'] }})
-                    @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                        ({{ 'Pos-' . $data['display_away_team_placeholder_name'] }})
-                    @endif
-                @elseif($data['away_team'] !=0)
-                    ({{ $data['away_team_name'] }})
-                @else
-                    ({{ $data['display_away_team_placeholder_name']}})
-                @endif
-            </td>
-          </tr> 
-          <tr>
-            <td width="230px">&nbsp;Date</td>
-            <td>&nbsp;{{ Carbon\Carbon::parse( $data['match_datetime'])->format('H:i D d M Y') }}
-            </td>
-          </tr> 
-          <tr>
-            <td width="230px">&nbsp;Pitch</td>
-            <td>&nbsp;{{ $data['pitch']['pitch_number']}}</td>
-          </tr>
-           <tr>
-            <td width="230px">&nbsp;Referee</td>
-              @if($data['referee']['last_name'] && $data['referee']['first_name'])
-                <td>&nbsp;{{ $data['referee']['last_name']}}, {{ $data['referee']['first_name']}}</td>
-              @else
-            <td width="230px"></td>
+    <table width="100%" class="mb-100 no-break">
+      <tr>
+        <td class="title" width="25%;">Date & Time</td>
+        <td colspan="3" class="text-center">{{ Carbon\Carbon::parse( $data['match_datetime'])->format('H:i D d M Y') }}</td>
+      </tr>
+      <tr>
+        <td class="title">Venue</td>
+        <td colspan="3" class="text-center p-0">
+          <table width="100%" class="border-none">
+            <tr>
+              <td width="33.33%;" class="text-center border-none">{{ (isset($pitchReport['venue'])) ? $pitchReport['venue']['name'] : '' }}</td>
+              <td width="33.33%;" class="title text-center border-y-none">Pitch Number</td>
+              <td width="33.33%;" class="text-center border-none">{{ $data['pitch']['pitch_number']}}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">Match code</td>
+        <td colspan="3" class="text-center">{{ $data['display_match_number'] }}</td>
+      </tr>
+      <tr>
+        <td class="title">Referee</td>
+        <td colspan="3" class="text-center">
+          @if($data['referee']['last_name'] && $data['referee']['first_name'])
+            {{ $data['referee']['last_name']}}, {{ $data['referee']['first_name']}}
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <td class="bg-black">&nbsp;</td>
+        <td width="37.5%;" class="text-center title">Team A</td>
+        <td width="37.5%;" class="text-center title">Team B</td>
+      </tr>
+      <tr>
+        <td class="title">Name</td>
+        <td class="text-center">
+          @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
+              @if(strpos($data['competition']['actual_name'], 'Group') !== false)
+                  {{ $data['display_home_team_placeholder_name'] }}
+              @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
+                  {{ 'Pos-' . $data['display_home_team_placeholder_name'] }}
               @endif
-          </tr>
-          <tr>
-            <td width="230px">&nbsp;Result</td>
-            <td>&nbsp;Team 1
-              @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
-                  @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      ({{ $data['display_home_team_placeholder_name'] }})
-                  @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                      ({{ 'Pos-' . $data['display_home_team_placeholder_name'] }})
-                  @endif
-              @elseif($data['home_team'] != 0)
-                  ({{ $data['home_team_name'] }})
-              @else
-                  ({{ $data['display_home_team_placeholder_name']}})
+          @elseif($data['home_team'] != 0)
+              {{ $data['home_team_name'] }}
+          @else
+              {{ $data['display_home_team_placeholder_name'] }}
+          @endif
+        </td>
+        <td class="text-center">
+          @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
+              @if(strpos($data['competition']['actual_name'], 'Group') !== false)
+                  {{ $data['display_away_team_placeholder_name'] }}
+              @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
+                  {{ 'Pos-' . $data['display_away_team_placeholder_name'] }}
               @endif
-               - {{$data['hometeam_score']}}<br>
-              &nbsp;Team 2
-              @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
-                  @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      ({{ $data['display_away_team_placeholder_name'] }})
-                  @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                      ({{ 'Pos-' . $data['display_away_team_placeholder_name'] }})
-                  @endif
-              @elseif($data['away_team'] !=0)
-                  ({{ $data['away_team_name'] }})
-              @else
-                  ({{ $data['display_away_team_placeholder_name']}})
-              @endif
-               - {{$data['awayteam_score']}}
-            </td>
-          </tr>
-          <tr>
-            <td width="230px">&nbsp;Remarks</td>
-            <td>&nbsp;{{ $data['comments']}}</td>
-          </tr>
-        </thead>
+          @elseif($data['away_team'] !=0)
+              {{ $data['away_team_name'] }}
+          @else
+              {{ $data['display_away_team_placeholder_name']}}
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <td class="title">Score</td>
+        <td class="text-center">
+          {{ $data['hometeam_score'] }}
+        </td>
+        <td class="text-center">
+          {{ $data['awayteam_score'] }}
+        </td>
+      </tr>
+      <tr>
+        <td class="title">Yellow / Red Card</td>
+        <td class="text-center">
+          @if($data['home_yellow_cards'] || $data['home_red_cards'])
+            {{ $data['home_yellow_cards'] }} / {{ $data['home_red_cards'] }}
+          @endif
+        </td>
+        <td class="text-center">
+          @if($data['away_yellow_cards'] || $data['away_red_cards'])
+            {{ $data['away_yellow_cards'] }} / {{ $data['away_red_cards'] }}
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <td class="title">Fair Play</td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+      </tr>
+      <tr>
+        <td class="title">Signed</td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+      </tr>
     </table>
   @endforeach
+    
