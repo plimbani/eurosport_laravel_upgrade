@@ -14,7 +14,7 @@ class AddTeamIdInUsersFavouriteTable extends Migration
     public function up()
     {
         Schema::table('users_favourite', function($table) {
-            $table->integer('team_id')->nullable()->unsigned(10)->after('tournament_id');
+            $table->integer('team_id')->default(0)->unsigned(10)->after('tournament_id');
         });
     }
 
