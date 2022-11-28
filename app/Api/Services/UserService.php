@@ -531,18 +531,18 @@ class UserService implements UserContract
 
     public function removeFavouriteTeam($data)
     {
-      // remvoe it from database
-      $data = UserFavourites::where('user_id', $data['user_id'])
+      // remove team id from user favourite team
+      $userFavouriteTeam = UserFavourites::where('user_id', $data['user_id'])
           ->where('tournament_id', $data['tournament_id'])
           ->where('team_id', $data['team_id'])
-          ->delete();
+          ->first();
+
+      if ($userFavouriteTeam)
+        $userFavouriteTeam->update(['team_id' => 0]);
 
       $msg = 'User favourite team has been removed successfully';
 
-      if($data == 0)
-        $msg = 'User favourite team already removed';
-
-      return ['status_code'=>'200','message'=>$msg];
+      return ['status_code' => '200', 'message' => $msg];
     }
 
     public function setDefaultFavourite($data)
