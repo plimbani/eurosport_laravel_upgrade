@@ -15,7 +15,8 @@ return [
 	    "goals_for" => "Goals for",
         "head_to_head" => "Head to head",
 	    "goal_ratio" => "Goal ratio",
-	    "matches_won" => "Matches won"
+	    "matches_won" => "Matches won",
+        "goals_conceded" => "Goals conceded"
 	],
     "category_rules_info" => [
         "match_points" => "The points total for games won, drawn or lost",
@@ -23,7 +24,8 @@ return [
         "goals_for" => "Number of goals scored",
         "head_to_head" => "When teams are tied on the same points league table positions are determined by the outcome of games played against each other",
         "goal_ratio" => "Number of goals scored divided by the number of games played",
-        "matches_won" => "Number of matches won"
+        "matches_won" => "Number of matches won",
+        "goals_conceded" => "Goals conceded"
     ],
     "team_colors" => [
         "#000000" => "Black",
