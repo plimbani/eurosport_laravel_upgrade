@@ -13,6 +13,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use PDF;
+use iio\libmergepdf\Merger;
+use Illuminate\Support\Facades\Storage;
 use Laraspace\Mail\SendMail;
 use Laraspace\Models\Team;
 use Laraspace\Models\Tournament;
@@ -77,16 +79,24 @@ class DownloadAllTeams implements ShouldQueue
             $this->generatePrint($data, true);
         }
 
+        $merger = new Merger;
+        $files = File::files(storage_path('/exports/all_teams_report/'));
+        foreach ($files as $key => $value){
+            $relativeName = basename($value);
+            $merger->addFile(storage_path('/exports/all_teams_report/' . $relativeName));
+        }
+        $createdPdf = $merger->merge();
+        file_put_contents(storage_path('/exports/all_teams_report/all_teams_report.pdf'), $createdPdf);
+
         // create zip file
         $zip = new \ZipArchive();
         $fileName = '/exports/all_teams_report.zip';
         if ($zip->open(storage_path($fileName), \ZipArchive::CREATE) == TRUE) {
-            $files = File::files(storage_path('/exports/all_teams_report/'));
-            foreach ($files as $key => $value){
-                $relativeName = basename($value);
-                $zip->addFile($value, $relativeName);
-            }
-            $zip->close();
+          $file = storage_path('/exports/all_teams_report/all_teams_report.pdf');  
+          $relativeName = basename($file);
+          $zip->addFile($file, $relativeName);
+            
+          $zip->close();
         }
 
         $this->sendMail($fileName);
