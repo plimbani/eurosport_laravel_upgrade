@@ -16,6 +16,7 @@
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "^0.12.4",
         "hipsterjazzbo/landlord": "^2.0",
+        "iio/libmergepdf": "^4.0",
         "intervention/image": "^2.3",
         "kreait/firebase-php": "^3.1",
         "laracasts/flash": "^2.0",
