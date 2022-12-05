@@ -1228,8 +1228,10 @@ class MatchService implements MatchContract
                     $total = ( ( (int)$teamExist->won * $winPoints ) + ( (int)$teamExist->draws * $drawPoints) )  + ( (int)$teamExist->lost * $losePoints);
 
                     $goal_difference = ( (int)$teamExist->goal_for  - (int)$teamExist->goal_against );
+                    $goals_conceded = (int)$teamExist->goal_against;
                     $calculatedArray[$compId][$gvalue->id]['goal_ratio']  = $teamExist->played > 0 ? $teamExist->goal_for / $teamExist->played : 0;
                     $calculatedArray[$compId][$gvalue->id]['goal_difference'] = $goal_difference;
+                    $calculatedArray[$compId][$gvalue->id]['goals_conceded'] = $goals_conceded;
                     $calculatedArray[$compId][$gvalue->id]['Total'] = $total;
                     $calculatedArray[$compId][$gvalue->id]['manual_order'] = $teamExist->manual_order;
                     $calculatedArray[$compId][$gvalue->id]['teamid'] = $gvalue->id;
@@ -1325,6 +1327,9 @@ class MatchService implements MatchContract
                   if($rule['key'] == 'goal_ratio') {
                     $remain_head_to_head_with_key .= '|goal_ratio';
                   }
+                  if($rule['key'] == 'goals_conceded') {
+                    $remain_head_to_head_with_key .= '|goals_conceded';
+                  }
                 }
 
                 continue;
@@ -1367,6 +1372,11 @@ class MatchService implements MatchContract
                 $params[] = $goalRatio;
                 $params[] = SORT_DESC;
                 $check_head_to_head_with_key .= '|goal_ratio';
+              }
+              if($rule['key'] == 'goals_conceded') {
+                $params[] = $did;
+                $params[] = SORT_ASC;
+                $check_head_to_head_with_key .= '|goals_conceded';
               }
             }
 
