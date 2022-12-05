@@ -29,6 +29,8 @@ public class ApiConstants {
     public static final String SET_TOURNAMENT_AS_FAVOURITE = BASE_URL + "users/setFavourite";
     public static final String REMOVE_TOURNAMENT_FROM_FAVOURITE = BASE_URL + "users/removeFavourite";
     public static final String GET_USER_FAVOURITE_LIST = BASE_URL + "users/getLoginUserFavouriteTournament";
+    public static final String ADD_USER_FAVOURITE_TEAM = BASE_URL + "users/setFavouriteTeam";
+    public static final String REMOVE_USER_FAVOURITE_TEAM = BASE_URL + "users/removeFavouriteTeam";
     public static final String SET_DEFAULT_TOURNAMENET = BASE_URL + "users/setDefaultFavourite";
     public static final String AGE_CATEGORIES = BASE_URL + "age_group/getCompetationFormat";
     public static final String TOURNAMENT_GROUP = BASE_URL + "match/getDraws";

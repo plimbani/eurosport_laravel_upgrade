@@ -8,8 +8,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.TeamDetailModel;
 import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
@@ -35,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -85,6 +89,8 @@ public class HomeActivity extends BaseAppCompactActivity {
     protected TextView tv_progress_hours;
     @BindView(R.id.tv_progress_seconds)
     protected TextView tv_progress_seconds;
+    @BindView(R.id.btn_fav_team)
+    protected Button btn_fav_team;
     private AppPreference mPreference;
     private Timer timer = new Timer();
     private TimerTask timerTask;
@@ -106,6 +112,12 @@ public class HomeActivity extends BaseAppCompactActivity {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
+
+                    if (mTournamentList.get(position).getTeamId() == 0 && mTournamentList.get(position).getClubId() == 0) {
+                        btn_fav_team.setVisibility(View.GONE);
+                    } else {
+                        btn_fav_team.setVisibility(View.VISIBLE);
+                    }
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getId()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
                         mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
                         mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
@@ -407,6 +419,101 @@ public class HomeActivity extends BaseAppCompactActivity {
             mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(mClubs);
             changeBottomTabAccordingToFlag();
+        }
+    }
+
+    @OnClick(R.id.btn_fav_team)
+    protected void onFavTeamsClick() {
+        getTeamList();
+    }
+
+    private void getTeamList() {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_TEAM_LIST;
+            final JSONObject requestJson = new JSONObject();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+            try {
+                requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
+//                if (!Utility.isNullOrEmpty(ageGroupId)) {
+//                    requestJson.put("age_group_id", ageGroupId);
+//                }
+                requestJson.put("club_id", mTournamentList.get(tournamentPosition).getClubId());
+
+//                if (!Utility.isNullOrEmpty(groupId)) {
+//                    requestJson.put("group_id", groupId);
+//                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AppLogger.LogE(TAG, "url" + url);
+            AppLogger.LogE(TAG, "requestJson " + requestJson.toString());
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        if (response != null && !Utility.isNullOrEmpty(response.toString())) {
+                            AppLogger.LogE(TAG, "get team list" + response.toString());
+                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                                if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                    TeamDetailModel mTeamList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamDetailModel[].class);
+                                    if (mTeamList != null && mTeamList.length > 0) {
+                                        Intent mTeamDetailIntent = new Intent(mContext, TeamActivity.class);
+                                        List<TeamDetailModel> list = new ArrayList<>();
+                                        for (TeamDetailModel teamDetailModel : mTeamList) {
+                                            if (teamDetailModel.getId().equals(String.valueOf(mTournamentList.get(tournamentPosition).getTeamId()))
+                                                    && teamDetailModel.getClub_id().equals(String.valueOf(mTournamentList.get(tournamentPosition).getClubId()))) {
+                                                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, mTeamList[tournamentPosition]);
+                                            }
+                                            list.add(teamDetailModel);
+                                        }
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelableArrayList(AppConstants.ARG_ALL_TEAM_LIST, (ArrayList<? extends Parcelable>) list);
+                                        mTeamDetailIntent.putExtras(bundle);
+                                        startActivity(mTeamDetailIntent);
+                                    }
+
+                                }
+                            } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                                String msg = "Selected tournament has expired";
+                                if (response.has("message")) {
+                                    msg = response.getString("message");
+                                }
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        Intent intent = new Intent(mContext, HomeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        mContext.startActivity(intent);
+                                        ((Activity) mContext).finish();
+                                    }
+
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
         }
     }
 

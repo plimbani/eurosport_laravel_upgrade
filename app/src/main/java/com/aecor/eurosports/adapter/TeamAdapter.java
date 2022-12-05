@@ -15,8 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.model.TeamDetailModel;
+import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -75,6 +78,8 @@ public class TeamAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) rowview.getTag();
         }
+        TournamentModel[] temp = AppPreference.getInstance(mContext).getTournamentList(mContext);
+
         TeamDetailModel rowItem = getItem(position);
         String mTeamNameWithGroupName = "";
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
@@ -91,6 +96,13 @@ public class TeamAdapter extends BaseAdapter {
 
         holder.iv_fav.setVisibility(View.VISIBLE);
 
+        boolean isFav= false;
+        for(int i=0;i<temp.length;i++){
+            if((temp[i].getTeamId() + "").equals(rowItem.getId()) && temp[i].getClubId()>0 && (temp[i].getTournamentId() + "").equals(rowItem.getTournament_id())){
+            isFav = true;
+            }
+        }
+        rowItem.setFavorite(isFav);
         if (rowItem.isFavorite()) {
             holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
         } else {
