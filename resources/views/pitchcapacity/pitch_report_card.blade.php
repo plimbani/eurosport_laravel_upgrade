@@ -74,7 +74,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title">Match code</td>
+        <td class="title">Match Code</td>
         <td colspan="3" class="text-center">{{ $data['display_match_number'] }}</td>
       </tr>
       <tr>
