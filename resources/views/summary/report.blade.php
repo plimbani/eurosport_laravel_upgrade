@@ -103,7 +103,7 @@
                     <?php  $homeTeamDisplay = $report->HomeTeam; ?>  
                   @endif
 
-                  <span style="font-size: 12px;"><?php echo $homeTeamDisplay; ?></span>
+                  <span style="font-size: 9px;"><?php echo $homeTeamDisplay; ?></span>
                 </td>
                 <td>
                   <img src="{{ $report->HomeFlagLogo }}" width="20">
@@ -142,7 +142,7 @@
                     @else
                       <?php  $awayTeamDisplay =$report->AwayTeam; ?>
                     @endif
-                    <span style="font-size: 12px;"><?php echo $awayTeamDisplay; ?></span>
+                    <span style="font-size: 9px;"><?php echo $awayTeamDisplay; ?></span>
                   </td>
                 </tr>
             </table>
