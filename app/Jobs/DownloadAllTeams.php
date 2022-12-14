@@ -286,7 +286,7 @@ class DownloadAllTeams implements ShouldQueue
 
         $email_details = array();
         $email_details['name'] = $this->loggedInUser->name;
-        $email_subject = "Eurosport | Download all teams";
+        $email_subject = "Eurosporting | All teams download";
         $recipient = $this->loggedInUser->email;
         $email_templates = 'emails.users.download_all_teams';
 
