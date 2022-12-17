@@ -40,15 +40,10 @@
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_groups }}</label>
                     <div class="col-sm-12">
-                      <select v-validate="'required'" class="form-control ls-select2 m-w-130" :class="{'is-disabled': !selectedAgeCategory }" v-model="selectedGroupId" name="competition">
-                        <option value="">Select group</option>
-                        <option v-if="groups.length > 0 && alreadyScheduledMatchesCount === 0" :value="'all'">All groups</option>
-                        <option :value="group.id"
-                        v-for="group in groups"
-                        v-bind:value="group.id">
-                          {{ filteredGroupName(group.actual_name) }}
-                        </option>
-                      </select>
+                      <multiselect name="competition" id="sel_competition" :options="getGroups" :multiple="true" :hide-selected="false" 
+                        :ShowLabels="false" track-by="id" @close="onTouch" label="label" :value="selectedGroups" ref="multiselectReference"
+                        :clear-on-select="false" :Searchable="true" @input="onChangeGroup" @select="onSelectGroup" @remove="onRemoveGroup">
+                      </multiselect>
                       <span class="help is-danger" v-show="errors.has('competition')">{{$lang.user_management_user_type_required}}</span>
                     </div>
                   </div>
@@ -155,7 +150,10 @@ import Tournament from '../api/tournament.js'
             isDisabled: false,
             ageCategories: [],
             minimum_team_interval: '',
-            selectedGroupId: '',
+            selectedGroups: [],
+            selectableRounds: [],
+            allRounds: [],
+            tempDeselectedGroup: null,
             selectedAgeCategory: '',
             final_match_duration: '',
             normal_match_duration: '',
@@ -179,6 +177,34 @@ import Tournament from '../api/tournament.js'
           getAllPitches() {
             return this.allPitchesWithDays;
           },
+          getGroups() {
+            var groups = [];
+
+            var that = this;
+
+            if (this.groups.length > 0 && this.alreadyScheduledMatchesCount === 0) {
+              groups.push({
+                id: 'all',
+                label: 'All groups'
+              });
+            }
+
+            this.groups.forEach(function(group) {
+              var roundNumber = parseInt(that.filteredRoundName(group.competation_round_no))
+              var isDisabled = true;
+              if (that.selectableRounds.includes(roundNumber)) {
+                 isDisabled = false;
+              }
+              groups.push({
+                id: group.id,
+                label: that.filteredGroupName(group.actual_name),
+                round: roundNumber,
+                $isDisabled: isDisabled
+              });
+            });
+
+            return groups;
+          }
         },
         methods: {
             getAgeCategories() {
@@ -206,6 +232,8 @@ import Tournament from '../api/tournament.js'
                     this.final_match_duration = (response.data.options.ageCategoryDetail.game_duration_FM * response.data.options.ageCategoryDetail.halves_FM)
                     + response.data.options.ageCategoryDetail.halftime_break_FM + response.data.options.ageCategoryDetail.match_interval_FM;
                     this.alreadyScheduledMatchesCount = response.data.options.alreadyScheduledMatchesCount;
+
+                    this.setRounds();
                   },
                   (error) => {
                   }
@@ -228,6 +256,11 @@ import Tournament from '../api/tournament.js'
                     pitches.push(opt.id);
                   });
 
+                  let groups = [];
+                  _.forEach(this.selectedGroups, function(opt) {
+                    groups.push(opt.id);
+                  });
+
                   let tournamentId = this.$store.state.Tournament.tournamentId;
 
                   _.forEach(this.allPitchesWithDays, function(pitchDetail) {
@@ -239,7 +272,7 @@ import Tournament from '../api/tournament.js'
                     });
                   });
 
-                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': this.selectedGroupId, 'pitches': pitches,
+                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': groups, 'pitches': pitches,
                    'timings': this.allPitchesWithDays};
 
                   $("body .js-loader").removeClass('d-none');
@@ -276,6 +309,64 @@ import Tournament from '../api/tournament.js'
               splittedName = splittedName.splice(splittedName.length-2, 2);
               return splittedName.join('-');
             },
+            filteredRoundName(roundName) {
+              let splittedName = roundName.split(" ");
+              return splittedName[1];
+            },
+            setRounds() {
+              // setting up all rounds in allRounds variable
+              var allRounds = this.groups.map(group => parseInt(this.filteredRoundName(group.competation_round_no)));
+              allRounds = [...new Set(allRounds)];
+              allRounds.sort(function(a, b){return a - b});
+              this.allRounds = allRounds;
+
+              // bydefault making first round selectable
+              this.selectableRounds = [allRounds[0]];
+            },
+            calcRoundsPlus() {
+              var groups = this.getGroups;
+              var allRounds = this.allRounds;
+              var selectedGroups = this.selectedGroups;
+              var selectableRounds = this.selectableRounds;
+              
+              // adding more rounds in selectableRounds
+              allRounds.forEach(function(round) {
+                var groupsOfRound = groups.filter((item) => item.round == round);
+                var groupsOfSelected = selectedGroups.filter((item) => item.round == round);
+
+                // checking if all the options of selectableRounds are selected or not 
+                // if yes then add next round in selectableRound
+                if ((groupsOfRound.length) == groupsOfSelected.length) {
+                  let currenctPosition = allRounds.indexOf(round);
+                  selectableRounds.push(allRounds[currenctPosition + 1])
+                }
+              });
+
+              selectableRounds = [...new Set(selectableRounds)];
+              this.selectableRounds = selectableRounds;
+            },
+            calcRoundsMinus() {
+              var removedRound = this.tempDeselectedGroup.round;
+              var selectableRounds = this.selectableRounds;
+              var updatedRounds = [];
+
+              // remove rounds which are greater then current options round from selectableRound when deselect any option
+              selectableRounds.forEach(function(round)   {
+                if (round <= removedRound) {
+                  updatedRounds.push(round)
+                }  
+              })
+
+              updatedRounds = [...new Set(updatedRounds)];
+              this.selectableRounds = updatedRounds;
+
+              // remove selected options which options round is greater then removed options round
+              var selectedGroups = this.selectedGroups;
+              var updatedSelectedGroups = selectedGroups.filter((item) => updatedRounds.includes(item.round) && item.id != this.tempDeselectedGroup.id);
+              this.selectedGroups = updatedSelectedGroups;
+              
+              this.tempDeselectedGroup = null;
+            },
             closeModal() {
               this.selectedAgeCategory = '';
               this.resetForm();
@@ -291,11 +382,28 @@ import Tournament from '../api/tournament.js'
               this.allPitchesWithDays[option.id] = {'id': option.id, 'pitchName': option.pitch_number, 'days': [], 'time': []};
               this.getAllPitchesWithDays(option.id);
             },
+            onRemove(option) {
+              delete this.allPitchesWithDays[option.id];
+            },
             onTouch () {
               this.isTouched = true
             },
-            onRemove(option) {
-              delete this.allPitchesWithDays[option.id];
+            onChangeGroup (value, id) {
+              if (this.tempDeselectedGroup) {                   // if deselect any option
+                this.calcRoundsMinus();
+              } else {                                          // if select any option
+                this.selectedGroups = value
+                this.calcRoundsPlus();
+              }
+              
+              if (value.indexOf('Reset me!') !== -1) this.selectedGroups = []
+            },
+            onSelectGroup (option) {
+              if (option === 'Disable me!') this.isDisabled = true
+            },
+            onRemoveGroup (option) {
+              this.tempDeselectedGroup = option;
+              delete this.selectedGroups[option.id];
             },
             getAllPitchesWithDays(pitchId) {
               let vm = this;
@@ -334,7 +442,7 @@ import Tournament from '../api/tournament.js'
             resetForm() {
               this.groups = [];
               this.availablePitches = [];
-              this.selectedGroupId = '';
+              this.selectedGroups = [];
               this.minimum_team_interval = '';
               this.normal_match_duration = '';
               this.final_match_duration = '';
