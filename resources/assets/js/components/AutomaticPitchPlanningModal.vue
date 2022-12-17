@@ -179,7 +179,6 @@ import Tournament from '../api/tournament.js'
           },
           getGroups() {
             var groups = [];
-
             var that = this;
 
             if (this.groups.length > 0 && this.alreadyScheduledMatchesCount === 0) {
