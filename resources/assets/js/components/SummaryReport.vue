@@ -204,9 +204,9 @@
 							<div class="d-flex align-items-center justify-content-end">
 								<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
 								<button type="button" name="generateReport" id="generateReport" class="btn btn-primary mr-1" @click="generateReport()">{{$lang.summary_button_generate}}</button>
-								<button class="btn btn-primary mr-1" @click='exportReport()'>{{$lang.summary_button_download}}</button>
-								<button class="btn btn-primary mr-1"  @click="exportPrint()">{{$lang.summary_button_print}}</button>
-								<button class="btn btn-primary"  @click="downloadAllTeam()">{{$lang.summary_button_print_all}}</button>
+								<button class="btn btn-primary mr-1" @click='exportReport()' :disabled="reports.length == 0">{{$lang.summary_button_download}}</button>
+								<button class="btn btn-primary mr-1"  @click="exportPrint()" :disabled="reports.length == 0">{{$lang.summary_button_print}}</button>
+								<button class="btn btn-primary"  @click="downloadAllTeam()" :disabled="reports.length == 0">{{$lang.summary_button_print_all}}</button>
 							</div>
 						</div>
 					</div>
