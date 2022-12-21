@@ -2,9 +2,10 @@ package com.aecor.eurosports.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -52,22 +53,8 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
 
             switch (compoundButton.getId()) {
                 case R.id.sc_sound:
-
-                    try {
-                        postSettingsParam();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    break;
-                case R.id.sc_vibration:
-                    try {
-                        postSettingsParam();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
                 case R.id.sc_notification:
+                case R.id.sc_vibration:
                     try {
                         postSettingsParam();
                     } catch (Exception e) {

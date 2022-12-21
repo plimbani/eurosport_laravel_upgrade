@@ -1,14 +1,25 @@
 package com.aecor.eurosports;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.aecor.eurosports.http.VolleyJsonObjectRequest;
+import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
+import com.aecor.eurosports.util.Utility;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -17,27 +28,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private final String TAG = MyFirebaseMessagingService.class.getSimpleName();
     private Context mContext;
+    private AppPreference appPreference;
 
     public MyFirebaseMessagingService() {
     }
-
-//    @Override
-//    public void zzm(Intent intent) {
-////        super.zzm(intent);
-//        try {
-//            Log.d(TAG, "inside ***********zzm***********");
-//            Bundle bundle = intent.getExtras();
-//            if (bundle != null) {
-//                for (String key : bundle.keySet()) {
-//                    Object value = bundle.get(key);
-//                    Log.d(TAG, String.format("%s %s (%s)", key,
-//                            value.toString(), value.getClass().getName()));
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -66,4 +60,61 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         AppLogger.LogE(TAG, "Send Message Error " + s);
     }
 
+    @Override
+    public void onNewToken(@NonNull String s) {
+        AppLogger.LogE(TAG, "New Device fcm Token " + s);
+        if (!Utility.isNullOrEmpty(s)) {
+            AppPreference.initializeInstance(mContext);
+            appPreference = AppPreference.getInstance(mContext);
+
+            if (Utility.isInternetAvailable(this)) {
+                postTokenOnServer(s);
+            }
+        }
+    }
+
+    private void postTokenOnServer(String mFcmToken) {
+        appPreference.setString(AppConstants.FIREBASE_TOKEN, mFcmToken);
+        String email = appPreference.getString(AppConstants.PREF_EMAIL);
+        if (!Utility.isNullOrEmpty(email)) {
+            String url = ApiConstants.POST_FCM_TOKEN;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("email", email);
+                requestJson.put("fcm_id", mFcmToken);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (Utility.isInternetAvailable(mContext)) {
+                AppLogger.LogE(TAG, "***** Post FCM Token request *****" + requestJson.toString());
+                final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                        .POST, url,
+                        requestJson, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            AppLogger.LogE(TAG, "***** Post FCM Token response *****" + response.toString());
+                            appPreference.setString(AppConstants.PREF_TOKEN_POSTED_ONSERVER, "true");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            AppLogger.LogE(TAG, "error" + error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                mQueue.add(jsonRequest);
+            }
+        } else {
+            appPreference.setString(AppConstants.PREF_TOKEN_POSTED_ONSERVER, "false");
+        }
+    }
 }

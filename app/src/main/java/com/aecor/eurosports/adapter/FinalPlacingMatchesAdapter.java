@@ -4,21 +4,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.FinalPlacingModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
@@ -65,15 +69,13 @@ public class FinalPlacingMatchesAdapter extends RecyclerView.Adapter<FinalPlacin
             if (!Utility.isNullOrEmpty(mGroupModel.getTeam_logo())) {
                 Glide.with(mContext)
                         .load(mGroupModel.getTeam_logo())
-                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
+                        .dontAnimate()
+                        .error(R.drawable.globe)
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(viewHolder.team_flag);
 
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                viewHolder.team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                            }
-                        });
             } else {
                 Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                         R.drawable.globe);

@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
@@ -65,7 +66,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
+        if (mTeamDetailModel!=null && !Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
             showBackButton(mTeamDetailModel.getName());
         } else {
             showBackButton(getString(R.string.team_matches));
@@ -176,6 +177,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
 
         View matchesView = getLayoutInflater().inflate(R.layout.row_team_matches, null);
         TextView team_match_date = (TextView) matchesView.findViewById(R.id.team_match_date);
+        TextView tv_dateTime = (TextView) matchesView.findViewById(R.id.match_time);
         TextView team_venue = (TextView) matchesView.findViewById(R.id.team_venue);
         TextView team_match_id = (TextView) matchesView.findViewById(R.id.team_match_id);
         TextView team_age_category = (TextView) matchesView.findViewById(R.id.team_age_category);
@@ -192,8 +194,10 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
                     language = "en";
                 }
                 team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), mPreference.getString(language), mContext));
+                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mFixtureModel.getMatch_datetime(), language, mContext));
             } else {
                 team_match_date.setText("");
+                tv_dateTime.setText("");
             }
         } catch (ParseException e) {
             e.printStackTrace();

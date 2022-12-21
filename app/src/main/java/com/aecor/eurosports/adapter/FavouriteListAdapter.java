@@ -2,8 +2,6 @@ package com.aecor.eurosports.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONObject;
 
@@ -121,20 +117,12 @@ public class FavouriteListAdapter extends BaseAdapter {
             if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
                 Glide.with(mContext)
                         .load(rowItem.getTournamentLogo())
-                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                super.onLoadFailed(e, errorDrawable);
-                                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
-                            }
-
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                            }
-                        });
+                        .dontAnimate()
+                        .error(R.drawable.globe)
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(((ViewHolderCommerci) holder).iv_tournament_logo);
             } else {
                 ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
             }
@@ -158,20 +146,12 @@ public class FavouriteListAdapter extends BaseAdapter {
             if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
                 Glide.with(mContext)
                         .load(rowItem.getTournamentLogo())
-                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                super.onLoadFailed(e, errorDrawable);
-                                ((ViewHolder) holder).favourite_logo.setImageResource(R.drawable.globe);
-                            }
-
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                ((ViewHolder) holder).favourite_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                            }
-                        });
+                        .dontAnimate()
+                        .error(R.drawable.globe)
+                        .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                        .into(((ViewHolder) holder).favourite_logo);
             } else {
                 ((ViewHolder) holder).favourite_logo.setImageResource(R.drawable.globe);
             }

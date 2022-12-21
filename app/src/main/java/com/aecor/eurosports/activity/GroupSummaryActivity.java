@@ -8,8 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
@@ -21,6 +19,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.GroupsSpinnerAdapter;
@@ -44,8 +45,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -176,14 +175,11 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
             Glide.with(mContext)
                     .load(mLeagueModel.getTeamFlag())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                        }
-                    });
+                    .dontAnimate()
+                    .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
+                    .into(team_flag);
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);
@@ -272,14 +268,14 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
         ll_standings_content.setVisibility(View.GONE);
         ll_match_content.setVisibility(View.GONE);
-        if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+        if (mGroupModel != null && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
             showBackButton(getString(R.string.placing_matches_summary));
         } else {
             showBackButton(getString(R.string.group_summary));
         }
         tv_view_full_league_table.setVisibility(View.GONE);
 
-        if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
+        if (mGroupModel != null && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
             if (!isApiAlreadyCalled) {
                 isApiAlreadyCalled = true;
@@ -287,7 +283,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             } else {
                 isApiAlreadyCalled = false;
             }
-        } else if (mGroupModel.getCompetation_type() != null && !Utility.isNullOrEmpty(mGroupModel.getCompetation_type()) && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION) && mGroupModel.getActual_competition_type() != null && !Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
+        } else if (mGroupModel != null && mGroupModel.getCompetation_type() != null && !Utility.isNullOrEmpty(mGroupModel.getCompetation_type()) && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION) && mGroupModel.getActual_competition_type() != null && !Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
 
             if (!isApiAlreadyCalled) {
@@ -579,6 +575,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
         View matchesView = getLayoutInflater().inflate(R.layout.row_team_matches, null);
         TextView team_match_date = (TextView) matchesView.findViewById(R.id.team_match_date);
+        TextView tv_dateTime = (TextView) matchesView.findViewById(R.id.match_time);
         TextView team_venue = (TextView) matchesView.findViewById(R.id.team_venue);
         TextView team_match_id = (TextView) matchesView.findViewById(R.id.team_match_id);
         TextView team_age_category = (TextView) matchesView.findViewById(R.id.team_age_category);
@@ -595,8 +592,10 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                     language = "en";
                 }
                 team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), language, mContext));
+                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mFixtureModel.getMatch_datetime(), language, mContext));
             } else {
                 team_match_date.setText("");
+                tv_dateTime.setText("");
             }
         } catch (ParseException e) {
             e.printStackTrace();

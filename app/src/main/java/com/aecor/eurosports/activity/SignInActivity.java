@@ -8,13 +8,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
@@ -34,7 +36,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.testfairy.TestFairy;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,11 +65,12 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        String access = getIntent().getStringExtra("accessCode");
-        boolean ss = getIntent().getBooleanExtra("isFromUrl", false);
+
+
         enabledDisableLoginButton(false);
         Utility.setupUI(mContext, ll_main_layout);
         mAppSharedPref = AppPreference.getInstance(mContext);
+//        mAppSharedPref = null;
         if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_EMAIL))
                 && !Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_PASSWORD))) {
             email_address.setText(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_EMAIL));
@@ -190,14 +196,6 @@ public class SignInActivity extends BaseActivity {
                             if (jsonObject.has("country_id")) {
                                 mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
                             }
-                            if (response != null && response.has("enable_logs_android")) {
-                                String enable_logs_android = response.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
-                                    TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppSharedPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
-                                    TestFairy.setUserId(jsonObject.getString("user_id"));
-                                }
-                            }
 
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
@@ -230,6 +228,7 @@ public class SignInActivity extends BaseActivity {
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
 //                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             }
+                            Utility.setTFFlags(mContext);
                             checkIfNewTokenIsAvailable();
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
@@ -371,16 +370,21 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void checkIfNewTokenIsAvailable() {
-        if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER)) && mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER).equalsIgnoreCase("true")) {
-            postUserDeviceDetails();
-        } else {
-            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN))) {
-                postTokenOnServer(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN));
-            } else {
-                postUserDeviceDetails();
-            }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            AppLogger.LogE(TAG, "getInstanceId failed" + task.getException());
+                            postUserDeviceDetails();
+                            return;
+                        }
 
-        }
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        postTokenOnServer(token);
+                    }
+                });
     }
 
     private void launchHome() {

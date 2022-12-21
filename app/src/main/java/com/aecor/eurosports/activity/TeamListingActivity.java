@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -13,12 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TeamAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.TeamDetailModel;
+import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
@@ -61,6 +65,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_no_data;
     @BindView(R.id.tv_no_item)
     protected TextView tv_no_item;
+    private TeamAdapter adapter;
 
     @Override
     protected void initView() {
@@ -224,8 +229,141 @@ public class TeamListingActivity extends BaseAppCompactActivity {
                 return lhs.getName().compareTo(rhs.getName());
             }
         });
-        TeamAdapter adapter = new TeamAdapter(mContext, list);
+        adapter = new TeamAdapter(mContext, list, new TeamAdapter.OnFavClick() {
+            @Override
+            public void onFavClick(int position, boolean isFavAdded) {
+                if (isFavAdded) {
+                    addFavTeam(list.get(position));
+                } else {
+                    removeFavTeam(list.get(position));
+                }
+            }
+        });
         lv_team.setAdapter(adapter);
+    }
+
+    private void addFavTeam(TeamDetailModel teamDetailModel) {
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.ADD_USER_FAVOURITE_TEAM;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+                requestJson.put("team_id", teamDetailModel.getId());
+                requestJson.put("tournament_id", teamDetailModel.getTournament_id());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "Get Logged in user favourite tournamenet list " + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("message")) {
+                                Utility.showToast(TeamListingActivity.this, response.getString("message"));
+                                TournamentModel[] temp = AppPreference.getInstance(TeamListingActivity.this).getTournamentList(TeamListingActivity.this);
+                                for (int i = 0; i < temp.length; i++) {
+                                    if (String.valueOf(temp[i].getTournamentId()).equals(teamDetailModel.getTournament_id())) {
+                                        temp[i].setTeamId(Integer.parseInt(teamDetailModel.getId()));
+                                        temp[i].setClubId(Integer.parseInt(teamDetailModel.getClub_id()));
+                                    }
+                                }
+                                AppPreference.getInstance(TeamListingActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(temp));
+                                if (adapter != null) {
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
+        }
+    }
+
+    private void removeFavTeam(TeamDetailModel teamDetailModel) {
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.REMOVE_USER_FAVOURITE_TEAM;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+                requestJson.put("team_id", teamDetailModel.getId());
+                requestJson.put("tournament_id", teamDetailModel.getTournament_id());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "Get Logged in user favourite tournamenet list " + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("message")) {
+                                Utility.showToast(TeamListingActivity.this, response.getString("message"));
+                                TournamentModel[] temp = AppPreference.getInstance(TeamListingActivity.this).getTournamentList(TeamListingActivity.this);
+                                for (int i = 0; i < temp.length; i++) {
+                                    if (String.valueOf(temp[i].getTournamentId()).equals(teamDetailModel.getTournament_id())) {
+                                        temp[i].setTeamId(0);
+                                        temp[i].setClubId(0);
+                                    }
+                                }
+                                AppPreference.getInstance(TeamListingActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(temp));
+                                if (adapter != null) {
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
+        }
     }
 
     private void showNoDataView() {

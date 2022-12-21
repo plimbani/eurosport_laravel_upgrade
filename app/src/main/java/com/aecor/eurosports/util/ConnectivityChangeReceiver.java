@@ -4,6 +4,7 @@ package com.aecor.eurosports.util;
  * Created by system-local on 24-08-2017.
  */
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +35,7 @@ public class ConnectivityChangeReceiver
         ConnectivityManager
                 cm = (ConnectivityManager) ApplicationClass.getInstance().getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null
                 && activeNetwork.isConnectedOrConnecting();
     }

@@ -3,7 +3,6 @@ package com.aecor.eurosports.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -12,6 +11,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.aecor.eurosports.R;
 
@@ -46,8 +47,13 @@ public class ViewDialog {
 
         dialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.show();
-
+        try {
+            if (dialog != null) {
+                dialog.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

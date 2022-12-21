@@ -1,5 +1,7 @@
 package com.aecor.eurosports.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by system-local on 19-06-2017.
  */
@@ -43,7 +45,38 @@ public class TournamentModel {
     private String first_name;
     private String last_name;
     private String telephone;
-private String mTempStartDate;
+    private String mTempStartDate;
+
+    @SerializedName("team_id")
+    private int teamId;
+    @SerializedName("club_id")
+    private int clubId;
+    private int TournamentId;
+
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
+    public int getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(int clubId) {
+        this.clubId = clubId;
+    }
+
+    public int getTournamentId() {
+        return TournamentId;
+    }
+
+    public void setTournamentId(int tournamentId) {
+        TournamentId = tournamentId;
+    }
+
     public String getTournamentStartTime() {
         return TournamentStartTime;
     }
