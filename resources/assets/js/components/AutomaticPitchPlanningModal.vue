@@ -322,11 +322,24 @@ import Tournament from '../api/tournament.js'
               // bydefault making first round selectable
               this.selectableRounds = [allRounds[0]];
             },
-            calcRoundsPlus() {
+            calcRoundsPlus(value) {
               var groups = this.getGroups;
               var allRounds = this.allRounds;
               var selectedGroups = this.selectedGroups;
               var selectableRounds = this.selectableRounds;
+
+              // if 'All groups' option is selected then remove other and disable other options
+              if (value[value.length - 1].id == 'all') {
+                this.selectedGroups = [
+                  {
+                    id: 'all',
+                    label: 'All groups'
+                  }
+                ];
+
+                this.selectableRounds = [];
+                return true;
+              }
               
               // adding more rounds in selectableRounds
               allRounds.forEach(function(round) {
@@ -344,7 +357,7 @@ import Tournament from '../api/tournament.js'
               selectableRounds = [...new Set(selectableRounds)];
               this.selectableRounds = selectableRounds;
             },
-            calcRoundsMinus() {
+            calcRoundsMinus(value) {
               var removedRound = this.tempDeselectedGroup.round;
               var selectableRounds = this.selectableRounds;
               var updatedRounds = [];
@@ -356,8 +369,12 @@ import Tournament from '../api/tournament.js'
                 }  
               })
 
-              updatedRounds = [...new Set(updatedRounds)];
-              this.selectableRounds = updatedRounds;
+              if (updatedRounds.length) {
+                updatedRounds = [...new Set(updatedRounds)];
+                this.selectableRounds = updatedRounds;
+              } else {
+                this.setRounds();
+              }
 
               // remove selected options which options round is greater then removed options round
               var selectedGroups = this.selectedGroups;
@@ -389,10 +406,10 @@ import Tournament from '../api/tournament.js'
             },
             onChangeGroup (value, id) {
               if (this.tempDeselectedGroup) {                   // if deselect any option
-                this.calcRoundsMinus();
+                this.calcRoundsMinus(value);
               } else {                                          // if select any option
                 this.selectedGroups = value
-                this.calcRoundsPlus();
+                this.calcRoundsPlus(value);
               }
               
               if (value.indexOf('Reset me!') !== -1) this.selectedGroups = []
