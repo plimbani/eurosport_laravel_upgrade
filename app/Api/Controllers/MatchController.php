@@ -923,6 +923,11 @@ class MatchController extends BaseController
         return $this->matchObj->unscheduleAllFixtures($request->all());
     }
 
+    public function unscheduleFixturesByAgeCategory(Request $request)
+    {
+        return $this->matchObj->unscheduleFixturesByAgeCategory($request->all());
+    }
+
     public function saveScheduleMatches(Request $request) 
     {
         return $this->matchObj->saveScheduleMatches($request->all());

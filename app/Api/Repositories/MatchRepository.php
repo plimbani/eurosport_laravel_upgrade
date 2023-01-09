@@ -1985,6 +1985,39 @@ class MatchRepository
       return ['status' => true, 'data' => $updateMatchFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
+    public function unscheduleFixturesByAgeCategory($matchData) 
+    {
+      $ageCategories = $matchData['matchData']['age_categories'];
+      $tournamentId = $matchData['matchData']['tournament_id'];
+      
+      $updateMatchUnscheduledRecord = [
+        'is_scheduled' => 0,
+        'pitch_id' => 0,
+        'referee_id' => NULL,
+        'hometeam_score' => NULL,
+        'awayteam_score' => NULL,
+        'match_datetime' => NULL,
+        'match_endtime' => NULL,
+        'venue_id' => 0,
+        'schedule_last_update_date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+        'minimum_team_interval_flag' => 0,
+        'maximum_team_interval_flag' => 0,
+      ];
+
+      $updateMatchFixtures = TempFixture::where('tournament_id', $tournamentId)
+        ->whereIn('age_group_id', $ageCategories)
+        ->update($updateMatchUnscheduledRecord);
+
+
+      foreach($ageCategories as $ageCategoryId) {
+        $date = array('tournamentId' => $tournamentId, 'ageGroupId' => $ageCategoryId);
+        $this->checkTeamIntervalForMatchesOnCategoryUpdate($date);
+        $this->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($date);
+      }
+
+      return ['status' => true, 'data' => $updateMatchFixtures];
+    }
+
     public function unscheduleAllFixtures($tournamentId, $isUnscheduleAll)
     {
       $competitionIds = [];

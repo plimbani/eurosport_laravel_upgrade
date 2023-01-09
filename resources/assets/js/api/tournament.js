@@ -292,6 +292,9 @@ export default {
   matchUnscheduledFixtures(matchData) {
     return api.post('match/fixtureUnschedule',{'matchData': matchData})
   },
+  unscheduleFixturesByAgeCategory(matchData) {
+    return api.post('match/unscheduleFixturesByAgeCategory', {'matchData': matchData})
+  },
   unscheduleAllFixtures(tournamentId) {
     return api.post('match/unscheduleAllFixtures',{'tournamentId':tournamentId})
   },
