@@ -899,4 +899,9 @@ module.exports= {
 
   modal_close_button: "Close",
   note: "Note:",
+
+  unschedule_age_categories_modal_title: "Unschedule Age Categories",
+  unschedule_age_categories_modal_confirm: "Confirm",
+  unschedule_age_categories_modal_cancel: "Cancel",
+  unschedule_age_categories_modal_confirmation_message: "Are you sure you would like to unschedule the fixtures of selected age categories?",
 }
