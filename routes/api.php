@@ -155,6 +155,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/fixtureUnschedule', 'Laraspace\Api\Controllers\MatchController@matchUnscheduledFixtures');
+    $api->post('match/unscheduleFixturesByAgeCategory', 'Laraspace\Api\Controllers\MatchController@unscheduleFixturesByAgeCategory');
     $api->post('match/unscheduleAllFixtures', 'Laraspace\Api\Controllers\MatchController@unscheduleAllFixtures');
     $api->post('saveScheduleMatches', 'Laraspace\Api\Controllers\MatchController@saveScheduleMatches');
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getScheduledMatch');
