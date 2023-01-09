@@ -2720,6 +2720,12 @@ class MatchService implements MatchContract
       return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
+    public function unscheduleFixturesByAgeCategory($matchData)
+    {
+      $result = $this->matchRepoObj->unscheduleFixturesByAgeCategory($matchData);
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Unscheduled successfully'];
+    }
+
     public function unscheduleAllFixtures($tournamentId)
     {
       $competitionIds = $this->matchRepoObj->unscheduleAllFixtures($tournamentId, true);

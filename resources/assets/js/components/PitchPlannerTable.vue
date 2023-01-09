@@ -3,16 +3,24 @@
         <div class="row">
             <div class="col-md-12 mb-3">
                 <div class="d-flex justify-content-between">
-                    <div>
-                        <button class="btn btn-primary btn-md" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}} <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="You can automatically plan the matches per category on the pitches you select"><i class="fas fa-info-circle text-white"></i></span></button>
-                        <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Manual planning <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="You can manually drag and drop the matches from the right hand side on to the pitches to allocate the matches"><i class="fas fa-info-circle text-white"></i></span></button>
-                        <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
-                        <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0 && currentLayout === 'tmp'">Unschedule fixtures</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()" v-if="this.totalNumberOfScheduledMatches > 0 && currentLayout === 'commercialisation'">Unschedule matches</button>
-                        <button class="btn btn-md btn-primary" id="unschedule_all_fixtures_btn" @click="unscheduleAllFixturesClick()" v-if="this.totalNumberOfScheduledMatches > 0">Unschedule all fixtures</button>
-                        <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
-                        <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                    <div class="d-flex">
+                        <button class="btn btn-primary btn-md mr-1" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}} <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="You can automatically plan the matches per category on the pitches you select"><i class="fas fa-info-circle text-white"></i></span></button>
+                        <button class="btn btn-primary btn-md mr-1" id="schedule_fixtures" @click="scheduleMatches()">Manual planning <span v-if="currentLayout === 'commercialisation'" class="pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="You can manually drag and drop the matches from the right hand side on to the pitches to allocate the matches"><i class="fas fa-info-circle text-white"></i></span></button>
+                        <button class="btn btn-success btn-md mr-1" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
+                        <button class="btn btn-danger btn-md mr-1" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
+                        
+                        <button class="btn btn-md btn-primary mr-1" id="unschedule_fixtures" @click="unschedule()" v-if="this.totalNumberOfScheduledMatches > 0 && currentLayout === 'tmp'">Unschedule fixtures</button>
+                        <button class="btn btn-md btn-primary mr-1" id="unschedule_fixtures" @click="unschedule()" v-if="this.totalNumberOfScheduledMatches > 0 && currentLayout === 'commercialisation'">Unschedule matches</button>
+                        <select class="form-control mr-1" v-model="unscheduleBy" id="unschedule_by" style="display: none;">
+                            <option value="manually">Manually</option>
+                            <option value="select_age_categories">Select age categories</option>
+                            <option value="all_fixtures">All fixtures</option>
+                        </select>
+                        <button class="btn btn-success btn-md mr-1" id="go_unschedule" @click="goUnschedule()" style="display: none;">Go</button>
+                        <button class="btn btn-danger btn-md mr-1" id="cancel_unschedule" @click="cancelUnschedule()" style="display: none;">Cancel</button>
+                        
+                        <button class="btn btn-md btn-success mr-1" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
+                        <button class="btn btn-danger btn-md cancle-match-unscheduling mr-1" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
                     <div>
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
@@ -96,6 +104,7 @@
         <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
             @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
         <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingAllFixtures()"></UnscheduleAllFixturesModal>
+        <UnscheduleFixturesModal @confirmed="confirmUnschedulingFixturesByAgeCategory()"></UnscheduleFixturesModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
@@ -113,12 +122,22 @@
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
     import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
     import UnscheduleAllFixturesModal from './UnscheduleAllFixturesModal.vue'
+    import UnscheduleFixturesModal from './UnscheduleFixturesModal.vue'
     import UnsavedMatchFixture from './UnsavedMatchFixture.vue'
 
     export default  {
         props: ['scheduleMatchesArray', 'isMatchScheduleInEdit'],
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnscheduleAllFixturesModal, UnsavedMatchFixture
+            GamesTab, 
+            RefereesTab,
+            PitchPlannerStage, 
+            AddRefereesModel, 
+            UploadRefereesModel, 
+            AutomaticPitchPlanning, 
+            BulkUnscheduledfixtureModal, 
+            UnscheduleAllFixturesModal, 
+            UnsavedMatchFixture,
+            UnscheduleFixturesModal
         },
         computed: {
             GameActiveTab () {
@@ -221,6 +240,7 @@
                 'isVertical': true,
                 'isMatchSidebarOpen': true,
                 currentLayout: this.$store.state.Configuration.currentLayout,
+                'unscheduleBy': 'manually'
             };
         },
 
@@ -551,17 +571,53 @@
                   }
                 );
             },
+            unschedule() {
+                $('#unschedule_fixtures').removeClass('btn-primary').addClass('btn-success');
+                
+                $('#unschedule_by').show();
+                $('#go_unschedule').show();
+                $('#cancel_unschedule').show();
+                
+                $("#schedule_fixtures").hide();
+                //$("#unschedule_fixtures").hide();
+                //$("#unschedule_all_fixtures_btn").hide();
+                $("#automatic_planning").hide();
+            },
+            goUnschedule() {
+                if (this.unscheduleBy == 'manually') {
+
+                    this.unscheduleFixtures();
+                    
+                    $("#confirm_unscheduling").show();
+                    $("#cancle_unscheduling_fixtures").show();
+
+                    $('#unschedule_by').hide();
+                    $('#go_unschedule').hide();
+                    $('#cancel_unschedule').hide();
+
+                } else if (this.unscheduleBy == 'select_age_categories') {
+                    
+                    $('#unschedule_fixtures_modal').modal('show');
+
+                } else if (this.unscheduleBy == 'all_fixtures') {
+                    this.unscheduleAllFixturesClick();
+                }
+
+            },
+            cancelUnschedule() {
+                $('#unschedule_fixtures').removeClass('btn-success').addClass('btn-primary');
+                
+                $('#unschedule_by').hide();
+                $('#go_unschedule').hide();
+                $('#cancel_unschedule').hide();
+                
+                $("#schedule_fixtures").show();
+                $("#unschedule_fixtures").show();
+                $("#unschedule_all_fixtures_btn").show();
+                $("#automatic_planning").show();
+            },
             unscheduleFixtures() {
-                if($("#unschedule_fixtures").hasClass('btn-success')) {
-                    $("#unschedule_fixtures").removeClass('btn-success').addClass('btn-primary');
-                    $(".match-unschedule-checkbox-div").addClass('d-none');
-                    return true;
-                }
-                if($("#unschedule_fixtures").hasClass('btn-primary')) {
-                    $("#unschedule_fixtures").removeClass('btn-primary').addClass('btn-success');
-                    $(".match-unschedule-checkbox-div").removeClass('d-none');
-                    return true;
-                }
+                $(".match-unschedule-checkbox-div").removeClass('d-none');
             },
             unscheduleAllFixturesClick() {
                 $("#unschedule_all_fixtures").modal('show');
@@ -627,6 +683,22 @@
                     vm.getAllScheduledMatches();
                     vm.clearScheduleMatchesCount();
                 },500)
+            },
+            confirmUnschedulingFixturesByAgeCategory() {
+                let vm = this;
+
+                console.log('refresh');
+                
+                vm.$store.dispatch('setMatches')
+                .then((response) => {
+                    _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                        vm.$root.$emit('refreshPitch' + stageIndex);
+                    });
+                    vm.$root.$emit('refreshCompetitionWithGames');
+                });
+                vm.getAllScheduledMatches();
+                vm.clearScheduleMatchesCount();
+                vm.cancelUnschedule();
             },
             confirmUnschedulingAllFixtures() {
                 let vm = this;
