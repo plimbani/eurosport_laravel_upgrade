@@ -135,24 +135,30 @@ import _ from 'lodash'
                 $(document).on('change','.match-unschedule-checkbox', function (e){
                     if($('.match-unschedule-checkbox:checked').length) {
                         // $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
-                        $("#automatic_planning").hide();
-                        $("#schedule_fixtures").hide();
-                        $("#unschedule_all_fixtures_btn").hide();
-                        $("#unschedule_fixtures").hide();
+                        
+                        //$("#automatic_planning").hide();
+                        //$("#schedule_fixtures").hide();
+                        //$("#unschedule_all_fixtures_btn").hide();
+                        //$("#unschedule_fixtures").hide();
+                        
+                        // $('.cancle-match-unscheduling').removeClass('d-none');
+
                         $("#confirm_unscheduling").show();
                         $("#cancle_unscheduling_fixtures").show();
-                        // $('.cancle-match-unscheduling').removeClass('d-none');
+                        $('#confirm_unscheduling').prop('disabled', false);
                     } else {
                         // $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                         // $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                        $("#automatic_planning").show();
-                        $("#schedule_fixtures").show();
-                        $("#unschedule_all_fixtures_btn").show();
-                        $("#confirm_unscheduling").hide();
-                        $("#cancle_unscheduling_fixtures").hide();
-                        $("#unschedule_fixtures").show().removeClass('btn-success').addClass('btn-primary');
-                        $(".match-unschedule-checkbox-div").addClass('d-none');
-                        $(".match-unschedule-checkbox").prop( "checked", false);
+
+                        // $("#automatic_planning").show();
+                        // $("#schedule_fixtures").show();
+                        // $("#unschedule_all_fixtures_btn").show();
+                        // $("#confirm_unscheduling").hide();
+                        // $("#cancle_unscheduling_fixtures").hide();
+                        // $("#unschedule_fixtures").show().removeClass('btn-success').addClass('btn-primary');
+                        // $(".match-unschedule-checkbox-div").addClass('d-none');
+                        // $(".match-unschedule-checkbox").prop( "checked", false);
+                        $('#confirm_unscheduling').prop('disabled', true);
                     }
                 });
             });
@@ -281,6 +287,11 @@ import _ from 'lodash'
                         vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
+                   
+                        if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
+                            event.matchVenueId = vm.tournamentFilter.filterValue.id;
+                        }
+                    
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
@@ -576,7 +587,7 @@ import _ from 'lodash'
                       // if event is break then no need to filter
                       // if (event.matchId === -1) return true;
 
-                      if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
+                        if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
                             return ['all', event.matchVenueId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
                         } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue === '') {
                             return ['all', event.matchAgeGroupId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
