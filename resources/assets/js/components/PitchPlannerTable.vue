@@ -573,6 +573,7 @@
             },
             unschedule() {
                 $('#unschedule_fixtures').removeClass('btn-primary').addClass('btn-success');
+                $('#unschedule_fixtures').prop('disabled', true);
                 
                 $('#unschedule_by').show();
                 $('#go_unschedule').show();
@@ -606,6 +607,7 @@
             },
             cancelUnschedule() {
                 $('#unschedule_fixtures').removeClass('btn-success').addClass('btn-primary');
+                $('#unschedule_fixtures').prop('disabled', false);
                 
                 $('#unschedule_by').hide();
                 $('#go_unschedule').hide();
@@ -617,6 +619,7 @@
                 $("#automatic_planning").show();
             },
             unscheduleFixtures() {
+                $('#confirm_unscheduling').prop('disabled', true);
                 $(".match-unschedule-checkbox-div").removeClass('d-none');
             },
             unscheduleAllFixturesClick() {
@@ -627,6 +630,7 @@
             },
             cancelUnscheduleFixtures() {
                 $("#unschedule_fixtures").show().removeClass('btn-success').addClass('btn-primary');
+                $('#unschedule_fixtures').prop('disabled', false);
                 // $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
                 $(".match-unschedule-checkbox-div").addClass('d-none');
                 $("#cancle_unscheduling_fixtures").hide();
@@ -718,6 +722,7 @@
                         });
                         vm.getAllScheduledMatches();
                         vm.clearScheduleMatchesCount();
+                        vm.cancelUnschedule();
                     }
                 })
             },
