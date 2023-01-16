@@ -288,10 +288,6 @@ import _ from 'lodash'
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                    
-                        if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
-                            event.matchVenueId = vm.tournamentFilter.filterValue.id;
-                        }
-                    
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
