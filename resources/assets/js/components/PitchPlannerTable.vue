@@ -817,7 +817,7 @@
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
                 _.forEach(this.tournamentStages, function(stage, stageIndex) {
-                    /*let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
+                    let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
                     let events = _.filter(allEvents, function(o) { return o.matchId != -1; });
                     events = _.map(events, function(event) {
                         let scheduleBlock = false;
@@ -828,11 +828,11 @@
                             if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != event.matchCompetitionId) {
                                 scheduleBlock = true
                             }
-                        } else if(filterKey == 'location'){
+                        } /* else if(filterKey == 'location'){
                             if( filterValue != '' && filterValue.id != event.matchVenueId){
                                 scheduleBlock = true;
                             }
-                        }
+                        } */
                         if(scheduleBlock){
                             event.color = 'grey';
                             event.textColor = '#FFFFFF';
@@ -858,11 +858,11 @@
                         }
                         return event;
                     });
-                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);*/
-                    //if( filterValue != '' ) {
-                        $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('rerenderEvents');
-                        $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('refetchResources');
-                    //}
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);
+                    
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('rerenderEvents');
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('refetchResources');
+                    
                 });
             },
             LightenDarkenColor(colorCode, amount) {
