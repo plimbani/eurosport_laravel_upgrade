@@ -288,10 +288,6 @@ import _ from 'lodash'
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                    
-                        if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
-                            event.matchVenueId = vm.tournamentFilter.filterValue.id;
-                        }
-                    
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
                             $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
@@ -589,11 +585,11 @@ import _ from 'lodash'
 
                         if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
                             return ['all', event.matchVenueId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
-                        } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue === '') {
+                        } /* else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue === '') {
                             return ['all', event.matchAgeGroupId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
                         } else if (vm.tournamentFilter.filterKey === 'age_category' && vm.tournamentFilter.filterValue !== '' && vm.tournamentFilter.filterDependentValue !== '') {
                             return ['all', event.matchCompetitionId].indexOf(vm.tournamentFilter.filterDependentValue) >= 0
-                        } else if (vm.tournamentFilter.filterKey === 'pitch_type' && vm.tournamentFilter.filterValue !== '') {
+                        } */ else if (vm.tournamentFilter.filterKey === 'pitch_type' && vm.tournamentFilter.filterValue !== '') {
                           return ['all', event.resourceType].indexOf(vm.tournamentFilter.filterValue.id) >= 0
                         } else {
                             return true;
