@@ -295,6 +295,9 @@ export default {
   unscheduleFixturesByAgeCategory(matchData) {
     return api.post('match/unscheduleFixturesByAgeCategory', {'matchData': matchData})
   },
+  getAgeCategoriesToUnscheduleFixtures(matchData) {
+    return api.post('match/getAgeCategoriesToUnscheduleFixtures', {'matchData': matchData})
+  },
   unscheduleAllFixtures(tournamentId) {
     return api.post('match/unscheduleAllFixtures',{'tournamentId':tournamentId})
   },
