@@ -287,6 +287,10 @@ import _ from 'lodash'
                         vm.scrollBeforeEventDropped = $(".js-stage-top-horizontal-scroll" + vm.stage.stageNumber).scrollLeft();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
+
+                        if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
+                            event.matchVenueId = vm.tournamentFilter.filterValue.id;
+                        }
                    
                         if(vm.isMatchScheduleInEdit === true || (vm.isMatchScheduleInEdit === false && vm.enableScheduleFeatureAsDefault === true)) {
                             event.borderColor = '#FF0000';
