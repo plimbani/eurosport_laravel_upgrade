@@ -14,7 +14,7 @@
             <div class="modal-body m-h-214" id="pitch_model_body">
 
                 <div class="form-group row">
-                    <div class="col-sm-6" v-for="item in ageCategories">
+                    <div class="col-sm-6" v-for="item in ageCategoriesToUnschedule">
                         <div class="checkbox">
                             <div class="c-input">
                                 <input type="checkbox" v-bind:id="`age-category-${item.id}`" class="euro-checkbox" v-bind:value="item.id" v-model="selectedAgeCategories" />
@@ -49,7 +49,7 @@ import Tournament from '../api/tournament.js'
 import UnscheduleFixturesConfirmationModal from './UnscheduleFixturesConfirmationModal.vue'
 
     export default  {
-        props: [],
+        props: ['ageCategoriesToUnschedule'],
         components: { UnscheduleFixturesConfirmationModal },
         data() {
           return {
@@ -59,7 +59,6 @@ import UnscheduleFixturesConfirmationModal from './UnscheduleFixturesConfirmatio
           }
         },
         created: function() {
-          this.getAgeCategories();
         },
         mounted() {
           
@@ -68,16 +67,6 @@ import UnscheduleFixturesConfirmationModal from './UnscheduleFixturesConfirmatio
           
         },
         methods: {
-            getAgeCategories() {
-              let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
-              Tournament.getCompetationFormat(TournamentData).then(
-              (response) => {
-                this.ageCategories = response.data.data
-              },
-              (error) => {
-              })
-            },
-            
             confirmUnschedule() {
                 this.selectAgeCategoryError = false;
                 if(this.selectedAgeCategories.length === 0) {
@@ -101,6 +90,8 @@ import UnscheduleFixturesConfirmationModal from './UnscheduleFixturesConfirmatio
               Tournament.unscheduleFixturesByAgeCategory(data).then(
               (response) => {
                   if(response.data.status_code == '200') {
+                      vm.selectedAgeCategories = [];
+                      
                       $("body .js-loader").addClass('d-none');
                       $('#unschedule_fixtures_modal').modal('hide')
                       toastr.success('Fixtures are unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});

@@ -252,34 +252,35 @@ class DownloadAllTeams implements ShouldQueue
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
         
-        $date = new \DateTime(date('H:i d M Y'));
-        // $footer = View::make('summary.footer');
-        // $date->setTimezone();.
-        $pdf = Pdf::loadView('summary.report',['data' => $reportData->all(), 'tournamentData' => $tournamentData])
-            ->setPaper('a4')
-            ->setOption('header-spacing', '5')
-            ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')
-            ->setOrientation('portrait')
-            ->setOption('footer-html', route('pdf.footer'))
-            ->setOption('header-right', $date->format('H:i d M Y'))
-            ->setOption('margin-top', 20)
-            ->setOption('margin-bottom', 20);
+        if (count($reportData) > 0) {
+          $date = new \DateTime(date('H:i d M Y'));
+          // $footer = View::make('summary.footer');
+          // $date->setTimezone();.
+          $pdf = Pdf::loadView('summary.report',['data' => $reportData->all(), 'tournamentData' => $tournamentData])
+              ->setPaper('a4')
+              ->setOption('header-spacing', '5')
+              ->setOption('header-font-size', 7)
+              ->setOption('header-font-name', 'Open Sans')
+              ->setOrientation('portrait')
+              ->setOption('footer-html', route('pdf.footer'))
+              ->setOption('header-right', $date->format('H:i d M Y'))
+              ->setOption('margin-top', 20)
+              ->setOption('margin-bottom', 20);
 
-          $fileName = $tournamentData['name'] . ' ' . $data['sel_team_name'] . '.pdf';
-          $fileName = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $fileName);
-          $fileName = str_replace(" ", "_", $fileName);
-          $fileName = str_replace("/", "_", $fileName);
+            $fileName = $tournamentData['name'] . ' ' . $data['sel_team_name'] . '.pdf';
+            $fileName = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $fileName);
+            $fileName = str_replace(" ", "_", $fileName);
+            $fileName = str_replace("/", "_", $fileName);
 
-          $fileName = '/exports/all_teams_report/' . $fileName;
+            $fileName = '/exports/all_teams_report/' . $fileName;
 
-          if (File::exists(storage_path($fileName))) {
-            File::delete(storage_path($fileName));
-          }
+            if (File::exists(storage_path($fileName))) {
+              File::delete(storage_path($fileName));
+            }
 
-          $pdf->save(storage_path($fileName));
-          
-          return true;
+            $pdf->save(storage_path($fileName));
+        } 
+        return true;
     }
 
     private function sendMail($zipFile) {

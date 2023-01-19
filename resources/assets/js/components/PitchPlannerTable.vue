@@ -104,7 +104,7 @@
         <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
             @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
         <UnscheduleAllFixturesModal :unscheduleAllFixtures="unscheduleAllFixtures" @confirmed="confirmUnschedulingAllFixtures()"></UnscheduleAllFixturesModal>
-        <UnscheduleFixturesModal @confirmed="confirmUnschedulingFixturesByAgeCategory()"></UnscheduleFixturesModal>
+        <UnscheduleFixturesModal @confirmed="confirmUnschedulingFixturesByAgeCategory()" :ageCategoriesToUnschedule="ageCategoriesToUnschedule"></UnscheduleFixturesModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
@@ -240,7 +240,8 @@
                 'isVertical': true,
                 'isMatchSidebarOpen': true,
                 currentLayout: this.$store.state.Configuration.currentLayout,
-                'unscheduleBy': 'manually'
+                'unscheduleBy': 'manually',
+                ageCategoriesToUnschedule: [],
             };
         },
 
@@ -598,12 +599,25 @@
 
                 } else if (this.unscheduleBy == 'select_age_categories') {
                     
+                    this.getAgeCategoriesToUnschedule();
                     $('#unschedule_fixtures_modal').modal('show');
 
                 } else if (this.unscheduleBy == 'all_fixtures') {
                     this.unscheduleAllFixturesClick();
                 }
 
+            },
+            getAgeCategoriesToUnschedule() {
+                let TournamentData = {
+                    'tournament_id': this.$store.state.Tournament.tournamentId,
+                    'competition_id': this.$store.state.Tournament.competitionId,
+                }
+                Tournament.getAgeCategoriesToUnscheduleFixtures(TournamentData).then(
+                (response) => {
+                    this.ageCategoriesToUnschedule = response.data.data.data
+                },
+                (error) => {
+                })
             },
             cancelUnschedule() {
                 $('#unschedule_fixtures').removeClass('btn-success').addClass('btn-primary');
@@ -691,8 +705,6 @@
             confirmUnschedulingFixturesByAgeCategory() {
                 let vm = this;
 
-                console.log('refresh');
-                
                 vm.$store.dispatch('setMatches')
                 .then((response) => {
                     _.forEach(vm.tournamentStages, function(stage, stageIndex) {

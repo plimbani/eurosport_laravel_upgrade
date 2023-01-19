@@ -671,9 +671,6 @@ class MatchRepository
                   if($rule['key'] == 'goal_ratio') {
                     $remain_head_to_head_with_key .= '|GoalRatio';
                   }
-                  if($rule['key'] == 'goals_conceded') {
-                    $remain_head_to_head_with_key .= '|goal_against';
-                  }
                 }
                 continue;
               }
@@ -709,10 +706,6 @@ class MatchRepository
               if($rule['key'] == 'goal_ratio') {
                 $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
                 $check_head_to_head_with_key .= '|GoalRatio';
-              }
-              if($rule['key'] == 'goals_conceded') {
-                $reportQuery = $reportQuery->orderBy('match_standing.goal_against','asc');
-                $check_head_to_head_with_key .= '|goals_conceded';
               }
             }
           }
@@ -2016,6 +2009,38 @@ class MatchRepository
       }
 
       return ['status' => true, 'data' => $updateMatchFixtures];
+    }
+
+
+    public function getAgeCategoriesToUnscheduleFixtures($matchData) 
+    {
+      $tournamentId = $matchData['matchData']['tournament_id'];
+      
+      $ageCategories = TempFixture::where('tournament_id', $tournamentId)->where('is_scheduled', 1)->get()->pluck('age_group_id')->unique()->values()->all();
+      
+      $tournamentCompetitionTemplates = TournamentCompetationTemplates::
+        leftjoin('tournament_template', 'tournament_template.id', '=','tournament_competation_template.tournament_template_id')
+        ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
+        ->select(
+          'tournament_competation_template.*',
+          'tournament_template.name as template_name',
+          \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" AND tournament_competation_template.competition_type = "league" THEN 
+                JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
+              ELSE tournament_template.name END) AS template_name'))
+        ->where('tournament_id', $tournamentId)->get();        
+      
+      $categories = [];
+      foreach($tournamentCompetitionTemplates as $template) {
+        if (in_array($template->id, $ageCategories)) {
+          $categories[] = [
+            'id' => $template->id,
+            'group_name' => $template->group_name,
+            'category_age' => $template->category_age,
+          ];
+        }
+      }
+
+      return ['status' => true, 'data' => $categories];
     }
 
     public function unscheduleAllFixtures($tournamentId, $isUnscheduleAll)
