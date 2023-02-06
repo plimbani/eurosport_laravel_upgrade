@@ -130,6 +130,7 @@ public class TeamAdapter extends BaseAdapter {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .dontAnimate()
+                    .placeholder(R.drawable.globe)
                     .error(R.drawable.globe)
                     .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                     .into(holder.iv_flag);

@@ -72,6 +72,7 @@ public class FinalPlacingMatchesAdapter extends RecyclerView.Adapter<FinalPlacin
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .dontAnimate()
+                        .placeholder(R.drawable.globe)
                         .error(R.drawable.globe)
                         .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                         .into(viewHolder.team_flag);

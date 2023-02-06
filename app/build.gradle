@@ -70,4 +70,5 @@ dependencies {
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
     implementation 'com.facebook.android:facebook-login:8.1.0'
     testImplementation 'junit:junit:4.13.1'
+    testImplementation 'com.android.support.test:runner:1.0.2'
 }

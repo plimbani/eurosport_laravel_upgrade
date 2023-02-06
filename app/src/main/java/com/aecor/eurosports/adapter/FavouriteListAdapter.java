@@ -2,6 +2,7 @@ package com.aecor.eurosports.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +121,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .dontAnimate()
+                        .placeholder(R.drawable.globe)
                         .error(R.drawable.globe)
                         .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                         .into(((ViewHolderCommerci) holder).iv_tournament_logo);
@@ -149,6 +151,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .dontAnimate()
+                        .placeholder(R.drawable.globe)
                         .error(R.drawable.globe)
                         .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                         .into(((ViewHolder) holder).favourite_logo);
