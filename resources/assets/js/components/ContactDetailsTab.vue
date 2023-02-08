@@ -131,9 +131,14 @@ export default {
 		});
 		if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
 		{
-			this.image = this.$store.state.Tournament.tournamentLogo
+			this.image = this.$store.state.Tournament.tournamentLogo + `?t=${this.timestamp}`
 			this.imagePath = ''
 		}
+	},
+	computed: {
+		timestamp() {
+			return new Date()
+		},	
 	},
 	methods: {
 		saveContactDetails() {
