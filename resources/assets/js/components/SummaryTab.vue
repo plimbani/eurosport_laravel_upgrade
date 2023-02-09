@@ -135,68 +135,68 @@
 
 		},
 	    methods: {
-        redirectToHomePage(){
-          this.$router.push({name: 'welcome'})
-        },
-	      getSummaryData() {
-	    	let tournamentId = this.$store.state.Tournament.tournamentId;
+			redirectToHomePage(){
+				this.$router.push({name: 'welcome'})
+			},
+	      	getSummaryData() {
+				let tournamentId = this.$store.state.Tournament.tournamentId;
 
-	    	if(tournamentId != undefined)
-	    	{
+				if(tournamentId != undefined)
+				{
 
-	    	Tournament.tournamentSummaryData(tournamentId).then(
-	    		(response) => {
-	    			if(response.data.status_code == 200) {
-						this.tournamentSummary = response.data.data;
-						// here modified data According to display
-						if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
-						{
-							this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+' '+response.data.data.tournament_contact.last_name
-						}
-
-						let locations='';
-						if(response.data.data.locations != undefined || response.data.data.locations != null )
-						{
-							response.data.data.locations.reduce(function (a,b) {
-							locations += b.name
-							if (b.country && b.country != null) {
-								locations += ' (' +b.country +')'
+				Tournament.tournamentSummaryData(tournamentId).then(
+					(response) => {
+						if(response.data.status_code == 200) {
+							this.tournamentSummary = response.data.data;
+							// here modified data According to display
+							if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
+							{
+								this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+' '+response.data.data.tournament_contact.last_name
 							}
-							locations += ', '
-						},0);
-						
-						// remove last comma
-						if(locations.length > 0)
-							locations = locations.substring(0,locations.length - 2)
-								this.tournamentSummary.locations = locations
+
+							let locations='';
+							if(response.data.data.locations != undefined || response.data.data.locations != null )
+							{
+								response.data.data.locations.reduce(function (a,b) {
+								locations += b.name
+								if (b.country && b.country != null) {
+									locations += ' (' +b.country +')'
+								}
+								locations += ', '
+							},0);
+							
+							// remove last comma
+							if(locations.length > 0)
+								locations = locations.substring(0,locations.length - 2)
+									this.tournamentSummary.locations = locations
+							}
+
+							this.canDuplicateFavourites = (this.tournamentSummary['tournament_detail']['duplicated_from'] !== null &&  this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) ? true : false;
 						}
-
-						this.canDuplicateFavourites = (this.tournamentSummary['tournament_detail']['duplicated_from'] !== null &&  this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) ? true : false;
+					},
+					(error) => {
+						// if no Response Set Zero
+						//
 					}
-				},
-	    		(error) => {
-	    			// if no Response Set Zero
-	    			//
-	    		}
-	    	);
+				);
 
-			
-	    	this.tournamentId = this.$store.state.Tournament.tournamentId
-	    	this.tournamentName = this.$store.state.Tournament.tournamentName
-	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
+				
+				this.tournamentId = this.$store.state.Tournament.tournamentId
+				this.tournamentName = this.$store.state.Tournament.tournamentName
+				this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
 
-        let SDate = moment(this.$store.state.Tournament.tournamentStartDate,'DD/MM/YYYY')
+				let SDate = moment(this.$store.state.Tournament.tournamentStartDate,'DD/MM/YYYY')
 
-        let EDate = moment(this.$store.state.Tournament.tournamentEndDate,'DD/MM/YYYY')
+				let EDate = moment(this.$store.state.Tournament.tournamentEndDate,'DD/MM/YYYY')
 
-			 this.tournamentDates = SDate.format('DD MMM YYYY')+'  - '+EDate.format('DD MMM YYYY')
-			 let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
+				this.tournamentDates = SDate.format('DD MMM YYYY')+'  - '+EDate.format('DD MMM YYYY')
+				let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
 
 
-			this.tournamentDays= parseInt(tournamentDays)
-			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
+				this.tournamentDays= parseInt(tournamentDays)
+				this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
 
-		 }
+			}
 	    },
 	    deleteConfirmed() {
 			Tournament.deleteTournament(this.tournamentId).then(
