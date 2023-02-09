@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-					<img  :src="tournamentLogo" width="50" class="mr-2">
+					<img  :src="tournamentLogo + `?t=${timestamp}`" width="50" class="mr-2">
 				</label>
 				<h6 class="mb-2 fieldset-title">
 					<strong>{{tournamentName}}</strong>
@@ -122,6 +122,9 @@
 		    userDetails: function() {
 		      return this.$store.state.Users.userDetails
 		    },
+			timestamp() {
+				return new Date()
+			},	
 	    },
 	    created: function() {
 
@@ -142,37 +145,40 @@
 	    	Tournament.tournamentSummaryData(tournamentId).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
-	    			this.tournamentSummary = response.data.data;
-	    			// here modified data According to display
-	    		if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
-              	{
-	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+' '+response.data.data.tournament_contact.last_name
-	    		}
-	    			let locations='';
-	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
-              {
-    	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name
-    			        if (b.country && b.country != null) {
-    			        	locations += ' (' +b.country +')'
-    			        }
-    			        locations += ', '
-                  },0);
-                // remove last comma
-                if(locations.length > 0)
-                    locations = locations.substring(0,locations.length - 2)
-    	    			this.tournamentSummary.locations = locations
-	    		   }
+						this.tournamentSummary = response.data.data;
+						// here modified data According to display
+						if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
+						{
+							this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+' '+response.data.data.tournament_contact.last_name
+						}
 
-	    		   this.canDuplicateFavourites = (this.tournamentSummary['tournament_detail']['duplicated_from'] !== null &&  this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) ? true : false;
+						let locations='';
+						if(response.data.data.locations != undefined || response.data.data.locations != null )
+						{
+							response.data.data.locations.reduce(function (a,b) {
+							locations += b.name
+							if (b.country && b.country != null) {
+								locations += ' (' +b.country +')'
+							}
+							locations += ', '
+						},0);
+						
+						// remove last comma
+						if(locations.length > 0)
+							locations = locations.substring(0,locations.length - 2)
+								this.tournamentSummary.locations = locations
+						}
 
-	    			}
-	    		},
+						this.canDuplicateFavourites = (this.tournamentSummary['tournament_detail']['duplicated_from'] !== null &&  this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) ? true : false;
+					}
+				},
 	    		(error) => {
 	    			// if no Response Set Zero
 	    			//
 	    		}
 	    	);
+
+			
 	    	this.tournamentId = this.$store.state.Tournament.tournamentId
 	    	this.tournamentName = this.$store.state.Tournament.tournamentName
 	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
