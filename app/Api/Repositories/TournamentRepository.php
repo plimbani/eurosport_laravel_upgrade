@@ -489,7 +489,8 @@ class TournamentRepository
             $summaryData['tournament_countries'] = implode(' , ', array_unique($tempData['tournament_countries']));
         }
 
-        $summaryData['tournament_detail'] = Tournament::find($tournamentId);
+        $summaryData['tournament_detail'] = Tournament::where('id', $tournamentId)->select('tournaments.*',
+        \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'))->first();
         
         return $summaryData;
     }
