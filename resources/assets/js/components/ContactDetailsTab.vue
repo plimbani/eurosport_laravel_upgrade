@@ -129,7 +129,8 @@ export default {
 		},
 		(error) => {
 		});
-		if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
+
+		if(this.$store.state.Tournament.tournamentLogo)
 		{
 			this.image = this.$store.state.Tournament.tournamentLogo + `?t=${this.timestamp}`
 			this.imagePath = ''
@@ -151,6 +152,7 @@ export default {
 							(response) => {
 								if(response.data.status_code == 200) {
 									toastr.success('Contact details saved successfully', 'Contact details', {timeOut: 2000});
+									vm.getSummaryData();
 								} else {
 									toastr.error('Something went wrong!', 'Contact details', {timeOut: 2000});
 								}
@@ -161,6 +163,42 @@ export default {
 					}
 				}
 			);
+		},
+		getSummaryData() {
+			let tournamentId = this.$store.state.Tournament.tournamentId;
+
+			if(tournamentId != undefined)
+			{
+				Tournament.tournamentSummaryData(tournamentId).then(
+					(response) => {
+						if(response.data.status_code == 200) {
+							
+							let tournament = response.data.data['tournament_detail'];
+							let tournamentDays = Plugin.setTournamentDays(tournament.start_date, tournament.end_date)
+
+							let tournamentSel  = {
+								name: tournament.name,
+								slug: tournament.slug,
+								id: tournament.id,
+								maximum_teams: tournament.maximum_teams,
+								tournamentDays: tournamentDays,
+								tournamentLogo: tournament.tournamentLogo,
+								tournamentStatus: tournament.status,
+								tournamentStartDate: tournament.start_date,
+								tournamentEndDate: tournament.end_date,
+								facebook: tournament.facebook,
+								website: tournament.website,
+								twitter: tournament.twitter
+							}
+							this.$store.dispatch('SetTournamentName', tournamentSel)
+						}
+					},
+					(error) => {
+						// if no Response Set Zero
+						//
+					}
+				);
+			}
 		},
 		onFileChangeT(e) {
 			var files = e.target.files || e.dataTransfer.files;
