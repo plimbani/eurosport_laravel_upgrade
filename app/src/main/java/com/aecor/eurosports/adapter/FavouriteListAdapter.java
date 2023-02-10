@@ -335,6 +335,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                                 Utility.showToast(mContext, mContext.getResources().getString(R.string.default_tournament));
                             }
                             mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, tournamentId);
+                            mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, tournamentId);
                             notifyDataSetChanged();
                             updateLoggedInUserFavouriteList();
                         }

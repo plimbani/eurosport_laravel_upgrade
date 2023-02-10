@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -39,7 +39,8 @@
                 android:paddingLeft="5dp"
                 android:text="@string/which_personal_data_are_processed"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 style="@style/text_black_sub_title"
@@ -57,7 +58,8 @@
                 android:lineSpacingExtra="1dp"
                 android:paddingLeft="5dp"
                 android:text="@string/privacy_terms_text_2"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone" />
 
             <TextView
                 style="@style/text_black_sub_title"
@@ -118,25 +120,6 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:text="@string/accessing_correcting_or_removing_data"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="1dp"
-                android:paddingLeft="5dp"
-                android:text="@string/privacy_terms_text_6"
-                android:textSize="15sp" />
-
-
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
                 android:text="@string/protecting_data"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -153,33 +136,45 @@
             <TextView
                 style="@style/text_black_sub_title"
                 android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/accessing_correcting_or_removing_data"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
                 android:autoLink="all"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="1dp"
                 android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_6"
+                android:textColorLink="@color/red"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="CONTACT"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:autoLink="all"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/privacy_terms_text_8"
                 android:textColorLink="@color/red"
                 android:textSize="15sp" />
 
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:text="@string/can_be_contacted_as"
-                android:textSize="18sp" />
-
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="12dp"
-                android:autoLink="all"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="1dp"
-                android:paddingLeft="5dp"
-                android:text="@string/contact_info"
-                android:textColorLink="@color/red"
-                android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>
 
