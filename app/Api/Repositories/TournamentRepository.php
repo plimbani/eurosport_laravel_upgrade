@@ -74,6 +74,12 @@ class TournamentRepository
     return Tournament::where('status','=','Published')->get();
     }*/
     }
+
+    public function tournamentYears()
+    {
+        return Tournament::selectRaw('DISTINCT YEAR(start_date) as year')->get()->pluck('year')->toArray();
+    }
+
     public function getAuthUserCreatedTournaments($status = '')
     {
         if ($status == '') {

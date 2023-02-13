@@ -4,6 +4,9 @@ export default {
   getAllTournaments() {
   	return axios.get('/api/tournaments')
   },
+  getAllTournamentsYears() {
+  	return axios.get('/api/tournaments-years')
+  },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },
@@ -27,6 +30,7 @@ export default {
   getCompetationFormat(tournamentData) {
     return api.post('age_group/getCompetationFormat', {'tournamentData': tournamentData})
   },
+  
   getTemplate(templateData) {
     let templateId = templateData['tournamentTemplateId']
     let ageCategoryId = templateData['ageCategoryId']
