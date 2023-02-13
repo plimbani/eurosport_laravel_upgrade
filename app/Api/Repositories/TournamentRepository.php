@@ -156,6 +156,8 @@ class TournamentRepository
             }
         }
 
+        $divisions = AgeCategoryDivision::where('tournament_competition_template_id', $ageCategoryId)->orderBy('order')->get()->pluck('name');
+
         $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
             'templateData' => $jsonData,
@@ -164,6 +166,7 @@ class TournamentRepository
             'groupName' => $tournamentCompetitionTemplate->group_name,
             'allMatches' => $allMatches,
             'tournamentHasStandings' => $assignedTeamsData ? true : false,
+            'divisions' => $divisions
         ])->render();
 
         return $tournamentTemplateData;
@@ -1231,12 +1234,12 @@ class TournamentRepository
     */
     public function updateCategoryDivisionName($data)
     {
-        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']
-                                    ['tournament_id'])
-                                    ->where('tournament_competition_template_id', 
-                                    $data['tournamentData']['currentAgeCategoryId'])
-                                    ->where('id', $data['tournamentData']['divisionId'])
-                                    ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
+        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']['tournament_id'])
+            ->where('tournament_competition_template_id', $data['tournamentData']['currentAgeCategoryId'])
+            ->where('id', $data['tournamentData']['divisionId'])
+            ->update([
+                'name' => $data['tournamentData']['categoryDivisionName']
+            ]);
     }
 
     public function duplicateTournament($data)

@@ -11,6 +11,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Api\Services\AgeGroupService;
 use Illuminate\Pagination\Paginator;
+use Laraspace\Models\AgeCategoryDivision;
 
 class TemplateRepository
 {
@@ -1202,8 +1203,10 @@ class TemplateRepository
         $assignedTeams = [];
         $roundMatches = [];
         $divisionMatches = [];
+        $divisions = [];
         $allMatches = [];
         $tournamentCompetitionTemplate = null;
+        
 
         if($ageCategoryId != null) {
             $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)
@@ -1258,7 +1261,9 @@ class TemplateRepository
                 $assignedTeamsData[] = (array) $item;
             }
         }
-        
+
+        $divisions = AgeCategoryDivision::where('tournament_competition_template_id', $ageCategoryId)->orderBy('order')->get()->pluck('name');
+
         $templateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
             'templateData' => $jsonData,
@@ -1267,6 +1272,7 @@ class TemplateRepository
             'groupName' => $tournamentCompetitionTemplate ? $tournamentCompetitionTemplate->group_name : null,
             'allMatches' => $allMatches,
             'tournamentHasStandings' => $assignedTeamsData ? true : false,
+            'divisions' => $divisions
         ])->render();
         $templateData['templateName'] = $tournamentName;
 
