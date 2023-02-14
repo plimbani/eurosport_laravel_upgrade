@@ -108,15 +108,34 @@
     <string name="the_internet_connection_appears_to_be_offline" translatable="false">The internet connection appears to be offline.</string>
     <string name="update_message">An app update is available. Please update the version you are using.</string>
     <string name="update_message_new">An updated version of this app is now available to download.</string>
+
+    <string name="privacy_and_cookie_policy_title">Privacy and cookie policy at TMP Applications BV</string>
+
+    <string name="which_personal_data_are_processed">WHICH PERSONAL DATA ARE PROCESSED?</string>
+    <string name="privacy_terms_text_2">- Your first name and surname\n- Your preferred tournament details\n- Your e-mail address\n- Your IP address</string>
+
+    <string name="privacy_terms_text_1">TMP Applications BV produces software applications for the international tournaments. In this Privacy Statement we inform you about the purposes for which TMP Applications BV processes personal data and about exercising your privacy rights.</string>
+
+    <string name="why_app_needs_data">WHICH PERSONAL DATA IS PROCESSED?</string>
+    <string name="privacy_terms_text_3">TMP Applications BV processes the following:\n	•	your e-mail address\n	•	your IP address\n\nTMP Applications BV may use your data to inform you from time to time about international tournaments.</string>
+    <string name="how_long_retains_data">HOW LONG DOES TMP APPLICATIONS BV STORE DATA?</string>
+    <string name="privacy_terms_text_4">If not otherwise agreed, TMP Applications BV stores personal data for a period of three years.</string>
+    <string name="sharing_with_others">SHARING WITH OTHERS</string>
+    <string name="privacy_terms_text_5">TMP Applications BV will only share personal data with a third party for the purpose mentioned before.</string>
+
+    <string name="accessing_correcting_or_removing_data">ACCESSING, CORRECTING OR REMOVING DATA</string>
+    <string name="privacy_terms_text_6">Please contact TMP Applications BV if you feel that your data is not being protected properly, if there are signs of misuse, or if you would like more information about the protection of personal data collected by TMP Applications BV.You have the right to access, correct or remove your personal data, which you can do by sending a request by mail to TMP Applications BV. TMP Applications BV will respond to your request as quickly as possible, but within four weeks at the very latest.\nBesides sending us a message, you have the right to submit a complaint to the Dutch Data Protection Authority. Contact details can be found at www.autoriteitpersoonsgegevens.nl</string>
+
+    <string name="protecting_data">PROTECTING DATA</string>
+    <string name="privacy_terms_text_7">TMP Applications BV recognizes the need to protect personal data and takes appropriate measures to prevent misuse, loss, unauthorized access, unwanted disclosure and unauthorized modification. The TMP Applications BV software uses a reliable SSL Certificate, stored in an encrypted website, to ensure that personal data does not fall into the wrong hands.</string>
+    <string name="privacy_terms_text_8">TMP Applications BV, the Netherlands: info@tmpapplications.com\nTMP Applications BV is registered at the Dutch Chamber of Commerce under number 71729461.</string>
+<!--
     <string name="privacy_and_cookie_policy_title">Privacy and cookie policy at Stichting Euro-Sportring </string>
     <string name="which_personal_data_are_processed">WHICH PERSONAL DATA ARE PROCESSED?</string>
     <string name="privacy_terms_text_1">Euro-Sportring may process personal data about you if you use the services offered by Euro-Sportring and/or if you provide these data yourself when registering on the Euro-Sporting app. Euro-Sportring may process the following personal data:</string>
     <string name="privacy_terms_text_2">- Your first name and surname\n- Your preferred tournament details\n- Your e-mail address\n- Your IP address</string>
     <string name="why_app_needs_data">WHY EURO-SPORTRING NEEDS DATA</string>
     <string name="privacy_terms_text_3">Euro-Sportring processes your personal data so that it is able to contact you in writing by email when you ask it to.\n\nEuro-Sportring may also use your personal data as part of its performance of an agreement to provide services: usually involving the organisation and sale of international tournaments.</string>
-    <string name="password_must_be_at_least_5_char_long">Your password must be at least 5 characters long</string>
-    <string name="remember_me">Remember me</string>
-
     <string name="how_long_retains_data">HOW LONG EURO-SPORTRING RETAINS DATA</string>
     <string name="privacy_terms_text_4">Euro-Sportring retains your personal data no longer than strictly necessary to achieve the purposes for which your data are collected. Your data will only be retained for five years if no agreement is concluded with you.</string>
     <string name="sharing_with_others">SHARING WITH OTHERS</string>
@@ -128,6 +147,11 @@
     <string name="privacy_terms_text_8">If you feel that your data are not being protected properly, if there are signs of misuse, or if you would like more information about the protection of personal data collected by Euro-Sportring, please contact Euro-Sportring via info@euro-sportring.org.</string>
     <string name="can_be_contacted_as">Euro-Sportring can be contacted as indicated below:</string>
     <string name="contact_info">Postal address: P.O. Box 78, 3740 AB Baarn, the Netherlands\nOffice address: Javalaan 7B, 3742 CN Baarn, the Netherlands\nRegistration number in the commercial register of the chamber of commerce: KVK32083831\nTelephone: +31 (0)355489800\nE-mail address: info@euro-sportring.org</string>
+-->
+
+    <string name="password_must_be_at_least_5_char_long">Your password must be at least 5 characters long</string>
+    <string name="remember_me">Remember me</string>
+
     <string name="walkover_win">* Walkover, win awarded</string>
     <string name="penalties_win">* Game won on penalties</string>
     <string name="abandoned_win">* Abandoned, win awarded</string>

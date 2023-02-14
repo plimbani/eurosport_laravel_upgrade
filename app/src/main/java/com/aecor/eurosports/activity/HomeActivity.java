@@ -129,14 +129,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                     }
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
-                    Glide.with(mContext)
-                            .load(mTournamentList.get(position).getTournamentLogo())
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .dontAnimate()
-                            .error(R.drawable.globe)
-                            .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
-                            .into(iv_tournamentLogo);
+                    Glide.with(mContext).load(mTournamentList.get(position).getTournamentLogo()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).dontAnimate().placeholder(R.drawable.globe).error(R.drawable.globe).override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_tournamentLogo);
                 } else {
                     iv_tournamentLogo.setImageResource(R.drawable.globe);
                 }
@@ -338,12 +331,9 @@ public class HomeActivity extends BaseAppCompactActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
-                    .getRequestQueue();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                    .POST, url,
-                    requestJson, new Response.Listener<JSONObject>() {
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method.POST, url, requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
@@ -406,8 +396,7 @@ public class HomeActivity extends BaseAppCompactActivity {
     @OnClick(R.id.btn_teams)
     protected void onTeamsClick() {
         selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
-        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
-                mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
+        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) && mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
             ViewDialog.showSingleButtonDialog(this, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                 @Override
                 public void onPositiveButtonClicked() {
@@ -433,8 +422,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             Utility.startProgress(mContext);
             String url = ApiConstants.GET_TEAM_LIST;
             final JSONObject requestJson = new JSONObject();
-            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
-                    .getRequestQueue();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             try {
                 requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
 //                if (!Utility.isNullOrEmpty(ageGroupId)) {
@@ -450,9 +438,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             }
             AppLogger.LogE(TAG, "url" + url);
             AppLogger.LogE(TAG, "requestJson " + requestJson.toString());
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                    .POST, url,
-                    requestJson, new Response.Listener<JSONObject>() {
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method.POST, url, requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
@@ -466,8 +452,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                                         Intent mTeamDetailIntent = new Intent(mContext, TeamActivity.class);
                                         List<TeamDetailModel> list = new ArrayList<>();
                                         for (TeamDetailModel teamDetailModel : mTeamList) {
-                                            if (teamDetailModel.getId().equals(String.valueOf(mTournamentList.get(tournamentPosition).getTeamId()))
-                                                    && teamDetailModel.getClub_id().equals(String.valueOf(mTournamentList.get(tournamentPosition).getClubId()))) {
+                                            if (teamDetailModel.getId().equals(String.valueOf(mTournamentList.get(tournamentPosition).getTeamId())) && teamDetailModel.getClub_id().equals(String.valueOf(mTournamentList.get(tournamentPosition).getClubId()))) {
                                                 mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, mTeamList[tournamentPosition]);
                                             }
                                             list.add(teamDetailModel);
@@ -586,13 +571,10 @@ public class HomeActivity extends BaseAppCompactActivity {
         }
         list = moveItemToTop(list, tournamentPosition);
         this.mTournamentList = list;
-        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                list);
+        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext, list);
         sp_tournament.setAdapter(adapter);
 
         // Sets selected tournament
-//
-
         sp_tournament.setSelection(0);
 
     }
@@ -601,8 +583,7 @@ public class HomeActivity extends BaseAppCompactActivity {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
         this.mTournamentList = list;
-        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                list);
+        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext, list);
         sp_tournament.setAdapter(adapter);
     }
 
@@ -631,8 +612,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.btn_final_placings)
     protected void onFinalPlacingsClicked() {
-        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
-                mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
+        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) && mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
             ViewDialog.showSingleButtonDialog(this, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                 @Override
                 public void onPositiveButtonClicked() {
