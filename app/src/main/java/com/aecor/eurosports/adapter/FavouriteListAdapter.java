@@ -148,6 +148,7 @@ public class FavouriteListAdapter extends BaseAdapter {
             if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
                 Glide.with(mContext)
                         .load(rowItem.getTournamentLogo())
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .dontAnimate()
