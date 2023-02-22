@@ -241,6 +241,19 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btn_fav_team"
+                style="@style/text_black_title"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_yellow"
+                android:gravity="center"
+                android:text="@string/favorite_team"
+                android:textColor="@color/btn_active_text_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

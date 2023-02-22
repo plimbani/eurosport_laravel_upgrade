@@ -6,6 +6,10 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.aecor.eurosports.gson.GsonConverter;
+import com.aecor.eurosports.model.TournamentModel;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -106,6 +110,15 @@ public class AppPreference {
         if (!Utility.isNullOrEmpty(mRememberEmail) && !Utility.isNullOrEmpty(mRememberPassword)) {
             setString(AppConstants.KEY_REMEMBER_EMAIL, mRememberEmail);
             setString(AppConstants.KEY_REMEMBER_PASSWORD, mRememberPassword);
+        }
+    }
+
+    public TournamentModel[] getTournamentList(Context context) {
+        String tournamentList = mPref.getString(AppConstants.TOURNAMENT_LIST, "");
+        if (tournamentList == null || tournamentList.trim().length() == 0) {
+            return null;
+        } else {
+            return GsonConverter.getInstance().decodeFromJsonString(tournamentList, TournamentModel[].class);
         }
     }
 }

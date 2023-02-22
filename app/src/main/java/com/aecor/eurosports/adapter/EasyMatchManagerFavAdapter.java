@@ -119,6 +119,7 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .dontAnimate()
+                        .placeholder(R.drawable.globe)
                         .error(R.drawable.globe)
                         .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                         .into(((ViewHolderCommerci) holder).iv_tournament_logo);
@@ -154,6 +155,7 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .dontAnimate()
+                        .placeholder(R.drawable.globe)
                         .error(R.drawable.globe)
                         .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                         .into(((ViewHolder) holder).favourite_logo);

@@ -15,8 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.model.TeamDetailModel;
+import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -25,6 +28,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,12 +42,14 @@ public class TeamAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context mContext;
     private List<TeamDetailModel> list;
+    private OnFavClick onFavClick;
 
-    public TeamAdapter(Context context, List<TeamDetailModel> list) {
+    public TeamAdapter(Context context, List<TeamDetailModel> list, OnFavClick onFavClick) {
         mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
+        this.onFavClick = onFavClick;
     }
 
     @Override
@@ -72,6 +78,8 @@ public class TeamAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) rowview.getTag();
         }
+        TournamentModel[] temp = AppPreference.getInstance(mContext).getTournamentList(mContext);
+
         TeamDetailModel rowItem = getItem(position);
         String mTeamNameWithGroupName = "";
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
@@ -86,6 +94,34 @@ public class TeamAdapter extends BaseAdapter {
         }
         holder.individual_list_item.setText(mTeamNameWithGroupName);
 
+        holder.iv_fav.setVisibility(View.VISIBLE);
+
+        boolean isFav= false;
+        for(int i=0;i<temp.length;i++){
+            if((temp[i].getTeamId() + "").equals(rowItem.getId()) && temp[i].getClubId()>0 && (temp[i].getTournamentId() + "").equals(rowItem.getTournament_id())){
+            isFav = true;
+            }
+        }
+        rowItem.setFavorite(isFav);
+        if (rowItem.isFavorite()) {
+            holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+        } else {
+            holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+        }
+
+        holder.iv_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!rowItem.isFavorite()) {
+                    holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+                    onFavClick.onFavClick(position, true);
+                } else {
+                    holder.iv_fav.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+                    onFavClick.onFavClick(position, false);
+                }
+            }
+        });
+
         holder.iv_flag.setVisibility(View.VISIBLE);
         if (!Utility.isNullOrEmpty(rowItem.getCountryLogo())) {
 
@@ -94,6 +130,7 @@ public class TeamAdapter extends BaseAdapter {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .dontAnimate()
+                    .placeholder(R.drawable.globe)
                     .error(R.drawable.globe)
                     .override(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT)
                     .into(holder.iv_flag);
@@ -103,7 +140,6 @@ public class TeamAdapter extends BaseAdapter {
                     R.drawable.globe);
             holder.iv_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
         }
-
 
         return rowview;
     }
@@ -115,11 +151,17 @@ public class TeamAdapter extends BaseAdapter {
         protected LinearLayout ll_list_parent;
         @BindView(R.id.iv_flag)
         protected ImageView iv_flag;
+        @BindView(R.id.favourite_imageview)
+        protected ImageView iv_fav;
 
         public ViewHolder(View rowView) {
             super(rowView);
             ButterKnife.bind(this, rowView);
         }
+    }
+
+    public interface OnFavClick {
+        void onFavClick(int position, boolean isFavAdded);
     }
 
 }

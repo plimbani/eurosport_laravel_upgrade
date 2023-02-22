@@ -575,6 +575,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
         View matchesView = getLayoutInflater().inflate(R.layout.row_team_matches, null);
         TextView team_match_date = (TextView) matchesView.findViewById(R.id.team_match_date);
+        TextView tv_dateTime = (TextView) matchesView.findViewById(R.id.match_time);
         TextView team_venue = (TextView) matchesView.findViewById(R.id.team_venue);
         TextView team_match_id = (TextView) matchesView.findViewById(R.id.team_match_id);
         TextView team_age_category = (TextView) matchesView.findViewById(R.id.team_age_category);
@@ -591,8 +592,10 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                     language = "en";
                 }
                 team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), language, mContext));
+                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mFixtureModel.getMatch_datetime(), language, mContext));
             } else {
                 team_match_date.setText("");
+                tv_dateTime.setText("");
             }
         } catch (ParseException e) {
             e.printStackTrace();

@@ -83,4 +83,5 @@ public class AppConstants {
     public static final String PREF_COUNTRY_ID = "country_id";
     public static final String PROVIDER_SOCIAL_FACEBOOK = "facebook";
     public static final String IS_LOGIN_USING_FB = "isLoginUsingFB";
+    public static final String TOURNAMENT_LIST = "TOURNAMENT_LIST";
 }

@@ -28,6 +28,15 @@ public class TeamDetailModel implements Parcelable {
     private String ageGroupName;
     private String CategoryAge;
     private String GroupId;
+    private boolean isFavorite;
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
 
     protected TeamDetailModel(Parcel in) {
         id = in.readString();
