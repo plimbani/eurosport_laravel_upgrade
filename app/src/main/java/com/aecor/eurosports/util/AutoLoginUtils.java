@@ -24,12 +24,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import okhttp3.internal.Util;
 
 public class AutoLoginUtils {
     private final static String TAG = "AutoLoginUtils";

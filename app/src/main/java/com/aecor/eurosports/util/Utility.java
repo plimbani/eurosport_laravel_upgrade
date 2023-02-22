@@ -37,7 +37,6 @@ import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.android.volley.VolleyError;
-import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -210,22 +209,22 @@ public class Utility {
 
                 if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_VIDEO_ANDROID))) {
                     if (mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_VIDEO_ANDROID).equalsIgnoreCase("1")) {
-                        TestFairy.enableVideo("always", "medium", (float) 0.1);
+//                        TestFairy.enableVideo("always", "medium", (float) 0.1);
                     } else {
-                        TestFairy.disableVideo();
+//                        TestFairy.disableVideo();
                     }
                 }
                 if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_FEEDBACK_ANDROID))) {
                     if (mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_FEEDBACK_ANDROID).equalsIgnoreCase("1")) {
-                        TestFairy.enableFeedbackForm("shake");
+//                        TestFairy.enableFeedbackForm("shake");
                     } else {
-                        TestFairy.disableFeedbackForm();
+//                        TestFairy.disableFeedbackForm();
                     }
                 }
 
-                TestFairy.begin(mContext, "SDK-7273syUD");
+//                TestFairy.begin(mContext, "SDK-7273syUD");
                 if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_USER_ID))) {
-                    TestFairy.setUserId(mAppSharedPref.getString(AppConstants.PREF_USER_ID));
+//                    TestFairy.setUserId(mAppSharedPref.getString(AppConstants.PREF_USER_ID));
                 }
             }
         }
