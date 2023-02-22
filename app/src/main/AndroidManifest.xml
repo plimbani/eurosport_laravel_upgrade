@@ -31,7 +31,6 @@
             android:name=".activity.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -168,9 +167,8 @@
 
 
         <service
-            android:exported="true"
             android:name=".MyFirebaseMessagingService"
-            android:exported="false"
+            android:exported="true"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -189,10 +187,9 @@
 
 
         <receiver
-            android:exported="true"
             android:name=".util.ConnectivityChangeReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

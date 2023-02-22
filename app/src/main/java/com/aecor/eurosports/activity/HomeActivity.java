@@ -453,7 +453,8 @@ public class HomeActivity extends BaseAppCompactActivity {
                                         List<TeamDetailModel> list = new ArrayList<>();
                                         for (TeamDetailModel teamDetailModel : mTeamList) {
                                             if (teamDetailModel.getId().equals(String.valueOf(mTournamentList.get(tournamentPosition).getTeamId())) && teamDetailModel.getClub_id().equals(String.valueOf(mTournamentList.get(tournamentPosition).getClubId()))) {
-                                                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, mTeamList[tournamentPosition]);
+//                                                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, mTeamList[tournamentPosition]);
+                                                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, teamDetailModel);
                                             }
                                             list.add(teamDetailModel);
                                         }
