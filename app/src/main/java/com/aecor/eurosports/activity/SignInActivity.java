@@ -38,8 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -370,19 +369,30 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void checkIfNewTokenIsAvailable() {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
                             AppLogger.LogE(TAG, "getInstanceId failed" + task.getException());
                             postUserDeviceDetails();
                             return;
                         }
 
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        postTokenOnServer(token);
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        if (!Utility.isNullOrEmpty(token)) {
+                            try {
+                                postTokenOnServer(token);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            postUserDeviceDetails();
+                        }
+
                     }
                 });
     }

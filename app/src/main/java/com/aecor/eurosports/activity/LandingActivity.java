@@ -30,6 +30,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.util.Util;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -37,9 +38,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.testfairy.TestFairy;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -364,19 +363,31 @@ public class LandingActivity extends BaseActivity {
     }
 
     private void checkIfNewTokenIsAvailable(final boolean isFromFB) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
                             AppLogger.LogE(TAG, "getInstanceId failed" + task.getException());
                             launchHome(isFromFB);
                             return;
                         }
 
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        postTokenOnServer(token, isFromFB);
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        if (!Utility.isNullOrEmpty(token)) {
+                            try {
+                                postTokenOnServer(token, isFromFB);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            launchHome(isFromFB);
+                        }
+
                     }
                 });
     }

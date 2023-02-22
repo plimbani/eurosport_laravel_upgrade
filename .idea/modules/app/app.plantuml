@@ -1,0 +1,1259 @@
+@startuml
+
+title __EUROSPORTSWS.APP's Class Diagram__\n
+
+  namespace com.aecor.eurosports {
+    class com.aecor.eurosports.BuildConfig {
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    class com.aecor.eurosports.FirebaseDataReceiver {
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    class com.aecor.eurosports.MyFirebaseMessagingService {
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.AgeCategoriesActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.AgeCategoriesActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.AgeGroupActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.AgeGroupActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.AllClubMatchesActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.AllClubMatchesActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      abstract class com.aecor.eurosports.activity.BaseActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.BaseActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      abstract class com.aecor.eurosports.activity.BaseAppCompactActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.ClubsActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.ClubsActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FavouritesActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FavouritesActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FinalPlacingMatchesActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FinalPlacingMatchesActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.ForgotPasswordActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.ForgotPasswordActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FullLeageTableActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FullLeageTableActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.FullScreenImageActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.GetStartedActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.GetStartedActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.GroupSummaryActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.GroupSummaryActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.HelpActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.HomeActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.HomeActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.LandingActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.LandingActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.LinkRecognizerActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.MatchInformationActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.MatchInformationActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.NewMessagePopupActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.NotificationAndSoundActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.NotificationAndSoundActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.PrivacyAndTermsActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.PrivacyAndTermsActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.ProfileActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.ProfileActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.RegisterActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.RegisterActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.SettingsActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.SettingsActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.SignInActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.SignInActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.SplashActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.TeamActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.TeamActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.TeamListingActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.TeamListingActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.UpdateAppDialogPopup {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.VenueDetailActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.VenueDetailActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.VenueMapActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.VenueMapActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.WebViewActivity {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace activity {
+      class com.aecor.eurosports.activity.WebViewActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.AgeAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.AgeAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.ClubAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.ClubAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.ClubSectionsPagerAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.CountrySpinnerAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.CountrySpinnerAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.DivisionAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.DivisionAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.DivisionGroupAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.DivisionGroupAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter$ViewHolderCommerci_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.FavouriteListAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.FavouriteListAdapter$ViewHolderCommerci_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.FavouriteListAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.GroupAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.GroupAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.GroupsSpinnerAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.GroupsSpinnerAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.RoleSpinnerAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.RoleSpinnerAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.TeamAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.TeamAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.TeamSpinnerAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.TeamSpinnerAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.TournamentSpinnerAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace adapter {
+      class com.aecor.eurosports.adapter.TournamentSpinnerAdapter$ViewHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace application {
+      class com.aecor.eurosports.application.ApplicationClass {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace fragment {
+      class com.aecor.eurosports.fragment.ClubsAgeFragment {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace fragment {
+      class com.aecor.eurosports.fragment.ClubsAgeFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace fragment {
+      class com.aecor.eurosports.fragment.ClubsClubFragment {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace fragment {
+      class com.aecor.eurosports.fragment.ClubsClubFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace fragment {
+      class com.aecor.eurosports.fragment.ClubsGroupFragment {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace fragment {
+      class com.aecor.eurosports.fragment.ClubsGroupFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace gson {
+      class com.aecor.eurosports.gson.GsonConverter {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace http {
+      class com.aecor.eurosports.http.VolleyJsonObjectRequest {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace http {
+      class com.aecor.eurosports.http.VolleySingeltone {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.AgeCategoriesModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.AgeGroupModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.ClubGroupModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.ClubModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.CountriesModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.DivisionGroupModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.FinalPlacingModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.LeagueModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.ProfileModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.TeamDetailModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.TeamFixturesModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace model {
+      class com.aecor.eurosports.model.TournamentModel {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace ui {
+      class com.aecor.eurosports.ui.FontCache {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace ui {
+      class com.aecor.eurosports.ui.HelveticaNeueRegularTextView {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace ui {
+      class com.aecor.eurosports.ui.ProgressHUD {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace ui {
+      class com.aecor.eurosports.ui.SimpleDividerItemDecoration {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace ui {
+      class com.aecor.eurosports.ui.ViewDialog {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.ApiConstants {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.AppConstants {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.AppLogger {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.AppPreference {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.AppVisibilityDetector {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.AutoLoginUtils {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.ConnectivityChangeReceiver {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.GPSTracker {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.NetworkUtil {
+      }
+    }
+  }
+  
+
+  namespace com.aecor.eurosports {
+    namespace util {
+      class com.aecor.eurosports.util.Utility {
+      }
+    }
+  }
+  
+
+  com.aecor.eurosports.FirebaseDataReceiver -up-|> androidx.legacy.content.WakefulBroadcastReceiver
+  com.aecor.eurosports.MyFirebaseMessagingService -up-|> com.google.firebase.messaging.FirebaseMessagingService
+  com.aecor.eurosports.MyFirebaseMessagingService o-- com.aecor.eurosports.util.AppPreference : appPreference
+  com.aecor.eurosports.activity.AgeCategoriesActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.AgeCategoriesActivity o-- com.aecor.eurosports.adapter.AgeAdapter : adapter
+  com.aecor.eurosports.activity.AgeCategoriesActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.AgeCategoriesActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.AgeCategoriesActivity_ViewBinding o-- com.aecor.eurosports.activity.AgeCategoriesActivity : target
+  com.aecor.eurosports.activity.AgeGroupActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.AgeGroupActivity o-- com.aecor.eurosports.adapter.GroupAdapter : adapter
+  com.aecor.eurosports.activity.AgeGroupActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.AgeGroupActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.AgeGroupActivity_ViewBinding o-- com.aecor.eurosports.activity.AgeGroupActivity : target
+  com.aecor.eurosports.activity.AllClubMatchesActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.AllClubMatchesActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.AllClubMatchesActivity o-- com.aecor.eurosports.model.TeamDetailModel : mTeamDetailModel
+  com.aecor.eurosports.activity.AllClubMatchesActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.AllClubMatchesActivity_ViewBinding o-- com.aecor.eurosports.activity.AllClubMatchesActivity : target
+  com.aecor.eurosports.activity.BaseActivity .up.|> com.aecor.eurosports.util.ConnectivityChangeReceiver.ConnectivityReceiverListener
+  com.aecor.eurosports.activity.BaseActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.aecor.eurosports.activity.BaseActivity o-- com.aecor.eurosports.util.AppPreference : mPref
+  com.aecor.eurosports.activity.BaseActivity_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.activity.BaseActivity_ViewBinding o-- com.aecor.eurosports.activity.BaseActivity : target
+  com.aecor.eurosports.activity.BaseAppCompactActivity .up.|> com.aecor.eurosports.util.ConnectivityChangeReceiver.ConnectivityReceiverListener
+  com.aecor.eurosports.activity.BaseAppCompactActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.aecor.eurosports.activity.BaseAppCompactActivity o-- com.aecor.eurosports.util.AppPreference : mPref
+  com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding o-- com.aecor.eurosports.activity.BaseAppCompactActivity : target
+  com.aecor.eurosports.activity.ClubsActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.ClubsActivity o-- com.aecor.eurosports.adapter.ClubSectionsPagerAdapter : mSectionsPagerAdapter
+  com.aecor.eurosports.activity.ClubsActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.ClubsActivity_ViewBinding o-- com.aecor.eurosports.activity.ClubsActivity : target
+  com.aecor.eurosports.activity.FavouritesActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.FavouritesActivity o-- com.aecor.eurosports.adapter.FavouriteListAdapter : adapter
+  com.aecor.eurosports.activity.FavouritesActivity o-- com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter : easyMatchManagerFavAdapter
+  com.aecor.eurosports.activity.FavouritesActivity o-- com.aecor.eurosports.util.AppPreference : mAppSharedPref
+  com.aecor.eurosports.activity.FavouritesActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.FavouritesActivity_ViewBinding o-- com.aecor.eurosports.activity.FavouritesActivity : target
+  com.aecor.eurosports.activity.FinalPlacingMatchesActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.FinalPlacingMatchesActivity o-- com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter : adapter
+  com.aecor.eurosports.activity.FinalPlacingMatchesActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.FinalPlacingMatchesActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.FinalPlacingMatchesActivity_ViewBinding o-- com.aecor.eurosports.activity.FinalPlacingMatchesActivity : target
+  com.aecor.eurosports.activity.ForgotPasswordActivity -up-|> com.aecor.eurosports.activity.BaseActivity
+  com.aecor.eurosports.activity.ForgotPasswordActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseActivity_ViewBinding
+  com.aecor.eurosports.activity.ForgotPasswordActivity_ViewBinding o-- com.aecor.eurosports.activity.ForgotPasswordActivity : target
+  com.aecor.eurosports.activity.FullLeageTableActivity .up.|> com.aecor.eurosports.util.ConnectivityChangeReceiver.ConnectivityReceiverListener
+  com.aecor.eurosports.activity.FullLeageTableActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.aecor.eurosports.activity.FullLeageTableActivity_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.activity.FullLeageTableActivity_ViewBinding o-- com.aecor.eurosports.activity.FullLeageTableActivity : target
+  com.aecor.eurosports.activity.FullScreenImageActivity -up-|> android.app.Activity
+  com.aecor.eurosports.activity.GetStartedActivity -up-|> com.aecor.eurosports.activity.BaseActivity
+  com.aecor.eurosports.activity.GetStartedActivity o-- com.aecor.eurosports.util.AppPreference : mAppSharedPref
+  com.aecor.eurosports.activity.GetStartedActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseActivity_ViewBinding
+  com.aecor.eurosports.activity.GetStartedActivity_ViewBinding o-- com.aecor.eurosports.activity.GetStartedActivity : target
+  com.aecor.eurosports.activity.GroupSummaryActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.GroupSummaryActivity o-- com.aecor.eurosports.model.AgeGroupModel : mAgeGroupData
+  com.aecor.eurosports.activity.GroupSummaryActivity o-- com.aecor.eurosports.model.ClubGroupModel : mGroupModel
+  com.aecor.eurosports.activity.GroupSummaryActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.GroupSummaryActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.GroupSummaryActivity_ViewBinding o-- com.aecor.eurosports.activity.GroupSummaryActivity : target
+  com.aecor.eurosports.activity.HelpActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.HomeActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.HomeActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.HomeActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.HomeActivity_ViewBinding o-- com.aecor.eurosports.activity.HomeActivity : target
+  com.aecor.eurosports.activity.LandingActivity -up-|> com.aecor.eurosports.activity.BaseActivity
+  com.aecor.eurosports.activity.LandingActivity o-- com.aecor.eurosports.util.AppPreference : mAppPref
+  com.aecor.eurosports.activity.LandingActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseActivity_ViewBinding
+  com.aecor.eurosports.activity.LandingActivity_ViewBinding o-- com.aecor.eurosports.activity.LandingActivity : target
+  com.aecor.eurosports.activity.LinkRecognizerActivity -up-|> com.aecor.eurosports.activity.BaseActivity
+  com.aecor.eurosports.activity.LinkRecognizerActivity o-- com.aecor.eurosports.activity.LinkRecognizerActivity.UriToIntentMapper : mMapper
+  com.aecor.eurosports.activity.MatchInformationActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.MatchInformationActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.MatchInformationActivity o-- com.aecor.eurosports.model.TeamFixturesModel : mTeamFixturesModel
+  com.aecor.eurosports.activity.MatchInformationActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.MatchInformationActivity_ViewBinding o-- com.aecor.eurosports.activity.MatchInformationActivity : target
+  com.aecor.eurosports.activity.NewMessagePopupActivity -up-|> android.app.Activity
+  com.aecor.eurosports.activity.NewMessagePopupActivity o-- com.aecor.eurosports.util.AppPreference : mAppSharedPref
+  com.aecor.eurosports.activity.NotificationAndSoundActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.NotificationAndSoundActivity o-- com.aecor.eurosports.util.AppPreference : mAppSharedPref
+  com.aecor.eurosports.activity.NotificationAndSoundActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.NotificationAndSoundActivity_ViewBinding o-- com.aecor.eurosports.activity.NotificationAndSoundActivity : target
+  com.aecor.eurosports.activity.PrivacyAndTermsActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.PrivacyAndTermsActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.PrivacyAndTermsActivity_ViewBinding o-- com.aecor.eurosports.activity.PrivacyAndTermsActivity : target
+  com.aecor.eurosports.activity.ProfileActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.ProfileActivity o-- com.aecor.eurosports.util.AppPreference : mAppPref
+  com.aecor.eurosports.activity.ProfileActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.ProfileActivity_ViewBinding o-- com.aecor.eurosports.activity.ProfileActivity : target
+  com.aecor.eurosports.activity.RegisterActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.RegisterActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.RegisterActivity_ViewBinding o-- com.aecor.eurosports.activity.RegisterActivity : target
+  com.aecor.eurosports.activity.SettingsActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.SettingsActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.SettingsActivity_ViewBinding o-- com.aecor.eurosports.activity.SettingsActivity : target
+  com.aecor.eurosports.activity.SignInActivity -up-|> com.aecor.eurosports.activity.BaseActivity
+  com.aecor.eurosports.activity.SignInActivity o-- com.aecor.eurosports.util.AppPreference : mAppSharedPref
+  com.aecor.eurosports.activity.SignInActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseActivity_ViewBinding
+  com.aecor.eurosports.activity.SignInActivity_ViewBinding o-- com.aecor.eurosports.activity.SignInActivity : target
+  com.aecor.eurosports.activity.SplashActivity -up-|> com.aecor.eurosports.activity.BaseActivity
+  com.aecor.eurosports.activity.SplashActivity o-- com.aecor.eurosports.util.AppPreference : mAppSharedPref
+  com.aecor.eurosports.activity.TeamActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.TeamActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.TeamActivity o-- com.aecor.eurosports.model.TeamDetailModel : mTeamDetailModel
+  com.aecor.eurosports.activity.TeamActivity o-- com.aecor.eurosports.adapter.TeamSpinnerAdapter : teamSpinnerAdapter
+  com.aecor.eurosports.activity.TeamActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.TeamActivity_ViewBinding o-- com.aecor.eurosports.activity.TeamActivity : target
+  com.aecor.eurosports.activity.TeamListingActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.TeamListingActivity o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.activity.TeamListingActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.TeamListingActivity_ViewBinding o-- com.aecor.eurosports.activity.TeamListingActivity : target
+  com.aecor.eurosports.activity.UpdateAppDialogPopup -up-|> android.app.Activity
+  com.aecor.eurosports.activity.VenueDetailActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.VenueDetailActivity o-- com.aecor.eurosports.model.TeamFixturesModel : mTeamFixturesModel
+  com.aecor.eurosports.activity.VenueDetailActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.VenueDetailActivity_ViewBinding o-- com.aecor.eurosports.activity.VenueDetailActivity : target
+  com.aecor.eurosports.activity.VenueMapActivity .up.|> com.aecor.eurosports.util.ConnectivityChangeReceiver.ConnectivityReceiverListener
+  com.aecor.eurosports.activity.VenueMapActivity .up.|> com.google.android.gms.maps.OnMapReadyCallback
+  com.aecor.eurosports.activity.VenueMapActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.aecor.eurosports.activity.VenueMapActivity_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.activity.VenueMapActivity_ViewBinding o-- com.aecor.eurosports.activity.VenueMapActivity : target
+  com.aecor.eurosports.activity.WebViewActivity -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity
+  com.aecor.eurosports.activity.WebViewActivity o-- com.aecor.eurosports.ui.ProgressHUD : progressHUD
+  com.aecor.eurosports.activity.WebViewActivity_ViewBinding -up-|> com.aecor.eurosports.activity.BaseAppCompactActivity_ViewBinding
+  com.aecor.eurosports.activity.WebViewActivity_ViewBinding o-- com.aecor.eurosports.activity.WebViewActivity : target
+  com.aecor.eurosports.adapter.AgeAdapter .up.|> android.widget.Filterable
+  com.aecor.eurosports.adapter.AgeAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.aecor.eurosports.adapter.AgeAdapter o-- com.aecor.eurosports.adapter.AgeAdapter.AgeFilter : ageFilter
+  com.aecor.eurosports.adapter.AgeAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.AgeAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.AgeAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.ClubAdapter .up.|> android.widget.Filterable
+  com.aecor.eurosports.adapter.ClubAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.aecor.eurosports.adapter.ClubAdapter o-- com.aecor.eurosports.adapter.ClubAdapter.ClubFilter : clubFilter
+  com.aecor.eurosports.adapter.ClubAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.ClubAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.ClubAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.ClubSectionsPagerAdapter -up-|> androidx.fragment.app.FragmentStatePagerAdapter
+  com.aecor.eurosports.adapter.CountrySpinnerAdapter -up-|> android.widget.ArrayAdapter
+  com.aecor.eurosports.adapter.CountrySpinnerAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.CountrySpinnerAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.CountrySpinnerAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.DivisionAdapter .up.|> android.widget.Filterable
+  com.aecor.eurosports.adapter.DivisionAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.aecor.eurosports.adapter.DivisionAdapter o-- com.aecor.eurosports.model.AgeGroupModel : mAgeGroupData
+  com.aecor.eurosports.adapter.DivisionAdapter o-- com.aecor.eurosports.adapter.DivisionAdapter.DivisionFilter : mDivisionFilter
+  com.aecor.eurosports.adapter.DivisionAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.DivisionAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.DivisionAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.DivisionGroupAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.aecor.eurosports.adapter.DivisionGroupAdapter o-- com.aecor.eurosports.model.AgeGroupModel : mAgeGroupData
+  com.aecor.eurosports.adapter.DivisionGroupAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.DivisionGroupAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.DivisionGroupAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter -up-|> android.widget.BaseAdapter
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter o-- com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter.OnFavRowClick : onFavRowClick
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter$ViewHolderCommerci_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter$ViewHolderCommerci_ViewBinding o-- com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter.ViewHolderCommerci : target
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.FavouriteListAdapter -up-|> android.widget.BaseAdapter
+  com.aecor.eurosports.adapter.FavouriteListAdapter o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.adapter.FavouriteListAdapter$ViewHolderCommerci_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.FavouriteListAdapter$ViewHolderCommerci_ViewBinding o-- com.aecor.eurosports.adapter.FavouriteListAdapter.ViewHolderCommerci : target
+  com.aecor.eurosports.adapter.FavouriteListAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.FavouriteListAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.FavouriteListAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.FinalPlacingMatchesAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.GroupAdapter .up.|> android.widget.Filterable
+  com.aecor.eurosports.adapter.GroupAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.aecor.eurosports.adapter.GroupAdapter o-- com.aecor.eurosports.model.AgeGroupModel : mAgeGroupData
+  com.aecor.eurosports.adapter.GroupAdapter o-- com.aecor.eurosports.adapter.GroupAdapter.ClubGroupFilter : mClubGroupFilter
+  com.aecor.eurosports.adapter.GroupAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.GroupAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.GroupAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.GroupsSpinnerAdapter -up-|> android.widget.ArrayAdapter
+  com.aecor.eurosports.adapter.GroupsSpinnerAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.GroupsSpinnerAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.GroupsSpinnerAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.RoleSpinnerAdapter -up-|> android.widget.ArrayAdapter
+  com.aecor.eurosports.adapter.RoleSpinnerAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.RoleSpinnerAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.RoleSpinnerAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.TeamAdapter -up-|> android.widget.BaseAdapter
+  com.aecor.eurosports.adapter.TeamAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.TeamAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.TeamAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.TeamSpinnerAdapter -up-|> android.widget.ArrayAdapter
+  com.aecor.eurosports.adapter.TeamSpinnerAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.TeamSpinnerAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.TeamSpinnerAdapter.ViewHolder : target
+  com.aecor.eurosports.adapter.TournamentSpinnerAdapter -up-|> android.widget.ArrayAdapter
+  com.aecor.eurosports.adapter.TournamentSpinnerAdapter$ViewHolder_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.adapter.TournamentSpinnerAdapter$ViewHolder_ViewBinding o-- com.aecor.eurosports.adapter.TournamentSpinnerAdapter.ViewHolder : target
+  com.aecor.eurosports.application.ApplicationClass -up-|> android.app.Application
+  com.aecor.eurosports.fragment.ClubsAgeFragment -up-|> androidx.fragment.app.Fragment
+  com.aecor.eurosports.fragment.ClubsAgeFragment o-- com.aecor.eurosports.adapter.AgeAdapter : adapter
+  com.aecor.eurosports.fragment.ClubsAgeFragment o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.fragment.ClubsAgeFragment_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.fragment.ClubsAgeFragment_ViewBinding o-- com.aecor.eurosports.fragment.ClubsAgeFragment : target
+  com.aecor.eurosports.fragment.ClubsClubFragment -up-|> androidx.fragment.app.Fragment
+  com.aecor.eurosports.fragment.ClubsClubFragment o-- com.aecor.eurosports.adapter.ClubAdapter : adapter
+  com.aecor.eurosports.fragment.ClubsClubFragment o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.fragment.ClubsClubFragment_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.fragment.ClubsClubFragment_ViewBinding o-- com.aecor.eurosports.fragment.ClubsClubFragment : target
+  com.aecor.eurosports.fragment.ClubsGroupFragment -up-|> androidx.fragment.app.Fragment
+  com.aecor.eurosports.fragment.ClubsGroupFragment o-- com.aecor.eurosports.adapter.DivisionAdapter : mDivisionAdapter
+  com.aecor.eurosports.fragment.ClubsGroupFragment o-- com.aecor.eurosports.adapter.GroupAdapter : mGroupAdapter
+  com.aecor.eurosports.fragment.ClubsGroupFragment o-- com.aecor.eurosports.util.AppPreference : mPreference
+  com.aecor.eurosports.fragment.ClubsGroupFragment_ViewBinding .up.|> butterknife.Unbinder
+  com.aecor.eurosports.fragment.ClubsGroupFragment_ViewBinding o-- com.aecor.eurosports.fragment.ClubsGroupFragment : target
+  com.aecor.eurosports.http.VolleyJsonObjectRequest -up-|> com.android.volley.toolbox.JsonObjectRequest
+  com.aecor.eurosports.http.VolleyJsonObjectRequest o-- com.aecor.eurosports.util.AppPreference : mAppPreference
+  com.aecor.eurosports.model.AgeCategoriesModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.model.AgeGroupModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.model.ClubGroupModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.model.DivisionGroupModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.model.LeagueModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.model.TeamDetailModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.model.TeamFixturesModel .up.|> android.os.Parcelable
+  com.aecor.eurosports.ui.HelveticaNeueRegularTextView -up-|> androidx.appcompat.widget.AppCompatTextView
+  com.aecor.eurosports.ui.ProgressHUD -up-|> android.app.Dialog
+  com.aecor.eurosports.ui.SimpleDividerItemDecoration -up-|> androidx.recyclerview.widget.RecyclerView.ItemDecoration
+  com.aecor.eurosports.util.ConnectivityChangeReceiver -up-|> android.content.BroadcastReceiver
+  com.aecor.eurosports.util.GPSTracker .up.|> android.location.LocationListener
+  com.aecor.eurosports.util.GPSTracker -up-|> android.app.Service
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
