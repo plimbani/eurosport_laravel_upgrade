@@ -86,6 +86,17 @@ class TournamentService implements TournamentContract
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 
+    public function tournamentYears()
+    {
+      $data = $this->tournamentRepoObj->tournamentYears();
+      
+      if ($data) {
+          return ['status_code' => '200', 'data' => $data];
+      }
+
+      return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
+
     /*
      * Get Filter Data
      *

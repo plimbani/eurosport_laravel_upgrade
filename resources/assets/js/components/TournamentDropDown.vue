@@ -1,4 +1,13 @@
 <template>
+
+<div>
+	<select class="form-control ls-select2 col-sm-10 offset-sm-1 mb-3" v-model="year" v-on:change="filterTournaments">
+		<option value="">{{$lang.tournament_select_year}}</option>
+		<template v-for="yearList in years" v-bind:value="yearList">
+		 <option :value="yearList">{{yearList}}</option>
+		</template>
+	</select>
+
 	<select class="form-control ls-select2 col-sm-10 offset-sm-1" v-on:change="onChange"
 	v-model="tournament">
 		<option value="">{{$lang.tournament_manage_edition}}</option>
@@ -7,6 +16,7 @@
 		 {{option.name}} ({{option.status}})
 		</option>
 	</select>
+</div>
 </template>
 <script>
 	import Ls from '../services/ls';
@@ -18,6 +28,9 @@
 		        selected: null,
 		        value: '',
 		        options: [],
+				year : '',
+				years:[],
+				allOptions:[],
 		     }
 	    },
 		computed: {
@@ -30,6 +43,8 @@
 	      	Tournament.getAllTournaments().then(
 		      (response) => {
 		        this.options = response.data.data;
+				this.allOptions = response.data.data;
+				console.log(response.data.data);
 		        if(defaultTournamentId != null) {
 		        	$("body .js-loader").removeClass('d-none');
 			        let selectedTournament = _.filter(this.options, function(o) {
@@ -46,9 +61,39 @@
 		      },
 		      (error) => {
 		      }
+	      	);
+
+
+			Tournament.getAllTournamentsYears().then(
+		      (response) => {
+		        this.years = response.data.data;
+				console.log(response.data.data);
+				$("body .js-loader").addClass('d-none');
+		       
+		      },
+		      (error) => {
+		      }
 	      	)
 		},
 		methods: {
+			filterTournaments() {
+
+				if(this.year == '') {
+					this.options = this.allOptions;
+				} else {
+					let data = this.allOptions;
+					var filterData = [];
+					for(var i in data) {
+						if(data[i].start_date.includes(this.year))
+						{
+							filterData.push(data[i]);
+						}
+					}
+
+					this.options = filterData;
+				}
+				
+			},
 			onChange() {
 				let name = this.tournament.name
 				let id = this.tournament.id

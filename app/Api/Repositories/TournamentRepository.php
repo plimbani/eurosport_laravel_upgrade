@@ -105,6 +105,11 @@ class TournamentRepository
         return $data;
     }
 
+    public function tournamentYears()
+    {
+        return Tournament::selectRaw('DISTINCT YEAR(start_date) as year')->get()->pluck('year')->toArray();
+    }
+
     public function getAuthUserCreatedTournaments($status = '')
     {
         if ($status == '') {
@@ -992,6 +997,15 @@ class TournamentRepository
 
                 $pitchStartDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchStartDateTime);
                 $pitchEndDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchEndDateTime);
+
+                $lastScheduleTime = TempFixture::where('pitch_id', $pitchId)->whereDate('match_endtime',$pitchStartDateTime->format('Y-m-d'))->orderBy('match_endtime','desc')->first();
+
+                if ($lastScheduleTime) {
+                    $pitchLastDateTime = Carbon::parse($lastScheduleTime->match_endtime);
+                    if ($pitchStartDateTime < $pitchLastDateTime) {
+                        $pitchStartDateTime = Carbon::parse($lastScheduleTime->match_endtime);
+                    }
+                }
 
                 while ($pitchStartDateTime <= $pitchEndDateTime) {
                     $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 1;
