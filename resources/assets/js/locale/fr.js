@@ -105,6 +105,7 @@ module.exports = {
   user_management_re_activate: "FAre you sure you would like to re-activate this user?",
 
   tournament_manage_edition: "FSelect an existing tournament",
+  tournament_select_year: "FSelect tournament year",
   tournament_information: "FSpecifications",
   tournament_name: "FName",
   tournament_start_date: "FStart tournament",

@@ -74,6 +74,12 @@ class TournamentRepository
     return Tournament::where('status','=','Published')->get();
     }*/
     }
+
+    public function tournamentYears()
+    {
+        return Tournament::selectRaw('DISTINCT YEAR(start_date) as year')->get()->pluck('year')->toArray();
+    }
+
     public function getAuthUserCreatedTournaments($status = '')
     {
         if ($status == '') {
@@ -156,6 +162,8 @@ class TournamentRepository
             }
         }
 
+        $divisions = AgeCategoryDivision::where('tournament_competition_template_id', $ageCategoryId)->orderBy('order')->get()->pluck('name');
+
         $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
             'templateData' => $jsonData,
@@ -164,6 +172,7 @@ class TournamentRepository
             'groupName' => $tournamentCompetitionTemplate->group_name,
             'allMatches' => $allMatches,
             'tournamentHasStandings' => $assignedTeamsData ? true : false,
+            'divisions' => $divisions
         ])->render();
 
         return $tournamentTemplateData;
@@ -923,6 +932,15 @@ class TournamentRepository
                 $pitchStartDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchStartDateTime);
                 $pitchEndDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchEndDateTime);
 
+                $lastScheduleTime = TempFixture::where('pitch_id', $pitchId)->whereDate('match_endtime',$pitchStartDateTime->format('Y-m-d'))->orderBy('match_endtime','desc')->first();
+
+                if ($lastScheduleTime) {
+                    $pitchLastDateTime = Carbon::parse($lastScheduleTime->match_endtime);
+                    if ($pitchStartDateTime < $pitchLastDateTime) {
+                        $pitchStartDateTime = Carbon::parse($lastScheduleTime->match_endtime);
+                    }
+                }
+
                 while ($pitchStartDateTime <= $pitchEndDateTime) {
                     $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 1;
                     if ($pitchStartDateTime < $pitchAvailableStart || $pitchStartDateTime > $pitchAvailableEnd) {
@@ -1231,12 +1249,12 @@ class TournamentRepository
     */
     public function updateCategoryDivisionName($data)
     {
-        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']
-                                    ['tournament_id'])
-                                    ->where('tournament_competition_template_id', 
-                                    $data['tournamentData']['currentAgeCategoryId'])
-                                    ->where('id', $data['tournamentData']['divisionId'])
-                                    ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
+        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']['tournament_id'])
+            ->where('tournament_competition_template_id', $data['tournamentData']['currentAgeCategoryId'])
+            ->where('id', $data['tournamentData']['divisionId'])
+            ->update([
+                'name' => $data['tournamentData']['categoryDivisionName']
+            ]);
     }
 
     public function duplicateTournament($data)
