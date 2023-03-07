@@ -262,6 +262,8 @@
             // },500)
             
             $(document).ready(function() {
+                window.scrollTo(0, 0);
+                
                 $(document).on('click', '.js-pitch-planner-bt', function(e){
                     $(".js-pitch-planner-bt").removeClass('btn-primary').addClass('btn-secondary');
                     $(this).removeClass('btn-secondary').addClass('btn-primary');

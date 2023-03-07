@@ -137,8 +137,9 @@
         </div>
 
         @foreach($round['match_type'] as $groupIndex=>$group)
-          <div class="round-details-wrapper" class="{{ $groupIndex !== 0 ? 'mt-4' : '' }}">
+          <div class="round-details-wrapper {{ $roundIndex == 0 && isset($divisions) && count($divisions) > 0 ? 'pt-1' : '' }}" class="{{ $groupIndex !== 0 ? 'mt-4' : '' }}">
             <!-- Round 2 - PM -->
+            {{ $roundIndex == 0 && isset($divisions) && count($divisions) > 0 && $divisions[$roundIndex] ? $divisions[$groupIndex] : '' }}
             @if(getGroupType($group) == 'PM')
               @foreach($group['groups']['match'] as $matchIndex=>$match)
                 <div class="row-round">

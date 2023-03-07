@@ -82,6 +82,11 @@ class TournamentController extends BaseController
         return $this->tournamentObj->getTournamentByStatus($request);
     }
 
+    public function tournamentYears()
+    {
+        return $this->tournamentObj->tournamentYears();
+    }
+
     public function getTournamentBySlug(GetTournamentBySlugRequest $request, $slug)
     {
         return $this->tournamentObj->getTournamentBySlug($slug);
