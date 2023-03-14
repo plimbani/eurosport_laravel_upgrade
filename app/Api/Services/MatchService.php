@@ -406,7 +406,9 @@ class MatchService implements MatchContract
       $areAllMatchScoreUpdated = false;
       $matchesScoresStatusArray = [];
 
+     
       foreach ($AllMatches as $match) {
+       
         $matchResult = $this->matchRepoObj->saveAllResults($match);
         array_push($matchesScoresStatusArray, $matchResult['is_score_updated']);
         // $matchesScoresStatusArray['is_score_updated'] = $matchResult['is_score_updated'];
@@ -420,6 +422,8 @@ class MatchService implements MatchContract
           $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
         }
       }
+
+    
 
       $changedScoresCount = count(array_filter($matchesScoresStatusArray, function($x) { 
                               return $x==true;
@@ -439,11 +443,15 @@ class MatchService implements MatchContract
             $this->refreshCompetitionStandings($data);
         }
       }
+
+      
+    
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
         $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
       }
+      
       if ($matchResult) {
         return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'areAllMatchScoreUpdated' => $areAllMatchScoreUpdated];
       } else {
@@ -2508,14 +2516,14 @@ class MatchService implements MatchContract
 
         $winner = null;
         $looser = null;
-        if($fixture->is_result_override == 1 && $fixture->match_status == 'Penalties') {
+        if($fixture && $fixture->is_result_override == 1 && $fixture->match_status == 'Penalties') {
           $winner = $fixture->home_team;
           $looser = $fixture->away_team;
           if($fixture->match_winner == $fixture->away_team) {
             $winner = $fixture->away_team;
             $looser = $fixture->home_team;
           }
-        } else if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
+        } else if($fixture && $fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
           if($fixture->hometeam_score >= $fixture->awayteam_score) {
             $winner = $fixture->home_team != 0 ? $fixture->home_team : null;
             $looser = $fixture->away_team != 0 ? $fixture->away_team : null;
