@@ -74,11 +74,13 @@ class TournamentRepository
     {   
         if ($status == '') {
             $data = Tournament::
-                    select('tournaments.*', \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'));
+                select('tournaments.*',
+                \DB::raw('IF(tournaments.logo is not null, CONCAT("' . $this->tournamentLogo . '", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) ,"" ) as tournamentLogo'));                
         } else {
             $data = Tournament::whereIn('tournaments.status', array('Published','Preview'))
                 ->select('tournaments.*',
-                    \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'));
+                    \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) ,"" ) as tournamentLogo'));
+
         }
 
         if ($user) {
@@ -708,7 +710,7 @@ class TournamentRepository
                 'tournament_contact.last_name',
                 'tournament_contact.telephone',
                 'tournament_contact.email',
-                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo) AS tournamentLogo'),
+                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) AS tournamentLogo'),
                 \DB::raw('IFNULL(teams.club_id, 0) AS club_id'))
             ->get()->toArray();
 
@@ -1694,12 +1696,12 @@ class TournamentRepository
 
     public function saveContactDetails($data)
     {
-        $tournament = Tournament::find($data['tournamentData']['tournamentId']);
-        $tournament->website = $data['tournamentData']['website'];
-        $tournament->facebook = $data['tournamentData']['facebook'];
-        $tournament->twitter = $data['tournamentData']['twitter'];
-        $tournament->logo = $data['tournamentData']['image_logo'] != '' ? $data['tournamentData']['image_logo'] : null;
-        $tournament->save();
+        $tournament = Tournament::where('id', $data['tournamentData']['tournamentId'])->update([
+            'website' => $data['tournamentData']['website'],
+            'facebook' => $data['tournamentData']['facebook'],
+            'twitter' => $data['tournamentData']['twitter'],
+            'logo' => $data['tournamentData']['image_logo'] != '' ? $data['tournamentData']['image_logo'] : null,
+        ]);
 
         $tournamentContact = TournamentContact::where('tournament_id', $data['tournamentData']['tournamentId'])->first();
         if ($tournamentContact) {

@@ -132,14 +132,11 @@ export default {
 
 		if(this.$store.state.Tournament.tournamentLogo)
 		{
-			this.image = this.$store.state.Tournament.tournamentLogo + `?t=${this.timestamp}`
+			this.image = this.$store.state.Tournament.tournamentLogo
 			this.imagePath = ''
 		}
 	},
 	computed: {
-		timestamp() {
-			return new Date()
-		},	
 	},
 	methods: {
 		saveContactDetails() {

@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-					<img  :src="tournamentLogo + `?t=${timestamp}`" width="50" class="mr-2">
+					<img :src="tournamentLogo" width="50" class="mr-2">
 				</label>
 				<h6 class="mb-2 fieldset-title">
 					<strong>{{tournamentName}}</strong>
@@ -124,9 +124,6 @@
 		    userDetails: function() {
 		      return this.$store.state.Users.userDetails
 		    },
-			timestamp() {
-				return new Date()
-			},	
 	    },
 	    created: function() {
 
