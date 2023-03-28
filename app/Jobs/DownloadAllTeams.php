@@ -267,7 +267,7 @@ class DownloadAllTeams implements ShouldQueue
               ->setOption('margin-top', 20)
               ->setOption('margin-bottom', 20);
 
-            $fileName = $tournamentData['name'] . ' ' . $data['sel_team_name'] . '.pdf';
+            $fileName = $tournamentData['name'] . ' ' . $data['sel_team_name'] . ' ' . $data['sel_teams'] . '.pdf';
             $fileName = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $fileName);
             $fileName = str_replace(" ", "_", $fileName);
             $fileName = str_replace("/", "_", $fileName);
