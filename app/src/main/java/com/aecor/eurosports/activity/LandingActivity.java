@@ -43,6 +43,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -125,7 +126,6 @@ public class LandingActivity extends BaseActivity {
                     Arrays.asList("email")
             );
             LoginManager.getInstance().registerCallback(this.mFacebookCallbackManager, new mFacebookCallBack());
-
         } catch (Exception e) {
             e.printStackTrace();
         }

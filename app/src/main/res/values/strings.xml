@@ -290,6 +290,11 @@
     <!--for qa and live ESR-->
     <string name="facebook_app_id">865056057203614</string>
     <string name="fb_login_protocol_scheme">fb865056057203614</string>
+    <string name="facebook_client_token">5c0d6d74b8e073ef87bf81e639939dd8</string>
+
+<!--    <string name="facebook_app_id">315613472810632</string>
+    <string name="fb_login_protocol_scheme">fb315613472810632</string>
+    <string name="facebook_client_token">6135b928784cc69d99b13cca05e5a2a5</string>-->
 
 
     <string name="please_update_profile">Please update your profile first</string>

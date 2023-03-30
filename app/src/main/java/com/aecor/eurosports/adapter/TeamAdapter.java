@@ -96,10 +96,12 @@ public class TeamAdapter extends BaseAdapter {
 
         holder.iv_fav.setVisibility(View.VISIBLE);
 
-        boolean isFav= false;
-        for(int i=0;i<temp.length;i++){
-            if((temp[i].getTeamId() + "").equals(rowItem.getId()) && temp[i].getClubId()>0 && (temp[i].getTournamentId() + "").equals(rowItem.getTournament_id())){
-            isFav = true;
+        boolean isFav = false;
+        if (temp != null) {
+            for (int i = 0; i < temp.length; i++) {
+                if ((temp[i].getTeamId() + "").equals(rowItem.getId()) && temp[i].getClubId() > 0 && (temp[i].getTournamentId() + "").equals(rowItem.getTournament_id())) {
+                    isFav = true;
+                }
             }
         }
         rowItem.setFavorite(isFav);
