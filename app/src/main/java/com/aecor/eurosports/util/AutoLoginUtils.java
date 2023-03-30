@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 
@@ -41,6 +42,9 @@ public class AutoLoginUtils {
 
     public static void checkAppVersion(final Context mContext) {
         if (Utility.isInternetAvailable(mContext)) {
+            if (mAppSharedPref == null) {
+                mAppSharedPref = AppPreference.getInstance(mContext);
+            }
             String url = ApiConstants.PROJECT_CONFIGURATION;
             final JSONObject requestJson = new JSONObject();
 
@@ -84,7 +88,9 @@ public class AutoLoginUtils {
                                 && serverVersion != null
                                 && !serverVersion.equals("")
                                 && Utility.compare(installedAppVersion, serverVersion)) {
-                            showUpdateDialog(ApplicationClass.getInstance().getmActivity().get());
+                            if (ApplicationClass.getInstance().getmActivity().get() != null) {
+                                showUpdateDialog(ApplicationClass.getInstance().getmActivity().get());
+                            }
                         }
                         checkStoreCredentials(mContext);
                     } catch (Exception e) {
@@ -143,10 +149,10 @@ public class AutoLoginUtils {
     private static void showUpdateDialog(final Activity mActivity) {
 
         ViewDialog.showTwoButtonDialog(mActivity,
-                mActivity.getString(R.string.update_available),
-                mActivity.getString(R.string.update_message_new),
-                mActivity.getString(R.string.update),
-                mActivity.getString(R.string.cancel),
+                Resources.getSystem().getString(R.string.update_available),
+                Resources.getSystem().getString(R.string.update_message_new),
+                Resources.getSystem().getString(R.string.update),
+                Resources.getSystem().getString(R.string.cancel),
                 new ViewDialog.UpdateDialogInterface() {
                     @Override
                     public void onPositiveButtonClicked() {
@@ -390,7 +396,6 @@ public class AutoLoginUtils {
             mQueue.add(jsonRequest1);
         }
     }
-
 
 
     private static void postUserDeviceDetails(final Context mContext) {

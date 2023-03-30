@@ -27,7 +27,7 @@ import java.util.Map;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private final String TAG = MyFirebaseMessagingService.class.getSimpleName();
-    private Context mContext;
+//    private Context mContext;
     private AppPreference appPreference;
 
     public MyFirebaseMessagingService() {
@@ -36,7 +36,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        mContext = this;
         AppLogger.LogD(TAG, "From: " + remoteMessage.getFrom());
         Log.e("dataChat", remoteMessage.getData().toString());
         try {
@@ -64,8 +63,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         AppLogger.LogE(TAG, "New Device fcm Token " + s);
         if (!Utility.isNullOrEmpty(s)) {
-            AppPreference.initializeInstance(mContext);
-            appPreference = AppPreference.getInstance(mContext);
+            AppPreference.initializeInstance(this);
+            appPreference = AppPreference.getInstance(this);
 
             if (Utility.isInternetAvailable(this)) {
                 postTokenOnServer(s);
@@ -86,10 +85,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 e.printStackTrace();
             }
 
-            if (Utility.isInternetAvailable(mContext)) {
+            if (Utility.isInternetAvailable(this)) {
                 AppLogger.LogE(TAG, "***** Post FCM Token request *****" + requestJson.toString());
-                final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                final RequestQueue mQueue = VolleySingeltone.getInstance(this).getRequestQueue();
+                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(this, Request.Method
                         .POST, url,
                         requestJson, new Response.Listener<JSONObject>() {
                     @Override

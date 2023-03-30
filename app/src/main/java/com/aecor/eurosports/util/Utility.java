@@ -203,7 +203,7 @@ public class Utility {
     }
 
     public static void setTFFlags(Context mContext) {
-        AppPreference mAppSharedPref = mAppSharedPref = AppPreference.getInstance(mContext);
+        AppPreference mAppSharedPref  = AppPreference.getInstance(mContext);
         if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_ANDROID))) {
             if (mAppSharedPref.getString(AppConstants.KEY_ENABLE_TF_ANDROID).equalsIgnoreCase("1")) {
 

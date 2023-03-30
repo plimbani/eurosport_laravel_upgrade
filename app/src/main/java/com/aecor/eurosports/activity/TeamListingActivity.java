@@ -269,13 +269,15 @@ public class TeamListingActivity extends BaseAppCompactActivity {
                             if (response.has("message")) {
                                 Utility.showToast(TeamListingActivity.this, response.getString("message"));
                                 TournamentModel[] temp = AppPreference.getInstance(TeamListingActivity.this).getTournamentList(TeamListingActivity.this);
-                                for (int i = 0; i < temp.length; i++) {
-                                    if (String.valueOf(temp[i].getTournamentId()).equals(teamDetailModel.getTournament_id())) {
-                                        temp[i].setTeamId(Integer.parseInt(teamDetailModel.getId()));
-                                        temp[i].setClubId(Integer.parseInt(teamDetailModel.getClub_id()));
+                                if (temp != null) {
+                                    for (int i = 0; i < temp.length; i++) {
+                                        if (String.valueOf(temp[i].getTournamentId()).equals(teamDetailModel.getTournament_id())) {
+                                            temp[i].setTeamId(Integer.parseInt(teamDetailModel.getId()));
+                                            temp[i].setClubId(Integer.parseInt(teamDetailModel.getClub_id()));
+                                        }
                                     }
+                                    AppPreference.getInstance(TeamListingActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(temp));
                                 }
-                                AppPreference.getInstance(TeamListingActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(temp));
                                 if (adapter != null) {
                                     adapter.notifyDataSetChanged();
                                 }
@@ -331,13 +333,15 @@ public class TeamListingActivity extends BaseAppCompactActivity {
                             if (response.has("message")) {
                                 Utility.showToast(TeamListingActivity.this, response.getString("message"));
                                 TournamentModel[] temp = AppPreference.getInstance(TeamListingActivity.this).getTournamentList(TeamListingActivity.this);
-                                for (int i = 0; i < temp.length; i++) {
-                                    if (String.valueOf(temp[i].getTournamentId()).equals(teamDetailModel.getTournament_id())) {
-                                        temp[i].setTeamId(0);
-                                        temp[i].setClubId(0);
+                                if (temp != null) {
+                                    for (int i = 0; i < temp.length; i++) {
+                                        if (String.valueOf(temp[i].getTournamentId()).equals(teamDetailModel.getTournament_id())) {
+                                            temp[i].setTeamId(0);
+                                            temp[i].setClubId(0);
+                                        }
                                     }
+                                    AppPreference.getInstance(TeamListingActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(temp));
                                 }
-                                AppPreference.getInstance(TeamListingActivity.this).setString(AppConstants.TOURNAMENT_LIST, GsonConverter.getInstance().encodeToJsonString(temp));
                                 if (adapter != null) {
                                     adapter.notifyDataSetChanged();
                                 }
