@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade bg-modal-color" id="delete_modal_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade bg-modal-color" :id="'delete_modal_block' + stageIndex" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog delete-modal" role="document">
         <div class="modal-content">
             <form method="delete" class="js-delete-modal-form">
@@ -22,7 +22,8 @@
     export default  {
         props: {
             deleteConfirmMsg: String,
-            type:''
+            type: '',
+            stageIndex: ''
         },
         methods: {
             confirmDelete() {
