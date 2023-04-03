@@ -2,7 +2,7 @@
     <div>
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal" :stageIndex="stageIndex"></pitch-modal>
-        <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
+        <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg" :stageIndex="stageIndex" @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
 
@@ -558,7 +558,7 @@ import _ from 'lodash'
                             let block_id = calEvent.id
                             let block = block_id.replace('block_','')
                             vm.remBlock_id = block
-                            $("#delete_modal_block").modal("show");
+                            $("#delete_modal_block" + vm.stageIndex).modal("show");
 
                         }else{
                             vm.setPitchModal = 1
@@ -612,7 +612,7 @@ import _ from 'lodash'
 
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
                     (response) => {
-                        $("#delete_modal_block").modal("hide");
+                        $("#delete_modal_block" + this.stageIndex).modal("hide");
                         this.$root.$emit('setPitchReset')
                         toastr.success('Block has been deleted successfully.', 'Delete Block', {timeOut: 5000});
                     },
