@@ -334,6 +334,8 @@ import _ from 'lodash'
                                             }
                                         });
                                     }
+
+                                    $('.tooltip').removeClass('show');
                                 },
                                 (error) => {
                                     toastr.error('Something goes wrong', 'Assigned Referee ', {timeOut: 5000});
