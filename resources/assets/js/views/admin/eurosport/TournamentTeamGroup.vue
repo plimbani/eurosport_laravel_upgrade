@@ -560,7 +560,7 @@
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
         } else {
-          this.selectedGroupsTeam = [];
+          // this.selectedGroupsTeam = [];
         }
         var index = this.availableGroupsTeam.indexOf(groupValue);
         if (index > -1) {
