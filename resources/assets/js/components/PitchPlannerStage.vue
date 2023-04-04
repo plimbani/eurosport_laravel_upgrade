@@ -336,6 +336,7 @@ import _ from 'lodash'
                                     }
 
                                     $('.tooltip').removeClass('show');
+                                    $("[data-toggle=popover]").popover('hide');
                                 },
                                 (error) => {
                                     toastr.error('Something goes wrong', 'Assigned Referee ', {timeOut: 5000});
