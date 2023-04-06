@@ -588,7 +588,7 @@ import _ from 'lodash'
                     eventRender: function eventRender(event, element, view) {
 
                       // if event is break then no need to filter
-                      // if (event.matchId === -1) return true;
+                       if (event.matchId === -1) return true;
 
                         if (vm.tournamentFilter.filterKey === 'location' && vm.tournamentFilter.filterValue !== '') {
                             return ['all', event.matchVenueId].indexOf(vm.tournamentFilter.filterValue.id) >= 0
