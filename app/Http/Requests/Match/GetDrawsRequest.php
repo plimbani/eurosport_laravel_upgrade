@@ -23,11 +23,18 @@ class GetDrawsRequest extends FormRequest
             
             if(isset($this->all()['tournamentId'])) {
                 $tournament_id = $this->all()['tournamentId'];
-            } else if (isset($this->all()['tournament_id'])) {
-                $tournament_id = $this->all()['tournament_id'];
             } else {
-                return false;
+                $tournament_id = $this->all()['tournament_id'];
             }
+            
+            
+            // if(isset($this->all()['tournamentId'])) {
+            //     $tournament_id = $this->all()['tournamentId'];
+            // } else if (isset($this->all()['tournament_id'])) {
+            //     $tournament_id = $this->all()['tournament_id'];
+            // } else {
+            //     return false;
+            // }
 
             $tournament = Tournament::where('id',$tournament_id)->first();
             $isTournamentPublished = $this->isTournamentPublished($tournament);
