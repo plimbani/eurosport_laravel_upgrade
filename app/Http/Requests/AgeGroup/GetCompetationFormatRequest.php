@@ -28,6 +28,8 @@ class GetCompetationFormatRequest extends FormRequest
                 
                 if (isset($this->all()['tournament_id'])) {
                     $tournament_id = $this->all()['tournament_id'];
+                } else if (isset($this->all()['tournamentId'])) {
+                    $tournament_id = $this->all()['tournamentId'];
                 } else {
                     return false;
                 }  
