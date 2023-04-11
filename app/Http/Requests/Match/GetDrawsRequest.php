@@ -23,7 +23,7 @@ class GetDrawsRequest extends FormRequest
             
             //$tournament_id = $this->all()['tournamentId'];
             
-            if (isset($this->all()['tournament_id'])) {
+            if (isset($this->all()['tournamentId'])) {
                 $tournament_id = $this->all()['tournamentId'];
             } else {
                 return false;
