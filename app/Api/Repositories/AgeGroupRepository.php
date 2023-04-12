@@ -430,7 +430,7 @@ class AgeGroupRepository
 
     public function viewTemplateGraphicImage($data)
     {
-      $signedUrl = UrlSigner::sign(url('api/generateTemplateGraphic/' . $data['age_category']), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+      $signedUrl = UrlSigner::sign(url('api/generateTemplateGraphic/' . isset($data['age_category']) ? $data['age_category'] : ''), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
       $graphicImage = file_get_contents(Screenshot::loadUrl($signedUrl)->fullPage()
           ->useJPG()
           ->getTempFilePath());

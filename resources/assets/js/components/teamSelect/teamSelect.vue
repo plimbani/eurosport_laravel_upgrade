@@ -19,11 +19,12 @@
 			var vm = this
 		    $(this.$el)
 		      .select2({
-		      	minimumResultsForSearch: Infinity
+		      	minimumResultsForSearch: Infinity,
 		      })
 		      .on('select2:select', function () {
 		        vm.$emit('assignTeamGroupName', $(this).data('id'), $(this).val())
 		        vm.$emit('onAssignGroup', $(this).data('id'))
+				$('select').select2();
 		      })
 		      .on('select2:opening', function () {
 		      	if(vm.canChangeTeamOption) {
@@ -47,7 +48,11 @@
 		        return group['groups']['group_name']
 	      	},
 	  		isSelected(grp,index){
-		        return false
+				if (this.$parent.selectedGroupsTeam.includes(grp + index)) {
+					return true;
+				} else {
+					return false;
+				}
 	      	},
 	      	getGroupValueInSelection(group, n) {
 		        let splitGroupName = group['name'].split('-');

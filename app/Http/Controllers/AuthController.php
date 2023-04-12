@@ -220,8 +220,8 @@ class AuthController extends Controller
 
         //saving people table data
         $person = new Person();
-        $person->first_name = $userData['first_name'];
-        $person->last_name = $userData['last_name'];
+        $person->first_name = isset($userData['first_name']) ? $userData['first_name'] : '';
+        $person->last_name = isset($userData['last_name']) ? $userData['last_name'] : '';
         $person->save();
 
         //saving users table data
