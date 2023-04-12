@@ -555,8 +555,14 @@
         }*/
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
+
+          if(this.selectedGroupsTeam.includes(this.beforeChangeGroupName)) {
+            var index = this.selectedGroupsTeam.indexOf(this.beforeChangeGroupName);
+            this.selectedGroupsTeam.splice(index, 1);  
+          }
         }
-        if(groupValue != null && groupValue != '')  {
+
+        if(groupValue != null && groupValue != '') { 
           this.selectedGroupsTeam.push(groupValue)
         } else {
           // this.selectedGroupsTeam = [];
@@ -608,7 +614,18 @@
         let vm = this;
         let grpMain=[]
         // let teamAssign  = new FormData($("#frmTeamAssign")[0]);
-        let teamAssign1  = $("#frmTeamAssign").serializeArray();
+        
+        let frmTeamAssign  = $("#frmTeamAssign");
+
+        // Find disabled inputs, and remove the "disabled" attribute
+        var disabled = frmTeamAssign.find(':disabled').removeAttr('disabled');
+
+        // serialize the form
+        var teamAssignSerialized = frmTeamAssign.serializeArray();
+
+        // re-disabled the set of inputs that you previously enabled
+        disabled.attr('disabled','disabled');       
+
         let error = false
 
         _.find(this.grps, function(group) {
@@ -630,7 +647,7 @@
           grpMain.push(grp.join(','))
 
         });
-        let teamData = {'teamdata': teamAssign1,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
+        let teamData = {'teamdata': teamAssignSerialized,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
         $("body .js-loader").removeClass('d-none');
         if(error == false){
           Tournament.assignGroups(teamData).then(
