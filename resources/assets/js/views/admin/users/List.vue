@@ -15,20 +15,20 @@
                       <div class="col-md-7">
                         <div class="row align-items-center justify-content-end">
                           <div class="col-12">
-                            <div class="row">
+                            <div class="row justify-content-end">
                               <div class="col-md-5">
                                 <input type="text" class="form-control"
                                       v-on:keyup="searchUserData" v-model="userListSearch"
                                       placeholder="Search for a user">
                               </div>
-                              <div class="col-md-5">
+                              <div class="col-md-5" v-if="currentView == 'adminUsers'">
                                 <select class="form-control ls-select2" v-on:change="searchTypeData"
                                     v-model="userTypeSearch" name="user_type" id="user_type">
                                     <option value="">Filter by user type</option>
                                     <option value="customer">Customer</option>
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option v-if="currentLayout == 'tmp'" value="Master.administrator">Master administrator</option>
-                                    <option v-if="!isMasterAdmin" value="mobile.user">Mobile user</option>
+                                    <!-- <option v-if="!isMasterAdmin" value="mobile.user">Mobile user</option> -->
                                     <option v-if="currentLayout == 'tmp'" value="Results.administrator">Results administrator</option>
                                     <option v-if="!isMasterAdmin" value="Super.administrator">Super administrator</option>
                                     <option v-if="currentLayout == 'tmp'" value="tournament.administrator">Tournament administrator</option>
@@ -235,7 +235,8 @@
 
         props: {
             userList: Object,
-            isListGettingUpdate: Boolean
+            isListGettingUpdate: Boolean,
+            currentView: String
         },
         computed: {
             IsSuperAdmin() {
@@ -406,6 +407,10 @@
                 let userSlugType = '';
                 userSearch = 'userData='+this.userListSearch;
                 userSlugType = 'userType='+this.userTypeSearch;
+
+                if (this.currentView == 'mobileUsers') {
+                  userSlugType = 'userType=mobile.user';
+                }
 
                 userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
                 $("body .js-loader").removeClass('d-none');

@@ -52,6 +52,7 @@ module.exports= {
 
   user_management_desktopuser: "Desktop users",
   user_management_mobileuser: "Mobile users",
+  user_management_admin_user: "Admin users",
   user_management_user: "Users",
   user_desktop_name: "Name",
   user_desktop_surname: "Surname*",
