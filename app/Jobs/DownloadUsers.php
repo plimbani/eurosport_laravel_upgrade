@@ -82,6 +82,16 @@ class DownloadUsers implements ShouldQueue
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
+        if(!isset($data['userType']) || $data['userType'] == '') {
+            $user = $user->whereIn('roles.slug', [
+              'Internal.administrator',
+              'Master.administrator',
+              'Super.administrator',
+              'tournament.administrator',
+              'Results.administrator',
+            ]);
+        }
+
         if($loggedInUser->hasRole('Master.administrator')) {
             $user = $user->where('roles.slug', '!=', 'mobile.user')->where('roles.slug', '!=', 'Super.administrator');
         }

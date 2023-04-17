@@ -54,12 +54,12 @@ class automaticallyPermissionRemoval extends Command
             $userTournamentIds = $userTournaments->pluck('id');
             $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
             if(count($intersectTournaments) > 0) {
-                if($userTournaments->count() == 1) {
-                    $user->is_desktop_user = 0;
-                    $user->save();
-                    $user->detachAllRoles();
-                    $user->attachRole($mobileUserRoleId);
-                }
+                // if($userTournaments->count() == 1) {
+                //     $user->is_desktop_user = 0;
+                //     $user->save();
+                //     $user->detachAllRoles();
+                //     $user->attachRole($mobileUserRoleId);
+                // }
                 $userTournaments->detach($intersectTournaments);
             }
         }
