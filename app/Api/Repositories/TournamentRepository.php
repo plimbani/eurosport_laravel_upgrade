@@ -109,7 +109,7 @@ class TournamentRepository
 
     public function tournamentYears()
     {
-        return Tournament::selectRaw('DISTINCT YEAR(start_date) as year')->get()->pluck('year')->toArray();
+        return Tournament::selectRaw('DISTINCT YEAR(start_date) as year')->orderBy('year')->get()->pluck('year')->toArray();
     }
 
     public function getAuthUserCreatedTournaments($status = '')
