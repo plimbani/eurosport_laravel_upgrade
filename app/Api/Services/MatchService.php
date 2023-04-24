@@ -383,13 +383,15 @@ class MatchService implements MatchContract
     }
 
     public function saveAllResults($matchData) {
+      \Log::info('Matches Data ' . json_encode($matchData));
+
       $teamArray = [];
       $competitionIds = [];
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
 
-      \Log::info('saveAllResults-tournamentId' . $tournamentId);
-      \Log::info('saveAllResults-AllMatches' . json_encode($AllMatches));
+      \Log::info('saveAllResults-tournamentId ' . $tournamentId);
+      \Log::info('saveAllResults-AllMatches ' . json_encode($AllMatches));
 
       $matchResult = null;
       $unChangedMatchScoresArray = [];
@@ -402,6 +404,7 @@ class MatchService implements MatchContract
         $matchResult = $this->matchRepoObj->saveAllResults($match);
         array_push($matchesScoresStatusArray, $matchResult['is_score_updated']);
         // $matchesScoresStatusArray['is_score_updated'] = $matchResult['is_score_updated'];
+        \Log::info('Matches Result ' . $matchResult['status']);
         if($matchResult['status'] === false) {
           $unChangedMatchScoresArray[] = $matchResult['tempFixture']->match_number;
         }
@@ -413,15 +416,20 @@ class MatchService implements MatchContract
         }
       }
 
-    
-
+      \Log::info('team Array ' . json_encode($teamArray));
+      \Log::info('competition Ids ' . json_encode($competitionIds));
+  
       $changedScoresCount = count(array_filter($matchesScoresStatusArray, function($x) { 
-                              return $x==true;
-                            }));
+        return $x==true;
+      }));
+
+      \Log::info('changedScoresCount ' . $changedScoresCount);
 
       if(count($unChangedMatchScoresArray) === 0) {
         $areAllMatchScoreUpdated = true;
       }
+
+      \Log::info('areAllMatchScoreUpdated ' . $areAllMatchScoreUpdated);
 
       foreach ($competitionIds as $ageGroupId => $cids) {
         // $lowerCompetitionId = min(array_unique($cids));
@@ -443,8 +451,12 @@ class MatchService implements MatchContract
       }
       
       if ($matchResult) {
+        \Log::info('Final response ' . json_encode(['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'areAllMatchScoreUpdated' => $areAllMatchScoreUpdated]));
+
         return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'areAllMatchScoreUpdated' => $areAllMatchScoreUpdated];
       } else {
+        \Log::info('Final response ' . json_encode(['status_code' => '300']));
+        
           return ['status_code' => '300'];
       }
     }
