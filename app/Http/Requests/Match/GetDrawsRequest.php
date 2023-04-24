@@ -21,7 +21,6 @@ class GetDrawsRequest extends FormRequest
         $token = JWTAuth::getToken();
         if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {            
             
-<<<<<<< HEAD
             if(isset($this->all()['tournamentId'])) {
                 $tournament_id = $this->all()['tournamentId'];
             } else {
@@ -36,15 +35,6 @@ class GetDrawsRequest extends FormRequest
             // } else {
             //     return false;
             // }
-=======
-            $tournament_id = $this->all()['tournamentId'];
-            
-            // if (isset($this->all()['tournament_id'])) {
-            //     $tournament_id = $this->all()['tournamentId'];
-            // } else {
-            //     return false;
-            // }  
->>>>>>> tmp-1.13.1
 
             $tournament = Tournament::where('id',$tournament_id)->first();
             $isTournamentPublished = $this->isTournamentPublished($tournament);
