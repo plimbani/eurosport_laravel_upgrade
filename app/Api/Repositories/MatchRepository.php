@@ -1833,6 +1833,9 @@ class MatchRepository
       if($tempFixtures['hometeam_score'] == $data['homeScore'] && $tempFixtures['awayteam_score'] == $data['awayScore']) {
         $isScoreUpdated = false;
       }
+
+      \Log::info('isScoreUpdated ' . ($isScoreUpdated ? 'true' : 'false'));
+
       if($isScoreUpdated === false) {
         return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
       }
@@ -1851,6 +1854,8 @@ class MatchRepository
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);
+
+      \Log::info('updateData ' . json_encode($updateData));
       return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
     }
 
