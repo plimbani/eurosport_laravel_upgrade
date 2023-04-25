@@ -147,7 +147,7 @@ class UserService implements UserContract
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-        $userData['user']['role']=$data['role'];
+        $userData['user']['role'] = isset($data['role']) ? $data['role'] : '';
 
         if(!empty($data['country']))
           $userData['user']['country_id'] = $data['country'];
@@ -357,10 +357,10 @@ class UserService implements UserContract
           // here we change the data variable
           \Log::info('Update in User table');
           
-          $data['name'] = $data['first_name'];
-          $data['surname'] = $data['last_name'];
-          $data['role'] = $data['role'];
-          $data['country_id'] = $data['country_id'];
+          $data['name'] = isset($data['first_name']) ? $data['first_name'] : '';
+          $data['surname'] = isset($data['last_name']) ? $data['last_name'] : '';
+          $data['role'] = isset($data['role']) ? $data['role'] : '';
+          $data['country_id'] = isset($data['country_id']) ? $data['country_id'] : '';
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = ($userObj->email === null && $userObj->provider === 'facebook') ? $data['emailAddress'] : '';
