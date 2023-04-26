@@ -23,7 +23,17 @@ class GetCompetationFormatRequest extends FormRequest
         if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
             $tournament_id = null;
             if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
-                $tournament_id = $this->all()['tournament_id'];
+
+                //$tournament_id = $this->all()['tournament_id'];
+                
+                if (isset($this->all()['tournament_id'])) {
+                    $tournament_id = $this->all()['tournament_id'];
+                } else if (isset($this->all()['tournamentId'])) {
+                    $tournament_id = $this->all()['tournamentId'];
+                } else {
+                    return false;
+                }  
+
             } else {
                 $data = $this->all()['tournamentData'];
                 $tournament_id = $data['tournament_id'];
