@@ -501,9 +501,9 @@ class TemplateRepository
         $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
-        $tournamentTemplate->total_groups = $data['templateFormDetail']['stepone']['no_of_groups'] ? $data['templateFormDetail']['stepone']['no_of_groups'] : null;
-        $tournamentTemplate->total_teams_in_round_two = $data['templateFormDetail']['stepone']['no_of_teams_in_round_two'] ? $data['templateFormDetail']['stepone']['no_of_teams_in_round_two'] : null;
-        $tournamentTemplate->minimum_matches = $data['templateFormDetail']['stepone']['minimum_match'] ? $data['templateFormDetail']['stepone']['minimum_match'] : null;
+        $tournamentTemplate->total_groups = isset($data['templateFormDetail']['stepone']['no_of_groups']) ? $data['templateFormDetail']['stepone']['no_of_groups'] : null;
+        $tournamentTemplate->total_teams_in_round_two = isset($data['templateFormDetail']['stepone']['no_of_teams_in_round_two']) ? $data['templateFormDetail']['stepone']['no_of_teams_in_round_two'] : null;
+        $tournamentTemplate->minimum_matches = isset($data['templateFormDetail']['stepone']['minimum_match']) ? $data['templateFormDetail']['stepone']['minimum_match'] : null;
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = number_format($decodedJson['avg_game_team'], 1);
         $tournamentTemplate->total_matches = $decodedJson['total_matches'];
