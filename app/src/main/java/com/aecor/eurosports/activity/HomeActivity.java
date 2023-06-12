@@ -451,14 +451,19 @@ public class HomeActivity extends BaseAppCompactActivity {
                                     if (mTeamList != null && mTeamList.length > 0) {
                                         Intent mTeamDetailIntent = new Intent(mContext, TeamActivity.class);
                                         List<TeamDetailModel> list = new ArrayList<>();
+                                        TeamDetailModel intentTeamDetailModel = null;
                                         for (TeamDetailModel teamDetailModel : mTeamList) {
                                             if (teamDetailModel.getId().equals(String.valueOf(mTournamentList.get(tournamentPosition).getTeamId())) && teamDetailModel.getClub_id().equals(String.valueOf(mTournamentList.get(tournamentPosition).getClubId()))) {
 //                                                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, mTeamList[tournamentPosition]);
-                                                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, teamDetailModel);
+                                                intentTeamDetailModel = teamDetailModel;
                                             }
                                             list.add(teamDetailModel);
                                         }
+                                        if(intentTeamDetailModel==null){
+                                            intentTeamDetailModel = list.get(0);
+                                        }
                                         Bundle bundle = new Bundle();
+                                        mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, intentTeamDetailModel);
                                         bundle.putParcelableArrayList(AppConstants.ARG_ALL_TEAM_LIST, (ArrayList<? extends Parcelable>) list);
                                         mTeamDetailIntent.putExtras(bundle);
                                         startActivity(mTeamDetailIntent);
