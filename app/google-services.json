@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "917770932765",
+    "firebase_url": "https://eurosportsandroid.firebaseio.com",
+    "project_id": "eurosportsandroid",
+    "storage_bucket": "eurosportsandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917770932765:android:f295f52f3e51cb2a",
+        "android_client_info": {
+          "package_name": "com.aecor.eurosports"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "917770932765-18ujhaocjh5h0m6es5seev5su6ptdqi5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports",
+            "certificate_hash": "22e802c0e2784de14bdf3458d67715348833c7b1"
+          }
+        },
+        {
+          "client_id": "917770932765-sb9rlsgnghj8pt2sgfl27qbkm777hjh7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports",
+            "certificate_hash": "fae8ab51c2a89147f5222694a8fc68cf43e6acce"
+          }
+        },
+        {
+          "client_id": "917770932765-4bj60dicnu643cffi2ibo7ab9d8r0sed.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALSgkxcglAa7yWGFJt1VW7N3r4G4R4n2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "917770932765-4bj60dicnu643cffi2ibo7ab9d8r0sed.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "917770932765-5oj7h5s7rdgofbevjq8vo544v4n8526v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aecordigital.ESR"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
