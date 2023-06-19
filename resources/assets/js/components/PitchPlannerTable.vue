@@ -14,7 +14,7 @@
                         <select class="form-control mr-1" v-model="unscheduleBy" id="unschedule_by" style="display: none;">
                             <option value="manually">Manually</option>
                             <option value="select_age_categories">Select age categories</option>
-                            <option value="all_fixtures">All fixtures</option>
+                            <option value="all_fixtures">{{ currentLayout === 'commercialisation' ? 'All matches' : 'All fixtures' }}</option>
                         </select>
                         <button class="btn btn-success btn-md mr-1" id="go_unschedule" @click="goUnschedule()" style="display: none;">Go</button>
                         <button class="btn btn-danger btn-md mr-1" id="cancel_unschedule" @click="cancelUnschedule()" style="display: none;">Cancel</button>
