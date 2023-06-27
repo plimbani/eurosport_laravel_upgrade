@@ -193,7 +193,11 @@ class TournamentRepository
             }
         }
 
-        $divisions = AgeCategoryDivision::where('tournament_competition_template_id', $ageCategoryId)->orderBy('order')->get()->pluck('name');
+        $divisions = Competition::leftJoin('age_category_divisions', 'competitions.age_category_division_id', 'age_category_divisions.id')
+            ->where('competitions.tournament_competation_template_id', $ageCategoryId)
+            ->where('competitions.age_category_division_id', '!=', '')
+            ->select('age_category_divisions.name')
+            ->get()->pluck('name');
 
         $tournamentTemplateData['graphicHtml'] = view('template.graphic', [
             'fixtures' => $tempFixtures,
