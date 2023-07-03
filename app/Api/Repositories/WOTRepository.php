@@ -52,6 +52,12 @@ class WOTRepository
             'is_published'
         ])->where('name', 'accommodation')->where('website_id', $request->websiteId)->first();
 
+        if ($pages) {
+            $content = '<style> img { max-width:100% } </style>';
+            $content .= $pages->content;
+            $pages->content = $content;
+        }
+
         return $pages;
     }
 
@@ -65,6 +71,12 @@ class WOTRepository
             'is_enabled', 
             'is_published'
         ])->where('name', 'visitors')->where('website_id', $request->websiteId)->first();
+
+        if ($pages) {
+            $content = '<style> img { max-width:100% } </style>';
+            $content .= $pages->content;
+            $pages->content = $content;
+        }
 
         return $pages;
     }
@@ -80,6 +92,12 @@ class WOTRepository
             'is_published'
         ])->where('name', 'tourist_information')->where('website_id', $request->websiteId)->first();
 
+        if ($pages) {
+            $content = '<style> img { max-width:100% } </style>';
+            $content .= $pages->content;
+            $pages->content = $content;
+        }
+
         return $pages;
     }
 
@@ -93,6 +111,12 @@ class WOTRepository
             'is_enabled', 
             'is_published'
         ])->where('name', 'tips')->where('website_id', $request->websiteId)->first();
+
+        if ($pages) {
+            $content = '<style> img { max-width:100% } </style>';
+            $content .= $pages->content;
+            $pages->content = $content;
+        }
 
         return $pages;
     }
