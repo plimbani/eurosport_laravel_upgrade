@@ -238,6 +238,7 @@ return [
         Laraspace\Api\Providers\TemplateServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         VerumConsilium\Browsershot\BrowsershotServiceProvider::class,
+        Laraspace\Api\Providers\WOTServiceProvider::class,
     ],
 
     /*

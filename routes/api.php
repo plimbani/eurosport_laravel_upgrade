@@ -363,3 +363,16 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/getFilterDropDownData','Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
 });
+
+// WOT Mobile App API
+$api->version('v1', function ($api) {
+    $api->post('getWebsiteId', 'Laraspace\Api\Controllers\WOTController@getWebsiteId');
+    $api->post('getVenueLocations', 'Laraspace\Api\Controllers\WOTController@getLocations');
+    $api->post('getVenueMarkers', 'Laraspace\Api\Controllers\WOTController@getMarkers');
+    $api->post('getContact', 'Laraspace\Api\Controllers\WOTController@getContact');
+    $api->post('getAccommodation', 'Laraspace\Api\Controllers\WOTController@getAccommodation');
+    $api->post('getVisitors', 'Laraspace\Api\Controllers\WOTController@getVisitors');
+    $api->post('getTouristInformation', 'Laraspace\Api\Controllers\WOTController@getTouristInformation');
+    $api->post('getTips', 'Laraspace\Api\Controllers\WOTController@getTips');
+    $api->post('getProgram', 'Laraspace\Api\Controllers\WOTController@getProgram');
+});
