@@ -375,4 +375,7 @@ $api->version('v1', function ($api) {
     $api->post('getTouristInformation', 'Laraspace\Api\Controllers\WOTController@getTouristInformation');
     $api->post('getTips', 'Laraspace\Api\Controllers\WOTController@getTips');
     $api->post('getProgram', 'Laraspace\Api\Controllers\WOTController@getProgram');
+    $api->post('getSponsors', 'Laraspace\Api\Controllers\WOTController@getSponsors');
+    $api->post('getOrganiser', 'Laraspace\Api\Controllers\WOTController@getOrganiser');
+    $api->post('submitInquiry', 'Laraspace\Http\Controllers\Frontend\ContactController@submitInquiry');
 });

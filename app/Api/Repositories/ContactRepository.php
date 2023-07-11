@@ -59,7 +59,7 @@ class ContactRepository
   {
     $ipAddress = $data->ip();
     $data = $data->all();
-    $websiteId = Landlord::getTenants()['website']->id;
+    $websiteId = Landlord::getTenants()->count() && Landlord::getTenants()['website'] ? Landlord::getTenants()['website']->id : $data['websiteId'];
 
     $inquiry = new Inquiry();
     $inquiry->name = $data['name'];

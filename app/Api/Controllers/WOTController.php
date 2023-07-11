@@ -61,4 +61,14 @@ class WOTController extends BaseController
     {
         return $this->wotContract->getProgram($request);
     }
+
+    public function getSponsors(Request $request)
+    {
+        return $this->wotContract->getSponsors($request);
+    }
+
+    public function getOrganiser(Request $request)
+    {
+        return $this->wotContract->getOrganiser($request);
+    }
 }

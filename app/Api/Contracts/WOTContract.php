@@ -13,4 +13,6 @@ interface WOTContract
     public function getTouristInformation($request);
     public function getTips($request);
     public function getProgram($request);
+    public function getSponsors($request);
+    public function getOrganiser($request);
 }

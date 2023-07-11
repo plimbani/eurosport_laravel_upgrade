@@ -7,6 +7,7 @@ use Landlord;
 use Laraspace\Mail\SendMail;
 use Laraspace\Api\Contracts\ContactContract;
 use Laraspace\Api\Repositories\ContactRepository;
+use Laraspace\Models\Website;
 
 class ContactService implements ContactContract
 {
@@ -69,7 +70,11 @@ class ContactService implements ContactContract
     $data = $this->contactRepo->saveInquiryDetails($data);
 
     $email_details = $data;
-    $currentWebsite = Landlord::getTenants()['website'];
+    $currentWebsite = Landlord::getTenants()->count() && Landlord::getTenants()['website'];
+    if (!$currentWebsite && $data['website_id']) {
+      $currentWebsite = Website::where('id', $data['website_id'])->first();
+    }
+    
     $recipient = config('wot.inquiries_recipient');
 
     $subject = 'Message from ' . $currentWebsite->tournament_name  .' Website';
