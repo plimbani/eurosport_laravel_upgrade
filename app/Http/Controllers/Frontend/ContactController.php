@@ -61,6 +61,7 @@ class ContactController extends Controller
         $inquiryDetail = $this->contactContract->saveInquiryDetails($request);
 
         return response()->json([
+            'status_code' => '200',
             'status' => 'success',
             'message' => 'Inquiry has been submitted'
         ]);

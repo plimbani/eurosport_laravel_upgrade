@@ -129,4 +129,28 @@ class WOTService implements WOTContract
 
         return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
     }
+
+    /*
+    * Get getSponsors
+    *
+    * @return response
+    */
+    public function getSponsors($request)
+    {
+        $data = $this->wotRepo->getSponsors($request);
+
+        return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+    }
+
+    /*
+    * Get getOrganiser
+    *
+    * @return response
+    */
+    public function getOrganiser($request)
+    {
+        $data = $this->wotRepo->getOrganiser($request);
+
+        return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+    }
 }
