@@ -34,8 +34,16 @@ class WOTRepository
 
     public function getWebsiteId($request)
     {
-      $website = Website::where('linked_tournament', $request->tournamentId)->first();
-      return $website;
+        //$website = Website::with('pages')->where('linked_tournament', $request->tournamentId)->first();
+
+        $website = Website::where('linked_tournament', $request->tournamentId)->first();
+
+        $pages = Page::select('id', 'title', 'is_published')
+        ->where('website_id', $website->id)->orderBy('order')->get();
+
+        $website->pages = $pages;
+
+        return $website;
     }
 
     public function getAllLocations($request)
