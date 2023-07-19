@@ -25,17 +25,28 @@ class WOTRepository
     */
     protected $organiserLogoPath;
 
+    protected $defaultHtml;
+
 
     public function __construct()
     { 
         $this->sponsorLogoPath = config('wot.imagePath.sponsor_logo');
         $this->organiserLogoPath = config('wot.imagePath.organiser_logo');
+        $this->defaultHtml = '<head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=Yes"></head><style>img{ max-width:100% }</style>';
     }
 
     public function getWebsiteId($request)
     {
-      $website = Website::where('linked_tournament', $request->tournamentId)->first();
-      return $website;
+        //$website = Website::with('pages')->where('linked_tournament', $request->tournamentId)->first();
+
+        $website = Website::where('linked_tournament', $request->tournamentId)->first();
+
+        $pages = Page::select('id', 'title', 'is_published')
+        ->where('website_id', $website->id)->orderBy('order')->get();
+
+        $website->pages = $pages;
+
+        return $website;
     }
 
     public function getAllLocations($request)
@@ -68,8 +79,8 @@ class WOTRepository
         ])->where('name', 'accommodation')->where('website_id', $request->websiteId)->first();
 
         if ($pages) {
-            $content = '<style> img { max-width:100% } </style>';
-            $content .= $pages->content;
+            $defaultHtml = $this->defaultHtml;
+            $content = "{$defaultHtml} {$pages->content}";
             $pages->content = $content;
         }
 
@@ -88,8 +99,8 @@ class WOTRepository
         ])->where('name', 'visitors')->where('website_id', $request->websiteId)->first();
 
         if ($pages) {
-            $content = '<style> img { max-width:100% } </style>';
-            $content .= $pages->content;
+            $defaultHtml = $this->defaultHtml;
+            $content = "{$defaultHtml} {$pages->content}";
             $pages->content = $content;
         }
 
@@ -108,8 +119,8 @@ class WOTRepository
         ])->where('name', 'tourist_information')->where('website_id', $request->websiteId)->first();
 
         if ($pages) {
-            $content = '<style> img { max-width:100% } </style>';
-            $content .= $pages->content;
+            $defaultHtml = $this->defaultHtml;
+            $content = "{$defaultHtml} {$pages->content}";
             $pages->content = $content;
         }
 
@@ -128,8 +139,8 @@ class WOTRepository
         ])->where('name', 'tips')->where('website_id', $request->websiteId)->first();
 
         if ($pages) {
-            $content = '<style> img { max-width:100% } </style>';
-            $content .= $pages->content;
+            $defaultHtml = $this->defaultHtml;
+            $content = "{$defaultHtml} {$pages->content}";
             $pages->content = $content;
         }
 
@@ -175,6 +186,5 @@ class WOTRepository
 
         return $organisers;
     }
-
 
 }
