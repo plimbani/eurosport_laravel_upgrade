@@ -11,11 +11,21 @@
             </div>
             <div class="modal-body">
                 <div class="tabs tabs-primary">
-                    <ul role="tablist" class="nav nav-tabs">
+                    <ul role="tablist" class="nav nav-tabs d-flex justify-content-between">
                         <li class="nav-item active">
                             <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link" id="tournamentTab"><div class="wrapper-tab">{{$lang.user_management_permission_tournament_tab}}</div></a>
                         </li>
+                         <li>
+                             <select id="yeartou" class="form-control ls-select2 col-sm-10 offset-sm-1 mb-3" v-model="year" v-on:change="filterTournaments">
+                                <option value="">{{$lang.tournament_select_year}}</option>
+                                <template v-for="yearList in years" v-bind:value="yearList">
+                                <option :value="yearList">{{yearList}}</option>
+                                </template>
+                              </select>
+                         </li> 
                     </ul>
+
+                  
                     <div class="tab-content">
                         <div class="tab-pane" id="tournament-list" role="tab-pane">
                           <tournament-listing :allTournaments="allTournaments" @setSelectedTournaments="setSelectedTournaments"></tournament-listing>
@@ -52,6 +62,13 @@
         data() {
           return {
             currentView: 'tournament',
+            tournament: '',
+		        selected: null,
+		        value: '',
+		        options: [],
+            year : '',
+            years:[],
+            allOptions:[],
             allTournaments: [],
             formValues: {
               tournaments: []
@@ -61,16 +78,29 @@
         },
         props:['user', 'isCompulsoryTournamentSelection'],
         created() {
+           this.$root.$on('getAllTournaments', this.getAllTournaments);
         },
         beforeMount() {
         },
         mounted() {
+        
           Tournament.getAllTournaments().then(
             (response) => {
               this.allTournaments = response.data.data
+              this.options = response.data.data;
             },
             (error) => {
             }
+          ),
+          Tournament.getAllTournamentsYears().then(
+          (response) => {
+            this.years = response.data.data;
+                console.log(response.data.data);
+                $("body .js-loader").addClass('d-none');
+                  
+                  },
+                  (error) => {
+                  }
           )
         },
         computed: {
@@ -87,6 +117,26 @@
           }
         },        
         methods: {
+          filterTournaments() {
+            //console.log(this.year);
+              if(this.year == '') {
+                this.allTournaments = this.options;
+              } else {
+
+                let data = this.options;
+                var filterData = [];
+                for(var i in data) {
+                  if(data[i].start_date.includes(this.year))
+                  {
+                   // console.log(data[i]);
+                    filterData.push(data[i]);
+                  }
+                }
+                this.allTournaments = filterData;              
+              
+              }
+
+            },
           submitPermissions() {
             let vm = this;
 
