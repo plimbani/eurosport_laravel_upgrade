@@ -423,7 +423,14 @@
               if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {
                 this.$root.$emit('getUserWebsites', user);
               }
+           
               $('#permission_modal').modal('show');
+              const selectEl = document.getElementById('yeartou');
+              selectEl.addEventListener('change', () => {
+                console.log('changed');
+              });
+              selectEl.value = '';
+              selectEl.dispatchEvent(new Event('change'));
               $('#permission_modal ul.nav-tabs a').first().trigger('click');
 
             },
