@@ -16,7 +16,7 @@
                             <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link" id="tournamentTab"><div class="wrapper-tab">{{$lang.user_management_permission_tournament_tab}}</div></a>
                         </li>
                          <li>
-                             <select id="yeartou" class="form-control ls-select2 col-sm-10 offset-sm-1 mb-3" v-model="year" v-on:change="filterTournaments">
+                             <select id="yeartou" class="form-control ls-select2 col-sm-12 mb-6" v-model="year" v-on:change="filterTournaments">
                                 <option value="">{{$lang.tournament_select_year}}</option>
                                 <template v-for="yearList in years" v-bind:value="yearList">
                                 <option :value="yearList">{{yearList}}</option>
