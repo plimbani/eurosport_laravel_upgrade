@@ -19,11 +19,11 @@ class Pitch extends Model
 
     public function pitchAvailability()
     {
-        return $this->hasMany('Laraspace\Models\PitchAvailable');
+        return $this->hasMany(\Laraspace\Models\PitchAvailable::class);
     }
 
     public function venue()
     {
-        return $this->belongsTo('Laraspace\Models\Venue', 'venue_id');
+        return $this->belongsTo(\Laraspace\Models\Venue::class, 'venue_id');
     }
 }

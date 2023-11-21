@@ -21,7 +21,7 @@ class Website extends Model
      */
     public function pages()
     {
-        return $this->hasMany('Laraspace\Models\Page');
+        return $this->hasMany(\Laraspace\Models\Page::class);
     }
 
     /**
@@ -37,7 +37,7 @@ class Website extends Model
      */
     public function organisers()
     {
-        return $this->hasMany('Laraspace\Models\Organiser');
+        return $this->hasMany(\Laraspace\Models\Organiser::class);
     }
 
     /**
@@ -45,7 +45,7 @@ class Website extends Model
      */
     public function sponsors()
     {
-        return $this->hasMany('Laraspace\Models\Sponsor');
+        return $this->hasMany(\Laraspace\Models\Sponsor::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class Website extends Model
      */
     public function messages()
     {
-        return $this->hasMany('Laraspace\Models\Message', 'tournament_id', 'linked_tournament');
+        return $this->hasMany(\Laraspace\Models\Message::class, 'tournament_id', 'linked_tournament');
     }
 
     /**

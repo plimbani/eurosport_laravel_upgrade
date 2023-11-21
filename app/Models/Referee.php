@@ -33,6 +33,6 @@ class Referee extends Model
 
     public function matchFixture()
     {
-        return $this->hasMany('Laraspace\Models\TempFixture');
+        return $this->hasMany(\Laraspace\Models\TempFixture::class);
     }
 }

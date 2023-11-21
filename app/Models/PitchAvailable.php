@@ -20,7 +20,7 @@ class PitchAvailable extends Model
 
     public function pitchBreaks()
     {
-        return $this->hasMany('Laraspace\Models\PitchBreaks', 'availability_id');
+        return $this->hasMany(\Laraspace\Models\PitchBreaks::class, 'availability_id');
     }
 
     public function getStageStartDateAttribute($value)

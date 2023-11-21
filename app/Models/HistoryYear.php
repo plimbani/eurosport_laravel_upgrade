@@ -18,6 +18,6 @@ class HistoryYear extends Model
      */
     public function age_categories()
     {
-        return $this->hasMany('Laraspace\Models\HistoryAgeCategory', 'history_year_id', 'id');
+        return $this->hasMany(\Laraspace\Models\HistoryAgeCategory::class, 'history_year_id', 'id');
     }
 }

@@ -18,6 +18,6 @@ class AgeCategoryTeam extends Model
      */
     public function country()
     {
-        return $this->belongsTo('Laraspace\Models\Country');
+        return $this->belongsTo(\Laraspace\Models\Country::class);
     }
 }

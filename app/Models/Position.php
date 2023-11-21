@@ -18,6 +18,6 @@ class Position extends Model
      */
     public function team()
     {
-        return $this->belongsTo('Laraspace\Models\Team', 'team_id');
+        return $this->belongsTo(\Laraspace\Models\Team::class, 'team_id');
     }
 }

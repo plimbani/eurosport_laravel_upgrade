@@ -23,7 +23,7 @@ class RefereeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\RefereeContract', function ($app) {
+        $this->app->bind(\Laraspace\Api\Contracts\RefereeContract::class, function ($app) {
             return new RefereeService();
         });
     }
@@ -35,6 +35,6 @@ class RefereeServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\RefereeContract'];
+        return [\Laraspace\Api\Contracts\RefereeContract::class];
     }
 }

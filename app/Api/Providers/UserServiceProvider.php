@@ -30,7 +30,7 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\UserContract', function ($app) {
+        $this->app->bind(\Laraspace\Api\Contracts\UserContract::class, function ($app) {
             return new UserService();
         });
     }
@@ -42,6 +42,6 @@ class UserServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\UserContract'];
+        return [\Laraspace\Api\Contracts\UserContract::class];
     }
 }

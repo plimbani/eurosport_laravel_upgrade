@@ -54,7 +54,7 @@ class MessageRecipient extends Model
      */
     public function message()
     {
-        return $this->belongsTo('Laraspace\Models\Message');
+        return $this->belongsTo(\Laraspace\Models\Message::class);
     }
 
     /**

@@ -23,7 +23,7 @@ class PitchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Contracts\PitchContract', function ($app) {
+        $this->app->bind(\Laraspace\Contracts\PitchContract::class, function ($app) {
             return new PitchService();
         });
     }
@@ -35,6 +35,6 @@ class PitchServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\PitchContract'];
+        return [\Laraspace\Contracts\PitchContract::class];
     }
 }

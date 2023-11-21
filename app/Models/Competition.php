@@ -20,16 +20,16 @@ class Competition extends Model
 
     public function TournamentCompetationTemplates()
     {
-        return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates', 'tournament_competation_template_id');
+        return $this->belongsTo(\Laraspace\Models\TournamentCompetationTemplates::class, 'tournament_competation_template_id');
     }
 
     public function scheduledFixtures()
     {
-        return $this->hasMany('Laraspace\Models\TempFixture', 'competition_id')->where('is_scheduled', '=', 1);
+        return $this->hasMany(\Laraspace\Models\TempFixture::class, 'competition_id')->where('is_scheduled', '=', 1);
     }
 
     public function AgeCategoryDivision()
     {
-        return $this->belongsTo('Laraspace\Models\AgeCategoryDivision', 'age_category_division_id');
+        return $this->belongsTo(\Laraspace\Models\AgeCategoryDivision::class, 'age_category_division_id');
     }
 }

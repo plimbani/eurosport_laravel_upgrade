@@ -24,7 +24,7 @@ class AgeGroupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Contracts\AgeGroupContract', function ($app) {
+        $this->app->bind(\Laraspace\Contracts\AgeGroupContract::class, function ($app) {
             return new AgeGroupService(new AgeGroupRepository());
         });
     }

@@ -24,7 +24,7 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Contracts\TeamContract', function ($app) {
+        $this->app->bind(\Laraspace\Contracts\TeamContract::class, function ($app) {
             return new TeamService(new TeamRepository());
         });
     }
@@ -36,6 +36,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\TeamContract'];
+        return [\Laraspace\Contracts\TeamContract::class];
     }
 }

@@ -18,6 +18,6 @@ class AgeCategory extends Model
      */
     public function teams()
     {
-        return $this->hasMany('Laraspace\Models\AgeCategoryTeam');
+        return $this->hasMany(\Laraspace\Models\AgeCategoryTeam::class);
     }
 }

@@ -31,6 +31,6 @@ class Settings extends Model
      */
     public function user()
     {
-        return $this->belongsTo('Laraspace\Models\User', 'user_id');
+        return $this->belongsTo(\Laraspace\Models\User::class, 'user_id');
     }
 }

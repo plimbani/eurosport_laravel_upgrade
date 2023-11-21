@@ -24,7 +24,7 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Contracts\VenueContract', function ($app) {
+        $this->app->bind(\Laraspace\Contracts\VenueContract::class, function ($app) {
             return new VenueService(new VenueRepository());
         });
     }
@@ -36,6 +36,6 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\VenueContract'];
+        return [\Laraspace\Contracts\VenueContract::class];
     }
 }

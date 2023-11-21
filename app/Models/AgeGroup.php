@@ -22,6 +22,6 @@ class AgeGroup extends Model
      */
     public function owner()
     {
-        return $this->belongsTo('Laraspace\Models\User', 'user_id');
+        return $this->belongsTo(\Laraspace\Models\User::class, 'user_id');
     }
 }

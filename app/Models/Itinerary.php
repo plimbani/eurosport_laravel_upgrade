@@ -18,6 +18,6 @@ class Itinerary extends Model
      */
     public function items()
     {
-        return $this->hasMany('Laraspace\Models\ItineraryItem');
+        return $this->hasMany(\Laraspace\Models\ItineraryItem::class);
     }
 }

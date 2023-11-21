@@ -18,7 +18,7 @@ class ApiServiceProvider extends ServiceProvider
         //$app->bind('helloworld','Laraspace\Contracts\ApiContract');
         //$dispatcherObj = app('Dingo\Api\Dispatcher');
 
-        $this->app->bind('Laraspace\Contracts\ApiContract', function ($app) {
+        $this->app->bind(\Laraspace\Contracts\ApiContract::class, function ($app) {
             return new ApiService();
         });
     }
@@ -39,6 +39,6 @@ class ApiServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\ApiContract'];
+        return [\Laraspace\Contracts\ApiContract::class];
     }
 }

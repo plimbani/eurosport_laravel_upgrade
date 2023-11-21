@@ -24,7 +24,7 @@ class HomeController extends Controller
         //Todo: Login User We passed for Display Manage User Section
         $userName = \Auth::user()['username'];
 
-        $tournamentServiceObj = app()->make('Laraspace\Contracts\TournamentContract')->index();
+        $tournamentServiceObj = app()->make(\Laraspace\Contracts\TournamentContract::class)->index();
         $tournamentObjArray = $tournamentServiceObj['data']->toarray();
         $tournamentObj = $tournamentObjArray;
 

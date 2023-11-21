@@ -32,27 +32,27 @@ class Team extends Model
 
     public function club()
     {
-        return $this->belongsTo('Laraspace\Models\Club', 'club_id');
+        return $this->belongsTo(\Laraspace\Models\Club::class, 'club_id');
     }
 
     public function country()
     {
-        return $this->belongsTo('Laraspace\Models\Country', 'country_id');
+        return $this->belongsTo(\Laraspace\Models\Country::class, 'country_id');
     }
 
     public function competition()
     {
-        return $this->belongsTo('Laraspace\Models\Competition', 'competation_id');
+        return $this->belongsTo(\Laraspace\Models\Competition::class, 'competation_id');
     }
 
     public function homeFixtures()
     {
-        return $this->hasMany('Laraspace\Models\TempFixture', 'home_team', 'id');
+        return $this->hasMany(\Laraspace\Models\TempFixture::class, 'home_team', 'id');
     }
 
     public function awayFixtures()
     {
-        return $this->hasMany('Laraspace\Models\TempFixture', 'away_team', 'id');
+        return $this->hasMany(\Laraspace\Models\TempFixture::class, 'away_team', 'id');
     }
 
     protected $dates = ['deleted_at'];

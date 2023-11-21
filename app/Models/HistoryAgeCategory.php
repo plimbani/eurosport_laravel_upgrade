@@ -18,6 +18,6 @@ class HistoryAgeCategory extends Model
      */
     public function teams()
     {
-        return $this->hasMany('Laraspace\Models\HistoryTeam', 'history_age_category_id', 'id');
+        return $this->hasMany(\Laraspace\Models\HistoryTeam::class, 'history_age_category_id', 'id');
     }
 }

@@ -45,7 +45,7 @@ class Message extends Model
     public function receiver()
     {
         // return $this->belongsto('Laraspace\Models\User', 'sent_to_user')->withTrashed();
-        return $this->hasMany('Laraspace\Models\MessageRecipient');
+        return $this->hasMany(\Laraspace\Models\MessageRecipient::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class Message extends Model
      */
     public function sender()
     {
-        return $this->belongsto('Laraspace\Models\User', 'sent_from')->withTrashed();
+        return $this->belongsto(\Laraspace\Models\User::class, 'sent_from')->withTrashed();
     }
 
     /**
@@ -61,6 +61,6 @@ class Message extends Model
      */
     public function tournament()
     {
-        return $this->belongsto('Laraspace\Models\Tournament', 'tournament_id');
+        return $this->belongsto(\Laraspace\Models\Tournament::class, 'tournament_id');
     }
 }

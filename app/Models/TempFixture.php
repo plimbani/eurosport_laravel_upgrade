@@ -24,32 +24,32 @@ class TempFixture extends Model
 
     public function referee()
     {
-        return $this->belongsTo('Laraspace\Models\Referee');
+        return $this->belongsTo(\Laraspace\Models\Referee::class);
     }
 
     public function pitch()
     {
-        return $this->belongsTo('Laraspace\Models\Pitch');
+        return $this->belongsTo(\Laraspace\Models\Pitch::class);
     }
 
     public function matchVenue()
     {
-        return $this->belongsTo('Laraspace\Models\Venue');
+        return $this->belongsTo(\Laraspace\Models\Venue::class);
     }
 
     public function competition()
     {
-        return $this->belongsTo('Laraspace\Models\Competition');
+        return $this->belongsTo(\Laraspace\Models\Competition::class);
     }
 
     public function categoryAge()
     {
-        return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates', 'age_group_id');
+        return $this->belongsTo(\Laraspace\Models\TournamentCompetationTemplates::class, 'age_group_id');
     }
 
     public function winnerTeam()
     {
-        return $this->belongsTo('Laraspace\Models\Team', 'match_winner');
+        return $this->belongsTo(\Laraspace\Models\Team::class, 'match_winner');
     }
 
     public function getMatchNumberAttribute($value)

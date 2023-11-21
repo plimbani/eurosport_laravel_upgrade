@@ -37,6 +37,6 @@ class UserFavourites extends Model
 
     public function tournament()
     {
-        return $this->belongsTo('Laraspace\Models\Tournament', 'tournament_id');
+        return $this->belongsTo(\Laraspace\Models\Tournament::class, 'tournament_id');
     }
 }

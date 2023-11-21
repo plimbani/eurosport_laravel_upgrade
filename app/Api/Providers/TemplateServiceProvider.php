@@ -27,7 +27,7 @@ class TemplateServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\TemplateContract', function ($app) {
+        $this->app->bind(\Laraspace\Api\Contracts\TemplateContract::class, function ($app) {
             return new TemplateService(new TemplateRepository(new AgeGroupService(new AgeGroupRepository())));
         });
     }
@@ -39,6 +39,6 @@ class TemplateServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\TemplateContract'];
+        return [\Laraspace\Api\Contracts\TemplateContract::class];
     }
 }

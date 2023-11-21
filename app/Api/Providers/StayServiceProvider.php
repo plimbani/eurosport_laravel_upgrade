@@ -26,7 +26,7 @@ class StayServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\StayContract', function ($app) {
+        $this->app->bind(\Laraspace\Api\Contracts\StayContract::class, function ($app) {
             return new StayService(new StayRepository(new PageService()));
         });
     }
@@ -38,6 +38,6 @@ class StayServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\StayContract'];
+        return [\Laraspace\Api\Contracts\StayContract::class];
     }
 }

@@ -23,7 +23,7 @@ class UploadMediaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\UploadMediaContract', function ($app) {
+        $this->app->bind(\Laraspace\Api\Contracts\UploadMediaContract::class, function ($app) {
             return new UploadMediaService();
         });
     }
@@ -35,6 +35,6 @@ class UploadMediaServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\UploadMediaContract'];
+        return [\Laraspace\Api\Contracts\UploadMediaContract::class];
     }
 }

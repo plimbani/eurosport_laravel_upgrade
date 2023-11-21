@@ -9,7 +9,7 @@ class Club extends Model
 {
     public function tournament()
     {
-        return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_club', 'club_id', 'tournament_id');
+        return $this->belongsToMany(\Laraspace\Models\Tournament::class, 'tournament_club', 'club_id', 'tournament_id');
     }
 
     use SoftDeletes;

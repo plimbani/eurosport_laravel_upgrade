@@ -30,7 +30,7 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\RoleContract', function ($app) {
+        $this->app->bind(\Laraspace\Api\Contracts\RoleContract::class, function ($app) {
             return new RoleService();
         });
     }
@@ -42,6 +42,6 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\RoleContract'];
+        return [\Laraspace\Api\Contracts\RoleContract::class];
     }
 }

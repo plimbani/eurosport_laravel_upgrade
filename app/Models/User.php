@@ -103,7 +103,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      */
     public function profile()
     {
-        return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+        return $this->belongsTo(\Laraspace\Models\Person::class, 'person_id');
     }
 
     /**
@@ -145,7 +145,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      */
     public function personDetail()
     {
-        return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+        return $this->belongsTo(\Laraspace\Models\Person::class, 'person_id');
     }
 
     /**
@@ -182,26 +182,26 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
 
     public function settings()
     {
-        return $this->hasOne('Laraspace\Models\Settings', 'user_id');
+        return $this->hasOne(\Laraspace\Models\Settings::class, 'user_id');
     }
 
     public function defaultFavouriteTournament()
     {
-        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
+        return $this->hasMany(\Laraspace\Models\UserFavourites::class, 'user_id')->where('is_default', 1);
     }
 
     public function favouriteTournaments()
     {
-        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
+        return $this->hasMany(\Laraspace\Models\UserFavourites::class, 'user_id');
     }
 
     public function tournaments()
     {
-        return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id', 'tournament_id');
+        return $this->belongsToMany(\Laraspace\Models\Tournament::class, 'tournament_user', 'user_id', 'tournament_id');
     }
 
     public function websites()
     {
-        return $this->belongsToMany('Laraspace\Models\Website', 'website_user', 'user_id', 'website_id');
+        return $this->belongsToMany(\Laraspace\Models\Website::class, 'website_user', 'user_id', 'website_id');
     }
 }

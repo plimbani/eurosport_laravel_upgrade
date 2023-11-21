@@ -26,7 +26,7 @@ class TournamentServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Contracts\TournamentContract', function ($app) {
+        $this->app->bind(\Laraspace\Contracts\TournamentContract::class, function ($app) {
             return new TournamentService(new TournamentRepository(), new VenueService(new VenueRepository()));
         });
     }
@@ -38,6 +38,6 @@ class TournamentServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\TournamentContract'];
+        return [\Laraspace\Contracts\TournamentContract::class];
     }
 }
