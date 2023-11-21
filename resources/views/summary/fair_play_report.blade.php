@@ -15,12 +15,12 @@
 <center>
  @if($tournamentData->tournamentLogo != null)  
     <?php
-        $arrContextOptions=array(
-                      "ssl"=>array(
+        $arrContextOptions=[
+                      "ssl"=>[
                           "verify_peer"=>false,
                           "verify_peer_name"=>false,
-                      ),
-                  );
+                      ],
+                  ];
         $type = pathinfo($tournamentData->tournamentLogo, PATHINFO_EXTENSION);
         $tournamentLogoData = file_get_contents($tournamentData->tournamentLogo, false, stream_context_create($arrContextOptions));
         $tournamentLogoBase64Data = base64_encode($tournamentLogoData);
