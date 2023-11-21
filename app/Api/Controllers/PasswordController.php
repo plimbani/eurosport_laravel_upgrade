@@ -2,11 +2,11 @@
 
 namespace Laraspace\Api\Controllers;
 
-use App\Model\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
+use Laraspace\Model\User;
 
 class PasswordController extends Controller
 {
@@ -75,7 +75,7 @@ class PasswordController extends Controller
             return redirect()->back()->withErrors(['email_error' => true]);
         }
 
-        $template = \App\Model\Templates::where('slug_name', 'reset_password')->get();
+        $template = \Laraspace\Model\Templates::where('slug_name', 'reset_password')->get();
         if ($template) {
 
             $content = $template[0]->content;
@@ -134,7 +134,7 @@ class PasswordController extends Controller
                 $user = User::select('first_name')->where('email', $email)->first()->toArray();
                 $data = ['email' => $email, 'first_name' => $user['first_name']];
                 $template_slug = 'password_reset_done';
-                $template = \App\Model\Templates::where('slug_name', $template_slug)->get();
+                $template = \Laraspace\Model\Templates::where('slug_name', $template_slug)->get();
 
                 if ($template) {
 

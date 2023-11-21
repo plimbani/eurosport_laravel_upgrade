@@ -3,12 +3,12 @@
 namespace Laraspace\Api\Controllers;
 
 use Carbon\Carbon;
-/*use App\Models\User;
-use App\Models\Message;
-use App\Models\MessageRecipient;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\MessageReceiptRequest;*/
+/*use Laraspace\Models\User;
+use Laraspace\Models\Message;
+use Laraspace\Models\MessageRecipient;
+use Laraspace\Http\Requests;
+use Laraspace\Http\Controllers\Controller;
+use Laraspace\Http\Requests\Api\MessageReceiptRequest;*/
 use Config;
 use DB;
 use FCM;

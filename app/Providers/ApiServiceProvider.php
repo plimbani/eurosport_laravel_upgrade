@@ -15,7 +15,7 @@ class ApiServiceProvider extends ServiceProvider
     public function register()
     {
         //$app = app();
-        //$app->bind('helloworld','App\Contracts\ApiContract');
+        //$app->bind('helloworld','Laraspace\Contracts\ApiContract');
         //$dispatcherObj = app('Dingo\Api\Dispatcher');
 
         $this->app->bind('Laraspace\Contracts\ApiContract', function ($app) {
