@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Laraspace\Models\User::class,
+            'model' => App\User::class,
         ],
 
         // 'users' => [
@@ -96,7 +96,6 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
-            'email' => 'emails.password',
         ],
     ],
 
