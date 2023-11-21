@@ -2,21 +2,20 @@
 
 namespace Laraspace\Api\Services;
 
-use Illuminate\Support\Str;
-use Laraspace\Traits\TournamentAccess;
 use Laraspace\Api\Contracts\TemplateContract;
 use Laraspace\Api\Repositories\TemplateRepository;
+use Laraspace\Traits\TournamentAccess;
 
 class TemplateService implements TemplateContract
 {
-	use TournamentAccess;
+    use TournamentAccess;
 
     protected $templateRepoObj;
 
     public function __construct(TemplateRepository $templateRepoObj)
     {
         $this->getAWSUrl = getenv('S3_URL');
-		$this->templateRepoObj = $templateRepoObj;
+        $this->templateRepoObj = $templateRepoObj;
     }
 
     /*
@@ -27,8 +26,9 @@ class TemplateService implements TemplateContract
      */
     public function getTemplates($data)
     {
-       $data = $this->templateRepoObj->getTemplates($data);
-       return ['data' => $data, 'status_code' => '200'];
+        $data = $this->templateRepoObj->getTemplates($data);
+
+        return ['data' => $data, 'status_code' => '200'];
     }
 
     /*
@@ -40,6 +40,7 @@ class TemplateService implements TemplateContract
     public function getTemplateDetail($data)
     {
         $data = $this->templateRepoObj->getTemplateDetail($data['templateData']['id']);
+
         return ['data' => $data, 'status_code' => '200'];
     }
 
@@ -52,6 +53,7 @@ class TemplateService implements TemplateContract
     public function getUsersForFilter()
     {
         $data = $this->templateRepoObj->getUsersForFilter();
+
         return ['data' => $data, 'status_code' => '200'];
     }
 
@@ -61,8 +63,10 @@ class TemplateService implements TemplateContract
      * @param  array $data
      * @return response
      */
-    public function saveTemplateDetail($data) {
+    public function saveTemplateDetail($data)
+    {
         $data = $this->templateRepoObj->saveTemplateDetail($data);
+
         return ['data' => $data, 'status_code' => '200'];
     }
 
@@ -90,7 +94,8 @@ class TemplateService implements TemplateContract
     {
         $templateData = $this->templateRepoObj->editTemplate($id);
         $tournamentsUsingTemplate = $this->templateRepoObj->getTemplateDetail($id);
-        return ['data' => $templateData, 'isTemplateInUse' => (count($tournamentsUsingTemplate) === 0 ? false : true),'status_code' => '200'];
+
+        return ['data' => $templateData, 'isTemplateInUse' => (count($tournamentsUsingTemplate) === 0 ? false : true), 'status_code' => '200'];
     }
 
     /*
@@ -99,18 +104,21 @@ class TemplateService implements TemplateContract
      * @param  array $data
      * @return response
      */
-    public function updateTemplateDetail($data) {
+    public function updateTemplateDetail($data)
+    {
         $data = $this->templateRepoObj->updateTemplateDetail($data);
+
         return ['data' => $data, 'status_code' => '200'];
     }
 
-    private function saveTemplateGraphicImage($data, $id='')
+    private function saveTemplateGraphicImage($data, $id = '')
     {
         $graphicImage = $data['templateFormDetail']['stepone']['graphic_image'];
-        if($graphicImage != '') {
-            if(strpos($graphicImage, $this->getAWSUrl) !==  false) {
+        if ($graphicImage != '') {
+            if (strpos($graphicImage, $this->getAWSUrl) !== false) {
                 $path = $this->getAWSUrl.'/assets/img/template_graphic_image/';
-                $imageLogo = str_replace($path, "", $graphicImage);
+                $imageLogo = str_replace($path, '', $graphicImage);
+
                 return $imageLogo;
             }
 
@@ -119,26 +127,26 @@ class TemplateService implements TemplateContract
             $image_string = $graphicImage;
             $img = explode(',', $image_string);
 
-            if(count($img)>1) {
+            if (count($img) > 1) {
                 $imgData = base64_decode($img[1]);
-            }else{
+            } else {
                 return '';
             }
 
             $f = finfo_open();
             $mimeType = finfo_buffer($f, $imgData, FILEINFO_MIME_TYPE);
-            $split = explode( '/', $mimeType);
+            $split = explode('/', $mimeType);
             $extension = $split[1];
 
             $imageName = \Uuid::generate(4);
-            $path = $imagePath.$imageName.'.' .$extension;
+            $path = $imagePath.$imageName.'.'.$extension;
             $s3->put($path, $imgData);
 
-            return $imageName.'.' .$extension;
+            return $imageName.'.'.$extension;
         } else {
             return '';
         }
-    }    
+    }
 
     /*
      * Get template graphic
@@ -148,6 +156,7 @@ class TemplateService implements TemplateContract
     public function getTemplateGraphic($request)
     {
         $data = $this->templateRepoObj->getTemplateGraphic($request);
+
         return ['data' => $data, 'status_code' => '200'];
     }
 
@@ -159,6 +168,7 @@ class TemplateService implements TemplateContract
     public function getTemplateGraphicOfLeague($request)
     {
         $data = $this->templateRepoObj->getTemplateGraphicOfLeague($request);
+
         return ['data' => $data, 'status_code' => '200'];
     }
 }

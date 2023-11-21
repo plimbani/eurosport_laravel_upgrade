@@ -1,22 +1,21 @@
 <?php
 
-return array(
+return [
 
-
-    'pdf' => array(
+    'pdf' => [
         'enabled' => true,
-        'binary'  => '/usr/local/bin/wkhtmltopdf',
+        'binary' => '/usr/local/bin/wkhtmltopdf',
         //'binary'  => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf" --enable-local-file-access', // for windows
         'timeout' => false,
-        'options' => array(),
-        'env'     => array(),
-    ),
-    'image' => array(
+        'options' => [],
+        'env' => [],
+    ],
+    'image' => [
         'enabled' => true,
-        'binary'  => '/usr/local/bin/wkhtmltoimage',
+        'binary' => '/usr/local/bin/wkhtmltoimage',
         //'binary'  => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage" --enable-local-file-access', // for windows
         'timeout' => false,
-        'options' => array(),
-        'env'     => array(),
-    ),
-);
+        'options' => [],
+        'env' => [],
+    ],
+];

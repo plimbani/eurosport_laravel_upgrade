@@ -3,9 +3,9 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laraspace\Api\Repositories\WebsiteRepository;
 use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Services\WebsiteService;
-use Laraspace\Api\Repositories\WebsiteRepository;
 
 class WebsiteServiceProvider extends ServiceProvider
 {

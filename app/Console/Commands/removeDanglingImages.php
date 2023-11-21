@@ -2,14 +2,14 @@
 
 namespace Laraspace\Console\Commands;
 
-use Laraspace\Models\Page;
-use Laraspace\Models\Photo;
-use Laraspace\Models\Website;
-use Laraspace\Models\Sponsor;
-use Laraspace\Models\Document;
-use Laraspace\Models\Organiser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Laraspace\Models\Document;
+use Laraspace\Models\Organiser;
+use Laraspace\Models\Page;
+use Laraspace\Models\Photo;
+use Laraspace\Models\Sponsor;
+use Laraspace\Models\Website;
 
 class removeDanglingImages extends Command
 {
@@ -158,6 +158,7 @@ class removeDanglingImages extends Command
         unset($this->sponsorImageConversions);
         unset($this->photoConversions);
     }
+
     /**
      * Execute the console command.
      *
@@ -178,18 +179,18 @@ class removeDanglingImages extends Command
 
         // Process hero images
         $heroImages = [];
-        $pages = Page::where('page_name','home')->pluck('meta')->each(function ($meta, $key) use (&$heroImages) {
-            if($meta && isset($meta['hero_image']) && $meta['hero_image'] != null && $meta['hero_image'] != '') {
+        $pages = Page::where('page_name', 'home')->pluck('meta')->each(function ($meta, $key) use (&$heroImages) {
+            if ($meta && isset($meta['hero_image']) && $meta['hero_image'] != null && $meta['hero_image'] != '') {
                 $heroImages[] = $meta['hero_image'];
             }
         });
         $unUsedHeroImages = $this->getUnusedImages($this->heroImagePath, $this->heroImageConversions, $heroImages);
-        $allUnUsedFiles = array_merge($allUnUsedFiles, $unUsedHeroImages);        
+        $allUnUsedFiles = array_merge($allUnUsedFiles, $unUsedHeroImages);
 
-        // Process welcome images        
+        // Process welcome images
         $welcomeImages = [];
-        $pages = Page::where('page_name','home')->pluck('meta')->each(function ($meta, $key) use (&$welcomeImages) {
-            if($meta && isset($meta['welcome_image']) && $meta['welcome_image'] != null && $meta['welcome_image'] != '') {
+        $pages = Page::where('page_name', 'home')->pluck('meta')->each(function ($meta, $key) use (&$welcomeImages) {
+            if ($meta && isset($meta['welcome_image']) && $meta['welcome_image'] != null && $meta['welcome_image'] != '') {
                 $welcomeImages[] = $meta['welcome_image'];
             }
         });
@@ -208,17 +209,17 @@ class removeDanglingImages extends Command
 
         // Process photos
         $photos = Photo::all()->pluck('image')->toArray();
-        $unUsedPhotos = $this->getUnusedImages($this->photoPath, $this->photoConversions, $photos);        
+        $unUsedPhotos = $this->getUnusedImages($this->photoPath, $this->photoConversions, $photos);
         $allUnUsedFiles = array_merge($allUnUsedFiles, $unUsedPhotos);
 
         // Process documents
         $allWebsites = Website::all()->pluck('id')->each(function ($websiteId) use (&$allUnUsedFiles) {
             $documents = Document::where('website_id', $websiteId)->pluck('file_name')->toArray();
-            $unUsedDocuments = $this->getUnusedImages($this->documentPath . $websiteId . '/', [], $documents);
+            $unUsedDocuments = $this->getUnusedImages($this->documentPath.$websiteId.'/', [], $documents);
             $allUnUsedFiles = array_merge($allUnUsedFiles, $unUsedDocuments);
         });
         $this->disk->delete($allUnUsedFiles);
-        $this->info("Script executed.");
+        $this->info('Script executed.');
     }
 
     /**
@@ -231,14 +232,15 @@ class removeDanglingImages extends Command
         $unUsedFiles = [];
         $s3Files = $this->disk->files($s3FolderPath);
         foreach ($s3Files as $file) {
-            $filePathinfo = pathinfo($file);            
-            if(!in_array($filePathinfo['basename'], $dbFiles)) {
+            $filePathinfo = pathinfo($file);
+            if (! in_array($filePathinfo['basename'], $dbFiles)) {
                 $unUsedFiles[] = $file;
-                foreach($conversions as $key => $value) {
-                    $unUsedFiles[] = $s3FolderPath . $key . '/' . basename($file);
+                foreach ($conversions as $key => $value) {
+                    $unUsedFiles[] = $s3FolderPath.$key.'/'.basename($file);
                 }
             }
         }
+
         return $unUsedFiles;
     }
 }

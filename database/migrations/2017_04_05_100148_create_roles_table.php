@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRolesTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('description')->nullable();
-            $table->string('level',11)->default('1');
+            $table->string('level', 11)->default('1');
             $table->timestamps();
         });
     }

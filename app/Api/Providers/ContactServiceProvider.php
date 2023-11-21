@@ -3,8 +3,8 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\ContactService;
 use Laraspace\Api\Repositories\ContactRepository;
+use Laraspace\Api\Services\ContactService;
 
 class ContactServiceProvider extends ServiceProvider
 {

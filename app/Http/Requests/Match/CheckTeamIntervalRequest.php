@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Match;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class CheckTeamIntervalRequest extends FormRequest
 {
@@ -19,11 +19,13 @@ class CheckTeamIntervalRequest extends FormRequest
         $data = $this->all();
         if (isset($data['tournamentId'])) {
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 

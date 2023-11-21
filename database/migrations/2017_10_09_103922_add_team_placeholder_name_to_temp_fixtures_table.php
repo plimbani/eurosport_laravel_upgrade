@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddTeamPlaceholderNameToTempFixturesTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddTeamPlaceholderNameToTempFixturesTable extends Migration
      */
     public function up()
     {
-        Schema::table('temp_fixtures', function($table) {
+        Schema::table('temp_fixtures', function ($table) {
             $table->string('home_team_placeholder_name')->after('home_team_name')->nullable();
             $table->string('away_team_placeholder_name')->after('away_team_name')->nullable();
         });
@@ -26,7 +25,7 @@ class AddTeamPlaceholderNameToTempFixturesTable extends Migration
      */
     public function down()
     {
-        Schema::table('temp_fixtures', function($table) {
+        Schema::table('temp_fixtures', function ($table) {
             $table->dropColumn('home_team_placeholder_name');
             $table->dropColumn('away_team_placeholder_name');
         });

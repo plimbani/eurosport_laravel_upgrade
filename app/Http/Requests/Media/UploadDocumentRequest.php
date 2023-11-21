@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Media;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class UploadDocumentRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class UploadDocumentRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

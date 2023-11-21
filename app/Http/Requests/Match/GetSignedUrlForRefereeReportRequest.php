@@ -2,9 +2,9 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Laraspace\Models\Referee;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class GetSignedUrlForRefereeReportRequest extends FormRequest
 {
@@ -20,9 +20,10 @@ class GetSignedUrlForRefereeReportRequest extends FormRequest
         $refereeId = $this->route('refereeId');
         $referee = Referee::findOrFail($refereeId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($referee->tournament_id);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

@@ -20,10 +20,11 @@ class Organiser extends Model
      */
     public function organiserLogo($key = null)
     {
-        $path = config('filesystems.disks.s3.url') . config('wot.imagePath.organiser_logo');
-        if($key) {
-            return  $path . $key . '/' . $this->logo;
+        $path = config('filesystems.disks.s3.url').config('wot.imagePath.organiser_logo');
+        if ($key) {
+            return $path.$key.'/'.$this->logo;
         }
-        return $path . $this->logo;
+
+        return $path.$this->logo;
     }
 }

@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddPositionTypeToTournamentTemplateTable extends Migration
 {
@@ -13,8 +12,8 @@ class AddPositionTypeToTournamentTemplateTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_template', function($table) {
-           $table->enum('position_type', ['final', 'final_and_group_ranking', 'group_ranking'])->after('minimum_matches');
+        Schema::table('tournament_template', function ($table) {
+            $table->enum('position_type', ['final', 'final_and_group_ranking', 'group_ranking'])->after('minimum_matches');
         });
     }
 
@@ -25,7 +24,7 @@ class AddPositionTypeToTournamentTemplateTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournament_template', function($table) {
+        Schema::table('tournament_template', function ($table) {
             $table->dropColumn('position_type');
         });
     }

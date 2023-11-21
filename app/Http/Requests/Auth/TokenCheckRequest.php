@@ -19,6 +19,7 @@ class TokenCheckRequest extends FormRequest
                 return true;
             }
         }
+
         return false;
     }
 

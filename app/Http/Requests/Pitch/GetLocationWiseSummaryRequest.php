@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Pitch;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class GetLocationWiseSummaryRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetLocationWiseSummaryRequest extends FormRequest
     {
         $tournamentId = $this->route('tournamentId');
         $isTournamentAccessible = $this->checkForTournamentReadAccess($tournamentId);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

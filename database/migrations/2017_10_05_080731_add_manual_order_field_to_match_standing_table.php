@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddManualOrderFieldToMatchStandingTable extends Migration
 {
@@ -13,8 +12,8 @@ class AddManualOrderFieldToMatchStandingTable extends Migration
      */
     public function up()
     {
-        Schema::table('match_standing', function($table) {
-           $table->integer('manual_order')->nullable()->after('goal_against');
+        Schema::table('match_standing', function ($table) {
+            $table->integer('manual_order')->nullable()->after('goal_against');
         });
     }
 
@@ -25,7 +24,7 @@ class AddManualOrderFieldToMatchStandingTable extends Migration
      */
     public function down()
     {
-        Schema::table('match_standing', function($table) {
+        Schema::table('match_standing', function ($table) {
             $table->dropColumn('manual_order');
         });
     }

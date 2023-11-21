@@ -3,9 +3,9 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laraspace\Api\Repositories\WebsiteTournamentRepository;
 use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Services\WebsiteTournamentService;
-use Laraspace\Api\Repositories\WebsiteTournamentRepository;
 
 class WebsiteTournamentServiceProvider extends ServiceProvider
 {

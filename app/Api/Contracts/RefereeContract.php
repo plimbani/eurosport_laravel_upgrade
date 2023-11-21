@@ -27,7 +27,7 @@ interface RefereeContract
      * @param  array $api_key,$referee_id,$data
      * @return response
      */
-    public function edit($request,$refereeId);
+    public function edit($request, $refereeId);
 
     /*
      * Delete Referee

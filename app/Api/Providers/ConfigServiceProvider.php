@@ -2,8 +2,8 @@
 
 namespace Laraspace\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\ServiceProvider;
 
 class ConfigServiceProvider extends ServiceProvider
 {
@@ -24,10 +24,10 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function setTournamentPageContent()
     {
-        foreach(Config::get('wot.website_default_pages') as $key => $page) {
-            if(isset($page['children'])) {
-                foreach($page['children'] as $childKey => $childPage) {
-                    if($childPage['name'] == 'age_categories') {
+        foreach (Config::get('wot.website_default_pages') as $key => $page) {
+            if (isset($page['children'])) {
+                foreach ($page['children'] as $childKey => $childPage) {
+                    if ($childPage['name'] == 'age_categories') {
                         Config::set("wot.website_default_pages.$key.children.$childKey.content", file_get_contents(base_path('resources/predefined_html/age_category.html')));
                     }
                 }

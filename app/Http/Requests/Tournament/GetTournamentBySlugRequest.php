@@ -1,9 +1,10 @@
 <?php
+
 namespace Laraspace\Http\Requests\Tournament;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Laraspace\Models\Tournament;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class GetTournamentBySlugRequest extends FormRequest
 {
@@ -17,11 +18,12 @@ class GetTournamentBySlugRequest extends FormRequest
     public function authorize()
     {
         $slug = $this->route('slug');
-        $tournament = Tournament::where('slug',$slug)->first();
+        $tournament = Tournament::where('slug', $slug)->first();
         $isTournamentPublished = $this->isTournamentPublished($tournament);
-        if(!$isTournamentPublished) {
+        if (! $isTournamentPublished) {
             return false;
         }
+
         return true;
     }
 

@@ -2,8 +2,6 @@
 
 namespace Laraspace\Http\Requests;
 
-use Laraspace\Http\Requests\Request;
-
 class SettingsRequest extends Request
 {
     /**
@@ -24,7 +22,7 @@ class SettingsRequest extends Request
     public function rules()
     {
         return [
-            'site-skin' => 'required'
+            'site-skin' => 'required',
         ];
     }
 }

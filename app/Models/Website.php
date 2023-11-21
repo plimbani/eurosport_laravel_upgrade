@@ -1,7 +1,7 @@
 <?php
+
 namespace Laraspace\Models;
 
-use Laraspace\Models\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -63,10 +63,11 @@ class Website extends Model
      */
     public function tournamentLogo($key = null)
     {
-        $path = config('filesystems.disks.s3.url') . config('wot.imagePath.website_tournament_logo');
-        if($key) {
-            return  $path . $key . '/' . $this->tournament_logo;
+        $path = config('filesystems.disks.s3.url').config('wot.imagePath.website_tournament_logo');
+        if ($key) {
+            return $path.$key.'/'.$this->tournament_logo;
         }
-        return $path . $this->tournament_logo;
+
+        return $path.$this->tournament_logo;
     }
 }

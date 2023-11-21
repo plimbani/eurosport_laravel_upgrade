@@ -3,8 +3,8 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\TournamentService;
 use Laraspace\Api\Repositories\TournamentRepository;
+use Laraspace\Api\Services\TournamentService;
 
 class TournamentServiceProvider extends ServiceProvider
 {

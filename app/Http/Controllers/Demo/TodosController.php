@@ -3,10 +3,9 @@
 namespace Laraspace\Http\Controllers\Demo;
 
 use Illuminate\Http\Request;
-
 use Illuminate\View\View;
-use Laraspace\Http\Requests;
 use Laraspace\Http\Controllers\Controller;
+use Laraspace\Http\Requests;
 use Laraspace\Space\Demo\Todo;
 
 class TodosController extends Controller
@@ -20,13 +19,12 @@ class TodosController extends Controller
     {
         $todos = Todo::all();
 
-        return view('admin.pages.todos.index')->with('todos',$todos);
+        return view('admin.pages.todos.index')->with('todos', $todos);
     }
 
     /**
      * Save Todo
      *
-     * @param Requests\TodosRequest $request
      * @return View
      */
     public function store(Requests\TodosRequest $request)
@@ -38,18 +36,16 @@ class TodosController extends Controller
 
         return response()->json([
             'message' => 'Todo Added Successfully',
-            'todo' => $todo
-        ],200);
+            'todo' => $todo,
+        ], 200);
     }
 
     /**
      * Toggle the Todo
      *
-     * @param $id
-     * @param Request $request
      * @return View
      */
-    public function toggleTodo($id,Request $request)
+    public function toggleTodo($id, Request $request)
     {
         $todo = Todo::findOrFail($id);
         $todo->completed = $request->completed;
@@ -57,13 +53,12 @@ class TodosController extends Controller
 
         return response()->json([
             'message' => 'Todo Marked as Complete',
-        ],200);
+        ], 200);
     }
 
     /**
      * Delete Todo
      *
-     * @param $id
      * @return View
      */
     public function destroy($id)
@@ -75,6 +70,6 @@ class TodosController extends Controller
         return response()->json([
             'message' => 'Todo Deleted Successfully',
 
-        ],200);
+        ], 200);
     }
 }

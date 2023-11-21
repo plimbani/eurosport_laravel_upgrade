@@ -2,10 +2,10 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Illuminate\Foundation\Http\FormRequest;
 use JWTAuth;
 use Laraspace\Models\Tournament;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class GetFixturesRequest extends FormRequest
 {
@@ -19,17 +19,18 @@ class GetFixturesRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
             if (isset($this->all()['tournamentData'])) {
                 $data = $this->all()['tournamentData'];
                 $tournament_id = $data['tournamentId'];
-                $tournament = Tournament::where('id',$tournament_id)->first();
+                $tournament = Tournament::where('id', $tournament_id)->first();
                 $isTournamentPublished = $this->isTournamentPublished($tournament);
-                if(!$isTournamentPublished) {
+                if (! $isTournamentPublished) {
                     return false;
                 }
             }
-        }        
+        }
+
         return true;
     }
 
@@ -41,7 +42,7 @@ class GetFixturesRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentData' => 'required'
+            'tournamentData' => 'required',
         ];
     }
 }

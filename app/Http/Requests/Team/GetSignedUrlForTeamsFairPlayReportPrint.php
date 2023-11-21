@@ -2,13 +2,13 @@
 
 namespace Laraspace\Http\Requests\Team;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class GetSignedUrlForTeamsFairPlayReportPrint extends FormRequest
 {
     use TournamentAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,9 +18,10 @@ class GetSignedUrlForTeamsFairPlayReportPrint extends FormRequest
     {
         $data = $this->all();
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

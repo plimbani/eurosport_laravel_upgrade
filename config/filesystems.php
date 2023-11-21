@@ -61,7 +61,7 @@ return [
             'url' => env('S3_URL'),
             'region' => env('S3_REGION'),
             'bucket' => env('S3_UPLOADS_BUCKET'),
-            'visibility' => env('S3_VISIBILITY')
+            'visibility' => env('S3_VISIBILITY'),
         ],
 
     ],

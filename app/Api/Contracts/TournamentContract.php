@@ -42,10 +42,10 @@ interface TournamentContract
 
     public function saveSettings($request);
 
-    /*  
-     * Get configuration detail 
-     *  
-     * @return response 
-     */ 
+    /*
+     * Get configuration detail
+     *
+     * @return response
+     */
     public function getConfigurationDetail();
 }

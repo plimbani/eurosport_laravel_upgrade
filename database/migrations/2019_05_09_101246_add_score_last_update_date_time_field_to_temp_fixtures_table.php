@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddScoreLastUpdateDateTimeFieldToTempFixturesTable extends Migration
 {
@@ -14,7 +14,7 @@ class AddScoreLastUpdateDateTimeFieldToTempFixturesTable extends Migration
     public function up()
     {
         Schema::table('temp_fixtures', function (Blueprint $table) {
-            $table->datetime('score_last_update_date_time')->nullable()->default(NULL)->after('bracket_json');
+            $table->datetime('score_last_update_date_time')->nullable()->default(null)->after('bracket_json');
         });
     }
 

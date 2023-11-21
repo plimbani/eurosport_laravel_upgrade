@@ -1,4 +1,5 @@
 <?php
+
 namespace Laraspace\Notifications\Messages;
 
 use Illuminate\Notifications\Messages\SimpleMessage;
@@ -65,7 +66,6 @@ class MailMessage extends SimpleMessage
      * Set the view for the mail message.
      *
      * @param  array|string  $view
-     * @param  array  $data
      * @return $this
      */
     public function view($view, array $data = [])
@@ -82,7 +82,6 @@ class MailMessage extends SimpleMessage
      * Set the Markdown template for the notification.
      *
      * @param  string  $view
-     * @param  array  $data
      * @return $this
      */
     public function markdown($view, array $data = [])
@@ -131,7 +130,6 @@ class MailMessage extends SimpleMessage
      * Attach a file to the message.
      *
      * @param  string  $file
-     * @param  array  $options
      * @return $this
      */
     public function attach($file, array $options = [])
@@ -146,7 +144,6 @@ class MailMessage extends SimpleMessage
      *
      * @param  string  $data
      * @param  string  $name
-     * @param  array  $options
      * @return $this
      */
     public function attachData($data, $name, array $options = [])

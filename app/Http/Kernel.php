@@ -2,11 +2,10 @@
 
 namespace Laraspace\Http;
 
-use App;
-use Redirect;
-use Laraspace\Models\Website;
-use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Events\RequestHandled;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laraspace\Models\Website;
+use Redirect;
 
 class Kernel extends HttpKernel
 {
@@ -36,16 +35,16 @@ class Kernel extends HttpKernel
             new RequestHandled($request, $response)
         );
 
-        if($request->server('SERVER_NAME') != config('app.domain')) {
+        if ($request->server('SERVER_NAME') != config('app.domain')) {
             $previewUrl = config('config-variables.website_preview_url');
             $website = Website::where('domain_name', $request->server('SERVER_NAME'))->orWhere('preview_domain', $request->server('SERVER_NAME'))->first();
 
-            if(!$website) {
+            if (! $website) {
                 return Redirect::away(config('app.url'), 302);
             }
 
-            if($website->is_website_offline == 1 && strpos($request->server('SERVER_NAME'), str_replace("{id}-", "", $previewUrl)) === false) {
-              return Redirect::away($website->offline_redirect_url, 302);
+            if ($website->is_website_offline == 1 && strpos($request->server('SERVER_NAME'), str_replace('{id}-', '', $previewUrl)) === false) {
+                return Redirect::away($website->offline_redirect_url, 302);
             }
         }
 

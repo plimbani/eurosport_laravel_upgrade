@@ -3,8 +3,8 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\TeamService;
 use Laraspace\Api\Repositories\TeamRepository;
+use Laraspace\Api\Services\TeamService;
 
 class TeamServiceProvider extends ServiceProvider
 {

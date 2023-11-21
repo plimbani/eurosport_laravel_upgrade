@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\PushMessage;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class GetMessagesRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetMessagesRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

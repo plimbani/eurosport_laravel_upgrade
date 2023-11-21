@@ -2,10 +2,7 @@
 
 namespace Laraspace\Services;
 
-use DB;
 use Laraspace\Contracts\PitchContract;
-use Validator;
-use Laraspace\Model\Role;
 
 class PitchService implements PitchContract
 {
@@ -23,8 +20,7 @@ class PitchService implements PitchContract
      * create New Referee.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function createPitch($data)
@@ -48,10 +44,9 @@ class PitchService implements PitchContract
     /**
      * Edit Match.
      *
-     * @param array $data
-     * @param mixed $id
-     * @param mixed $pitchId
-     *
+     * @param  array  $data
+     * @param  mixed  $id
+     * @param  mixed  $pitchId
      * @return [type]
      */
     public function editPitch($data, $pitchId)
@@ -73,26 +68,25 @@ class PitchService implements PitchContract
         }
     }
 
-     /**
-      * Delete Referee.
-      *
-      * @param array $data
-      * @param mixed $deleteId
-      *
-      * @return [type]
-      */
-     public function deletePitch($deleteId)
-     {
-         $pitchRec = $this->pitchRepoObj->getPitchFromId($deleteId);
-         if ($pitchRec) {
-             $pitchRes = $pitchRec->delete();
-             if ($pitchRes) {
-                 return ['code' => '200', 'message' => 'Pitch has been deleted sucessfully'];
-             }
-         }
+    /**
+     * Delete Referee.
+     *
+     * @param  array  $data
+     * @param  mixed  $deleteId
+     * @return [type]
+     */
+    public function deletePitch($deleteId)
+    {
+        $pitchRec = $this->pitchRepoObj->getPitchFromId($deleteId);
+        if ($pitchRec) {
+            $pitchRes = $pitchRec->delete();
+            if ($pitchRes) {
+                return ['code' => '200', 'message' => 'Pitch has been deleted sucessfully'];
+            }
+        }
 
-         return ['code' => '400', 'message' => 'Something goes wrong'];
-     }
+        return ['code' => '400', 'message' => 'Something goes wrong'];
+    }
 
     public function getPitchById($pitchId)
     {

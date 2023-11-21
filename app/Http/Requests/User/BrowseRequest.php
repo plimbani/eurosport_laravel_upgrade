@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\User;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class BrowseRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class BrowseRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
+        if ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
             return true;
         }
+
         return false;
     }
 

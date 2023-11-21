@@ -2,9 +2,9 @@
 
 namespace Laraspace\Http\Requests\Team;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Laraspace\Models\Team;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ChangeTeamNameRequest extends FormRequest
 {
@@ -18,15 +18,17 @@ class ChangeTeamNameRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        if(isset($data['teamData']['team_id'])) {
+        if (isset($data['teamData']['team_id'])) {
             $teamId = $data['teamData']['team_id'];
             $team = Team::findOrFail($teamId);
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($team->tournament_id);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 

@@ -133,7 +133,7 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
-    'app_scheme' => env('APP_SCHEME',''),
+    'app_scheme' => env('APP_SCHEME', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -272,8 +272,8 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
-        'JavaScript' =>  Laracasts\Utilities\JavaScript::class,
-        'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
+        'JavaScript' => Laracasts\Utilities\JavaScript::class,
+        'Landlord' => HipsterJazzbo\Landlord\Facades\Landlord::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Log' => Illuminate\Support\Facades\Log::class,
@@ -297,7 +297,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'FCM'      => LaravelFCM\Facades\FCM::class,
+        'FCM' => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,

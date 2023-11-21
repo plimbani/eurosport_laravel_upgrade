@@ -15,10 +15,11 @@ class RemoveFavouriteRequest extends FormRequest
     {
         if (app('request')->header('ismobileuser')) {
             $isMobileUser = app('request')->header('ismobileuser');
-            if ($isMobileUser == "true") {
+            if ($isMobileUser == 'true') {
                 return true;
             }
         }
+
         return false;
     }
 

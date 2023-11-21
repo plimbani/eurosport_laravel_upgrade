@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Referee;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class UpdateRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class UpdateRequest extends FormRequest
     {
         $data = $this->all()['data'];
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

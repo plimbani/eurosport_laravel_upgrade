@@ -3,10 +3,10 @@
 namespace Laraspace\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laraspace\Repositories\TournamentRepository;
+use Laraspace\Repositories\VenueRepository;
 use Laraspace\Services\TournamentService;
 use Laraspace\Services\VenueTempService as VenueService;
-use Laraspace\Repositories\VenueRepository;
-use Laraspace\Repositories\TournamentRepository;
 
 class TournamentServiceProvider extends ServiceProvider
 {

@@ -2,14 +2,14 @@
 
 namespace Laraspace\Http\Requests\Referee;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Laraspace\Models\Referee;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class RefereeDetailRequest extends FormRequest
 {
     use TournamentAccess;
- 
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,11 +21,13 @@ class RefereeDetailRequest extends FormRequest
             $refereeId = $this->all()['refereeId'];
             $referee = Referee::findOrFail($refereeId);
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($referee->tournament_id);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return false;
     }
 

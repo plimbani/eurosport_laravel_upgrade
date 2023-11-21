@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class SettingsTableSeeder extends Seeder
 {
@@ -15,18 +15,18 @@ class SettingsTableSeeder extends Seeder
         DB::table('settings')->truncate();
 
         DB::table('settings')->insert([
-            [ 'user_id' => 1, 'option' => '',
-          'value'=>'{"is_sound":"true","is_vibration":"true","is_notification":"true"}' ,'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+            ['user_id' => 1, 'option' => '',
+                'value' => '{"is_sound":"true","is_vibration":"true","is_notification":"true"}', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
 
         DB::table('settings')->insert([
-            [ 'user_id' => 2, 'option' => '',
-          'value'=>'{"is_sound":"true","is_vibration":"true","is_notification":"true"}' ,'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+            ['user_id' => 2, 'option' => '',
+                'value' => '{"is_sound":"true","is_vibration":"true","is_notification":"true"}', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
 
         DB::table('settings')->insert([
-            [ 'user_id' => 3, 'option' => '',
-          'value'=>'{"is_sound":"true","is_vibration":"true","is_notification":"true"}' ,'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+            ['user_id' => 3, 'option' => '',
+                'value' => '{"is_sound":"true","is_vibration":"true","is_notification":"true"}', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Venue;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class GetVenueRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetVenueRequest extends FormRequest
     {
         $tournamentId = $this->route('tournamentId');
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

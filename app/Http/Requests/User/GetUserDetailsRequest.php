@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\User;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class GetUserDetailsRequest extends FormRequest
 {
@@ -22,6 +22,7 @@ class GetUserDetailsRequest extends FormRequest
         if ($userEmail == $loggedInUser['email']) {
             return true;
         }
+
         return false;
     }
 

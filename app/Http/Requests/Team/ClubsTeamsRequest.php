@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Team;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class ClubsTeamsRequest extends FormRequest
 {
@@ -17,9 +17,10 @@ class ClubsTeamsRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('mobile.user')) {
+        if ($user->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

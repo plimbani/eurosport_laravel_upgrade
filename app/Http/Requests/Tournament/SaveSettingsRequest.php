@@ -17,6 +17,7 @@ class SaveSettingsRequest extends FormRequest
         if (isset($data['tournamentData']['screenRotateTime']) && $data['tournamentData']['tournamentId'] != 0) {
             return true;
         }
+
         return false;
     }
 

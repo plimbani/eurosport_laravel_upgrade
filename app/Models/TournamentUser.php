@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TournamentUser extends Model
 {
-	protected $table = 'tournament_user';
+    protected $table = 'tournament_user';
 
-	public $timestamps = false;
+    public $timestamps = false;
 }

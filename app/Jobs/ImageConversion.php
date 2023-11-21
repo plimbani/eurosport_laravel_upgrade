@@ -2,15 +2,13 @@
 
 namespace Laraspace\Jobs;
 
-use Storage;
-use File;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Intervention\Image\ImageManager;
-use Laraspace\Models\Website;
+use Storage;
 
 class ImageConversion implements ShouldQueue
 {
@@ -33,7 +31,7 @@ class ImageConversion implements ShouldQueue
 
     public function __construct($imageName, $s3Path, $conversions)
     {
-        $this->imageName = $imageName;        
+        $this->imageName = $imageName;
         $this->s3Path = $s3Path;
         $this->conversions = $conversions;
     }
@@ -45,18 +43,18 @@ class ImageConversion implements ShouldQueue
      */
     public function handle(ImageManager $imageManager)
     {
-        $imageName = $this->imageName;        
+        $imageName = $this->imageName;
         $s3ImagePath = $this->s3Path.$imageName;
         $disk = Storage::disk('s3');
         $mainImage = Storage::disk('s3')->get($s3ImagePath);
 
         foreach ($this->conversions as $key => $value) {
             $image = null;
-            if(isset($value['width']) && isset($value['height'])) {
+            if (isset($value['width']) && isset($value['height'])) {
                 $image = $this->cropAndResize($mainImage, $value['width'], $value['height'], $imageManager);
-            } else if(isset($value['width']) && !isset($value['height'])) {
+            } elseif (isset($value['width']) && ! isset($value['height'])) {
                 $image = $this->resizeImageProportionally($mainImage, $value['width'], null, $imageManager);
-            } else if(!isset($value['width']) && isset($value['height'])) {
+            } elseif (! isset($value['width']) && isset($value['height'])) {
                 $image = $this->resizeImageProportionally($mainImage, null, $value['height'], $imageManager);
             } else {
                 continue;
@@ -72,6 +70,7 @@ class ImageConversion implements ShouldQueue
 
     /**
      * Crop & resize images
+     *
      * @return [string]
      */
     public function cropAndResize($path, $width, $height, $imageManager)
@@ -81,6 +80,7 @@ class ImageConversion implements ShouldQueue
 
     /**
      * Resize image proportionally
+     *
      * @return [string]
      */
     public function resizeImageProportionally($path, $width, $height, $imageManager)

@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Match;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

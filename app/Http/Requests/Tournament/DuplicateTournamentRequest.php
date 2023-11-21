@@ -2,9 +2,8 @@
 
 namespace Laraspace\Http\Requests\Tournament;
 
-use JWTAuth;
-use Laraspace\Models\TournamentUser;
 use Illuminate\Foundation\Http\FormRequest;
+use JWTAuth;
 
 class DuplicateTournamentRequest extends FormRequest
 {
@@ -16,12 +15,13 @@ class DuplicateTournamentRequest extends FormRequest
     public function authorize()
     {
         $authUser = JWTAuth::parseToken()->toUser();
-        if($authUser->roles()->first()->slug == 'tournament.administrator') {
+        if ($authUser->roles()->first()->slug == 'tournament.administrator') {
             $userTournaments = $authUser->tournaments()->where('tournament_id', $this->copy_tournament_id)->get();
-            if($userTournaments->count() == 0) {
+            if ($userTournaments->count() == 0) {
                 return false;
             }
         }
+
         return true;
     }
 

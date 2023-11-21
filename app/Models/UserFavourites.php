@@ -15,12 +15,13 @@ class UserFavourites extends Model
      * @var array
      */
     protected $table = 'users_favourite';
+
     protected $fillable = [
         'id',
         'user_id',
         'tournament_id',
         'team_id',
-        'is_default'
+        'is_default',
     ];
 
     /**
@@ -31,11 +32,11 @@ class UserFavourites extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function tournament()
     {
-         return $this->belongsTo('Laraspace\Models\Tournament', 'tournament_id');
+        return $this->belongsTo('Laraspace\Models\Tournament', 'tournament_id');
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Laraspace\Console\Commands;
 
-use Illuminate\Console\Command;
 use DB;
+use Illuminate\Console\Command;
 
 class insertPitchSize extends Command
 {
@@ -38,15 +38,15 @@ class insertPitchSize extends Command
      */
     public function handle()
     {
-        if (($handle = fopen ( public_path () . '/assets/Agecategories.csv', 'r' )) !== FALSE) {
-            while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE )  {
+        if (($handle = fopen(public_path().'/assets/Agecategories.csv', 'r')) !== false) {
+            while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                 DB::table('tournament_competation_template')
-                    ->where('id',$data[1])
+                    ->where('id', $data[1])
                     ->update([
-                        'pitch_size' => $data[3]
+                        'pitch_size' => $data[3],
                     ]);
             }
         }
-        $this->info('Script executed.');     
+        $this->info('Script executed.');
     }
 }

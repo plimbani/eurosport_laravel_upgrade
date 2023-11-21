@@ -2,8 +2,8 @@
 
 namespace Laraspace\Services;
 
-use Laraspace\Contracts\ApiContract;
 use Dingo\Api\Routing\Helpers;
+use Laraspace\Contracts\ApiContract;
 
 class ApiService implements ApiContract
 {
@@ -13,6 +13,7 @@ class ApiService implements ApiContract
      */
 
     protected $apiObj;
+
     protected $dispatcherObj;
 
     public function __construct()

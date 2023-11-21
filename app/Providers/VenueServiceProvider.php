@@ -3,8 +3,8 @@
 namespace Laraspace\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Services\VenueTempService as VenueService;
 use Laraspace\Repositories\VenueRepository;
+use Laraspace\Services\VenueTempService as VenueService;
 
 class VenueServiceProvider extends ServiceProvider
 {

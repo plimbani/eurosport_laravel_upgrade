@@ -1,8 +1,8 @@
 .<?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTempFixturesTable extends Migration
 {
@@ -34,13 +34,13 @@ class CreateTempFixturesTable extends Migration
             $table->string('away_team_name')->nullable();
             $table->text('comments')->nullable();
             $table->string('match_winner')->nullable();
-            $table->enum('match_status', array('Full-time', 'Penalties', 'Walk-over', 'Abandoned'))->nullable();
+            $table->enum('match_status', ['Full-time', 'Penalties', 'Walk-over', 'Abandoned'])->nullable();
             $table->integer('away_team')->unsigned()->default(0)->nullable()->index();
             $table->tinyInteger('hometeam_score')->nullable();
             $table->tinyInteger('awayteam_score')->nullable();
-            $table->double('hometeam_point',8,2)->nullable();
+            $table->double('hometeam_point', 8, 2)->nullable();
             $table->integer('match_result_id')->unsigned()->nullable()->index();
-            $table->double('awayteam_point',8,2)->nullable();
+            $table->double('awayteam_point', 8, 2)->nullable();
             $table->text('bracket_json')->nullable();
             $table->timestamps();
             $table->softDeletes();

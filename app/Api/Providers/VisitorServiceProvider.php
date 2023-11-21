@@ -3,9 +3,9 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\VisitorService;
-use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Repositories\VisitorRepository;
+use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Services\VisitorService;
 
 class VisitorServiceProvider extends ServiceProvider
 {

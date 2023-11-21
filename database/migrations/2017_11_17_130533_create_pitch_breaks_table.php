@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePitchBreaksTable extends Migration
 {
@@ -18,9 +18,9 @@ class CreatePitchBreaksTable extends Migration
             $table->integer('pitch_id')->unsigned()->index();
             $table->integer('availability_id')->unsigned()->index();
             $table->foreign('availability_id')->references('id')->on('pitch_availibility');
-            $table->string('break_start',10)->nullable();
-            $table->string('break_end',10)->nullable();
-            $table->string('break_no',10)->nullable();
+            $table->string('break_start', 10)->nullable();
+            $table->string('break_end', 10)->nullable();
+            $table->string('break_no', 10)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +33,6 @@ class CreatePitchBreaksTable extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('pitch_breaks');
+        Schema::dropIfExists('pitch_breaks');
     }
 }

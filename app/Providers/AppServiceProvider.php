@@ -2,43 +2,39 @@
 
 namespace Laraspace\Providers;
 
-use URL;
-
+use Illuminate\Support\ServiceProvider;
+use Laraspace\Models\AgeCategory;
+use Laraspace\Models\AgeCategoryTeam;
+use Laraspace\Models\Contact;
+use Laraspace\Models\Document;
+use Laraspace\Models\HistoryAgeCategory;
+use Laraspace\Models\HistoryTeam;
+use Laraspace\Models\HistoryYear;
+use Laraspace\Models\Itinerary;
+use Laraspace\Models\Location;
 use Laraspace\Models\Map;
+use Laraspace\Models\Organiser;
 use Laraspace\Models\Page;
 use Laraspace\Models\Photo;
 use Laraspace\Models\Sponsor;
-use Laraspace\Models\Website;
-use Laraspace\Models\Contact;
-use Laraspace\Models\Document;
-use Laraspace\Models\Location;
-use Laraspace\Models\Itinerary;
 use Laraspace\Models\Statistic;
-use Laraspace\Models\Organiser;
-use Laraspace\Models\HistoryYear;
-use Laraspace\Models\HistoryTeam;
-use Laraspace\Models\AgeCategory;
-use Laraspace\Models\AgeCategoryTeam;
-use Laraspace\Models\HistoryAgeCategory;
-
+use Laraspace\Models\Website;
+use Laraspace\Observers\AgeCategoryObserver;
+use Laraspace\Observers\AgeCategoryTeamObserver;
+use Laraspace\Observers\ContactObserver;
+use Laraspace\Observers\DocumentObserver;
+use Laraspace\Observers\HistoryAgeCategoryObserver;
+use Laraspace\Observers\HistoryTeamObserver;
+use Laraspace\Observers\HistoryYearObserver;
+use Laraspace\Observers\ItineraryObserver;
+use Laraspace\Observers\LocationObserver;
 use Laraspace\Observers\MapObserver;
+use Laraspace\Observers\OrganiserObserver;
 use Laraspace\Observers\PageObserver;
 use Laraspace\Observers\PhotoObserver;
 use Laraspace\Observers\SponsorObserver;
-use Laraspace\Observers\ContactObserver;
-use Laraspace\Observers\WebsiteObserver;
-use Laraspace\Observers\DocumentObserver;
-use Laraspace\Observers\LocationObserver;
-use Laraspace\Observers\OrganiserObserver;
-use Laraspace\Observers\ItineraryObserver;
 use Laraspace\Observers\StatisticObserver;
-use Laraspace\Observers\HistoryYearObserver;
-use Laraspace\Observers\HistoryTeamObserver;
-use Laraspace\Observers\AgeCategoryObserver;
-use Laraspace\Observers\AgeCategoryTeamObserver;
-use Laraspace\Observers\HistoryAgeCategoryObserver;
-
-use Illuminate\Support\ServiceProvider;
+use Laraspace\Observers\WebsiteObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,15 +44,15 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     protected $localProviders;
+
     protected $localAliases;
-    
+
     public function __construct($app)
     {
         $this->app = $app;
         $this->localProviders = config('app.localProviders');
         $this->localAliases = config('app.localAliases');
     }
-
 
     public function boot()
     {

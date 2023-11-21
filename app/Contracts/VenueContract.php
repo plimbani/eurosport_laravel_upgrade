@@ -10,10 +10,9 @@ interface VenueContract
      * @param  array $data
      * @return response
      */
-     public function index();
+    public function index();
 
-     public function create($request);
+    public function create($request);
 
-     public function edit($request, $venueId);
-
+    public function edit($request, $venueId);
 }

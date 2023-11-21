@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Tournament;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class GetAllPublishedTournamentsRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetAllPublishedTournamentsRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
+        if ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
             return true;
         }
+
         return false;
     }
 

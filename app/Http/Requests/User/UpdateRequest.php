@@ -2,15 +2,15 @@
 
 namespace Laraspace\Http\Requests\User;
 
-use Laraspace\Models\User;
-use Laraspace\Models\Role;
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Models\Role;
+use Laraspace\Models\User;
+use Laraspace\Traits\AuthUserDetail;
 
 class UpdateRequest extends FormRequest
 {
     use AuthUserDetail;
- 
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -22,17 +22,18 @@ class UpdateRequest extends FormRequest
         $request = $this->all();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $usersRole = User::findOrFail($id)->roles()->first();
-        if($loggedInUser->hasRole('tournament.administrator') && $usersRole->slug == 'Results.administrator') {
-          return true;
+        if ($loggedInUser->hasRole('tournament.administrator') && $usersRole->slug == 'Results.administrator') {
+            return true;
         }
-        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
-          if($id != $loggedInUser->id) {
-            return false;
-          }
-          if(isset($request['userType']) && $usersRole->id != $request['userType']) {
-            return false;
-          }
-          return true;
+        if (! ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
+            if ($id != $loggedInUser->id) {
+                return false;
+            }
+            if (isset($request['userType']) && $usersRole->id != $request['userType']) {
+                return false;
+            }
+
+            return true;
         }
         if (isset($request['userType'])) {
             $userType = $request['userType'];
@@ -44,6 +45,7 @@ class UpdateRequest extends FormRequest
                 return false;
             }
         }
+
         return true;
     }
 

@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class TournamentClubRequest extends FormRequest
 {
@@ -19,11 +19,13 @@ class TournamentClubRequest extends FormRequest
         $data = $this->all();
         if (isset($data['tournament_id'])) {
             $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
-            if(!$isTournamentAccessible) {
-              return false;
+            if (! $isTournamentAccessible) {
+                return false;
             }
+
             return true;
         }
+
         return true;
     }
 
@@ -35,7 +37,7 @@ class TournamentClubRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournament_id' => 'required'
+            'tournament_id' => 'required',
         ];
     }
 }

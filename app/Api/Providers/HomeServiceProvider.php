@@ -3,9 +3,9 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laraspace\Api\Repositories\HomeRepository;
 use Laraspace\Api\Services\HomeService;
 use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Repositories\HomeRepository;
 
 class HomeServiceProvider extends ServiceProvider
 {

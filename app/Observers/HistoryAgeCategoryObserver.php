@@ -2,9 +2,9 @@
 
 namespace Laraspace\Observers;
 
+use Laraspace\Models\HistoryAgeCategory;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Models\HistoryAgeCategory;
 use Laraspace\Traits\ManageActivityNotification;
 
 class HistoryAgeCategoryObserver
@@ -14,75 +14,72 @@ class HistoryAgeCategoryObserver
     /**
      * Listen to the HistoryAgeCategory created event.
      *
-     * @param  \Laraspace\Models\HistoryAgeCategory $historyAgeCategory
      * @return void
      */
     public function created(HistoryAgeCategory $historyAgeCategory)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $historyAgeCategoryData = [];
-      $historyAgeCategoryData['website_id'] = $historyAgeCategory->website_id;
-      $historyAgeCategoryData['notification_id'] = $this->getNotificationId($userObj);
-      $historyAgeCategoryData['subject_id'] = $historyAgeCategory->id;
-      $historyAgeCategoryData['subject_type'] = get_class($historyAgeCategory);
-      $historyAgeCategoryData['causer_id'] = $userObj->id;
-      $historyAgeCategoryData['causer_type'] = get_class($userObj);
-      $historyAgeCategoryData['description'] = $userObj->name .' '. 'added a new history age category.';
-      $historyAgeCategoryData['page'] = 'Tournament';
-      $historyAgeCategoryData['section'] = 'History';
-      $historyAgeCategoryData['action'] = 'created';
+        $historyAgeCategoryData = [];
+        $historyAgeCategoryData['website_id'] = $historyAgeCategory->website_id;
+        $historyAgeCategoryData['notification_id'] = $this->getNotificationId($userObj);
+        $historyAgeCategoryData['subject_id'] = $historyAgeCategory->id;
+        $historyAgeCategoryData['subject_type'] = get_class($historyAgeCategory);
+        $historyAgeCategoryData['causer_id'] = $userObj->id;
+        $historyAgeCategoryData['causer_type'] = get_class($userObj);
+        $historyAgeCategoryData['description'] = $userObj->name.' '.'added a new history age category.';
+        $historyAgeCategoryData['page'] = 'Tournament';
+        $historyAgeCategoryData['section'] = 'History';
+        $historyAgeCategoryData['action'] = 'created';
 
-      $this->saveActivityLog($historyAgeCategoryData);
+        $this->saveActivityLog($historyAgeCategoryData);
     }
 
     /**
      * Listen to the HistoryAgeCategory updated event.
      *
-     * @param  \Laraspace\Models\HistoryAgeCategory $historyAgeCategory
      * @return void
      */
     public function updated(HistoryAgeCategory $historyAgeCategory)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $historyAgeCategoryData = [];
-      $historyAgeCategoryData['website_id'] = $historyAgeCategory->website_id;
-      $historyAgeCategoryData['notification_id'] = $this->getNotificationId($userObj);
-      $historyAgeCategoryData['subject_id'] = $historyAgeCategory->id;
-      $historyAgeCategoryData['subject_type'] = get_class($historyAgeCategory);
-      $historyAgeCategoryData['causer_id'] = $userObj->id;
-      $historyAgeCategoryData['causer_type'] = get_class($userObj);
-      $historyAgeCategoryData['description'] = $userObj->name .' '. 'updated a history age category.';
-      $historyAgeCategoryData['page'] = 'Tournament';
-      $historyAgeCategoryData['section'] = 'History';
-      $historyAgeCategoryData['action'] = 'updated';
+        $historyAgeCategoryData = [];
+        $historyAgeCategoryData['website_id'] = $historyAgeCategory->website_id;
+        $historyAgeCategoryData['notification_id'] = $this->getNotificationId($userObj);
+        $historyAgeCategoryData['subject_id'] = $historyAgeCategory->id;
+        $historyAgeCategoryData['subject_type'] = get_class($historyAgeCategory);
+        $historyAgeCategoryData['causer_id'] = $userObj->id;
+        $historyAgeCategoryData['causer_type'] = get_class($userObj);
+        $historyAgeCategoryData['description'] = $userObj->name.' '.'updated a history age category.';
+        $historyAgeCategoryData['page'] = 'Tournament';
+        $historyAgeCategoryData['section'] = 'History';
+        $historyAgeCategoryData['action'] = 'updated';
 
-      $this->saveActivityLog($historyAgeCategoryData);
+        $this->saveActivityLog($historyAgeCategoryData);
     }
 
     /**
      * Listen to the HistoryAgeCategory deleted event.
      *
-     * @param  \Laraspace\Models\HistoryAgeCategory $historyAgeCategory
      * @return void
      */
     public function deleted(HistoryAgeCategory $historyAgeCategory)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $historyAgeCategoryData = [];
-      $historyAgeCategoryData['website_id'] = $historyAgeCategory->website_id;
-      $historyAgeCategoryData['notification_id'] = $this->getNotificationId($userObj);
-      $historyAgeCategoryData['subject_id'] = $historyAgeCategory->id;
-      $historyAgeCategoryData['subject_type'] = get_class($historyAgeCategory);
-      $historyAgeCategoryData['causer_id'] = $userObj->id;
-      $historyAgeCategoryData['causer_type'] = get_class($userObj);
-      $historyAgeCategoryData['description'] = $userObj->name .' '. 'deleted a history age category.';
-      $historyAgeCategoryData['page'] = 'Tournament';
-      $historyAgeCategoryData['section'] = 'History';
-      $historyAgeCategoryData['action'] = 'deleted';
+        $historyAgeCategoryData = [];
+        $historyAgeCategoryData['website_id'] = $historyAgeCategory->website_id;
+        $historyAgeCategoryData['notification_id'] = $this->getNotificationId($userObj);
+        $historyAgeCategoryData['subject_id'] = $historyAgeCategory->id;
+        $historyAgeCategoryData['subject_type'] = get_class($historyAgeCategory);
+        $historyAgeCategoryData['causer_id'] = $userObj->id;
+        $historyAgeCategoryData['causer_type'] = get_class($userObj);
+        $historyAgeCategoryData['description'] = $userObj->name.' '.'deleted a history age category.';
+        $historyAgeCategoryData['page'] = 'Tournament';
+        $historyAgeCategoryData['section'] = 'History';
+        $historyAgeCategoryData['action'] = 'deleted';
 
-      $this->saveActivityLog($historyAgeCategoryData);
+        $this->saveActivityLog($historyAgeCategoryData);
     }
 }

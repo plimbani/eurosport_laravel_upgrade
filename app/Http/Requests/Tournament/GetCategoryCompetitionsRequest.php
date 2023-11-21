@@ -1,11 +1,12 @@
 <?php
+
 namespace Laraspace\Http\Requests\Tournament;
 
+use Illuminate\Foundation\Http\FormRequest;
 use JWTAuth;
 use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class GetCategoryCompetitionsRequest extends FormRequest
 {
@@ -19,18 +20,19 @@ class GetCategoryCompetitionsRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
             if (isset($this->all()['ageGroupId'])) {
                 $ageGroupId = $this->all()['ageGroupId'];
                 $ageCategory = TournamentCompetationTemplates::findOrFail($ageGroupId);
                 $tournament_id = $ageCategory->tournament_id;
-                $tournament = Tournament::where('id',$tournament_id)->first();
+                $tournament = Tournament::where('id', $tournament_id)->first();
                 $isTournamentPublished = $this->isTournamentPublished($tournament);
-                if(!$isTournamentPublished) {
+                if (! $isTournamentPublished) {
                     return false;
                 }
             }
         }
+
         return true;
     }
 
@@ -42,7 +44,7 @@ class GetCategoryCompetitionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'ageGroupId' => 'required'
+            'ageGroupId' => 'required',
         ];
     }
 }

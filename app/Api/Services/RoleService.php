@@ -3,7 +3,6 @@
 namespace Laraspace\Api\Services;
 
 use Laraspace\Api\Contracts\RoleContract;
-use Laraspace\Models\Role;
 
 class RoleService implements RoleContract
 {

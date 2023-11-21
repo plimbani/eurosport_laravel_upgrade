@@ -2,7 +2,6 @@
 
 namespace Laraspace\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Laraspace\Contracts\ApiContract;
 
 class MatchController extends Controller
@@ -29,7 +28,7 @@ class MatchController extends Controller
     public function index()
     {
         $matches = $this->apiObj->api->get('matches');
-        
+
         return view('match.index')->with('matches', $matches);
     }
 

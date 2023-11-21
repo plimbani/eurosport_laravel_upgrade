@@ -13,12 +13,11 @@ class Position extends Model
      */
     protected $table = 'positions';
 
-
     /**
      * Get Team Details.
      */
     public function team()
     {
-    	return $this->belongsTo('Laraspace\Models\Team', 'team_id');
+        return $this->belongsTo('Laraspace\Models\Team', 'team_id');
     }
 }

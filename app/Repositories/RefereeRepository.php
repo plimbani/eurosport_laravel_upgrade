@@ -2,8 +2,8 @@
 
 namespace Laraspace\Repositories;
 
-use Laraspace\Models\Referee;
 use DB;
+use Laraspace\Models\Referee;
 
 class RefereeRepository
 {
@@ -20,6 +20,7 @@ class RefereeRepository
     public function createReferee1($refereeData)
     {
         dd('hi');
+
         return Referee::create($refereeData);
     }
 

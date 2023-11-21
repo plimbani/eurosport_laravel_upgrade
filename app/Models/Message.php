@@ -2,7 +2,6 @@
 
 namespace Laraspace\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
@@ -23,7 +22,7 @@ class Message extends Model
         'sent_from',
         'status',
         'content',
-        'tournament_id'
+        'tournament_id',
     ];
 
     /**
@@ -38,7 +37,7 @@ class Message extends Model
      *
      * @var array
      */
-    protected $dates = ['sent_at', 'created_at', 'updated_at','received_at'];
+    protected $dates = ['sent_at', 'created_at', 'updated_at', 'received_at'];
 
     /**
      * The recipients that belong to the message.
@@ -48,7 +47,7 @@ class Message extends Model
         // return $this->belongsto('Laraspace\Models\User', 'sent_to_user')->withTrashed();
         return $this->hasMany('Laraspace\Models\MessageRecipient');
     }
-       
+
     /**
      * The sender that sent to the message.
      */
@@ -56,7 +55,8 @@ class Message extends Model
     {
         return $this->belongsto('Laraspace\Models\User', 'sent_from')->withTrashed();
     }
-     /**
+
+    /**
      * The sender that sent to the message.
      */
     public function tournament()

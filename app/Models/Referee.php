@@ -12,7 +12,7 @@ class Referee extends Model
     protected $table = 'referee';
 
     protected $fillable = [
-        'user_id', 'availability', 'tournament_id','first_name','last_name','telephone','email','comments', 'age_group_id','is_all_age_categories_selected'
+        'user_id', 'availability', 'tournament_id', 'first_name', 'last_name', 'telephone', 'email', 'comments', 'age_group_id', 'is_all_age_categories_selected',
     ];
 
     /**
@@ -23,7 +23,6 @@ class Referee extends Model
     protected $casts = [
         'is_all_age_categories_selected' => 'boolean',
     ];
-
 
     /**
      * The attributes that should be mutated to dates.

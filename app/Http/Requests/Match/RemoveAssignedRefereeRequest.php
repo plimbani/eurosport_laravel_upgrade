@@ -2,9 +2,9 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Laraspace\Models\TempFixture;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class RemoveAssignedRefereeRequest extends FormRequest
 {
@@ -21,11 +21,13 @@ class RemoveAssignedRefereeRequest extends FormRequest
             $matchId = $this->all()['data'];
             $tempFixture = TempFixture::findOrFail($matchId);
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture->tournament_id);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 

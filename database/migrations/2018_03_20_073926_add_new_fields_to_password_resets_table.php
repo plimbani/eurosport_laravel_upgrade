@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddNewFieldsToPasswordResetsTable extends Migration
 {
@@ -13,9 +12,9 @@ class AddNewFieldsToPasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::table('password_resets', function($table) {
+        Schema::table('password_resets', function ($table) {
             $table->string('tries')->after('token')->default(0);
-            $table->timestamp('last_requested_at')->after('tries')->nullable()->default(NULL);
+            $table->timestamp('last_requested_at')->after('tries')->nullable()->default(null);
         });
     }
 
@@ -26,7 +25,7 @@ class AddNewFieldsToPasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::table('password_resets', function($table) {
+        Schema::table('password_resets', function ($table) {
             $table->dropColumn(['tries', 'last_requested_at']);
         });
     }

@@ -3,8 +3,8 @@
 namespace Laraspace\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Services\AgeGroupService;
 use Laraspace\Repositories\AgeGroupRepository;
+use Laraspace\Services\AgeGroupService;
 
 class AgeGroupServiceProvider extends ServiceProvider
 {

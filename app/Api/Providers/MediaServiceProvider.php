@@ -3,9 +3,9 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laraspace\Api\Repositories\MediaRepository;
 use Laraspace\Api\Services\MediaService;
 use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Repositories\MediaRepository;
 
 class MediaServiceProvider extends ServiceProvider
 {

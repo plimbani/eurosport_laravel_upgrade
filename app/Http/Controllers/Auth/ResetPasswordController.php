@@ -2,18 +2,15 @@
 
 namespace Laraspace\Http\Controllers\Auth;
 
-use DB;
-use Carbon\Carbon;
-use Laraspace\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Notifications;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Str;
-use Laraspace\Models\User;
+use Laraspace\Http\Controllers\Controller;
 use Laraspace\Models\Role;
+use Laraspace\Models\User;
 
 class ResetPasswordController extends Controller
 {
@@ -46,6 +43,7 @@ class ResetPasswordController extends Controller
     {
         // $this->middleware('guest');
     }
+
     /*protected function guard()
     {
         return Auth::guard('guard-name');
@@ -58,7 +56,7 @@ class ResetPasswordController extends Controller
     // }
     public function showResetForm(Request $request, $token = null)
     {
-         $password_reset = \DB::table('password_resets')->where('token', $token)->first();
+        $password_reset = \DB::table('password_resets')->where('token', $token)->first();
         // if(empty($password_reset)){
         //     throw new NotFoundHttpException;
         // }
@@ -70,7 +68,6 @@ class ResetPasswordController extends Controller
         );
     }
 
-
     /**
      * Get the guard to be used during password reset.
      *
@@ -80,6 +77,7 @@ class ResetPasswordController extends Controller
     {
         return Auth::guard();
     }
+
     /**
      * Get the response for a successful password reset.
      *
@@ -89,8 +87,9 @@ class ResetPasswordController extends Controller
     protected function sendResetResponse($response)
     {
         return redirect($this->redirectPath())
-                            ->with('status', trans($response));
+            ->with('status', trans($response));
     }
+
     /**
      * Get the response for a failed password reset.
      *
@@ -101,9 +100,10 @@ class ResetPasswordController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return redirect()->back()
-                    ->withInput($request->only('email'))
-                    ->withErrors(['email' => trans($response)]);
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => trans($response)]);
     }
+
     /**
      * Get the broker to be used during password reset.
      *
@@ -113,13 +113,13 @@ class ResetPasswordController extends Controller
     {
         return Password::broker('users');
     }
-   /* protected function broker()
-    {
-        return Password::broker('name');
-    } */
-     public function reset(Request $request)
-    {
 
+    /* protected function broker()
+     {
+         return Password::broker('name');
+     } */
+    public function reset(Request $request)
+    {
 
         ///$this->validate($request, $this->rules(), $this->validationErrorMessages());
 
@@ -130,8 +130,7 @@ class ResetPasswordController extends Controller
         $data = $request->all();
 
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
-        $userData = User::where(['email'=>$data['email']])->first();
-
+        $userData = User::where(['email' => $data['email']])->first();
 
         // if($userData->roles[0]->id == $mobileUserRoleId) {
         //     $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
@@ -145,15 +144,11 @@ class ResetPasswordController extends Controller
         //   // }
         // } else {
 
-           
-
-
         $response = $this->broker()->reset(
-          $this->credentials($request), function ($user, $password) {
-            $this->resetPassword($user, $password);
-          }
-        );       
-
+            $this->credentials($request), function ($user, $password) {
+                $this->resetPassword($user, $password);
+            }
+        );
 
         // }
         // If the password was successfully reset, we will redirect the user back to
@@ -161,61 +156,58 @@ class ResetPasswordController extends Controller
         // redirect them back to where they came from with their error message.
 
         $error = false;
-        if ( $response != Password::PASSWORD_RESET )
-        {
+        if ($response != Password::PASSWORD_RESET) {
             $error = true;
         }
 
-        if (!$error)
-        {
-            if($userData->roles[0]->id != $mobileUserRoleId) {
+        if (! $error) {
+            if ($userData->roles[0]->id != $mobileUserRoleId) {
                 $url = '/login/passwordupdated';
-            }else {
+            } else {
                 $url = '/mlogin?reset=reset password';
             }
-        }
-        else
-        {
+        } else {
             $url = '/password/reset/'.$data['token'].'?userEmail='.$data['email'].'&error='.trans($response);
         }
 
-        
         return $url;
     }
 
-    public function userMlogin(Request $request) {
-         return view('emails.users.verified');
+    public function userMlogin(Request $request)
+    {
+        return view('emails.users.verified');
     }
 
-
-    protected function isValidOTP($user,$otp)
+    protected function isValidOTP($user, $otp)
     {
-       $encoded_otp = base64_encode($user->id."|".$otp);
-        $userOtp = \Laraspace\Models\UserOtp::where(["user_id"=>$user->id,
-          'encoded_key'=>$encoded_otp])->first();
-        if($userOtp){
+        $encoded_otp = base64_encode($user->id.'|'.$otp);
+        $userOtp = \Laraspace\Models\UserOtp::where(['user_id' => $user->id,
+            'encoded_key' => $encoded_otp])->first();
+        if ($userOtp) {
 
             $timediff = time() - strtotime($userOtp->created_at);
             $userOtp->delete();
 
-            if($timediff <= 600){ // valid only for 10 minutes
+            if ($timediff <= 600) { // valid only for 10 minutes
                 return true;
             }
         }
+
         return false;
     }
+
     /**
      * Get the password reset credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     protected function credentials(Request $request)
     {
         return $request->only(
-            'email', 'password','password_confirmation','token'
+            'email', 'password', 'password_confirmation', 'token'
         );
     }
+
     /**
      * Reset the given user's password.
      *
@@ -232,13 +224,13 @@ class ResetPasswordController extends Controller
 
         $this->guard()->login($user);
     }
+
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Euro-Sportring - Password Reset")
+            ->subject('Euro-Sportring - Password Reset')
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset password', route('password.reset', $this->token))
             ->line('If you did not request this password reset please ignore this email.');
     }
-
 }

@@ -36,23 +36,36 @@ interface MatchContract
      * @return response
      */
     public function deleteMatch($deleteId);
+
     public function scheduleMatch($matchData);
+
     public function unscheduleMatch($matchData);
+
     public function getAllScheduledMatch($matchData);
+
     public function getMatchDetail($matchData);
+
     public function removeAssignedReferee($matchData);
+
     public function assignReferee($matchData);
+
     public function saveResult($matchData);
+
     public function saveAllResults($matchData);
+
     public function saveUnavailableBlock($matchData);
+
     public function getUnavailableBlock($matchData);
+
     public function removeBlock($matchData);
+
     public function updateScore($matchData);
+
     public function generateMatchPrint($matchData);
+
     public function generateCategoryReport($ageGroupId, $tournamentId);
+
     public function refreshStanding($matchData);
+
     public function checkTeamIntervalforMatches($matchData);
-
-
-
 }

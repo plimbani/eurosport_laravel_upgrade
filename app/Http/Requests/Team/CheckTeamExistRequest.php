@@ -2,9 +2,8 @@
 
 namespace Laraspace\Http\Requests\Team;
 
-use Laraspace\Models\Team;
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class CheckTeamExistRequest extends FormRequest
 {
@@ -18,9 +17,10 @@ class CheckTeamExistRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

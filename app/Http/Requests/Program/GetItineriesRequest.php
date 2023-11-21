@@ -2,13 +2,13 @@
 
 namespace Laraspace\Http\Requests\Program;
 
-use Laraspace\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\WebsiteAccess;
 
 class GetItineriesRequest extends FormRequest
 {
     use WebsiteAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,10 +17,11 @@ class GetItineriesRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 

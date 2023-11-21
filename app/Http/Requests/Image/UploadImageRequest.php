@@ -2,13 +2,13 @@
 
 namespace Laraspace\Http\Requests\Image;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class UploadImageRequest extends FormRequest
 {
     use AuthUserDetail;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,9 +18,10 @@ class UploadImageRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

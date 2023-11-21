@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRefereeTable extends Migration
 {
@@ -24,7 +24,7 @@ class CreateRefereeTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
             $table->text('comments')->nullable();
-            $table->string('age_group_id')->nullable();            
+            $table->string('age_group_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

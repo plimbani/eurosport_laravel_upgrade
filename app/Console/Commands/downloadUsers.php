@@ -8,7 +8,6 @@ use Laraspace\Traits\AuthUserDetail;
 
 class downloadUsers extends Command
 {
-
     use AuthUserDetail;
 
     /**
@@ -48,12 +47,12 @@ class downloadUsers extends Command
 
         if ($userObj) {
             $data = [
-                'report_download' => 'yes'
+                'report_download' => 'yes',
             ];
             $downloadUsers = \Laraspace\Jobs\DownloadUsers::dispatch($userObj, $data);
-            dump("Downloaded file will be sent to you shortly via email");
+            dump('Downloaded file will be sent to you shortly via email');
         } else {
-            dump("Invalid email");
+            dump('Invalid email');
         }
     }
 }

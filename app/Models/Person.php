@@ -9,7 +9,7 @@ class Person extends Model
 {
     use Notifiable;
 
-    protected $table="people";
+    protected $table = 'people';
 
     /**
      * The attributes that are mass assignable.

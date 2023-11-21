@@ -2,9 +2,9 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Laraspace\Models\TempFixture;
 use Laraspace\Traits\TournamentAccess;
-use Illuminate\Foundation\Http\FormRequest;
 
 class SaveResultRequest extends FormRequest
 {
@@ -18,15 +18,17 @@ class SaveResultRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        if(isset($data['matchData']['matchId'])) {
+        if (isset($data['matchData']['matchId'])) {
             $matchId = $data['matchData']['matchId'];
             $tempFixture = TempFixture::findOrFail($matchId);
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture->tournament_id);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 

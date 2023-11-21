@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\TournamentAccess;
 
 class GetSignedUrlForTournamentReportExportRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetSignedUrlForTournamentReportExportRequest extends FormRequest
     {
         $data = $this->all();
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

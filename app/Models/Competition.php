@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competition extends Model
 {
-	protected $table = 'competitions';
+    protected $table = 'competitions';
 
     /**
      * The attributes that are mass assignable.
@@ -16,11 +16,11 @@ class Competition extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['id', 'tournament_id', 'tournament_competation_template_id', 'name', 'display_name', 'actual_name', 'team_size',
-                            'competation_type', 'actual_competition_type', 'competation_round_no', 'color_code', 'created_at', 'updated_at', 'deleted_at', 'age_category_division_id'];
+        'competation_type', 'actual_competition_type', 'competation_round_no', 'color_code', 'created_at', 'updated_at', 'deleted_at', 'age_category_division_id'];
 
     public function TournamentCompetationTemplates()
     {
-    	return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates','tournament_competation_template_id');
+        return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates', 'tournament_competation_template_id');
     }
 
     public function scheduledFixtures()
@@ -30,6 +30,6 @@ class Competition extends Model
 
     public function AgeCategoryDivision()
     {
-        return $this->belongsTo('Laraspace\Models\AgeCategoryDivision','age_category_division_id');
+        return $this->belongsTo('Laraspace\Models\AgeCategoryDivision', 'age_category_division_id');
     }
 }

@@ -12,6 +12,7 @@ class TournamentService implements TournamentContract
      *  Messages To Display.
      */
     const SUCCESS_MSG = 'Data Sucessfully inserted';
+
     const ERROR_MSG = 'Error in Data';
 
     public function __construct(TournamentRepository $tournamentRepoObj, VenueService $venueObj)
@@ -20,12 +21,12 @@ class TournamentService implements TournamentContract
         $this->venueServiceObj = $venueObj;
     }
 
-     /*
-     * Get All Tournaments
-     *
-     * @param  array $api_key,$state,$type
-     * @return response
-     */
+    /*
+    * Get All Tournaments
+    *
+    * @param  array $api_key,$state,$type
+    * @return response
+    */
     public function index()
     {
         // Here we send Status Code and Messages
@@ -41,13 +42,12 @@ class TournamentService implements TournamentContract
      * create New Tournament.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function create($data)
     {
-        return  ['status_code' => '101', 'message' => 'test message'];
+        return ['status_code' => '101', 'message' => 'test message'];
         //$tournamentData = array();
         //$tournamentVenueData = array();
 
@@ -62,10 +62,9 @@ class TournamentService implements TournamentContract
     /**
      * Edit Tournament.
      *
-     * @param array $data
-     * @param mixed $id
-     * @param mixed $tournamentId
-     *
+     * @param  array  $data
+     * @param  mixed  $id
+     * @param  mixed  $tournamentId
      * @return [type]
      */
     public function edit($data, $tournamentId)
@@ -80,9 +79,8 @@ class TournamentService implements TournamentContract
     /**
      * Delete Tournament.
      *
-     * @param array $data
-     * @param mixed $deleteId
-     *
+     * @param  array  $data
+     * @param  mixed  $deleteId
      * @return [type]
      */
     public function delete($deleteId)
@@ -96,9 +94,8 @@ class TournamentService implements TournamentContract
     /**
      *  Get Tournament Data.
      *
-     *  @param int $tournamentData
-     * @param mixed $tournamentId
-     *
+     *  @param  int  $tournamentData
+     * @param  mixed  $tournamentId
      *  @return [type]
      */
     public function getAllData($tournamentId)

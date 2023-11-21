@@ -2,8 +2,8 @@
 
 namespace Laraspace\Http\Requests\Template;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use Laraspace\Traits\AuthUserDetail;
 
 class EditRequest extends FormRequest
 {
@@ -17,9 +17,10 @@ class EditRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator')) {
+        if ($loggedInUser->hasRole('Super.administrator')) {
             return true;
         }
+
         return false;
     }
 
