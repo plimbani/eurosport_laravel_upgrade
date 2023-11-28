@@ -158,6 +158,7 @@ export default {
       // return false
       var filterCompGroup = {'id' :this.filterValue};
       var tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
+      console.log("setFilterForAgeAndGroup");
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.dropDown.class == 'agecategory'){
         matchFilterKey = 'competation_group_age';
@@ -248,7 +249,21 @@ export default {
       )
     },
     getMatchesByFilter() {
-      this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
+     //for (const [key, value] of Object.entries(this.$store.state.Tournament.tournamentFiler)) {
+        // console.log(`${key}: ${value}`);
+      //} 
+      //console.log('first' + this.$store.state.Tournament.tournamentFiler.filterValue);
+      let matchFilterKey = this.$store.state.Tournament.tournamentFiler.filterKey;
+      if(this.$store.state.Tournament.tournamentFiler.filterValue.class == 'agecategory'){
+        matchFilterKey = 'competation_group_age';
+      }
+      if(this.$store.state.Tournament.tournamentFiler.filterValue.class == 'division'){
+        matchFilterKey = 'competation_group_division';
+      }
+      if(this.$store.state.Tournament.tournamentFiler.filterValue.class == 'agecategory-round' || this.$store.state.Tournament.tournamentFiler.filterValue.class == 'agecategory-division-round'){
+        matchFilterKey = 'competation_group_agecategory_round';
+      }
+      this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.filterValue);
     },
   }
 }
