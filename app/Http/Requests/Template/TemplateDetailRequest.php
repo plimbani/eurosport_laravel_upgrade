@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Template;
+namespace App\Http\Requests\Template;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class TemplateDetailRequest extends FormRequest
 {

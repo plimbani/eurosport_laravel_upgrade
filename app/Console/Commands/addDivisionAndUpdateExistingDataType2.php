@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Position;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
+use App\Models\AgeCategoryDivision;
+use App\Models\Competition;
+use App\Models\Position;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
 
 class addDivisionAndUpdateExistingDataType2 extends Command
 {

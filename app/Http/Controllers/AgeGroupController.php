@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Controllers;
+namespace App\Controllers;
 
 use Illuminate\Http\Request;
 // Need to Define Only Contracts
-use Laraspace\Contracts\AgeGroupContract;
+use App\Contracts\AgeGroupContract;
 
 /**
  * Age Group Resource Description.

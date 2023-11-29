@@ -1,18 +1,18 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use DB;
-use Laraspace\Api\Contracts\TeamContract;
-use Laraspace\Api\Repositories\TeamRepository;
-use Laraspace\Models\Club;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\TeamContract;
+use App\Api\Repositories\TeamRepository;
+use App\Models\Club;
+use App\Models\Competition;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
+use App\Traits\TournamentAccess;
 use PDF;
 
 class TeamService implements TeamContract
@@ -22,8 +22,8 @@ class TeamService implements TeamContract
     public function __construct(TeamRepository $teamRepoObj)
     {
         $this->teamRepoObj = $teamRepoObj;
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
-        $this->tournamentRepoObj = new \Laraspace\Api\Repositories\TournamentRepository();
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
+        $this->tournamentRepoObj = new \App\Api\Repositories\TournamentRepository();
         $this->tournamentLogo = getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
@@ -443,7 +443,7 @@ class TeamService implements TeamContract
                 'TeamID', 'Team', 'Club', 'Country', 'Age category', 'Red cards', 'Yellow cards',
             ];
 
-            \Laraspace\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
+            \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
         if ($reportData) {

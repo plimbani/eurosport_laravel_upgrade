@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +54,7 @@ class MessageRecipient extends Model
      */
     public function message()
     {
-        return $this->belongsTo(\Laraspace\Models\Message::class);
+        return $this->belongsTo(\App\Models\Message::class);
     }
 
     /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
 use JWTAuth;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Traits\TournamentAccess;
 
 class GetCategoryCompetitionsRequest extends FormRequest
 {

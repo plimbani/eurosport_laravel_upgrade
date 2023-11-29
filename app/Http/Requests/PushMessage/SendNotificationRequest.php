@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\PushMessage;
+namespace App\Http\Requests\PushMessage;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class SendNotificationRequest extends FormRequest
 {

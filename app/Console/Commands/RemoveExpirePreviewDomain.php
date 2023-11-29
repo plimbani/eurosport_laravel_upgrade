@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Laraspace\Models\Website;
+use App\Models\Website;
 
 class RemoveExpirePreviewDomain extends Command
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\UserContract;
+use App\Api\Contracts\UserContract;
 
 class EnvController extends BaseController
 {

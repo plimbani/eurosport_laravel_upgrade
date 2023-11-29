@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,6 +37,6 @@ class UserFavourites extends Model
 
     public function tournament()
     {
-        return $this->belongsTo(\Laraspace\Models\Tournament::class, 'tournament_id');
+        return $this->belongsTo(\App\Models\Tournament::class, 'tournament_id');
     }
 }

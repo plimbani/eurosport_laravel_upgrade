@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
-use Laraspace\Models\Venue;
+use App\Models\Venue;
 
 class VenueRepository
 {

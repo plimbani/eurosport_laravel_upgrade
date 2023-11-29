@@ -1,37 +1,37 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
 // Need to Define Only Contracts
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use JWTAuth;
-use Laraspace\Api\Contracts\UserContract;
-use Laraspace\Api\Repositories\UserRepository;
-use Laraspace\Custom\Helper\Common;
-use Laraspace\Http\Requests\User\BrowseRequest;
-use Laraspace\Http\Requests\User\ChangePermissionRequest;
-use Laraspace\Http\Requests\User\DeleteRequest;
-use Laraspace\Http\Requests\User\EditRequest;
-use Laraspace\Http\Requests\User\GetSettingRequest;
-use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
-use Laraspace\Http\Requests\User\GetUserDetailsRequest;
-use Laraspace\Http\Requests\User\GetUserTournamentsRequest;
-use Laraspace\Http\Requests\User\PostSettingRequest;
-use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
-use Laraspace\Http\Requests\User\RemoveFavouriteTeamRequest;
-use Laraspace\Http\Requests\User\ResendEmailRequest;
-use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
-use Laraspace\Http\Requests\User\SetFavouriteRequest;
-use Laraspace\Http\Requests\User\SetFavouriteTeamRequest;
-use Laraspace\Http\Requests\User\StoreRequest;
-use Laraspace\Http\Requests\User\TournamentPermissionRequest;
-use Laraspace\Http\Requests\User\UpdateFcmRequest;
-use Laraspace\Http\Requests\User\UpdateRequest;
-use Laraspace\Http\Requests\User\UserStatusRequest;
-use Laraspace\Models\Role;
-use Laraspace\Models\User;
+use App\Api\Contracts\UserContract;
+use App\Api\Repositories\UserRepository;
+use App\Custom\Helper\Common;
+use App\Http\Requests\User\BrowseRequest;
+use App\Http\Requests\User\ChangePermissionRequest;
+use App\Http\Requests\User\DeleteRequest;
+use App\Http\Requests\User\EditRequest;
+use App\Http\Requests\User\GetSettingRequest;
+use App\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use App\Http\Requests\User\GetUserDetailsRequest;
+use App\Http\Requests\User\GetUserTournamentsRequest;
+use App\Http\Requests\User\PostSettingRequest;
+use App\Http\Requests\User\RemoveFavouriteRequest;
+use App\Http\Requests\User\RemoveFavouriteTeamRequest;
+use App\Http\Requests\User\ResendEmailRequest;
+use App\Http\Requests\User\SetDefaultFavouriteRequest;
+use App\Http\Requests\User\SetFavouriteRequest;
+use App\Http\Requests\User\SetFavouriteTeamRequest;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\TournamentPermissionRequest;
+use App\Http\Requests\User\UpdateFcmRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Http\Requests\User\UserStatusRequest;
+use App\Models\Role;
+use App\Models\User;
 use UrlSigner;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Role;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class GetRolesRequest extends FormRequest
 {

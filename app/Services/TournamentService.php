@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\TournamentContract;
-use Laraspace\Repositories\TournamentRepository;
-use Laraspace\Services\VenueTempService as VenueService;
+use App\Contracts\TournamentContract;
+use App\Repositories\TournamentRepository;
+use App\Services\VenueTempService as VenueService;
 
 class TournamentService implements TournamentContract
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laraspace\Api\Repositories\AgeGroupRepository;
-use Laraspace\Models\Position;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
+use App\Api\Repositories\AgeGroupRepository;
+use App\Models\Position;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
 
 class generatePositionsForExistingData extends Command
 {
@@ -32,8 +32,8 @@ class generatePositionsForExistingData extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->ageGroupServiceObj = new \Laraspace\Api\Services\AgeGroupService(new AgeGroupRepository());
-        $this->matchServiceObj = new \Laraspace\Api\Services\MatchService();
+        $this->ageGroupServiceObj = new \App\Api\Services\AgeGroupService(new AgeGroupRepository());
+        $this->matchServiceObj = new \App\Api\Services\MatchService();
     }
 
     /**

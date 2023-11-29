@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
 use Illuminate\Foundation\Http\FormRequest;
 use JWTAuth;
-use Laraspace\Models\Tournament;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Tournament;
+use App\Traits\TournamentAccess;
 
 class RefreshStandingRequest extends FormRequest
 {

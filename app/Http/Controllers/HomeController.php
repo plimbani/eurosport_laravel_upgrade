@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
 class HomeController extends Controller
 {
@@ -24,7 +24,7 @@ class HomeController extends Controller
         //Todo: Login User We passed for Display Manage User Section
         $userName = \Auth::user()['username'];
 
-        $tournamentServiceObj = app()->make(\Laraspace\Contracts\TournamentContract::class)->index();
+        $tournamentServiceObj = app()->make(\App\Contracts\TournamentContract::class)->index();
         $tournamentObjArray = $tournamentServiceObj['data']->toarray();
         $tournamentObj = $tournamentObjArray;
 

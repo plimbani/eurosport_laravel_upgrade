@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Media;
+namespace App\Http\Requests\Media;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class UploadMediaRequest extends FormRequest
 {

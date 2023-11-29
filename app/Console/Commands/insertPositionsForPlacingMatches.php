@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use DB;
 use Illuminate\Console\Command;
-use Laraspace\Models\TempFixture;
+use App\Models\TempFixture;
 
 class insertPositionsForPlacingMatches extends Command
 {

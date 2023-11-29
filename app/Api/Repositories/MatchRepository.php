@@ -1,19 +1,19 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Arr;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Fixture;
-use Laraspace\Models\MatchResult;
-use Laraspace\Models\Pitch;
-use Laraspace\Models\PitchUnavailable;
-use Laraspace\Models\Referee;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Models\Competition;
+use App\Models\Fixture;
+use App\Models\MatchResult;
+use App\Models\Pitch;
+use App\Models\PitchUnavailable;
+use App\Models\Referee;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
 
 class MatchRepository
 {

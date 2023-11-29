@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\VenueContract;
+use App\Api\Contracts\VenueContract;
 // Need to Define Only Contracts
-use Laraspace\Http\Requests\Venue\GetVenueRequest;
+use App\Http\Requests\Venue\GetVenueRequest;
 
 /**
  * Tournament Resource Description.

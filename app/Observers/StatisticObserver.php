@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\Statistic;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
+use App\Models\Statistic;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
 
 class StatisticObserver
 {
@@ -38,7 +38,7 @@ class StatisticObserver
     /**
      * Listen to the Statistic updated event.
      *
-     * @param  \Laraspace\Models\Statistic  $Statistic
+     * @param  \App\Models\Statistic  $Statistic
      * @return void
      */
     public function updated(Statistic $statistic)
@@ -63,7 +63,7 @@ class StatisticObserver
     /**
      * Listen to the Statistic deleted event.
      *
-     * @param  \Laraspace\Models\Statistic  $Statistic
+     * @param  \App\Models\Statistic  $Statistic
      * @return void
      */
     public function deleted(Statistic $statistic)

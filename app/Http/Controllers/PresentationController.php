@@ -1,15 +1,15 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use JavaScript;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Services\PresentationService;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Services\PresentationService;
 
 class PresentationController extends Controller
 {

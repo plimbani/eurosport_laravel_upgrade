@@ -1,13 +1,13 @@
 <?php
 
-namespace Laraspace\Jobs;
+namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Laraspace\Services\FaviconAPI\Client\HttpClient;
+use App\Services\FaviconAPI\Client\HttpClient;
 use Storage;
 
 class FaviconGenerate implements ShouldQueue

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Jobs;
+namespace App\Jobs;
 
 use Carbon\Carbon;
 use DB;
@@ -12,9 +12,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Laraspace\Mail\SendMail;
-use Laraspace\Models\Team;
-use Laraspace\Models\Tournament;
+use App\Mail\SendMail;
+use App\Models\Team;
+use App\Models\Tournament;
 use PDF;
 
 class DownloadAllTeams implements ShouldQueue

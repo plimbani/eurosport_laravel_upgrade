@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use JWTAuth;
-use Laraspace\Http\Requests\Auth\TokenCheckRequest;
-use Laraspace\Models\Person;
-use Laraspace\Models\Role;
-use Laraspace\Models\Settings;
-use Laraspace\Models\User;
+use App\Http\Requests\Auth\TokenCheckRequest;
+use App\Models\Person;
+use App\Models\Role;
+use App\Models\Settings;
+use App\Models\User;
 use Socialite;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;
@@ -64,7 +64,7 @@ class AuthController extends Controller
                 return response(['authenticated' => false, 'message' => 'Account de-activated please contact your administrator.']);
             }
             $path = getenv('S3_URL').'/assets/img/users/';
-            $userDataQuery = \Laraspace\Models\User::where('users.id', $userData->id)
+            $userDataQuery = \App\Models\User::where('users.id', $userData->id)
                 ->leftJoin('users_favourite', 'users_favourite.user_id', '=', 'users.id')
                 ->leftJoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id')

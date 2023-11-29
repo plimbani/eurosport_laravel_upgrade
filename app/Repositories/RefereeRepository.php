@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
 use DB;
-use Laraspace\Models\Referee;
+use App\Models\Referee;
 
 class RefereeRepository
 {

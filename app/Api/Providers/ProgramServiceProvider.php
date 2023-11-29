@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Repositories\ProgramRepository;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Services\ProgramService;
+use App\Api\Repositories\ProgramRepository;
+use App\Api\Services\PageService;
+use App\Api\Services\ProgramService;
 
 class ProgramServiceProvider extends ServiceProvider
 {
@@ -26,7 +26,7 @@ class ProgramServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\ProgramContract', function ($app) {
+        $this->app->bind('App\Api\Contracts\ProgramContract', function ($app) {
             return new ProgramService(new ProgramRepository(new PageService()));
         });
     }
@@ -38,6 +38,6 @@ class ProgramServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\ProgramContract'];
+        return ['App\Api\Contracts\ProgramContract'];
     }
 }

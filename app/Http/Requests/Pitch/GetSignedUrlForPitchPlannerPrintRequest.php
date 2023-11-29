@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Pitch;
+namespace App\Http\Requests\Pitch;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class GetSignedUrlForPitchPlannerPrintRequest extends FormRequest
 {

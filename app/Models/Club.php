@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +9,7 @@ class Club extends Model
 {
     public function tournament()
     {
-        return $this->belongsToMany(\Laraspace\Models\Tournament::class, 'tournament_club', 'club_id', 'tournament_id');
+        return $this->belongsToMany(\App\Models\Tournament::class, 'tournament_club', 'club_id', 'tournament_id');
     }
 
     use SoftDeletes;

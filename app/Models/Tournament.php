@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ class Tournament extends Model
 {
     public function club()
     {
-        return $this->belongsToMany(\Laraspace\Models\Club::class);
+        return $this->belongsToMany(\App\Models\Club::class);
     }
 
     use SoftDeletes;
@@ -31,7 +31,7 @@ class Tournament extends Model
      */
     public function owner()
     {
-        return $this->belongsTo(\Laraspace\Models\User::class, 'user_id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 
     public function getStartDateAttribute($value)

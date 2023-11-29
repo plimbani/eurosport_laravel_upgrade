@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Traits;
+namespace App\Traits;
 
 trait WebsiteAccess
 {

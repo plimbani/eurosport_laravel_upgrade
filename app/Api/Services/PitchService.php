@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use DB;
-use Laraspace\Api\Contracts\PitchContract;
-use Laraspace\Models\Pitch;
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
-use Laraspace\Models\TempFixture;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\PitchContract;
+use App\Models\Pitch;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
+use App\Models\TempFixture;
+use App\Traits\TournamentAccess;
 use PDF;
 
 class PitchService implements PitchContract
@@ -17,8 +17,8 @@ class PitchService implements PitchContract
 
     public function __construct()
     {
-        $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
-        $this->pitchAvailableRepoObj = new \Laraspace\Api\Repositories\PitchAvailableRepository();
+        $this->pitchRepoObj = new \App\Api\Repositories\PitchRepository();
+        $this->pitchAvailableRepoObj = new \App\Api\Repositories\PitchAvailableRepository();
     }
 
     public function getAllPitches($tournamentId)

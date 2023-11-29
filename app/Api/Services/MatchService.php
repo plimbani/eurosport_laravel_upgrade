@@ -1,19 +1,19 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use DB;
 use File;
-use Laraspace\Api\Contracts\MatchContract;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Pitch;
-use Laraspace\Models\Position;
-use Laraspace\Models\Team;
-use Laraspace\Models\TeamManualRanking;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\MatchContract;
+use App\Models\Competition;
+use App\Models\Pitch;
+use App\Models\Position;
+use App\Models\Team;
+use App\Models\TeamManualRanking;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Traits\TournamentAccess;
 use PDF;
 use Storage;
 
@@ -23,7 +23,7 @@ class MatchService implements MatchContract
 
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
         $this->tournamentLogo = getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 

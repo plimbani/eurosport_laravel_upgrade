@@ -1,18 +1,18 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\RefereeContract;
-use Laraspace\Api\Repositories\RefereeRepository;
-use Laraspace\Http\Requests\Referee\DeleteRequest;
-use Laraspace\Http\Requests\Referee\GetRefereesRequest;
-use Laraspace\Http\Requests\Referee\GetSignedUrlForRefereeSampleDownloadRequest;
-use Laraspace\Http\Requests\Referee\RefereeDetailRequest;
+use App\Api\Contracts\RefereeContract;
+use App\Api\Repositories\RefereeRepository;
+use App\Http\Requests\Referee\DeleteRequest;
+use App\Http\Requests\Referee\GetRefereesRequest;
+use App\Http\Requests\Referee\GetSignedUrlForRefereeSampleDownloadRequest;
+use App\Http\Requests\Referee\RefereeDetailRequest;
 // Need to Define Only Contracts
-use Laraspace\Http\Requests\Referee\StoreRequest;
-use Laraspace\Http\Requests\Referee\UpdateRequest;
+use App\Http\Requests\Referee\StoreRequest;
+use App\Http\Requests\Referee\UpdateRequest;
 use UrlSigner;
 
 /**

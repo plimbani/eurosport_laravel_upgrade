@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests\Auth;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 

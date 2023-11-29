@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,6 +33,6 @@ class Referee extends Model
 
     public function matchFixture()
     {
-        return $this->hasMany(\Laraspace\Models\TempFixture::class);
+        return $this->hasMany(\App\Models\TempFixture::class);
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\PitchContract;
+use App\Contracts\PitchContract;
 
 class PitchService implements PitchContract
 {
     public function __construct()
     {
-        $this->pitchRepoObj = new \Laraspace\Repositories\PitchRepository();
+        $this->pitchRepoObj = new \App\Repositories\PitchRepository();
     }
 
     public function getAllPitches()

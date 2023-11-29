@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -8,9 +8,9 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Laraspace\Http\Controllers\Controller;
-use Laraspace\Models\Role;
-use Laraspace\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
 
 class ResetPasswordController extends Controller
 {
@@ -181,7 +181,7 @@ class ResetPasswordController extends Controller
     protected function isValidOTP($user, $otp)
     {
         $encoded_otp = base64_encode($user->id.'|'.$otp);
-        $userOtp = \Laraspace\Models\UserOtp::where(['user_id' => $user->id,
+        $userOtp = \App\Models\UserOtp::where(['user_id' => $user->id,
             'encoded_key' => $encoded_otp])->first();
         if ($userOtp) {
 

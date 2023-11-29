@@ -1,20 +1,20 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use DB;
-use Laraspace\Api\Contracts\AgeGroupContract;
-use Laraspace\Api\Repositories\AgeGroupRepository;
-use Laraspace\Api\Repositories\TemplateRepository;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Position;
-use Laraspace\Models\Referee;
-use Laraspace\Models\Team;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\AgeGroupContract;
+use App\Api\Repositories\AgeGroupRepository;
+use App\Api\Repositories\TemplateRepository;
+use App\Models\AgeCategoryDivision;
+use App\Models\Competition;
+use App\Models\Position;
+use App\Models\Referee;
+use App\Models\Team;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
+use App\Traits\TournamentAccess;
 use PDF;
 use URL;
 
@@ -25,8 +25,8 @@ class AgeGroupService implements AgeGroupContract
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
-        $this->matchServiceObj = new \Laraspace\Api\Services\MatchService();
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
+        $this->matchServiceObj = new \App\Api\Services\MatchService();
         $this->tournamentLogo = getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 

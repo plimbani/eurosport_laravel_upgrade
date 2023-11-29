@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Referee;
+namespace App\Http\Requests\Referee;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Referee;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Referee;
+use App\Traits\TournamentAccess;
 
 class RefereeDetailRequest extends FormRequest
 {

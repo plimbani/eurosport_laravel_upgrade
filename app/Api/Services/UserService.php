@@ -1,17 +1,17 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use DB;
 use Hash;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
-use Laraspace\Api\Contracts\UserContract;
-use Laraspace\Custom\Helper\Common;
-use Laraspace\Models\Role;
-use Laraspace\Models\User;
-use Laraspace\Models\UserFavourites;
-use Laraspace\Traits\AuthUserDetail;
+use App\Api\Contracts\UserContract;
+use App\Custom\Helper\Common;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\UserFavourites;
+use App\Traits\AuthUserDetail;
 
 class UserService implements UserContract
 {
@@ -19,8 +19,8 @@ class UserService implements UserContract
 
     public function __construct()
     {
-        $this->userRepoObj = new \Laraspace\Api\Repositories\UserRepository();
-        $this->peopleRepoObj = new \Laraspace\Api\Repositories\PeopleRepository();
+        $this->userRepoObj = new \App\Api\Repositories\UserRepository();
+        $this->peopleRepoObj = new \App\Api\Repositories\PeopleRepository();
         $this->s3 = \Storage::disk('s3');
         $this->getAWSUrl = getenv('S3_URL');
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Services\RefereeService;
+use App\Services\RefereeService;
 
 class RefereeServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,7 @@ class RefereeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Contracts\RefereeContract::class, function ($app) {
+        $this->app->bind(\App\Contracts\RefereeContract::class, function ($app) {
             return new RefereeService();
         });
     }
@@ -35,6 +35,6 @@ class RefereeServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Contracts\RefereeContract::class];
+        return [\App\Contracts\RefereeContract::class];
     }
 }

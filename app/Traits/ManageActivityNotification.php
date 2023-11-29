@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Traits;
+namespace App\Traits;
 
-use Laraspace\Models\ActivityNotification;
+use App\Models\ActivityNotification;
 
 trait ManageActivityNotification
 {

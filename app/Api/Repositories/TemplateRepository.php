@@ -1,16 +1,16 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use Auth;
 use DB;
 use Illuminate\Pagination\Paginator;
-use Laraspace\Api\Services\AgeGroupService;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\Team;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Traits\AuthUserDetail;
+use App\Api\Services\AgeGroupService;
+use App\Models\AgeCategoryDivision;
+use App\Models\Team;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
+use App\Traits\AuthUserDetail;
 
 class TemplateRepository
 {
@@ -1264,7 +1264,7 @@ class TemplateRepository
 
         $assignedTeamsData = [];
         if ($assignedTeams) {
-            $standingData = new \Laraspace\Api\Repositories\MatchRepository();
+            $standingData = new \App\Api\Repositories\MatchRepository();
             $assignedTeamsNew = [];
             $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
             $tournament_id = $assignedTeams[0]['tournament_id'];

@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\RefereeContract;
+use App\Contracts\RefereeContract;
 
 class RefereeService implements RefereeContract
 {
     public function __construct()
     {
-        $this->refereeRepoObj = new \Laraspace\Repositories\RefereeRepository();
+        $this->refereeRepoObj = new \App\Repositories\RefereeRepository();
     }
 
     public function getAllReferees()

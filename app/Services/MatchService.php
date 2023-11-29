@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\MatchContract;
+use App\Contracts\MatchContract;
 
 class MatchService implements MatchContract
 {
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Repositories\MatchRepository();
+        $this->matchRepoObj = new \App\Repositories\MatchRepository();
     }
 
     public function getAllMatches()

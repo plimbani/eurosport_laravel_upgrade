@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Events;
+namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;

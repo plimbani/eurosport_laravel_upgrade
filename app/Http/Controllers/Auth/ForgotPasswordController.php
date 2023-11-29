@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Laraspace\Http\Controllers\Controller;
-use Laraspace\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class ForgotPasswordController extends Controller
 {

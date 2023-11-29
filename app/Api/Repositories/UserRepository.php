@@ -1,23 +1,23 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use DB;
 use Hash;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Mail;
 use JWTAuth;
-use Laraspace\Jobs\DownloadUsers;
-use Laraspace\Mail\SendMail;
-use Laraspace\Models\Country;
-use Laraspace\Models\Role;
-use Laraspace\Models\RoleUser;
-use Laraspace\Models\Settings;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentUser;
-use Laraspace\Models\User;
-use Laraspace\Models\UserFavourites;
-use Laraspace\Traits\AuthUserDetail;
+use App\Jobs\DownloadUsers;
+use App\Mail\SendMail;
+use App\Models\Country;
+use App\Models\Role;
+use App\Models\RoleUser;
+use App\Models\Settings;
+use App\Models\Tournament;
+use App\Models\TournamentUser;
+use App\Models\User;
+use App\Models\UserFavourites;
+use App\Traits\AuthUserDetail;
 
 class UserRepository
 {

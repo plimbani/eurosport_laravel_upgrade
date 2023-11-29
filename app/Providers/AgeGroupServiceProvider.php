@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Repositories\AgeGroupRepository;
-use Laraspace\Services\AgeGroupService;
+use App\Repositories\AgeGroupRepository;
+use App\Services\AgeGroupService;
 
 class AgeGroupServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class AgeGroupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Contracts\AgeGroupContract::class, function ($app) {
+        $this->app->bind(\App\Contracts\AgeGroupContract::class, function ($app) {
             return new AgeGroupService(new AgeGroupRepository());
         });
     }
@@ -36,6 +36,6 @@ class AgeGroupServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\AgeContract'];
+        return ['App\Contracts\AgeContract'];
     }
 }

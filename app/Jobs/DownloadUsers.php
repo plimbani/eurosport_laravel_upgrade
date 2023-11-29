@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Jobs;
+namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,9 +8,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Laraspace\Mail\SendMail;
-use Laraspace\Models\TournamentUser;
-use Laraspace\Models\User;
+use App\Mail\SendMail;
+use App\Models\TournamentUser;
+use App\Models\User;
 
 class DownloadUsers implements ShouldQueue
 {
@@ -140,7 +140,7 @@ class DownloadUsers implements ShouldQueue
         ];
 
         $storagePath = storage_path('/exports');
-        \Laraspace\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'no', '', $storagePath);
+        \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'no', '', $storagePath);
 
         $filePath = storage_path('/exports/userreport.xlsx');
 

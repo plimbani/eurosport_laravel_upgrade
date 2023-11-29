@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\Website;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
-use Laraspace\Traits\TrackActivitySection;
+use App\Models\Website;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
+use App\Traits\TrackActivitySection;
 
 class WebsiteObserver
 {

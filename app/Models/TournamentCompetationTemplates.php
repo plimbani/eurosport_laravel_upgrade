@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,17 +23,17 @@ class TournamentCompetationTemplates extends Model
 
     public function Competition()
     {
-        return $this->hasMany(\Laraspace\Models\Competition::class,
+        return $this->hasMany(\App\Models\Competition::class,
             'tournament_competation_template_id', 'id');
     }
 
     public function TournamentTemplate()
     {
-        return $this->belongsTo(\Laraspace\Models\TournamentTemplates::class);
+        return $this->belongsTo(\App\Models\TournamentTemplates::class);
     }
 
     public function scheduledFixtures()
     {
-        return $this->hasMany(\Laraspace\Models\TempFixture::class, 'age_group_id')->where('is_scheduled', '=', 1);
+        return $this->hasMany(\App\Models\TempFixture::class, 'age_group_id')->where('is_scheduled', '=', 1);
     }
 }

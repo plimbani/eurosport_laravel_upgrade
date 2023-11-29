@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
-use Laraspace\Api\Contracts\RefereeContract;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\RefereeContract;
+use App\Traits\TournamentAccess;
 
 class RefereeService implements RefereeContract
 {
@@ -11,7 +11,7 @@ class RefereeService implements RefereeContract
 
     public function __construct()
     {
-        $this->refereeRepoObj = new \Laraspace\Api\Repositories\RefereeRepository();
+        $this->refereeRepoObj = new \App\Api\Repositories\RefereeRepository();
     }
 
     public function getAllReferees($tournamentData)

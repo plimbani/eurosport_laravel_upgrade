@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 /**
  * APK Version.

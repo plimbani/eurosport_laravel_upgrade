@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Pitch;
+namespace App\Http\Requests\Pitch;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Pitch;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Pitch;
+use App\Traits\TournamentAccess;
 
 class ShowRequest extends FormRequest
 {

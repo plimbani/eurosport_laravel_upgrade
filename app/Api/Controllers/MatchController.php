@@ -1,37 +1,37 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 // use Brotzka\DotenvEditor\DotenvEditor;
 use Carbon\Carbon;
 use DB;
 use File;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\MatchContract;
-use Laraspace\Http\Requests\Match\AllResultsRequest;
-use Laraspace\Http\Requests\Match\AssignRefereeRequest;
-use Laraspace\Http\Requests\Match\CheckTeamIntervalRequest;
-use Laraspace\Http\Requests\Match\GetDrawsRequest;
-use Laraspace\Http\Requests\Match\GetDrawTableRequest;
-use Laraspace\Http\Requests\Match\GetFixturesRequest;
-use Laraspace\Http\Requests\Match\GetSignedUrlForMatchPrintRequest;
-use Laraspace\Http\Requests\Match\GetSignedUrlForMatchReportRequest;
-use Laraspace\Http\Requests\Match\GetSignedUrlForRefereeReportRequest;
-use Laraspace\Http\Requests\Match\GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest;
-use Laraspace\Http\Requests\Match\GetStandingRequest;
-use Laraspace\Http\Requests\Match\GetUnavailableBlockRequest;
-use Laraspace\Http\Requests\Match\MatchDetailRequest;
-use Laraspace\Http\Requests\Match\RefreshStandingRequest;
-use Laraspace\Http\Requests\Match\RemoveAssignedRefereeRequest;
-use Laraspace\Http\Requests\Match\SaveResultRequest;
-use Laraspace\Http\Requests\Match\SaveStandingsManuallyRequest;
-use Laraspace\Http\Requests\Match\ScheduleRequest;
-use Laraspace\Http\Requests\Match\ScoreUpdateRequest;
-use Laraspace\Http\Requests\Match\UnscheduleMatchRequest;
-use Laraspace\Models\Referee;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Api\Contracts\MatchContract;
+use App\Http\Requests\Match\AllResultsRequest;
+use App\Http\Requests\Match\AssignRefereeRequest;
+use App\Http\Requests\Match\CheckTeamIntervalRequest;
+use App\Http\Requests\Match\GetDrawsRequest;
+use App\Http\Requests\Match\GetDrawTableRequest;
+use App\Http\Requests\Match\GetFixturesRequest;
+use App\Http\Requests\Match\GetSignedUrlForMatchPrintRequest;
+use App\Http\Requests\Match\GetSignedUrlForMatchReportRequest;
+use App\Http\Requests\Match\GetSignedUrlForRefereeReportRequest;
+use App\Http\Requests\Match\GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest;
+use App\Http\Requests\Match\GetStandingRequest;
+use App\Http\Requests\Match\GetUnavailableBlockRequest;
+use App\Http\Requests\Match\MatchDetailRequest;
+use App\Http\Requests\Match\RefreshStandingRequest;
+use App\Http\Requests\Match\RemoveAssignedRefereeRequest;
+use App\Http\Requests\Match\SaveResultRequest;
+use App\Http\Requests\Match\SaveStandingsManuallyRequest;
+use App\Http\Requests\Match\ScheduleRequest;
+use App\Http\Requests\Match\ScoreUpdateRequest;
+use App\Http\Requests\Match\UnscheduleMatchRequest;
+use App\Models\Referee;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
 // Need to Define Only Contracts
 use PDF;
 use Storage;
@@ -266,9 +266,9 @@ class MatchController extends BaseController
                 $status = 'error';
             }
 
-            $matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
-            $matchServiceObj = new \Laraspace\Api\Services\MatchService();
-            $pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
+            $matchRepoObj = new \App\Api\Repositories\MatchRepository();
+            $matchServiceObj = new \App\Api\Services\MatchService();
+            $pitchRepoObj = new \App\Api\Repositories\PitchRepository();
 
             TempFixture::where('tournament_id', '=', $tournamentId)->update(['is_scheduled' => 0, 'pitch_id' => null, 'hometeam_score' => null, 'awayteam_score' => null, 'minimum_team_interval_flag' => 0, 'maximum_team_interval_flag' => 0]);
 

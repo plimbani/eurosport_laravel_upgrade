@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
-use Laraspace\Api\Repositories\TemplateRepository;
-use Laraspace\Models\Team;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
+use App\Api\Repositories\TemplateRepository;
+use App\Models\Team;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
 
 class PDFController extends Controller
 {

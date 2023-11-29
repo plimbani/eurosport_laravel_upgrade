@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use Illuminate\Support\Str;
-use Laraspace\Models\Page;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\Page;
+use App\Traits\AuthUserDetail;
 
 class PageService
 {

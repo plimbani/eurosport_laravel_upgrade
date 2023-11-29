@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Competition;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Competition;
+use App\Traits\TournamentAccess;
 
 class SaveStandingsManuallyRequest extends FormRequest
 {

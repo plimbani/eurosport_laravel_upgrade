@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Http\Requests\AgeGroup;
+namespace App\Http\Requests\AgeGroup;
 
 use Illuminate\Foundation\Http\FormRequest;
 use JWTAuth;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Traits\TournamentAccess;
 
 class TeamDetailsRequest extends FormRequest
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Role;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\Role;
+use App\Traits\AuthUserDetail;
 
 class StoreRequest extends FormRequest
 {

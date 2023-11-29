@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,6 @@ class HistoryTeam extends Model
      */
     public function country()
     {
-        return $this->belongsTo(\Laraspace\Models\Country::class);
+        return $this->belongsTo(\App\Models\Country::class);
     }
 }

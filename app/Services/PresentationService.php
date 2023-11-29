@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
 use Carbon\Carbon;
-use Laraspace\Api\Services\MatchService;
-use Laraspace\Contracts\PresentationContract;
+use App\Api\Services\MatchService;
+use App\Contracts\PresentationContract;
 
 class PresentationService implements PresentationContract
 {

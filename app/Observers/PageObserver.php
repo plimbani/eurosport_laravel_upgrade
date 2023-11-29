@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\Page;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
-use Laraspace\Traits\TrackActivitySection;
+use App\Models\Page;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
+use App\Traits\TrackActivitySection;
 
 class PageObserver
 {
@@ -42,7 +42,7 @@ class PageObserver
     /**
      * Listen to the Page updated event.
      *
-     * @param  \Laraspace\Models\Page  $Page
+     * @param  \App\Models\Page  $Page
      * @return void
      */
     public function updated(Page $page)
@@ -77,7 +77,7 @@ class PageObserver
     /**
      * Listen to the Page deleted event.
      *
-     * @param  \Laraspace\Models\Page  $Page
+     * @param  \App\Models\Page  $Page
      * @return void
      */
     public function deleted(Page $page)

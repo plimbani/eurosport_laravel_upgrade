@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
-use Laraspace\Api\Contracts\RoleContract;
+use App\Api\Contracts\RoleContract;
 // Need to Define Only Contracts
-use Laraspace\Http\Requests\Role\GetRolesRequest;
+use App\Http\Requests\Role\GetRolesRequest;
 
 /**
  * Matches Resource Description.

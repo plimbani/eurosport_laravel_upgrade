@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Competition;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Competition;
+use App\Traits\TournamentAccess;
 
 class CategoryCompetitionColorRequest extends FormRequest
 {

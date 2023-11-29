@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
-use Laraspace\Api\Contracts\VenueContract;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\VenueContract;
+use App\Traits\TournamentAccess;
 
 class VenueService implements VenueContract
 {
@@ -18,8 +18,8 @@ class VenueService implements VenueContract
 
     public function __construct()
     {
-        $this->venueRepoObj = new \Laraspace\Api\Repositories\VenueRepository();
-        // $this->venueRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
+        $this->venueRepoObj = new \App\Api\Repositories\VenueRepository();
+        // $this->venueRepoObj = new \App\Api\Repositories\PitchRepository();
 
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use DB;
 use Illuminate\Console\Command;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\VenueContract;
-use Laraspace\Repositories\VenueRepository;
+use App\Contracts\VenueContract;
+use App\Repositories\VenueRepository;
 
 class VenueTempService implements VenueContract
 {
@@ -14,8 +14,8 @@ class VenueTempService implements VenueContract
 
     public function __construct()
     {
-        $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
-        $this->pitchAvailableRepoObj = new \Laraspace\Api\Repositories\PitchAvailableRepository();
+        $this->pitchRepoObj = new \App\Api\Repositories\PitchRepository();
+        $this->pitchAvailableRepoObj = new \App\Api\Repositories\PitchAvailableRepository();
     }
 
     /*

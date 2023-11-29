@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,6 @@ class Itinerary extends Model
      */
     public function items()
     {
-        return $this->hasMany(\Laraspace\Models\ItineraryItem::class);
+        return $this->hasMany(\App\Models\ItineraryItem::class);
     }
 }

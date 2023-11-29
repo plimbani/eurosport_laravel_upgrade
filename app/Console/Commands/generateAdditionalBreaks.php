@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
 
 class generateAdditionalBreaks extends Command
 {

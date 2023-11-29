@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 // Need to define only contracts
-use Laraspace\Api\Contracts\UploadMediaContract;
-use Laraspace\Http\Requests\Image\UploadImageRequest;
+use App\Api\Contracts\UploadMediaContract;
+use App\Http\Requests\Image\UploadImageRequest;
 
 class UploadMediaController extends BaseController
 {

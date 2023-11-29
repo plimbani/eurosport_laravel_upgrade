@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Contracts;
+namespace App\Contracts;
 
 interface AgeGroupContract
 {

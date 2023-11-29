@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Notifications;
+namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Laraspace\Notifications\Messages\MailMessage;
+use App\Notifications\Messages\MailMessage;
 
 class MyOwnResetPassword extends Notification
 {

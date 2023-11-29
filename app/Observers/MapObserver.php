@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\Map;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
+use App\Models\Map;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
 
 class MapObserver
 {

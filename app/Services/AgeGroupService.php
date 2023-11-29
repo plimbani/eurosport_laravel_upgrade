@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\AgeGroupContract;
-use Laraspace\Repositories\AgeGroupRepository;
+use App\Contracts\AgeGroupContract;
+use App\Repositories\AgeGroupRepository;
 
 class AgeGroupService implements AgeGroupContract
 {

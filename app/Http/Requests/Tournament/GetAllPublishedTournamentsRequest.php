@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class GetAllPublishedTournamentsRequest extends FormRequest
 {

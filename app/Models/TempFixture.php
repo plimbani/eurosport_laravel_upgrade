@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,32 +24,32 @@ class TempFixture extends Model
 
     public function referee()
     {
-        return $this->belongsTo(\Laraspace\Models\Referee::class);
+        return $this->belongsTo(\App\Models\Referee::class);
     }
 
     public function pitch()
     {
-        return $this->belongsTo(\Laraspace\Models\Pitch::class);
+        return $this->belongsTo(\App\Models\Pitch::class);
     }
 
     public function matchVenue()
     {
-        return $this->belongsTo(\Laraspace\Models\Venue::class);
+        return $this->belongsTo(\App\Models\Venue::class);
     }
 
     public function competition()
     {
-        return $this->belongsTo(\Laraspace\Models\Competition::class);
+        return $this->belongsTo(\App\Models\Competition::class);
     }
 
     public function categoryAge()
     {
-        return $this->belongsTo(\Laraspace\Models\TournamentCompetationTemplates::class, 'age_group_id');
+        return $this->belongsTo(\App\Models\TournamentCompetationTemplates::class, 'age_group_id');
     }
 
     public function winnerTeam()
     {
-        return $this->belongsTo(\Laraspace\Models\Team::class, 'match_winner');
+        return $this->belongsTo(\App\Models\Team::class, 'match_winner');
     }
 
     public function getMatchNumberAttribute($value)

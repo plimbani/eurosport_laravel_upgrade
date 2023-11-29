@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Custom\Helper;
+namespace App\Custom\Helper;
 
 use Storage;
 

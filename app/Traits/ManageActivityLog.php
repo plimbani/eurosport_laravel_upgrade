@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Traits;
+namespace App\Traits;
 
-use Laraspace\Models\ActivityFeed;
+use App\Models\ActivityFeed;
 
 trait ManageActivityLog
 {

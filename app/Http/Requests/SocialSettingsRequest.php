@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests;
+namespace App\Http\Requests;
 
 class SocialSettingsRequest extends Request
 {

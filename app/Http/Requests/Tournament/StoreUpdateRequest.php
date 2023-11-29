@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class StoreUpdateRequest extends FormRequest
 {

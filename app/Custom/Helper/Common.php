@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Custom\Helper;
+namespace App\Custom\Helper;
 
 use Illuminate\Support\Facades\Mail;
-use Laraspace\Mail\SendMail;
+use App\Mail\SendMail;
 
 class Common
 {

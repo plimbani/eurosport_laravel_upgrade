@@ -1,25 +1,25 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
-/*use Laraspace\Models\User;
-use Laraspace\Models\Message;
-use Laraspace\Models\MessageRecipient;
-use Laraspace\Http\Requests;
-use Laraspace\Http\Controllers\Controller;
-use Laraspace\Http\Requests\Api\MessageReceiptRequest;*/
+/*use App\Models\User;
+use App\Models\Message;
+use App\Models\MessageRecipient;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\MessageReceiptRequest;*/
 use Config;
 use DB;
 use FCM;
 use Illuminate\Http\Request;
-use Laraspace\Events\AppMessageSent;
-use Laraspace\Http\Requests\PushMessage\GetMessagesRequest;
-use Laraspace\Http\Requests\PushMessage\SendNotificationRequest;
-use Laraspace\Models\Message;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\User;
-use Laraspace\Models\Website;
+use App\Events\AppMessageSent;
+use App\Http\Requests\PushMessage\GetMessagesRequest;
+use App\Http\Requests\PushMessage\SendNotificationRequest;
+use App\Models\Message;
+use App\Models\Tournament;
+use App\Models\User;
+use App\Models\Website;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;

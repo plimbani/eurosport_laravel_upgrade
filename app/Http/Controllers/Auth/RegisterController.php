@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
-use Laraspace\Http\Controllers\Controller;
-use Laraspace\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class RegisterController extends Controller
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Laraspace\Models\Document;
-use Laraspace\Models\Organiser;
-use Laraspace\Models\Page;
-use Laraspace\Models\Photo;
-use Laraspace\Models\Sponsor;
-use Laraspace\Models\Website;
+use App\Models\Document;
+use App\Models\Organiser;
+use App\Models\Page;
+use App\Models\Photo;
+use App\Models\Sponsor;
+use App\Models\Website;
 
 class removeDanglingImages extends Command
 {

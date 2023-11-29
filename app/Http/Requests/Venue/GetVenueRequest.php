@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Venue;
+namespace App\Http\Requests\Venue;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class GetVenueRequest extends FormRequest
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Traits;
+namespace App\Traits;
 
-use Laraspace\Models\User;
+use App\Models\User;
 
 trait TournamentAccess
 {

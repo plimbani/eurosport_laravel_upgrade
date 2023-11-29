@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Role;
-use Laraspace\Models\User;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\Role;
+use App\Models\User;
+use App\Traits\AuthUserDetail;
 
 class UpdateRequest extends FormRequest
 {

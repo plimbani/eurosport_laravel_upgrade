@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;

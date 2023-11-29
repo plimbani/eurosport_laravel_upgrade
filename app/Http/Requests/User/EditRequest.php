@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\User;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\User;
+use App\Traits\AuthUserDetail;
 
 class EditRequest extends FormRequest
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Media;
+namespace App\Http\Requests\Media;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 
 class GetDocumentsRequest extends FormRequest
 {

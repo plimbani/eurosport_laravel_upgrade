@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,11 +19,11 @@ class Pitch extends Model
 
     public function pitchAvailability()
     {
-        return $this->hasMany(\Laraspace\Models\PitchAvailable::class);
+        return $this->hasMany(\App\Models\PitchAvailable::class);
     }
 
     public function venue()
     {
-        return $this->belongsTo(\Laraspace\Models\Venue::class, 'venue_id');
+        return $this->belongsTo(\App\Models\Venue::class, 'venue_id');
     }
 }

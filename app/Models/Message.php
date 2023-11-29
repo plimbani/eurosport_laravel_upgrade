@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,8 +44,8 @@ class Message extends Model
      */
     public function receiver()
     {
-        // return $this->belongsto('Laraspace\Models\User', 'sent_to_user')->withTrashed();
-        return $this->hasMany(\Laraspace\Models\MessageRecipient::class);
+        // return $this->belongsto('App\Models\User', 'sent_to_user')->withTrashed();
+        return $this->hasMany(\App\Models\MessageRecipient::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class Message extends Model
      */
     public function sender()
     {
-        return $this->belongsto(\Laraspace\Models\User::class, 'sent_from')->withTrashed();
+        return $this->belongsto(\App\Models\User::class, 'sent_from')->withTrashed();
     }
 
     /**
@@ -61,6 +61,6 @@ class Message extends Model
      */
     public function tournament()
     {
-        return $this->belongsto(\Laraspace\Models\Tournament::class, 'tournament_id');
+        return $this->belongsto(\App\Models\Tournament::class, 'tournament_id');
     }
 }

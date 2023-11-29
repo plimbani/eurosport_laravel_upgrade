@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\UploadMediaService;
+use App\Api\Services\UploadMediaService;
 
 class UploadMediaServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,7 @@ class UploadMediaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\UploadMediaContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\UploadMediaContract::class, function ($app) {
             return new UploadMediaService();
         });
     }
@@ -35,6 +35,6 @@ class UploadMediaServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\UploadMediaContract::class];
+        return [\App\Api\Contracts\UploadMediaContract::class];
     }
 }

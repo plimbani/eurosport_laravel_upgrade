@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Repositories\TournamentRepository;
-use Laraspace\Api\Services\TournamentService;
+use App\Api\Repositories\TournamentRepository;
+use App\Api\Services\TournamentService;
 
 class TournamentServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class TournamentServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\TournamentContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\TournamentContract::class, function ($app) {
             return new TournamentService(new TournamentRepository());
         });
     }
@@ -36,6 +36,6 @@ class TournamentServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\TournamentContract::class];
+        return [\App\Api\Contracts\TournamentContract::class];
     }
 }

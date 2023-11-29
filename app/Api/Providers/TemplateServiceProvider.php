@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Repositories\AgeGroupRepository;
-use Laraspace\Api\Repositories\TemplateRepository;
-use Laraspace\Api\Services\AgeGroupService;
-use Laraspace\Api\Services\TemplateService;
+use App\Api\Repositories\AgeGroupRepository;
+use App\Api\Repositories\TemplateRepository;
+use App\Api\Services\AgeGroupService;
+use App\Api\Services\TemplateService;
 
 class TemplateServiceProvider extends ServiceProvider
 {
@@ -27,7 +27,7 @@ class TemplateServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\TemplateContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\TemplateContract::class, function ($app) {
             return new TemplateService(new TemplateRepository(new AgeGroupService(new AgeGroupRepository())));
         });
     }
@@ -39,6 +39,6 @@ class TemplateServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\TemplateContract::class];
+        return [\App\Api\Contracts\TemplateContract::class];
     }
 }

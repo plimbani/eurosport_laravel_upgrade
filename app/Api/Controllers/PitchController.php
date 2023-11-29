@@ -1,26 +1,26 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\PitchContract;
-use Laraspace\Http\Requests\Pitch\DeleteRequest;
-use Laraspace\Http\Requests\Pitch\GetLocationWiseSummaryRequest;
-use Laraspace\Http\Requests\Pitch\GetPitchesRequest;
-use Laraspace\Http\Requests\Pitch\GetPitchSizeWiseSummaryRequest;
-use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchMatchReportRequest;
-use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchPlannerExportRequest;
-use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchPlannerPrintRequest;
-use Laraspace\Http\Requests\Pitch\ShowRequest;
+use App\Api\Contracts\PitchContract;
+use App\Http\Requests\Pitch\DeleteRequest;
+use App\Http\Requests\Pitch\GetLocationWiseSummaryRequest;
+use App\Http\Requests\Pitch\GetPitchesRequest;
+use App\Http\Requests\Pitch\GetPitchSizeWiseSummaryRequest;
+use App\Http\Requests\Pitch\GetSignedUrlForPitchMatchReportRequest;
+use App\Http\Requests\Pitch\GetSignedUrlForPitchPlannerExportRequest;
+use App\Http\Requests\Pitch\GetSignedUrlForPitchPlannerPrintRequest;
+use App\Http\Requests\Pitch\ShowRequest;
 // Need to Define Only Contracts
-use Laraspace\Http\Requests\Pitch\StoreRequest;
-use Laraspace\Http\Requests\Pitch\UpdateRequest;
-use Laraspace\Models\Pitch;
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
-use Laraspace\Models\PitchUnavailable;
-use Laraspace\Models\Tournament;
+use App\Http\Requests\Pitch\StoreRequest;
+use App\Http\Requests\Pitch\UpdateRequest;
+use App\Models\Pitch;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
+use App\Models\PitchUnavailable;
+use App\Models\Tournament;
 use PDF;
 use UrlSigner;
 

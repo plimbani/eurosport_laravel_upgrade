@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Laraspace\Contracts\ApiContract;
+use App\Contracts\ApiContract;
 
 class MatchController extends Controller
 {

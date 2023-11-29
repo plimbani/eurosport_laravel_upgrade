@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Notifications\Messages;
+namespace App\Notifications\Messages;
 
 use Illuminate\Notifications\Messages\SimpleMessage;
 

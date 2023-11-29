@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
 class FrontendController extends Controller
 {

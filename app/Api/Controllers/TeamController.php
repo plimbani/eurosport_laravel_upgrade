@@ -1,32 +1,32 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\TeamContract;
-use Laraspace\Http\Requests\Team\AllClubsRequest;
-use Laraspace\Http\Requests\Team\AllCountriesRequest;
-use Laraspace\Http\Requests\Team\AllTeamColorsRequest;
-use Laraspace\Http\Requests\Team\AssignTeamRequest;
-use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
-use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
-use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
-use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
-use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
-use Laraspace\Http\Requests\Team\GetSignedUrlForGroupsViewReportRequest;
-use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
-use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
-use Laraspace\Http\Requests\Team\GetTeamsRequest;
-use Laraspace\Http\Requests\Team\GetTournamentTeamDetailsRequest;
-use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
-use Laraspace\Http\Requests\Team\StoreRequest;
-use Laraspace\Http\Requests\Team\TeamDetailsRequest;
-use Laraspace\Http\Requests\Team\TeamsListRequest;
-use Laraspace\Http\Requests\Team\UpdateRequest;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Api\Contracts\TeamContract;
+use App\Http\Requests\Team\AllClubsRequest;
+use App\Http\Requests\Team\AllCountriesRequest;
+use App\Http\Requests\Team\AllTeamColorsRequest;
+use App\Http\Requests\Team\AssignTeamRequest;
+use App\Http\Requests\Team\ChangeTeamNameRequest;
+use App\Http\Requests\Team\CheckTeamExistRequest;
+use App\Http\Requests\Team\ClubsTeamsRequest;
+use App\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
+use App\Http\Requests\Team\GetAllTournamentTeamsRequest;
+use App\Http\Requests\Team\GetSignedUrlForGroupsViewReportRequest;
+use App\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
+use App\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
+use App\Http\Requests\Team\GetTeamsRequest;
+use App\Http\Requests\Team\GetTournamentTeamDetailsRequest;
+use App\Http\Requests\Team\ResetAllTeamsRequest;
+use App\Http\Requests\Team\StoreRequest;
+use App\Http\Requests\Team\TeamDetailsRequest;
+use App\Http\Requests\Team\TeamsListRequest;
+use App\Http\Requests\Team\UpdateRequest;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
 // Need to Define Only Contracts
 use UrlSigner;
 

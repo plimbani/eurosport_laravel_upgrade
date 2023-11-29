@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class ChangePermissionRequest extends FormRequest
 {

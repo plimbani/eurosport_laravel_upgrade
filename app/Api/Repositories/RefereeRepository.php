@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use DB;
-use Laraspace\Models\Referee;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Models\Referee;
+use App\Models\TournamentCompetationTemplates;
 
 class RefereeRepository
 {

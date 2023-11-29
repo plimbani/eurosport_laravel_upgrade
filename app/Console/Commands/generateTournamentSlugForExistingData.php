@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
-use Laraspace\Api\Repositories\TournamentRepository;
-use Laraspace\Models\Tournament;
+use App\Api\Repositories\TournamentRepository;
+use App\Models\Tournament;
 
 class generateTournamentSlugForExistingData extends Command
 {

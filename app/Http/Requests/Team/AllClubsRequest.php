@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class AllClubsRequest extends FormRequest
 {

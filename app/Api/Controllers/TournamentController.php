@@ -1,36 +1,36 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\TournamentContract;
-use Laraspace\Http\Requests\Tournament\DeleteRequest;
-use Laraspace\Http\Requests\Tournament\DuplicateTournamentRequest;
-use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
-use Laraspace\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
-use Laraspace\Http\Requests\Tournament\GetCategoryCompetitionsRequest;
-use Laraspace\Http\Requests\Tournament\GetConfigurationDetailRequest;
-use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
-use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
-use Laraspace\Http\Requests\Tournament\GetTemplateRequest;
-use Laraspace\Http\Requests\Tournament\GetTournamentBySlugRequest;
-use Laraspace\Http\Requests\Tournament\GetUserLoginFavouriteTournamentRequest;
-use Laraspace\Http\Requests\Tournament\PublishRequest;
-use Laraspace\Http\Requests\Tournament\SaveSettingsRequest;
-use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
-use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
-use Laraspace\Http\Requests\Tournament\TemplatesRequest;
-use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
-use Laraspace\Http\Requests\Tournament\TournamentFilterRequest;
-use Laraspace\Http\Requests\Tournament\TournamentSummary;
-use Laraspace\Models\Position;
-use Laraspace\Models\Referee;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Api\Contracts\TournamentContract;
+use App\Http\Requests\Tournament\DeleteRequest;
+use App\Http\Requests\Tournament\DuplicateTournamentRequest;
+use App\Http\Requests\Tournament\GenerateReportRequest;
+use App\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
+use App\Http\Requests\Tournament\GetCategoryCompetitionsRequest;
+use App\Http\Requests\Tournament\GetConfigurationDetailRequest;
+use App\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
+use App\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
+use App\Http\Requests\Tournament\GetTemplateRequest;
+use App\Http\Requests\Tournament\GetTournamentBySlugRequest;
+use App\Http\Requests\Tournament\GetUserLoginFavouriteTournamentRequest;
+use App\Http\Requests\Tournament\PublishRequest;
+use App\Http\Requests\Tournament\SaveSettingsRequest;
+use App\Http\Requests\Tournament\StoreBasicDetailRequest;
+use App\Http\Requests\Tournament\StoreUpdateRequest;
+use App\Http\Requests\Tournament\TemplatesRequest;
+use App\Http\Requests\Tournament\TournamentClubRequest;
+use App\Http\Requests\Tournament\TournamentFilterRequest;
+use App\Http\Requests\Tournament\TournamentSummary;
+use App\Models\Position;
+use App\Models\Referee;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
 // Need to Define Only Contracts
 use UrlSigner;
 

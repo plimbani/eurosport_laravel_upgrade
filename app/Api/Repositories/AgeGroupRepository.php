@@ -1,17 +1,17 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use Carbon\Carbon;
 use DB;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\AgeGroup;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Position;
-use Laraspace\Models\Referee;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Models\AgeCategoryDivision;
+use App\Models\AgeGroup;
+use App\Models\Competition;
+use App\Models\Position;
+use App\Models\Referee;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
 use UrlSigner;
 use VerumConsilium\Browsershot\Facades\Screenshot;
 

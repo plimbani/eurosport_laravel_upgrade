@@ -1,31 +1,31 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Str;
 use JWTAuth;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\Competition;
-use Laraspace\Models\MatchStanding;
-use Laraspace\Models\Pitch;
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
-use Laraspace\Models\PitchUnavailable;
-use Laraspace\Models\Position;
-use Laraspace\Models\Referee;
-use Laraspace\Models\Team;
-use Laraspace\Models\TeamManualRanking;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentClub;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentContact;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Models\TournamentUser;
-use Laraspace\Models\UserFavourites;
-use Laraspace\Models\Venue;
+use App\Models\AgeCategoryDivision;
+use App\Models\Competition;
+use App\Models\MatchStanding;
+use App\Models\Pitch;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
+use App\Models\PitchUnavailable;
+use App\Models\Position;
+use App\Models\Referee;
+use App\Models\Team;
+use App\Models\TeamManualRanking;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentClub;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentContact;
+use App\Models\TournamentTemplates;
+use App\Models\TournamentUser;
+use App\Models\UserFavourites;
+use App\Models\Venue;
 
 class TournamentRepository
 {
@@ -33,7 +33,7 @@ class TournamentRepository
 
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
         $this->tournamentLogo = getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
@@ -145,7 +145,7 @@ class TournamentRepository
 
         $assignedTeamsData = [];
         if ($assignedTeams) {
-            $standingData = new \Laraspace\Api\Repositories\MatchRepository();
+            $standingData = new \App\Api\Repositories\MatchRepository();
             $assignedTeamsNew = [];
             $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
             $tournament_id = $assignedTeams[0]['tournament_id'];

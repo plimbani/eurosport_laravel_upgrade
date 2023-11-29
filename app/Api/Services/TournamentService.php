@@ -1,21 +1,21 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use Carbon\Carbon;
 use DB;
 use File;
 use JWTAuth;
-use Laraspace\Api\Contracts\TournamentContract;
-use Laraspace\Api\Repositories\TournamentRepository;
-use Laraspace\Jobs\DownloadAllTeams;
-use Laraspace\Models\Team;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\User;
-use Laraspace\Models\UserFavourites;
-use Laraspace\Models\Venue;
-use Laraspace\Models\Website;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\TournamentContract;
+use App\Api\Repositories\TournamentRepository;
+use App\Jobs\DownloadAllTeams;
+use App\Models\Team;
+use App\Models\Tournament;
+use App\Models\User;
+use App\Models\UserFavourites;
+use App\Models\Venue;
+use App\Models\Website;
+use App\Traits\TournamentAccess;
 use PDF;
 use Response;
 use View;
@@ -627,7 +627,7 @@ class TournamentService implements TournamentContract
                 'Date and time', 'Age category', 'Venue', 'Pitch', 'Referee', 'Match Code', 'Team', 'Team', 'Placing',
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-            \Laraspace\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
+            \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
         if ($reportData) {

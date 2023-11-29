@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laraspace\Api\Contracts\MatchContract;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Api\Contracts\MatchContract;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
 
 class setNewMatchNumber extends Command
 {

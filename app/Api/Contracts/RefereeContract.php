@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Contracts;
+namespace App\Api\Contracts;
 
 interface RefereeContract
 {

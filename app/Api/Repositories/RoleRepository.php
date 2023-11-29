@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
-use Laraspace\Models\Role;
+use App\Models\Role;
 
 class RoleRepository
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Referee;
+namespace App\Http\Requests\Referee;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class GetRefereesRequest extends FormRequest
 {

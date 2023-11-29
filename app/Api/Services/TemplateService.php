@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
-use Laraspace\Api\Contracts\TemplateContract;
-use Laraspace\Api\Repositories\TemplateRepository;
-use Laraspace\Traits\TournamentAccess;
+use App\Api\Contracts\TemplateContract;
+use App\Api\Repositories\TemplateRepository;
+use App\Traits\TournamentAccess;
 
 class TemplateService implements TemplateContract
 {

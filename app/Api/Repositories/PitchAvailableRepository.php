@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use DB;
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
 
 class PitchAvailableRepository
 {

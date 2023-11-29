@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\Team;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Team;
+use App\Traits\TournamentAccess;
 
 class ChangeTeamNameRequest extends FormRequest
 {

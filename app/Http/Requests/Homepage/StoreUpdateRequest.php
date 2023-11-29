@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Homepage;
+namespace App\Http\Requests\Homepage;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 
 class StoreUpdateRequest extends FormRequest
 {

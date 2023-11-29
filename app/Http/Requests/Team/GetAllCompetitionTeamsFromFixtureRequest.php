@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
 use Illuminate\Foundation\Http\FormRequest;
 use JWTAuth;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Tournament;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Competition;
+use App\Models\Tournament;
+use App\Traits\TournamentAccess;
 
 class GetAllCompetitionTeamsFromFixtureRequest extends FormRequest
 {

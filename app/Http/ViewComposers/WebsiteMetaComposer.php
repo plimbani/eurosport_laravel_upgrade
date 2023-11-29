@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\ViewComposers;
+namespace App\Http\ViewComposers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Laraspace\Models\Website;
+use App\Models\Website;
 
 class WebsiteMetaComposer
 {

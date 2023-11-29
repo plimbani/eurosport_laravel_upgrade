@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\ViewComposers;
+namespace App\Http\ViewComposers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use JavaScript;
-use Laraspace\Api\Contracts\WebsiteContract;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Models\Page;
-use Laraspace\Models\Website;
+use App\Api\Contracts\WebsiteContract;
+use App\Api\Services\PageService;
+use App\Models\Page;
+use App\Models\Website;
 use LaravelLocalization;
 
 class WebsiteComposer

@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Laraspace\Models\Role;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\User;
+use App\Models\Role;
+use App\Models\Tournament;
+use App\Models\User;
 
 class automaticallyPermissionRemoval extends Command
 {
@@ -51,7 +51,8 @@ class automaticallyPermissionRemoval extends Command
         foreach ($users as $user) {
             $userTournaments = $user->tournaments();
             $userTournamentIds = $userTournaments->pluck('id');
-            $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
+          //  $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
+             $intersectTournaments = $userTournamentIds->array_filter($allTournaments)->values();
             if (count($intersectTournaments) > 0) {
                 // if($userTournaments->count() == 1) {
                 //     $user->is_desktop_user = 0;

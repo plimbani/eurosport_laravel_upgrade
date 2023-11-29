@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\TeamContract;
-use Laraspace\Repositories\TeamRepository;
+use App\Contracts\TeamContract;
+use App\Repositories\TeamRepository;
 
 class TeamService implements TeamContract
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Traits;
+namespace App\Traits;
 
-use Laraspace\Models\Page;
+use App\Models\Page;
 
 trait TrackActivitySection
 {

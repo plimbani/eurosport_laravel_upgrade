@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Repositories\TeamRepository;
-use Laraspace\Api\Services\TeamService;
+use App\Api\Repositories\TeamRepository;
+use App\Api\Services\TeamService;
 
 class TeamServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\TeamContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\TeamContract::class, function ($app) {
             return new TeamService(new TeamRepository());
         });
     }
@@ -36,6 +36,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\TeamContract::class];
+        return [\App\Api\Contracts\TeamContract::class];
     }
 }

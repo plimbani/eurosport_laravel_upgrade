@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\RoleService;
+use App\Api\Services\RoleService;
 
 class RoleServiceProvider extends ServiceProvider
 {
@@ -30,7 +30,7 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\RoleContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\RoleContract::class, function ($app) {
             return new RoleService();
         });
     }
@@ -42,6 +42,6 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\RoleContract::class];
+        return [\App\Api\Contracts\RoleContract::class];
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
 use Carbon\Carbon;
-use Laraspace\Models\Tournament;
+use App\Models\Tournament;
 
 class TournamentRepository
 {

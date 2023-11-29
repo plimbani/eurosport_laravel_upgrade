@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class GetSignedUrlForUsersTableDataRequest extends FormRequest
 {

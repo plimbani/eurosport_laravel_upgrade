@@ -1,16 +1,16 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\AgeGroupContract;
-use Laraspace\Http\Requests\AgeGroup\CreateCompetationFomatRequest;
-use Laraspace\Http\Requests\AgeGroup\DeleteCompetitionFormatRequest;
-use Laraspace\Http\Requests\AgeGroup\GetCompetationFormatRequest;
-use Laraspace\Http\Requests\AgeGroup\GetSignedUrlForMatchSchedulePrintRequest;
+use App\Api\Contracts\AgeGroupContract;
+use App\Http\Requests\AgeGroup\CreateCompetationFomatRequest;
+use App\Http\Requests\AgeGroup\DeleteCompetitionFormatRequest;
+use App\Http\Requests\AgeGroup\GetCompetationFormatRequest;
+use App\Http\Requests\AgeGroup\GetSignedUrlForMatchSchedulePrintRequest;
 // Need to Define Only Contracts
-use Laraspace\Http\Requests\AgeGroup\TeamDetailsRequest;
+use App\Http\Requests\AgeGroup\TeamDetailsRequest;
 use UrlSigner;
 
 /**

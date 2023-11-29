@@ -1,18 +1,18 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\TemplateContract;
-use Laraspace\Api\Repositories\TemplateRepository;
-use Laraspace\Http\Requests\Template\DeleteRequest;
-use Laraspace\Http\Requests\Template\EditRequest;
-use Laraspace\Http\Requests\Template\GetTemplatesRequest;
-use Laraspace\Http\Requests\Template\StoreRequest;
-use Laraspace\Http\Requests\Template\TemplateDetailRequest;
-use Laraspace\Http\Requests\Template\UpdateRequest;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
+use App\Api\Contracts\TemplateContract;
+use App\Api\Repositories\TemplateRepository;
+use App\Http\Requests\Template\DeleteRequest;
+use App\Http\Requests\Template\EditRequest;
+use App\Http\Requests\Template\GetTemplatesRequest;
+use App\Http\Requests\Template\StoreRequest;
+use App\Http\Requests\Template\TemplateDetailRequest;
+use App\Http\Requests\Template\UpdateRequest;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
 
 class TemplateController extends BaseController
 {

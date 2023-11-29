@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\AgeGroup;
+namespace App\Http\Requests\AgeGroup;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class CreateCompetationFomatRequest extends FormRequest
 {

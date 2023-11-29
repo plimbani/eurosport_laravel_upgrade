@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\PitchService;
+use App\Api\Services\PitchService;
 
 class PitchServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,7 @@ class PitchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\PitchContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\PitchContract::class, function ($app) {
             return new PitchService();
         });
     }
@@ -35,6 +35,6 @@ class PitchServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\PitchContract::class];
+        return [\App\Api\Contracts\PitchContract::class];
     }
 }

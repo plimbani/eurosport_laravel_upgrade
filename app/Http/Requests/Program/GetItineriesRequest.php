@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Program;
+namespace App\Http\Requests\Program;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 
 class GetItineriesRequest extends FormRequest
 {

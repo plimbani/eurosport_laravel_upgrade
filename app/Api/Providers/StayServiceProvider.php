@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Repositories\StayRepository;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Services\StayService;
+use App\Api\Repositories\StayRepository;
+use App\Api\Services\PageService;
+use App\Api\Services\StayService;
 
 class StayServiceProvider extends ServiceProvider
 {
@@ -26,7 +26,7 @@ class StayServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(\Laraspace\Api\Contracts\StayContract::class, function ($app) {
+        $this->app->bind(\App\Api\Contracts\StayContract::class, function ($app) {
             return new StayService(new StayRepository(new PageService()));
         });
     }
@@ -38,6 +38,6 @@ class StayServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\Laraspace\Api\Contracts\StayContract::class];
+        return [\App\Api\Contracts\StayContract::class];
     }
 }

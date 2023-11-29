@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Services\FaviconAPI\Client;
+namespace App\Services\FaviconAPI\Client;
 
 use GuzzleHttpClient;
 

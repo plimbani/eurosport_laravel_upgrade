@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Repositories\ContactRepository;
-use Laraspace\Api\Services\ContactService;
+use App\Api\Repositories\ContactRepository;
+use App\Api\Services\ContactService;
 
 class ContactServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class ContactServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\ContactContract', function ($app) {
+        $this->app->bind('App\Api\Contracts\ContactContract', function ($app) {
             return new ContactService(new ContactRepository());
         });
     }
@@ -36,6 +36,6 @@ class ContactServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\ContactContract'];
+        return ['App\Api\Contracts\ContactContract'];
     }
 }

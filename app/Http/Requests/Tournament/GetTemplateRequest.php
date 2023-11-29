@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\TournamentCompetationTemplates;
+use App\Traits\AuthUserDetail;
 
 class GetTemplateRequest extends FormRequest
 {

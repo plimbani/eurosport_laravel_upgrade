@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Custom\Http;
+namespace App\Custom\Http;
 
 use Illuminate\Http\Request as Base;
 

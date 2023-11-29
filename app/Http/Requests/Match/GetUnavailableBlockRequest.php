@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 
 class GetUnavailableBlockRequest extends FormRequest
 {

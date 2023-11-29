@@ -1,15 +1,15 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use Laraspace\Mail\SendMail;
-use Laraspace\Models\ActivityFeed;
-use Laraspace\Models\ActivityNotification;
-use Laraspace\Models\User;
-use Laraspace\Models\Website;
+use App\Mail\SendMail;
+use App\Models\ActivityFeed;
+use App\Models\ActivityNotification;
+use App\Models\User;
+use App\Models\Website;
 
 class sendActivityNotification extends Command
 {

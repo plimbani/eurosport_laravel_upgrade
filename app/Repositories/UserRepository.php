@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
-use Laraspace\Models\User;
+use App\Models\User;
 
 class UserRepository
 {

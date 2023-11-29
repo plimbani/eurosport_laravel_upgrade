@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
-use Laraspace\Api\Contracts\RoleContract;
+use App\Api\Contracts\RoleContract;
 
 class RoleService implements RoleContract
 {
     public function __construct()
     {
-        $this->roleRepoObj = new \Laraspace\Api\Repositories\RoleRepository();
+        $this->roleRepoObj = new \App\Api\Repositories\RoleRepository();
     }
 
     public function getAllRoles()

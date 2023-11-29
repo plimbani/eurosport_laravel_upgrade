@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laraspace\Jobs\FaviconGenerate;
-use Laraspace\Models\Website;
+use App\Jobs\FaviconGenerate;
+use App\Models\Website;
 
 class generateFavicon extends Command
 {

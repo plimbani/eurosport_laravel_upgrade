@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Venue;
+namespace App\Http\Requests\Venue;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 
 class GetLocationsRequest extends FormRequest
 {

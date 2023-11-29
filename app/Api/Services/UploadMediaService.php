@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
-use Laraspace\Api\Contracts\UploadMediaContract;
-use Laraspace\Custom\Helper\Image;
+use App\Api\Contracts\UploadMediaContract;
+use App\Custom\Helper\Image;
 
 class UploadMediaService implements UploadMediaContract
 {

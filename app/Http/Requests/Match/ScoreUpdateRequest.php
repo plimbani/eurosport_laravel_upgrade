@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\TempFixture;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\TempFixture;
+use App\Traits\TournamentAccess;
 
 class ScoreUpdateRequest extends FormRequest
 {

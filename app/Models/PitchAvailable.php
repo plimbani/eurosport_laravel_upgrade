@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +20,7 @@ class PitchAvailable extends Model
 
     public function pitchBreaks()
     {
-        return $this->hasMany(\Laraspace\Models\PitchBreaks::class, 'availability_id');
+        return $this->hasMany(\App\Models\PitchBreaks::class, 'availability_id');
     }
 
     public function getStageStartDateAttribute($value)

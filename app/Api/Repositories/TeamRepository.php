@@ -1,22 +1,22 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
 use DB;
-use Laraspace\Models\Club;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Country;
-use Laraspace\Models\Position;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Models\Club;
+use App\Models\Competition;
+use App\Models\Country;
+use App\Models\Position;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
 
 class TeamRepository
 {
     public function __construct()
     {
         $this->AwsUrl = getenv('S3_URL');
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
     }
 
     public function getAll($tournamentId, $ageGroup = '')

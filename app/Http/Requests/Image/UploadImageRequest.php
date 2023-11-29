@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Image;
+namespace App\Http\Requests\Image;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 
 class UploadImageRequest extends FormRequest
 {
