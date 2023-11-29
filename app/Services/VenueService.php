@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Contracts\VenueContract;
 use App\Repositories\VenueRepository;
 
-class VenueTempService implements VenueContract
+class VenueService implements VenueContract
 {
     public function __construct(VenueRepository $venueRepoObj)
     {
