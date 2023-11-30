@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class TournamentSummary extends FormRequest
 {
@@ -19,10 +19,11 @@ class TournamentSummary extends FormRequest
         if (isset($this->all()['tournamentId'])) {
             $tournamentId = $this->all()['tournamentId'];
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -34,7 +35,7 @@ class TournamentSummary extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'            
+            'tournamentId' => 'required',
         ];
     }
 }

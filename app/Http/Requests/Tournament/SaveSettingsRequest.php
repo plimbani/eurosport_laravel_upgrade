@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,6 +17,7 @@ class SaveSettingsRequest extends FormRequest
         if (isset($data['tournamentData']['screenRotateTime']) && $data['tournamentData']['tournamentId'] != 0) {
             return true;
         }
+
         return false;
     }
 

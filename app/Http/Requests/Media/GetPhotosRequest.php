@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Media;
+namespace App\Http\Requests\Media;
 
-use Laraspace\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\WebsiteAccess;
 
 class GetPhotosRequest extends FormRequest
 {
@@ -17,10 +17,11 @@ class GetPhotosRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 

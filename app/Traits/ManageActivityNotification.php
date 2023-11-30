@@ -1,35 +1,33 @@
 <?php
 
-namespace Laraspace\Traits;
+namespace App\Traits;
 
-use JWTAuth;
-use Laraspace\Models\User;
-use Laraspace\Models\ActivityNotification;
+use App\Models\ActivityNotification;
 
 trait ManageActivityNotification
 {
-  /*
-	 * Get notification id.
-	 *
-	 * @return response
-	 */	
-	protected function getNotificationId($userObj)
-	{
-		if($userObj->roles->first()->slug == 'tournament.administrator') {
-			$activityNotification = ActivityNotification::where('user_id', $userObj->id)->where('is_mail_sent', 0)->first();
-			
-			if($activityNotification) {
-				return $activityNotification->id;
-			} else {
-				$activityNotification = new ActivityNotification();
-				$activityNotification->user_id = $userObj->id;
-				$activityNotification->is_mail_sent = 0;
-				$activityNotification->save();
+    /*
+       * Get notification id.
+       *
+       * @return response
+       */
+    protected function getNotificationId($userObj)
+    {
+        if ($userObj->roles->first()->slug == 'tournament.administrator') {
+            $activityNotification = ActivityNotification::where('user_id', $userObj->id)->where('is_mail_sent', 0)->first();
 
-				return $activityNotification->id;
-			}			
-		}
+            if ($activityNotification) {
+                return $activityNotification->id;
+            } else {
+                $activityNotification = new ActivityNotification();
+                $activityNotification->user_id = $userObj->id;
+                $activityNotification->is_mail_sent = 0;
+                $activityNotification->save();
 
-		return 0;
-	}
+                return $activityNotification->id;
+            }
+        }
+
+        return 0;
+    }
 }

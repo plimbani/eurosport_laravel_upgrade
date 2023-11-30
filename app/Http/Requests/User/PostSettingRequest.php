@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,10 +15,11 @@ class PostSettingRequest extends FormRequest
     {
         if (app('request')->header('ismobileuser')) {
             $isMobileUser = app('request')->header('ismobileuser');
-            if ($isMobileUser == "true") {
+            if ($isMobileUser == 'true') {
                 return true;
             }
         }
+
         return false;
     }
 

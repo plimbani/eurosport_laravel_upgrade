@@ -1,15 +1,15 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Laraspace\Models\BaseModel as Model;
+use App\Models\BaseModel as Model;
 
 class Person extends Model
 {
     use Notifiable;
 
-    protected $table="people";
+    protected $table = 'people';
 
     /**
      * The attributes that are mass assignable.

@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Pitch;
+namespace App\Http\Requests\Pitch;
 
-use Laraspace\Models\Pitch;
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Pitch;
+use App\Traits\TournamentAccess;
 
 class DeleteRequest extends FormRequest
 {
@@ -20,9 +20,10 @@ class DeleteRequest extends FormRequest
         $pitchId = $this->route('deleteid');
         $pitch = Pitch::findOrFail($pitchId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($pitch->tournament_id);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

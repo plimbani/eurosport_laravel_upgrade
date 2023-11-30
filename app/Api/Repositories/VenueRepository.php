@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
-use Laraspace\Models\Venue;
 use DB;
+use App\Models\Venue;
 
 class VenueRepository
 {
@@ -14,8 +14,6 @@ class VenueRepository
 
     public function getAllVenues($tournamentId)
     {
-        return Venue::orderBy('name','ASC')->where('tournament_id',$tournamentId)->get();
+        return Venue::orderBy('name', 'ASC')->where('tournament_id', $tournamentId)->get();
     }
-
-
 }

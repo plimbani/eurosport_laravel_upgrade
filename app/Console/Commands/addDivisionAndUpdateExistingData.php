@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Position;
+use App\Models\AgeCategoryDivision;
+use App\Models\Competition;
+use App\Models\Position;
+use App\Models\TempFixture;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
 
 class addDivisionAndUpdateExistingData extends Command
 {
@@ -43,9 +43,9 @@ class addDivisionAndUpdateExistingData extends Command
      */
     public function handle()
     {
-        $templateIds = explode(',',$this->argument('templateIds'));
+        $templateIds = explode(',', $this->argument('templateIds'));
 
-        $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->get()->toArray();
+        $tournamentTemplates = TournamentTemplates::where('no_of_divisions', '>', 0)->whereNotNull('no_of_divisions')->whereIn('id', $templateIds)->get()->toArray();
 
         $notMatchedCompetition = [];
         $noMatchedFixtures = [];
@@ -54,9 +54,9 @@ class addDivisionAndUpdateExistingData extends Command
             //get json from template
             $templateJson = json_decode($ttvalue['json_data'], true);
 
-            $allTournamentCompTemplates = TournamentCompetationTemplates::join('tournaments', 'tournament_competation_template.tournament_id', '=', 'tournaments.id')->where('tournament_template_id',$ttvalue['id'])->whereNull('tournaments.deleted_at')
-            ->select('tournament_competation_template.*')
-            ->get()->toArray();
+            $allTournamentCompTemplates = TournamentCompetationTemplates::join('tournaments', 'tournament_competation_template.tournament_id', '=', 'tournaments.id')->where('tournament_template_id', $ttvalue['id'])->whereNull('tournaments.deleted_at')
+                ->select('tournament_competation_template.*')
+                ->get()->toArray();
 
             //$this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;
@@ -70,11 +70,10 @@ class addDivisionAndUpdateExistingData extends Command
                 //$this->info('comp template count is :- '.$count);
                 //$this->info('Fetching existing age group and id is  :- '.$tctvalue['id']);
 
-                $existingCompetition = Competition::where('competation_round_no','!=','Round 1')->where('tournament_competation_template_id',$tournament_comp_template_id)->where('tournament_id',$tournament_id)->pluck('id','name')->toArray(); 
+                $existingCompetition = Competition::where('competation_round_no', '!=', 'Round 1')->where('tournament_competation_template_id', $tournament_comp_template_id)->where('tournament_id', $tournament_id)->pluck('id', 'name')->toArray();
 
                 $displayName = $tctvalue['group_name'].'-'.$tctvalue['category_age'];
                 $ageCategoryOnly = $tctvalue['category_age'];
-
 
                 // add division entry for current template
                 $divisions = $templateJson['tournament_competation_format']['divisions'];
@@ -83,14 +82,14 @@ class addDivisionAndUpdateExistingData extends Command
 
                 $lastDiv = end($divisions);
 
-                $checkTempFixtureCount = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->count();
+                $checkTempFixtureCount = TempFixture::where('tournament_id', $tournament_id)->where('age_group_id', $tournament_comp_template_id)->count();
 
                 foreach ($divisions as $dkey => $dvalue) {
 
                     //$this->info('Create a new entry in division table for tournament_id = '.$tournament_id.' and tournament_competition_template_id = '.$tournament_comp_template_id);
 
                     $divData = [];
-                    $divData['name'] = "Division ".$order;
+                    $divData['name'] = 'Division '.$order;
                     $divData['order'] = $order;
                     $divData['tournament_id'] = $tournament_id;
                     $divData['tournament_competition_template_id'] = $tournament_comp_template_id;
@@ -108,7 +107,7 @@ class addDivisionAndUpdateExistingData extends Command
                         foreach ($roundValue['match_type'] as $matchTypeKey => $matchTypevalue) {
                             //$this->info('iterating match type');
                             $groupNameTocheck = $displayName.'-'.$matchTypevalue['groups']['group_name'];
-                            list($compType,$compMatchMultiple) = explode('-',$matchTypevalue['name']);
+                            [$compType, $compMatchMultiple] = explode('-', $matchTypevalue['name']);
 
                             $competitionData = [];
                             $competitionData['tournament_competation_template_id'] = $tournament_comp_template_id;
@@ -120,8 +119,7 @@ class addDivisionAndUpdateExistingData extends Command
                             $competitionData['actual_competition_type'] = ($compType == 'RR') ? 'Round Robin' : 'Elimination';
                             $competitionData['competation_round_no'] = $roundName;
 
-                            if (array_key_exists($groupNameTocheck, $existingCompetition) )
-                            {
+                            if (array_key_exists($groupNameTocheck, $existingCompetition)) {
 
                                 $competitionData['name'] = $groupNameTocheck;
                                 $competitionData['display_name'] = $groupNameTocheck;
@@ -129,30 +127,25 @@ class addDivisionAndUpdateExistingData extends Command
 
                                 $competitionUpdateId = $existingCompetition[$groupNameTocheck];
 
-                                Competition::where('id',$competitionUpdateId)->update($competitionData);
+                                Competition::where('id', $competitionUpdateId)->update($competitionData);
                                 //$this->info('Update Existing competition with new value , and comp id is :- '.$competitionUpdateId);
                                 unset($existingCompetition[$groupNameTocheck]);
-                            }
-                            else
-                            {
+                            } else {
 
                                 $competitionData['name'] = $groupNameTocheck;
                                 $competitionData['display_name'] = $groupNameTocheck;
                                 $competitionData['actual_name'] = $groupNameTocheck;
-                                if ( sizeof($existingCompetition) > 0 )
-                                {
+                                if (count($existingCompetition) > 0) {
                                     // if not matched then overwrite existing one
                                     $competitionUpdateId = head($existingCompetition);
 
-                                    $notMatchedCompetition[$competitionUpdateId] = "id = ".$competitionUpdateId." and tournament_id = ".$tournament_id;
+                                    $notMatchedCompetition[$competitionUpdateId] = 'id = '.$competitionUpdateId.' and tournament_id = '.$tournament_id;
 
-                                    Competition::where('id',$competitionUpdateId)->update($competitionData);
+                                    Competition::where('id', $competitionUpdateId)->update($competitionData);
                                     //$this->info('Not match with DB competiton , Update Existing competition with new value. , and comp id is :- '.$competitionUpdateId);
-                                    $needToRemovekey = array_search($competitionUpdateId,$existingCompetition);
+                                    $needToRemovekey = array_search($competitionUpdateId, $existingCompetition);
                                     unset($existingCompetition[$needToRemovekey]);
-                                }
-                                else
-                                {
+                                } else {
 
                                     $compResult = Competition::create($competitionData);
                                     $competitionUpdateId = $compResult->id;
@@ -165,57 +158,46 @@ class addDivisionAndUpdateExistingData extends Command
                                 $updateMatchData = [];
                                 $updateMatchData['competition_id'] = $competitionUpdateId;
 
-                                $matchNumberArray = explode('.',$mvalue['match_number']);
+                                $matchNumberArray = explode('.', $mvalue['match_number']);
                                 $matchNumberArray = end($matchNumberArray);
 
                                 $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
-                                $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->get(['id'])->toArray();
+                                $fixtureId = TempFixture::where('tournament_id', $tournament_id)->where('age_group_id', $tournament_comp_template_id)->where('match_number', 'like', '%'.$matchNumberArray.'%')->get(['id'])->toArray();
 
-                                if ( sizeof($fixtureId) > 0 )
-                                {
+                                if (count($fixtureId) > 0) {
                                     $fixtureId = head($fixtureId);
                                     $fixtureRow = true;
-                                    TempFixture::where('id',$fixtureId['id'])->update($updateMatchData);
-                                }
-                                else
-                                {
-                                    list($category,$group,$matchnumber) = explode('.',$updatedMatchNumber);
-                                    list($home,$away) = explode('-',$matchnumber);
+                                    TempFixture::where('id', $fixtureId['id'])->update($updateMatchData);
+                                } else {
+                                    [$category, $group, $matchnumber] = explode('.', $updatedMatchNumber);
+                                    [$home, $away] = explode('-', $matchnumber);
 
                                     $findReverseMatch = $away.'-'.$home;
 
-                                    $updatedMatchNumberReverse = implode('.',array($category,$group,$findReverseMatch));
+                                    $updatedMatchNumberReverse = implode('.', [$category, $group, $findReverseMatch]);
 
-                                    $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$findReverseMatch.'%')->get(['id'])->toArray();
+                                    $fixtureId = TempFixture::where('tournament_id', $tournament_id)->where('age_group_id', $tournament_comp_template_id)->where('match_number', 'like', '%'.$findReverseMatch.'%')->get(['id'])->toArray();
 
-                                    if ( sizeof($fixtureId) > 0 )
-                                    {
+                                    if (count($fixtureId) > 0) {
                                         $fixtureId = head($fixtureId);
                                         $fixtureRow = 'reverseFixture';
-                                        TempFixture::where('id',$fixtureId['id'])->update($updateMatchData);
+                                        TempFixture::where('id', $fixtureId['id'])->update($updateMatchData);
                                     }
                                 }
-                                
 
-                                if ( $fixtureRow === false || $fixtureRow === "reverseFixture")
-                                {
+                                if ($fixtureRow === false || $fixtureRow === 'reverseFixture') {
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['tournament_id'] = $tournament_id;
 
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['age_category_id'] = $tournament_comp_template_id;
 
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['match_number'] = $updatedMatchNumber;
 
-                                    if ( $fixtureRow == 'reverseFixture' )
-                                    {
+                                    if ($fixtureRow == 'reverseFixture') {
                                         $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['error'] = 'Reverse fixture found and updated competition.';
-                                    }
-                                    else if ( $checkTempFixtureCount == 0 )
-                                    {
+                                    } elseif ($checkTempFixtureCount == 0) {
                                         $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['error'] = 'No fixtures found.';
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['error'] = 'Need to check manually.';
                                     }
 
@@ -234,75 +216,66 @@ class addDivisionAndUpdateExistingData extends Command
 
                     $dbRowFound = false;
                     $updatePositionRow['position'] = $pvalue['position'];
-                    if ( $pvalue['dependent_type'] == 'match')
-                    {
+                    if ($pvalue['dependent_type'] == 'match') {
 
-                        $positionMatchNumberArray = explode('.',$pvalue['match_number']);
+                        $positionMatchNumberArray = explode('.', $pvalue['match_number']);
                         $positionMatchNumberArray = end($positionMatchNumberArray);
                         $resultType = $pvalue['result_type'];
 
-                        $posId = Position::where('age_category_id',$tournament_comp_template_id)
-                                ->where(function ($query) use ($resultType) {
-                                    $query->orWhere('result_type',$resultType)
-                                          ->orWhere('ranking',$resultType);
-                                })
-                                ->where('dependent_type','match')->where('match_number','like','%'.$positionMatchNumberArray.'%')->get(['id'])->toArray();
+                        $posId = Position::where('age_category_id', $tournament_comp_template_id)
+                            ->where(function ($query) use ($resultType) {
+                                $query->orWhere('result_type', $resultType)
+                                    ->orWhere('ranking', $resultType);
+                            })
+                            ->where('dependent_type', 'match')->where('match_number', 'like', '%'.$positionMatchNumberArray.'%')->get(['id'])->toArray();
 
-                        if ( sizeof($posId) > 0 )
-                        {
+                        if (count($posId) > 0) {
                             $posId = head($posId);
                             $dbRowFound = true;
-                            Position::where('id',$posId['id'])->update($updatePositionRow);
-                        }
-                        else
-                        {
+                            Position::where('id', $posId['id'])->update($updatePositionRow);
+                        } else {
                             // update position with reverse fixtures
-                            $reversepositionMatchNumberArray = explode('.',$pvalue['match_number']);
+                            $reversepositionMatchNumberArray = explode('.', $pvalue['match_number']);
 
                             $reversepositionMatchNumberArray = end($reversepositionMatchNumberArray);
 
-                            list($posHome,$posAway) = explode('-',$reversepositionMatchNumberArray);
+                            [$posHome, $posAway] = explode('-', $reversepositionMatchNumberArray);
 
                             $reversepositionMatchNumberArray = $posAway.'-'.$posHome;
 
-                            $posId = Position::where('age_category_id',$tournament_comp_template_id)
-                            ->where(function ($query) use ($resultType) {
-                                $query->orWhere('result_type',$resultType)
-                                      ->orWhere('ranking',$resultType);
-                            })
-                            ->where('dependent_type','match')
-                            ->where('match_number','like','%'.$reversepositionMatchNumberArray.'%')->get(['id'])->toArray();
+                            $posId = Position::where('age_category_id', $tournament_comp_template_id)
+                                ->where(function ($query) use ($resultType) {
+                                    $query->orWhere('result_type', $resultType)
+                                        ->orWhere('ranking', $resultType);
+                                })
+                                ->where('dependent_type', 'match')
+                                ->where('match_number', 'like', '%'.$reversepositionMatchNumberArray.'%')->get(['id'])->toArray();
 
-                            if ( sizeof($posId) > 0 )
-                            {
+                            if (count($posId) > 0) {
                                 $posId = head($posId);
                                 $dbRowFound = true;
-                                Position::where('id',$posId['id'])->update($updatePositionRow);
+                                Position::where('id', $posId['id'])->update($updatePositionRow);
                             }
 
                         }
                     }
 
-                    if ( $pvalue['dependent_type'] == 'ranking')
-                    {
+                    if ($pvalue['dependent_type'] == 'ranking') {
                         $ranking = $pvalue['ranking'];
 
-                        $posId = Position::where('age_category_id',$tournament_comp_template_id)->where('dependent_type','ranking')->where('ranking',$ranking)->get(['id'])->toArray();
+                        $posId = Position::where('age_category_id', $tournament_comp_template_id)->where('dependent_type', 'ranking')->where('ranking', $ranking)->get(['id'])->toArray();
 
-                        if ( sizeof($posId) > 0 )
-                        {
+                        if (count($posId) > 0) {
                             $posId = head($posId);
                             $dbRowFound = true;
-                            Position::where('id',$posId['id'])->update($updatePositionRow);
+                            Position::where('id', $posId['id'])->update($updatePositionRow);
                         }
 
                     }
 
-                    if ( $dbRowFound == false )
-                    {
+                    if ($dbRowFound == false) {
 
-                        if ( !array_key_exists('match_number',$pvalue))
-                        {
+                        if (! array_key_exists('match_number', $pvalue)) {
                             $pvalue['match_number'] = $pvalue['ranking'];
                             $pvalue['result_type'] = '';
                         }
@@ -323,7 +296,9 @@ class addDivisionAndUpdateExistingData extends Command
             //$this->info("Script executed.");
         }
 
-        echo "<pre> Fixtures Error";print_r($noMatchedFixtures);
-        echo "<pre>noMatchedPosition";print_r($noMatchedPosition);
+        echo '<pre> Fixtures Error';
+        print_r($noMatchedFixtures);
+        echo '<pre>noMatchedPosition';
+        print_r($noMatchedPosition);
     }
 }

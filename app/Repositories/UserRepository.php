@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
-use Laraspace\Models\User;
+use App\Models\User;
 
 class UserRepository
 {
@@ -11,6 +11,4 @@ class UserRepository
         /*  Use Join for Fetch Club Income Data with Club Table */
         return User::all();
     }
-
-
 }

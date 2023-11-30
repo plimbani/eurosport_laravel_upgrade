@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
-use Laraspace\Models\TempFixture;
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\TempFixture;
+use App\Traits\TournamentAccess;
 
 class MatchDetailRequest extends FormRequest
 {
@@ -21,11 +21,13 @@ class MatchDetailRequest extends FormRequest
             $matchId = $this->all()['matchId'];
             $tempFixture = TempFixture::findOrFail($matchId);
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture->tournament_id);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\AgeCategory;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
+use App\Models\AgeCategory;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
 
 class AgeCategoryObserver
 {
@@ -14,75 +14,72 @@ class AgeCategoryObserver
     /**
      * Listen to the AgeCategory created event.
      *
-     * @param  \Laraspace\Models\AgeCategory $ageCategory
      * @return void
      */
     public function created(AgeCategory $ageCategory)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $ageCategoryData = [];
-      $ageCategoryData['website_id'] = $ageCategory->website_id;
-      $ageCategoryData['notification_id'] = $this->getNotificationId($userObj);
-      $ageCategoryData['subject_id'] = $ageCategory->id;
-      $ageCategoryData['subject_type'] = get_class($ageCategory);
-      $ageCategoryData['causer_id'] = $userObj->id;
-      $ageCategoryData['causer_type'] = get_class($userObj);
-      $ageCategoryData['description'] = $userObj->name .' '. 'added a new age category.';
-      $ageCategoryData['page'] = 'Teams';
-      $ageCategoryData['section'] = 'Age categories';
-      $ageCategoryData['action'] = 'created';
+        $ageCategoryData = [];
+        $ageCategoryData['website_id'] = $ageCategory->website_id;
+        $ageCategoryData['notification_id'] = $this->getNotificationId($userObj);
+        $ageCategoryData['subject_id'] = $ageCategory->id;
+        $ageCategoryData['subject_type'] = get_class($ageCategory);
+        $ageCategoryData['causer_id'] = $userObj->id;
+        $ageCategoryData['causer_type'] = get_class($userObj);
+        $ageCategoryData['description'] = $userObj->name.' '.'added a new age category.';
+        $ageCategoryData['page'] = 'Teams';
+        $ageCategoryData['section'] = 'Age categories';
+        $ageCategoryData['action'] = 'created';
 
-      $this->saveActivityLog($ageCategoryData);
+        $this->saveActivityLog($ageCategoryData);
     }
 
     /**
      * Listen to the AgeCategory updated event.
      *
-     * @param  \Laraspace\Models\AgeCategory $ageCategory
      * @return void
      */
     public function updated(AgeCategory $ageCategory)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $ageCategoryData = [];
-      $ageCategoryData['website_id'] = $ageCategory->website_id;
-      $ageCategoryData['notification_id'] = $this->getNotificationId($userObj);
-      $ageCategoryData['subject_id'] = $ageCategory->id;
-      $ageCategoryData['subject_type'] = get_class($ageCategory);
-      $ageCategoryData['causer_id'] = $userObj->id;
-      $ageCategoryData['causer_type'] = get_class($userObj);
-      $ageCategoryData['description'] = $userObj->name .' '. 'updated a age category.';
-      $ageCategoryData['page'] = 'Teams';
-      $ageCategoryData['section'] = 'Age categories';
-      $ageCategoryData['action'] = 'updated';
+        $ageCategoryData = [];
+        $ageCategoryData['website_id'] = $ageCategory->website_id;
+        $ageCategoryData['notification_id'] = $this->getNotificationId($userObj);
+        $ageCategoryData['subject_id'] = $ageCategory->id;
+        $ageCategoryData['subject_type'] = get_class($ageCategory);
+        $ageCategoryData['causer_id'] = $userObj->id;
+        $ageCategoryData['causer_type'] = get_class($userObj);
+        $ageCategoryData['description'] = $userObj->name.' '.'updated a age category.';
+        $ageCategoryData['page'] = 'Teams';
+        $ageCategoryData['section'] = 'Age categories';
+        $ageCategoryData['action'] = 'updated';
 
-      $this->saveActivityLog($ageCategoryData);
+        $this->saveActivityLog($ageCategoryData);
     }
 
     /**
      * Listen to the AgeCategory deleted event.
      *
-     * @param  \Laraspace\Models\AgeCategory $ageCategory
      * @return void
      */
     public function deleted(AgeCategory $ageCategory)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $ageCategoryData = [];
-      $ageCategoryData['website_id'] = $ageCategory->website_id;
-      $ageCategoryData['notification_id'] = $this->getNotificationId($userObj);
-      $ageCategoryData['subject_id'] = $ageCategory->id;
-      $ageCategoryData['subject_type'] = get_class($ageCategory);
-      $ageCategoryData['causer_id'] = $userObj->id;
-      $ageCategoryData['causer_type'] = get_class($userObj);
-      $ageCategoryData['description'] = $userObj->name .' '. 'deleted a age category.';
-      $ageCategoryData['page'] = 'Teams';
-      $ageCategoryData['section'] = 'Age categories';
-      $ageCategoryData['action'] = 'deleted';
+        $ageCategoryData = [];
+        $ageCategoryData['website_id'] = $ageCategory->website_id;
+        $ageCategoryData['notification_id'] = $this->getNotificationId($userObj);
+        $ageCategoryData['subject_id'] = $ageCategory->id;
+        $ageCategoryData['subject_type'] = get_class($ageCategory);
+        $ageCategoryData['causer_id'] = $userObj->id;
+        $ageCategoryData['causer_type'] = get_class($userObj);
+        $ageCategoryData['description'] = $userObj->name.' '.'deleted a age category.';
+        $ageCategoryData['page'] = 'Teams';
+        $ageCategoryData['section'] = 'Age categories';
+        $ageCategoryData['action'] = 'deleted';
 
-      $this->saveActivityLog($ageCategoryData);
+        $this->saveActivityLog($ageCategoryData);
     }
 }

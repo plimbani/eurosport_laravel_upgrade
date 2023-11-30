@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddScreenRotateTimeInSecondsIntoTournamentsTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddScreenRotateTimeInSecondsIntoTournamentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournaments', function($table) {
+        Schema::table('tournaments', function ($table) {
             $table->integer('screen_rotate_time_in_seconds')->after('is_published_preview_once')->default(10);
         });
     }
@@ -25,7 +24,7 @@ class AddScreenRotateTimeInSecondsIntoTournamentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournaments', function($table) {
+        Schema::table('tournaments', function ($table) {
             $table->dropColumn('screen_rotate_time_in_seconds');
         });
     }

@@ -1,13 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class StoreUpdateRequest extends FormRequest
 {
     use TournamentAccess;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,18 +17,20 @@ class StoreUpdateRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        if(isset($data['tournamentData']['tournamentId']) && $data['tournamentData']['tournamentId'] != 0) {
+        if (isset($data['tournamentData']['tournamentId']) && $data['tournamentData']['tournamentId'] != 0) {
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentData']['tournamentId']);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         } else {
             $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-            if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
+            if ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
                 return true;
             }
+
             return false;
         }
 

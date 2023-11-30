@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddIsManualOverrideStandingFieldToCompetitionsTable extends Migration
 {
@@ -13,8 +12,8 @@ class AddIsManualOverrideStandingFieldToCompetitionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('competitions', function($table) {
-           $table->boolean('is_manual_override_standing')->nullable()->default(0)->after('competation_type');
+        Schema::table('competitions', function ($table) {
+            $table->boolean('is_manual_override_standing')->nullable()->default(0)->after('competation_type');
         });
     }
 
@@ -25,7 +24,7 @@ class AddIsManualOverrideStandingFieldToCompetitionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('competitions', function($table) {
+        Schema::table('competitions', function ($table) {
             $table->dropColumn('is_manual_override_standing');
         });
     }

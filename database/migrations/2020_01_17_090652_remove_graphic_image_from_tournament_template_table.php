@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class RemoveGraphicImageFromTournamentTemplateTable extends Migration
 {
@@ -26,7 +26,7 @@ class RemoveGraphicImageFromTournamentTemplateTable extends Migration
     public function down()
     {
         Schema::table('tournament_template', function (Blueprint $table) {
-            $table->string('graphic_image')->nullable()->default(NULL)->after('json_data');
+            $table->string('graphic_image')->nullable()->default(null)->after('json_data');
         });
     }
 }

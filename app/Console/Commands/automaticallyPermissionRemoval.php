@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use Carbon\Carbon;
-use Laraspace\Models\User;
-use Laraspace\Models\Role;
 use Illuminate\Console\Command;
-use Laraspace\Models\Tournament;
+use App\Models\Role;
+use App\Models\Tournament;
+use App\Models\User;
 
 class automaticallyPermissionRemoval extends Command
 {
@@ -44,16 +44,16 @@ class automaticallyPermissionRemoval extends Command
     {
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $yesterdayDate = Carbon::yesterday()->toDateString();
-        $allTournaments = Tournament::whereDate('end_date','<=',$yesterdayDate)->pluck('id')->toArray();
-        $users = User::whereHas('roles', function($query)
-                {
-                    $query->where('slug', 'tournament.administrator')->orwhere('slug', 'Results.administrator');
-                })->get();
+        $allTournaments = Tournament::whereDate('end_date', '<=', $yesterdayDate)->pluck('id')->toArray();
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('slug', 'tournament.administrator')->orwhere('slug', 'Results.administrator');
+        })->get();
         foreach ($users as $user) {
             $userTournaments = $user->tournaments();
             $userTournamentIds = $userTournaments->pluck('id');
-            $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
-            if(count($intersectTournaments) > 0) {
+          //  $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
+             $intersectTournaments = $userTournamentIds->array_filter($allTournaments)->values();
+            if (count($intersectTournaments) > 0) {
                 // if($userTournaments->count() == 1) {
                 //     $user->is_desktop_user = 0;
                 //     $user->save();

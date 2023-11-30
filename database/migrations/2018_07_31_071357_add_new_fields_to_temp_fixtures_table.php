@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddNewFieldsToTempFixturesTable extends Migration
 {
@@ -14,12 +14,12 @@ class AddNewFieldsToTempFixturesTable extends Migration
     public function up()
     {
         Schema::table('temp_fixtures', function (Blueprint $table) {
-            $table->string('home_yellow_cards')->nullable()->default(NULL)->after('awayteam_point');
-            $table->string('away_yellow_cards')->nullable()->default(NULL)->after('home_yellow_cards');
-            $table->string('home_red_cards')->nullable()->default(NULL)->after('away_yellow_cards');
-            $table->string('away_red_cards')->nullable()->default(NULL)->after('home_red_cards');
-            $table->string('age_category_color')->nullable()->default(NULL)->after('away_red_cards');
-            $table->string('group_color')->nullable()->default(NULL)->after('age_category_color');
+            $table->string('home_yellow_cards')->nullable()->default(null)->after('awayteam_point');
+            $table->string('away_yellow_cards')->nullable()->default(null)->after('home_yellow_cards');
+            $table->string('home_red_cards')->nullable()->default(null)->after('away_yellow_cards');
+            $table->string('away_red_cards')->nullable()->default(null)->after('home_red_cards');
+            $table->string('age_category_color')->nullable()->default(null)->after('away_red_cards');
+            $table->string('group_color')->nullable()->default(null)->after('age_category_color');
         });
     }
 

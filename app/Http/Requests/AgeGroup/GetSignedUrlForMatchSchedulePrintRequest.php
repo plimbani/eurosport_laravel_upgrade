@@ -1,10 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\AgeGroup;
+namespace App\Http\Requests\AgeGroup;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Traits\TournamentAccess;
 
 class GetSignedUrlForMatchSchedulePrintRequest extends FormRequest
 {

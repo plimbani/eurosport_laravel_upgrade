@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
-use Laraspace\Models\Team;
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Team;
+use App\Traits\TournamentAccess;
 
 class UpdateRequest extends FormRequest
 {
@@ -20,9 +20,10 @@ class UpdateRequest extends FormRequest
         $teamId = $this->route('id');
         $team = Team::findOrFail($teamId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($team->tournament_id);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

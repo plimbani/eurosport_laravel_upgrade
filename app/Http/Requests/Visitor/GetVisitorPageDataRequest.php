@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Visitor;
+namespace App\Http\Requests\Visitor;
 
-use Laraspace\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\WebsiteAccess;
 
 class GetVisitorPageDataRequest extends FormRequest
 {
     use WebsiteAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,10 +17,11 @@ class GetVisitorPageDataRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 

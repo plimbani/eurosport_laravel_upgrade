@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
 use DB;
 use Illuminate\Console\Command;
@@ -38,21 +38,23 @@ class setHomeAndAwayTeamPlaceholder extends Command
      */
     public function handle()
     {
-        $tempFixtures = DB::table('temp_fixtures')->get();        
-        
-        foreach($tempFixtures as $fixture) {            
-            $matchNumber = $fixture->match_number;
-            $separatedArray = explode('.', $matchNumber);            
+        $tempFixtures = DB::table('temp_fixtures')->get();
 
-            if(!isset($separatedArray[2])) {                
+        foreach ($tempFixtures as $fixture) {
+            $matchNumber = $fixture->match_number;
+            $separatedArray = explode('.', $matchNumber);
+
+            if (! isset($separatedArray[2])) {
                 $this->info("{$fixture->id}!");
+
                 continue;
             }
 
             $finalData = explode('-', $separatedArray[2]);
 
-            if(count($finalData) != 2) {
+            if (count($finalData) != 2) {
                 $this->info("{$fixture->id}!");
+
                 continue;
             }
 
@@ -60,7 +62,7 @@ class setHomeAndAwayTeamPlaceholder extends Command
                 ->where('id', $fixture->id)
                 ->update([
                     'home_team_placeholder_name' => $finalData[0],
-                    'away_team_placeholder_name' => $finalData[1]
+                    'away_team_placeholder_name' => $finalData[1],
                 ]);
         }
 

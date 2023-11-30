@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class DeleteWebsiteTables extends Migration
 {
@@ -47,8 +47,8 @@ class DeleteWebsiteTables extends Migration
             $table->string('tournament_dates');
             $table->string('tournament_location');
             $table->string('domain_name')->nullable();
-            $table->timestamp('preview_domain_generated_at')->nullable()->default(NULL);
-            $table->string('preview_domain')->nullable()->default(NULL);
+            $table->timestamp('preview_domain_generated_at')->nullable()->default(null);
+            $table->string('preview_domain')->nullable()->default(null);
             $table->integer('linked_tournament')->unsigned()->nullable();
             $table->foreign('linked_tournament')->references('id')->on('tournaments')->onDelete('set null')->onUpdate('cascade');
             $table->string('google_analytics_id')->nullable();
@@ -70,10 +70,10 @@ class DeleteWebsiteTables extends Migration
             $table->increments('id');
             $table->integer('website_id')->unsigned()->nullable();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('contact_name')->nullable()->default(NULL);
-            $table->string('phone_number')->nullable()->default(NULL);
-            $table->string('email_address')->nullable()->default(NULL);
-            $table->string('address')->nullable()->default(NULL);
+            $table->string('contact_name')->nullable()->default(null);
+            $table->string('phone_number')->nullable()->default(null);
+            $table->string('email_address')->nullable()->default(null);
+            $table->string('address')->nullable()->default(null);
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->integer('updated_by')->unsigned()->nullable();
@@ -109,7 +109,7 @@ class DeleteWebsiteTables extends Migration
             $table->integer('website_id')->unsigned()->index();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('history_year_id')->unsigned()->index();
-            $table->foreign('history_year_id')->references('id')->on('history_years')->onDelete('cascade')->onUpdate('cascade');     
+            $table->foreign('history_year_id')->references('id')->on('history_years')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('order');
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -165,7 +165,7 @@ class DeleteWebsiteTables extends Migration
             $table->string('day')->nullable();
             $table->string('time');
             $table->string('item');
-            $table->integer('order');            
+            $table->integer('order');
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->integer('updated_by')->unsigned()->nullable();
@@ -232,7 +232,7 @@ class DeleteWebsiteTables extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->integer('updated_by')->unsigned()->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->timestamps();            
+            $table->timestamps();
         });
         Schema::create('photos', function (Blueprint $table) {
             $table->increments('id');

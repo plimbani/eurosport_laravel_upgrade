@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateItineraryItemsTable extends Migration
 {
@@ -22,7 +22,7 @@ class CreateItineraryItemsTable extends Migration
             $table->string('day');
             $table->string('time');
             $table->string('item');
-            $table->integer('order');            
+            $table->integer('order');
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->integer('updated_by')->unsigned()->nullable();

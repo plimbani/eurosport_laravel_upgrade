@@ -1,20 +1,16 @@
 <?php
 
-namespace Laraspace\Http\Middleware;
+namespace App\Http\Middleware;
 
 use App;
-use View;
-use Config;
 use Closure;
 use Landlord;
+use App\Api\Contracts\WebsiteContract;
+use App\Api\Services\PageService;
+use App\Models\Page;
+use App\Models\Website;
 use Redirect;
-use JavaScript;
-use Carbon\Carbon;
-use LaravelLocalization;
-use Laraspace\Models\Page;
-use Laraspace\Models\Website;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Contracts\WebsiteContract;
+use View;
 
 class VerifyWebsite
 {
@@ -49,7 +45,6 @@ class VerifyWebsite
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -59,12 +54,12 @@ class VerifyWebsite
         $website = Website::where('domain_name', $domain)->orWhere('preview_domain', $domain)->first();
         View::share('websiteDetail', $website);
 
-        if(!$website) {
+        if (! $website) {
             return Redirect::away(config('app.url'), 302);
         }
-        
-        if($website->is_website_offline == 1 && strpos($domain, str_replace("{id}-", "", $previewUrl)) === false) {
-          return Redirect::away($website->offline_redirect_url, 302);
+
+        if ($website->is_website_offline == 1 && strpos($domain, str_replace('{id}-', '', $previewUrl)) === false) {
+            return Redirect::away($website->offline_redirect_url, 302);
         }
 
         Landlord::addTenant('website', $website);
@@ -75,7 +70,7 @@ class VerifyWebsite
         $accessibleRoutes = $flattenedAccessibleRoutes->unique()->toArray();
         $accessibleRoutes = array_merge($accessibleRoutes, config('wot.default_accessible_routes'));
         $currentRoute = $request->route()->getName();
-        if(!in_array($currentRoute, $accessibleRoutes)) {
+        if (! in_array($currentRoute, $accessibleRoutes)) {
             App::abort(404);
         }
 

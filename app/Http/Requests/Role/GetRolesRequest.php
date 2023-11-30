@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Role;
+namespace App\Http\Requests\Role;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\AuthUserDetail;
 
 class GetRolesRequest extends FormRequest
 {
@@ -17,9 +17,10 @@ class GetRolesRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
+        if ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
             return true;
         }
+
         return false;
     }
 

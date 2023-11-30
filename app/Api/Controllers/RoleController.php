@@ -1,15 +1,10 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
-use Laraspace\Http\Requests\Role\GetRolesRequest;
-use Brotzka\DotenvEditor\DotenvEditor;
-use Dingo\Api\Routing\Helpers;
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
-
+use App\Api\Contracts\RoleContract;
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\RoleContract;
+use App\Http\Requests\Role\GetRolesRequest;
 
 /**
  * Matches Resource Description.
@@ -31,7 +26,9 @@ class RoleController extends BaseController
      * Get a JSON representation of all the Roles.
      *
      * @Get("/roles")
+     *
      * @Versions({"v1"})
+     *
      * @Response(200, body={"id": 10, "username": "foo"})
      */
     public function getRoles(GetRolesRequest $request)
@@ -45,7 +42,9 @@ class RoleController extends BaseController
      * Get a JSON representation of all the Roles.
      *
      * @Get("/roles-for-select")
+     *
      * @Versions({"v1"})
+     *
      * @Response(200, body={"id": 10, "username": "foo"})
      */
     public function getRolesForSelect()

@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Template;
+namespace App\Http\Requests\Template;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\AuthUserDetail;
 
 class StoreRequest extends FormRequest
 {
     use AuthUserDetail;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,9 +17,10 @@ class StoreRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator')) {
+        if ($loggedInUser->hasRole('Super.administrator')) {
             return true;
         }
+
         return false;
     }
 

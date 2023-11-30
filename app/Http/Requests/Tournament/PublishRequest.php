@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class PublishRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class PublishRequest extends FormRequest
     {
         $data = $this->all()['tournamentData'];
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

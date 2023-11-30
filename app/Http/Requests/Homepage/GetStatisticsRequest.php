@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Homepage;
+namespace App\Http\Requests\Homepage;
 
-use Laraspace\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\WebsiteAccess;
 
 class GetStatisticsRequest extends FormRequest
 {
@@ -17,10 +17,11 @@ class GetStatisticsRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\AuthUserDetail;
 
 class GetUserDetailsRequest extends FormRequest
 {
@@ -22,6 +22,7 @@ class GetUserDetailsRequest extends FormRequest
         if ($userEmail == $loggedInUser['email']) {
             return true;
         }
+
         return false;
     }
 

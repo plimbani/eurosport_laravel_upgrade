@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,10 +20,11 @@ class Sponsor extends Model
      */
     public function sponsorLogo($key = null)
     {
-        $path = config('filesystems.disks.s3.url') . config('wot.imagePath.sponsor_logo');
-        if($key) {
-            return  $path . $key . '/' . $this->logo;
+        $path = config('filesystems.disks.s3.url').config('wot.imagePath.sponsor_logo');
+        if ($key) {
+            return $path.$key.'/'.$this->logo;
         }
-        return $path . $this->logo;
+
+        return $path.$this->logo;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
-use Laraspace\Models\Tournament;
 use Carbon\Carbon;
+use App\Models\Tournament;
 
 class TournamentRepository
 {
@@ -18,7 +18,6 @@ class TournamentRepository
 
         $startDate = Carbon::createFromFormat('m/d/Y', $tournamentData['tournaments_start_date']);
 
- 
         $data['name'] = $tournamentData['tournaments_name'];
         $data['start_date'] = $startDate;
         $data['website'] = $tournamentData['tournaments_website'];

@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class AgeCategory extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -18,6 +18,6 @@ class AgeCategory extends Model
      */
     public function teams()
     {
-        return $this->hasMany('Laraspace\Models\AgeCategoryTeam');
+        return $this->hasMany(\App\Models\AgeCategoryTeam::class);
     }
 }

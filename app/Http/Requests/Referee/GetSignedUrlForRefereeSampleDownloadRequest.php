@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Referee;
+namespace App\Http\Requests\Referee;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class GetSignedUrlForRefereeSampleDownloadRequest extends FormRequest
 {
@@ -18,9 +18,10 @@ class GetSignedUrlForRefereeSampleDownloadRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

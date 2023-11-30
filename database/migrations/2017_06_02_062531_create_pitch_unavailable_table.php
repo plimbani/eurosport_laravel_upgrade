@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePitchUnavailableTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreatePitchUnavailableTable extends Migration
             $table->integer('pitch_id')->unsigned()->index();
             $table->foreign('pitch_id')->references('id')->on('pitches')->onDelete('cascade');
             $table->integer('tournament_id')->unsigned()->index();
-            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');    
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
             $table->datetime('match_start_datetime')->nullable();
             $table->datetime('match_end_datetime')->nullable();
             $table->timestamps();

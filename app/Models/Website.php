@@ -1,7 +1,7 @@
 <?php
-namespace Laraspace\Models;
 
-use Laraspace\Models\Page;
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,7 +21,7 @@ class Website extends Model
      */
     public function pages()
     {
-        return $this->hasMany('Laraspace\Models\Page');
+        return $this->hasMany(\App\Models\Page::class);
     }
 
     /**
@@ -37,7 +37,7 @@ class Website extends Model
      */
     public function organisers()
     {
-        return $this->hasMany('Laraspace\Models\Organiser');
+        return $this->hasMany(\App\Models\Organiser::class);
     }
 
     /**
@@ -45,7 +45,7 @@ class Website extends Model
      */
     public function sponsors()
     {
-        return $this->hasMany('Laraspace\Models\Sponsor');
+        return $this->hasMany(\App\Models\Sponsor::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class Website extends Model
      */
     public function messages()
     {
-        return $this->hasMany('Laraspace\Models\Message', 'tournament_id', 'linked_tournament');
+        return $this->hasMany(\App\Models\Message::class, 'tournament_id', 'linked_tournament');
     }
 
     /**
@@ -63,10 +63,11 @@ class Website extends Model
      */
     public function tournamentLogo($key = null)
     {
-        $path = config('filesystems.disks.s3.url') . config('wot.imagePath.website_tournament_logo');
-        if($key) {
-            return  $path . $key . '/' . $this->tournament_logo;
+        $path = config('filesystems.disks.s3.url').config('wot.imagePath.website_tournament_logo');
+        if ($key) {
+            return $path.$key.'/'.$this->tournament_logo;
         }
-        return $path . $this->tournament_logo;
+
+        return $path.$this->tournament_logo;
     }
 }

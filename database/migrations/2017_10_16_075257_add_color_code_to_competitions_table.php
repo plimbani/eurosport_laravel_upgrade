@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddColorCodeToCompetitionsTable extends Migration
 {
@@ -13,8 +12,8 @@ class AddColorCodeToCompetitionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('competitions', function($table) {
-           $table->string('color_code', 100)->nullable()->default(NULL)->after('is_manual_override_standing');
+        Schema::table('competitions', function ($table) {
+            $table->string('color_code', 100)->nullable()->default(null)->after('is_manual_override_standing');
         });
     }
 
@@ -25,7 +24,7 @@ class AddColorCodeToCompetitionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('competitions', function($table) {
+        Schema::table('competitions', function ($table) {
             $table->dropColumn('color_code');
         });
     }

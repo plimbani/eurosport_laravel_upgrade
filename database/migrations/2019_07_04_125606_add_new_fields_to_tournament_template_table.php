@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddNewFieldsToTournamentTemplateTable extends Migration
 {
@@ -16,7 +16,7 @@ class AddNewFieldsToTournamentTemplateTable extends Migration
         Schema::table('tournament_template', function (Blueprint $table) {
             $table->string('avg_matches')->nullable()->after('position_type');
             $table->string('total_matches')->nullable()->after('avg_matches');
-            $table->string('divisions')->nullable()->after('total_matches');            
+            $table->string('divisions')->nullable()->after('total_matches');
             $table->integer('version')->unsigned()->default(1)->after('divisions');
             $table->boolean('is_latest')->default(1)->after('version');
             $table->integer('inherited_from')->unsigned()->nullable()->default(null)->after('is_latest');

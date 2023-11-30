@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTournamentTemplateTable extends Migration
 {
@@ -17,8 +17,8 @@ class CreateTournamentTemplateTable extends Migration
             $table->increments('id')->unsigned(10);
             $table->string('name')->nullable();
             $table->text('json_data');
-            $table->string('total_teams',10);
-            $table->string('minimum_matches',10);
+            $table->string('total_teams', 10);
+            $table->string('minimum_matches', 10);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Referee;
+namespace App\Http\Requests\Referee;
 
-use Laraspace\Models\Referee;
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Referee;
+use App\Traits\TournamentAccess;
 
 class DeleteRequest extends FormRequest
 {
@@ -20,9 +20,10 @@ class DeleteRequest extends FormRequest
         $refereeId = $this->route('deleteid');
         $referee = Referee::findOrFail($refereeId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($referee->tournament_id);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

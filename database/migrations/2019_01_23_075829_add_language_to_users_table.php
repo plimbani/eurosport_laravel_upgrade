@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddLanguageToUsersTable extends Migration
 {
@@ -27,7 +27,7 @@ class AddLanguageToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            DB::statement("ALTER TABLE users CHANGE locale locale varchar(255)");
+            DB::statement('ALTER TABLE users CHANGE locale locale varchar(255)');
         });
     }
 }

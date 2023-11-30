@@ -1,15 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Pitch;
+namespace App\Http\Requests\Pitch;
 
-use Laraspace\Models\TempFixture;
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class GetSignedUrlForPitchPlannerExportRequest extends FormRequest
 {
     use TournamentAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -19,9 +18,10 @@ class GetSignedUrlForPitchPlannerExportRequest extends FormRequest
     {
         $tournamentId = $this->route('tournamentId');
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

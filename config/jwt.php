@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'user' => 'Laraspace\Models\User',
+    'user' => App\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------

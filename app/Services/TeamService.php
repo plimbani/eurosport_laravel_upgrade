@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\TeamContract;
-use Laraspace\Repositories\TeamRepository;
+use App\Contracts\TeamContract;
+use App\Repositories\TeamRepository;
 
 class TeamService implements TeamContract
 {
@@ -33,8 +33,7 @@ class TeamService implements TeamContract
      * create New Team.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function create($data)
@@ -49,9 +48,8 @@ class TeamService implements TeamContract
     /**
      * Edit Team.
      *
-     * @param array $data
-     * @param mixed $teamId
-     *
+     * @param  array  $data
+     * @param  mixed  $teamId
      * @return [type]
      */
     public function edit($data, $teamId)

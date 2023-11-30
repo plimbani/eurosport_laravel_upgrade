@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddPitchSizeToTournamentCompetationTemplate extends Migration
 {
@@ -13,8 +12,8 @@ class AddPitchSizeToTournamentCompetationTemplate extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_competation_template', function($table) {
-           $table->string('pitch_size', 100)->nullable()->after('category_age');
+        Schema::table('tournament_competation_template', function ($table) {
+            $table->string('pitch_size', 100)->nullable()->after('category_age');
         });
     }
 
@@ -25,7 +24,7 @@ class AddPitchSizeToTournamentCompetationTemplate extends Migration
      */
     public function down()
     {
-         Schema::table('tournament_competation_template', function($table) {
+        Schema::table('tournament_competation_template', function ($table) {
             $table->dropColumn('pitch_size');
         });
     }

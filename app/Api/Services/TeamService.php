@@ -1,32 +1,30 @@
 <?php
 
-namespace Laraspace\Api\Services;
+namespace App\Api\Services;
 
 use DB;
+use App\Api\Contracts\TeamContract;
+use App\Api\Repositories\TeamRepository;
+use App\Models\Club;
+use App\Models\Competition;
+use App\Models\Team;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
+use App\Traits\TournamentAccess;
 use PDF;
-use Carbon\Carbon;
-use Laraspace\Models\Club;
-use Laraspace\Models\Team;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Competition;
-use Laraspace\Traits\TournamentAccess;
-use Laraspace\Api\Contracts\TeamContract;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Api\Repositories\TeamRepository;
-use Laraspace\Models\TournamentCompetationTemplates;
-
 
 class TeamService implements TeamContract
 {
     use TournamentAccess;
-  
+
     public function __construct(TeamRepository $teamRepoObj)
     {
         $this->teamRepoObj = $teamRepoObj;
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
-        $this->tournamentRepoObj = new \Laraspace\Api\Repositories\TournamentRepository();
-        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
+        $this->tournamentRepoObj = new \App\Api\Repositories\TournamentRepository();
+        $this->tournamentLogo = getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
     /*
@@ -39,13 +37,13 @@ class TeamService implements TeamContract
     {
         $data = $teamData->toArray()['teamData'];
         $resultEnteredHomeTeams = TempFixture::where('temp_fixtures.tournament_id', $data['tournamentId'])
-        ->whereNotNull('hometeam_score')
-        ->get()->pluck('home_team')->toArray();
+            ->whereNotNull('hometeam_score')
+            ->get()->pluck('home_team')->toArray();
         $resultEnteredAwayTeams = TempFixture::where('temp_fixtures.tournament_id', $data['tournamentId'])
-        ->whereNotNull('awayteam_score')
-        ->get()->pluck('away_team')->toArray();
+            ->whereNotNull('awayteam_score')
+            ->get()->pluck('away_team')->toArray();
         $resultEnteredTeams = array_unique(array_merge($resultEnteredHomeTeams, $resultEnteredAwayTeams));
-        
+
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllFromFilter($data);
 
@@ -75,9 +73,9 @@ class TeamService implements TeamContract
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
-          return ['status_code' => '505', 'message' => 'Error in Data'];
-    }
 
+        return ['status_code' => '505', 'message' => 'Error in Data'];
+    }
 
     public function getAllTournamentTeams($data)
     {
@@ -86,19 +84,20 @@ class TeamService implements TeamContract
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
         $competitionFixtures = null;
 
-        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
-          $competitionFixtures = Competition::withCount('scheduledFixtures')
-                                              ->where('tournament_id', $tournamentId)
-                                              ->pluck('scheduled_fixtures_count', 'id')
-                                              ->toArray();
+        if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
+            $competitionFixtures = Competition::withCount('scheduledFixtures')
+                ->where('tournament_id', $tournamentId)
+                ->pluck('scheduled_fixtures_count', 'id')
+                ->toArray();
         }
 
         if ($data) {
-          return ['status_code' => '200', 'data' => $data, 'competitionFixtures' => $competitionFixtures];
+            return ['status_code' => '200', 'data' => $data, 'competitionFixtures' => $competitionFixtures];
         }
 
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
+
     public function getAllFromCompetitionId($data)
     {
         $data = $this->teamRepoObj->getAllFromCompetitionId($data['tournamentData']['competitionId']);
@@ -106,30 +105,29 @@ class TeamService implements TeamContract
             return ['status_code' => '200', 'data' => $data];
         }
 
-        return ['status_code' => '505', 'message' => 'Error in Data']; 
+        return ['status_code' => '505', 'message' => 'Error in Data'];
     }
-    
 
     /**
      * create New Team.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
-    public function getCountryIdFromName($countryName) {
+    public function getCountryIdFromName($countryName)
+    {
 
         $cid = \DB::table('countries')->where('name', $countryName)->select('id')->first();
-        if($cid){
+        if ($cid) {
             return $cid->id;
-        }else{
-            return "error";
+        } else {
+            return 'error';
         }
-
 
         // return 1;
     }
+
     public function create($data, $tournamentId)
     {
         if (isset($data['country']) && $data['country'] != '') {
@@ -141,60 +139,57 @@ class TeamService implements TeamContract
 
         $ageCategory = trim($data['agecategory']);
         $categoryName = trim($data['categoryname']);
-        
+
         if (config('config-variables.current_layout') === 'tmp') {
-            if($ageCategory!= '' && $categoryName!=''){
-              $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
-              if($competitionData){ 
-                $data['age_group_id'] = $competitionData['id'];
-              }
+            if ($ageCategory != '' && $categoryName != '') {
+                $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->where('group_name', $categoryName)->first();
+                if ($competitionData) {
+                    $data['age_group_id'] = $competitionData['id'];
+                }
             }
 
             $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'], $tournamentId);
         } else {
-            if($ageCategory!= ''){
-              $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->first();
-              if($competitionData){ 
-                $data['age_group_id'] = $competitionData['id'];
-              }
+            if ($ageCategory != '') {
+                $competitionData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->where('category_age', $ageCategory)->first();
+                if ($competitionData) {
+                    $data['age_group_id'] = $competitionData['id'];
+                }
             }
         }
 
-        
-        if($data['club']!='')
-        {
+        if ($data['club'] != '') {
             // Here we first find the club name in Database
-            $clubData1 = Club::where('name',$data['club'])->get();
+            $clubData1 = Club::where('name', $data['club'])->get();
             // Here we check if No data then create
-            if(count($clubData1) == 0) {
+            if (count($clubData1) == 0) {
                 // Its New values
-                $club_array = array('user_id'=>'1','name'=>$data['club']);
+                $club_array = ['user_id' => '1', 'name' => $data['club']];
                 $clubData = Club::create($club_array);
                 $update = [
-                  'tournament_id' => $tournamentId,
-                  'club_id' => $clubData->id,
+                    'tournament_id' => $tournamentId,
+                    'club_id' => $clubData->id,
                 ];
                 // print_r($update);exit;
                 $data['club_id'] = $clubData->id;
                 $clubData->tournament()->attach($update);
-            }
-            else {
+            } else {
                 // here check if record is exist
-               $club_id = $clubData1[0]->id;
-               $tournament_id = $tournamentId;
-              $clubData2 = Club::whereHas('tournament', function($q) use ($club_id,$tournament_id) {
-                  $q->where('tournament_id',$tournament_id);
-                  $q->where('club_id',$club_id);
-              })->exists();
+                $club_id = $clubData1[0]->id;
+                $tournament_id = $tournamentId;
+                $clubData2 = Club::whereHas('tournament', function ($q) use ($club_id, $tournament_id) {
+                    $q->where('tournament_id', $tournament_id);
+                    $q->where('club_id', $club_id);
+                })->exists();
 
-                if(!$clubData2) {
-                  // we have to insert the value in tournament id
-                   $updateEd = [
-                  'tournament_id' =>  $tournamentId,
-                  'club_id' => $club_id,
-                ];
-                  \DB::table('tournament_club')->insert($updateEd);
-                  //$clubData1->tournament()->attach($updateEd);
+                if (! $clubData2) {
+                    // we have to insert the value in tournament id
+                    $updateEd = [
+                        'tournament_id' => $tournamentId,
+                        'club_id' => $club_id,
+                    ];
+                    \DB::table('tournament_club')->insert($updateEd);
+                    //$clubData1->tournament()->attach($updateEd);
                 }
 
                 $data['club_id'] = $club_id;
@@ -202,9 +197,9 @@ class TeamService implements TeamContract
         }
 
         if (config('config-variables.current_layout') === 'tmp') {
-            if($data['age_group_id'] != 0){
-                if(isset($teamData['id']) ){
-                    $editData =  [
+            if ($data['age_group_id'] != 0) {
+                if (isset($teamData['id'])) {
+                    $editData = [
                         'id' => $teamData['id'],
                         'name' => $data['team'],
                         'place' => $data['place'],
@@ -226,15 +221,14 @@ class TeamService implements TeamContract
         }
 
         if ($data) {
-          return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+            return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
 
     /**
      * Edit Team.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return [type]
      */
     public function edit($data)
@@ -248,77 +242,79 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
-      // $this->UpdateMatches($data);
-      $teamsData = $this->teamRepoObj->getAllUpdatedTeam($data);
-      $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
-      $tournamentId = $data['data']['tournament_id'];
-      $ageGroupId  = $data['data']['age_group'];
-       
-      $teamData = $data['data']['teamdata'];
+        // $this->UpdateMatches($data);
+        $teamsData = $this->teamRepoObj->getAllUpdatedTeam($data);
+        $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
+        $tournamentId = $data['data']['tournament_id'];
+        $ageGroupId = $data['data']['age_group'];
 
-      // for group assignment validation
-      $tempFixturesCount = TempFixture::where('tournament_id', $data['data']['tournament_id'])
-                                  ->where('age_group_id', $data['data']['age_group'])
-                                  ->where(function($query){
-                                    $query->orWhereNotNull('hometeam_score')
-                                          ->orWhereNotNull('awayteam_score');
-                                  })
-                                  ->get()
-                                  ->count();
+        $teamData = $data['data']['teamdata'];
 
-      if($tempFixturesCount > 0) { 
-        
-        $tournamentCompetationTemplatesTotalTeamsCount = TournamentCompetationTemplates::where('id', $data['data']['age_group'])->first();
+        // for group assignment validation
+        $tempFixturesCount = TempFixture::where('tournament_id', $data['data']['tournament_id'])
+            ->where('age_group_id', $data['data']['age_group'])
+            ->where(function ($query) {
+                $query->orWhereNotNull('hometeam_score')
+                    ->orWhereNotNull('awayteam_score');
+            })
+            ->get()
+            ->count();
 
-        $finalTeamdata = [];
-        foreach ($teamData as $key => $team) {
-          if($team['value'] != '') {
-            $finalTeamdata[] = $team;
-          }
-        } 
+        if ($tempFixturesCount > 0) {
 
-        if(count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
-          return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
+            $tournamentCompetationTemplatesTotalTeamsCount = TournamentCompetationTemplates::where('id', $data['data']['age_group'])->first();
+
+            $finalTeamdata = [];
+            foreach ($teamData as $key => $team) {
+                if ($team['value'] != '') {
+                    $finalTeamdata[] = $team;
+                }
+            }
+
+            if (count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
+                return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
+            }
+
+            $this->teamRepoObj->updateMatches($teamsList, $teamsData, $data['data']);
         }
-        
-        $this->teamRepoObj->updateMatches($teamsList,$teamsData,$data['data']);
-      }
 
-      $this->teamRepoObj->saveTeamManualRankingFromStandings($tournamentId, $ageGroupId, $teamsList);
+        $this->teamRepoObj->saveTeamManualRankingFromStandings($tournamentId, $ageGroupId, $teamsList);
 
-      foreach ($teamData as $key => $value) {
-          $team_id = str_replace('sel_', '', $value['name']);
-          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data'],$tempFixturesCount, $ageGroupId);
-          # code...
-      }
-      $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
-      $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
-      $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
+        foreach ($teamData as $key => $value) {
+            $team_id = str_replace('sel_', '', $value['name']);
+            $this->teamRepoObj->assignGroup($team_id, $value['value'], $data['data'], $tempFixturesCount, $ageGroupId);
+            // code...
+        }
+        $matchData = ['tournamentId' => $tournamentId, 'ageGroupId' => $ageGroupId];
+        $matchresult = $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+        $this->matchRepoObj->checkMaximumTeamIntervalForMatchesOnCategoryUpdate($matchData);
 
-      return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
-    
+
     public function getAllTeamsGroup($data)
     {
         foreach ($data['data']['teamdata'] as $key => $value) {
             $team_id = str_replace('sel_', '', $value['name']);
             // $team_id = str_replace('sel_', '', $value['value']);
-            $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
-            # code...
+            $this->teamRepoObj->assignGroup($team_id, $value['value'], $data['data']);
+            // code...
         }
+
         return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
 
     /**
      * Delete Team.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return [type]
      */
-    public function deleteFromTournament($tournamentId,$ageGroup) {
-        return  $this->teamRepoObj->deleteFromTournament($tournamentId,$ageGroup);
+    public function deleteFromTournament($tournamentId, $ageGroup)
+    {
+        return $this->teamRepoObj->deleteFromTournament($tournamentId, $ageGroup);
     }
+
     public function delete($data)
     {
         $data = $data->all();
@@ -327,24 +323,25 @@ class TeamService implements TeamContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
+
     public function getTeamsList($data)
     {
-      // here first we get the key and based on that we listed out team details
-      $data = $this->teamRepoObj->getTeamList($data);
-      if ($data) {
-            return ['status_code' => '200', 'data'=>$data,
-            'message' => 'Data Successfully Deleted'];
+        // here first we get the key and based on that we listed out team details
+        $data = $this->teamRepoObj->getTeamList($data);
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data,
+                'message' => 'Data Successfully Deleted'];
         }
     }
 
     public function changeTeamName($data)
     {
-      // here first we get the key and based on that we listed out team details
-      $data = $this->teamRepoObj->changeTeamName($data['teamData']);
-      if ($data) {
-          return ['status_code' => '200', 'data'=>$data,
-          'message' => 'Data Successfully Deleted'];
-      }
+        // here first we get the key and based on that we listed out team details
+        $data = $this->teamRepoObj->changeTeamName($data['teamData']);
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data,
+                'message' => 'Data Successfully Deleted'];
+        }
     }
 
     public function getAllCompetitionTeamsFromFixture($data)
@@ -354,7 +351,7 @@ class TeamService implements TeamContract
             return ['status_code' => '200', 'data' => $data];
         }
 
-        return ['status_code' => '505', 'message' => 'Error in Data']; 
+        return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
     public function editTeamDetails($teamId)
@@ -374,91 +371,93 @@ class TeamService implements TeamContract
 
     public function getAllClubs()
     {
-        return $this->teamRepoObj->getAllClubs();      
+        return $this->teamRepoObj->getAllClubs();
     }
 
     public function updateTeamDetails($request, $teamId)
     {
-      return $this->teamRepoObj->updateTeamDetails($request, $teamId);
+        return $this->teamRepoObj->updateTeamDetails($request, $teamId);
     }
+
     public function checkTeamExist($request)
     {
-      $data =  $this->teamRepoObj->checkTeamExist($request);
-      if($data > 0) {
+        $data = $this->teamRepoObj->checkTeamExist($request);
+        if ($data > 0) {
 
-        return ['status' => 'true', 'data' => 'exist'];
-      } else {
-        return ['status' => 'false', 'data' => 'not exist'];
+            return ['status' => 'true', 'data' => 'exist'];
+        } else {
+            return ['status' => 'false', 'data' => 'not exist'];
 
-      }
+        }
     }
+
     public function resetAllTeams($request)
     {
         $data = $request->toArray();
-        
+
         return $this->teamRepoObj->resetAllTeams($data);
     }
 
     public function getClubsByTournamentId($tournamentId)
     {
-      return $this->teamRepoObj->getClubsByTournamentId($tournamentId);
+        return $this->teamRepoObj->getClubsByTournamentId($tournamentId);
     }
 
     public function getTeamsFairPlayData($teamData)
     {
-      $data = $this->teamRepoObj->getTeamsFairPlayData($teamData);
+        $data = $this->teamRepoObj->getTeamsFairPlayData($teamData);
 
-      if ($data) {
-        return ['status_code' => '200', 'data' => $data];
-      }
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
 
-      return ['status_code' => '505', 'message' => 'Error in Data'];
+        return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
     public function exportTeamFairPlayReport($data)
-    {      
-      $reportData = $this->queryForTeamsFairPlayReport($data);
-      $dataArray = array();
+    {
+        $reportData = $this->queryForTeamsFairPlayReport($data);
+        $dataArray = [];
 
-      if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-        foreach ($reportData as $report) {
-          $finalData = [
-            $report->team_id,
-            $report->name,
-            $report->club_name,
-            $report->country_name,
-            $report->age_name,
-            $report->total_red_cards == null ? 0 : $report->total_red_cards,
-            $report->total_yellow_cards == null ? 0 : $report->total_yellow_cards
-          ];
-          array_push($dataArray, $finalData);
+        if (isset($data['report_download']) && $data['report_download'] == 'yes') {
+            foreach ($reportData as $report) {
+                $finalData = [
+                    $report->team_id,
+                    $report->name,
+                    $report->club_name,
+                    $report->country_name,
+                    $report->age_name,
+                    $report->total_red_cards == null ? 0 : $report->total_red_cards,
+                    $report->total_yellow_cards == null ? 0 : $report->total_yellow_cards,
+                ];
+                array_push($dataArray, $finalData);
+            }
+
+            $otherParams = [
+                'sheetTitle' => 'fair_play_report',
+                'sheetName' => 'fair_play_report',
+                'boldLastRow' => false,
+            ];
+
+            $lableArray = [
+                'TeamID', 'Team', 'Club', 'Country', 'Age category', 'Red cards', 'Yellow cards',
+            ];
+
+            \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
-        $otherParams = [
-          'sheetTitle' => "fair_play_report",
-          'sheetName' => "fair_play_report",
-          'boldLastRow' => false
-        ];
-
-        $lableArray = [
-          'TeamID', 'Team', 'Club', 'Country', 'Age category', 'Red cards', 'Yellow cards'
-        ];
-
-        \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-      }
-
-      if ($reportData) {
-        return ['status_code' => '200', 'message' => '','data'=>$reportData];
-      }
+        if ($reportData) {
+            return ['status_code' => '200', 'message' => '', 'data' => $reportData];
+        }
     }
 
     public function printTeamFairPlayReport($data)
     {
-      $tournamentData = Tournament::where('id', '=', $data['tournament_id'])->select(DB::raw('CONCAT("'.$this->tournamentLogo.'", logo) AS tournamentLogo'))->first();
-      $reportData = $this->queryForTeamsFairPlayReport($data);
-      $date = new \DateTime(date('H:i d M Y'));
+        $tournamentData = Tournament::where('id', '=', $data['tournament_id'])->select(DB::raw('CONCAT("'.$this->tournamentLogo.'", logo) AS tournamentLogo'))->first();
+        $reportData = $this->queryForTeamsFairPlayReport($data);
+        $date = new \DateTime(date('H:i d M Y'));
 
-      $pdf = PDF::loadView('summary.fair_play_report',['data' => $reportData->all(), 'tournamentData' => $tournamentData])
+        $pdf = PDF::loadView('summary.fair_play_report', ['data' => $reportData->all(), 'tournamentData' => $tournamentData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
@@ -468,98 +467,99 @@ class TeamService implements TeamContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-      
-      return $pdf->inline('fair_play_report.pdf');
+
+        return $pdf->inline('fair_play_report.pdf');
     }
 
     public function queryForTeamsFairPlayReport($data)
     {
-      $reportQuery = Team::join('countries', function ($join) {
-        $join->on('teams.country_id', '=', 'countries.id');
-      })
-      ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
-      ->join('clubs', 'clubs.id', '=', 'teams.club_id')
-      ->join('temp_fixtures', function($join) {
-          $join->on('teams.id', '=', 'temp_fixtures.home_team')->orOn('teams.id', '=', 'temp_fixtures.away_team');
+        $reportQuery = Team::join('countries', function ($join) {
+            $join->on('teams.country_id', '=', 'countries.id');
         })
-      ->groupBy('teams.id')      
-      ->where('teams.tournament_id',$data['tournament_id'])
-      ->select('teams.*','teams.id as team_id', 'countries.name as country_name',
-          'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name', 
-            DB::raw('SUM(CASE
+            ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+            ->join('clubs', 'clubs.id', '=', 'teams.club_id')
+            ->join('temp_fixtures', function ($join) {
+                $join->on('teams.id', '=', 'temp_fixtures.home_team')->orOn('teams.id', '=', 'temp_fixtures.away_team');
+            })
+            ->groupBy('teams.id')
+            ->where('teams.tournament_id', $data['tournament_id'])
+            ->select('teams.*', 'teams.id as team_id', 'countries.name as country_name',
+                'tournament_competation_template.group_name as age_name', 'tournament_competation_template.category_age as category_age', 'clubs.name as club_name',
+                DB::raw('SUM(CASE
               WHEN (temp_fixtures.home_team = teams.id) THEN temp_fixtures.home_yellow_cards ELSE temp_fixtures.away_yellow_cards
               END
               ) AS total_yellow_cards'),
-            DB::raw('
+                DB::raw('
               SUM(CASE
               WHEN (temp_fixtures.home_team = teams.id) THEN temp_fixtures.home_red_cards ELSE temp_fixtures.away_red_cards
               END
               ) AS total_red_cards'));
 
-      if(isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != ''){
-        $reportQuery = $reportQuery->where('teams.age_group_id',$data['sel_ageCategory']);
-      }
-
-      if(isset($data['sort_by']) && $data['sort_by'] != '') {
-        switch($data['sort_by']) {
-          case 'team_id':
-                $fieldName = 'teams.id';
-                break;
-          case 'name':
-                $fieldName = 'teams.name';
-                break;
-          case 'club_name':
-                $fieldName = 'clubs.name';
-                break;
-          case 'country_name':
-                $fieldName = 'countries.name';
-                break;
-          case 'age_name':
-                $fieldName = 'tournament_competation_template.group_name';
-                break;
-          case 'total_red_cards':
-                $fieldName = 'total_red_cards';
-                break;
-          case 'total_yellow_cards':
-                $fieldName = 'total_yellow_cards';
-                break;
+        if (isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != '') {
+            $reportQuery = $reportQuery->where('teams.age_group_id', $data['sel_ageCategory']);
         }
-        $reportQuery = $reportQuery->orderBy($fieldName, $data['sort_order']);
-      }      
 
-      $reportData = $reportQuery->get();
-      return $reportData;
+        if (isset($data['sort_by']) && $data['sort_by'] != '') {
+            switch ($data['sort_by']) {
+                case 'team_id':
+                    $fieldName = 'teams.id';
+                    break;
+                case 'name':
+                    $fieldName = 'teams.name';
+                    break;
+                case 'club_name':
+                    $fieldName = 'clubs.name';
+                    break;
+                case 'country_name':
+                    $fieldName = 'countries.name';
+                    break;
+                case 'age_name':
+                    $fieldName = 'tournament_competation_template.group_name';
+                    break;
+                case 'total_red_cards':
+                    $fieldName = 'total_red_cards';
+                    break;
+                case 'total_yellow_cards':
+                    $fieldName = 'total_yellow_cards';
+                    break;
+            }
+            $reportQuery = $reportQuery->orderBy($fieldName, $data['sort_order']);
+        }
+
+        $reportData = $reportQuery->get();
+
+        return $reportData;
     }
 
     public function getTournamentTeamDetails($data)
     {
-      $teamData = $this->teamRepoObj->getTournamentTeamDetails($data);
-      if ($teamData) {
-        return ['status_code' => '200','data'=>$teamData];
-      }
+        $teamData = $this->teamRepoObj->getTournamentTeamDetails($data);
+        if ($teamData) {
+            return ['status_code' => '200', 'data' => $teamData];
+        }
     }
 
     public function printGroupsViewReport($data)
     {
-      $tournamentTemplate = TournamentTemplates::find($data['tournamentTemplateId']);
-      $jsonData = json_decode($tournamentTemplate->json_data, true);
-      $jsonCompetitionFormatDataFirstRound = $jsonData['tournament_competation_format']['format_name'][0]['match_type'];
+        $tournamentTemplate = TournamentTemplates::find($data['tournamentTemplateId']);
+        $jsonData = json_decode($tournamentTemplate->json_data, true);
+        $jsonCompetitionFormatDataFirstRound = $jsonData['tournament_competation_format']['format_name'][0]['match_type'];
 
-      $tournamentLogo = null;
-      $tournamentDetail = Tournament::find($data['tournamentId']);
-      if($tournamentDetail->logo != null) {
-        $tournamentLogo = $this->tournamentLogo. $tournamentDetail->logo;
-      }
+        $tournamentLogo = null;
+        $tournamentDetail = Tournament::find($data['tournamentId']);
+        if ($tournamentDetail->logo != null) {
+            $tournamentLogo = $this->tournamentLogo.$tournamentDetail->logo;
+        }
 
-      $groupsViewArray = [];
-      foreach($jsonCompetitionFormatDataFirstRound as $round) {
-        array_push($groupsViewArray, $round);
-      }
+        $groupsViewArray = [];
+        foreach ($jsonCompetitionFormatDataFirstRound as $round) {
+            array_push($groupsViewArray, $round);
+        }
 
-      $teamsData = $this->teamRepoObj->getAllFromFilter($data);
-      $ageCategoryDetail = TournamentCompetationTemplates::find($data['ageCategoryId']);
-      $date = new \DateTime(date('H:i d M Y'));
-      $pdf = PDF::loadView('teams_and_groups.group_detail_report',['data' => $data, 'groupsData' => $groupsViewArray, 'teamsData' => $teamsData, 'tournamentLogo' => $tournamentLogo, 'categoryName' => $ageCategoryDetail->group_name])
+        $teamsData = $this->teamRepoObj->getAllFromFilter($data);
+        $ageCategoryDetail = TournamentCompetationTemplates::find($data['ageCategoryId']);
+        $date = new \DateTime(date('H:i d M Y'));
+        $pdf = PDF::loadView('teams_and_groups.group_detail_report', ['data' => $data, 'groupsData' => $groupsViewArray, 'teamsData' => $teamsData, 'tournamentLogo' => $tournamentLogo, 'categoryName' => $ageCategoryDetail->group_name])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
@@ -570,54 +570,55 @@ class TeamService implements TeamContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-      
-      return $pdf->download($ageCategoryDetail->group_name. ' groups.pdf');
+
+        return $pdf->download($ageCategoryDetail->group_name.' groups.pdf');
     }
 
     public function allocateTeamsAutomatically($data)
     {
-      $ageCategoryTeams = $this->teamRepoObj->getAgeCategoryTeams($data);
-      $template = $this->tournamentRepoObj->getTemplate($ageCategoryTeams['ageCategory']->tournament_template_id, $data['ageCategoryId']);
-      $jsonObj = json_decode($template['json_data']);
-      $jsonCompetationFormatDataFirstRound = $jsonObj->tournament_competation_format->format_name[0]->match_type;
-      $availGroupTeam = [];
-      $groups = [];
-      $competId = NULL;
+        $ageCategoryTeams = $this->teamRepoObj->getAgeCategoryTeams($data);
+        $template = $this->tournamentRepoObj->getTemplate($ageCategoryTeams['ageCategory']->tournament_template_id, $data['ageCategoryId']);
+        $jsonObj = json_decode($template['json_data']);
+        $jsonCompetationFormatDataFirstRound = $jsonObj->tournament_competation_format->format_name[0]->match_type;
+        $availGroupTeam = [];
+        $groups = [];
+        $competId = null;
 
-      foreach ($jsonCompetationFormatDataFirstRound as $group) {
-        $splitGroupName = explode('-', $group->name);
-        $competitionType = $splitGroupName[0];
+        foreach ($jsonCompetationFormatDataFirstRound as $group) {
+            $splitGroupName = explode('-', $group->name);
+            $competitionType = $splitGroupName[0];
 
-        if($competitionType == 'PM' && $group->consider_in_team_assignment == "undefined") {
-          return;
+            if ($competitionType == 'PM' && $group->consider_in_team_assignment == 'undefined') {
+                return;
+            }
+
+            $groupName = '';
+            if ($competitionType == 'PM' && $group->consider_in_team_assignment == 1) {
+                $groupName = $group->groups->actual_group_name + '-';
+            } else {
+                $groupName = $group->groups->group_name;
+            }
+
+            for ($i = 1; $i <= $group->group_count; $i++) {
+                $availGroupTeam[] = $groupName.$i;
+            }
+        }
+        $tempFixturesCount = TempFixture::where('tournament_id', $ageCategoryTeams['ageCategory']->tournament_id)
+            ->where('age_group_id', $data['ageCategoryId'])
+            ->where(function ($query) {
+                $query->orWhereNotNull('hometeam_score')
+                    ->orWhereNotNull('awayteam_score');
+            })
+            ->get()
+            ->count();
+        $tournamentData = [];
+        $tournamentData['tournament_id'] = $ageCategoryTeams['ageCategory']->tournament_id;
+        foreach ($ageCategoryTeams['ageCategoryTeams'] as $team) {
+            $randomKey = array_rand($availGroupTeam);
+            $this->teamRepoObj->assignGroup($team->id, $availGroupTeam[$randomKey], $tournamentData, $tempFixturesCount, $data['ageCategoryId']);
+            unset($availGroupTeam[$randomKey]);
         }
 
-        $groupName = '';
-        if($competitionType == 'PM' && $group->consider_in_team_assignment == 1) {
-          $groupName = $group->groups->actual_group_name + '-';
-        } else {
-          $groupName = $group->groups->group_name;
-        }
-
-        for($i = 1; $i <= $group->group_count; $i++ ){
-          $availGroupTeam[] = $groupName . $i;
-        }
-      }
-      $tempFixturesCount = TempFixture::where('tournament_id', $ageCategoryTeams['ageCategory']->tournament_id)
-                                  ->where('age_group_id', $data['ageCategoryId'])
-                                  ->where(function($query){
-                                    $query->orWhereNotNull('hometeam_score')
-                                          ->orWhereNotNull('awayteam_score');
-                                  })
-                                  ->get()
-                                  ->count();
-      $tournamentData = [];
-      $tournamentData['tournament_id'] = $ageCategoryTeams['ageCategory']->tournament_id;
-      foreach ($ageCategoryTeams['ageCategoryTeams'] as $team) {
-        $randomKey = array_rand($availGroupTeam);
-        $this->teamRepoObj->assignGroup($team->id, $availGroupTeam[$randomKey], $tournamentData, $tempFixturesCount, $data['ageCategoryId']);
-        unset($availGroupTeam[$randomKey]);
-      }
-      return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
 }

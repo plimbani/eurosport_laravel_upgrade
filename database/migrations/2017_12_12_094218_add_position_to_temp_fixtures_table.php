@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddPositionToTempFixturesTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddPositionToTempFixturesTable extends Migration
      */
     public function up()
     {
-        Schema::table('temp_fixtures', function($table) {
+        Schema::table('temp_fixtures', function ($table) {
             $table->string('position')->after('match_number')->nullable();
         });
     }
@@ -25,7 +24,7 @@ class AddPositionToTempFixturesTable extends Migration
      */
     public function down()
     {
-        Schema::table('temp_fixtures', function($table) {
+        Schema::table('temp_fixtures', function ($table) {
             $table->dropColumn('position');
         });
     }

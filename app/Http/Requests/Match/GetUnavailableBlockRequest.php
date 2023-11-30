@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class GetUnavailableBlockRequest extends FormRequest
 {
@@ -19,10 +19,11 @@ class GetUnavailableBlockRequest extends FormRequest
         if (isset($this->all()['matchData'])) {
             $data = $this->all()['matchData'];
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -34,7 +35,7 @@ class GetUnavailableBlockRequest extends FormRequest
     public function rules()
     {
         return [
-            'matchData' => 'required | array'
+            'matchData' => 'required | array',
         ];
     }
 }

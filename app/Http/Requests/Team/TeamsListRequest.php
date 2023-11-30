@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class TeamsListRequest extends FormRequest
 {
     use TournamentAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -19,11 +19,13 @@ class TeamsListRequest extends FormRequest
         $data = $this->all();
         if (isset($data['tournament_id'])) {
             $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
-            if(!$isTournamentAccessible) {
-              return false;
+            if (! $isTournamentAccessible) {
+                return false;
             }
+
             return true;
         }
+
         return true;
     }
 
@@ -35,7 +37,7 @@ class TeamsListRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournament_id' => 'required'
+            'tournament_id' => 'required',
         ];
     }
 }

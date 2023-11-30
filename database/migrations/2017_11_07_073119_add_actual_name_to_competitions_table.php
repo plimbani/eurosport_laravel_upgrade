@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddActualNameToCompetitionsTable extends Migration
 {
@@ -14,7 +14,7 @@ class AddActualNameToCompetitionsTable extends Migration
     public function up()
     {
         Schema::table('competitions', function (Blueprint $table) {
-            $table->string('actual_name')->nullable()->after('name')->default(NULL);
+            $table->string('actual_name')->nullable()->after('name')->default(null);
         });
     }
 
@@ -25,7 +25,7 @@ class AddActualNameToCompetitionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('competitions', function($table) {
+        Schema::table('competitions', function ($table) {
             $table->dropColumn('actual_name');
         });
     }

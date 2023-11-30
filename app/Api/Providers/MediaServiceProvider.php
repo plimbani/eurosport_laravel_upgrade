@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\MediaService;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Repositories\MediaRepository;
+use App\Api\Repositories\MediaRepository;
+use App\Api\Services\MediaService;
+use App\Api\Services\PageService;
 
 class MediaServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class MediaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\MediaContract', function ($app) {
+        $this->app->bind('App\Api\Contracts\MediaContract', function ($app) {
             return new MediaService(new MediaRepository(new PageService()));
         });
     }
@@ -37,6 +37,6 @@ class MediaServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\MediaContract'];
+        return ['App\Api\Contracts\MediaContract'];
     }
 }

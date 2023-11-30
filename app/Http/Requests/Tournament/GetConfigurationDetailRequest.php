@@ -1,38 +1,39 @@
-<?php	
+<?php
 
-namespace Laraspace\Http\Requests\Tournament;	
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\AuthUserDetail;	
-use Illuminate\Foundation\Http\FormRequest;	
+use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\AuthUserDetail;
 
-class GetConfigurationDetailRequest extends FormRequest	
-{	
-    use AuthUserDetail;	
+class GetConfigurationDetailRequest extends FormRequest
+{
+    use AuthUserDetail;
 
-    /**	
-     * Determine if the user is authorized to make this request.	
-     *	
-     * @return bool	
-     */	
-    public function authorize()	
-    {	
-        $loggedInUser = $this->getCurrentLoggedInUserDetail();	
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {	
-            return false;	
-        }	
-        return true;	
-    }	
+        if ($loggedInUser->hasRole('mobile.user')) {
+            return false;
+        }
 
-    /**	
-     * Get the validation rules that apply to the request.	
-     *	
-     * @return array	
-     */	
-    public function rules()	
-    {	
-        return [	
-            //	
-        ];	
-    }	
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
 }

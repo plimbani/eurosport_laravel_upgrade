@@ -1,8 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests;
-
-use Laraspace\Http\Requests\Request;
+namespace App\Http\Requests;
 
 class TodosRequest extends Request
 {
@@ -25,7 +23,7 @@ class TodosRequest extends Request
     {
         return [
             'title' => 'required',
-            'completed' => 'required'
+            'completed' => 'required',
         ];
     }
 }

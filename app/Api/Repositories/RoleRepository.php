@@ -1,16 +1,18 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
-use Laraspace\Models\Role;
+use App\Models\Role;
 
-class RoleRepository {
+class RoleRepository
+{
     public function getAllRoles()
     {
         return Role::all();
     }
 
-    public function getRolesForSelect() {
-        return Role::All()->pluck("name", "id");
+    public function getRolesForSelect()
+    {
+        return Role::All()->pluck('name', 'id');
     }
 }

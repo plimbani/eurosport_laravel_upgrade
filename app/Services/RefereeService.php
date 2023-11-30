@@ -1,17 +1,14 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use DB;
-use Laraspace\Contracts\RefereeContract;
-use Validator;
-use Laraspace\Model\Role;
+use App\Contracts\RefereeContract;
 
 class RefereeService implements RefereeContract
 {
     public function __construct()
     {
-        $this->refereeRepoObj = new \Laraspace\Repositories\RefereeRepository();
+        $this->refereeRepoObj = new \App\Repositories\RefereeRepository();
     }
 
     public function getAllReferees()
@@ -23,8 +20,7 @@ class RefereeService implements RefereeContract
      * create New Referee.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function createReferee($data)
@@ -39,10 +35,9 @@ class RefereeService implements RefereeContract
     /**
      * Edit Match.
      *
-     * @param array $data
-     * @param mixed $id
-     * @param mixed $refereeId
-     *
+     * @param  array  $data
+     * @param  mixed  $id
+     * @param  mixed  $refereeId
      * @return [type]
      */
     public function edit($data, $refereeId)
@@ -54,24 +49,23 @@ class RefereeService implements RefereeContract
         }
     }
 
-     /**
-      * Delete Referee.
-      *
-      * @param array $data
-      * @param mixed $deleteId
-      *
-      * @return [type]
-      */
-     public function deleteReferee($deleteId)
-     {
-         $refreeRec = $this->refereeRepoObj->getRefereeFromId($deleteId);
-         if ($refreeRec) {
-             $refereeRes = $refreeRec->delete();
-             if ($refereeRes) {
-                 return ['code' => '200', 'message' => 'Referee has beeb deleted sucessfully'];
-             }
-         }
+    /**
+     * Delete Referee.
+     *
+     * @param  array  $data
+     * @param  mixed  $deleteId
+     * @return [type]
+     */
+    public function deleteReferee($deleteId)
+    {
+        $refreeRec = $this->refereeRepoObj->getRefereeFromId($deleteId);
+        if ($refreeRec) {
+            $refereeRes = $refreeRec->delete();
+            if ($refereeRes) {
+                return ['code' => '200', 'message' => 'Referee has beeb deleted sucessfully'];
+            }
+        }
 
-         return ['code' => '400', 'message' => 'Something goes wrong'];
-     }
+        return ['code' => '400', 'message' => 'Something goes wrong'];
+    }
 }

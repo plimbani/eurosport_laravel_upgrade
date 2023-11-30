@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\MatchService;
+use App\Api\Services\MatchService;
 
 class MatchServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,7 @@ class MatchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\MatchContract', function ($app) {
+        $this->app->bind(\App\Api\Contracts\MatchContract::class, function ($app) {
             return new MatchService();
         });
     }
@@ -35,6 +35,6 @@ class MatchServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\MatchContract'];
+        return [\App\Api\Contracts\MatchContract::class];
     }
 }

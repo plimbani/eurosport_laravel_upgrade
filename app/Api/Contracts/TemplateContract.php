@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Contracts;
+namespace App\Api\Contracts;
 
 interface TemplateContract
 {
@@ -57,5 +57,5 @@ interface TemplateContract
      * @param  $data
      * @return response
      */
-    public function updateTemplateDetail($data);    
+    public function updateTemplateDetail($data);
 }

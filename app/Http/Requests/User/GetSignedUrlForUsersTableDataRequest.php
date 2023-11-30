@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
-use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TournamentAccess;
 
 class GetSignedUrlForUsersTableDataRequest extends FormRequest
 {
     use TournamentAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,9 +17,10 @@ class GetSignedUrlForUsersTableDataRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('Super.administrator') || $user->hasRole('tournament.administrator')) {
+        if ($user->hasRole('Super.administrator') || $user->hasRole('tournament.administrator')) {
             return true;
         }
+
         return false;
     }
 

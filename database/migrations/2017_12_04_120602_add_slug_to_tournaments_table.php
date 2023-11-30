@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddSlugToTournamentsTable extends Migration
 {
@@ -13,8 +12,8 @@ class AddSlugToTournamentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournaments', function($table) {
-           $table->string('slug')->nullable()->after('name');
+        Schema::table('tournaments', function ($table) {
+            $table->string('slug')->nullable()->after('name');
         });
     }
 
@@ -25,7 +24,7 @@ class AddSlugToTournamentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournaments', function($table) {
+        Schema::table('tournaments', function ($table) {
             $table->dropColumn('slug');
         });
     }

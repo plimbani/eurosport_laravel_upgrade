@@ -1,8 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests;
-
-use Laraspace\Http\Requests\Request;
+namespace App\Http\Requests;
 
 class LoginRequest extends Request
 {
