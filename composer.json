@@ -14,6 +14,7 @@
         "brozot/laravel-fcm": "^1.3.1",
         "dingo/api": "2.0.*@dev",
         "doctrine/dbal": "^2.10",
+        "duro85/roles": "2.1.8",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.5.8",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",

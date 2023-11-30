@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d837c6880fbc2289aee79c585f340f22",
+    "content-hash": "860930aad56bab7624d6cb94ef1a96bf",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -1157,6 +1157,58 @@
                 }
             ],
             "time": "2022-12-14T08:49:07+00:00"
+        },
+        {
+            "name": "duro85/roles",
+            "version": "2.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Duro85/roles.git",
+                "reference": "2207b0636683625908a91fecb84743bbda389e27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Duro85/roles/zipball/2207b0636683625908a91fecb84743bbda389e27",
+                "reference": "2207b0636683625908a91fecb84743bbda389e27",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Duro85\\Roles": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Bičan",
+                    "email": "romanbican@seznam.cz"
+                },
+                {
+                    "name": "Michelangelo Belfiore",
+                    "email": "michelangelo.belfiore@gmail.com"
+                }
+            ],
+            "description": "Powerful package for handling roles and permissions in Laravel 5 forked from romanbican/roles ad update to work with Laravel >= 5.3.",
+            "keywords": [
+                "acl",
+                "auth",
+                "illuminate",
+                "laravel",
+                "permissions",
+                "roles"
+            ],
+            "support": {
+                "source": "https://github.com/Duro85/roles/tree/master"
+            },
+            "time": "2016-11-22T00:35:06+00:00"
         },
         {
             "name": "egeloen/http-adapter",
