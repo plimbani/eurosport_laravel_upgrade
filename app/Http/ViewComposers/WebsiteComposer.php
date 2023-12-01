@@ -2,13 +2,13 @@
 
 namespace App\Http\ViewComposers;
 
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-use JavaScript;
 use App\Api\Contracts\WebsiteContract;
 use App\Api\Services\PageService;
 use App\Models\Page;
 use App\Models\Website;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use JavaScript;
 use LaravelLocalization;
 
 class WebsiteComposer

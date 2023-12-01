@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Website;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use App\Models\Website;
 
 class RemoveExpirePreviewDomain extends Command
 {

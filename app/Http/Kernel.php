@@ -2,9 +2,9 @@
 
 namespace App\Http;
 
+use App\Models\Website;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use App\Models\Website;
 use Redirect;
 
 class Kernel extends HttpKernel

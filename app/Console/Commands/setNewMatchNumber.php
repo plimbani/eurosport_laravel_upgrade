@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Api\Contracts\MatchContract;
 use App\Models\TempFixture;
 use App\Models\TournamentCompetationTemplates;
+use Illuminate\Console\Command;
 
 class setNewMatchNumber extends Command
 {

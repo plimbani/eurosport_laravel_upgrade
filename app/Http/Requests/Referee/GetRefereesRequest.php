@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Referee;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class GetRefereesRequest extends FormRequest
 {

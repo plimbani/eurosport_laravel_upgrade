@@ -2,15 +2,15 @@
 
 namespace App\Api\Repositories;
 
-use Auth;
-use DB;
-use Illuminate\Pagination\Paginator;
 use App\Api\Services\AgeGroupService;
 use App\Models\AgeCategoryDivision;
 use App\Models\Team;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
 use App\Traits\AuthUserDetail;
+use Auth;
+use DB;
+use Illuminate\Pagination\Paginator;
 
 class TemplateRepository
 {

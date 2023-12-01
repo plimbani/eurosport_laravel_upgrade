@@ -2,10 +2,10 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\MediaRepository;
 use App\Api\Services\MediaService;
 use App\Api\Services\PageService;
+use Illuminate\Support\ServiceProvider;
 
 class MediaServiceProvider extends ServiceProvider
 {

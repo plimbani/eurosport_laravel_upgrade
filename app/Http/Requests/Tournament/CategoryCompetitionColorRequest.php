@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Tournament;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Competition;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryCompetitionColorRequest extends FormRequest
 {

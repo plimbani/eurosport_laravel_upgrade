@@ -2,9 +2,9 @@
 
 namespace App\Api\Repositories;
 
-use DB;
 use App\Models\PitchAvailable;
 use App\Models\PitchBreaks;
+use DB;
 
 class PitchAvailableRepository
 {

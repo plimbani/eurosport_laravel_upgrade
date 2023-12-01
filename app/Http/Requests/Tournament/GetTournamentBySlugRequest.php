@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Tournament;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Tournament;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class GetTournamentBySlugRequest extends FormRequest
 {

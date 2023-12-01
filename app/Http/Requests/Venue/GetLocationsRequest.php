@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Venue;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\WebsiteAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class GetLocationsRequest extends FormRequest
 {

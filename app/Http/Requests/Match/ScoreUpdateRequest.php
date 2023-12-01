@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Match;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\TempFixture;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ScoreUpdateRequest extends FormRequest
 {

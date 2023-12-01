@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Services\RefereeService;
+use Illuminate\Support\ServiceProvider;
 
 class RefereeServiceProvider extends ServiceProvider
 {

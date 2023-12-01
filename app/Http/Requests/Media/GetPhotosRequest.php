@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Media;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\WebsiteAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class GetPhotosRequest extends FormRequest
 {

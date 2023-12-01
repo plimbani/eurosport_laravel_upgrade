@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Carbon\Carbon;
 use App\Models\Tournament;
+use Carbon\Carbon;
 
 class TournamentRepository
 {

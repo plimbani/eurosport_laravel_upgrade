@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Illuminate\Http\Request;
 use App\Api\Repositories\TemplateRepository;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
+use DB;
+use Illuminate\Http\Request;
 
 class PDFController extends Controller
 {

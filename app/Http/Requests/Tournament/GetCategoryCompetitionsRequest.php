@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Tournament;
 
-use Illuminate\Foundation\Http\FormRequest;
-use JWTAuth;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
+use JWTAuth;
 
 class GetCategoryCompetitionsRequest extends FormRequest
 {

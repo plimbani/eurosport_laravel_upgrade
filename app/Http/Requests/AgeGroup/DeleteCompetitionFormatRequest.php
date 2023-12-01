@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\AgeGroup;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\TournamentCompetationTemplates;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteCompetitionFormatRequest extends FormRequest
 {

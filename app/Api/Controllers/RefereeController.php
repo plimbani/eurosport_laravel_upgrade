@@ -2,17 +2,17 @@
 
 namespace App\Api\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Api\Contracts\RefereeContract;
 use App\Api\Repositories\RefereeRepository;
 use App\Http\Requests\Referee\DeleteRequest;
 use App\Http\Requests\Referee\GetRefereesRequest;
 use App\Http\Requests\Referee\GetSignedUrlForRefereeSampleDownloadRequest;
 use App\Http\Requests\Referee\RefereeDetailRequest;
-// Need to Define Only Contracts
 use App\Http\Requests\Referee\StoreRequest;
 use App\Http\Requests\Referee\UpdateRequest;
+// Need to Define Only Contracts
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use UrlSigner;
 
 /**

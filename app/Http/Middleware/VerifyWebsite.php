@@ -3,12 +3,12 @@
 namespace App\Http\Middleware;
 
 use App;
-use Closure;
-use Landlord;
 use App\Api\Contracts\WebsiteContract;
 use App\Api\Services\PageService;
 use App\Models\Page;
 use App\Models\Website;
+use Closure;
+use Landlord;
 use Redirect;
 use View;
 

@@ -2,7 +2,6 @@
 
 namespace App\Api\Services;
 
-use DB;
 use App\Api\Contracts\AgeGroupContract;
 use App\Api\Repositories\AgeGroupRepository;
 use App\Api\Repositories\TemplateRepository;
@@ -15,6 +14,7 @@ use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
 use App\Traits\TournamentAccess;
+use DB;
 use PDF;
 use URL;
 

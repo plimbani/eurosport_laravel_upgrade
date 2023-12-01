@@ -2,10 +2,10 @@
 
 namespace App\Api\Controllers;
 
-use Illuminate\Http\Request;
 use App\Api\Contracts\VenueContract;
-// Need to Define Only Contracts
 use App\Http\Requests\Venue\GetVenueRequest;
+// Need to Define Only Contracts
+use Illuminate\Http\Request;
 
 /**
  * Tournament Resource Description.

@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Api\Repositories\AgeGroupRepository;
 use App\Models\Position;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
+use Illuminate\Console\Command;
 
 class generatePositionsForExistingData extends Command
 {

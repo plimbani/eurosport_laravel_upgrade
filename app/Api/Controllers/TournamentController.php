@@ -2,9 +2,6 @@
 
 namespace App\Api\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Request;
 use App\Api\Contracts\TournamentContract;
 use App\Http\Requests\Tournament\DeleteRequest;
 use App\Http\Requests\Tournament\DuplicateTournamentRequest;
@@ -31,6 +28,9 @@ use App\Models\Team;
 use App\Models\TempFixture;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
+use Carbon\Carbon;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 // Need to Define Only Contracts
 use UrlSigner;
 

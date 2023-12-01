@@ -2,11 +2,11 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\AgeGroupRepository;
 use App\Api\Repositories\TemplateRepository;
 use App\Api\Services\AgeGroupService;
 use App\Api\Services\TemplateService;
+use Illuminate\Support\ServiceProvider;
 
 class TemplateServiceProvider extends ServiceProvider
 {

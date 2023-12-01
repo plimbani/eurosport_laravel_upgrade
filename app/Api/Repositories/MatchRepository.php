@@ -2,9 +2,6 @@
 
 namespace App\Api\Repositories;
 
-use Carbon\Carbon;
-use DB;
-use Illuminate\Support\Arr;
 use App\Models\Competition;
 use App\Models\Fixture;
 use App\Models\MatchResult;
@@ -14,6 +11,9 @@ use App\Models\Referee;
 use App\Models\Team;
 use App\Models\TempFixture;
 use App\Models\TournamentCompetationTemplates;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Support\Arr;
 
 class MatchRepository
 {
@@ -1975,14 +1975,14 @@ class MatchRepository
         $ageCategories = TempFixture::where('tournament_id', $tournamentId)->where('is_scheduled', 1)->get()->pluck('age_group_id')->unique()->values()->all();
 
         $tournamentCompetitionTemplates = TournamentCompetationTemplates::leftjoin('tournament_template', 'tournament_template.id', '=', 'tournament_competation_template.tournament_template_id')
-              ->leftJoin('tournaments', 'tournaments.id', '=', 'tournament_competation_template.tournament_id')
-              ->select(
-                  'tournament_competation_template.*',
-                  'tournament_template.name as template_name',
-                  \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" AND tournament_competation_template.competition_type = "league" THEN 
+            ->leftJoin('tournaments', 'tournaments.id', '=', 'tournament_competation_template.tournament_id')
+            ->select(
+                'tournament_competation_template.*',
+                'tournament_template.name as template_name',
+                \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" AND tournament_competation_template.competition_type = "league" THEN 
                 JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
               ELSE tournament_template.name END) AS template_name'))
-              ->where('tournament_id', $tournamentId)->get();
+            ->where('tournament_id', $tournamentId)->get();
 
         $categories = [];
         foreach ($tournamentCompetitionTemplates as $template) {

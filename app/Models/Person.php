@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use App\Models\BaseModel as Model;
+use Illuminate\Notifications\Notifiable;
 
 class Person extends Model
 {

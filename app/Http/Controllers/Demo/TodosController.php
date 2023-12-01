@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Demo;
 
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Space\Demo\Todo;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TodosController extends Controller
 {

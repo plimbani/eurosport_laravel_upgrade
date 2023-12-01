@@ -2,7 +2,6 @@
 
 namespace App\Api\Services;
 
-use DB;
 use App\Api\Contracts\TeamContract;
 use App\Api\Repositories\TeamRepository;
 use App\Models\Club;
@@ -13,6 +12,7 @@ use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
 use App\Traits\TournamentAccess;
+use DB;
 use PDF;
 
 class TeamService implements TeamContract

@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Api\Repositories\TournamentRepository;
+use App\Models\Tournament;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
-use App\Api\Repositories\TournamentRepository;
-use App\Models\Tournament;
 
 class generateTournamentSlugForExistingData extends Command
 {

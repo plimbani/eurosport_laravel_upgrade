@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
 use App\Models\ActivityFeed;
 use App\Models\ActivityNotification;
 use App\Models\User;
 use App\Models\Website;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class sendActivityNotification extends Command
 {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use Duro85\Roles\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use App\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {

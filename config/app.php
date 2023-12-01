@@ -187,7 +187,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
-      //  Duro85\Roles\RolesServiceProvider::class,
+        //  Duro85\Roles\RolesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Toin0u\Geotools\GeotoolsServiceProvider::class,

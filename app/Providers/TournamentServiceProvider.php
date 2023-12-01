@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Repositories\TournamentRepository;
 use App\Repositories\VenueRepository;
 use App\Services\TournamentService;
 use App\Services\VenueTempService as VenueService;
+use Illuminate\Support\ServiceProvider;
 
 class TournamentServiceProvider extends ServiceProvider
 {

@@ -2,10 +2,10 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\WebsiteRepository;
 use App\Api\Services\PageService;
 use App\Api\Services\WebsiteService;
+use Illuminate\Support\ServiceProvider;
 
 class WebsiteServiceProvider extends ServiceProvider
 {

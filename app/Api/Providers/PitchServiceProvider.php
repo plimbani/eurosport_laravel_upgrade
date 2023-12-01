@@ -2,8 +2,8 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Services\PitchService;
+use Illuminate\Support\ServiceProvider;
 
 class PitchServiceProvider extends ServiceProvider
 {

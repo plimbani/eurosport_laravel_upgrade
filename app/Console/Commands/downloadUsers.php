@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
 use App\Traits\AuthUserDetail;
+use Illuminate\Console\Command;
 
 class downloadUsers extends Command
 {

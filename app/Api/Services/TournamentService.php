@@ -2,10 +2,6 @@
 
 namespace App\Api\Services;
 
-use Carbon\Carbon;
-use DB;
-use File;
-use JWTAuth;
 use App\Api\Contracts\TournamentContract;
 use App\Api\Repositories\TournamentRepository;
 use App\Jobs\DownloadAllTeams;
@@ -16,6 +12,10 @@ use App\Models\UserFavourites;
 use App\Models\Venue;
 use App\Models\Website;
 use App\Traits\TournamentAccess;
+use Carbon\Carbon;
+use DB;
+use File;
+use JWTAuth;
 use PDF;
 use Response;
 use View;

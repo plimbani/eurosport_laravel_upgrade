@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Pitch;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Pitch;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ShowRequest extends FormRequest
 {

@@ -2,7 +2,6 @@
 
 namespace App\Api\Controllers;
 
-use Illuminate\Http\Request;
 use App\Api\Contracts\TemplateContract;
 use App\Api\Repositories\TemplateRepository;
 use App\Http\Requests\Template\DeleteRequest;
@@ -13,6 +12,7 @@ use App\Http\Requests\Template\TemplateDetailRequest;
 use App\Http\Requests\Template\UpdateRequest;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
+use Illuminate\Http\Request;
 
 class TemplateController extends BaseController
 {

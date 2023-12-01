@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Stay;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\WebsiteAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class GetWebsiteStayPageDataRequest extends FormRequest
 {

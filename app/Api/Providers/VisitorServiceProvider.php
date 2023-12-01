@@ -2,10 +2,10 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\VisitorRepository;
 use App\Api\Services\PageService;
 use App\Api\Services\VisitorService;
+use Illuminate\Support\ServiceProvider;
 
 class VisitorServiceProvider extends ServiceProvider
 {
