@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddIsFinalRoundMatchToTempFixturesTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddIsFinalRoundMatchToTempFixturesTable extends Migration
      */
     public function up()
     {
-        Schema::table('temp_fixtures', function($table) {
+        Schema::table('temp_fixtures', function ($table) {
             $table->tinyInteger('is_final_round_match')->after('round')->default(0);
         });
     }
@@ -25,7 +24,7 @@ class AddIsFinalRoundMatchToTempFixturesTable extends Migration
      */
     public function down()
     {
-        Schema::table('temp_fixtures', function($table) {
+        Schema::table('temp_fixtures', function ($table) {
             $table->dropColumn('is_final_round_match');
         });
     }

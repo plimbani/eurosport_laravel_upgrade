@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AssignTeamRequest extends FormRequest
@@ -18,9 +18,10 @@ class AssignTeamRequest extends FormRequest
     {
         $data = $this->all()['data'];
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

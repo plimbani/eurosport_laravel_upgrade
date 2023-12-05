@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
+use App\Api\Repositories\VisitorRepository;
+use App\Api\Services\PageService;
+use App\Api\Services\VisitorService;
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\VisitorService;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Repositories\VisitorRepository;
 
 class VisitorServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class VisitorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\VisitorContract', function ($app) {
+        $this->app->bind('App\Api\Contracts\VisitorContract', function ($app) {
             return new VisitorService(new VisitorRepository(new PageService()));
         });
     }
@@ -37,6 +37,6 @@ class VisitorServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\VisitorContract'];
+        return ['App\Api\Contracts\VisitorContract'];
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
-use DB;
+use App\Api\Repositories\TournamentRepository;
+use App\Models\Tournament;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Console\Command;
-use Laraspace\Models\Tournament;
-use Laraspace\Api\Repositories\TournamentRepository;
 
 class generateTournamentSlugForExistingData extends Command
 {
@@ -48,7 +48,7 @@ class generateTournamentSlugForExistingData extends Command
             DB::table('tournaments')
                 ->where('id', $tournament['id'])
                 ->update([
-                    'slug' => $slug
+                    'slug' => $slug,
                 ]);
         }
         $this->info('Script executed.');

@@ -1,14 +1,10 @@
 <?php
 
-namespace Laraspace\Events;
+namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Queue\SerializesModels;
 
 class AppMessageSent implements ShouldBroadcastNow
 {
@@ -28,7 +24,7 @@ class AppMessageSent implements ShouldBroadcastNow
      */
     public function __construct($message)
     {
-        $this->message  = $message;
+        $this->message = $message;
     }
 
     /**

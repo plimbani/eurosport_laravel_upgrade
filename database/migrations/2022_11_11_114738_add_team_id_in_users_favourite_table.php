@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddTeamIdInUsersFavouriteTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddTeamIdInUsersFavouriteTable extends Migration
      */
     public function up()
     {
-        Schema::table('users_favourite', function($table) {
+        Schema::table('users_favourite', function ($table) {
             $table->integer('team_id')->default(0)->unsigned(10)->after('tournament_id');
         });
     }
@@ -25,7 +24,7 @@ class AddTeamIdInUsersFavouriteTable extends Migration
      */
     public function down()
     {
-        Schema::table('users_favourite', function($table) {
+        Schema::table('users_favourite', function ($table) {
             $table->dropColumn('team_id');
         });
     }

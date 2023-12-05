@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Providers;
+namespace App\Providers;
 
+use App\Repositories\VenueRepository;
+use App\Services\VenueTempService as VenueService;
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Services\VenueTempService as VenueService;
-use Laraspace\Repositories\VenueRepository;
 
 class VenueServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Contracts\VenueContract', function ($app) {
+        $this->app->bind(\App\Contracts\VenueContract::class, function ($app) {
             return new VenueService(new VenueRepository());
         });
     }
@@ -36,6 +36,6 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Contracts\VenueContract'];
+        return [\App\Contracts\VenueContract::class];
     }
 }

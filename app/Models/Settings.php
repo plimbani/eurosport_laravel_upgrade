@@ -1,20 +1,21 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Settings extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
-  protected $table = 'settings';
+    protected $table = 'settings';
 
-  protected $fillable = [
-       'id', 'user_id','option','value'
-  ];
-   /**
+    protected $fillable = [
+        'id', 'user_id', 'option', 'value',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -22,7 +23,7 @@ class Settings extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -30,6 +31,6 @@ class Settings extends Model
      */
     public function user()
     {
-        return $this->belongsTo('Laraspace\Models\User', 'user_id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

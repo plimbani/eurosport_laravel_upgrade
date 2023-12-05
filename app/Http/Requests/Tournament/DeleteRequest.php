@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteRequest extends FormRequest
@@ -19,9 +19,10 @@ class DeleteRequest extends FormRequest
         $tournamentId = $this->route('id');
 
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

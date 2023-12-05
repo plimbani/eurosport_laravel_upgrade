@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Referee;
+namespace App\Http\Requests\Referee;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GetRefereesRequest extends FormRequest
@@ -19,10 +19,11 @@ class GetRefereesRequest extends FormRequest
         if (isset($this->all()['tournamentData'])) {
             $data = $this->all()['tournamentData'];
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -34,7 +35,7 @@ class GetRefereesRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentData' => 'required|array'
+            'tournamentData' => 'required|array',
         ];
     }
 }

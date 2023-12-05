@@ -1,43 +1,39 @@
 <?php
 
-namespace Laraspace\Providers;
+namespace App\Providers;
 
-use URL;
-
-use Laraspace\Models\Map;
-use Laraspace\Models\Page;
-use Laraspace\Models\Photo;
-use Laraspace\Models\Sponsor;
-use Laraspace\Models\Website;
-use Laraspace\Models\Contact;
-use Laraspace\Models\Document;
-use Laraspace\Models\Location;
-use Laraspace\Models\Itinerary;
-use Laraspace\Models\Statistic;
-use Laraspace\Models\Organiser;
-use Laraspace\Models\HistoryYear;
-use Laraspace\Models\HistoryTeam;
-use Laraspace\Models\AgeCategory;
-use Laraspace\Models\AgeCategoryTeam;
-use Laraspace\Models\HistoryAgeCategory;
-
-use Laraspace\Observers\MapObserver;
-use Laraspace\Observers\PageObserver;
-use Laraspace\Observers\PhotoObserver;
-use Laraspace\Observers\SponsorObserver;
-use Laraspace\Observers\ContactObserver;
-use Laraspace\Observers\WebsiteObserver;
-use Laraspace\Observers\DocumentObserver;
-use Laraspace\Observers\LocationObserver;
-use Laraspace\Observers\OrganiserObserver;
-use Laraspace\Observers\ItineraryObserver;
-use Laraspace\Observers\StatisticObserver;
-use Laraspace\Observers\HistoryYearObserver;
-use Laraspace\Observers\HistoryTeamObserver;
-use Laraspace\Observers\AgeCategoryObserver;
-use Laraspace\Observers\AgeCategoryTeamObserver;
-use Laraspace\Observers\HistoryAgeCategoryObserver;
-
+use App\Models\AgeCategory;
+use App\Models\AgeCategoryTeam;
+use App\Models\Contact;
+use App\Models\Document;
+use App\Models\HistoryAgeCategory;
+use App\Models\HistoryTeam;
+use App\Models\HistoryYear;
+use App\Models\Itinerary;
+use App\Models\Location;
+use App\Models\Map;
+use App\Models\Organiser;
+use App\Models\Page;
+use App\Models\Photo;
+use App\Models\Sponsor;
+use App\Models\Statistic;
+use App\Models\Website;
+use App\Observers\AgeCategoryObserver;
+use App\Observers\AgeCategoryTeamObserver;
+use App\Observers\ContactObserver;
+use App\Observers\DocumentObserver;
+use App\Observers\HistoryAgeCategoryObserver;
+use App\Observers\HistoryTeamObserver;
+use App\Observers\HistoryYearObserver;
+use App\Observers\ItineraryObserver;
+use App\Observers\LocationObserver;
+use App\Observers\MapObserver;
+use App\Observers\OrganiserObserver;
+use App\Observers\PageObserver;
+use App\Observers\PhotoObserver;
+use App\Observers\SponsorObserver;
+use App\Observers\StatisticObserver;
+use App\Observers\WebsiteObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,15 +44,15 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     protected $localProviders;
+
     protected $localAliases;
-    
+
     public function __construct($app)
     {
         $this->app = $app;
         $this->localProviders = config('app.localProviders');
         $this->localAliases = config('app.localAliases');
     }
-
 
     public function boot()
     {

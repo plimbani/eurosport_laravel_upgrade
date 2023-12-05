@@ -1,68 +1,71 @@
 <?php
-namespace Laraspace\Api\Repositories;
 
-use DB;
-use Auth;
+namespace App\Api\Repositories;
+
+use App\Models\AgeCategoryDivision;
+use App\Models\Competition;
+use App\Models\MatchStanding;
+use App\Models\Pitch;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
+use App\Models\PitchUnavailable;
+use App\Models\Position;
+use App\Models\Referee;
+use App\Models\Team;
+use App\Models\TeamManualRanking;
+use App\Models\TempFixture;
+use App\Models\Tournament;
+use App\Models\TournamentClub;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentContact;
+use App\Models\TournamentTemplates;
+use App\Models\TournamentUser;
+use App\Models\UserFavourites;
+use App\Models\Venue;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Str;
 use JWTAuth;
-use Laraspace\Models\User;
-use Laraspace\Models\Competition;
-use Laraspace\Models\Pitch;
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
-use Laraspace\Models\PitchUnavailable;
-use Laraspace\Models\Referee;
-use Laraspace\Models\Team;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Tournament;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentContact;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Models\UserFavourites;
-use Laraspace\Models\Venue;
-use Laraspace\Models\Website;
-use Laraspace\Models\AgeCategoryDivision;
-use Laraspace\Models\Position;
-use Laraspace\Models\MatchStanding;
-use Laraspace\Models\TeamManualRanking;
-use Laraspace\Models\TournamentClub;
-use Laraspace\Models\TournamentUser;
 
 class TournamentRepository
 {
     public $slug;
+
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
-        $this->tournamentLogo = getenv('S3_URL') . '/assets/img/tournament_logo/';
+        $this->matchRepoObj = new \App\Api\Repositories\MatchRepository();
+        $this->tournamentLogo = getenv('S3_URL').'/assets/img/tournament_logo/';
     }
+
     public function getTournamentsByStatus($tournamentData)
     {
         $status = $tournamentData['status'];
+
         return Tournament::where('status', $status)->get();
     }
+
     public function getTournamentsBySlug($tournamentData)
     {
         $slug = $tournamentData;
+
         return Tournament::where('slug', $slug)->first();
     }
+
     public function getAll($status = '', $user = null)
     {
         if ($status == '') {
-            $data = Tournament::
-                select('tournaments.*',
-                \DB::raw('IF(tournaments.logo is not null, CONCAT("' . $this->tournamentLogo . '", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) ,"" ) as tournamentLogo'));                
+            $data = Tournament::select('tournaments.*',
+                \DB::raw('IF(tournaments.logo is not null, CONCAT("'.$this->tournamentLogo.'", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) ,"" ) as tournamentLogo'));
         } else {
-            $data = Tournament::whereIn('tournaments.status', array('Published','Preview'))
+            $data = Tournament::whereIn('tournaments.status', ['Published', 'Preview'])
                 ->select('tournaments.*',
-                    \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) ,"" ) as tournamentLogo'));
+                    \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) ,"" ) as tournamentLogo'));
 
         }
 
         if ($user) {
             $tournaments = $user->tournaments()->pluck('id');
-            $data        = $data->whereIn('id', $tournaments);
+            $data = $data->whereIn('id', $tournaments);
         }
         $data = $data->orderBy('name', 'asc')->get();
 
@@ -83,18 +86,18 @@ class TournamentRepository
     public function getAuthUserCreatedTournaments($status = '')
     {
         if ($status == '') {
-            $data = Tournament::
-                select('tournaments.*',
-                \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'))
+            $data = Tournament::select('tournaments.*',
+                \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'))
                 ->get();
         } else {
-            $data = Tournament::whereIn('tournaments.status', array('Published','Preview'))
+            $data = Tournament::whereIn('tournaments.status', ['Published', 'Preview'])
                 ->select('tournaments.*',
-                    \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo')
+                    \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo')
                 )
                 ->get();
 
         }
+
         return $data;
         /*if($status == '') {
     return Tournament::get();
@@ -103,18 +106,19 @@ class TournamentRepository
     return Tournament::where('status','=','Published')->get();
     }*/
     }
+
     public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
 
-        $tournamentTemplateData              = [];
-        $tournamentTemplateData['json_data'] = '';        
+        $tournamentTemplateData = [];
+        $tournamentTemplateData['json_data'] = '';
         $tempFixtures = DB::table('temp_fixtures')->where('age_group_id', $ageCategoryId)
             ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
-            ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime','temp_fixtures.hometeam_score','temp_fixtures.awayteam_score','temp_fixtures.is_result_override','temp_fixtures.match_winner'])
-            ->where('temp_fixtures.deleted_at', NULL)
+            ->select(['temp_fixtures.match_number', 'temp_fixtures.display_match_number', 'temp_fixtures.home_team', 'temp_fixtures.home_team_name', 'temp_fixtures.away_team', 'temp_fixtures.away_team_name', 'venues.name as venue_name', 'pitches.pitch_number as pitch_name', 'pitches.size as pitch_size', 'temp_fixtures.is_scheduled as is_scheduled', 'temp_fixtures.match_datetime as match_datetime', 'temp_fixtures.hometeam_score', 'temp_fixtures.awayteam_score', 'temp_fixtures.is_result_override', 'temp_fixtures.match_winner'])
+            ->where('temp_fixtures.deleted_at', null)
             ->get()->keyBy('match_number')->toArray();
-        $tempFixtures = array_map(function($object){
+        $tempFixtures = array_map(function ($object) {
             return (array) $object;
         }, $tempFixtures);
         $assignedTeams = Team::where('age_group_id', $ageCategoryId)->whereNotNull('competation_id')->get()->toArray();
@@ -122,17 +126,17 @@ class TournamentRepository
         $divisionMatches = [];
         $allMatches = [];
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
-        if($tournamentTemplateId != NULL) {
-            $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
+        if ($tournamentTemplateId != null) {
+            $tournamentTemplate = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
-            $tournamentTemplateData['image']     = $tournamentTemplate->image;
+            $tournamentTemplateData['image'] = $tournamentTemplate->image;
         } else {
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
         }
         $jsonData = json_decode($tournamentTemplateData['json_data'], true);
         $roundMatches = TemplateRepository::getMatches($jsonData['tournament_competation_format']['format_name']);
-        if(isset($jsonData['tournament_competation_format']['divisions'])) {
-            foreach($jsonData['tournament_competation_format']['divisions'] as $divisionIndex => $division) {
+        if (isset($jsonData['tournament_competation_format']['divisions'])) {
+            foreach ($jsonData['tournament_competation_format']['divisions'] as $divisionIndex => $division) {
                 $matches = TemplateRepository::getMatches($division['format_name']);
                 $divisionMatches = array_merge($divisionMatches, $matches);
             }
@@ -140,24 +144,24 @@ class TournamentRepository
         $allMatches = array_merge($roundMatches, $divisionMatches);
 
         $assignedTeamsData = [];
-        if ($assignedTeams) { 
-            $standingData = new \Laraspace\Api\Repositories\MatchRepository();
+        if ($assignedTeams) {
+            $standingData = new \App\Api\Repositories\MatchRepository();
             $assignedTeamsNew = [];
             $competations = collect($assignedTeams)->pluck('competation_id')->unique()->sort();
             $tournament_id = $assignedTeams[0]['tournament_id'];
-            foreach($competations as $competation) {
+            foreach ($competations as $competation) {
                 $assignedTeamsDataRes = $standingData->getStanding([
                     'competitionId' => $competation,
                     'tournamentId' => $tournament_id,
                 ]);
                 $assignedTeamsNew = array_merge($assignedTeamsNew, $assignedTeamsDataRes->all());
-                if (!count($assignedTeamsDataRes)) {
+                if (! count($assignedTeamsDataRes)) {
                     $competationWithoutStandings = collect($assignedTeams)->where('competation_id', $competation)->where('tournament_id', $tournament_id)->all();
                     $assignedTeamsNew = array_merge($assignedTeamsNew, $competationWithoutStandings);
                 }
             }
-            
-            foreach($assignedTeamsNew as $item) {
+
+            foreach ($assignedTeamsNew as $item) {
                 $assignedTeamsData[] = (array) $item;
             }
         }
@@ -172,12 +176,13 @@ class TournamentRepository
             'groupName' => $tournamentCompetitionTemplate->group_name,
             'allMatches' => $allMatches,
             'tournamentHasStandings' => $assignedTeamsData ? true : false,
-            'divisions' => $divisions
+            'divisions' => $divisions,
         ])->render();
 
         return $tournamentTemplateData;
     }
-    public function getAllTemplates($data = array())
+
+    public function getAllTemplates($data = [])
     {
         if (is_array($data) && count($data['tournamentData']) > 0) {
             // TODO: need to Add
@@ -188,12 +193,13 @@ class TournamentRepository
         }
 
     }
-    public function getAllTemplatesFromMatches($data = array())
+
+    public function getAllTemplatesFromMatches($data = [])
     {
         if (is_array($data) && count($data['tournamentData']) > 0) {
             if (($data['tournamentData']['tournament_format'] == 'advance' || $data['tournamentData']['tournament_format'] == 'festival') && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
                 return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
-            } else if($data['tournamentData']['tournament_format'] == 'basic' && $data['tournamentData']['competition_type'] == 'knockout' && $data['tournamentData']['total_teams'] != '') {
+            } elseif ($data['tournamentData']['tournament_format'] == 'basic' && $data['tournamentData']['competition_type'] == 'knockout' && $data['tournamentData']['total_teams'] != '') {
                 return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams']])->where('editor_type', $data['tournamentData']['competition_type'])->where('is_latest', 1)->orderBy('name')->get();
             }
         } else {
@@ -203,67 +209,67 @@ class TournamentRepository
 
     /**
      * Generate slug
-     *
      */
     public function generateSlug($title)
     {
-        $slug      = Str::slug($title);
+        $slug = Str::slug($title);
         $slugCount = count(Tournament::whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")->get());
+
         return ($slugCount > 0) ? "{$slug}-{$slugCount}" : $slug;
     }
 
     public function create($data)
     {
         // Save Tournament Data
-        $newdata                  = array();
-        $newdata['name']          = $data['name'];
+        $newdata = [];
+        $newdata['name'] = $data['name'];
         $newdata['maximum_teams'] = $data['maximum_teams'];
-        $newdata['start_date']    = $data['start_date'] ? $data['start_date'] : '';
-        $newdata['end_date']      = $data['end_date'] ? $data['end_date'] : '';
+        $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
+        $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
 
         // Now here we Save it For Tournament
         $imageChanged = true;
         if (isset($data['tournamentId']) && $data['tournamentId'] != 0) {
             // Update Touranment Table Data
-            $tournamentId          = $data['tournamentId'];
+            $tournamentId = $data['tournamentId'];
             $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
-            $newdata['end_date']   = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
+            $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
             // here we check for image Logo is exist
             // means nothing need to updated it
 
             //update dates in pitch available
             $tournamentDetail = Tournament::where('id', $tournamentId)->first();
-            $oldSdate         = Carbon::createFromFormat('d/m/Y', $tournamentDetail->start_date);
-            $dateDiff         = $oldSdate->diffInDays($newdata['start_date']);
-            \Log::info("Pitch capacity date check --- start");
-            \Log::info("Date diff - " . $dateDiff);
+            $oldSdate = Carbon::createFromFormat('d/m/Y', $tournamentDetail->start_date);
+            $dateDiff = $oldSdate->diffInDays($newdata['start_date']);
+            \Log::info('Pitch capacity date check --- start');
+            \Log::info('Date diff - '.$dateDiff);
             if ($dateDiff > 0) {
-                $pitchCnt          = Pitch::where('tournament_id', $tournamentId)->get()->count();
+                $pitchCnt = Pitch::where('tournament_id', $tournamentId)->get()->count();
                 $pitchAvailableAll = PitchAvailable::where('tournament_id', $tournamentId)->get();
-                \Log::info("Tournament id:" . $tournamentDetail->id);
+                \Log::info('Tournament id:'.$tournamentDetail->id);
                 \Log::info($oldSdate);
                 \Log::info($newdata['start_date']);
                 if ($pitchCnt > 0) {
                     foreach ($pitchAvailableAll as $pitchAvail) {
                         if ($oldSdate->lt($newdata['start_date'])) {
-                            \Log::info("Date found less than");
-                            $newStageStartdate    = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->addDays($dateDiff);
+                            \Log::info('Date found less than');
+                            $newStageStartdate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->addDays($dateDiff);
                             $newStageContinuedate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_continue_date'])->addDays($dateDiff);
-                            $newStageEnddate      = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->addDays($dateDiff);
+                            $newStageEnddate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->addDays($dateDiff);
                         }
                         if ($oldSdate->gt($newdata['start_date'])) {
-                            \Log::info("Date found greater than");
-                            $newStageStartdate    = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->subDays($dateDiff);
+                            \Log::info('Date found greater than');
+                            $newStageStartdate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->subDays($dateDiff);
                             $newStageContinuedate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_continue_date'])->subDays($dateDiff);
-                            $newStageEnddate      = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->subDays($dateDiff);
+                            $newStageEnddate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->subDays($dateDiff);
                         }
                         \Log::info($newStageStartdate);
                         \Log::info($newStageContinuedate);
                         \Log::info($newStageEnddate);
                         PitchAvailable::where('id', $pitchAvail['id'])->update([
-                            'stage_start_date'    => $newStageStartdate,
+                            'stage_start_date' => $newStageStartdate,
                             'stage_continue_date' => $newStageContinuedate,
-                            'stage_end_date'      => $newStageEnddate,
+                            'stage_end_date' => $newStageEnddate,
                         ]);
 
                     }
@@ -276,48 +282,48 @@ class TournamentRepository
                         if ($match['match_datetime'] != null && $match['match_endtime'] != null) {
                             if ($oldSdate->lt($newdata['start_date'])) {
                                 $newMatchStartdate = Carbon::parse($match['match_datetime'])->addDays($dateDiff);
-                                $newMatchEnddate   = Carbon::parse($match['match_endtime'])->addDays($dateDiff);
+                                $newMatchEnddate = Carbon::parse($match['match_endtime'])->addDays($dateDiff);
                             }
                             if ($oldSdate->gt($newdata['start_date'])) {
                                 $newMatchStartdate = Carbon::parse($match['match_datetime'])->subDays($dateDiff);
-                                $newMatchEnddate   = Carbon::parse($match['match_endtime'])->subDays($dateDiff);
+                                $newMatchEnddate = Carbon::parse($match['match_endtime'])->subDays($dateDiff);
                             }
                             TempFixture::where('id', $match['id'])->update([
                                 'match_datetime' => $newMatchStartdate,
-                                'match_endtime'  => $newMatchEnddate,
+                                'match_endtime' => $newMatchEnddate,
                             ]);
                         }
                     }
                 }
             }
-            \Log::info("Pitch capacity date check --- end");
+            \Log::info('Pitch capacity date check --- end');
 
             $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
-            $newdata['slug']    = $this->generateSlug($data['name'] . Carbon::createFromFormat('d/m/Y', $newdata['start_date'])->year);
-            $newdata['status']  = 'Unpublished';
+            $newdata['slug'] = $this->generateSlug($data['name'].Carbon::createFromFormat('d/m/Y', $newdata['start_date'])->year);
+            $newdata['status'] = 'Unpublished';
             $newdata['user_id'] = $data['user_id'];
-            $tournamentId       = Tournament::create($newdata)->id;
+            $tournamentId = Tournament::create($newdata)->id;
         }
         // Also Update the image Logo
         unset($newdata);
         // Save Tournament Venue Data
         // we have to loop for according to loations
         $locationCount = $data['locationCount'];
-        $locData       = $data['locations'];
-        $locationData  = array();
+        $locData = $data['locations'];
+        $locationData = [];
         if ($data['del_location'] && count($data['del_location']) > 0) {
             foreach ($data['del_location'] as $location) {
                 $venue = Venue::find($location);
-                if($venue) {
+                if ($venue) {
                     $venue->delete();
                 }
             }
         }
         foreach ($locData as $location) {
-            $locationData['id']            = $location['tournament_location_id'] ?? '';
-            $locationData['name']          = $location['tournament_venue_name'] ?? '';
+            $locationData['id'] = $location['tournament_location_id'] ?? '';
+            $locationData['name'] = $location['tournament_venue_name'] ?? '';
             $locationData['tournament_id'] = $tournamentId;
             if (isset($locationData['id']) && $locationData['id'] != 0) {
                 // Update Touranment Table Data
@@ -327,32 +333,35 @@ class TournamentRepository
                 $locationId = Venue::create($locationData)->id;
             }
         }
-        $tournamentData = array();
+        $tournamentData = [];
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
-        $tournamentData = array(
-            'id'                  => $tournamentId,
-            'name'                => $data['name'],
-            'slug'                => Tournament::where('id', $tournamentId)->first()->slug,
+        $tournamentData = [
+            'id' => $tournamentId,
+            'name' => $data['name'],
+            'slug' => Tournament::where('id', $tournamentId)->first()->slug,
             'tournamentStartDate' => $data['start_date'],
-            'tournamentEndDate'   => $data['end_date'],
-            'tournamentStatus'    => 'Unpublished',
-            'tournamentDays'      => ($tournamentDays) ? $tournamentDays : '2',
-            'maximum_teams'       => $data['maximum_teams'],
-        );
+            'tournamentEndDate' => $data['end_date'],
+            'tournamentStatus' => 'Unpublished',
+            'tournamentDays' => ($tournamentDays) ? $tournamentDays : '2',
+            'maximum_teams' => $data['maximum_teams'],
+        ];
 
         return $tournamentData;
     }
+
     private function getTournamentDays($startDate, $endDate)
     {
         $startDate = str_replace('/', '-', $startDate);
-        $endDate   = str_replace('/', '-', $endDate);
+        $endDate = str_replace('/', '-', $endDate);
 
         $days = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
         // TODO add one day
         $days = $days + 1;
+
         return $days;
     }
+
     public function edit($data)
     {
         return Tournament::where('id', $data['id'])->update($data);
@@ -362,18 +371,19 @@ class TournamentRepository
     {
         return Tournament::find($id)->delete();
     }
+
     public function tournamentSummary($tournamentId)
     {
         $isMobileUsers = \Request::header('IsMobileUser');
         // here we put validation for tournament id is exist
-        $summaryData = array();
+        $summaryData = [];
 
         // we only consider relevent table data
         $locationData = Venue::where('tournament_id', $tournamentId)->get();
 
         // we get Multiple LocationIds
         // TODO:--
-        $tempData = array();
+        $tempData = [];
         if (count($locationData) > 0) {
             foreach ($locationData as $location) {
                 $tempData['locationData'][] = $location;
@@ -384,18 +394,18 @@ class TournamentRepository
         }
         $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
-        $summaryData['tournament_teams']   = 0;
+        $summaryData['tournament_teams'] = 0;
         $summaryData['tournament_matches'] = 0;
 
         if (count($tournamentCompetaionTemplateData) > 0) {
             foreach ($tournamentCompetaionTemplateData as $tournamentData) {
                 // here we consider whole string for total teams
-                $tempData['total_teams'][]  = $tournamentData['disp_format_name'];
-                $tempData['total_match'][]  = $tournamentData['total_match'];
+                $tempData['total_teams'][] = $tournamentData['disp_format_name'];
+                $tempData['total_match'][] = $tournamentData['total_match'];
                 $tempData['category_age'][] = $tournamentData['category_age'];
             }
             $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
-            $summaryData['tournament_teams']   = array_sum($tempData['total_teams']);
+            $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
 
             $summaryData['tournament_groups'] = implode(' , ', array_unique($tempData['category_age']));
         }
@@ -404,7 +414,7 @@ class TournamentRepository
         if ($isMobileUsers != '') {
 
             $tournamentPitches = Pitch::with('pitchAvailability')->where('tournament_id', $tournamentId)->get();
-            $stage_start_time  = array();
+            $stage_start_time = [];
             foreach ($tournamentPitches as $tournamentPitch) {
                 if ($tournamentPitch->pitchAvailability) {
                     foreach ($tournamentPitch->pitchAvailability as $pitchAvailibility) {
@@ -417,7 +427,7 @@ class TournamentRepository
             }
             // Get minimum Value and Set it
             $summaryData['tournament_start_time'] = min($stage_start_time);
-            $summaryData['tournament_pitches']    = count($tournamentPitches);
+            $summaryData['tournament_pitches'] = count($tournamentPitches);
             unset($stage_start_time);
             $peopleData = TournamentContact::with('tournaments')->where('tournament_id', $tournamentId)->get();
             if (count($peopleData) > 0) {
@@ -425,9 +435,9 @@ class TournamentRepository
             }
 
         } else {
-            $tournamentPitch                   = Pitch::where('tournament_id', $tournamentId)->get();
+            $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
             $summaryData['tournament_pitches'] = count($tournamentPitch);
-            $peopleData                        = TournamentContact::where('tournament_id', $tournamentId)->get();
+            $peopleData = TournamentContact::where('tournament_id', $tournamentId)->get();
             if (count($peopleData) > 0) {
                 $summaryData['tournament_contact'] = $peopleData[0];
             }
@@ -436,7 +446,7 @@ class TournamentRepository
         $summaryData['tournament_age_categories'] = count($tournamentCompetaionTemplateData);
 
         // TODO: Referee is Added
-        $refereeCount                       = Referee::where(['tournament_id' => $tournamentId])->count();
+        $refereeCount = Referee::where(['tournament_id' => $tournamentId])->count();
         $summaryData['tournament_referees'] = $refereeCount;
 
         // TODO: country  is remaining depends on team
@@ -456,10 +466,11 @@ class TournamentRepository
         }
 
         $summaryData['tournament_detail'] = Tournament::where('id', $tournamentId)->select('tournaments.*',
-        \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'))->first();
-        
+            \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'))->first();
+
         return $summaryData;
     }
+
     public function tournamentReport($data)
     {
         $matchData = TempFixture::where('temp_fixtures.tournament_id', $data['tournament_id'])
@@ -474,25 +485,26 @@ class TournamentRepository
         return $matchData;
 
     }
+
     public function updateStatus($tournamentData)
     {
-        $newdata           = array();
+        $newdata = [];
         $newdata['status'] = $tournamentData['status'];
-        $tournamentId      = $tournamentData['tournamentId'];
+        $tournamentId = $tournamentData['tournamentId'];
 
         $tournament = Tournament::find($tournamentId);
         $tournament->status = $tournamentData['status'];
 
-        if(($tournamentData['status'] == "Published" || $tournamentData['status'] == "Preview") && $tournament->is_published_preview_once === 0) {
+        if (($tournamentData['status'] == 'Published' || $tournamentData['status'] == 'Preview') && $tournament->is_published_preview_once === 0) {
             $switchDefaultTournament = $tournamentData['switchDefaultTournament'];
             $userFavourites = UserFavourites::where('tournament_id', $tournament->duplicated_from)->get();
             foreach ($userFavourites as $userFavourite) {
                 $copiedUserFavourite = $userFavourite->replicate();
                 $copiedUserFavourite->tournament_id = $tournament->id;
-                if($switchDefaultTournament == 0) {
+                if ($switchDefaultTournament == 0) {
                     $copiedUserFavourite->is_default = 0;
                 }
-                if($switchDefaultTournament == 1 && $copiedUserFavourite->is_default == 1) {
+                if ($switchDefaultTournament == 1 && $copiedUserFavourite->is_default == 1) {
                     UserFavourites::where('user_id', '=', $copiedUserFavourite->user_id)->update(['is_default' => 0]);
                 }
                 $copiedUserFavourite->save();
@@ -504,12 +516,13 @@ class TournamentRepository
 
         return true;
     }
+
     public function tournamentFilter($tournamentData)
     {
         // dd($tournamentData);
         $tournamentId = $tournamentData['tournamentData']['tournamentId'];
-        $key          = $tournamentData['tournamentData']['keyData'];
-        $resultData   = array();
+        $key = $tournamentData['tournamentData']['keyData'];
+        $resultData = [];
         // now here we fetch data for specefic key
         if ($tournamentData['tournamentData']['type'] == 'teams' || $tournamentData['tournamentData']['type'] == 'scheduleResult') {
             $reportQuery = Team::where('teams.tournament_id', '=', $tournamentId);
@@ -540,16 +553,16 @@ class TournamentRepository
                     // $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
                     //     ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id');
 
-                    if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+                    if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
                         $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
-                        ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id')->whereHas('scheduledFixtures');
+                            ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id')->whereHas('scheduledFixtures');
                     } else {
                         $resultData = DB::table('competitions')
-                        ->where('competitions.tournament_id', $tournamentId)
-                        ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
-                        ->leftjoin('age_category_divisions', 'competitions.age_category_division_id', '=', 'age_category_divisions.id');
+                            ->where('competitions.tournament_id', $tournamentId)
+                            ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
+                            ->leftjoin('age_category_divisions', 'competitions.age_category_division_id', '=', 'age_category_divisions.id');
 
-                        $resultData->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName', 'age_category_divisions.id as divisionId', \DB::raw("CONCAT(tournament_competation_template.group_name, ' (', tournament_competation_template.category_age,')') AS age_category_name"));
+                        $resultData->select('competitions.*', 'tournament_competation_template.group_name', 'age_category_divisions.name as divisionName', 'age_category_divisions.id as divisionId', \DB::raw("CONCAT(tournament_competation_template.group_name, ' (', tournament_competation_template.category_age,')') AS age_category_name"));
 
                         $resultData = $resultData->get();
 
@@ -558,7 +571,7 @@ class TournamentRepository
 
                         foreach ($resultData as $data) {
                             $finalData[$data->tournament_competation_template_id]['name'] = $data->age_category_name;
-                            if($data->age_category_division_id != '') {
+                            if ($data->age_category_division_id != '') {
                                 $finalData[$data->tournament_competation_template_id]['groups']['divisions'][$data->divisionId]['name'] = $data->divisionName;
                                 $finalData[$data->tournament_competation_template_id]['groups']['divisions'][$data->divisionId]['rounds'][$data->competation_round_no][] = $data;
                             } else {
@@ -580,13 +593,13 @@ class TournamentRepository
                         ->get();
                     //echo $resultData;
                     break;
-                /*case 'location' :
-                $resultData = $reportQuery->join('venues','venues.id','=','temp_fixtures.venue_id')
-                ->select('venues.id as id','venues.name as name')
-                ->distinct('name')
-                ->get();
-                //echo $resultData;
-                break;*/
+                    /*case 'location' :
+                    $resultData = $reportQuery->join('venues','venues.id','=','temp_fixtures.venue_id')
+                    ->select('venues.id as id','venues.name as name')
+                    ->distinct('name')
+                    ->get();
+                    //echo $resultData;
+                    break;*/
                 case 'age_category':
                     $resultData = $reportQuery->join('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
                         ->join('tournament_competation_template', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
@@ -605,6 +618,7 @@ class TournamentRepository
         // dd($data);
         return TournamentCompetationTemplates::where('tournament_id', $tournamentId)->select('id', 'group_name', 'category_age')->get();
     }
+
     public function getUserDefaultLoginTournament($data)
     {
 
@@ -612,13 +626,14 @@ class TournamentRepository
             ->where('users_favourite.is_default', '=', '1')
             ->leftJoin('tournaments', 'tournaments.id', '=', 'users_favourite.tournament_id')
             ->select('tournaments.*', 'users_favourite.*',
-                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo) AS tournamentLogo'))
+                \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
             ->get()
             ->first();
         if (count($userData) > 0) {
             return $userData;
         }
     }
+
     private function getTournamentPitchStartTime($tournamentId)
     {
         // here we query the pitch_availibility table for getting the start time for tournament
@@ -643,15 +658,16 @@ class TournamentRepository
         }
 
     }
+
     public function getUserLoginFavouriteTournament($data)
     {
-        \Log::info('getUserLoginFavouriteTournament:' .json_encode($data));
+        \Log::info('getUserLoginFavouriteTournament:'.json_encode($data));
         //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
         // Now here we attach the tournament Start Date Seperately for check the first started match
         $userData = UserFavourites::where('users_favourite.user_id', '=', $data['user_id'])
-            ->whereIn('tournaments.status', array('Published','Preview'))
+            ->whereIn('tournaments.status', ['Published', 'Preview'])
             //->where('tournaments.status', '=', 'Published')
-            ->where('tournaments.deleted_at', '=', NULL)
+            ->where('tournaments.deleted_at', '=', null)
             ->leftJoin('tournaments', 'tournaments.id', '=', 'users_favourite.tournament_id')
             ->leftJoin('tournament_contact', 'tournaments.id', '=', 'tournament_contact.tournament_id')
             ->leftJoin('teams', 'teams.id', '=', 'users_favourite.team_id')
@@ -663,11 +679,11 @@ class TournamentRepository
                 'tournament_contact.last_name',
                 'tournament_contact.telephone',
                 'tournament_contact.email',
-                \DB::raw('CONCAT("' . $this->tournamentLogo . '", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) AS tournamentLogo'),
+                \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo, "?", DATE_FORMAT(tournaments.updated_at, "%Y%m%d%H%i%s")) AS tournamentLogo'),
                 \DB::raw('IFNULL(teams.club_id, 0) AS club_id'))
             ->get()->toArray();
 
-        $tournament_ids = array();
+        $tournament_ids = [];
 
         if (count($userData) > 0) {
             foreach ($userData as $tournamentData) {
@@ -691,39 +707,38 @@ class TournamentRepository
             }*/
             }
 
-
             return $userData;
 
         } else {
-            return array();
+            return [];
         }
-            
-            return $userData;
+
+        return $userData;
     }
-    
+
     public function getTournamentClub($data)
     {
         // Find teams for that tournament and clubs for that teams
 
-        $url      = getenv('S3_URL');
+        $url = getenv('S3_URL');
         $clubData = Team::where('teams.tournament_id', '=', $data['tournament_id'])
             ->whereNotNull('teams.group_name')
             ->leftJoin('clubs', 'clubs.id', '=', 'teams.club_id')
             ->leftjoin('countries', 'countries.id', '=', 'teams.country_id')
             ->select('clubs.id as ClubId', 'clubs.name as clubName', 'countries.id as countryId', 'countries.name as CountryName',
-                \DB::raw('CONCAT("' . $url . '", countries.logo ) AS CountryLogo')
+                \DB::raw('CONCAT("'.$url.'", countries.logo ) AS CountryLogo')
             );
-            
-        if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
-          $clubData = $clubData->where(function($q) use($data) {
-            return $q->whereHas('homeFixtures', function($q1) use($data) {
-              $q1->where('is_scheduled', 1)->where('tournament_id', $data['tournament_id']);
-            })->orWhereHas('awayFixtures', function($q2) use($data) {
-              $q2->where('is_scheduled', 1)->where('tournament_id', $data['tournament_id']);
+
+        if (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true') {
+            $clubData = $clubData->where(function ($q) use ($data) {
+                return $q->whereHas('homeFixtures', function ($q1) use ($data) {
+                    $q1->where('is_scheduled', 1)->where('tournament_id', $data['tournament_id']);
+                })->orWhereHas('awayFixtures', function ($q2) use ($data) {
+                    $q2->where('is_scheduled', 1)->where('tournament_id', $data['tournament_id']);
+                });
             });
-          });
         }
-        
+
         $clubData = $clubData->groupBy('clubs.id', 'countries.id')->get();
 
         return (count($clubData) > 0) ? $clubData : 0;
@@ -731,17 +746,17 @@ class TournamentRepository
 
     public function addTournamentDetails($tournamentDetailData)
     {
-        $token                     = JWTAuth::getToken();
-        $authUser                  = JWTAuth::parseToken()->toUser();
-        $userId                    = $authUser->id;
-        $tournament                = new Tournament();
-        $tournament->name          = $tournamentDetailData['tournament_name'];
-        $tournament->slug          = $this->generateSlug($tournamentDetailData['tournament_name'] . Carbon::createFromFormat('d/m/Y', $tournamentDetailData['tournament_start_date'])->year);
+        $token = JWTAuth::getToken();
+        $authUser = JWTAuth::parseToken()->toUser();
+        $userId = $authUser->id;
+        $tournament = new Tournament();
+        $tournament->name = $tournamentDetailData['tournament_name'];
+        $tournament->slug = $this->generateSlug($tournamentDetailData['tournament_name'].Carbon::createFromFormat('d/m/Y', $tournamentDetailData['tournament_start_date'])->year);
         $tournament->maximum_teams = $tournamentDetailData['tournament_max_teams'];
-        $tournament->user_id       = $userId;
-        $tournament->start_date    = $tournamentDetailData['tournament_start_date'];
-        $tournament->end_date      = $tournamentDetailData['tournament_end_date'];
-        $tournament->status        = 'Unpublished';
+        $tournament->user_id = $userId;
+        $tournament->start_date = $tournamentDetailData['tournament_start_date'];
+        $tournament->end_date = $tournamentDetailData['tournament_end_date'];
+        $tournament->status = 'Unpublished';
         $tournament->save();
     }
 
@@ -756,14 +771,13 @@ class TournamentRepository
             $categoryCompetitions = $categoryCompetitions->where('competation_round_no', $data['competationRoundNo']);
         }
 
-        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
             $categoryCompetitions = $categoryCompetitions->whereHas('scheduledFixtures');
         }
 
         $categoryCompetitions = $categoryCompetitions->get();
 
-        if ( !isset($data['fromDrawList']))
-        {
+        if (! isset($data['fromDrawList'])) {
             return $categoryCompetitions;
         }
 
@@ -771,33 +785,33 @@ class TournamentRepository
         $divisionsData = [];
         $data = [];
         foreach ($categoryCompetitions as $key => $value) {
-            if ( isset($value['age_category_division']) )
-            {
+            if (isset($value['age_category_division'])) {
                 $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']][] = $value;
 
-                unset($categoryCompetitions[$key]);  
+                unset($categoryCompetitions[$key]);
             }
         }
 
         $data['round_robin'] = $categoryCompetitions;
         $data['division'] = $divisionsData;
-        
+
         return $data;
     }
 
     public function getAllPublishedTournaments($data)
     {
         $publishedTournaments = Tournament::where('status', 'Published')->get();
+
         return $publishedTournaments;
     }
 
     public function getFilterDropDownData($data)
     {
         $tournamentId = $data['tournamentId'];
-        $filterBy     = $data['filterBy'];
+        $filterBy = $data['filterBy'];
         $token = \JWTAuth::getToken();
 
-        $resultData = array();
+        $resultData = [];
         switch ($filterBy) {
             case 'team':
                 $resultData = Team::where('teams.tournament_id', $tournamentId)->orderBy('name', 'asc')->select('id', 'name')->get();
@@ -805,7 +819,7 @@ class TournamentRepository
             case 'category_and_competition':
                 $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
                     ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id');
-                if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+                if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
                     $resultData = $resultData->whereHas('scheduledFixtures');
                 }
                 $resultData = $resultData->get();
@@ -820,11 +834,11 @@ class TournamentRepository
 
     public function getCompetitionAndPitchDetail($data)
     {
-        $ageCategoryDetail = TournamentCompetationTemplates::with(['Competition' => function($query) {
+        $ageCategoryDetail = TournamentCompetationTemplates::with(['Competition' => function ($query) {
             return $query->doesnthave('scheduledFixtures');
         }])
-        ->where('id', $data['ageCategoryId'])
-        ->first();
+            ->where('id', $data['ageCategoryId'])
+            ->first();
 
         $pitches = Pitch::where('tournament_id', $data['tournamentId'])->where('size', $ageCategoryDetail->pitch_size)->get();
 
@@ -843,7 +857,7 @@ class TournamentRepository
     public function scheduleAutomaticPitchPlanning($data)
     {
         $scheduleMatchesCount = null;
-        if(in_array('all', $data['competition'])) {
+        if (in_array('all', $data['competition'])) {
             $scheduleMatchesCount = TempFixture::where('age_group_id', $data['age_category']);
         } else {
             $scheduleMatchesCount = TempFixture::whereIn('competition_id', $data['competition']);
@@ -862,18 +876,18 @@ class TournamentRepository
 
         // for normal match
         $unscheduledMatchesForNormalMatch = null;
-        if(in_array('all', $data['competition'])) {
+        if (in_array('all', $data['competition'])) {
             $unscheduledMatchesForNormalMatch = TempFixture::where('age_group_id', $data['age_category']);
         } else {
             $unscheduledMatchesForNormalMatch = TempFixture::whereIn('competition_id', $data['competition']);
         }
         $unscheduledMatchesForNormalMatch = $unscheduledMatchesForNormalMatch->where('is_final_round_match', 0)->where('is_scheduled', 0)->get();
-        $normalMatchTotalTime  = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
+        $normalMatchTotalTime = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
         $requiredNormalMatchTotalTime = $normalMatchTotalTime * count($unscheduledMatchesForNormalMatch);
 
         // for final match
         $unscheduledMatchesForFinalMatch = null;
-        if(in_array('all', $data['competition'])) {
+        if (in_array('all', $data['competition'])) {
             $unscheduledMatchesForFinalMatch = TempFixture::where('age_group_id', $data['age_category']);
         } else {
             $unscheduledMatchesForFinalMatch = TempFixture::whereIn('competition_id', $data['competition']);
@@ -894,7 +908,7 @@ class TournamentRepository
             $tempFixture = TempFixture::where('tournament_id', $data['tournamentId'])
                 ->where('pitch_id', $pitchId)
                 ->where('is_scheduled', 1)
-                ->select(\DB::raw("SUM(time_to_sec(timediff(match_endtime, match_datetime)) / 60) as result"))
+                ->select(\DB::raw('SUM(time_to_sec(timediff(match_endtime, match_datetime)) / 60) as result'))
                 ->first();
 
             $pitch = $allPitches[$pitchId];
@@ -917,22 +931,22 @@ class TournamentRepository
             $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->get();
 
             foreach ($pitchAvailability as $key => $pitchAvailable) {
-                if (!isset($data['timings'][$pitchId]['days'][$key])) {
+                if (! isset($data['timings'][$pitchId]['days'][$key])) {
                     continue;
                 }
 
                 $pitchAvailableDate = Carbon::createFromFormat('d/m/Y', $pitchAvailable->stage_start_date)->format('Y-m-d');
 
-                $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_start_time);
-                $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_end_time);
+                $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_start_time);
+                $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
 
-                $pitchStartDateTime = $pitchAvailable->stage_start_date . ' ' . $data['timings'][$pitchId]['time'][$key]['start_time'] . ':00';
-                $pitchEndDateTime = $pitchAvailable->stage_start_date . ' ' . $data['timings'][$pitchId]['time'][$key]['end_time'] . ':00';
+                $pitchStartDateTime = $pitchAvailable->stage_start_date.' '.$data['timings'][$pitchId]['time'][$key]['start_time'].':00';
+                $pitchEndDateTime = $pitchAvailable->stage_start_date.' '.$data['timings'][$pitchId]['time'][$key]['end_time'].':00';
 
                 $pitchStartDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchStartDateTime);
                 $pitchEndDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchEndDateTime);
 
-                $lastScheduleTime = TempFixture::where('pitch_id', $pitchId)->whereDate('match_endtime',$pitchStartDateTime->format('Y-m-d'))->orderBy('match_endtime','desc')->first();
+                $lastScheduleTime = TempFixture::where('pitch_id', $pitchId)->whereDate('match_endtime', $pitchStartDateTime->format('Y-m-d'))->orderBy('match_endtime', 'desc')->first();
 
                 if ($lastScheduleTime) {
                     $pitchLastDateTime = Carbon::parse($lastScheduleTime->match_endtime);
@@ -946,7 +960,7 @@ class TournamentRepository
                     if ($pitchStartDateTime < $pitchAvailableStart || $pitchStartDateTime > $pitchAvailableEnd) {
                         $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 0;
                     }
-                    if($pitchStartDateTime->timestamp === $pitchAvailableEnd->timestamp) {
+                    if ($pitchStartDateTime->timestamp === $pitchAvailableEnd->timestamp) {
                         $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 2;
                     }
                     $pitchStartDateTime->addMinute(1);
@@ -959,22 +973,22 @@ class TournamentRepository
                 $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->toDateTimeString();
                 if (count($allPitchBreaks) > 0) {
                     foreach ($allPitchBreaks as $key => $break) {
-                        $availableEndTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
-                        $availableStartTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_end . '' . ':00';
+                        $availableEndTimeArray[] = $pitchAvailableStart->format('Y-m-d').' '.$break->break_start.''.':00';
+                        $availableStartTimeArray[] = $pitchAvailableStart->format('Y-m-d').' '.$break->break_end.''.':00';
 
-                        $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
+                        $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableStart->format('Y-m-d').' '.$break->break_start.''.':00';
                         $i++;
-                        $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_end . '' . ':00';
+                        $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->format('Y-m-d').' '.$break->break_end.''.':00';
 
                         $availability = PitchAvailable::where('id', $break->availability_id)->first();
 
-                        $stageStartTime = Carbon::createFromFormat('d/m/Y H:i', $availability->stage_start_date . ' ' . $break->break_start);
-                        $stageEndTime = Carbon::createFromFormat('d/m/Y H:i', $availability->stage_start_date . ' ' . $break->break_end);
+                        $stageStartTime = Carbon::createFromFormat('d/m/Y H:i', $availability->stage_start_date.' '.$break->break_start);
+                        $stageEndTime = Carbon::createFromFormat('d/m/Y H:i', $availability->stage_start_date.' '.$break->break_end);
 
                         while ($stageStartTime < $stageEndTime) {
                             $stageStartTime->addMinute(1);
                             $pitchAvailableTime[$pitchId][$stageStartTime->timestamp] = 0;
-                            if($stageStartTime->timestamp === $stageEndTime->timestamp) {
+                            if ($stageStartTime->timestamp === $stageEndTime->timestamp) {
                                 $pitchAvailableTime[$pitchId][$stageStartTime->timestamp] = 2;
                             }
                         }
@@ -990,7 +1004,7 @@ class TournamentRepository
                     while ($pitchUnavailableStart < $pitchUnavailableEnd) {
                         $pitchUnavailableStart->addMinute(1);
                         $pitchAvailableTime[$pitchId][$pitchUnavailableStart->timestamp] = 0;
-                        if($pitchUnavailableStart->timestamp === $pitchUnavailableEnd->timestamp) {
+                        if ($pitchUnavailableStart->timestamp === $pitchUnavailableEnd->timestamp) {
                             $pitchAvailableTime[$pitchId][$pitchUnavailableStart->timestamp] = 2;
                         }
                     }
@@ -1005,7 +1019,7 @@ class TournamentRepository
                     while ($matchStartDateTime < $matchEndDateTime) {
                         $matchStartDateTime->addMinute(1);
                         $pitchAvailableTime[$pitchId][$matchStartDateTime->timestamp] = 0;
-                        if($matchStartDateTime->timestamp === $matchEndDateTime->timestamp) {
+                        if ($matchStartDateTime->timestamp === $matchEndDateTime->timestamp) {
                             $pitchAvailableTime[$pitchId][$matchStartDateTime->timestamp] = 2;
                         }
                     }
@@ -1015,7 +1029,7 @@ class TournamentRepository
 
         $unscheduledMatches = TempFixture::leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->where('temp_fixtures.tournament_id', $data['tournamentId'])->where('temp_fixtures.age_group_id', $data['age_category']);
-        if(!in_array('all', $data['competition'])) {
+        if (! in_array('all', $data['competition'])) {
             $unscheduledMatches = $unscheduledMatches->whereIn('temp_fixtures.competition_id', $data['competition']);
         }
         $unscheduledMatches = $unscheduledMatches->where('temp_fixtures.is_scheduled', 0)->orderBy('competitions.competation_round_no')
@@ -1042,7 +1056,7 @@ class TournamentRepository
             }
 
             $reCheckPitchOrder = true;
-            while($reCheckPitchOrder === true) {
+            while ($reCheckPitchOrder === true) {
                 $reCheckPitchOrder = $this->processPitchAvailibity($nextPitchIndex, $allPitchIds, $pitchAvailableTime, $matchTime, $roundWiseLastMatchDateTime, $match, $matchScheduleArray, $data, $allPitches);
                 $nextPitchIndex = 0;
                 $allPitchIds = [];
@@ -1058,10 +1072,10 @@ class TournamentRepository
             }
         }
 
-        if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
+        if ($totalMatchesToBeScheduled != count($matchScheduleArray)) {
             return ['status' => 'error', 'message' => 'There was an error. All matches could not be scheduled.'];
         }
-        
+
         foreach ($matchScheduleArray as $matchId => $matchDetail) {
             $matchFixture = TempFixture::find($matchId);
             $matchFixture->match_datetime = $matchDetail['match_start_time'];
@@ -1073,13 +1087,13 @@ class TournamentRepository
         }
 
         $matches = [];
-        if(in_array('all', $data['competition'])) {
+        if (in_array('all', $data['competition'])) {
             $matches = DB::table('temp_fixtures')->where('age_group_id', $data['age_category']);
         } else {
             $matches = DB::table('temp_fixtures')->whereIn('competition_id', $data['competition']);
         }
-        $matches = $matches->where('is_scheduled',1)
-              ->get()->toArray();
+        $matches = $matches->where('is_scheduled', 1)
+            ->get()->toArray();
         $this->matchRepoObj->findMatchInterval($matches);
         $this->matchRepoObj->findMaximumMatchInterval($matches);
 
@@ -1101,21 +1115,21 @@ class TournamentRepository
                     $endTimeStamp = Carbon::createFromTimestamp($timestamp);
                     if ($data['competition'] == 'all') {
                         $round = $match->competation_round_no;
-                        if(!isset($roundWiseLastMatchDateTime[$match->age_group_id][$round]) || $endTimeStamp->greaterThan($roundWiseLastMatchDateTime[$match->age_group_id][$round])) {
+                        if (! isset($roundWiseLastMatchDateTime[$match->age_group_id][$round]) || $endTimeStamp->greaterThan($roundWiseLastMatchDateTime[$match->age_group_id][$round])) {
                             $roundWiseLastMatchDateTime[$match->age_group_id][$round] = $endTimeStamp;
                         }
                     }
 
-                    $matchScheduleArray[$match->id] = array(
+                    $matchScheduleArray[$match->id] = [
                         'match_start_time' => clone ($startTimeStamp),
                         'match_end_time' => clone ($endTimeStamp),
                         'pitch_id' => $pitchId,
                         'venue_id' => $allPitches[$pitchId]->venue_id,
-                    );
+                    ];
 
                     while ($startTimeStamp <= $endTimeStamp) {
                         $pitchAvailableTime[$pitchId][$startTimeStamp->timestamp] = 0;
-                        if($startTimeStamp->timestamp === $endTimeStamp->timestamp) {
+                        if ($startTimeStamp->timestamp === $endTimeStamp->timestamp) {
                             $pitchAvailableTime[$pitchId][$startTimeStamp->timestamp] = 2;
                         }
                         $startTimeStamp->addMinute(1);
@@ -1126,22 +1140,22 @@ class TournamentRepository
                 if ($i < $matchTime && ($value == 1 || $value == 2)) {
                     $canMatchBeSchedule = true;
                     if ($startTimeStamp == null) {
-                        if (!isset($pitchAvailableTime[$pitchId][Carbon::createFromTimestamp($timestamp)->addMinute($matchTime)->timestamp])) {
+                        if (! isset($pitchAvailableTime[$pitchId][Carbon::createFromTimestamp($timestamp)->addMinute($matchTime)->timestamp])) {
                             continue;
                         }
 
                         $matchStartTimeStamp = Carbon::createFromTimestamp($timestamp);
-                        $matchEndTimeStamp = (clone ($matchStartTimeStamp))->addMinute($matchTime);
+                        $matchEndTimeStamp = (clone $matchStartTimeStamp)->addMinute($matchTime);
 
                         if ($data['competition'] == 'all') {
                             $round = $match->competation_round_no;
-                            $roundArray = explode(" ", $round);
+                            $roundArray = explode(' ', $round);
                             $roundNumber = intval($roundArray[1]);
-                            if($roundNumber > 0) {
+                            if ($roundNumber > 0) {
                                 $previousRoundNumber = $roundNumber - 1;
-                                $previousRound = $roundArray[0] . ' ' . $previousRoundNumber;
-                                if(isset($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
-                                    if($matchStartTimeStamp->lessThan($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
+                                $previousRound = $roundArray[0].' '.$previousRoundNumber;
+                                if (isset($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
+                                    if ($matchStartTimeStamp->lessThan($roundWiseLastMatchDateTime[$match->age_group_id][$previousRound])) {
                                         $pitchAvailableTime[$pitchId][$timestamp] = -1 * $pitchAvailableTime[$pitchId][$timestamp];
                                         $canMatchBeSchedule = false;
                                         $reCheckPitchOrder = true;
@@ -1151,14 +1165,15 @@ class TournamentRepository
                         }
 
                         if ($canMatchBeSchedule == true) {
-                            if($reCheckPitchOrder) {
+                            if ($reCheckPitchOrder) {
                                 break;
                             }
                             $startTimeStamp = $timestamp;
                         }
                     }
-                    if($canMatchBeSchedule == true) {
+                    if ($canMatchBeSchedule == true) {
                         $i++;
+
                         continue;
                     }
                 }
@@ -1168,11 +1183,11 @@ class TournamentRepository
                     break;
                 }
             }
-            if($reCheckPitchOrder) {
+            if ($reCheckPitchOrder) {
                 break;
             }
             if ($isMatchScheduledFlag == true) {
-                if($pitchIndex === (count($allPitchIds) - 1)) {
+                if ($pitchIndex === (count($allPitchIds) - 1)) {
                     $nextPitchIndex = 0;
                 } else {
                     $nextPitchIndex++;
@@ -1180,6 +1195,7 @@ class TournamentRepository
                 break;
             }
         }
+
         return $reCheckPitchOrder;
     }
 
@@ -1187,10 +1203,10 @@ class TournamentRepository
     {
         $userSelectedPitchOrderFlipped = array_flip($userSelectedPitchOrder);
         $pitchIdWiseFirstAvailability = [];
-        foreach($pitchAvailableTime as $pitchId => $pitchAvailability) {
+        foreach ($pitchAvailableTime as $pitchId => $pitchAvailability) {
             $previousTimestamp = null;
             foreach ($pitchAvailability as $timestamp => $value) {
-                if($value == 1) {
+                if ($value == 1) {
                     $pitchIdWiseFirstAvailability[$pitchId] = ($previousTimestamp !== null && $pitchAvailableTime[$pitchId][$previousTimestamp] == 2) ? $previousTimestamp : $timestamp;
                     $userSelectedPitchOrderFlipped[$pitchId] = ($previousTimestamp !== null && $pitchAvailableTime[$pitchId][$previousTimestamp] == 2) ? $previousTimestamp : $timestamp;
                     break;
@@ -1200,10 +1216,10 @@ class TournamentRepository
         }
         asort($pitchIdWiseFirstAvailability);
         $pitchIdWiseFirstAvailabilityTimestamps = array_values(array_unique(array_values($pitchIdWiseFirstAvailability)));
-        
+
         $pitchIdWiseSortedByFirstAvailability = [];
-        foreach($pitchIdWiseFirstAvailabilityTimestamps as $timestamp) {
-            $timestampArray = array_filter($pitchIdWiseFirstAvailability, function($value) use($timestamp) {
+        foreach ($pitchIdWiseFirstAvailabilityTimestamps as $timestamp) {
+            $timestampArray = array_filter($pitchIdWiseFirstAvailability, function ($value) use ($timestamp) {
                 return $value == $timestamp;
             });
             $orderedTimestampArray = array_intersect_key($userSelectedPitchOrderFlipped, $timestampArray);
@@ -1216,9 +1232,9 @@ class TournamentRepository
 
     public function revertPitchAvailibilityRoundChanges(&$pitchAvailableTime)
     {
-        foreach($pitchAvailableTime as $pitchId => $pitchAvailability) {
+        foreach ($pitchAvailableTime as $pitchId => $pitchAvailability) {
             foreach ($pitchAvailability as $timestamp => $value) {
-                if($value === -1 || $value === -2) {
+                if ($value === -1 || $value === -2) {
                     $pitchAvailableTime[$pitchId][$timestamp] = abs($pitchAvailableTime[$pitchId][$timestamp]);
                 }
             }
@@ -1229,31 +1245,32 @@ class TournamentRepository
      * Update competition display name.
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function updateCompetitionDisplayName($data)
     {
         $competition = Competition::where('id', $data['competitionData']['id'])
-                    ->where('tournament_id', $data['competitionData']['tournament_id'])
-                    ->update(['display_name' => $data['competitionData']['display_name']]);
+            ->where('tournament_id', $data['competitionData']['tournament_id'])
+            ->update(['display_name' => $data['competitionData']['display_name']]);
 
         $competitionData = Competition::where('tournament_competation_template_id', $data['competitionData']['tournament_competation_template_id'])
-                                        ->where('tournament_id', $data['competitionData']['tournament_id'])
-                                        ->get();
-                                        
+            ->where('tournament_id', $data['competitionData']['tournament_id'])
+            ->get();
+
         return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
     }
 
     /**
-    * Update category division display name.
-    */
+     * Update category division display name.
+     */
     public function updateCategoryDivisionName($data)
     {
         return AgeCategoryDivision::where('tournament_id', $data['tournamentData']['tournament_id'])
             ->where('tournament_competition_template_id', $data['tournamentData']['currentAgeCategoryId'])
             ->where('id', $data['tournamentData']['divisionId'])
             ->update([
-                'name' => $data['tournamentData']['categoryDivisionName']
+                'name' => $data['tournamentData']['categoryDivisionName'],
             ]);
     }
 
@@ -1286,14 +1303,14 @@ class TournamentRepository
         // saving tournament
         $newCopiedTournament = $existingTournament->replicate();
         $newCopiedTournament->name = $data['tournament_name'];
-        $newCopiedTournament->slug = $this->generateSlug($data['tournament_name'] . Carbon::createFromFormat('d/m/Y', $existingTournament->start_date)->year);
+        $newCopiedTournament->slug = $this->generateSlug($data['tournament_name'].Carbon::createFromFormat('d/m/Y', $existingTournament->start_date)->year);
         $newCopiedTournament->duplicated_from = $existingTournament->id;
         $newCopiedTournament->status = 'Unpublished';
         $newCopiedTournament->is_published_preview_once = 0;
         $newCopiedTournament->save();
 
-        // saving tournament age categories        
-        if($existingTournamentAgeCategories) {
+        // saving tournament age categories
+        if ($existingTournamentAgeCategories) {
             foreach ($existingTournamentAgeCategories as $ageCategory) {
                 $copiedAgeCategory = $ageCategory->replicate();
                 $copiedAgeCategory->tournament_id = $newCopiedTournament->id;
@@ -1303,9 +1320,9 @@ class TournamentRepository
         }
 
         // saving tournament competitions
-        if($existingTournamentCompetitions) {
+        if ($existingTournamentCompetitions) {
             foreach ($existingTournamentCompetitions as $competition) {
-                if(isset($ageCategoriesMappingArray[$competition->tournament_competation_template_id])) {
+                if (isset($ageCategoriesMappingArray[$competition->tournament_competation_template_id])) {
                     $copiedCompetition = $competition->replicate();
                     $copiedCompetition->tournament_competation_template_id = $ageCategoriesMappingArray[$competition->tournament_competation_template_id];
                     $copiedCompetition->tournament_id = $newCopiedTournament->id;
@@ -1316,7 +1333,7 @@ class TournamentRepository
         }
 
         // saving tournament venues
-        if($existingTournamentVenues) {
+        if ($existingTournamentVenues) {
             foreach ($existingTournamentVenues as $venue) {
                 $copiedVenue = $venue->replicate();
                 $copiedVenue->tournament_id = $newCopiedTournament->id;
@@ -1326,7 +1343,7 @@ class TournamentRepository
         }
 
         // saving tournament associated pitches
-        if($existingTournamentPitches) {
+        if ($existingTournamentPitches) {
             foreach ($existingTournamentPitches as $pitch) {
                 $copiedPitch = $pitch->replicate();
                 $copiedPitch->tournament_id = $newCopiedTournament->id;
@@ -1337,18 +1354,18 @@ class TournamentRepository
         }
 
         // saving tournament pitch availability
-        if($existingTournamentAvailablePitches) {
+        if ($existingTournamentAvailablePitches) {
             foreach ($existingTournamentAvailablePitches as $availablePitch) {
-                if(isset($pitchesMappingArray[$availablePitch->pitch_id])) {
+                if (isset($pitchesMappingArray[$availablePitch->pitch_id])) {
                     $copiedAvailablePitch = $availablePitch->replicate();
                     $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
                     $copiedAvailablePitch->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
                     $copiedAvailablePitch->save();
                 }
 
-                if(isset($pitchesMappingArray[$availablePitch->pitch_id])) {
+                if (isset($pitchesMappingArray[$availablePitch->pitch_id])) {
                     $pitchBreak = PitchBreaks::where('pitch_id', $availablePitch->pitch_id)->first();
-                    if($pitchBreak) {
+                    if ($pitchBreak) {
                         $copiedPitchBreak = $pitchBreak->replicate();
                         $copiedPitchBreak->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
                         $copiedPitchBreak->availability_id = $copiedAvailablePitch->id;
@@ -1359,9 +1376,9 @@ class TournamentRepository
         }
 
         // saving tournament pitch unavailability
-        if($existingTournamentUnAvailablePitches) {
+        if ($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
-                if(isset($pitchesMappingArray[$unAvailablePitch->pitch_id])) {
+                if (isset($pitchesMappingArray[$unAvailablePitch->pitch_id])) {
                     $copiedUnAvailablePitch = $unAvailablePitch->replicate();
                     $copiedUnAvailablePitch->tournament_id = $newCopiedTournament->id;
                     $copiedUnAvailablePitch->pitch_id = $pitchesMappingArray[$unAvailablePitch->pitch_id];
@@ -1372,12 +1389,12 @@ class TournamentRepository
 
         // saving tournament referees
         $refereeNewAgeCategoriesArray = [];
-        if($existingTournamentReferees) {
+        if ($existingTournamentReferees) {
             foreach ($existingTournamentReferees as $referee) {
-                if($referee->age_group_id != null) {
-                    $explodedExistingRefereeAgeCategories = explode(",", $referee->age_group_id);
+                if ($referee->age_group_id != null) {
+                    $explodedExistingRefereeAgeCategories = explode(',', $referee->age_group_id);
                     foreach ($explodedExistingRefereeAgeCategories as $key => $ageCategory) {
-                        if(isset($ageCategoriesMappingArray[$ageCategory])) {
+                        if (isset($ageCategoriesMappingArray[$ageCategory])) {
                             $refereeNewAgeCategoriesArray[] = $ageCategoriesMappingArray[$ageCategory];
                         }
                     }
@@ -1385,15 +1402,15 @@ class TournamentRepository
 
                 $copiedTournamentReferee = $referee->replicate();
                 $copiedTournamentReferee->tournament_id = $newCopiedTournament->id;
-                $copiedTournamentReferee->age_group_id = ($referee->age_group_id != null) ? implode(",", $refereeNewAgeCategoriesArray) : null;
+                $copiedTournamentReferee->age_group_id = ($referee->age_group_id != null) ? implode(',', $refereeNewAgeCategoriesArray) : null;
                 $copiedTournamentReferee->save();
-                
+
                 $refereesMappingArray[$referee->id] = $copiedTournamentReferee->id;
             }
         }
 
         // saving tournament teams
-        if($existingTournamentTeams) {
+        if ($existingTournamentTeams) {
             foreach ($existingTournamentTeams as $team) {
                 $copiedTeam = $team->replicate();
                 $copiedTeam->tournament_id = $newCopiedTournament->id;
@@ -1405,11 +1422,11 @@ class TournamentRepository
         }
 
         // saving positions
-        if($ageCategoriesMappingArray) {
+        if ($ageCategoriesMappingArray) {
             foreach ($ageCategoriesMappingArray as $key => $ageCategory) {
                 $positions = Position::where('age_category_id', $key)->get();
                 foreach ($positions as $poskey => $position) {
-                    if(isset($ageCategoriesMappingArray[$position->age_category_id])) {
+                    if (isset($ageCategoriesMappingArray[$position->age_category_id])) {
                         $copiedPositions = $position->replicate();
                         $copiedPositions->age_category_id = $ageCategoriesMappingArray[$position->age_category_id];
                         $copiedPositions->team_id = isset($teamsMappingArray[$position->team_id]) ? $teamsMappingArray[$position->team_id] : null;
@@ -1420,9 +1437,9 @@ class TournamentRepository
         }
 
         // saving tournament fixtures
-        if($existingTournamentFixtures) {
+        if ($existingTournamentFixtures) {
             foreach ($existingTournamentFixtures as $fixture) {
-                if(isset($competitionsMappingArray[$fixture->competition_id])) {
+                if (isset($competitionsMappingArray[$fixture->competition_id])) {
                     $copiedFixture = $fixture->replicate();
                     $copiedFixture->tournament_id = $newCopiedTournament->id;
                     $copiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
@@ -1439,7 +1456,7 @@ class TournamentRepository
         }
 
         // saving tournament team manual rankings
-        if($existingTournamentTeamsManualRankings) {
+        if ($existingTournamentTeamsManualRankings) {
             foreach ($existingTournamentTeamsManualRankings as $teamManualRanking) {
                 $copiedTeamManualRanking = $teamManualRanking->replicate();
                 $copiedTeamManualRanking->tournament_id = $newCopiedTournament->id;
@@ -1449,9 +1466,8 @@ class TournamentRepository
             }
         }
 
-
         // saving tournament contacts
-        if($existingTournamentContacts) {
+        if ($existingTournamentContacts) {
             foreach ($existingTournamentContacts as $tournamentContact) {
                 $copiedTournamentContact = $tournamentContact->replicate();
                 $copiedTournamentContact->tournament_id = $newCopiedTournament->id;
@@ -1460,7 +1476,7 @@ class TournamentRepository
         }
 
         // saving tournament match standings
-        if($existingTournamentMatchStandings) {
+        if ($existingTournamentMatchStandings) {
             foreach ($existingTournamentMatchStandings as $matchStanding) {
                 $copiedTournamentMatchStanding = $matchStanding->replicate();
                 $copiedTournamentMatchStanding->tournament_id = $newCopiedTournament->id;
@@ -1471,7 +1487,7 @@ class TournamentRepository
         }
 
         // saving tournament club
-        if($tournamentClubs) {
+        if ($tournamentClubs) {
             foreach ($tournamentClubs as $tournamentClub) {
                 $copiedTournamentClub = $tournamentClub->replicate();
                 $copiedTournamentClub->tournament_id = $newCopiedTournament->id;
@@ -1479,7 +1495,7 @@ class TournamentRepository
             }
         }
 
-        if($tournamentUsers) {
+        if ($tournamentUsers) {
             foreach ($tournamentUsers as $tournamentUser) {
                 $copiedTournamentUser = $tournamentUser->replicate();
                 $copiedTournamentUser->tournament_id = $newCopiedTournament->id;
@@ -1487,20 +1503,21 @@ class TournamentRepository
             }
         }
 
-
         return $newCopiedTournament;
     }
 
     public function duplicateTournamentList($data)
     {
         $authUser = JWTAuth::parseToken()->toUser();
-        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
-            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
+        if (isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
+            $tournamentName = Tournament::where('tournaments.name', 'like', '%'.$data['tournamentNameSearch'].'%');
+
             return $tournamentName->orderBy('name', 'asc')->get();
         } else {
-            if($authUser->roles()->first()->slug == 'tournament.administrator') {
+            if ($authUser->roles()->first()->slug == 'tournament.administrator') {
                 return $authUser->tournaments()->orderBy('name', 'asc')->get();
-            } 
+            }
+
             return Tournament::orderBy('name', 'asc')->get();
         }
     }
@@ -1510,6 +1527,7 @@ class TournamentRepository
         $tournament = Tournament::find($data['tournamentData']['tournamentId']);
         $tournament->screen_rotate_time_in_seconds = $data['tournamentData']['screenRotateTime'];
         $tournament->save();
+
         return $tournament;
     }
 
@@ -1531,11 +1549,12 @@ class TournamentRepository
         } else {
             $tournamentContact = TournamentContact::create([
                 'tournament_id' => $data['tournamentData']['tournamentId'],
-                'first_name'    => $data['tournamentData']['tournament_contact_first_name'],
-                'last_name'     => $data['tournamentData']['tournament_contact_last_name'],
-                'telephone'     => $data['tournamentData']['tournament_contact_home_phone']
+                'first_name' => $data['tournamentData']['tournament_contact_first_name'],
+                'last_name' => $data['tournamentData']['tournament_contact_last_name'],
+                'telephone' => $data['tournamentData']['tournament_contact_home_phone'],
             ]);
         }
+
         return $tournamentContact;
     }
 
@@ -1543,22 +1562,24 @@ class TournamentRepository
     {
         $locationData = [];
         foreach ($data['tournamentData']['locations'] as $location) {
-            $locationData['id']            = $location['tournament_location_id'] ?? '';
-            $locationData['name']          = $location['tournament_venue_name'] ?? '';
-            $locationData['address1']      = $location['touranment_venue_address'] ?? '';
-            $locationData['city']          = $location['tournament_venue_city'] ?? '';
-            $locationData['postcode']      = $location['tournament_venue_postcode'] ?? '';
-            $locationData['country']       = $location['tournament_venue_country'] ?? '';
-            $locationData['organiser']     = $location['tournament_venue_organiser'] ?? '';
+            $locationData['id'] = $location['tournament_location_id'] ?? '';
+            $locationData['name'] = $location['tournament_venue_name'] ?? '';
+            $locationData['address1'] = $location['touranment_venue_address'] ?? '';
+            $locationData['city'] = $location['tournament_venue_city'] ?? '';
+            $locationData['postcode'] = $location['tournament_venue_postcode'] ?? '';
+            $locationData['country'] = $location['tournament_venue_country'] ?? '';
+            $locationData['organiser'] = $location['tournament_venue_organiser'] ?? '';
             $locationData['tournament_id'] = $data['tournamentData']['tournamentId'];
             if (isset($locationData['id']) && $locationData['id'] != 0) {
                 Venue::where('id', $locationData['id'])->update($locationData);
             }
         }
+
         return true;
     }
 
-    public function sortEliminationMatchesByMatchCode($matches) {
+    public function sortEliminationMatchesByMatchCode($matches)
+    {
         // make arreay group by round no and competition type
         $matchesArray = [];
         foreach ($matches as $match) {
@@ -1567,14 +1588,15 @@ class TournamentRepository
 
         $sortingPlacingMatchesArray = [];
         foreach ($matchesArray as $key => $rounds) {
-            foreach ($rounds as $roundType =>$roundMatches) {
-                if($roundType == 'Elimination'){
+            foreach ($rounds as $roundType => $roundMatches) {
+                if ($roundType == 'Elimination') {
                     $matchCodeNo = array_column($roundMatches, 'match_code_no');
                     array_multisort($matchCodeNo, SORT_DESC, $roundMatches);
                 }
-                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray,$roundMatches);
+                $sortingPlacingMatchesArray = array_merge($sortingPlacingMatchesArray, $roundMatches);
             }
         }
+
         return collect($sortingPlacingMatchesArray);
     }
 }

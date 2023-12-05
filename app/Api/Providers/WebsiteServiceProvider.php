@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
+use App\Api\Repositories\WebsiteRepository;
+use App\Api\Services\PageService;
+use App\Api\Services\WebsiteService;
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Services\WebsiteService;
-use Laraspace\Api\Repositories\WebsiteRepository;
 
 class WebsiteServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class WebsiteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\WebsiteContract', function ($app) {
+        $this->app->bind('App\Api\Contracts\WebsiteContract', function ($app) {
             return new WebsiteService(new WebsiteRepository(new PageService()));
         });
     }
@@ -37,6 +37,6 @@ class WebsiteServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\WebsiteContract'];
+        return ['App\Api\Contracts\WebsiteContract'];
     }
 }

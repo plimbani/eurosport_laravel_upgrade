@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\HistoryYear;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
+use App\Models\HistoryYear;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
 
 class HistoryYearObserver
 {
@@ -14,75 +14,72 @@ class HistoryYearObserver
     /**
      * Listen to the HistoryYear created event.
      *
-     * @param  \Laraspace\Models\HistoryYear $historyYear
      * @return void
      */
     public function created(HistoryYear $historyYear)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $historyYearData = [];
-      $historyYearData['website_id'] = $historyYear->website_id;
-      $historyYearData['notification_id'] = $this->getNotificationId($userObj);
-      $historyYearData['subject_id'] = $historyYear->id;
-      $historyYearData['subject_type'] = get_class($historyYear);
-      $historyYearData['causer_id'] = $userObj->id;
-      $historyYearData['causer_type'] = get_class($userObj);
-      $historyYearData['description'] = $userObj->name .' '. 'added a new history year.';
-      $historyYearData['page'] = 'Tournament';
-      $historyYearData['section'] = 'History';
-      $historyYearData['action'] = 'created';
+        $historyYearData = [];
+        $historyYearData['website_id'] = $historyYear->website_id;
+        $historyYearData['notification_id'] = $this->getNotificationId($userObj);
+        $historyYearData['subject_id'] = $historyYear->id;
+        $historyYearData['subject_type'] = get_class($historyYear);
+        $historyYearData['causer_id'] = $userObj->id;
+        $historyYearData['causer_type'] = get_class($userObj);
+        $historyYearData['description'] = $userObj->name.' '.'added a new history year.';
+        $historyYearData['page'] = 'Tournament';
+        $historyYearData['section'] = 'History';
+        $historyYearData['action'] = 'created';
 
-      $this->saveActivityLog($historyYearData);
+        $this->saveActivityLog($historyYearData);
     }
 
     /**
      * Listen to the HistoryYear updated event.
      *
-     * @param  \Laraspace\Models\HistoryYear $historyYear
      * @return void
      */
     public function updated(HistoryYear $historyYear)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $historyYearData = [];
-      $historyYearData['website_id'] = $historyYear->website_id;
-      $historyYearData['notification_id'] = $this->getNotificationId($userObj);
-      $historyYearData['subject_id'] = $historyYear->id;
-      $historyYearData['subject_type'] = get_class($historyYear);
-      $historyYearData['causer_id'] = $userObj->id;
-      $historyYearData['causer_type'] = get_class($userObj);
-      $historyYearData['description'] = $userObj->name .' '. 'updated a history year.';
-      $historyYearData['page'] = 'Tournament';
-      $historyYearData['section'] = 'History';
-      $historyYearData['action'] = 'updated';
+        $historyYearData = [];
+        $historyYearData['website_id'] = $historyYear->website_id;
+        $historyYearData['notification_id'] = $this->getNotificationId($userObj);
+        $historyYearData['subject_id'] = $historyYear->id;
+        $historyYearData['subject_type'] = get_class($historyYear);
+        $historyYearData['causer_id'] = $userObj->id;
+        $historyYearData['causer_type'] = get_class($userObj);
+        $historyYearData['description'] = $userObj->name.' '.'updated a history year.';
+        $historyYearData['page'] = 'Tournament';
+        $historyYearData['section'] = 'History';
+        $historyYearData['action'] = 'updated';
 
-      $this->saveActivityLog($historyYearData);
+        $this->saveActivityLog($historyYearData);
     }
 
     /**
      * Listen to the HistoryYear deleted event.
      *
-     * @param  \Laraspace\Models\HistoryYear $historyYear
      * @return void
      */
     public function deleted(HistoryYear $historyYear)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $historyYearData = [];
-      $historyYearData['website_id'] = $historyYear->website_id;
-      $historyYearData['notification_id'] = $this->getNotificationId($userObj);
-      $historyYearData['subject_id'] = $historyYear->id;
-      $historyYearData['subject_type'] = get_class($historyYear);
-      $historyYearData['causer_id'] = $userObj->id;
-      $historyYearData['causer_type'] = get_class($userObj);
-      $historyYearData['description'] = $userObj->name .' '. 'deleted a history year.';
-      $historyYearData['page'] = 'Tournament';
-      $historyYearData['section'] = 'History';
-      $historyYearData['action'] = 'deleted';
+        $historyYearData = [];
+        $historyYearData['website_id'] = $historyYear->website_id;
+        $historyYearData['notification_id'] = $this->getNotificationId($userObj);
+        $historyYearData['subject_id'] = $historyYear->id;
+        $historyYearData['subject_type'] = get_class($historyYear);
+        $historyYearData['causer_id'] = $userObj->id;
+        $historyYearData['causer_type'] = get_class($userObj);
+        $historyYearData['description'] = $userObj->name.' '.'deleted a history year.';
+        $historyYearData['page'] = 'Tournament';
+        $historyYearData['section'] = 'History';
+        $historyYearData['action'] = 'deleted';
 
-      $this->saveActivityLog($historyYearData);
+        $this->saveActivityLog($historyYearData);
     }
 }

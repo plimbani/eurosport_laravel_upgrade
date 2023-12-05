@@ -1,10 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use Auth;
-use Socialite;
-use Laraspace\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -50,6 +48,6 @@ class LoginController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-        
-    }    
+
+    }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TemplatesRequest extends FormRequest
 {
     use TournamentAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,9 +17,10 @@ class TemplatesRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('mobile.user')) {
+        if ($user->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

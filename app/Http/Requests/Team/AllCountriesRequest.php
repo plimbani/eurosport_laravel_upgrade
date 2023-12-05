@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AllCountriesRequest extends FormRequest
@@ -17,9 +17,10 @@ class AllCountriesRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('mobile.user')) {
+        if ($user->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

@@ -1,20 +1,14 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Model\UserAffiliates;
-use DB;
-use Laraspace\Contracts\UserContract;
-use Validator;
-use Laraspace\Model\Role;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Mail\Message;
+use App\Contracts\UserContract;
 
 class UserService implements UserContract
 {
     public function __construct()
     {
-        $this->userRepoObj = new \Laraspace\Repositories\UserRepository();
+        $this->userRepoObj = new \App\Repositories\UserRepository();
     }
 
     public function getAllUsers()

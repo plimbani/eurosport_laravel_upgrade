@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePitchesAvailibilityTable extends Migration
 {
@@ -21,13 +21,13 @@ class CreatePitchesAvailibilityTable extends Migration
             $table->foreign('pitch_id')->references('id')->on('pitches');
             $table->integer('stage_no')->default(1)->unsigned(10);
             $table->date('stage_start_date')->nullable();
-            $table->string('stage_start_time',10)->nullable();
-            $table->string('stage_end_time',10)->nullable();
+            $table->string('stage_start_time', 10)->nullable();
+            $table->string('stage_end_time', 10)->nullable();
             $table->date('stage_continue_date')->nullable();
-            $table->string('break_start_time',10)->nullable();
-            $table->string('break_end_time',10)->nullable();
+            $table->string('break_start_time', 10)->nullable();
+            $table->string('break_end_time', 10)->nullable();
             $table->date('stage_end_date')->nullable();
-            $table->float('stage_capacity',10,2)->nullable();
+            $table->float('stage_capacity', 10, 2)->nullable();
             $table->boolean('break_enable')->nullable();
             $table->timestamps();
             $table->softDeletes();

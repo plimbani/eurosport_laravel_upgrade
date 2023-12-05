@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Pitch;
+namespace App\Http\Requests\Pitch;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GetPitchSizeWiseSummaryRequest extends FormRequest
@@ -18,9 +18,10 @@ class GetPitchSizeWiseSummaryRequest extends FormRequest
     {
         $tournamentId = $this->route('tournamentId');
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
-        if(!$isTournamentAccessible) {
+        if (! $isTournamentAccessible) {
             return false;
         }
+
         return true;
     }
 

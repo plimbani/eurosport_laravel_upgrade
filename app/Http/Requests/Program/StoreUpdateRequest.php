@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Program;
+namespace App\Http\Requests\Program;
 
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUpdateRequest extends FormRequest
 {
     use WebsiteAccess;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,10 +17,11 @@ class StoreUpdateRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($data['websiteId']);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($data['websiteId']);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 

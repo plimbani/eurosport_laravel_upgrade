@@ -1,18 +1,17 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\TokenCheckRequest;
+use App\Models\Person;
+use App\Models\Role;
+use App\Models\Settings;
+use App\Models\User;
+use Illuminate\Http\Request;
 use JWTAuth;
 use Socialite;
-use Validator;
-use Laraspace\Models\Role;
-use Laraspace\Models\User;
-use Laraspace\Models\Person;
-use Illuminate\Http\Request;
-use Laraspace\Models\Settings;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Validation\ValidationException;
-use Laraspace\Http\Requests\Auth\TokenCheckRequest;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -44,61 +43,62 @@ class AuthController extends Controller
             return response(['authenticated' => false]);
         }
 
-        $token=JWTAuth::getToken();
-        if($token) {
-          $userData = JWTAuth::toUser($token);
-          $isMobileUsers = \Request::header('IsMobileUser');
-          $userTournament = $userData->tournaments()->pluck('id')->toArray();
-          if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && !in_array($request->tournamentId,$userTournament)) {
-            return response(['authenticated' => true, "hasAccess" => false, "message"=>"You don't have an access to this tournament." ]);
-          }
+        $token = JWTAuth::getToken();
+        if ($token) {
+            $userData = JWTAuth::toUser($token);
+            $isMobileUsers = \Request::header('IsMobileUser');
+            $userTournament = $userData->tournaments()->pluck('id')->toArray();
+            if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && ! in_array($request->tournamentId, $userTournament)) {
+                return response(['authenticated' => true, 'hasAccess' => false, 'message' => "You don't have an access to this tournament."]);
+            }
 
-          if( $userData->is_verified == 0 ) {
-            return response(['authenticated' => false, 'message'=>'This email account still requires verification.']);
-          }
+            if ($userData->is_verified == 0) {
+                return response(['authenticated' => false, 'message' => 'This email account still requires verification.']);
+            }
 
-          if( ($userData->is_mobile_user == 0 && $isMobileUsers == true) || ($userData->is_desktop_user == 0 && $isMobileUsers != true) ) {
-            return response(['authenticated' => false, 'message'=>'Account is de-activated. Please contact your administrator.']);
-          }
+            if (($userData->is_mobile_user == 0 && $isMobileUsers == true) || ($userData->is_desktop_user == 0 && $isMobileUsers != true)) {
+                return response(['authenticated' => false, 'message' => 'Account is de-activated. Please contact your administrator.']);
+            }
 
-          if($userData->is_active == 0) {
-            return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
-          }
+            if ($userData->is_active == 0) {
+                return response(['authenticated' => false, 'message' => 'Account de-activated please contact your administrator.']);
+            }
             $path = getenv('S3_URL').'/assets/img/users/';
-            $userDataQuery = \Laraspace\Models\User::where('users.id',$userData->id)
-                              ->leftJoin('users_favourite','users_favourite.user_id','=','users.id')
-                              ->leftJoin('people','people.id','=','users.person_id')
-                              ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
-                              ->join('role_user', 'users.id', '=', 'role_user.user_id')
-                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                              ->select('users.id',
-                                'users.locale',
-                                'people.first_name',
-                                'people.last_name','users.email',
-                                'users.user_image',
-                                \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
-                                'users_favourite.tournament_id','users.role as role','countries.id as country_id')
-                              ->get();
-                              
-            $userDetails = array();
-            if(isset($userDataQuery)) {
-             $userData = $userDataQuery[0];
+            $userDataQuery = \App\Models\User::where('users.id', $userData->id)
+                ->leftJoin('users_favourite', 'users_favourite.user_id', '=', 'users.id')
+                ->leftJoin('people', 'people.id', '=', 'users.person_id')
+                ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
+                ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->select('users.id',
+                    'users.locale',
+                    'people.first_name',
+                    'people.last_name', 'users.email',
+                    'users.user_image',
+                    \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
+                    'users_favourite.tournament_id', 'users.role as role', 'countries.id as country_id')
+                ->get();
 
-             $userDetails['first_name'] = $userData->first_name;
-             $userDetails['sur_name'] = $userData->last_name;
-             $userDetails['email'] = $userData->email;
-             $userDetails['profile_image_url'] = $userData->userImage;
-             $userDetails['tournament_id'] = $userData->tournament_id;
-             $userDetails['user_id'] = $userData->id;
-             $userDetails['locale'] = $userData->locale;
-             $userSettings = Settings::where('user_id','=',$userData->id)->first();
-             $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
-             $userDetails['role'] = $userData->role;
-             $userDetails['locale'] = $userData->locale;
-             $userDetails['country_id'] = $userData->country_id;
+            $userDetails = [];
+            if (isset($userDataQuery)) {
+                $userData = $userDataQuery[0];
 
-             $tournament_id = array();
-             return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update'), 'enable_logs_ios' =>config('config-variables.enable_logs_ios'), 'enable_logs_android' =>config('config-variables.enable_logs_android'), 'currentLayout' => config('config-variables.current_layout')]);
+                $userDetails['first_name'] = $userData->first_name;
+                $userDetails['sur_name'] = $userData->last_name;
+                $userDetails['email'] = $userData->email;
+                $userDetails['profile_image_url'] = $userData->userImage;
+                $userDetails['tournament_id'] = $userData->tournament_id;
+                $userDetails['user_id'] = $userData->id;
+                $userDetails['locale'] = $userData->locale;
+                $userSettings = Settings::where('user_id', '=', $userData->id)->first();
+                $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
+                $userDetails['role'] = $userData->role;
+                $userDetails['locale'] = $userData->locale;
+                $userDetails['country_id'] = $userData->country_id;
+
+                $tournament_id = [];
+
+                return response(['authenticated' => true, 'userData' => $userDetails, 'is_score_auto_update' => config('config-variables.is_score_auto_update'), 'enable_logs_ios' => config('config-variables.enable_logs_ios'), 'enable_logs_android' => config('config-variables.enable_logs_android'), 'currentLayout' => config('config-variables.current_layout')]);
             }
         }
     }
@@ -128,56 +128,60 @@ class AuthController extends Controller
         $token = $request->token;
         $provider = $request->provider;
 
-        if($provider == 'facebook') {
-          Socialite::driver($provider)->fields(['name', 'first_name', 'last_name', 'email']);
-          $payload = Socialite::driver($provider)->userFromToken($token);
-          $user = $this->getFacebookUserData($payload);
+        if ($provider == 'facebook') {
+            Socialite::driver($provider)->fields(['name', 'first_name', 'last_name', 'email']);
+            $payload = Socialite::driver($provider)->userFromToken($token);
+            $user = $this->getFacebookUserData($payload);
         }
 
-        if($provider == 'apple') {
-          $user = [];
-          $user['id'] = $request->user_identifier;
-          $user['email'] = $request->email;
-          $user['first_name'] = $request->first_name;
-          $user['last_name'] = $request->last_name;
+        if ($provider == 'apple') {
+            $user = [];
+            $user['id'] = $request->user_identifier;
+            $user['email'] = $request->email;
+            $user['first_name'] = $request->first_name;
+            $user['last_name'] = $request->last_name;
         }
 
         $authUser = User::where('provider_id', $user['id'])->first();
-        if (!$authUser) {
-          $userData = [];
-          if(isset($user['first_name']))
-              $userData['first_name'] = $user['first_name'];
+        if (! $authUser) {
+            $userData = [];
+            if (isset($user['first_name'])) {
+                $userData['first_name'] = $user['first_name'];
+            }
 
-          if(isset($user['last_name']))
-              $userData['last_name'] = $user['last_name'];
+            if (isset($user['last_name'])) {
+                $userData['last_name'] = $user['last_name'];
+            }
 
-          if(isset($user['email']))
-              $userData['email'] = $user['email'];
+            if (isset($user['email'])) {
+                $userData['email'] = $user['email'];
+            }
 
-          if(isset($user['id']))
-              $userData['provider_id'] = $user['id'];
+            if (isset($user['id'])) {
+                $userData['provider_id'] = $user['id'];
+            }
 
-          $userData['provider'] = $provider;
+            $userData['provider'] = $provider;
 
-          $isUserDeleted = User::onlyTrashed()->where('email', $user['email'])->first();
-          if($isUserDeleted){
-            $authUser = $this->restoreDeletedUser($isUserDeleted, $userData);
-          } else {
-            if(isset($user['email'])) {
-              $validator = Validator::make(['email' => $user['email']], [
-                'email' => 'required|email|unique:users,email',
-              ]);
+            $isUserDeleted = User::onlyTrashed()->where('email', $user['email'])->first();
+            if ($isUserDeleted) {
+                $authUser = $this->restoreDeletedUser($isUserDeleted, $userData);
+            } else {
+                if (isset($user['email'])) {
+                    $validator = Validator::make(['email' => $user['email']], [
+                        'email' => 'required|email|unique:users,email',
+                    ]);
 
-              if ($validator->fails()) {
-                return response()->json(['message' => 'User already exists.'], 422);
-              }
-            }              
-            $authUser = $this->storeFacebookUserDetail($userData);
-          }
+                    if ($validator->fails()) {
+                        return response()->json(['message' => 'User already exists.'], 422);
+                    }
+                }
+                $authUser = $this->storeFacebookUserDetail($userData);
+            }
         }
 
         $token = JWTAuth::fromUser($authUser);
-        if (!$token) {
+        if (! $token) {
             throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Basic', 'Invalid credentials.');
         }
 
@@ -216,7 +220,7 @@ class AuthController extends Controller
         //saving users table data
         $user = new User();
         $user->person_id = $person->id;
-        $user->name = $userData['first_name']. ' ' .$userData['last_name'];
+        $user->name = $userData['first_name'].' '.$userData['last_name'];
         $user->email = isset($userData['email']) ? $userData['email'] : null;
         $user->username = isset($userData['email']) ? $userData['email'] : null;
         $user->provider = $userData['provider'];
@@ -241,49 +245,50 @@ class AuthController extends Controller
      */
     public function restoreDeletedUser($deletedUser, $userData)
     {
-      $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
-      $deletedUser->restore();
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        $deletedUser->restore();
 
-      // updating value in people table
-      $person = Person::find($deletedUser->id);
-      $person->first_name = $userData['first_name'];
-      $person->last_name = $userData['last_name'];
-      $person->save();
+        // updating value in people table
+        $person = Person::find($deletedUser->id);
+        $person->first_name = $userData['first_name'];
+        $person->last_name = $userData['last_name'];
+        $person->save();
 
-      // updating values in users table
-      $deletedUserData = User::find($deletedUser->id);
-      $deletedUserData->person_id = $person->id;
-      $deletedUserData->name = $userData['first_name']. ' ' .$userData['last_name'];
-      $deletedUserData->provider = $userData['provider'];
-      $deletedUserData->provider_id = $userData['provider_id'];
-      $deletedUserData->is_verified = 1;
-      $deletedUserData->is_active = 1;
-      $deletedUserData->is_mobile_user = 1;
-      $deletedUserData->save();
-      $deletedUserData->roles()->sync($mobileUserRoleId);
+        // updating values in users table
+        $deletedUserData = User::find($deletedUser->id);
+        $deletedUserData->person_id = $person->id;
+        $deletedUserData->name = $userData['first_name'].' '.$userData['last_name'];
+        $deletedUserData->provider = $userData['provider'];
+        $deletedUserData->provider_id = $userData['provider_id'];
+        $deletedUserData->is_verified = 1;
+        $deletedUserData->is_active = 1;
+        $deletedUserData->is_mobile_user = 1;
+        $deletedUserData->save();
+        $deletedUserData->roles()->sync($mobileUserRoleId);
 
-      // updating values in settings table if there is no any data
-      $setting = Settings::where('user_id', $deletedUser->id)->first();
-      if(!$setting) {
-        $setting->user_id = $deletedUser->id;
-        $setting->value = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
-        $setting->save();
-      }
+        // updating values in settings table if there is no any data
+        $setting = Settings::where('user_id', $deletedUser->id)->first();
+        if (! $setting) {
+            $setting->user_id = $deletedUser->id;
+            $setting->value = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+            $setting->save();
+        }
 
-      return $deletedUserData;
+        return $deletedUserData;
     }
 
     public function token_validate()
     {
-      if(!JWTAuth::getToken()) {
-        return response(['authenticated' => false]);
-      }
-      
-      try {
-          JWTAuth::parseToken()->authenticate();
-          return response(['authenticated' => true]);
-      } catch (JWTException $e) {
-          return response(['authenticated' => false]);
-      }
+        if (! JWTAuth::getToken()) {
+            return response(['authenticated' => false]);
+        }
+
+        try {
+            JWTAuth::parseToken()->authenticate();
+
+            return response(['authenticated' => true]);
+        } catch (JWTException $e) {
+            return response(['authenticated' => false]);
+        }
     }
 }

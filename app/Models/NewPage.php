@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,15 +23,16 @@ class NewPage extends Model
         'accessible_routes' => 'array',
     ];
 
-	/**
+    /**
      * Array form of model
      *
      * @var string
      */
-	public function toArray()
+    public function toArray()
     {
         $array = parent::toArray();
         $array['is_permission_changeable'] = $this->pagePermissionChangeable;
+
         return $array;
     }
 
@@ -42,18 +43,17 @@ class NewPage extends Model
      */
     public function getPagePermissionChangeableAttribute()
     {
-        if(in_array($this->name, config('wot.permissions_not_changeable_pages'))) {
-        	return 0;
+        if (in_array($this->name, config('wot.permissions_not_changeable_pages'))) {
+            return 0;
         }
+
         return 1;
     }
 
     /**
      * Iterate through the page structure and build the parent child relationships.
      *
-     * @param array $pageArray
-     * @param int $parent
-     *
+     * @param  int  $parent
      * @return array
      */
     public static function buildPageTree(array $pageArray, $parent = null)
@@ -64,7 +64,7 @@ class NewPage extends Model
                 $page['children'] = isset($page['children'])
                     ? $page['children']
                     : self::buildPageTree($pageArray, $page['id']);
-                if (!$page['children']) {
+                if (! $page['children']) {
                     unset($page['children']);
                 }
                 $pages[] = $page;
@@ -81,13 +81,15 @@ class NewPage extends Model
      */
     public function welcomeImage($key = null)
     {
-        if($this->meta && array_key_exists('welcome_image', $this->meta) && $this->meta['welcome_image']) {
-            $path = config('filesystems.disks.s3.url') . config('wot.imagePath.welcome_image');
-            if($key) {
-                return  $path . $key . '/' . $this->meta['welcome_image'];
+        if ($this->meta && array_key_exists('welcome_image', $this->meta) && $this->meta['welcome_image']) {
+            $path = config('filesystems.disks.s3.url').config('wot.imagePath.welcome_image');
+            if ($key) {
+                return $path.$key.'/'.$this->meta['welcome_image'];
             }
-            return $path . $this->meta['welcome_image'];
+
+            return $path.$this->meta['welcome_image'];
         }
+
         return null;
     }
 

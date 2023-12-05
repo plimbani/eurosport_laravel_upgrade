@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddMaximumTeamsToTournamentsTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddMaximumTeamsToTournamentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournaments', function($table) {
+        Schema::table('tournaments', function ($table) {
             $table->integer('maximum_teams')->after('name')->nullable();
         });
     }
@@ -25,7 +24,7 @@ class AddMaximumTeamsToTournamentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournaments', function($table) {
+        Schema::table('tournaments', function ($table) {
             $table->dropColumn('maximum_teams');
         });
     }

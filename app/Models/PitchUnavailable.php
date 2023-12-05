@@ -1,9 +1,8 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class PitchUnavailable extends Model
 {
@@ -11,6 +10,5 @@ class PitchUnavailable extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['tournament_id', 'pitch_id', 'match_start_datetime','match_end_datetime'];
-
+    protected $fillable = ['tournament_id', 'pitch_id', 'match_start_datetime', 'match_end_datetime'];
 }

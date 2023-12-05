@@ -1,22 +1,22 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Club extends Model
 {
-   public function tournament()
+    public function tournament()
     {
-        return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_club', 'club_id','tournament_id');
+        return $this->belongsToMany(\App\Models\Tournament::class, 'tournament_club', 'club_id', 'tournament_id');
     }
 
-	use SoftDeletes;
+    use SoftDeletes;
 
-  protected $table = 'clubs';
+    protected $table = 'clubs';
 
-   protected $fillable = [
-       'user_id','name',
+    protected $fillable = [
+        'user_id', 'name',
     ];
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
-use Laraspace\Models\Website;
+use App\Jobs\FaviconGenerate;
+use App\Models\Website;
 use Illuminate\Console\Command;
-use Laraspace\Jobs\FaviconGenerate;
 
 class generateFavicon extends Command
 {
@@ -40,26 +40,28 @@ class generateFavicon extends Command
     public function handle()
     {
         $id = $this->argument('id');
-        if($id) {
+        if ($id) {
             $website = Website::find($id);
-            if(!$website) {
+            if (! $website) {
                 $this->error('No such website found!');
+
                 return false;
             }
             $this->generateFavicon($website);
-            $this->info('Favicon generated successfully ' . $id);
+            $this->info('Favicon generated successfully '.$id);
         } else {
             $websites = Website::all();
-            foreach($websites as $website) {
-                if($website->tournament_logo) {
+            foreach ($websites as $website) {
+                if ($website->tournament_logo) {
                     $this->generateFavicon($website);
-                    $this->info('Favicon generated successfully ' . $website->id);
+                    $this->info('Favicon generated successfully '.$website->id);
                 }
             }
         }
     }
 
-    public function generateFavicon($website) {
+    public function generateFavicon($website)
+    {
         FaviconGenerate::dispatch(
             $website->tournament_logo,
             config('wot.imagePath')['favicon'],

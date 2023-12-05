@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateFixturesTable extends Migration
 {
@@ -30,8 +30,8 @@ class CreateFixturesTable extends Migration
             $table->string('away_team')->nullable();
             $table->tinyInteger('hometeam_score');
             $table->tinyInteger('awayteam_score');
-            $table->double('hometeam_point',8,2);
-            $table->double('awayteam_point',8,2);
+            $table->double('hometeam_point', 8, 2);
+            $table->double('awayteam_point', 8, 2);
             $table->integer('match_result_id')->unsigned()->index();
             $table->foreign('match_result_id')->references('id')->on('match_results');
             $table->text('bracket_json');

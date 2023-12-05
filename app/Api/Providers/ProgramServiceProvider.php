@@ -1,43 +1,43 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
+use App\Api\Repositories\ProgramRepository;
+use App\Api\Services\PageService;
+use App\Api\Services\ProgramService;
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Services\ProgramService;
-use Laraspace\Api\Repositories\ProgramRepository;
 
 class ProgramServiceProvider extends ServiceProvider
 {
-  /**
-   * Bootstrap the application services.
-   *
-   * @return void
-   */
-  public function boot()
-  {
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
 
-  }
+    }
 
-  /**
-   * Register the application services.
-   *
-   * @return void
-   */
-  public function register()
-  {
-      $this->app->bind('Laraspace\Api\Contracts\ProgramContract', function ($app) {
-          return new ProgramService(new ProgramRepository(new PageService()));
-      });
-  }
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind('App\Api\Contracts\ProgramContract', function ($app) {
+            return new ProgramService(new ProgramRepository(new PageService()));
+        });
+    }
 
-  /**
-   * Get the services provided by the provider.
-   *
-   * @return array
-   */
-  public function provides()
-  {
-      return ['Laraspace\Api\Contracts\ProgramContract'];
-  }  
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['App\Api\Contracts\ProgramContract'];
+    }
 }

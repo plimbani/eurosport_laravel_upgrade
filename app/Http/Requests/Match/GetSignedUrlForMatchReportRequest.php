@@ -1,10 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\TournamentCompetationTemplates;
 
 class GetSignedUrlForMatchReportRequest extends FormRequest
 {
@@ -19,9 +18,10 @@ class GetSignedUrlForMatchReportRequest extends FormRequest
     {
         $tournamentId = $this->ageCategoryData['tournament_id'];
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
-        if(!$isTournamentAccessible) {
-          return false;
+        if (! $isTournamentAccessible) {
+            return false;
         }
+
         return true;
     }
 

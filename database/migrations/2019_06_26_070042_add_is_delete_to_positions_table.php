@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddIsDeleteToPositionsTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddIsDeleteToPositionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('positions', function($table) {
+        Schema::table('positions', function ($table) {
             $table->integer('is_delete')->after('team_id')->default(0);
         });
     }
@@ -25,7 +24,7 @@ class AddIsDeleteToPositionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('positions', function($table) {
+        Schema::table('positions', function ($table) {
             $table->dropColumn('is_delete');
         });
     }

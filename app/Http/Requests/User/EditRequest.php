@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
-use Laraspace\Models\User;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\User;
+use App\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRequest extends FormRequest
@@ -20,11 +20,11 @@ class EditRequest extends FormRequest
         $id = $this->route('id');
         $user = User::findOrFail($id)->roles()->first();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        
-        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator'))) {
-          if($id != $loggedInUser->id) {
-            return false;
-          }
+
+        if (! ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator'))) {
+            if ($id != $loggedInUser->id) {
+                return false;
+            }
         }
         if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
@@ -32,6 +32,7 @@ class EditRequest extends FormRequest
         if ($user['slug'] == 'mobile.user' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
         }
+
         return true;
     }
 

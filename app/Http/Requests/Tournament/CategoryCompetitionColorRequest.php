@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Models\Competition;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Competition;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryCompetitionColorRequest extends FormRequest
@@ -22,11 +22,13 @@ class CategoryCompetitionColorRequest extends FormRequest
             $competitionIds = array_keys($competitionsColorData);
             $tournamentIds = Competition::whereIn('id', $competitionIds)->pluck('tournament_id')->unique()->toArray();
             $isTournamentAccessible = $this->checkForMultipleTournamentAccess($tournamentIds);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 

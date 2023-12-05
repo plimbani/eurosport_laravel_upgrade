@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Contracts;
+namespace App\Api\Contracts;
 
 interface TournamentContract
 {
@@ -42,10 +42,10 @@ interface TournamentContract
 
     public function saveSettings($request);
 
-    /*  
-     * Get configuration detail 
-     *  
-     * @return response 
-     */ 
+    /*
+     * Get configuration detail
+     *
+     * @return response
+     */
     public function getConfigurationDetail();
 }

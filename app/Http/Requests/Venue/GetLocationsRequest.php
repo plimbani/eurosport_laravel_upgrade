@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Venue;
+namespace App\Http\Requests\Venue;
 
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GetLocationsRequest extends FormRequest
@@ -17,10 +17,11 @@ class GetLocationsRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 

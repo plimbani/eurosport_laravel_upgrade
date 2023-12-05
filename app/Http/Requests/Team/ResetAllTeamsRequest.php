@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace App\Http\Requests\Team;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResetAllTeamsRequest extends FormRequest
@@ -17,9 +17,10 @@ class ResetAllTeamsRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('Super.administrator') || $user->hasRole('tournament.administrator') || $user->hasRole('Internal.administrator') || $user->hasRole('Master.administrator') || $user->hasRole('customer')) {
+        if ($user->hasRole('Super.administrator') || $user->hasRole('tournament.administrator') || $user->hasRole('Internal.administrator') || $user->hasRole('Master.administrator') || $user->hasRole('customer')) {
             return true;
         }
+
         return false;
     }
 

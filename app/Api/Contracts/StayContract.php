@@ -1,20 +1,20 @@
 <?php
 
-namespace Laraspace\Api\Contracts;
+namespace App\Api\Contracts;
 
 interface StayContract
 {
-	/*
+    /*
    * Save save staypage data
    *
    * @return response
    */
-  public function saveStayPageData($request);
+    public function saveStayPageData($request);
 
-  /*
-   * Get stay page data
-   *
-   * @return response
-   */
-  public function getStayPageData($websiteId);
+    /*
+     * Get stay page data
+     *
+     * @return response
+     */
+    public function getStayPageData($websiteId);
 }

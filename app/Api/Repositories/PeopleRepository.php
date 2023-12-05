@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
-use Laraspace\Models\Person;
+use App\Models\Person;
 
 class PeopleRepository
 {

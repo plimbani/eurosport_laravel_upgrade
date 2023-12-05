@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class IsResultOverrideToTempFixtures extends Migration
 {
@@ -26,7 +26,7 @@ class IsResultOverrideToTempFixtures extends Migration
     public function down()
     {
         Schema::table('temp_fixtures', function (Blueprint $table) {
-             $table->dropColumn('is_result_override');
+            $table->dropColumn('is_result_override');
         });
     }
 }

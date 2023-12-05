@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\PushMessage;
+namespace App\Http\Requests\PushMessage;
 
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SendNotificationRequest extends FormRequest
@@ -18,9 +18,10 @@ class SendNotificationRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

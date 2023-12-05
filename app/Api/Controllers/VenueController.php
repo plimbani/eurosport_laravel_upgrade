@@ -1,12 +1,11 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
-use Illuminate\Http\Request;
-use Laraspace\Http\Requests\Venue\GetVenueRequest;
-
+use App\Api\Contracts\VenueContract;
+use App\Http\Requests\Venue\GetVenueRequest;
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\VenueContract;
+use Illuminate\Http\Request;
 
 /**
  * Tournament Resource Description.
@@ -18,7 +17,7 @@ use Laraspace\Api\Contracts\VenueContract;
 class VenueController extends BaseController
 {
     /**
-     * @param object $tournamentObj
+     * @param  object  $tournamentObj
      */
     public function __construct(VenueContract $venueObj)
     {
@@ -31,7 +30,9 @@ class VenueController extends BaseController
      * Get a JSON representation of all the Age Groups.
      *
      * @Get("/tournament")
+     *
      * @Versions({"v1"})
+     *
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
     public function index()
@@ -39,22 +40,22 @@ class VenueController extends BaseController
         return $this->venueObj->index();
     }
 
-    
-
     /**
      * Show json Data for Template.
      *
      * Get a JSON representation of all the Age Groups.
      *
      * @Get("/templates")
+     *
      * @Versions({"v1"})
+     *
      * @Response(200, body={"id": 10, "json": "foo"})
      */
     public function getVenues(GetVenueRequest $request, $tournamentId)
     {
         return $this->venueObj->index($tournamentId);
     }
-    
+
     /**
      * Create  Torunament.
      *
@@ -63,10 +64,11 @@ class VenueController extends BaseController
      * @Post("/tournament/create")
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function create(Request $request)
-    {                
+    {
         return $this->venueObj->create($request);
     }
 
@@ -76,6 +78,7 @@ class VenueController extends BaseController
      * @Post("/tournament/edit/{$id}")
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function edit(Request $request)
@@ -89,6 +92,7 @@ class VenueController extends BaseController
      * @Post("/tournament/delete")
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function delete(Request $request)

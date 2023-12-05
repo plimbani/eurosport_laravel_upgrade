@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +23,7 @@ class MessageRecipient extends Model
         'message_id',
         'name',
         'status',
-        'response_received_at'
+        'response_received_at',
     ];
 
     /**
@@ -54,9 +54,8 @@ class MessageRecipient extends Model
      */
     public function message()
     {
-        return $this->belongsTo('Laraspace\Models\Message');
+        return $this->belongsTo(\App\Models\Message::class);
     }
-
 
     /**
      * Get the started_at timestamp.
@@ -71,8 +70,7 @@ class MessageRecipient extends Model
         if ($value) {
             $date = Carbon::createFromFormat($showDateTime, $value, $timeZone);
             $this->attributes['response_received_at'] = $date->setTimezone('UTC')->toDateTimeString();
-        }
-        else {
+        } else {
             $this->attributes['response_received_at'] = null;
         }
     }
@@ -89,10 +87,8 @@ class MessageRecipient extends Model
         $timeZone = 'Europe/London';
         if ($value) {
             return Carbon::parse($value)->setTimezone($timeZone)->format($showDateTime);
-        }
-        else {
+        } else {
             return $value;
         }
     }
-
 }

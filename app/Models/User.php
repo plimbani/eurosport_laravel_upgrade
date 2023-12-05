@@ -1,17 +1,16 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Duro85\Roles\Traits\HasRoleAndPermission;
+use App\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Duro85\Roles\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Laraspace\Notifications\MyOwnResetPassword as ResetPasswordNotification;
-use Laraspace\Models\UserOtp;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {
@@ -50,7 +49,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'country_id',
         'locale',
         'provider',
-        'provider_id'
+        'provider_id',
     ];
 
     /**
@@ -104,7 +103,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      */
     public function profile()
     {
-        return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+        return $this->belongsTo(\App\Models\Person::class, 'person_id');
     }
 
     /**
@@ -116,20 +115,20 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     {
         $permissionModel = app(config('roles.models.permission'));
 
-        if (!$permissionModel instanceof Model) {
+        if (! $permissionModel instanceof Model) {
             throw new InvalidArgumentException('[roles.models.permission] must be an instance of \Illuminate\Database\Eloquent\Model');
         }
 
         return $permissionModel::select(['permissions.*', 'permission_role.created_at as pivot_created_at', 'permission_role.updated_at as pivot_updated_at'])
-                ->join('permission_role', 'permission_role.permission_id', '=', 'permissions.id')->join('roles', 'roles.id', '=', 'permission_role.role_id')
-                ->whereIn('roles.id', $this->getRoles()->pluck('id')->toArray()) ->orWhere('roles.level', '<', $this->level())
-                ->groupBy(['permissions.id', 'pivot_created_at', 'pivot_updated_at']);
+            ->join('permission_role', 'permission_role.permission_id', '=', 'permissions.id')->join('roles', 'roles.id', '=', 'permission_role.role_id')
+            ->whereIn('roles.id', $this->getRoles()->pluck('id')->toArray())->orWhere('roles.level', '<', $this->level())
+            ->groupBy(['permissions.id', 'pivot_created_at', 'pivot_updated_at']);
     }
 
     /**
      * Check if the user has a permission.
      *
-     * @param int|string $permission
+     * @param  int|string  $permission
      * @return bool
      */
     public function hasPermission($permission)
@@ -146,8 +145,9 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      */
     public function personDetail()
     {
-        return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+        return $this->belongsTo(\App\Models\Person::class, 'person_id');
     }
+
     /**
      * Send the password reset notification.
      *
@@ -158,11 +158,11 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     {
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
-        $send_otp='';
+        $send_otp = '';
         $subject = 'Euro-Sportring Tournament Planner - Reset password';
         $currentLayout = config('config-variables.current_layout');
         // Set OTP
-        if($this->roles()->first()->id == $mobileUserRoleId) {
+        if ($this->roles()->first()->id == $mobileUserRoleId) {
             $subject = 'Euro-Sportring - Password Reset';
             // $send_otp = str_random(4);
             // $encoded_otp = base64_encode($this->id."|".$send_otp);
@@ -177,30 +177,31 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
             // $_SESSION['otp_key'] = $send_otp;
             // request()->session()->put('otp_value', $encoded_otp);
         }
-        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject, $currentLayout));
+        $this->notify(new ResetPasswordNotification($token, $name, $this->email, $send_otp, $subject, $currentLayout));
     }
+
     public function settings()
     {
-        return $this->hasOne('Laraspace\Models\Settings', 'user_id');
+        return $this->hasOne(\App\Models\Settings::class, 'user_id');
     }
 
     public function defaultFavouriteTournament()
     {
-        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
+        return $this->hasMany(\App\Models\UserFavourites::class, 'user_id')->where('is_default', 1);
     }
 
     public function favouriteTournaments()
     {
-        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
+        return $this->hasMany(\App\Models\UserFavourites::class, 'user_id');
     }
 
     public function tournaments()
     {
-        return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id','tournament_id');
+        return $this->belongsToMany(\App\Models\Tournament::class, 'tournament_user', 'user_id', 'tournament_id');
     }
 
     public function websites()
     {
-        return $this->belongsToMany('Laraspace\Models\Website', 'website_user', 'user_id','website_id');
+        return $this->belongsToMany(\App\Models\Website::class, 'website_user', 'user_id', 'website_id');
     }
 }

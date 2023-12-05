@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Repositories;
+namespace App\Repositories;
 
-use Laraspace\Models\Team;
+use App\Models\Team;
 
 class TeamRepository
 {

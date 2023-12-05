@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
-use Laraspace\Models\User;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\User;
+use App\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteRequest extends FormRequest
@@ -23,10 +23,10 @@ class DeleteRequest extends FormRequest
             return true;
         }
 
-        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
-          return false;
+        if (! ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
+            return false;
         }
-        
+
         $user = User::findOrFail($id)->roles()->first();
         if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
@@ -34,7 +34,7 @@ class DeleteRequest extends FormRequest
         if ($user['slug'] == 'mobile.user' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
         }
-        
+
         return true;
     }
 

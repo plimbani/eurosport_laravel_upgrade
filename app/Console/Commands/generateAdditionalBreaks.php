@@ -1,11 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
-use DB;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
 use Illuminate\Console\Command;
-use Laraspace\Models\PitchBreaks;
-use Laraspace\Models\PitchAvailable;
 
 class generateAdditionalBreaks extends Command
 {
@@ -40,20 +39,20 @@ class generateAdditionalBreaks extends Command
      */
     public function handle()
     {
-        $pitchAvailibility = PitchAvailable::all();  
-        $pitchBreak = array();
-         
+        $pitchAvailibility = PitchAvailable::all();
+        $pitchBreak = [];
+
         foreach ($pitchAvailibility as $availibility) {
-            
-            if($availibility->break_enable == 1){
+
+            if ($availibility->break_enable == 1) {
                 PitchBreaks::create([
                     'pitch_id' => $availibility->pitch_id,
                     'availability_id' => $availibility->id,
                     'break_start' => $availibility->break_start_time,
-                    'break_end' => $availibility->break_end_time
+                    'break_end' => $availibility->break_end_time,
                 ]);
             }
         }
-        $this->info('Script executed.');   
+        $this->info('Script executed.');
     }
 }

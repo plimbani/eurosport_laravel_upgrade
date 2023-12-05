@@ -1,11 +1,10 @@
 <?php
 
-namespace Laraspace\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use App\Contracts\AgeGroupContract;
 // Need to Define Only Contracts
-use Laraspace\Contracts\AgeGroupContract;
+use Illuminate\Http\Request;
 
 /**
  * Age Group Resource Description.
@@ -28,7 +27,9 @@ class AgeGroupController extends BaseController
      * Get a JSON representation of all the Age Groups.
      *
      * @Get("/age_group")
+     *
      * @Versions({"v1"})
+     *
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
     public function index()
@@ -44,6 +45,7 @@ class AgeGroupController extends BaseController
      * @Post("/age_group/create")
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function create(Request $request)
@@ -57,9 +59,10 @@ class AgeGroupController extends BaseController
      * @Post("/age_group/edit/{$id}")
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      *
-     * @param mixed $ageId
+     * @param  mixed  $ageId
      */
     public function edit(Request $request, $ageId)
     {
@@ -72,9 +75,10 @@ class AgeGroupController extends BaseController
      * @Post("/age_group/delete")
      *
      * @Versions({"v1"})
+     *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      *
-     * @param mixed $deleteId
+     * @param  mixed  $deleteId
      */
     public function delete($deleteId)
     {

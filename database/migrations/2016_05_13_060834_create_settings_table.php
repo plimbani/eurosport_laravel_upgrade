@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateSettingsTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateSettingsTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->string('option',50)->nullable();
+            $table->string('option', 50)->nullable();
             $table->text('value');
 
             $table->timestamps();

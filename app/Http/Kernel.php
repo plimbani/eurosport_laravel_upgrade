@@ -1,12 +1,11 @@
 <?php
 
-namespace Laraspace\Http;
+namespace App\Http;
 
-use App;
-use Redirect;
-use Laraspace\Models\Website;
-use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Models\Website;
 use Illuminate\Foundation\Http\Events\RequestHandled;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Redirect;
 
 class Kernel extends HttpKernel
 {
@@ -36,16 +35,16 @@ class Kernel extends HttpKernel
             new RequestHandled($request, $response)
         );
 
-        if($request->server('SERVER_NAME') != config('app.domain')) {
+        if ($request->server('SERVER_NAME') != config('app.domain')) {
             $previewUrl = config('config-variables.website_preview_url');
             $website = Website::where('domain_name', $request->server('SERVER_NAME'))->orWhere('preview_domain', $request->server('SERVER_NAME'))->first();
 
-            if(!$website) {
+            if (! $website) {
                 return Redirect::away(config('app.url'), 302);
             }
 
-            if($website->is_website_offline == 1 && strpos($request->server('SERVER_NAME'), str_replace("{id}-", "", $previewUrl)) === false) {
-              return Redirect::away($website->offline_redirect_url, 302);
+            if ($website->is_website_offline == 1 && strpos($request->server('SERVER_NAME'), str_replace('{id}-', '', $previewUrl)) === false) {
+                return Redirect::away($website->offline_redirect_url, 302);
             }
         }
 
@@ -60,10 +59,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \Laraspace\Http\Middleware\TrimStrings::class,
+        \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -73,12 +73,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Laraspace\Http\Middleware\EncryptCookies::class,
+            \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            // \Laraspace\Http\Middleware\VerifyCsrfToken::class,
+            // \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'api' => [
@@ -98,15 +98,16 @@ class Kernel extends HttpKernel
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \Laraspace\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => \Duro85\Roles\Middleware\VerifyRole::class,
         'permission' => \Duro85\Roles\Middleware\VerifyPermission::class,
         'level' => \Duro85\Roles\Middleware\VerifyLevel::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'verify.website' => \Laraspace\Http\Middleware\VerifyWebsite::class,
+        'verify.website' => \App\Http\Middleware\VerifyWebsite::class,
         'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
         'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
         'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,

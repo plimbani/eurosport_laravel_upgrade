@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
+use App\Api\Services\VenueService;
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\VenueService;
 
 class VenueServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,7 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\VenueContract', function ($app) {
+        $this->app->bind(\App\Api\Contracts\VenueContract::class, function ($app) {
             return new VenueService();
         });
     }
@@ -35,6 +35,6 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\VenueContract'];
+        return [\App\Api\Contracts\VenueContract::class];
     }
 }

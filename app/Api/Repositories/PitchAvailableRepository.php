@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
-use Laraspace\Models\PitchAvailable;
-use Laraspace\Models\PitchBreaks;
+use App\Models\PitchAvailable;
+use App\Models\PitchBreaks;
 use DB;
 
 class PitchAvailableRepository
@@ -17,23 +17,23 @@ class PitchAvailableRepository
     {
         return PitchAvailable::all();
     }
+
     public function getPitchData($pitchId)
     {
         return PitchAvailable::with('pitchbreaks')->where('pitch_id', $pitchId)->get();
     }
-    
 
-    public function createPitch($pitchData,$pitchId)
+    public function createPitch($pitchData, $pitchId)
     {
         // dd($pitchData);
-        for($i=1;$i<=$pitchData['stage'];$i++) {
+        for ($i = 1; $i <= $pitchData['stage']; $i++) {
             // dd(isset($pitchData['stage_start_time'.$i]));
-            if(isset($pitchData['stage_start_date'.$i]) && isset($pitchData['stage_start_time'.$i])  ) {
-                if(isset(  $pitchData['stage_break_chk'.$i]) && $pitchData['stage_break_chk'.$i]== 'on' ){
+            if (isset($pitchData['stage_start_date'.$i]) && isset($pitchData['stage_start_time'.$i])) {
+                if (isset($pitchData['stage_break_chk'.$i]) && $pitchData['stage_break_chk'.$i] == 'on') {
                     $break_enable = true;
                     // $break_start_time = $pitchData['stage_break_start'.$i];
                     // $break_end_time = $pitchData['stage_continue_time'.$i];
-                }else{
+                } else {
                     $break_enable = false;
                     // $break_start_time = $pitchData['stage_start_time'.$i];
                     // $break_end_time = $pitchData['stage_start_time'.$i];
@@ -50,29 +50,29 @@ class PitchAvailableRepository
                     'stage_end_date' => $pitchData['stage_start_date'.$i],
                     'stage_end_time' => $pitchData['stage_end_time'.$i],
                     'break_enable' => $break_enable,
-                    
-                    'stage_capacity' => $pitchData['stage_capacity_min'.$i]
+
+                    'stage_capacity' => $pitchData['stage_capacity_min'.$i],
                 ]);
-                if($break_enable) {
-                    for($j=1;$j<=$pitchData['totalBreaksForStage'.$i];$j++){
+                if ($break_enable) {
+                    for ($j = 1; $j <= $pitchData['totalBreaksForStage'.$i]; $j++) {
                         PitchBreaks::create([
                             'pitch_id' => $pitchId,
                             'availability_id' => $pitchAvailableData->id,
                             'break_start' => $pitchData['stage_break_start'.$i.'-'.$j],
-                            'break_end' =>  $pitchData['stage_continue_time'.$i.'-'.$j],
+                            'break_end' => $pitchData['stage_continue_time'.$i.'-'.$j],
                             // 'break_no' => 1,
                         ]);
                     }
-        
+
                 }
             }
         }
-        
+
     }
 
     public function edit($data)
     {
-       
+
         return PitchAvailable::where('id', $data['id'])->update($data);
     }
 
@@ -80,10 +80,11 @@ class PitchAvailableRepository
     {
         return PitchAvailable::find($pitchId);
     }
+
     public function removePitchAvailability($pitchId)
     {
-        PitchBreaks::where('pitch_id',$pitchId)->delete();
-        return PitchAvailable::where('pitch_id',$pitchId)->delete();
+        PitchBreaks::where('pitch_id', $pitchId)->delete();
+
+        return PitchAvailable::where('pitch_id', $pitchId)->delete();
     }
-    
 }

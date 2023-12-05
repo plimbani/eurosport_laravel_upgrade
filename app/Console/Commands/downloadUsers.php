@@ -1,14 +1,13 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
+use App\Models\User;
+use App\Traits\AuthUserDetail;
 use Illuminate\Console\Command;
-use Laraspace\Models\User;
-use Laraspace\Traits\AuthUserDetail;
 
 class downloadUsers extends Command
 {
-
     use AuthUserDetail;
 
     /**
@@ -48,12 +47,12 @@ class downloadUsers extends Command
 
         if ($userObj) {
             $data = [
-                'report_download' => 'yes'
+                'report_download' => 'yes',
             ];
-            $downloadUsers = \Laraspace\Jobs\DownloadUsers::dispatch($userObj, $data);
-            dump("Downloaded file will be sent to you shortly via email");
+            $downloadUsers = \App\Jobs\DownloadUsers::dispatch($userObj, $data);
+            dump('Downloaded file will be sent to you shortly via email');
         } else {
-            dump("Invalid email");
+            dump('Invalid email');
         }
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\Itinerary;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\ManageActivityNotification;
+use App\Models\Itinerary;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
 
 class ItineraryObserver
 {
@@ -14,75 +14,72 @@ class ItineraryObserver
     /**
      * Listen to the Itinerary created event.
      *
-     * @param  \Laraspace\Models\Itinerary $itinerary
      * @return void
      */
     public function created(Itinerary $itinerary)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $itineraryData = [];
-      $itineraryData['website_id'] = $itinerary->website_id;
-      $itineraryData['notification_id'] = $this->getNotificationId($userObj);
-      $itineraryData['subject_id'] = $itinerary->id;
-      $itineraryData['subject_type'] = get_class($itinerary);
-      $itineraryData['causer_id'] = $userObj->id;
-      $itineraryData['causer_type'] = get_class($userObj);
-      $itineraryData['description'] = $userObj->name .' '. 'added a new itinerary.';
-      $itineraryData['page'] = 'Program';
-      $itineraryData['section'] = 'Itinerary';
-      $itineraryData['action'] = 'created';
+        $itineraryData = [];
+        $itineraryData['website_id'] = $itinerary->website_id;
+        $itineraryData['notification_id'] = $this->getNotificationId($userObj);
+        $itineraryData['subject_id'] = $itinerary->id;
+        $itineraryData['subject_type'] = get_class($itinerary);
+        $itineraryData['causer_id'] = $userObj->id;
+        $itineraryData['causer_type'] = get_class($userObj);
+        $itineraryData['description'] = $userObj->name.' '.'added a new itinerary.';
+        $itineraryData['page'] = 'Program';
+        $itineraryData['section'] = 'Itinerary';
+        $itineraryData['action'] = 'created';
 
-      $this->saveActivityLog($itineraryData);
+        $this->saveActivityLog($itineraryData);
     }
 
     /**
      * Listen to the Itinerary updated event.
      *
-     * @param  \Laraspace\Models\Itinerary $itinerary
      * @return void
      */
     public function updated(Itinerary $itinerary)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $itineraryData = [];
-      $itineraryData['website_id'] = $itinerary->website_id;
-      $itineraryData['notification_id'] = $this->getNotificationId($userObj);
-      $itineraryData['subject_id'] = $itinerary->id;
-      $itineraryData['subject_type'] = get_class($itinerary);
-      $itineraryData['causer_id'] = $userObj->id;
-      $itineraryData['causer_type'] = get_class($userObj);
-      $itineraryData['description'] = $userObj->name .' '. 'updated a itinerary.';
-      $itineraryData['page'] = 'Program';
-      $itineraryData['section'] = 'Itinerary';
-      $itineraryData['action'] = 'updated';
+        $itineraryData = [];
+        $itineraryData['website_id'] = $itinerary->website_id;
+        $itineraryData['notification_id'] = $this->getNotificationId($userObj);
+        $itineraryData['subject_id'] = $itinerary->id;
+        $itineraryData['subject_type'] = get_class($itinerary);
+        $itineraryData['causer_id'] = $userObj->id;
+        $itineraryData['causer_type'] = get_class($userObj);
+        $itineraryData['description'] = $userObj->name.' '.'updated a itinerary.';
+        $itineraryData['page'] = 'Program';
+        $itineraryData['section'] = 'Itinerary';
+        $itineraryData['action'] = 'updated';
 
-      $this->saveActivityLog($itineraryData);
+        $this->saveActivityLog($itineraryData);
     }
 
     /**
      * Listen to the Itinerary deleted event.
      *
-     * @param  \Laraspace\Models\Itinerary $itinerary
      * @return void
      */
     public function deleted(Itinerary $itinerary)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+        $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $itineraryData = [];
-      $itineraryData['website_id'] = $itinerary->website_id;
-      $itineraryData['notification_id'] = $this->getNotificationId($userObj);
-      $itineraryData['subject_id'] = $itinerary->id;
-      $itineraryData['subject_type'] = get_class($itinerary);
-      $itineraryData['causer_id'] = $userObj->id;
-      $itineraryData['causer_type'] = get_class($userObj);
-      $itineraryData['description'] = $userObj->name .' '. 'deleted a itinerary.';
-      $itineraryData['page'] = 'Program';
-      $itineraryData['section'] = 'Itinerary';
-      $itineraryData['action'] = 'deleted';
+        $itineraryData = [];
+        $itineraryData['website_id'] = $itinerary->website_id;
+        $itineraryData['notification_id'] = $this->getNotificationId($userObj);
+        $itineraryData['subject_id'] = $itinerary->id;
+        $itineraryData['subject_type'] = get_class($itinerary);
+        $itineraryData['causer_id'] = $userObj->id;
+        $itineraryData['causer_type'] = get_class($userObj);
+        $itineraryData['description'] = $userObj->name.' '.'deleted a itinerary.';
+        $itineraryData['page'] = 'Program';
+        $itineraryData['section'] = 'Itinerary';
+        $itineraryData['action'] = 'deleted';
 
-      $this->saveActivityLog($itineraryData);
+        $this->saveActivityLog($itineraryData);
     }
 }

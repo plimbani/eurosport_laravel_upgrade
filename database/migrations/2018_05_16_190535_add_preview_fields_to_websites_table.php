@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPreviewFieldsToWebsitesTable extends Migration
 {
@@ -14,8 +14,8 @@ class AddPreviewFieldsToWebsitesTable extends Migration
     public function up()
     {
         Schema::table('websites', function (Blueprint $table) {
-            $table->timestamp('preview_domain_generated_at')->after('domain_name')->nullable()->default(NULL);
-            $table->string('preview_domain')->after('domain_name')->nullable()->default(NULL);
+            $table->timestamp('preview_domain_generated_at')->after('domain_name')->nullable()->default(null);
+            $table->string('preview_domain')->after('domain_name')->nullable()->default(null);
             $table->boolean('is_published')->after('is_website_offline')->default(false);
         });
     }

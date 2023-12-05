@@ -1,17 +1,14 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use DB;
-use Laraspace\Contracts\MatchContract;
-use Validator;
-use Laraspace\Model\Role;
+use App\Contracts\MatchContract;
 
 class MatchService implements MatchContract
 {
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Repositories\MatchRepository();
+        $this->matchRepoObj = new \App\Repositories\MatchRepository();
     }
 
     public function getAllMatches()
@@ -23,8 +20,7 @@ class MatchService implements MatchContract
      * create New Match.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function createMatch($data)
@@ -39,10 +35,9 @@ class MatchService implements MatchContract
     /**
      * Edit Match.
      *
-     * @param array $data
-     * @param mixed $id
-     * @param mixed $matchId
-     *
+     * @param  array  $data
+     * @param  mixed  $id
+     * @param  mixed  $matchId
      * @return [type]
      */
     public function edit($data, $matchId)
@@ -57,9 +52,8 @@ class MatchService implements MatchContract
     /**
      * Delete Match.
      *
-     * @param array $data
-     * @param mixed $deleteId
-     *
+     * @param  array  $data
+     * @param  mixed  $deleteId
      * @return [type]
      */
     public function deleteMatch($deleteId)

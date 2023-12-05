@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\AgeGroupContract;
-use Laraspace\Repositories\AgeGroupRepository;
+use App\Contracts\AgeGroupContract;
+use App\Repositories\AgeGroupRepository;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -12,12 +12,12 @@ class AgeGroupService implements AgeGroupContract
         $this->ageGroupObj = $ageRepoObj;
     }
 
-     /*
-     * Get All AgeGroup
-     *
-     * @param  array $api_key,$state,$type
-     * @return response
-     */
+    /*
+    * Get All AgeGroup
+    *
+    * @param  array $api_key,$state,$type
+    * @return response
+    */
     public function index()
     {
         // Here we send Status Code and Messages
@@ -33,8 +33,7 @@ class AgeGroupService implements AgeGroupContract
      * create New AgeGroup.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function create($data)
@@ -42,7 +41,7 @@ class AgeGroupService implements AgeGroupContract
         $data = $data->all();
         $data = $this->ageGroupObj->create($data);
         // After Saving Competation Format we also have to add Entry in Competations Table
-        
+
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
@@ -51,8 +50,7 @@ class AgeGroupService implements AgeGroupContract
     /**
      * Edit AgeGroup.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return [type]
      */
     public function edit($data)
@@ -67,8 +65,7 @@ class AgeGroupService implements AgeGroupContract
     /**
      * Delete AgeGroup.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return [type]
      */
     public function delete($data)

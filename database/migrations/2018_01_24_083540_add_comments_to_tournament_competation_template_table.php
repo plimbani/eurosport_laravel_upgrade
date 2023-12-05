@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddCommentsToTournamentCompetationTemplateTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddCommentsToTournamentCompetationTemplateTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_competation_template', function($table) {
+        Schema::table('tournament_competation_template', function ($table) {
             $table->string('comments')->after('group_name')->nullable();
         });
     }
@@ -25,7 +24,7 @@ class AddCommentsToTournamentCompetationTemplateTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournament_competation_template', function($table) {
+        Schema::table('tournament_competation_template', function ($table) {
             $table->dropColumn('comments');
         });
     }

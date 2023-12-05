@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\AgeGroup;
+namespace App\Http\Requests\AgeGroup;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCompetationFomatRequest extends FormRequest
@@ -19,10 +19,11 @@ class CreateCompetationFomatRequest extends FormRequest
         if (isset($this->all()['compeationFormatData'])) {
             $data = $this->all()['compeationFormatData'];
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -34,7 +35,7 @@ class CreateCompetationFomatRequest extends FormRequest
     public function rules()
     {
         return [
-            'compeationFormatData' => 'required | array'            
+            'compeationFormatData' => 'required | array',
         ];
     }
 }

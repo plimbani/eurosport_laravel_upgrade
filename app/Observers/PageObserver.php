@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Observers;
+namespace App\Observers;
 
-use Laraspace\Models\Page;
-use Laraspace\Traits\AuthUserDetail;
-use Laraspace\Traits\ManageActivityLog;
-use Laraspace\Traits\TrackActivitySection;
-use Laraspace\Traits\ManageActivityNotification;
+use App\Models\Page;
+use App\Traits\AuthUserDetail;
+use App\Traits\ManageActivityLog;
+use App\Traits\ManageActivityNotification;
+use App\Traits\TrackActivitySection;
 
 class PageObserver
 {
@@ -15,75 +15,47 @@ class PageObserver
     /**
      * Listen to the Page created event.
      *
-     * @param  \Laraspace\Models\Page $page
      * @return void
      */
     public function created(Page $page)
     {
-      if($page->is_additional_page == 1) {
-        $userObj = $this->getCurrentLoggedInUserDetail();
-        $pageTitleAndSection = $this->getPageTitleAndSection($page);
+        if ($page->is_additional_page == 1) {
+            $userObj = $this->getCurrentLoggedInUserDetail();
+            $pageTitleAndSection = $this->getPageTitleAndSection($page);
 
-        $pageData = [];
-        $pageData['website_id'] = $page->website_id;
-        $pageData['notification_id'] = $this->getNotificationId($userObj);
-        $pageData['subject_id'] = $page->id;
-        $pageData['subject_type'] = get_class($page);
-        $pageData['causer_id'] = $userObj->id;
-        $pageData['causer_type'] = get_class($userObj);
-        $pageData['description'] = $userObj->name .' '. 'added a ' . $page->title . ' page.';
-        $pageData['page'] = $pageTitleAndSection['page_title'];
-        $pageData['section'] = $pageTitleAndSection['section'];
-        $pageData['action'] = 'updated';
+            $pageData = [];
+            $pageData['website_id'] = $page->website_id;
+            $pageData['notification_id'] = $this->getNotificationId($userObj);
+            $pageData['subject_id'] = $page->id;
+            $pageData['subject_type'] = get_class($page);
+            $pageData['causer_id'] = $userObj->id;
+            $pageData['causer_type'] = get_class($userObj);
+            $pageData['description'] = $userObj->name.' '.'added a '.$page->title.' page.';
+            $pageData['page'] = $pageTitleAndSection['page_title'];
+            $pageData['section'] = $pageTitleAndSection['section'];
+            $pageData['action'] = 'updated';
 
-        $this->saveActivityLog($pageData);
-      }
+            $this->saveActivityLog($pageData);
+        }
     }
 
     /**
      * Listen to the Page updated event.
      *
-     * @param  \Laraspace\Models\Page $Page
+     * @param  \App\Models\Page  $Page
      * @return void
      */
     public function updated(Page $page)
     {
-      $dirtyFields = collect($page->getDirty())->filter(function ($value, $key) {
-        // We don't care if timestamps are dirty, we're not tracking those
-        return !in_array($key, ['created_at', 'updated_at']);
-      });
+        $dirtyFields = collect($page->getDirty())->filter(function ($value, $key) {
+            // We don't care if timestamps are dirty, we're not tracking those
+            return ! in_array($key, ['created_at', 'updated_at']);
+        });
 
-      if($dirtyFields->count() == 0) {
-        return;
-      }
+        if ($dirtyFields->count() == 0) {
+            return;
+        }
 
-      $userObj = $this->getCurrentLoggedInUserDetail();
-      $pageTitleAndSection = $this->getPageTitleAndSection($page);
-
-      $pageData = [];
-      $pageData['website_id'] = $page->website_id;
-      $pageData['notification_id'] = $this->getNotificationId($userObj);
-      $pageData['subject_id'] = $page->id;
-      $pageData['subject_type'] = get_class($page);
-      $pageData['causer_id'] = $userObj->id;
-      $pageData['causer_type'] = get_class($userObj);
-      $pageData['description'] = $userObj->name .' '. 'updated a ' . $pageTitleAndSection['page_title'] . ' page.';
-      $pageData['page'] = $pageTitleAndSection['page_title'];
-      $pageData['section'] = $pageTitleAndSection['section'];
-      $pageData['action'] = 'updated';
-
-      $this->saveActivityLog($pageData);
-    }
-
-    /**
-     * Listen to the Page deleted event.
-     *
-     * @param  \Laraspace\Models\Page $Page
-     * @return void
-     */
-    public function deleted(Page $page)
-    {
-      if($page->is_additional_page == 1) {
         $userObj = $this->getCurrentLoggedInUserDetail();
         $pageTitleAndSection = $this->getPageTitleAndSection($page);
 
@@ -94,12 +66,39 @@ class PageObserver
         $pageData['subject_type'] = get_class($page);
         $pageData['causer_id'] = $userObj->id;
         $pageData['causer_type'] = get_class($userObj);
-        $pageData['description'] = $userObj->name .' '. 'deleted a ' . $page->title . ' page.';
+        $pageData['description'] = $userObj->name.' '.'updated a '.$pageTitleAndSection['page_title'].' page.';
         $pageData['page'] = $pageTitleAndSection['page_title'];
-        $pageData['section'] = 'Additional page';
-        $pageData['action'] = 'deleted';
+        $pageData['section'] = $pageTitleAndSection['section'];
+        $pageData['action'] = 'updated';
 
         $this->saveActivityLog($pageData);
-      }
+    }
+
+    /**
+     * Listen to the Page deleted event.
+     *
+     * @param  \App\Models\Page  $Page
+     * @return void
+     */
+    public function deleted(Page $page)
+    {
+        if ($page->is_additional_page == 1) {
+            $userObj = $this->getCurrentLoggedInUserDetail();
+            $pageTitleAndSection = $this->getPageTitleAndSection($page);
+
+            $pageData = [];
+            $pageData['website_id'] = $page->website_id;
+            $pageData['notification_id'] = $this->getNotificationId($userObj);
+            $pageData['subject_id'] = $page->id;
+            $pageData['subject_type'] = get_class($page);
+            $pageData['causer_id'] = $userObj->id;
+            $pageData['causer_type'] = get_class($userObj);
+            $pageData['description'] = $userObj->name.' '.'deleted a '.$page->title.' page.';
+            $pageData['page'] = $pageTitleAndSection['page_title'];
+            $pageData['section'] = 'Additional page';
+            $pageData['action'] = 'deleted';
+
+            $this->saveActivityLog($pageData);
+        }
     }
 }

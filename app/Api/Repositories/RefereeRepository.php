@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Api\Repositories;
+namespace App\Api\Repositories;
 
-use Laraspace\Models\Referee;
-use Laraspace\Models\TournamentCompetationTemplates;
+use App\Models\Referee;
+use App\Models\TournamentCompetationTemplates;
 use DB;
 
 class RefereeRepository
@@ -17,18 +17,19 @@ class RefereeRepository
     {
         // dd($tournamentData['age_category']);
         $age_category = $tournamentData['age_category'];
-         $RefereeData = Referee::where('tournament_id',$tournamentData['tournamentId'])
-              ->orderBy('last_name','ASC');
+        $RefereeData = Referee::where('tournament_id', $tournamentData['tournamentId'])
+            ->orderBy('last_name', 'ASC');
 
-            if($age_category !=''){
-                $RefereeData->whereRaw('FIND_IN_SET('.$age_category.',age_group_id)');
-            }
-            return $RefereeData->get();
+        if ($age_category != '') {
+            $RefereeData->whereRaw('FIND_IN_SET('.$age_category.',age_group_id)');
+        }
+
+        return $RefereeData->get();
     }
 
     public function createReferee($refereeData)
     {
-        
+
         return Referee::create([
             'tournament_id' => $refereeData['tournament_id'],
             'first_name' => $refereeData['first_name'],
@@ -36,14 +37,14 @@ class RefereeRepository
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
             'comments' => $refereeData['comments'],
-            'age_group_id' =>  $refereeData['age_category'],
+            'age_group_id' => $refereeData['age_category'],
             'is_all_age_categories_selected' => $refereeData['is_all_age_categories_selected'],
 
         ]);
         // return Referee::create($refereeData);
     }
 
-    public function edit($refereeData,$refereeId)
+    public function edit($refereeData, $refereeId)
     {
         return Referee::where('id', $refereeId)->update([
             'tournament_id' => $refereeData['tournament_id'],
@@ -52,7 +53,7 @@ class RefereeRepository
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
             'comments' => $refereeData['comments'],
-            'age_group_id' =>  $refereeData['age_category'],
+            'age_group_id' => $refereeData['age_category'],
             'is_all_age_categories_selected' => $refereeData['is_all_age_categories_selected'],
 
         ]);
@@ -78,11 +79,11 @@ class RefereeRepository
                 'tournament_id' => $data->refereeData['tournamentId'],
                 'first_name' => $data['firstname'],
                 'last_name' => $data['lastname'],
-                'telephone' => array_get($data, 'telephone', NULL),
-                'email' => array_get($data, 'email', NULL),
-                'comments' => array_get($data, 'availability', NULL),
+                'telephone' => array_get($data, 'telephone', null),
+                'email' => array_get($data, 'email', null),
+                'comments' => array_get($data, 'availability', null),
                 'age_group_id' => $ageGroupsIds,
-                'is_all_age_categories_selected' => true
+                'is_all_age_categories_selected' => true,
             ]);
         }
     }

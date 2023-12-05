@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddDeviceVersionToUsersTable extends Migration
 {
@@ -14,9 +14,9 @@ class AddDeviceVersionToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('device')->nullable()->default(NULL)->after('country_id');
-            $table->string('app_version')->nullable()->default(NULL)->after('device');
-            $table->string('os_version')->nullable()->default(NULL)->after('app_version');
+            $table->string('device')->nullable()->default(null)->after('country_id');
+            $table->string('app_version')->nullable()->default(null)->after('device');
+            $table->string('os_version')->nullable()->default(null)->after('app_version');
         });
     }
 

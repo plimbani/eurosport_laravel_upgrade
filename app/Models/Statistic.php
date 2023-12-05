@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Statistic extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -21,6 +21,7 @@ class Statistic extends Model
     public function statisticCount()
     {
         $content = explode(' ', $this->content);
+
         return $content[0];
     }
 
@@ -32,6 +33,7 @@ class Statistic extends Model
     public function statisticText()
     {
         $content = array_slice(explode(' ', $this->content), 1);
+
         return implode(' ', $content);
     }
 }

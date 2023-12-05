@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddIsDesktopUserToUserTable extends Migration
 {
@@ -13,8 +12,8 @@ class AddIsDesktopUserToUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table) {
-           $table->tinyInteger('is_desktop_user')->default(0)->nullable()->after('is_mobile_user');
+        Schema::table('users', function ($table) {
+            $table->tinyInteger('is_desktop_user')->default(0)->nullable()->after('is_mobile_user');
         });
     }
 
@@ -25,7 +24,7 @@ class AddIsDesktopUserToUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function($table) {
+        Schema::table('users', function ($table) {
             $table->dropColumn('is_desktop_user');
         });
     }

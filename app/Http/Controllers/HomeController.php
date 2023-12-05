@@ -1,9 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Laraspace\Contracts\TournamentContract;
+namespace App\Http\Controllers;
 
 class HomeController extends Controller
 {
@@ -25,9 +22,9 @@ class HomeController extends Controller
     public function index()
     {
         //Todo: Login User We passed for Display Manage User Section
-       $userName = \Auth::user()['username'];
+        $userName = \Auth::user()['username'];
 
-        $tournamentServiceObj = app()->make('Laraspace\Contracts\TournamentContract')->index();
+        $tournamentServiceObj = app()->make(\App\Contracts\TournamentContract::class)->index();
         $tournamentObjArray = $tournamentServiceObj['data']->toarray();
         $tournamentObj = $tournamentObjArray;
 

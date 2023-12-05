@@ -1,25 +1,24 @@
 <?php
 
-namespace Laraspace\Api\Controllers;
+namespace App\Api\Controllers;
 
+use App\Api\Contracts\TemplateContract;
+use App\Api\Repositories\TemplateRepository;
+use App\Http\Requests\Template\DeleteRequest;
+use App\Http\Requests\Template\EditRequest;
+use App\Http\Requests\Template\GetTemplatesRequest;
+use App\Http\Requests\Template\StoreRequest;
+use App\Http\Requests\Template\TemplateDetailRequest;
+use App\Http\Requests\Template\UpdateRequest;
+use App\Models\TournamentCompetationTemplates;
+use App\Models\TournamentTemplates;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Laraspace\Models\TournamentTemplates;
-use Laraspace\Api\Contracts\TemplateContract;
-use Laraspace\Http\Requests\Template\EditRequest;
-use Laraspace\Http\Requests\Template\StoreRequest;
-use Laraspace\Http\Requests\Template\UpdateRequest;
-use Laraspace\Http\Requests\Template\DeleteRequest;
-use Laraspace\Http\Requests\Template\GetTemplatesRequest;
-use Laraspace\Http\Requests\Template\TemplateDetailRequest;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Api\Repositories\TemplateRepository;
 
 class TemplateController extends BaseController
 {
     protected $templateObj;
 
-	public function __construct(TemplateContract $templateObj)
+    public function __construct(TemplateContract $templateObj)
     {
         $this->templateObj = $templateObj;
     }
@@ -29,7 +28,7 @@ class TemplateController extends BaseController
      */
     public function getTemplates(GetTemplatesRequest $request)
     {
-       return $this->templateObj->getTemplates($request->all());
+        return $this->templateObj->getTemplates($request->all());
     }
 
     /**
@@ -92,114 +91,114 @@ class TemplateController extends BaseController
         $oldTemplateJson = json_decode($oldTournamentTemplate->json_data, true);
         $newTemplateJson = json_decode($newTournamentTemplate->json_data, true);
 
-        if($newTemplateJson['total_matches'] != $oldTemplateJson['total_matches']) {
-            $errors[] = '<b>Total matches does not match.</b><br>Old total matches is: ' .$oldTemplateJson['total_matches'] .'<br>New total matches is: ' .$newTemplateJson['total_matches'];
+        if ($newTemplateJson['total_matches'] != $oldTemplateJson['total_matches']) {
+            $errors[] = '<b>Total matches does not match.</b><br>Old total matches is: '.$oldTemplateJson['total_matches'].'<br>New total matches is: '.$newTemplateJson['total_matches'];
         }
-        if($newTemplateJson['template_font_color'] != $oldTemplateJson['template_font_color']) {
-            $errors[] = '<b>Template font color does not match.</b><br>Old Template font color is: ' .$oldTemplateJson['template_font_color'] .'<br>New Template font color is: ' .$newTemplateJson['template_font_color'];
-        }        
-        if($newTemplateJson['tournament_teams'] != $oldTemplateJson['tournament_teams']) {
-            $errors[] = '<b>Tournament teams does not match.</b><br>Old Tournament teams is: ' .$oldTemplateJson['tournament_teams'] .'<br>New Tournament teams is: ' .$newTemplateJson['tournament_teams'];
-        }        
-        if($newTemplateJson['tournament_min_match'] != $oldTemplateJson['tournament_min_match']) {
-            $errors[] = '<b>Tournament min match does not match.</b><br>Old Tournament min match is: ' .$oldTemplateJson['tournament_min_match'] .'<br>New Tournament teams is: ' .$newTemplateJson['tournament_min_match'];
+        if ($newTemplateJson['template_font_color'] != $oldTemplateJson['template_font_color']) {
+            $errors[] = '<b>Template font color does not match.</b><br>Old Template font color is: '.$oldTemplateJson['template_font_color'].'<br>New Template font color is: '.$newTemplateJson['template_font_color'];
         }
-        if($newTemplateJson['avg_game_team'] != $oldTemplateJson['avg_game_team']) {
-            $errors[] = '<b>Average game team does not match.</b><br>Old Average game team is: ' .$oldTemplateJson['avg_game_team'] .'<br>New Tournament teams is: ' .$newTemplateJson['avg_game_team'];
+        if ($newTemplateJson['tournament_teams'] != $oldTemplateJson['tournament_teams']) {
+            $errors[] = '<b>Tournament teams does not match.</b><br>Old Tournament teams is: '.$oldTemplateJson['tournament_teams'].'<br>New Tournament teams is: '.$newTemplateJson['tournament_teams'];
         }
-        if($newTemplateJson['position_type'] != $oldTemplateJson['position_type']) {
-            $errors[] = '<b>Position type does not match.</b><br>Old Position type is: ' .$oldTemplateJson['position_type'] .'<br>New Position type is: ' .$newTemplateJson['position_type'];
+        if ($newTemplateJson['tournament_min_match'] != $oldTemplateJson['tournament_min_match']) {
+            $errors[] = '<b>Tournament min match does not match.</b><br>Old Tournament min match is: '.$oldTemplateJson['tournament_min_match'].'<br>New Tournament teams is: '.$newTemplateJson['tournament_min_match'];
+        }
+        if ($newTemplateJson['avg_game_team'] != $oldTemplateJson['avg_game_team']) {
+            $errors[] = '<b>Average game team does not match.</b><br>Old Average game team is: '.$oldTemplateJson['avg_game_team'].'<br>New Tournament teams is: '.$newTemplateJson['avg_game_team'];
+        }
+        if ($newTemplateJson['position_type'] != $oldTemplateJson['position_type']) {
+            $errors[] = '<b>Position type does not match.</b><br>Old Position type is: '.$oldTemplateJson['position_type'].'<br>New Position type is: '.$newTemplateJson['position_type'];
         }
 
         // check tournament competition format
         $oldTemplateCompetitionFormat = $oldTemplateJson['tournament_competation_format'];
         $newTemplateCompetitionFormat = $newTemplateJson['tournament_competation_format'];
 
-        if(!isset($newTemplateJson['divisions'])) {
+        if (! isset($newTemplateJson['divisions'])) {
             foreach ($newTemplateCompetitionFormat['format_name'] as $roundIndex => $round) {
-                if(isset($round['name']) && $round['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['name']) {
-                    $errors[] = '<b>Round name does not match.</b><br>Old round name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['name'] .'<br>New round name is: ' .$round['name'];
+                if (isset($round['name']) && $round['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['name']) {
+                    $errors[] = '<b>Round name does not match.</b><br>Old round name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['name'].'<br>New round name is: '.$round['name'];
                 }
 
                 foreach ($round['match_type'] as $groupIndex => $group) {
                     // for round robin match
-                    if(starts_with($group['name'], 'RR')) {
-                        if(isset($group['name']) &&  $group['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name']) {
-                            $errors[] = '<b>Match type name does not match.</b><br>Type: Round robin<br>Old Match type name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name'] .'<br>New Match type name is: ' .$group['name'];
+                    if (starts_with($group['name'], 'RR')) {
+                        if (isset($group['name']) && $group['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name']) {
+                            $errors[] = '<b>Match type name does not match.</b><br>Type: Round robin<br>Old Match type name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name'].'<br>New Match type name is: '.$group['name'];
                         }
 
-                        if(isset($group['total_match']) &&  $group['total_match'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match']) {
-                            $errors[] = '<b>Total match does not match.</b><br>Type: Round robin<br>Old Total match is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match'] .'<br>New Total match is: ' .$group['total_match'];
+                        if (isset($group['total_match']) && $group['total_match'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match']) {
+                            $errors[] = '<b>Total match does not match.</b><br>Type: Round robin<br>Old Total match is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match'].'<br>New Total match is: '.$group['total_match'];
                         }
 
-                        if(isset($group['group_count']) &&  $group['group_count'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count']) {
-                            $errors[] = '<b>Group count does not match.</b><br>Type: Round robin<br>Old Group count is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count'] .'<br>New Group count is: ' .$group['group_count'];
+                        if (isset($group['group_count']) && $group['group_count'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count']) {
+                            $errors[] = '<b>Group count does not match.</b><br>Type: Round robin<br>Old Group count is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count'].'<br>New Group count is: '.$group['group_count'];
                         }
-                        
-                        if(isset($group['groups']['group_name']) &&  $group['groups']['group_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name']) {
-                            $errors[] = '<b>Group name does not match.</b><br>Type: Round robin<br>Old Group name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name'] .'<br>New Group name is: ' .$group['groups']['group_name'];
+
+                        if (isset($group['groups']['group_name']) && $group['groups']['group_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name']) {
+                            $errors[] = '<b>Group name does not match.</b><br>Type: Round robin<br>Old Group name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name'].'<br>New Group name is: '.$group['groups']['group_name'];
                         }
 
                         // match
                         foreach ($group['groups']['match'] as $matchIndex => $match) {
                             $inBetweenMatchedIndex = collect($oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'])->where('in_between', $match['in_between'])->keys()->toArray();
 
-                            if(isset($match['in_between']) && $match['in_between'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['in_between']) {
-                                $errors[] = '<b>In-between does not match.</b><br>Type: Round robin<br>Old in between is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['in_between'] .'<br>New in between is: ' .$match['in_between'];
+                            if (isset($match['in_between']) && $match['in_between'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['in_between']) {
+                                $errors[] = '<b>In-between does not match.</b><br>Type: Round robin<br>Old in between is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['in_between'].'<br>New in between is: '.$match['in_between'];
                             }
 
-                            if(isset($match['match_number']) && $match['match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['match_number']) {
-                                $errors[] = '<b>Match number does not match.</b><br>Type: Round robin<br>Old match number is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['match_number'] .'<br>New match number is: ' .$match['match_number'];
+                            if (isset($match['match_number']) && $match['match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['match_number']) {
+                                $errors[] = '<b>Match number does not match.</b><br>Type: Round robin<br>Old match number is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['match_number'].'<br>New match number is: '.$match['match_number'];
                             }
 
-                            if(isset($match['display_match_number']) && $match['display_match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_match_number']) {
-                                $errors[] = '<b>Display match number does not match.</b><br>Type: Round robin<br>Old display match number is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_match_number'] .'<br>New display match number is: ' .$match['display_match_number'];
+                            if (isset($match['display_match_number']) && $match['display_match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_match_number']) {
+                                $errors[] = '<b>Display match number does not match.</b><br>Type: Round robin<br>Old display match number is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_match_number'].'<br>New display match number is: '.$match['display_match_number'];
                             }
 
-                            if(isset($match['display_home_team_placeholder_name']) && $match['display_home_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_home_team_placeholder_name']) {
-                                $errors[] = '<b>Display home team placeholder name does not match.</b><br>Type: Round robin<br>Old Display home team placeholder name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_home_team_placeholder_name'] .'<br>New Display home team placeholder name is: ' .$match['display_home_team_placeholder_name'];
+                            if (isset($match['display_home_team_placeholder_name']) && $match['display_home_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_home_team_placeholder_name']) {
+                                $errors[] = '<b>Display home team placeholder name does not match.</b><br>Type: Round robin<br>Old Display home team placeholder name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_home_team_placeholder_name'].'<br>New Display home team placeholder name is: '.$match['display_home_team_placeholder_name'];
                             }
 
-                            if(isset($match['display_away_team_placeholder_name']) && $match['display_away_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_away_team_placeholder_name']) {
-                                $errors[] = '<b>Display away team placeholder name does not match.</b><br>Type: Round robin<br>Old Display away team placeholder name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_away_team_placeholder_name'] .'<br>New Display away team placeholder name is: ' .$match['display_away_team_placeholder_name'];                                
+                            if (isset($match['display_away_team_placeholder_name']) && $match['display_away_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_away_team_placeholder_name']) {
+                                $errors[] = '<b>Display away team placeholder name does not match.</b><br>Type: Round robin<br>Old Display away team placeholder name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][head($inBetweenMatchedIndex)]['display_away_team_placeholder_name'].'<br>New Display away team placeholder name is: '.$match['display_away_team_placeholder_name'];
                             }
                         }
                     }
 
                     // for placing match
-                    if(starts_with($group['name'], 'PM')) {
-                        if(isset($group['name']) &&  $group['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name']) {
-                            $errors[] = '<b>Name does not match.</b><br>Type: Placing match<br>Old name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name'] .'<br>New name is: ' .$group['name'];
+                    if (starts_with($group['name'], 'PM')) {
+                        if (isset($group['name']) && $group['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name']) {
+                            $errors[] = '<b>Name does not match.</b><br>Type: Placing match<br>Old name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name'].'<br>New name is: '.$group['name'];
                         }
-                        if(isset($group['total_match']) &&  $group['total_match'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match']) {
-                            $errors[] = '<b>Total match does not match.</b><br>Type: Placing match<br>Old Total match is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match'] .'<br>New Total match is: ' .$group['total_match'];
+                        if (isset($group['total_match']) && $group['total_match'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match']) {
+                            $errors[] = '<b>Total match does not match.</b><br>Type: Placing match<br>Old Total match is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['total_match'].'<br>New Total match is: '.$group['total_match'];
                         }
-                        if(isset($group['group_count']) &&  $group['group_count'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count']) {
-                            $errors[] = '<b>Group count does not match.</b><br>Type: Placing match<br>Old Group count is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count'] .'<br>New Group count is: ' .$group['group_count'];
+                        if (isset($group['group_count']) && $group['group_count'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count']) {
+                            $errors[] = '<b>Group count does not match.</b><br>Type: Placing match<br>Old Group count is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['group_count'].'<br>New Group count is: '.$group['group_count'];
                         }
-                        if(isset($group['groups']['group_name']) &&  $group['groups']['group_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name']) {
-                            $errors[] = '<b>Group name does not match.</b><br>Type: Placing match<br>Old Group name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name'] .'<br>New Group name is: ' .$group['groups']['group_name'];
+                        if (isset($group['groups']['group_name']) && $group['groups']['group_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name']) {
+                            $errors[] = '<b>Group name does not match.</b><br>Type: Placing match<br>Old Group name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['group_name'].'<br>New Group name is: '.$group['groups']['group_name'];
                         }
 
                         // match
                         foreach ($group['groups']['match'] as $matchIndex => $match) {
 
-                            if(isset($match['in_between']) && $match['in_between'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['in_between']) {
-                                $errors[] = '<b>In-between does not match.</b><br>Type: Placing match<br>Old in between is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['in_between'] .'<br>New in between is: ' .$match['in_between'];
+                            if (isset($match['in_between']) && $match['in_between'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['in_between']) {
+                                $errors[] = '<b>In-between does not match.</b><br>Type: Placing match<br>Old in between is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['in_between'].'<br>New in between is: '.$match['in_between'];
                             }
-                            if(isset($match['match_number']) && $match['match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['match_number']) {
-                                $errors[] = '<b>Match number does not match.</b><br>Type: Placing match<br>Old match number is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['match_number'] .'<br>New match number is: ' .$match['match_number'];
+                            if (isset($match['match_number']) && $match['match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['match_number']) {
+                                $errors[] = '<b>Match number does not match.</b><br>Type: Placing match<br>Old match number is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['match_number'].'<br>New match number is: '.$match['match_number'];
                             }
-                            if(isset($match['display_match_number']) && $match['display_match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_match_number']) {
-                                $errors[] = '<b>Display match number does not match.</b><br>Type: Placing match<br>Old display match number is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_match_number'] .'<br>New display match number is: ' .$match['display_match_number'];
+                            if (isset($match['display_match_number']) && $match['display_match_number'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_match_number']) {
+                                $errors[] = '<b>Display match number does not match.</b><br>Type: Placing match<br>Old display match number is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_match_number'].'<br>New display match number is: '.$match['display_match_number'];
                             }
-                            if(isset($match['display_home_team_placeholder_name']) && $match['display_home_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_home_team_placeholder_name']) {
-                                $errors[] = '<b>Display home team placeholder name does not match.</b><br>Type: Placing match<br>Old Display home team placeholder name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_home_team_placeholder_name'] .'<br>New Display home team placeholder name is: ' .$match['display_home_team_placeholder_name'];
+                            if (isset($match['display_home_team_placeholder_name']) && $match['display_home_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_home_team_placeholder_name']) {
+                                $errors[] = '<b>Display home team placeholder name does not match.</b><br>Type: Placing match<br>Old Display home team placeholder name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_home_team_placeholder_name'].'<br>New Display home team placeholder name is: '.$match['display_home_team_placeholder_name'];
                             }
-                            if(isset($match['display_away_team_placeholder_name']) && $match['display_away_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_away_team_placeholder_name']) {
-                                $errors[] = '<b>Display away team placeholder name does not match.</b><br>Type: Placing match<br>Old Display away team placeholder name is: ' .$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_away_team_placeholder_name'] .'<br>New Display away team placeholder name is: ' .$match['display_away_team_placeholder_name'];                                
+                            if (isset($match['display_away_team_placeholder_name']) && $match['display_away_team_placeholder_name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_away_team_placeholder_name']) {
+                                $errors[] = '<b>Display away team placeholder name does not match.</b><br>Type: Placing match<br>Old Display away team placeholder name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['groups']['match'][$matchIndex]['display_away_team_placeholder_name'].'<br>New Display away team placeholder name is: '.$match['display_away_team_placeholder_name'];
                             }
-                        }                        
+                        }
                     }
                 }
             }
@@ -209,25 +208,27 @@ class TemplateController extends BaseController
         $oldTemplatePositions = $oldTemplateJson['tournament_positions'];
         $newTemplateJsonPositions = $newTemplateJson['tournament_positions'];
         foreach ($newTemplateJsonPositions as $key => $position) {
-            if(isset($position['position']) && $position['position'] != $oldTemplatePositions[$key]['position']) {
-                $errors[] = '<b>Position does not match.</b><br>Old position is: ' .$oldTemplatePositions[$key]['position'] .'<br>New position is: ' .$position['position'];
+            if (isset($position['position']) && $position['position'] != $oldTemplatePositions[$key]['position']) {
+                $errors[] = '<b>Position does not match.</b><br>Old position is: '.$oldTemplatePositions[$key]['position'].'<br>New position is: '.$position['position'];
             }
-            if(isset($position['dependent_type']) && $position['dependent_type'] != $oldTemplatePositions[$key]['dependent_type']) {
-                $errors[] = '<b>Dependent type does not match.</b><br>Old dependent type is: ' .$oldTemplatePositions[$key]['dependent_type'] .'<br>New dependent type is: ' .$position['dependent_type'];
+            if (isset($position['dependent_type']) && $position['dependent_type'] != $oldTemplatePositions[$key]['dependent_type']) {
+                $errors[] = '<b>Dependent type does not match.</b><br>Old dependent type is: '.$oldTemplatePositions[$key]['dependent_type'].'<br>New dependent type is: '.$position['dependent_type'];
             }
-            if(isset($position['match_number']) && $position['match_number'] != $oldTemplatePositions[$key]['match_number']) {
-                $errors[] = '<b>Match number does not match.</b><br>Old Match number is: ' .$oldTemplatePositions[$key]['match_number'] .'<br>New Match number is: ' .$position['match_number'];
+            if (isset($position['match_number']) && $position['match_number'] != $oldTemplatePositions[$key]['match_number']) {
+                $errors[] = '<b>Match number does not match.</b><br>Old Match number is: '.$oldTemplatePositions[$key]['match_number'].'<br>New Match number is: '.$position['match_number'];
             }
-            if(isset($position['result_type']) && $position['result_type'] != $oldTemplatePositions[$key]['result_type']) {
-                $errors[] = '<b>Result type does not match.</b><br>Old Result type is: ' .$oldTemplatePositions[$key]['result_type'] .'<br>New Result type is: ' .$position['result_type'];
+            if (isset($position['result_type']) && $position['result_type'] != $oldTemplatePositions[$key]['result_type']) {
+                $errors[] = '<b>Result type does not match.</b><br>Old Result type is: '.$oldTemplatePositions[$key]['result_type'].'<br>New Result type is: '.$position['result_type'];
             }
-            if(isset($position['ranking']) && $position['ranking'] != $oldTemplatePositions[$key]['ranking']) {
-                $errors[] = '<b>Ranking does not match.</b><br>Old Ranking is: ' .$oldTemplatePositions[$key]['ranking'] .'<br>New Ranking is: ' .$position['ranking'];
+            if (isset($position['ranking']) && $position['ranking'] != $oldTemplatePositions[$key]['ranking']) {
+                $errors[] = '<b>Ranking does not match.</b><br>Old Ranking is: '.$oldTemplatePositions[$key]['ranking'].'<br>New Ranking is: '.$position['ranking'];
             }
         }
 
         foreach ($errors as $key => $error) {
-            echo "<pre>";print_r($error);echo "</pre>";
+            echo '<pre>';
+            print_r($error);
+            echo '</pre>';
         }
     }
 
@@ -241,17 +242,17 @@ class TemplateController extends BaseController
             foreach ($rounds as $roundIndex => $round) {
                 foreach ($round['groups'] as $groupIndex => $group) {
                     $newMatches = [];
-                    $groupTeams = sizeof($group['teams']);
+                    $groupTeams = count($group['teams']);
                     $groupMatchesCount = $groupTeams / 2;
 
-                    if($group['type'] == 'round_robin') {
+                    if ($group['type'] == 'round_robin') {
                         $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'][$groupIndex]['matches'] = [];
                     }
 
-                    if(sizeof($group['matches']) > $groupMatchesCount) {
+                    if (count($group['matches']) > $groupMatchesCount) {
                         array_splice($group['matches'], $groupMatchesCount);
 
-                        if($group['type'] == 'placing_match') {
+                        if ($group['type'] == 'placing_match') {
                             foreach ($group['matches'] as $matchIndex => $match) {
                                 $newMatches[]['is_final'] = isset($match['is_final']) ? $match['is_final'] : false;
                             }
@@ -265,7 +266,10 @@ class TemplateController extends BaseController
             $template->save();
         }
 
-        echo "<pre>";print_r('script executed!');echo "</pre>";exit;
+        echo '<pre>';
+        print_r('script executed!');
+        echo '</pre>';
+        exit;
     }
 
     public function templateJsonUpdateScript()
@@ -277,7 +281,7 @@ class TemplateController extends BaseController
             foreach ($templateFormDetail['stepfour'] as $key => $value) {
                 $templateFormDetail['stepone'][$key] = $value;
             }
-            if(isset($templateFormDetail['stepone']['imagePath'])) {
+            if (isset($templateFormDetail['stepone']['imagePath'])) {
                 unset($templateFormDetail['stepone']['imagePath']);
             }
             unset($templateFormDetail['stepfour']);
@@ -285,13 +289,16 @@ class TemplateController extends BaseController
             $template->save();
         }
 
-        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+        echo '<pre>';
+        print_r('script executed.');
+        echo '</pre>';
+        exit;
     }
 
     public function scriptForDivisionsAndMinimumMatches()
     {
         $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
-        foreach($templates as $template) {
+        foreach ($templates as $template) {
             $jsonData = json_decode($template->json_data, true);
             // for average games
             $jsonData['avg_game_team'] = number_format($jsonData['avg_game_team'], 1);
@@ -307,7 +314,10 @@ class TemplateController extends BaseController
             // $template->save();
         }
 
-        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+        echo '<pre>';
+        print_r('script executed.');
+        echo '</pre>';
+        exit;
     }
 
     public function generateTemplateGraphic(Request $request, $ageCategoryId)
@@ -317,6 +327,7 @@ class TemplateController extends BaseController
         $templateData['ageCategoryId'] = $ageCategoryId;
         $templateData['templateId'] = $tournamentCompetationTemplate->tournament_template_id;
         $graphicDetails = TemplateRepository::getTemplateGraphic($templateData);
+
         return view('template.graphicimage', ['graphicHtml' => $graphicDetails['graphicHtml']]);
     }
 

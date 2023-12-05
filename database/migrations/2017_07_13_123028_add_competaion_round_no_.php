@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddCompetaionRoundNo extends Migration
 {
@@ -14,7 +14,7 @@ class AddCompetaionRoundNo extends Migration
     public function up()
     {
         Schema::table('competitions', function (Blueprint $table) {
-           $table->string('competation_round_no')->nullable();
+            $table->string('competation_round_no')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddCompetaionRoundNo extends Migration
     public function down()
     {
         Schema::table('competitions', function (Blueprint $table) {
-           $table->dropColumn('competation_round_no');
+            $table->dropColumn('competation_round_no');
         });
     }
 }

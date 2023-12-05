@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Console\Commands;
+namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Laraspace\Models\Website;
+use App\Models\Website;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 
 class RemoveExpirePreviewDomain extends Command
 {
@@ -46,12 +46,12 @@ class RemoveExpirePreviewDomain extends Command
             $previewDomainGenerateDate = Carbon::parse($website->preview_domain_generated_at);
             $diffInMinutes = $currentDate->diffInMinutes($previewDomainGenerateDate);
 
-            if($diffInMinutes >= config('config-variables.preview_url_expire_time')) {
-                $website->preview_domain = NULL;
-                $website->preview_domain_generated_at = NULL;
+            if ($diffInMinutes >= config('config-variables.preview_url_expire_time')) {
+                $website->preview_domain = null;
+                $website->preview_domain_generated_at = null;
                 $website->unsetEventDispatcher();
                 $website->save();
-            } 
+            }
         }
         $this->info('Script executed.');
     }

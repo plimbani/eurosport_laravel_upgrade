@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraspace\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class HistoryYear extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -18,6 +18,6 @@ class HistoryYear extends Model
      */
     public function age_categories()
     {
-        return $this->hasMany('Laraspace\Models\HistoryAgeCategory', 'history_year_id', 'id');
+        return $this->hasMany(\App\Models\HistoryAgeCategory::class, 'history_year_id', 'id');
     }
 }

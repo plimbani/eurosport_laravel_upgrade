@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Contracts;
+namespace App\Api\Contracts;
 
 interface PitchContract
 {
@@ -27,10 +27,12 @@ interface PitchContract
      * @param  array $request
      * @return response
      */
-    public function edit($request,$pitchId);
-    
+    public function edit($request, $pitchId);
+
     public function getPitchData($pitchId);
+
     public function generatePitchMatchReport($pitchId);
+
     /*
      * Delete Pitch
      *
@@ -38,5 +40,6 @@ interface PitchContract
      * @return response
      */
     public function deletePitch($deleteId);
+
     public function getPitchSearchRecord($tournamentData);
 }

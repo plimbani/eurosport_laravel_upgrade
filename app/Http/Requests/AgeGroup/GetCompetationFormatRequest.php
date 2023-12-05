@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\AgeGroup;
+namespace App\Http\Requests\AgeGroup;
 
-use JWTAuth;
-use Laraspace\Models\Tournament;
-use Laraspace\Traits\TournamentAccess;
+use App\Models\Tournament;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
+use JWTAuth;
 
 class GetCompetationFormatRequest extends FormRequest
 {
@@ -18,33 +18,34 @@ class GetCompetationFormatRequest extends FormRequest
      */
     public function authorize()
     {
-        \Log::info('GetCompetationFormatRequest:' .json_encode($this->all()));
+        \Log::info('GetCompetationFormatRequest:'.json_encode($this->all()));
         $token = JWTAuth::getToken();
-        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
             $tournament_id = null;
-            if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
+            if (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true') {
 
                 //$tournament_id = $this->all()['tournament_id'];
-                
+
                 if (isset($this->all()['tournament_id'])) {
                     $tournament_id = $this->all()['tournament_id'];
-                } else if (isset($this->all()['tournamentId'])) {
+                } elseif (isset($this->all()['tournamentId'])) {
                     $tournament_id = $this->all()['tournamentId'];
                 } else {
                     return false;
-                }  
+                }
 
             } else {
                 $data = $this->all()['tournamentData'];
                 $tournament_id = $data['tournament_id'];
             }
 
-            $tournament = Tournament::where('id',$tournament_id)->first();
+            $tournament = Tournament::where('id', $tournament_id)->first();
             $isTournamentPublished = $this->isTournamentPublished($tournament);
-            if(!$isTournamentPublished) {
+            if (! $isTournamentPublished) {
                 return false;
             }
         }
+
         return true;
     }
 

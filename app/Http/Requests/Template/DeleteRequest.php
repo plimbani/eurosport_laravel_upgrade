@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Template;
+namespace App\Http\Requests\Template;
 
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteRequest extends FormRequest
@@ -17,9 +17,10 @@ class DeleteRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator')) {
+        if ($loggedInUser->hasRole('Super.administrator')) {
             return true;
         }
+
         return false;
     }
 

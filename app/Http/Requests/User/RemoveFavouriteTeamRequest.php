@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace App\Http\Requests\User;
 
 //use Illuminate\Foundation\Http\FormRequest;
 use Dingo\Api\Http\FormRequest;
@@ -16,10 +16,11 @@ class RemoveFavouriteTeamRequest extends FormRequest
     {
         if (app('request')->header('ismobileuser')) {
             $isMobileUser = app('request')->header('ismobileuser');
-            if ($isMobileUser == "true") {
+            if ($isMobileUser == 'true') {
                 return true;
             }
         }
+
         return false;
     }
 

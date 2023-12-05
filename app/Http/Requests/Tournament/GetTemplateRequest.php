@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Traits\AuthUserDetail;
+use App\Models\TournamentCompetationTemplates;
+use App\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GetTemplateRequest extends FormRequest
@@ -18,17 +18,18 @@ class GetTemplateRequest extends FormRequest
     public function authorize()
     {
         $tournamentTemplateId = $this->all()['tournamentTemplateId'];
-        $user = $this->getCurrentLoggedInUserDetail();      
-        if($user->hasRole('tournament.administrator')) {
-            $accessibleTournamentsIds = $user->tournaments()->pluck('id')->toArray();        
+        $user = $this->getCurrentLoggedInUserDetail();
+        if ($user->hasRole('tournament.administrator')) {
+            $accessibleTournamentsIds = $user->tournaments()->pluck('id')->toArray();
             $accessibleTemplates = TournamentCompetationTemplates::whereIn('tournament_id', $accessibleTournamentsIds)->pluck('tournament_template_id')->unique()->toArray();
-            if (!in_array($tournamentTemplateId, $accessibleTemplates)) {
+            if (! in_array($tournamentTemplateId, $accessibleTemplates)) {
                 return false;
             }
         }
-        if($user->hasRole('mobile.user')) {
+        if ($user->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace App\Http\Requests\Match;
 
-use Laraspace\Traits\TournamentAccess;
+use App\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AllResultsRequest extends FormRequest
@@ -19,11 +19,13 @@ class AllResultsRequest extends FormRequest
         if (isset($this->all()['matchData'])) {
             $data = $this->all()['matchData'];
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
+            if (! $isTournamentAccessible) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 
@@ -35,7 +37,7 @@ class AllResultsRequest extends FormRequest
     public function rules()
     {
         return [
-            'matchData' => 'required|array'
+            'matchData' => 'required|array',
         ];
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Tournament;
+namespace App\Http\Requests\Tournament;
 
-use Laraspace\Traits\AuthUserDetail;
+use App\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBasicDetailRequest extends FormRequest
@@ -18,9 +18,10 @@ class StoreBasicDetailRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('mobile.user')) {
+        if ($loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('mobile.user')) {
             return false;
         }
+
         return true;
     }
 

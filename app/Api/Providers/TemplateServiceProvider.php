@@ -1,44 +1,44 @@
 <?php
 
-namespace Laraspace\Api\Providers;
+namespace App\Api\Providers;
 
+use App\Api\Repositories\AgeGroupRepository;
+use App\Api\Repositories\TemplateRepository;
+use App\Api\Services\AgeGroupService;
+use App\Api\Services\TemplateService;
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\TemplateService;
-use Laraspace\Api\Repositories\TemplateRepository;
-use Laraspace\Api\Services\AgeGroupService;
-use Laraspace\Api\Repositories\AgeGroupRepository;
 
 class TemplateServiceProvider extends ServiceProvider
 {
-  /**
-   * Bootstrap the application services.
-   *
-   * @return void
-   */
-  public function boot()
-  {
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
 
-  }
+    }
 
-  /**
-   * Register the application services.
-   *
-   * @return void
-   */
-  public function register()
-  {
-    $this->app->bind('Laraspace\Api\Contracts\TemplateContract', function ($app) {
-        return new TemplateService(new TemplateRepository(new AgeGroupService( new AgeGroupRepository())));
-    });
-  }
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind(\App\Api\Contracts\TemplateContract::class, function ($app) {
+            return new TemplateService(new TemplateRepository(new AgeGroupService(new AgeGroupRepository())));
+        });
+    }
 
-  /**
-   * Get the services provided by the provider.
-   *
-   * @return array
-   */
-  public function provides()
-  {
-    return ['Laraspace\Api\Contracts\TemplateContract'];
-  }  
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [\App\Api\Contracts\TemplateContract::class];
+    }
 }

@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddNameToItinerariesTable extends Migration
 {
@@ -13,7 +12,7 @@ class AddNameToItinerariesTable extends Migration
      */
     public function up()
     {
-        Schema::table('itineraries', function($table) {
+        Schema::table('itineraries', function ($table) {
             $table->dropColumn('day');
             $table->dropColumn('time');
             $table->dropColumn('item');
@@ -28,7 +27,7 @@ class AddNameToItinerariesTable extends Migration
      */
     public function down()
     {
-        Schema::table('itineraries', function($table) {
+        Schema::table('itineraries', function ($table) {
             $table->dropColumn('name');
             $table->string('item')->after('website_id');
             $table->string('time')->after('website_id');

@@ -1,20 +1,21 @@
 <?php
 
-namespace Laraspace\Services;
+namespace App\Services;
 
-use Laraspace\Contracts\VenueContract;
-use Laraspace\Repositories\VenueRepository;
+use App\Contracts\VenueContract;
+use App\Repositories\VenueRepository;
 
-class VenueTempService implements VenueContract
+class VenueService implements VenueContract
 {
     public function __construct(VenueRepository $venueRepoObj)
     {
         $this->venueRepoObj = $venueRepoObj;
     }
-        public function __construct()
+
+    public function __construct()
     {
-        $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
-        $this->pitchAvailableRepoObj = new \Laraspace\Api\Repositories\PitchAvailableRepository();
+        $this->pitchRepoObj = new \App\Api\Repositories\PitchRepository();
+        $this->pitchAvailableRepoObj = new \App\Api\Repositories\PitchAvailableRepository();
     }
 
     /*
@@ -38,8 +39,7 @@ class VenueTempService implements VenueContract
      * create New Venues.
      *
      * @param  [type]
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return [type]
      */
     public function create($data)
@@ -54,10 +54,9 @@ class VenueTempService implements VenueContract
     /**
      * Edit Venue.
      *
-     * @param array $data
-     * @param mixed $VenueId
-     * @param mixed $venueId
-     *
+     * @param  array  $data
+     * @param  mixed  $VenueId
+     * @param  mixed  $venueId
      * @return [type]
      */
     public function edit($data, $venueId)

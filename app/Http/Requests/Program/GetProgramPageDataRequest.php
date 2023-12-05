@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraspace\Http\Requests\Program;
+namespace App\Http\Requests\Program;
 
-use Laraspace\Traits\WebsiteAccess;
+use App\Traits\WebsiteAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GetProgramPageDataRequest extends FormRequest
@@ -17,10 +17,11 @@ class GetProgramPageDataRequest extends FormRequest
     public function authorize()
     {
         $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);
+        if (! $isWebsiteAccessible) {
             return false;
         }
+
         return true;
     }
 
