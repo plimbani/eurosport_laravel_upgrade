@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Referee;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Referee;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class RefereeDetailRequest extends FormRequest
 {

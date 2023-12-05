@@ -2,11 +2,6 @@
 
 namespace App\Api\Repositories;
 
-use DB;
-use Hash;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Mail;
-use JWTAuth;
 use App\Jobs\DownloadUsers;
 use App\Mail\SendMail;
 use App\Models\Country;
@@ -18,6 +13,11 @@ use App\Models\TournamentUser;
 use App\Models\User;
 use App\Models\UserFavourites;
 use App\Traits\AuthUserDetail;
+use DB;
+use Hash;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Mail;
+use JWTAuth;
 
 class UserRepository
 {

@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Repositories\VenueRepository;
 use App\Services\VenueTempService as VenueService;
+use Illuminate\Support\ServiceProvider;
 
 class VenueServiceProvider extends ServiceProvider
 {

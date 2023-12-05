@@ -2,9 +2,9 @@
 
 namespace App\Api\Repositories;
 
-use DB;
 use App\Models\Referee;
 use App\Models\TournamentCompetationTemplates;
+use DB;
 
 class RefereeRepository
 {

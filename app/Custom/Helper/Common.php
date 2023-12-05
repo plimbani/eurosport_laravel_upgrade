@@ -2,8 +2,8 @@
 
 namespace App\Custom\Helper;
 
-use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class Common
 {

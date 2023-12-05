@@ -2,16 +2,16 @@
 
 namespace App\Api\Services;
 
-use DB;
-use Hash;
-use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\Password;
 use App\Api\Contracts\UserContract;
 use App\Custom\Helper\Common;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserFavourites;
 use App\Traits\AuthUserDetail;
+use DB;
+use Hash;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Password;
 
 class UserService implements UserContract
 {

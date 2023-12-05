@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Team;
 
-use Illuminate\Foundation\Http\FormRequest;
-use JWTAuth;
 use App\Models\Tournament;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
+use JWTAuth;
 
 class GetAllTournamentTeamsRequest extends FormRequest
 {

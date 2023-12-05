@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\TempFixture;
 use DB;
 use Illuminate\Console\Command;
-use App\Models\TempFixture;
 
 class insertPositionsForPlacingMatches extends Command
 {

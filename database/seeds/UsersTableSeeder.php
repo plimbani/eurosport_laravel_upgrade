@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => '2', 'username' => 'a.mens@euro-sportring.org',
                 'name' => 'Albert Mens', 'email' => 'a.mens@euro-sportring.org', 'organisation' => 'Euro-Sportring',
@@ -32,7 +33,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => '3', 'username' => 'ndeopura@aecordigital.com',
                 'name' => 'Nitin Deopura', 'email' => 'ndeopura@aecordigital.com', 'organisation' => 'Euro-Sportring',
@@ -41,7 +42,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => '4', 'username' => 'richinternal@mailinator.com',
                 'name' => 'Rich Internal', 'email' => 'richinternal@mailinator.com', 'organisation' => 'Aecor',
@@ -50,7 +51,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => '5', 'username' => 'testerRS1@mailinator.com',
                 'name' => 'Test Email', 'email' => 'testerRS1@mailinator.com', 'organisation' => 'aecor',
@@ -59,7 +60,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => '6', 'username' => 'testadmin@mailinator.com',
                 'name' => 'Test Admin', 'email' => 'testadmin@mailinator.com', 'organisation' => 'aecor',
@@ -68,7 +69,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => '7', 'username' => 'richresults@mailinator.com',
                 'name' => 'Rich Results', 'email' => 'richresults@mailinator.com', 'organisation' => 'aecor',
@@ -77,7 +78,7 @@ class UsersTableSeeder extends Seeder
                 'is_desktop_user' => 1,
                 'is_mobile_user' => 1,
                 'registered_from' => 1,
-                'password' => bcrypt('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'password' => Hash::make('password'), 'token' => '1', 'timezone' => '', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
         ]);
     }

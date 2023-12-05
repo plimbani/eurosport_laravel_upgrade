@@ -2,8 +2,6 @@
 
 namespace App\Api\Services;
 
-use DB;
-use File;
 use App\Api\Contracts\MatchContract;
 use App\Models\Competition;
 use App\Models\Pitch;
@@ -14,6 +12,8 @@ use App\Models\TempFixture;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Traits\TournamentAccess;
+use DB;
+use File;
 use PDF;
 use Storage;
 

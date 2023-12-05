@@ -2,10 +2,6 @@
 
 namespace App\Api\Repositories;
 
-use Carbon\Carbon;
-use DB;
-use Illuminate\Support\Str;
-use JWTAuth;
 use App\Models\AgeCategoryDivision;
 use App\Models\Competition;
 use App\Models\MatchStanding;
@@ -26,6 +22,10 @@ use App\Models\TournamentTemplates;
 use App\Models\TournamentUser;
 use App\Models\UserFavourites;
 use App\Models\Venue;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Support\Str;
+use JWTAuth;
 
 class TournamentRepository
 {
@@ -88,7 +88,7 @@ class TournamentRepository
         if ($status == '') {
             $data = Tournament::select('tournaments.*',
                 \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'))
-                    ->get();
+                ->get();
         } else {
             $data = Tournament::whereIn('tournaments.status', ['Published', 'Preview'])
                 ->select('tournaments.*',

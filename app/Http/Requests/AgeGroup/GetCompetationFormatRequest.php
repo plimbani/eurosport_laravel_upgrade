@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\AgeGroup;
 
-use Illuminate\Foundation\Http\FormRequest;
-use JWTAuth;
 use App\Models\Tournament;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
+use JWTAuth;
 
 class GetCompetationFormatRequest extends FormRequest
 {

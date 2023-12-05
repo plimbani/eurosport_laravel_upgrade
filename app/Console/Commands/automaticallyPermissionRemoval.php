@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
-use Illuminate\Console\Command;
 use App\Models\Role;
 use App\Models\Tournament;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
 
 class automaticallyPermissionRemoval extends Command
 {
@@ -51,8 +51,8 @@ class automaticallyPermissionRemoval extends Command
         foreach ($users as $user) {
             $userTournaments = $user->tournaments();
             $userTournamentIds = $userTournaments->pluck('id');
-          //  $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
-             $intersectTournaments = $userTournamentIds->array_filter($allTournaments)->values();
+            //  $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
+            $intersectTournaments = $userTournamentIds->array_filter($allTournaments)->values();
             if (count($intersectTournaments) > 0) {
                 // if($userTournaments->count() == 1) {
                 //     $user->is_desktop_user = 0;

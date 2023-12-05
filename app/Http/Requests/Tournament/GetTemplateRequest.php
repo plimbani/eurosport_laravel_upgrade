@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Tournament;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\TournamentCompetationTemplates;
 use App\Traits\AuthUserDetail;
+use Illuminate\Foundation\Http\FormRequest;
 
 class GetTemplateRequest extends FormRequest
 {

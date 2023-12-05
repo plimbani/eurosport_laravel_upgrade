@@ -2,9 +2,9 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\ContactRepository;
 use App\Api\Services\ContactService;
+use Illuminate\Support\ServiceProvider;
 
 class ContactServiceProvider extends ServiceProvider
 {

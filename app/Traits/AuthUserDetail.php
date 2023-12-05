@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use JWTAuth;
 use App\Models\User;
+use JWTAuth;
 
 trait AuthUserDetail
 {

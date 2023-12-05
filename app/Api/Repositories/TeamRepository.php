@@ -2,7 +2,6 @@
 
 namespace App\Api\Repositories;
 
-use DB;
 use App\Models\Club;
 use App\Models\Competition;
 use App\Models\Country;
@@ -10,6 +9,7 @@ use App\Models\Position;
 use App\Models\Team;
 use App\Models\TempFixture;
 use App\Models\TournamentCompetationTemplates;
+use DB;
 
 class TeamRepository
 {

@@ -2,12 +2,12 @@
 
 namespace App\Api\Repositories;
 
-use DB;
 use App\Models\Pitch;
 use App\Models\TempFixture;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\Venue;
+use DB;
 
 class PitchRepository
 {

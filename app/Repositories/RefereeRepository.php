@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use DB;
 use App\Models\Referee;
+use DB;
 
 class RefereeRepository
 {

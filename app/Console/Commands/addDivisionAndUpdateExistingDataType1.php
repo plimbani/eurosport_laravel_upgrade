@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\AgeCategoryDivision;
 use App\Models\Competition;
 use App\Models\Position;
 use App\Models\TempFixture;
 use App\Models\TournamentCompetationTemplates;
 use App\Models\TournamentTemplates;
+use Illuminate\Console\Command;
 
 class addDivisionAndUpdateExistingDataType1 extends Command
 {

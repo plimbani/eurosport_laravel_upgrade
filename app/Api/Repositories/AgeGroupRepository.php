@@ -2,8 +2,6 @@
 
 namespace App\Api\Repositories;
 
-use Carbon\Carbon;
-use DB;
 use App\Models\AgeCategoryDivision;
 use App\Models\AgeGroup;
 use App\Models\Competition;
@@ -12,6 +10,8 @@ use App\Models\Referee;
 use App\Models\Team;
 use App\Models\TempFixture;
 use App\Models\TournamentCompetationTemplates;
+use Carbon\Carbon;
+use DB;
 use UrlSigner;
 use VerumConsilium\Browsershot\Facades\Screenshot;
 
@@ -265,10 +265,10 @@ class AgeGroupRepository
             $ageGroupIdArray[] = $tournamentData['cat_id'];
             $result = TournamentCompetationTemplates::leftjoin('tournament_template', 'tournament_template.id', '=',
                 'tournament_competation_template.tournament_template_id')
-                       ->leftJoin('tournaments', 'tournaments.id', '=', 'tournament_competation_template.tournament_id')
-                       ->select('tournament_competation_template.*', 'tournament_template.name as template_name',
-                           \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
-                       ->where('tournament_id', $tournamentData['tournament_id']);
+                ->leftJoin('tournaments', 'tournaments.id', '=', 'tournament_competation_template.tournament_id')
+                ->select('tournament_competation_template.*', 'tournament_template.name as template_name',
+                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                ->where('tournament_id', $tournamentData['tournament_id']);
             if (isset($tournamentData['cat_id'])) {
                 $result->whereIn('tournament_competation_template.id', $ageGroupIdArray);
             }
@@ -281,13 +281,13 @@ class AgeGroupRepository
                 $token = \JWTAuth::getToken();
                 $tournamentCompetitionTemplates = TournamentCompetationTemplates::leftjoin('tournament_template', 'tournament_template.id', '=',
                     'tournament_competation_template.tournament_template_id')
-                           ->leftJoin('tournaments', 'tournaments.id', '=', 'tournament_competation_template.tournament_id')
-                           ->select('tournament_competation_template.*', 'tournament_template.name as template_name',
-                               \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
-                               \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" AND tournament_competation_template.competition_type = "league" THEN 
+                    ->leftJoin('tournaments', 'tournaments.id', '=', 'tournament_competation_template.tournament_id')
+                    ->select('tournament_competation_template.*', 'tournament_template.name as template_name',
+                        \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
+                        \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" AND tournament_competation_template.competition_type = "league" THEN 
                     JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
                   ELSE tournament_template.name END) AS template_name'))
-                           ->where($fieldName, $value);
+                    ->where($fieldName, $value);
 
                 if (! $token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == 'true')) {
                     $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->whereHas('scheduledFixtures');
@@ -298,8 +298,8 @@ class AgeGroupRepository
             } else {
                 return TournamentCompetationTemplates::leftjoin('tournament_template', 'tournament_template.id', '=',
                     'tournament_competation_template.tournament_template_id')
-                           ->select('tournament_competation_template.*', 'tournament_template.name as template_name')
-                           ->where('tournament_competation_template.'.$fieldName, $value)->get();
+                    ->select('tournament_competation_template.*', 'tournament_template.name as template_name')
+                    ->where('tournament_competation_template.'.$fieldName, $value)->get();
             }
         }
     }

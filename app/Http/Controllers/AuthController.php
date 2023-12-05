@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use JWTAuth;
 use App\Http\Requests\Auth\TokenCheckRequest;
 use App\Models\Person;
 use App\Models\Role;
 use App\Models\Settings;
 use App\Models\User;
+use Illuminate\Http\Request;
+use JWTAuth;
 use Socialite;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;

@@ -3,10 +3,6 @@
 namespace App\Api\Controllers;
 
 // use Brotzka\DotenvEditor\DotenvEditor;
-use Carbon\Carbon;
-use DB;
-use File;
-use Illuminate\Http\Request;
 use App\Api\Contracts\MatchContract;
 use App\Http\Requests\Match\AllResultsRequest;
 use App\Http\Requests\Match\AssignRefereeRequest;
@@ -32,6 +28,10 @@ use App\Models\Referee;
 use App\Models\TempFixture;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
+use Carbon\Carbon;
+use DB;
+use File;
+use Illuminate\Http\Request;
 // Need to Define Only Contracts
 use PDF;
 use Storage;

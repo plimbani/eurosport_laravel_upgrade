@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Media;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\AuthUserDetail;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UploadDocumentRequest extends FormRequest
 {

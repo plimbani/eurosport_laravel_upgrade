@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-// Need to Define Only Contracts
 use App\Contracts\AgeGroupContract;
+// Need to Define Only Contracts
+use Illuminate\Http\Request;
 
 /**
  * Age Group Resource Description.

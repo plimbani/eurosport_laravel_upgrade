@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use DB;
-use Illuminate\Http\Request;
-use JavaScript;
 use App\Models\TempFixture;
 use App\Models\Tournament;
 use App\Models\TournamentCompetationTemplates;
 use App\Services\PresentationService;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Http\Request;
+use JavaScript;
 
 class PresentationController extends Controller
 {

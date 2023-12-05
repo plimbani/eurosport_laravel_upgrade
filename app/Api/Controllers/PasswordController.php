@@ -2,11 +2,11 @@
 
 namespace App\Api\Controllers;
 
+use App\Model\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
-use App\Model\User;
 
 class PasswordController extends Controller
 {

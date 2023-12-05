@@ -2,9 +2,9 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\TeamRepository;
 use App\Api\Services\TeamService;
+use Illuminate\Support\ServiceProvider;
 
 class TeamServiceProvider extends ServiceProvider
 {

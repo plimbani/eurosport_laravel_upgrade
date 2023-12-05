@@ -2,12 +2,8 @@
 
 namespace App\Api\Controllers;
 
-use Carbon\Carbon;
-// Need to Define Only Contracts
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use JWTAuth;
 use App\Api\Contracts\UserContract;
+// Need to Define Only Contracts
 use App\Api\Repositories\UserRepository;
 use App\Custom\Helper\Common;
 use App\Http\Requests\User\BrowseRequest;
@@ -32,6 +28,10 @@ use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\UserStatusRequest;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use JWTAuth;
 use UrlSigner;
 
 /**

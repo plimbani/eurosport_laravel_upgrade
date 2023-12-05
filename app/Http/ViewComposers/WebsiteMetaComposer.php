@@ -2,9 +2,9 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Models\Website;
 
 class WebsiteMetaComposer
 {

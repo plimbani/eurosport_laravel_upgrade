@@ -2,10 +2,10 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\WebsiteTournamentRepository;
 use App\Api\Services\PageService;
 use App\Api\Services\WebsiteTournamentService;
+use Illuminate\Support\ServiceProvider;
 
 class WebsiteTournamentServiceProvider extends ServiceProvider
 {

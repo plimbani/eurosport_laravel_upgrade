@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Repositories\AgeGroupRepository;
 use App\Services\AgeGroupService;
+use Illuminate\Support\ServiceProvider;
 
 class AgeGroupServiceProvider extends ServiceProvider
 {

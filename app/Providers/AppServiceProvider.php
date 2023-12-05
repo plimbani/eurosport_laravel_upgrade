@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Models\AgeCategory;
 use App\Models\AgeCategoryTeam;
 use App\Models\Contact;
@@ -35,6 +34,7 @@ use App\Observers\PhotoObserver;
 use App\Observers\SponsorObserver;
 use App\Observers\StatisticObserver;
 use App\Observers\WebsiteObserver;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

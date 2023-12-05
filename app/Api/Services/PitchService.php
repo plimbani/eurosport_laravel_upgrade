@@ -2,13 +2,13 @@
 
 namespace App\Api\Services;
 
-use DB;
 use App\Api\Contracts\PitchContract;
 use App\Models\Pitch;
 use App\Models\PitchAvailable;
 use App\Models\PitchBreaks;
 use App\Models\TempFixture;
 use App\Traits\TournamentAccess;
+use DB;
 use PDF;
 
 class PitchService implements PitchContract

@@ -2,6 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Mail\SendMail;
+use App\Models\Team;
+use App\Models\Tournament;
 use Carbon\Carbon;
 use DB;
 use File;
@@ -12,9 +15,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SendMail;
-use App\Models\Team;
-use App\Models\Tournament;
 use PDF;
 
 class DownloadAllTeams implements ShouldQueue

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Dingo\Api\Routing\Helpers;
 use App\Contracts\ApiContract;
+use Dingo\Api\Routing\Helpers;
 
 class ApiService implements ApiContract
 {

@@ -2,8 +2,8 @@
 
 namespace App\Api\Repositories;
 
-use DB;
 use App\Models\Venue;
+use DB;
 
 class VenueRepository
 {

@@ -2,10 +2,10 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\ProgramRepository;
 use App\Api\Services\PageService;
 use App\Api\Services\ProgramService;
+use Illuminate\Support\ServiceProvider;
 
 class ProgramServiceProvider extends ServiceProvider
 {

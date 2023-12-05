@@ -2,10 +2,10 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Repositories\HomeRepository;
 use App\Api\Services\HomeService;
 use App\Api\Services\PageService;
+use Illuminate\Support\ServiceProvider;
 
 class HomeServiceProvider extends ServiceProvider
 {

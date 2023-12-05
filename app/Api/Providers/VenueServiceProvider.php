@@ -2,8 +2,8 @@
 
 namespace App\Api\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Api\Services\VenueService;
+use Illuminate\Support\ServiceProvider;
 
 class VenueServiceProvider extends ServiceProvider
 {

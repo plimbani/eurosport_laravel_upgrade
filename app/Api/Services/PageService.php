@@ -2,9 +2,9 @@
 
 namespace App\Api\Services;
 
-use Illuminate\Support\Str;
 use App\Models\Page;
 use App\Traits\AuthUserDetail;
+use Illuminate\Support\Str;
 
 class PageService
 {

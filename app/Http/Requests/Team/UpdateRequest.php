@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Team;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Team;
 use App\Traits\TournamentAccess;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
