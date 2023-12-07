@@ -327,87 +327,87 @@ class MatchRepository
         }
     }
 
-    public function getTempFixtures($tournamentData) {
-      $token = \JWTAuth::getToken();
-      $reportQuery = DB::table('temp_fixtures')
-          // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
-          ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
-          ->leftjoin('teams as home_team', function ($join) {
-              $join->on('home_team.id', '=', 'temp_fixtures.home_team');
-          })
-          ->leftjoin('teams as away_team', function ($join) {
-              $join->on('away_team.id', '=', 'temp_fixtures.away_team');
-          })
-          ->leftjoin('teams as match_winner', function ($join) {
-            $join->on('match_winner.id', '=', 'temp_fixtures.match_winner');
-          })
-          ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
-              'HomeFlag.id')
-          ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
-              'AwayFlag.id')
-          ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
-          ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
-          ->leftjoin('tournament_competation_template',
-              'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
+    public function getTempFixtures($tournamentData)
+    {
+        $token = \JWTAuth::getToken();
+        $reportQuery = DB::table('temp_fixtures')
+            // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
+            ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
+            ->leftjoin('teams as home_team', function ($join) {
+                $join->on('home_team.id', '=', 'temp_fixtures.home_team');
+            })
+            ->leftjoin('teams as away_team', function ($join) {
+                $join->on('away_team.id', '=', 'temp_fixtures.away_team');
+            })
+            ->leftjoin('teams as match_winner', function ($join) {
+                $join->on('match_winner.id', '=', 'temp_fixtures.match_winner');
+            })
+            ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
+                'HomeFlag.id')
+            ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
+                'AwayFlag.id')
+            ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
+            ->leftjoin('tournament_competation_template',
+                'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
 
-          ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
-          ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
-          ->groupBy('temp_fixtures.id')
-          ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' , 'temp_fixtures.display_match_number as displayMatchNumber', 'competitions.competation_type as round', 'competitions.actual_competition_type as actual_round', 'competitions.name as competation_name','competitions.actual_name as competition_actual_name','competitions.competation_round_no','competitions.color_code as competation_color_code', 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
-            'match_winner.name as MatchWinner',
-            'temp_fixtures.display_home_team_placeholder_name',
-              'venues.id as venueId', 'competitions.id as competitionId',
-              'venues.venue_coordinates as venueCoordinates',
-              'pitches.type as pitchType','venues.address1 as venueaddress',
-              'venues.state as venueState','venues.county as venueCounty',
-              'venues.city as venueCity','venues.country as venueCountry',
-              'venues.postcode as venuePostcode',
-              'tournament_competation_template.group_name as group_name',
-              'tournament_competation_template.category_age_color as category_age_color','tournament_competation_template.category_age_font_color as category_age_font_color','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','referee.first_name as first_name','referee.last_name as last_name','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.away_team_name as AwayTeam',
-              'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','temp_fixtures.minimum_team_interval_flag as min_interval_flag','temp_fixtures.maximum_team_interval_flag as max_interval_flag',
-              DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
-              DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
-              'HomeFlag.country_flag as HomeCountryFlag',
-              'AwayFlag.country_flag as AwayCountryFlag',
-              'HomeFlag.name as HomeCountryName',
-              'AwayFlag.name as AwayCountryName',
-              'temp_fixtures.hometeam_score as homeScore',
-              'temp_fixtures.awayteam_score as AwayScore',
-              'temp_fixtures.comments as matchRemarks',
-              'temp_fixtures.pitch_id as pitchId',
-              'temp_fixtures.is_scheduled',
-              'temp_fixtures.is_final_round_match',
-              'temp_fixtures.is_result_override as isResultOverride',              
-              'temp_fixtures.home_team_name as HomeTeam','temp_fixtures.away_team_name as AwayTeam',
-              'home_team.shirt_color as HomeTeamShirtColor','away_team.shirt_color as AwayTeamShirtColor',
-              'home_team.shorts_color as HomeTeamShortsColor','away_team.shorts_color as AwayTeamShortsColor',
-              'tournament_competation_template.halves_RR',
-              'temp_fixtures.home_team_name as homeTeamName',
-              'temp_fixtures.away_team_name as awayTeamName',
-              'temp_fixtures.home_team_placeholder_name as homePlaceholder',
-              'display_home_team_placeholder_name as displayHomeTeamPlaceholderName',
-              'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
-              'display_away_team_placeholder_name as displayAwayTeamPlaceholderName',
-              'temp_fixtures.position as position',
-              'tournament_competation_template.game_duration_RR',
-              'tournament_competation_template.halves_FM',
-              'tournament_competation_template.game_duration_FM',
-              'tournament_competation_template.halftime_break_RR',
-              'tournament_competation_template.halftime_break_FM',
-              'tournament_competation_template.match_interval_RR',
-              'tournament_competation_template.match_interval_FM',
-              'tournament_competation_template.id as tid',
-              'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
-              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
-              'temp_fixtures.score_last_update_date_time',
-              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'),
-              'temp_fixtures.schedule_last_update_date_time',
-              DB::raw('((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no')
+            ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
+            ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
+            ->groupBy('temp_fixtures.id')
+            ->select('temp_fixtures.id as fid', 'temp_fixtures.match_number as match_number', 'temp_fixtures.display_match_number as displayMatchNumber', 'competitions.competation_type as round', 'competitions.actual_competition_type as actual_round', 'competitions.name as competation_name', 'competitions.actual_name as competition_actual_name', 'competitions.competation_round_no', 'competitions.color_code as competation_color_code', 'competitions.team_size as team_size', 'temp_fixtures.match_datetime', 'temp_fixtures.match_endtime', 'temp_fixtures.match_status', 'temp_fixtures.age_group_id', 'temp_fixtures.match_winner',
+                'match_winner.name as MatchWinner',
+                'temp_fixtures.display_home_team_placeholder_name',
+                'venues.id as venueId', 'competitions.id as competitionId',
+                'venues.venue_coordinates as venueCoordinates',
+                'pitches.type as pitchType', 'venues.address1 as venueaddress',
+                'venues.state as venueState', 'venues.county as venueCounty',
+                'venues.city as venueCity', 'venues.country as venueCountry',
+                'venues.postcode as venuePostcode',
+                'tournament_competation_template.group_name as group_name',
+                'tournament_competation_template.category_age_color as category_age_color', 'tournament_competation_template.category_age_font_color as category_age_font_color', 'venues.name as venue_name', 'pitches.pitch_number', 'referee.first_name as referee_name', 'temp_fixtures.referee_id as referee_id', 'referee.first_name as first_name', 'referee.last_name as last_name', 'temp_fixtures.home_team_name as HomeTeam', 'temp_fixtures.away_team_name as AwayTeam',
+                'temp_fixtures.home_team as Home_id', 'temp_fixtures.away_team as Away_id', 'temp_fixtures.minimum_team_interval_flag as min_interval_flag', 'temp_fixtures.maximum_team_interval_flag as max_interval_flag',
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
+                'HomeFlag.country_flag as HomeCountryFlag',
+                'AwayFlag.country_flag as AwayCountryFlag',
+                'HomeFlag.name as HomeCountryName',
+                'AwayFlag.name as AwayCountryName',
+                'temp_fixtures.hometeam_score as homeScore',
+                'temp_fixtures.awayteam_score as AwayScore',
+                'temp_fixtures.comments as matchRemarks',
+                'temp_fixtures.pitch_id as pitchId',
+                'temp_fixtures.is_scheduled',
+                'temp_fixtures.is_final_round_match',
+                'temp_fixtures.is_result_override as isResultOverride',
+                'temp_fixtures.home_team_name as HomeTeam', 'temp_fixtures.away_team_name as AwayTeam',
+                'home_team.shirt_color as HomeTeamShirtColor', 'away_team.shirt_color as AwayTeamShirtColor',
+                'home_team.shorts_color as HomeTeamShortsColor', 'away_team.shorts_color as AwayTeamShortsColor',
+                'tournament_competation_template.halves_RR',
+                'temp_fixtures.home_team_name as homeTeamName',
+                'temp_fixtures.away_team_name as awayTeamName',
+                'temp_fixtures.home_team_placeholder_name as homePlaceholder',
+                'display_home_team_placeholder_name as displayHomeTeamPlaceholderName',
+                'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
+                'display_away_team_placeholder_name as displayAwayTeamPlaceholderName',
+                'temp_fixtures.position as position',
+                'tournament_competation_template.game_duration_RR',
+                'tournament_competation_template.halves_FM',
+                'tournament_competation_template.game_duration_FM',
+                'tournament_competation_template.halftime_break_RR',
+                'tournament_competation_template.halftime_break_FM',
+                'tournament_competation_template.match_interval_RR',
+                'tournament_competation_template.match_interval_FM',
+                'tournament_competation_template.id as tid',
+                'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
+                'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
+                'temp_fixtures.score_last_update_date_time',
+                DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'),
+                'temp_fixtures.schedule_last_update_date_time',
+                DB::raw('((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 2), ".", -1))) as match_round_no, ((SUBSTRING_INDEX(SUBSTRING_INDEX(temp_fixtures.display_match_number, ".", 3), ".", -1))) as match_code_no')
             )
-          ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
-          
-        if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' && $tournamentData['tournamentDate'] !== 'all')
-        {
+            ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
+
+        if (isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' && $tournamentData['tournamentDate'] !== 'all') {
 
             $dd1 = \DateTime::createFromFormat('d/m/Y H:i:s', $tournamentData['tournamentDate'].' 00:00:00');
             $mysql_date_string = $dd1->format('Y-m-d H:i:s');
