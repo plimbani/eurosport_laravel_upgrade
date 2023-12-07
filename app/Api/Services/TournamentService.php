@@ -19,6 +19,8 @@ use JWTAuth;
 use PDF;
 use Response;
 use View;
+use Geocoder\Laravel\Facades\Geocoder;
+
 
 class TournamentService implements TournamentContract
 {
@@ -879,8 +881,9 @@ class TournamentService implements TournamentContract
         $coordinates = [];
         foreach ($venue as $location) {
             $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->country;
+            //dd($address);
             try {
-                $locationDetails = app('geocoder')->geocode($address)->get();
+                $locationDetails = Geocoder::geocode($address)->get();
                 $coordinates['id'] = $location->id;
                 foreach ($locationDetails as $loc) {
                     $lat = $loc->getLatitude();

@@ -129,10 +129,6 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
-
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-
     'app_scheme' => env('APP_SCHEME', ''),
 
     /*
@@ -190,7 +186,6 @@ return [
         //  Duro85\Roles\RolesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Toin0u\Geotools\GeotoolsServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,
         LaravelFCM\FCMServiceProvider::class,
         HipsterJazzbo\Landlord\LandlordServiceProvider::class,
