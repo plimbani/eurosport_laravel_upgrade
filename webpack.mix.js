@@ -35,7 +35,7 @@ if(process.env.NODE_ENV == 'development') {
  |
  */
 
-var pluginPath =  'resources/assets/plugins/';
+var pluginPath =  'resources/plugins/';
 
 mix.combine([
     // ** Required Plugins **
@@ -79,42 +79,42 @@ mix.combine([
     pluginPath + 'select2/select2.js',
 ],'public/assets/js/core/matches-plugins.js')
 
-.js('resources/assets/js/app.js','public/assets/js/')
+.js('resources/js/app.js','public/assets/js/')
 
-.js('resources/assets/js/app-messages.js', 'public/frontend/js/app-messages.js')
+.js('resources/js/app-messages.js', 'public/frontend/js/app-messages.js')
 
-.js('resources/assets/js/views/front/matches/scheduleresults.js', 'public/frontend/js/scheduleresults.js')
+.js('resources/js/views/front/matches/scheduleresults.js', 'public/frontend/js/scheduleresults.js')
 
-.js('resources/assets/js/views/front/tournament/tournamenthistory.js', 'public/frontend/js/tournamenthistory.js')
+.js('resources/js/views/front/tournament/tournamenthistory.js', 'public/frontend/js/tournamenthistory.js')
 
-.sass('resources/assets/sass/laraspace.scss', 'public/assets/css/')
+.sass('resources/sass/laraspace.scss', 'public/assets/css/')
 
-.sass('resources/assets/sass/frontend/main.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/main.scss', 'public/frontend/css/')
 
-.sass('resources/assets/sass/frontend/theme-1.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/theme-1.scss', 'public/frontend/css/')
 
-.sass('resources/assets/sass/frontend/theme-2.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/theme-2.scss', 'public/frontend/css/')
 
-.sass('resources/assets/sass/frontend/theme-3.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/theme-3.scss', 'public/frontend/css/')
 
-.sass('resources/assets/sass/frontend/theme-4.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/theme-4.scss', 'public/frontend/css/')
 
-.sass('resources/assets/sass/frontend/theme-5.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/theme-5.scss', 'public/frontend/css/')
 
-.sass('resources/assets/sass/frontend/theme-6.scss', 'public/frontend/css/')
+.sass('resources/sass/frontend/theme-6.scss', 'public/frontend/css/')
 
 .version();
 
-mix.sass('resources/assets/sass/presentation/app.scss', 'public/presentation/css');
+mix.sass('resources/sass/presentation/app.scss', 'public/presentation/css');
 
-// mix.sass('resources/assets/sass/presentation/app.scss', 'public/presentation/css', [
+// mix.sass('resources/sass/presentation/app.scss', 'public/presentation/css', [
 //     require('autoprefixer')({
 //         browsers: ['last 40 versions'],
 //         grid: true
 //     })
 // ]);
 
-// mix.sass('resources/assets/sass/tvpresentation/app.scss', 'public/tvpresentation/css')
+// mix.sass('resources/sass/tvpresentation/app.scss', 'public/tvpresentation/css')
 //     .options({
 //         postCss: [
 //             require("postcss-custom-properties")

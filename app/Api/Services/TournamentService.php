@@ -15,12 +15,11 @@ use App\Traits\TournamentAccess;
 use Carbon\Carbon;
 use DB;
 use File;
+use Geocoder\Laravel\Facades\Geocoder;
 use JWTAuth;
 use PDF;
 use Response;
 use View;
-use Geocoder\Laravel\Facades\Geocoder;
-
 
 class TournamentService implements TournamentContract
 {
