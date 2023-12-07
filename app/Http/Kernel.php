@@ -114,6 +114,7 @@ class Kernel extends HttpKernel
         'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
         'signedurl' => \Spatie\UrlSigner\Laravel\Middleware\ValidateSignature::class,
     ];
+
     /**
      * The priority-sorted list of middleware.
      *
