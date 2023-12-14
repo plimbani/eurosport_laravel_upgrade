@@ -29,6 +29,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 // Need to Define Only Contracts
 use UrlSigner;
+use App\Imports\TeamsImport;
 
 /**
  * Teams Resource Description.
@@ -116,40 +117,37 @@ class TeamController extends BaseController
         $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet = [];
         $allTeamsInSheet = [];
         $allTeams = [];
-        $clubValidation = false;
+  $clubValidation = false;
         $teamValidation = false;
         $placeValidation = false;
         $ageCategoryValidation = false;
-        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function ($reader) use (&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, $resultEnteredAgeCategories, &$notProcessedAgeCategoriesDueToResultEntered, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet, &$clubValidation, &$teamValidation, &$placeValidation, &$ageCategoryValidation) {
-            $reader->each(function ($sheet) use (&$allTeams, $alreadyUploadedTeams, &$teamsNotUploadedOfAgeCategory, &$teamsInDifferentAgeCategory, $alreadyUploadedTeamsByAgeCategory, &$notProcessedAgeCategoriesDueToResultEntered, $resultEnteredAgeCategories, &$furtherNotToProcessAgeCategories, $allAgeCategories, &$nonExistingAgeCategories, &$notProcessedAgeCategoriesDuetoSameTeamInUploadSheet, &$allTeamsInSheet, &$clubValidation, &$teamValidation, &$placeValidation, &$ageCategoryValidation) {
-                if (! $sheet->filter()->isEmpty()) {
-                    //$sheet->tournamentData = $this->data;
 
-                    $club = trim($sheet['club']);
-                    if ($club == null || $club == '') {
-                        $clubValidation = true;
 
-                        return false;
+      $import = \Excel::toArray(new TeamsImport, $file);
+
+        // Define an array to hold any validation errors.
+        $validationErrors = [];
+        $sheets=$import[0];
+           foreach ($sheets as $sheet) {
+                // Validate required fields.
+                if (empty(trim($sheet['club']))) {
+                    $validationErrors['club'] = 'Please upload a sheet with valid club data.';
+                    break; // Exit both foreach loops.
+                }
+
+                if (empty(trim($sheet['team']))) {
+                    $validationErrors['team'] = 'Please upload a sheet with valid team data.';
+                    break; // Exit both foreach loops.
+                }
+
+                // Additional validations based on the 'current_layout' configuration.
+                if (config('config-variables.current_layout') === 'tmp') {
+                    if (empty(trim($sheet['place'])) || empty(trim($sheet['agecategory']))) {
+                        $validationErrors['place_agecategory'] = 'Please upload a sheet with valid place and age category data.';
+                        break; // Exit both foreach loops.
                     }
-                    if (trim($sheet['team']) == null || trim($sheet['team']) == '') {
-                        $teamValidation = true;
-
-                        return false;
-                    }
-
-                    if (config('config-variables.current_layout') === 'tmp') {
-
-                        if (trim($sheet['place']) == null || trim($sheet['place']) == '') {
-                            $placeValidation = true;
-
-                            return false;
-                        }
-                        if (trim($sheet['agecategory']) == null || trim($sheet['place']) == '') {
-                            $ageCategoryValidation = true;
-
-                            return false;
-                        }
-                        $sheet['categoryname'] = ($sheet['categoryname'] == '') ? $sheet['agecategory'] : $sheet['categoryname'];
+              
+                     $sheet['categoryname'] = ($sheet['categoryname'] == '') ? $sheet['agecategory'] : $sheet['categoryname'];
 
                         $ageCategory = trim($sheet['agecategory']);
                         $categoryName = trim($sheet['categoryname']);
@@ -229,7 +227,7 @@ class TeamController extends BaseController
                         }
 
                     } else {
-
+                       
                         if (trim($sheet['agecategory']) == null) {
                             $ageCategoryValidation = true;
 
@@ -257,7 +255,7 @@ class TeamController extends BaseController
                             if ($toProcessTeam) {
 
                                 $matchingAgeCategory = array_filter($allAgeCategories, function ($category) use ($ageCategory) {
-                                    return $ageCategory == $category['category_age'];
+                                     $ageCategory == $category['category_age'];
                                 });
 
                                 if (count($matchingAgeCategory) === 0) {
@@ -282,55 +280,49 @@ class TeamController extends BaseController
                         }
 
                     }
+                // Processing the sheet data...
+                // This is where you'd add the logic to handle each sheet's data.
+            }
+        
+          
+        // Check if there were any validation errors.
+        if (!empty($validationErrors)) {
+            return ['status_code' => '422', 'message' => $validationErrors];
+        }
+
+        // Add logic for further processing if validation is successful.
+        // This could involve organizing the data, saving it to the database, etc.
+
+        // If everything is successful, you can return a success message or status.
+       // dd($allTeams);
+          foreach ($allTeams as $ageCategoryId => $ageCategoryTeams) {
+
+                $matchingAgeCategory = array_filter($allAgeCategories, function ($category) use ($ageCategoryId) {
+                    return $ageCategoryId == $category['id'];
+                });
+                $totalTeams = current($matchingAgeCategory)['total_teams'];
+                if (isset($furtherNotToProcessAgeCategories[$ageCategoryId])) {
+                    continue;
                 }
-            });
-        }, 'ISO-8859-1');
+                if ($totalTeams !== count($ageCategoryTeams)) {
+                    $teamNotMatchingAgeCategories[] = ['ageCategory' => current($matchingAgeCategory)['category_age'], 'categoryName' => current($matchingAgeCategory)['group_name']];
 
-        if ($clubValidation) {
-            return ['status_code' => '422', 'message' => 'Please upload a sheet with valid club data.'];
-        }
-        if ($teamValidation) {
-            return ['status_code' => '422', 'message' => 'Please upload a sheet with valid team data.'];
-        }
+                    continue;
+                }
 
-        if (config('config-variables.current_layout') === 'tmp' && $placeValidation) {
-            return ['status_code' => '422', 'message' => 'Please upload a sheet with valid place data.'];
-        }
-
-        if ($ageCategoryValidation) {
-            return ['status_code' => '422', 'message' => 'Please upload a sheet with valid age category data.'];
-        }
-
-        foreach ($allTeams as $ageCategoryId => $ageCategoryTeams) {
-
-            $matchingAgeCategory = array_filter($allAgeCategories, function ($category) use ($ageCategoryId) {
-                return $ageCategoryId == $category['id'];
-            });
-            $totalTeams = current($matchingAgeCategory)['total_teams'];
-            if (isset($furtherNotToProcessAgeCategories[$ageCategoryId])) {
-                continue;
-            }
-            if ($totalTeams !== count($ageCategoryTeams)) {
-                $teamNotMatchingAgeCategories[] = ['ageCategory' => current($matchingAgeCategory)['category_age'], 'categoryName' => current($matchingAgeCategory)['group_name']];
-
-                continue;
-            }
-
-            if (config('config-variables.current_layout') === 'commercialisation') {
-                // remove teams if alreay exist in same age category
-                $requestData = new \Illuminate\Http\Request();
-                $requestData->replace([
-                    'ageCategoryId' => $ageCategoryId,
-                    'tournamentId' => $teamData['tournamentId'],
-                ]);
-                $this->teamObj->resetAllTeams($requestData);
-            }
-
-            foreach ($ageCategoryTeams as $team) {
-                $this->teamObj->create($team, $teamData['tournamentId']);
-            }
-        }
-
+                if (config('config-variables.current_layout') === 'commercialisation') {
+                    // remove teams if alreay exist in same age category
+                    $requestData = new \Illuminate\Http\Request();
+                    $requestData->replace([
+                        'ageCategoryId' => $ageCategoryId,
+                        'tournamentId' => $teamData['tournamentId'],
+                    ]);
+                    $this->teamObj->resetAllTeams($requestData);
+                }
+                 foreach($ageCategoryTeams as $team) {
+                    $this->teamObj->create($team, $teamData['tournamentId']);
+                  }
+          }  
         return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted', 'teamNotMatchingAgeCategories' => $teamNotMatchingAgeCategories, 'nonExistingAgeCategories' => $nonExistingAgeCategories, 'teamsNotUploadedOfAgeCategory' => $teamsNotUploadedOfAgeCategory, 'teamsInDifferentAgeCategory' => $teamsInDifferentAgeCategory, 'notProcessedAgeCategoriesDueToResultEntered' => $notProcessedAgeCategoriesDueToResultEntered, 'notProcessedAgeCategoriesDuetoSameTeamInUploadSheet' => $notProcessedAgeCategoriesDuetoSameTeamInUploadSheet];
     }
 

@@ -919,6 +919,7 @@ class MatchController extends BaseController
             'Content-Disposition' => config('config-variables.current_layout') === 'tmp'
             ? "attachment; filename='TeamsUploadSpreadsheet.xls'"
             : "attachment; filename='TeamsUploadSpreadsheetEMM.xls'",
+            
         ];
 
         return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
