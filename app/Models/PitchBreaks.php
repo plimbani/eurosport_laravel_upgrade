@@ -13,5 +13,4 @@ class PitchBreaks extends Model
 
     protected $fillable = ['pitch_id', 'availability_id', 'break_start', 'break_end', 'break_no'];
 
-    protected $dates = ['deleted_at'];
 }

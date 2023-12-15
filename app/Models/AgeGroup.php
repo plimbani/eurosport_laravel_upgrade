@@ -15,7 +15,9 @@ class AgeGroup extends Model
 
     protected $fillable = ['name'];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
 
     /**
      * Get the user that belongs to the tournament.

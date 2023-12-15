@@ -24,7 +24,9 @@ class Tournament extends Model
     protected $fillable = ['name', 'slug', 'website', 'facebook', 'twitter', 'logo', 'competition_type', 'status', 'user_id', 'start_date', 'end_date', 'no_of_pitches', 'no_of_match_per_day_pitch', 'no_of_pitches', 'points_per_match_win',  'points_per_match_tie', 'points_per_bye', 'maximum_teams',
     ];
 
-    protected $dates = ['end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched', 'deleted_at'];
+    protected $dates = [
+        'end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched'
+    ];
 
     /**
      * Get the user that belongs to the tournament.

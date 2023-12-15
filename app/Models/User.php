@@ -92,10 +92,9 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at',
         'last_login_time',
         'last_active_time',
-        'blocked_time',
+        'blocked_time'
     ];
 
     /**
