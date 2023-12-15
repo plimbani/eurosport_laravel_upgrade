@@ -3,16 +3,16 @@
 namespace App\Api\Providers;
 
 use App\Api\Services\UserService;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class UserServiceProvider extends ServiceProvider
+class UserServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
-    protected $defer = true;
 
     /**
      * Bootstrap the Laraspacelication services.

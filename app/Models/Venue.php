@@ -18,5 +18,7 @@ class Venue extends Model
     protected $fillable = ['name', 'address1', 'address2', 'address3',
         'county', 'state', 'country', 'city', 'postcode', 'contact_no', 'email_address', 'tournament_id', 'organiser'];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = [
+        'created_at', 'updated_at',
+    ];
 }

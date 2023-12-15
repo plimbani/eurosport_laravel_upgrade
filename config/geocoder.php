@@ -9,13 +9,11 @@
  * file that was distributed with this source code.
  */
 
-use Ivory\HttpAdapter\CurlHttpAdapter;
-use Ivory\HttpAdapter\Guzzle6HttpAdapter;
-use Geocoder\Provider\Chain;
 use Geocoder\Provider\BingMaps;
+use Geocoder\Provider\Chain;
 use Geocoder\Provider\FreeGeoIp;
 use Geocoder\Provider\GoogleMaps;
-use Geocoder\Provider\MaxMindBinary;
+use Ivory\HttpAdapter\CurlHttpAdapter;
 
 return [
     'cache-duraction' => 999999999,
@@ -27,7 +25,7 @@ return [
                 true,
                 env('GOOGLE_MAPS_API_KEY'),
             ],
-            FreeGeoIp::class  => [],
+            FreeGeoIp::class => [],
         ],
         BingMaps::class => [
             'en-US',
@@ -40,5 +38,5 @@ return [
             env('GOOGLE_MAPS_API_KEY'),
         ],
     ],
-    'adapter'  => CurlHttpAdapter::class,
+    'adapter' => CurlHttpAdapter::class,
 ];

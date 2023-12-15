@@ -15,8 +15,6 @@ class Pitch extends Model
 
     protected $fillable = ['name', 'tournament_id', 'pitch_number', 'type', 'venue_id', 'comment', 'time_slot', 'availability', 'pitch_capacity', 'size', 'order', 'duplicated_from'];
 
-    protected $dates = ['deleted_at'];
-
     public function pitchAvailability()
     {
         return $this->hasMany(\App\Models\PitchAvailable::class);
