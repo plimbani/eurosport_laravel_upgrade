@@ -287,7 +287,7 @@ class PitchController extends BaseController
             $tournamentPitches[$startDateTimestamp] = $pitches;
         }
 
-        return \Excel::store(new PitchExport($tournamentDates, $tournamentPitches, $time, $matches), 'matchplanner.xlsx');
+        return \Excel::download(new PitchExport($tournamentDates, $tournamentPitches, $time, $matches), 'matchplanner.xlsx');
     }
 
     public function createColumnsArray($endColumn, $firstLetters = '')

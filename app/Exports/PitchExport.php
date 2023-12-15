@@ -7,6 +7,7 @@ use App\Models\PitchAvailable;
 use App\Models\PitchBreaks;
 use App\Models\PitchUnavailable;
 use App\Models\Tournament;
+use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -14,9 +15,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithProperties;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Illuminate\Contracts\Support\Responsable;
 use Carbon\Carbon;
 
-class PitchExport implements FromCollection,WithStyles,WithProperties,WithMapping
+class PitchExport implements FromCollection,WithProperties, Responsable ,WithMapping ,WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -29,14 +31,14 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
       /**
     * Optional Writer Type
     */
-  //  private $writerType = Excel::XLSX;
+     private $writerType = Excel::XLSX;
     
     /**
     * Optional headers
     */
-    private $headers = [
+    /*private $headers = [
         'Content-Type' => 'text/csv',
-    ];
+    ];*/
 
      public function properties(): array
     {
@@ -54,12 +56,14 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
         $this->matches = $matches;
     }
 
-    public function collection()
+   public function collection()
     {
-        return Pitch::all();
+        // Your data logic to retrieve a collection goes here
+        return collect([]);
     }
 
-    public function styles(Worksheet $sheet)
+
+   public function styles(Worksheet $sheet)
     {
         
            $rowCount = 1;
@@ -74,10 +78,10 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
 
                         $sheet->getStyle("A{$rowCount}")->applyFromArray([
                             'fill' => [
-                                'color' => [
-                                    'rgb' => '2196F3',
-                                ],
+                               'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                               'startColor' => ['rgb' => '2196F3'],
                             ],
+                             
                             'font' => [
                                 'color' => [
                                     'rgb' => 'ffffff',
@@ -103,8 +107,8 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
 
                             $sheet->getStyle("A{$rowCount}")->applyFromArray([
                                 'fill' => [
-                                    'color' => [
-                                        'rgb' => '2196F3',
+                                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                    'startColor' => ['rgb' =>'2196F3',
                                     ],
                                 ],
                                 'font' => [
@@ -175,17 +179,25 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
                                 $unavailableBreakStartTime = Carbon::parse($unavailable->match_start_datetime)->format('H:i');
                                 $unavailableBreakEndTime = Carbon::parse($unavailable->match_end_datetime)->subMinute(5)->format('H:i');
 
-                                $startUnavailableBreakIndex = array_search($unavailableBreakStartTime, $time);
-                                $endUnavailableBreakIndex = array_search($unavailableBreakEndTime, $time);
+                                $startUnavailableBreakIndex = array_search($unavailableBreakStartTime, $this->time);
+                                $endUnavailableBreakIndex = array_search($unavailableBreakEndTime, $this->time);
 
-                                $sheet->cell($startUnavailableBreakIndex.$cell, function ($cell) use ($unavailableBreakStartTime, $unavailableBreakEndTime) {
-                                    $unavailableBreakEndTime = Carbon::parse($unavailableBreakEndTime)->addMinute(5)->format('H:i');
-                                    $cell->setValue($unavailableBreakStartTime.' - '.$unavailableBreakEndTime);
-                                    $cell->setBackground('#808080');
-                                    $cell->setFontColor('#ffffff');
-                                    $cell->setFontFamily('Arial');
-                                    $cell->setFontSize(10);
-                                });
+
+                              $unavailableBreakEndTime = Carbon::parse($unavailableBreakEndTime)->addMinute(5)->format('H:i');
+                                $sheet->setCellValue($startUnavailableBreakIndex . $cell, $unavailableBreakStartTime . ' - ' . $unavailableBreakEndTime);
+
+                                $sheet->getStyle($startUnavailableBreakIndex.$cell)->applyFromArray([
+                                    'font' => [
+                                        'color' => ['rgb' => 'FFFFFF'],
+                                        'name' => 'Arial',
+                                        'size' => 10,
+                                    ],
+                                    'fill' => [
+                                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                         'startColor' => ['rgb' => '808080'],
+                                    ],
+                                ]);
+                             
                                 $sheet->mergeCells($startUnavailableBreakIndex.$cell.':'.$endUnavailableBreakIndex.$cell);
                             }
                         }
@@ -193,8 +205,9 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
                        /* $sheet->cell('A'.$cell, function ($cell) use ($pitch) {
                             $cell->setCellValue($pitch->pitch_number.' ('.$pitch->size.')');
                         });*/
+                         //$cell = 'A'.$cell;
 
-
+                  $sheet->setCellValue( 'A'.$cell, $pitch->pitch_number.' ('.$pitch->size.')');
 
 
                         //pitch unavailable before starting pitch time block scenario
@@ -214,8 +227,8 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
 
                                     $sheet->getStyle($pitchUnavailableStartTimeIndex . $cell)->applyFromArray([
                                         'fill' => [
-                                            'color' => [
-                                                'rgb' => '808080',
+                                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                            'startColor' => ['rgb' => '808080',
                                             ],
                                         ],
                                         'font' => [
@@ -248,8 +261,8 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
 
                                     $sheet->getStyle($beforePitchUnavailableStartTimeIndex . $cell)->applyFromArray([
                                         'fill' => [
-                                            'color' => [
-                                                'rgb' => '808080',
+                                             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                              'startColor' => ['rgb' => '808080',
                                             ],
                                         ],
                                         'font' => [
@@ -269,6 +282,7 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
                         $matchString = '';
                         foreach ($this->matches->where('pitch_id', $pitch->id)->where('match_day', $date->format('Y-m-d')) as $match) {
                             $ageCategoryColor = $match['age_category_color'] ? $match['age_category_color'] : $match['category_age_color'];
+
                             $ageCategoryFontColor = $match['category_age_font_color'];
                             $startTime = $match['match_datetime']->format('H:i');
                             $endTime = $match['match_endtime']->subMinutes(5)->format('H:i');
@@ -294,13 +308,13 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
 
                             $sheet->getStyle($startIndex . $cell)->applyFromArray([
                                 'fill' => [
-                                    'color' => [
-                                        'rgb' => $ageCategoryColor,
+                                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                    'startColor' => ['rgb' => preg_replace('#[^\w()/.%\-&]#',"",$ageCategoryColor),
                                     ],
                                 ],
                                 'font' => [
                                     'color' => [
-                                        'rgb' => $ageCategoryFontColor,
+                                        'rgb' => preg_replace('#[^\w()/.%\-&]#',"",$ageCategoryFontColor),
                                     ],
                                     'family' => 'Arial',
                                     'size' => 10,
@@ -314,34 +328,20 @@ class PitchExport implements FromCollection,WithStyles,WithProperties,WithMappin
                         $cell++;
                     }
 
+             // dd($sheet);
               }
-              
+           return $sheet;
            //$sheet->setPageOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
- 
 
-
-       /* return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-
-            // Styling a specific cell by coordinate.
-            'B2' => ['font' => ['italic' => true]],
-
-            // Styling an entire column.
-            'C'  => ['font' => ['size' => 16]],
-        ];*/
     }
-
-    public function map($sheet): array
+public function map($invoice): array
     {
-
-
-            
-        // This example will return 3 rows.
-        // First row will have 2 column, the next 2 will have 1 column
+        dd($invoice);
         return [
-         
+            $invoice->invoice_number,
+            $invoice->user->name,
+            Date::dateTimeToExcel($invoice->created_at),
         ];
     }
-
+  
 }
