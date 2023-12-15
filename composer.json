@@ -25,10 +25,10 @@
         "kreait/firebase-php": "^3.1",
         "laracasts/flash": "^2.0",
         "laracasts/utilities": "^3.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "5.8.*",
         "laravel/socialite": "3.0.0",
         "laravel/tinker": "^1.0",
-        "laravelcollective/html": "5.7.*",
+        "laravelcollective/html": "5.8.*",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "3.1.25",
         "mariuzzo/laravel-js-localization": "^1.4",
@@ -44,12 +44,15 @@
         "willdurand/geocoder": "3.3.2"
     },
     "require-dev": {
-      "barryvdh/laravel-ide-helper": "^2.1",
-       "fzaninotto/faker": "~1.4",
+        "barryvdh/laravel-ide-helper": "^2.1",
+        "fzaninotto/faker": "~1.4",
         "mockery/mockery": " ~1.0",
-        "phpunit/phpunit": "~5.0",
+        "phpunit/phpunit": "^7.5",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "symfony/dom-crawler": "3.1.*",
+        "beyondcode/laravel-dump-server": "^1.0",
+        "filp/whoops": "^2.0",
+        "nunomaduro/collision": "^3.0"
     },
     "autoload": {
         "classmap": [
