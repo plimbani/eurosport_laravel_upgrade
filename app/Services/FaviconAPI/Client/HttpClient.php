@@ -2,8 +2,8 @@
 
 namespace App\Services\FaviconAPI\Client;
 
-use Illuminate\Support\Str;
 use GuzzleHttpClient;
+use Illuminate\Support\Str;
 
 /**
  * Class that uses http client to make requests

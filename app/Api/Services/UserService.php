@@ -2,7 +2,6 @@
 
 namespace App\Api\Services;
 
-use Illuminate\Support\Str;
 use App\Api\Contracts\UserContract;
 use App\Custom\Helper\Common;
 use App\Models\Role;
@@ -13,6 +12,7 @@ use DB;
 use Hash;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserService implements UserContract
 {

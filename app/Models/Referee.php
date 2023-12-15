@@ -24,8 +24,6 @@ class Referee extends Model
         'is_all_age_categories_selected' => 'boolean',
     ];
 
-
-
     public function matchFixture()
     {
         return $this->hasMany(\App\Models\TempFixture::class);

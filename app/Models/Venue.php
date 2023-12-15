@@ -19,6 +19,6 @@ class Venue extends Model
         'county', 'state', 'country', 'city', 'postcode', 'contact_no', 'email_address', 'tournament_id', 'organiser'];
 
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
 }

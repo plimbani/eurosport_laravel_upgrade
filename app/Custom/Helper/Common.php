@@ -2,9 +2,9 @@
 
 namespace App\Custom\Helper;
 
-use Illuminate\Support\Str;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class Common
 {

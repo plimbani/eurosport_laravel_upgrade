@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
 use App\Services\UserService;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider implements DeferrableProvider

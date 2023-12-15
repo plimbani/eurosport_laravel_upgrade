@@ -94,7 +94,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'updated_at',
         'last_login_time',
         'last_active_time',
-        'blocked_time'
+        'blocked_time',
     ];
 
     /**

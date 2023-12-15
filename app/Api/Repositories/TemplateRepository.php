@@ -2,7 +2,6 @@
 
 namespace App\Api\Repositories;
 
-use Illuminate\Support\Arr;
 use App\Api\Services\AgeGroupService;
 use App\Models\AgeCategoryDivision;
 use App\Models\Team;
@@ -12,6 +11,7 @@ use App\Traits\AuthUserDetail;
 use Auth;
 use DB;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 
 class TemplateRepository
 {

@@ -16,7 +16,7 @@ class AgeGroup extends Model
     protected $fillable = ['name'];
 
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
 
     /**

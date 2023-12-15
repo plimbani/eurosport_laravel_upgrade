@@ -16,7 +16,6 @@ class PitchAvailable extends Model
 
     protected $fillable = ['tournament_id', 'pitch_id', 'stage_no', 'stage_start_date', 'stage_start_time', 'stage_continue_date', 'stage_end_date', 'stage_end_time', 'break_start_time', 'break_end_time', 'stage_capacity', 'break_enable'];
 
-
     public function pitchBreaks()
     {
         return $this->hasMany(\App\Models\PitchBreaks::class, 'availability_id');

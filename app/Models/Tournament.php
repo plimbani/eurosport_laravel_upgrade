@@ -25,7 +25,7 @@ class Tournament extends Model
     ];
 
     protected $dates = [
-        'end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched'
+        'end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched',
     ];
 
     /**

@@ -2,10 +2,10 @@
 
 namespace App\Api\Repositories;
 
-use Illuminate\Support\Arr;
 use App\Models\Referee;
 use App\Models\TournamentCompetationTemplates;
 use DB;
+use Illuminate\Support\Arr;
 
 class RefereeRepository
 {
