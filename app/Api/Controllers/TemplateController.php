@@ -2,6 +2,7 @@
 
 namespace App\Api\Controllers;
 
+use Illuminate\Support\Str;
 use App\Api\Contracts\TemplateContract;
 use App\Api\Repositories\TemplateRepository;
 use App\Http\Requests\Template\DeleteRequest;
@@ -122,7 +123,7 @@ class TemplateController extends BaseController
 
                 foreach ($round['match_type'] as $groupIndex => $group) {
                     // for round robin match
-                    if (starts_with($group['name'], 'RR')) {
+                    if (Str::startsWith($group['name'], 'RR')) {
                         if (isset($group['name']) && $group['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name']) {
                             $errors[] = '<b>Match type name does not match.</b><br>Type: Round robin<br>Old Match type name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name'].'<br>New Match type name is: '.$group['name'];
                         }
@@ -166,7 +167,7 @@ class TemplateController extends BaseController
                     }
 
                     // for placing match
-                    if (starts_with($group['name'], 'PM')) {
+                    if (Str::startsWith($group['name'], 'PM')) {
                         if (isset($group['name']) && $group['name'] != $oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name']) {
                             $errors[] = '<b>Name does not match.</b><br>Type: Placing match<br>Old name is: '.$oldTemplateCompetitionFormat['format_name'][$roundIndex]['match_type'][$groupIndex]['name'].'<br>New name is: '.$group['name'];
                         }

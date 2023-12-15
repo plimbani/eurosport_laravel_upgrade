@@ -2,6 +2,7 @@
 
 namespace App\Services\FaviconAPI\Client;
 
+use Illuminate\Support\Str;
 use GuzzleHttpClient;
 
 /**
@@ -117,7 +118,7 @@ class HttpClient
      */
     protected function buildUrl($endpoint = '')
     {
-        return (starts_with($endpoint, '/')) ? $this->getBaseUrl().$endpoint : $this->getBaseUrl().'/'.$endpoint;
+        return (Str::startsWith($endpoint, '/')) ? $this->getBaseUrl().$endpoint : $this->getBaseUrl().'/'.$endpoint;
     }
 
     /**

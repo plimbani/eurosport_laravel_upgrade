@@ -2,6 +2,7 @@
 
 namespace App\Custom\Helper;
 
+use Illuminate\Support\Str;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -9,7 +10,7 @@ class Common
 {
     public static function toExcel($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = '')
     {
-        $excelCreateObj = \Excel::create(str_slug($otherParams['sheetTitle']), function ($excel) use ($lableArray, $dataArray, $otherParams, $columnFormat) {
+        $excelCreateObj = \Excel::create(Str::slug($otherParams['sheetTitle']), function ($excel) use ($lableArray, $dataArray, $otherParams, $columnFormat) {
             $excel->setTitle($otherParams['sheetTitle']);
             $excel->sheet($otherParams['sheetName'], function ($sheet) use ($lableArray, $dataArray, $otherParams, $columnFormat) {
                 $sheet->row(1, $lableArray);

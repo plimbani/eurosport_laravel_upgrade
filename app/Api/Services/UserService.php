@@ -2,6 +2,7 @@
 
 namespace App\Api\Services;
 
+use Illuminate\Support\Str;
 use App\Api\Contracts\UserContract;
 use App\Custom\Helper\Common;
 use App\Models\Role;
@@ -60,7 +61,7 @@ class UserService implements UserContract
         $userData['people'] = [];
         $userData['user'] = [];
         $userPassword = null;
-        $token = str_random(30);
+        $token = Str::random(30);
         //$data['is_mobile_user'] = 0;
         // Validation checks for Email Validation
 
