@@ -3,16 +3,16 @@
 namespace App\Api\Providers;
 
 use App\Api\Services\RoleService;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class RoleServiceProvider extends ServiceProvider
+class RoleServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
-    protected $defer = true;
 
     /**
      * Bootstrap the Laraspacelication services.

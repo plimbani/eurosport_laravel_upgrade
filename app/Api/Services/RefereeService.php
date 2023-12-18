@@ -4,6 +4,7 @@ namespace App\Api\Services;
 
 use App\Api\Contracts\RefereeContract;
 use App\Traits\TournamentAccess;
+use App\Imports\RefereeImport;
 
 class RefereeService implements RefereeContract
 {
@@ -79,22 +80,26 @@ class RefereeService implements RefereeContract
         $file = $data->file('fileUpload');
         $this->data['tournamentId'] = $refereesData['tournamentId'];
         $excelDataCheck = false;
-        \Excel::load($file->getRealPath(), function ($reader) use (&$excelDataCheck) {
-            $this->data['totalSize'] = $reader->getTotalRowsOfFile() - 1;
-            $reader->each(function ($sheet) use (&$excelDataCheck) {
-                if (isset($sheet->firstname) && isset($sheet->lastname) && trim($sheet->firstname) !== '' && trim($sheet->lastname) !== '') {
-                    $sheet->refereeData = $this->data;
 
-                    return $this->refereeRepoObj->uploadRefereesExcel($sheet);
-                } else {
-                    $excelDataCheck = true;
+        $reader = \Excel::toArray(new RefereeImport, $file);
+        // Get the total rows of the file
+        $sheets=$reader[0];
+        if(count($sheets) > 0){
 
-                    return false;
-                }
-            });
-        }, 'ISO-8859-1');
-        if ($excelDataCheck) {
-            return ['status_code' => '500', 'message' => 'Please upload proper data'];
-        }
+           foreach ($sheets as $sheet) {  
+                           // dd($sheet['firstname']);
+                   if (isset($sheet['firstname']) && isset($sheet['lastname']) && empty(trim($sheet['firstname'])) && empty(trim($sheet['lastname'])) ) {
+                        
+                         return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+                   }
+                   else{
+                    
+                    $excelDataCheck= true;
+                    return ['status_code' => '500', 'message' => 'Please upload proper data'];
+
+                   }
+            }       
+       }
+        
     }
 }

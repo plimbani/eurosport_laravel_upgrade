@@ -5,6 +5,7 @@ namespace App\Api\Repositories;
 use App\Models\Referee;
 use App\Models\TournamentCompetationTemplates;
 use DB;
+use Illuminate\Support\Arr;
 
 class RefereeRepository
 {
@@ -79,9 +80,9 @@ class RefereeRepository
                 'tournament_id' => $data->refereeData['tournamentId'],
                 'first_name' => $data['firstname'],
                 'last_name' => $data['lastname'],
-                'telephone' => array_get($data, 'telephone', null),
-                'email' => array_get($data, 'email', null),
-                'comments' => array_get($data, 'availability', null),
+                'telephone' => Arr::get($data, 'telephone', null),
+                'email' => Arr::get($data, 'email', null),
+                'comments' => Arr::get($data, 'availability', null),
                 'age_group_id' => $ageGroupsIds,
                 'is_all_age_categories_selected' => true,
             ]);

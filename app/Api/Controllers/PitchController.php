@@ -3,6 +3,7 @@
 namespace App\Api\Controllers;
 
 use App\Api\Contracts\PitchContract;
+use App\Exports\PitchExport;
 use App\Http\Requests\Pitch\DeleteRequest;
 use App\Http\Requests\Pitch\GetLocationWiseSummaryRequest;
 use App\Http\Requests\Pitch\GetPitchesRequest;
@@ -12,18 +13,14 @@ use App\Http\Requests\Pitch\GetSignedUrlForPitchPlannerExportRequest;
 use App\Http\Requests\Pitch\GetSignedUrlForPitchPlannerPrintRequest;
 use App\Http\Requests\Pitch\ShowRequest;
 use App\Http\Requests\Pitch\StoreRequest;
-use App\Http\Requests\Pitch\UpdateRequest;
 // Need to Define Only Contracts
+use App\Http\Requests\Pitch\UpdateRequest;
 use App\Models\Pitch;
-use App\Models\PitchAvailable;
-use App\Models\PitchBreaks;
-use App\Models\PitchUnavailable;
 use App\Models\Tournament;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
 use UrlSigner;
-use App\Exports\PitchExport;
 
 /**
  * Matches Resource Description.

@@ -11,6 +11,7 @@ use App\Traits\AuthUserDetail;
 use Auth;
 use DB;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 
 class TemplateRepository
 {
@@ -520,8 +521,8 @@ class TemplateRepository
         $tournamentTemplate->no_of_divisions = $divisionsCount;
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
-        $tournamentTemplate->version = array_get($data, 'version', 1);
-        $tournamentTemplate->inherited_from = array_get($data, 'inherited_from', null);
+        $tournamentTemplate->version = Arr::get($data, 'version', 1);
+        $tournamentTemplate->inherited_from = Arr::get($data, 'inherited_from', null);
         $tournamentTemplate->created_by = Auth::user()->id;
         $tournamentTemplate->save();
 

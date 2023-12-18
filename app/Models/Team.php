@@ -15,11 +15,6 @@ class Team extends Model
         'club_id', 'tournament_id', 'age_group_id', 'user_id', 'compeatation_id', 'name', 'website', 'facebook', 'website', 'facebook', 'twitter', 'shirt_color', 'esr_reference', 'facebook', 'country_id', 'assigned_group', 'place', 'category_name_id', 'comments', 'shorts_color',
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
     public function getName($value)
     {
         return stripslashes($value);
@@ -54,6 +49,4 @@ class Team extends Model
     {
         return $this->hasMany(\App\Models\TempFixture::class, 'away_team', 'id');
     }
-
-    protected $dates = ['deleted_at'];
 }

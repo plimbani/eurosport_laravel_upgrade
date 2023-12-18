@@ -12,6 +12,7 @@ use DB;
 use Hash;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserService implements UserContract
 {
@@ -60,7 +61,7 @@ class UserService implements UserContract
         $userData['people'] = [];
         $userData['user'] = [];
         $userPassword = null;
-        $token = str_random(30);
+        $token = Str::random(30);
         //$data['is_mobile_user'] = 0;
         // Validation checks for Email Validation
 

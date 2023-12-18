@@ -24,13 +24,6 @@ class Referee extends Model
         'is_all_age_categories_selected' => 'boolean',
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-
     public function matchFixture()
     {
         return $this->hasMany(\App\Models\TempFixture::class);
