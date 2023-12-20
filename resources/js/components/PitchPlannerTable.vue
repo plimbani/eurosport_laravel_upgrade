@@ -156,6 +156,7 @@
                 return this.$store.getters.totalMatch - this.scheduleMatchesArray.length;
             },
             totalRefereeCount() {
+            console.log(this.$store.state.Tournament);
                 return this.$store.state.Tournament.totalReferee
             },
             currentView() {

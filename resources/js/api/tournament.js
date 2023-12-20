@@ -243,6 +243,9 @@ export default {
   getSignedUrlForRefereeReport(refereeId) {
     return api.post('getSignedUrlForRefereeReport/' +refereeId);
   },
+   getSignedUrlForRefereeSampleDownload() {
+    return api.post('getSignedUrlForRefereeSampleDownload');
+  },
   getSignedUrlForPitchMatchReport(pitchId) {
     return api.post('getSignedUrlForPitchMatchReport/' +pitchId);
   },

@@ -183,6 +183,7 @@ const actions = {
         Tournament.getReferees(tournamentData).then(
           (response) => {
             if(response.data.referees){
+              alert(response.data.referees)
               // vm.referees = response.data.referees
               // vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
               commit(types.TOTAL_REFEREES, response.data.referees.length)
