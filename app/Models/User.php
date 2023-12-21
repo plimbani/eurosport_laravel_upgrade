@@ -13,9 +13,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword ,JWTSubject
+class User extends Authenticatable implements CanResetPassword, HasRoleAndPermissionContract, JWTSubject
 {
-    use Notifiable, HasRoleAndPermission, SoftDeletes;
+    use HasRoleAndPermission, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -204,13 +204,14 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     {
         return $this->belongsToMany(\App\Models\Website::class, 'website_user', 'user_id', 'website_id');
     }
-    public  function  getJWTIdentifier() {
-        return  $this->getKey();
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
     }
+
     public function getJWTCustomClaims()
     {
         return [];
     }
-
-
 }

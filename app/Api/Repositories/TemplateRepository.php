@@ -312,7 +312,7 @@ class TemplateRepository
             $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round '.($round + 1);
             if ($round == 0) {
                 $nextRoundTeams = $this->teamsForRoundTwo($roundTwoKnockoutTeams, $totalGroups);
-                //shuffle($nextRoundTeams);
+            //shuffle($nextRoundTeams);
             } else {
                 $dividedRoundMatches = count($nextRoundTeams) / 2;
                 for ($i = 0; $i < $dividedRoundMatches; $i++) {

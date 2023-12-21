@@ -304,7 +304,7 @@ class UserService implements UserContract
             $data['emailAddress'] = ($userObj->email === null && $userObj->provider === 'facebook') ? $data['emailAddress'] : '';
             $data['organisation'] = $userObj->organisation;
             $data['userType'] = $userObj->roles[0]->id;
-            // here we add code for Tournament id update
+        // here we add code for Tournament id update
 
         } else {
             if ($userObj->roles[0]->id == $mobileUserRoleId && isset($data['userType']) && $data['userType'] != $mobileUserRoleId) {

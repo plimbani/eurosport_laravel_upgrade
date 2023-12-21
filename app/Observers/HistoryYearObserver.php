@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class HistoryYearObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the HistoryYear created event.

@@ -182,9 +182,9 @@ class UserRepository
 
                 return ['status' => 'updated', 'user' => $user];
 
-                // return {'status':'updated','user':$user};
+            // return {'status':'updated','user':$user};
 
-                // return  $deletedUser->attachRole($data['userType']);
+            // return  $deletedUser->attachRole($data['userType']);
             } else {
                 $user = User::create($userData);
                 $user->attachRole($data['userType']);

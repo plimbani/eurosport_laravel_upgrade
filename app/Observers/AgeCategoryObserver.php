@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class AgeCategoryObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the AgeCategory created event.
