@@ -48,7 +48,7 @@ class AuthController extends Controller
             $userData = JWTAuth::toUser($token);
             $isMobileUsers = \Request::header('IsMobileUser');
             $userTournament = $userData->tournaments()->pluck('id')->toArray();
-            if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && ! in_array($request->tournamentId, $userTournament)) {
+            if ($userData->hasRole('tournament.administrator') && $request->has('tournamentId') && ! in_array($request->tournamentId, $userTournament)) {
                 return response(['authenticated' => true, 'hasAccess' => false, 'message' => "You don't have an access to this tournament."]);
             }
 
@@ -68,15 +68,15 @@ class AuthController extends Controller
                 ->leftJoin('users_favourite', 'users_favourite.user_id', '=', 'users.id')
                 ->leftJoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
-                ->join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+              //  ->join('role_user', 'users.id', '=', 'role_user.user_id')
+               // ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->select('users.id',
                     'users.locale',
                     'people.first_name',
                     'people.last_name', 'users.email',
                     'users.user_image',
                     \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
-                    'users_favourite.tournament_id', 'users.role as role', 'countries.id as country_id')
+                    'users_favourite.tournament_id', 'users.sub_role as role', 'countries.id as country_id')
                 ->get();
 
             $userDetails = [];
@@ -209,7 +209,7 @@ class AuthController extends Controller
      */
     public function storeFacebookUserDetail($userData)
     {
-        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->name;
 
         //saving people table data
         $person = new Person();
@@ -229,7 +229,7 @@ class AuthController extends Controller
         $user->is_verified = 1;
         $user->is_active = 1;
         $user->save();
-        $user->attachRole($mobileUserRoleId);
+        $user->assignRole($mobileUserRoleId);
 
         //saving user settings data
         $setting = new Settings();
@@ -245,7 +245,7 @@ class AuthController extends Controller
      */
     public function restoreDeletedUser($deletedUser, $userData)
     {
-        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->name;
         $deletedUser->restore();
 
         // updating value in people table
@@ -264,7 +264,7 @@ class AuthController extends Controller
         $deletedUserData->is_active = 1;
         $deletedUserData->is_mobile_user = 1;
         $deletedUserData->save();
-        $deletedUserData->roles()->sync($mobileUserRoleId);
+        $deletedUserData->assignRole($mobileUserRoleId);
 
         // updating values in settings table if there is no any data
         $setting = Settings::where('user_id', $deletedUser->id)->first();

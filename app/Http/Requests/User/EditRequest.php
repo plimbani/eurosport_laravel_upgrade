@@ -18,9 +18,9 @@ class EditRequest extends FormRequest
     public function authorize()
     {
         $id = $this->route('id');
-        $user = User::findOrFail($id)->roles()->first();
+        $user = User::findOrFail($id)->with('roles')->first();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-
+        //dd($loggedInUser);
         if (! ($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator'))) {
             if ($id != $loggedInUser->id) {
                 return false;

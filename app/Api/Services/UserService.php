@@ -338,8 +338,8 @@ class UserService implements UserContract
         }
 
         if (isset($data['userType'])) {
-            $userObj->detachAllRoles();
-            $userObj->attachRole($data['userType']);
+           /* $userObj->detachAllRoles();
+            $userObj->assignRole($data['userType']);*/
         }
 
         $userData['people']['first_name'] = $data['name'];

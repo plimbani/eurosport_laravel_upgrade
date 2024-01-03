@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class PermissionRoleTableSeeder extends Seeder
 {
@@ -12,19 +14,17 @@ class PermissionRoleTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permission_role')->truncate();
+        DB::table('role_has_permissions')->truncate();
         $permission = DB::table('permissions')->take(3)->get()->toArray();
         $role = DB::table('roles')->take(3)->get()->toArray();
 
-        DB::table('permission_role')->insert([
-            ['permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        DB::table('role_has_permissions')->insert([
+            ['permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id],
 
-            ['permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            ['permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id],
 
-            ['permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            ['permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id],
         ]);
+
     }
 }
