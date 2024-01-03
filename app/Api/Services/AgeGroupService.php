@@ -158,7 +158,7 @@ class AgeGroupService implements AgeGroupContract
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0)
         {
             // Delete teams which are related to tournament and age group id
-            Team::where('tournament_id', $data['tournament_id'])->where('age_group_id', $data['id'])->Delete();
+            Team::where('tournament_id', $data['tournament_id'])->where('age_group_id', $data['id'])->forceDelete();
 
             if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] || $tournamentTemplateObj->tournament_format != $data['tournament_format'] || ($data['tournament_format'] === 'basic' && ($tournamentTemplateObj->competition_type != $data['competition_type'] || $tournamentTemplateObj->total_teams != $data['total_teams']))) {
                 $this->ageGroupObj->deleteCompetationData($data);
