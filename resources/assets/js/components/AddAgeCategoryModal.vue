@@ -13,7 +13,7 @@
             <form name="ageCategoryName" id="ageCategoryName">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <strong>Once saved if you want to change the age category you will need to delete and re-create the age category.</strong>
+                  <strong>Once saved most fields will become uneditable. If you want to make changes you will need to delete and re-create the age category.</strong>
                 </div>
               </div>
               <div class="form-group row" v-show="exceedTeamLimit">
@@ -300,13 +300,13 @@
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-3">
-                      <select class="form-control ls-select2" name="halves_RR" v-model="competation_format.halves_RR" @change="showHideHalfTimeBreakRR()">
+                      <select class="form-control ls-select2" name="halves_RR" v-model="competation_format.halves_RR" @change="showHideHalfTimeBreakRR()" :disabled="isAgeCategoryDisabled">
                         <option value="1">1 x</option>
                         <option value="2">2 x</option>
                       </select>
                     </div>
                     <div class="col-sm-4">
-                    <select class="form-control ls-select2 " v-model="competation_format.game_duration_RR" @change="updateMatchTime()">
+                    <select class="form-control ls-select2 " v-model="competation_format.game_duration_RR" @change="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                     <option v-for="(item,key) in game_duration_rr_array[0]"
                      v-bind:value="item">{{key}}</option>
                     </select>
@@ -314,7 +314,7 @@
                     <span v-if="competation_format.game_duration_RR
                     == 'other' " class="col-sm-3">
                      <input type="number" placeholder="" v-model="competation_format.game_duration_RR_other"
-                     min="0" class="form-control" @input="updateMatchTime()">
+                     min="0" class="form-control" @input="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                     </span>
                     <span class="col-md-2">{{$lang.competation_modal_duration_final_minutes}}</span>
                   </div>
@@ -325,20 +325,20 @@
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                      <div class="col-sm-3">
-                        <select id="duration" name="halves_FM" v-model="competation_format.halves_FM" class="form-control ls-select2" @change="showHideHalfTimeBreakFM()">
+                        <select id="duration" name="halves_FM" v-model="competation_format.halves_FM" class="form-control ls-select2" @change="showHideHalfTimeBreakFM()" :disabled="isAgeCategoryDisabled">
                           <option value="1">1 x</option>
                           <option value="2">2 x</option>
                         </select>
                     </div>
                     <div class="col-sm-4">
-                      <select class="form-control ls-select2  " v-model="competation_format.game_duration_FM" @change="updateMatchTime()">
+                      <select class="form-control ls-select2  " v-model="competation_format.game_duration_FM" @change="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                           <option v-for="(item,key) in game_duration_fm_array[0]"
                           v-bind:value="item">{{key}}</option>
                       </select>
                     </div>
                      <span v-if="competation_format.game_duration_FM
                     == 'other' "  class="col-sm-3">
-                     <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0" @input="updateMatchTime()">
+                     <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0" @input="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                     </span>
                     <span class="col-md-2">{{$lang.competation_modal_duration_final_minutes}}</span>
                   </div>
@@ -350,7 +350,7 @@
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-4">
-                      <input type="number" class="form-control" name="half_time_break" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_RR" min="0" @change="updateMatchTime()">
+                      <input type="number" class="form-control" name="half_time_break" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_RR" min="0" @change="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                       <i v-show="errors.has('half_time_break')" class="fas fa-warning"></i>
                     </div>
                     <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
@@ -363,7 +363,7 @@
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-4">
-                      <input type="number" class="form-control" name="half_time_break_final" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_FM" min="0" @input="updateMatchTime()">
+                      <input type="number" class="form-control" name="half_time_break_final" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_FM" min="0" @input="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                       <i v-show="errors.has('half_time_break_final')" class="fas fa-warning"></i>
                     </div>
                     <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
@@ -376,13 +376,13 @@
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
-                      <select class="form-control ls-select2" v-model="competation_format.match_interval_RR" @change="updateMatchTime()">
+                      <select class="form-control ls-select2" v-model="competation_format.match_interval_RR" @change="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                          <option v-for="(item,key) in match_interval_rr_array[0]"
                        v-bind:value="item">{{key}}</option>
                       </select>
                     </div>
                     <span v-if="competation_format.match_interval_RR == 'other' " class="col-sm-4">
-                      <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other" min="0" class="form-control" @input="updateMatchTime()">
+                      <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other" min="0" class="form-control" @input="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                     </span>
                     <span class="col-md-4">{{$lang.competation_modal_match_minutes}}</span>
                   </div>
@@ -393,14 +393,14 @@
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
-                        <select class="form-control ls-select2" v-model="competation_format.match_interval_FM" @change="updateMatchTime()">
+                        <select class="form-control ls-select2" v-model="competation_format.match_interval_FM" @change="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                         <option v-for="(item,key) in match_interval_fm_array[0]"
                        v-bind:value="item">{{key}}</option>
                         </select>
                     </div>
                     <span v-if="competation_format.match_interval_FM == 'other' " class="col-sm-4">
                        <input type="number" placeholder="" v-model="competation_format.match_interval_FM_other"
-                       min="0" class="form-control" @change="updateMatchTime()">
+                       min="0" class="form-control" @change="updateMatchTime()" :disabled="isAgeCategoryDisabled">
                     </span>
                     <span class="col-sm-4">{{$lang.competation_modal_match_interval_final_minutes}}</span>
                   </div>
@@ -412,7 +412,7 @@
                   <div class="row align-items-center">
                     <div class="col-sm-4">
                         <input type="number" placeholder="" v-validate="'required'"  name="minimum_team_interval"  v-model="competation_format.minimum_team_interval"
-                       min="0" class="form-control">
+                       min="0" class="form-control" :disabled="isAgeCategoryDisabled">
                         <i v-show="errors.has('minimum_team_interval')" class="fas fa-warning"></i>
                     </div>
                     <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
@@ -426,9 +426,9 @@
                   <div class="row align-items-center">
                     <div class="col-sm-4">
                         <input v-if="currentLayout === 'tmp'" type="number" placeholder="" v-validate="{ rules: getMaximumTeamMatchIntervalRules() }" name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
-                        :min="competation_format.minimum_team_interval" :max="maximum_limit_for_maximum_team_interval" class="form-control">
+                        :min="competation_format.minimum_team_interval" :max="maximum_limit_for_maximum_team_interval" class="form-control" :disabled="isAgeCategoryDisabled">
                         <input v-if="currentLayout === 'commercialisation'" type="number" placeholder="" v-validate="{ rules: getMaximumTeamMatchIntervalRules() }" name="maximum_team_interval"  v-model="competation_format.maximum_team_interval"
-                        :min="competation_format.minimum_team_interval" class="form-control">
+                        :min="competation_format.minimum_team_interval" class="form-control" :disabled="isAgeCategoryDisabled">
                         <i v-show="errors.has('maximum_team_interval')" class="fas fa-warning"></i>
                     </div>
                     <span class="col-sm-4">minutes</span>
