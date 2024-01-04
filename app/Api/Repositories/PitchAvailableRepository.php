@@ -31,8 +31,8 @@ class PitchAvailableRepository
             if (isset($pitchData['stage_start_date'.$i]) && isset($pitchData['stage_start_time'.$i])) {
                 if (isset($pitchData['stage_break_chk'.$i]) && $pitchData['stage_break_chk'.$i] == 'on') {
                     $break_enable = true;
-                    // $break_start_time = $pitchData['stage_break_start'.$i];
-                    // $break_end_time = $pitchData['stage_continue_time'.$i];
+                // $break_start_time = $pitchData['stage_break_start'.$i];
+                // $break_end_time = $pitchData['stage_continue_time'.$i];
                 } else {
                     $break_enable = false;
                     // $break_start_time = $pitchData['stage_start_time'.$i];

@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Notifications\MyOwnResetPassword as ResetPasswordNotification;
-use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
-use Duro85\Roles\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,10 +10,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword ,JWTSubject
+class User extends Authenticatable implements CanResetPassword, JWTSubject
 {
-    use Notifiable, HasRoleAndPermission, SoftDeletes;
+    use HasRoles, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -204,13 +203,14 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     {
         return $this->belongsToMany(\App\Models\Website::class, 'website_user', 'user_id', 'website_id');
     }
-    public  function  getJWTIdentifier() {
-        return  $this->getKey();
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
     }
+
     public function getJWTCustomClaims()
     {
         return [];
     }
-
-
 }

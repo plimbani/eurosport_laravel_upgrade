@@ -1,18 +1,27 @@
 <?php
 
-use Carbon\Carbon;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class RolesTableSeeder extends Seeder
+class RenameRoleUsersTable extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
         Schema::disableForeignKeyConstraints();
+        DB::table('permissions')->truncate();
+        DB::table('permissions')->insert([
+            ['name' => 'Create users','guard_name' => 'web'],
+            ['name' => 'Delete users','guard_name' => 'web'],
+            ['name' => 'Update users','guard_name' => 'web'],
+        ]);
+
+
         DB::table('roles')->truncate();
         DB::table('roles')->insert([
             ['name' => 'Super administrator','guard_name' => 'web', 'slug' => 'Super.administrator', 'description' => 'The magician', 'level' => '1'],
@@ -23,5 +32,21 @@ class RolesTableSeeder extends Seeder
             ['name' => 'Results administrator','guard_name' => 'web', 'slug' => 'Results.administrator', 'description' => 'Results administrator', 'level' => '1'],
         ]);
         Schema::enableForeignKeyConstraints();
+
+
+      
+        }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+
+        Schema::table('users', function(Blueprint $table) {
+            $table->renameColumn('sub_role', 'role');
+        });
     }
 }

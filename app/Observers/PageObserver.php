@@ -10,7 +10,7 @@ use App\Traits\TrackActivitySection;
 
 class PageObserver
 {
-    use ManageActivityLog, AuthUserDetail, TrackActivitySection, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification, TrackActivitySection;
 
     /**
      * Listen to the Page created event.

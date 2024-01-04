@@ -194,9 +194,9 @@ class MatchService implements MatchContract
             } elseif ($scheduledResult == -2) {
                 return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'This pitch is the wrong pitch size for this fixture.'];
             }
-            // else if($scheduledResult == -3){
-            //    return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
-            // }
+        // else if($scheduledResult == -3){
+        //    return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match can not be scheduled as it exceeds maximum team interval.'];
+        // }
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
@@ -1272,10 +1272,10 @@ class MatchService implements MatchContract
                      $teamExist->age_group_id;
                 $groupAlphabet = explode('-', $assigned_group);
                 $groupAlphabet = $groupAlphabet[1];
-                //  $calculatedArray[$compId][$gvalue->id]['teamAgeGroupPlaceHolder']
-                //  =  $i.$groupAlphabet;
-                //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
-                //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
+            //  $calculatedArray[$compId][$gvalue->id]['teamAgeGroupPlaceHolder']
+            //  =  $i.$groupAlphabet;
+            //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
+            //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
             } else {
                 // dd($teamExist,$gvalue->id,$cupId);
                 // echo "<pre>"; print_r($teamExist); echo "</pre>";exit;
@@ -1635,10 +1635,10 @@ class MatchService implements MatchContract
                      $teamExist->age_group_id;
                 $groupAlphabet = explode('-', $teamExist->assigned_group);
                 $groupAlphabet = $groupAlphabet[1];
-                //  $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamAgeGroupPlaceHolder']
-                //  =  $i.$groupAlphabet;
-                //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
-                //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
+            //  $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamAgeGroupPlaceHolder']
+            //  =  $i.$groupAlphabet;
+            //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
+            //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
             } else {
                 $calculatedArray[$gvalue->competation_id][$gvalue->id] = $defaultArray;
                 $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamid'] = $gvalue->id;

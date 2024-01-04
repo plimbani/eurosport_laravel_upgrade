@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class ItineraryObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Itinerary created event.

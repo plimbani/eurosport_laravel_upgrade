@@ -17,7 +17,7 @@ use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PitchExport implements FromCollection, WithProperties, Responsable, WithMapping, WithStyles
+class PitchExport implements FromCollection, Responsable, WithMapping, WithProperties, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection

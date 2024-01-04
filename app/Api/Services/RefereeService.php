@@ -3,8 +3,8 @@
 namespace App\Api\Services;
 
 use App\Api\Contracts\RefereeContract;
-use App\Traits\TournamentAccess;
 use App\Imports\RefereeImport;
+use App\Traits\TournamentAccess;
 
 class RefereeService implements RefereeContract
 {
@@ -83,23 +83,23 @@ class RefereeService implements RefereeContract
 
         $reader = \Excel::toArray(new RefereeImport, $file);
         // Get the total rows of the file
-        $sheets=$reader[0];
-        if(count($sheets) > 0){
+        $sheets = $reader[0];
+        if (count($sheets) > 0) {
 
-           foreach ($sheets as $sheet) {  
-                           // dd($sheet['firstname']);
-                   if (isset($sheet['firstname']) && isset($sheet['lastname']) && empty(trim($sheet['firstname'])) && empty(trim($sheet['lastname'])) ) {
-                        
-                         return $this->refereeRepoObj->uploadRefereesExcel($sheet);
-                   }
-                   else{
-                    
-                    $excelDataCheck= true;
+            foreach ($sheets as $sheet) {
+                // dd($sheet['firstname']);
+                if (isset($sheet['firstname']) && isset($sheet['lastname']) && empty(trim($sheet['firstname'])) && empty(trim($sheet['lastname']))) {
+
+                    return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+                } else {
+
+                    $excelDataCheck = true;
+
                     return ['status_code' => '500', 'message' => 'Please upload proper data'];
 
-                   }
-            }       
-       }
-        
+                }
+            }
+        }
+
     }
 }

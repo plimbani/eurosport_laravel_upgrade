@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class StatisticObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Statistic created event.

@@ -138,7 +138,9 @@
         getCountryData() {
           User.getAllCountries().then(
             (response)=> {
-              this.allCountries = response.data.countries;
+              response.data.countries=response.data;
+              this.allCountries = response.data;
+            //console.log(this.allCountries.countries);
             },
             (error)=> {
             }

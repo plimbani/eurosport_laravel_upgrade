@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class HistoryTeamObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the HistoryTeam created event.

@@ -10,7 +10,7 @@ use App\Traits\TrackActivitySection;
 
 class WebsiteObserver
 {
-    use ManageActivityLog, AuthUserDetail, TrackActivitySection, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification, TrackActivitySection;
 
     /**
      * Listen to the Website created event.
