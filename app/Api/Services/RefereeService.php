@@ -80,7 +80,7 @@ class RefereeService implements RefereeContract
      * @return response
      */  
     public function uploadRefereesExcel($data)
-    {
+    {  
         $refereesData = $data->all();
         $file = $data->file('fileUpload');
         $this->data['tournamentId'] = $refereesData['tournamentId'];
@@ -90,7 +90,13 @@ class RefereeService implements RefereeContract
             $reader->each(function($sheet) use (&$excelDataCheck) {
                 if (isset($sheet->firstname) && isset($sheet->lastname) && trim($sheet->firstname) !== '' && trim($sheet->lastname) !== '') {
                     $sheet->refereeData = $this->data;
-                    return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+                    $result = $this->refereeRepoObj->uploadRefereesExcel($sheet);
+
+                    if(!$result){
+                        $excelDataCheck = true;
+                    }else{
+                        return $result;
+                    }
                 } else {
                     $excelDataCheck = true;
                     return false;
@@ -98,7 +104,9 @@ class RefereeService implements RefereeContract
             });
         }, 'ISO-8859-1');
         if ($excelDataCheck) {
-            return ['status_code' => '500', 'message' => 'Please upload proper data'];                
+            return ['status_code' => '500', 'message' => 'Invalid Data Format: Missing or extra columns detected. Please upload in the correct format.'];
+        } else {
+            return ['status_code' => '200', 'message' => 'Data uploaded successfully'];
         }
     }
 }
