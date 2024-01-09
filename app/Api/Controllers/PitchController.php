@@ -337,11 +337,13 @@ class PitchController extends BaseController
                     foreach($tournamentPitches[$dateTimestamp] as $pitch) {
                         $pitchStartDate = Carbon::parse($date)->format('Y-m-d');
                         $pitchAvailability = PitchAvailable::where('pitch_id', $pitch->id)->where('stage_start_date', $pitchStartDate)->get();
+                        $availStartTime = !empty($availibility->stage_start_time) ? $availibility->stage_start_time : '08:00';
+                        $availEndTime = !empty($availibility->stage_end_time) ? $availibility->stage_end_time : '23:00';
                         foreach($pitchAvailability as $availibility) {
                             $pitchStartTime = Carbon::createFromFormat('d/m/Y H:i', $availibility->stage_start_date . ' ' . '08:00');
                             $pitchEndTime = Carbon::createFromFormat('d/m/Y H:i', $availibility->stage_start_date . ' ' . '23:00');
-                            $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $availibility->stage_start_date . ' ' . $availibility->stage_start_time);
-                            $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $availibility->stage_start_date . ' ' . $availibility->stage_end_time);
+                            $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $availibility->stage_start_date . ' ' . $availStartTime);
+                            $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $availibility->stage_start_date . ' ' . $availEndTime);
 
                             while($pitchStartTime < $pitchAvailableStart) {
                                 $beforePitchStartUnAvailableTime[$availibility->stage_start_date][$pitch->id][] = $pitchStartTime->format('H:i');
