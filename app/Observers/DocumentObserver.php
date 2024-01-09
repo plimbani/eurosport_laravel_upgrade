@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class DocumentObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Document created event.

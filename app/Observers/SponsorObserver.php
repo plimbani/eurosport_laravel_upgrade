@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class SponsorObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Sponsor created event.

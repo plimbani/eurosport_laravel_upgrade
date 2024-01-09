@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class PhotoObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Photo created event.

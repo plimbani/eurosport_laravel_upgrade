@@ -6,7 +6,7 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        flash()->success('Welcome to Laraspace');
+        flash('Welcome to Laraspace')->success();
 
         return view('front.index');
     }

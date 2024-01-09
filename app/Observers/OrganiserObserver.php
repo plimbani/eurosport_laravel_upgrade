@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class OrganiserObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Organiser created event.

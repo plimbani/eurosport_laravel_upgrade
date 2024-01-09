@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class LocationObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Location created event.

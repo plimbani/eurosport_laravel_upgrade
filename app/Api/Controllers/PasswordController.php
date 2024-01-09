@@ -53,6 +53,7 @@ class PasswordController extends Controller
             throw new NotFoundHttpException;
         }
         $email = $password_reset->email;
+
         // dd($email);
         return view('auth.passwords.reset')->with('token', $token)->with('email', $email);
     }

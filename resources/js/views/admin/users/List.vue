@@ -295,7 +295,7 @@
           getRolesWithData() {
               User.getRolesWithData().then(
                 (response)=> {
-                  this.userRoles = response.data.roles;
+                  this.userRoles = response.data;
                 },
                 (error)=> {
                 }

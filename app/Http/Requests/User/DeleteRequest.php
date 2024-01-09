@@ -27,11 +27,11 @@ class DeleteRequest extends FormRequest
             return false;
         }
 
-        $user = User::findOrFail($id)->roles()->first();
-        if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
+        $user =User::findOrFail($id)->roles()->first();;
+        if ($user->slug == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
         }
-        if ($user['slug'] == 'mobile.user' && $loggedInUser->hasRole('Master.administrator')) {
+        if ($user->slug == 'mobile.user' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
         }
 

@@ -48,7 +48,7 @@
                         <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                           <option value="">Select</option>
                           <option v-for="role in getUserRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && (role.slug == 'Super.administrator' || role.slug == 'mobile.user')))">
-                              {{ role.name }}
+                              {{ role.name1 }}
                           </option>
                         </select>
                         <select class="form-control ls-select2" key="user_type" name="user_type" v-model="formValues.userType" disabled v-if="userRole == 'Tournament administrator'">
@@ -68,7 +68,7 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                       <div class="col-sm-6">
-                        <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
+                        <select class="form-control ls-select2" name="sub_role" key="role" v-model="formValues.sub_role">
                             <option value="">Select</option>
                             <option v-for="role in roleOptions" :value="role">
                               {{ role }}

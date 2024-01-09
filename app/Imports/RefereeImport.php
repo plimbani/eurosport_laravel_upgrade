@@ -3,23 +3,17 @@
 namespace App\Imports;
 
 use App\Referee;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Illuminate\Validation\Rule;
 
-
-class RefereeImport implements ToModel ,WithValidation ,WithHeadingRow
+class RefereeImport implements ToModel, WithHeadingRow, WithValidation
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-
+     * @param  array  $row
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     use Importable;
 
     public function model(array $row)
@@ -28,6 +22,7 @@ class RefereeImport implements ToModel ,WithValidation ,WithHeadingRow
             //
         ]);
     }
+
     public function rules(): array
     {
         return [

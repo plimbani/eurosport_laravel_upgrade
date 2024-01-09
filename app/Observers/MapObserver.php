@@ -9,7 +9,7 @@ use App\Traits\ManageActivityNotification;
 
 class MapObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use AuthUserDetail, ManageActivityLog, ManageActivityNotification;
 
     /**
      * Listen to the Map created event.

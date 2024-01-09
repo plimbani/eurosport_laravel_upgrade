@@ -28,14 +28,14 @@
                   <div class="form-group row">
                       <label class="col-sm-4 form-control-label">{{$lang.user_management_role}}</label>
                       <div class="col-sm-7">
-                        <select v-validate="'required'":class="{'is-danger': errors.has('role') }" class="form-control" name="role" v-model="userData.role">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('sub_role') }" class="form-control" name="sub_role" v-model="userData.sub_role">
                             <option value="">Select</option>
-                            <option v-for="role in roleOptions" :value="role">
-                              {{ role }}
+                            <option v-for="sub_role in roleOptions" :value="sub_role">
+                              {{ sub_role }}
                             </option>
                         </select>
-                        <i v-show="errors.has('role')" class="fas fa-warning"></i>
-                          <span class="help is-danger" v-show="errors.has('role')">{{ errors.first('role') }}</span>
+                        <i v-show="errors.has('sub_role')" class="fas fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('sub_role')">{{ errors.first('sub_role') }}</span>
                       </div>
                   </div>
                   <div class="form-group row">
@@ -94,7 +94,7 @@
           if(response) {
               this.userId = this.userData.id
               let that = this;
-
+              console.log(this.userData.sub_role);
               User.updateUser(this.userId,this.userData).then(
                 (response)=> {
                   if(response.data.status_code == 500) {
@@ -138,7 +138,9 @@
         getCountryData() {
           User.getAllCountries().then(
             (response)=> {
-              this.allCountries = response.data.countries;
+              response.data.countries=response.data;
+              this.allCountries = response.data;
+            //console.log(this.allCountries.countries);
             },
             (error)=> {
             }

@@ -567,7 +567,7 @@ class TournamentService implements TournamentContract
                             $homeTeam = $matchPrec.$reportRec->displayHomeTeamPlaceholder;
                         }
                     }
-                    // }
+                // }
                 } else {
                     $homeTeam = $reportRec->HomeTeam;
                 }
@@ -592,7 +592,7 @@ class TournamentService implements TournamentContract
                         }
                         $awayTeam = $matchPrec.$reportRec->displayAwayTeamPlaceholder;
                     }
-                    // }
+                // }
                 } else {
                     $awayTeam = $reportRec->AwayTeam;
                 }
