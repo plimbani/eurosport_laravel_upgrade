@@ -12,7 +12,7 @@
 
                         {{$lang.tournament_label}}
 
-                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Add and edit tournament dates and specify venue and contact details">
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Add and edit tournament dates and specify venue">
                             <i class="fas fa-info-circle"></i>
                         </span>
                       </div>

@@ -109,7 +109,7 @@ class RefereeController extends BaseController
      */
     public function getSignedUrlForRefereeSampleDownload(GetSignedUrlForRefereeSampleDownloadRequest $request)
     {
-        $signedUrl = UrlSigner::sign(secure_url('api/referee/downloadSampleUploadSheet'), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(env('APP_URL').'/api/referee/downloadSampleUploadSheet', Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }
