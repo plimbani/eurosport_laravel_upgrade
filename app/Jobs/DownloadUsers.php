@@ -46,8 +46,7 @@ class DownloadUsers implements ShouldQueue
 
         $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
 
-        $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+        $user = User::join('roles', 'roles.id', '=', 'users.role')
             ->leftjoin('people', 'people.id', '=', 'users.person_id')
             ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
@@ -56,8 +55,8 @@ class DownloadUsers implements ShouldQueue
         }
 
         if ($loggedInUser->hasRole('tournament.administrator')) {
-            $tournamentUserIds = TournamentUser::leftjoin('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
-                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+            $tournamentUserIds = TournamentUser::leftjoin('model_has_roles', 'tournament_user.user_id', '=', 'model_has_roles.model_id')
+                ->leftjoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->whereIn('tournament_id', $tournamentIds)
                 ->where('tournament_user.user_id', '!=', $loggedInUser->id)
                 ->where('slug', 'Results.administrator')

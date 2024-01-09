@@ -93,8 +93,7 @@ class TemplateRepository
     public function getUsersForFilter()
     {
         $users = DB::table('users')
-            ->leftjoin('role_user', 'users.id', '=', 'role_user.user_id')
-            ->leftjoin('roles', 'role_user.role_id', '=', 'roles.id')
+            ->leftjoin('roles', 'roles.id', '=', 'users.role')
             ->where('roles.slug', '!=', 'mobile.user')
             ->where('users.deleted_at', '=', null)
             ->select('users.id', 'users.email')

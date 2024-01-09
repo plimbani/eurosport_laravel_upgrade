@@ -163,11 +163,13 @@ class UserRepository
             'registered_from' => $data['registered_from'] ? 1 : 0,
             'user_image' => (isset($data['user_image']) && $data['user_image'] != '') ? $data['user_image'] : '',
             'role' => (isset($data['role']) && $data['role'] != '') ? $data['role'] : '',
+            'sub_role' => (isset($data['sub_role']) && $data['sub_role'] != '') ? $data['sub_role'] : '',
             'provider' => 'email',
             'provider_id' => null,
         ];
 
         $deletedUser = User::onlyTrashed()->where('email', $data['email'])->first();
+        $role = Role::find($data['userType']);
 
         try {
             if ($deletedUser) {
@@ -176,7 +178,7 @@ class UserRepository
 
                 // $userData->roles()->detatch();
                 $user = User::find($deletedUser['id']);
-                $user->roles()->sync($data['userType']);
+                $user->assignRole($role->name);
 
                 return ['status' => 'updated', 'user' => $user];
 
@@ -185,7 +187,7 @@ class UserRepository
             // return  $deletedUser->attachRole($data['userType']);
             } else {
                 $user = User::create($userData);
-                $user->attachRole($data['userType']);
+                $user->assignRole($role->name);
 
                 return ['status' => 'created', 'user' => $user];
             }
@@ -216,7 +218,7 @@ class UserRepository
             ->join('roles', 'roles.id', '=', 'users.role')
             ->select('users.id as id', 'users.email as emailAddress',
                 DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-                'users.organisation as organisation', 'people.first_name as name', 'people.last_name as surname', 'roles.id as userType', 'users.sub_role as role', 'users.country_id as country_id', 'users.locale as locale', 'users.provider as provider')
+                'users.organisation as organisation', 'people.first_name as name', 'people.last_name as surname', 'roles.id as userType', 'users.sub_role as sub_role', 'users.country_id as country_id', 'users.locale as locale', 'users.provider as provider')
             ->where('users.id', '=', $userId)
             ->first();
 
@@ -371,19 +373,18 @@ class UserRepository
 
     public function verifyResultAdminUser($data)
     {
-        $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+        $user = User::join('roles', 'roles.id', '=', 'users.role')
             ->leftjoin('people', 'people.id', '=', 'users.person_id')
             ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
-            ->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider')
+            ->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name1 as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider')
             ->where('email', $data['email'])->first();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
         if ($user) {
             $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
 
-            $tournamentUserIds = TournamentUser::leftjoin('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
-                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+            $tournamentUserIds = TournamentUser::leftjoin('model_has_roles', 'tournament_user.user_id', '=', 'model_has_roles.model_id')
+                ->leftjoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->whereIn('tournament_id', $tournamentIds)
                 ->where('tournament_user.user_id', '!=', $loggedInUser->id)
                 ->where('slug', 'Results.administrator')

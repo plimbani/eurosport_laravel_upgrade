@@ -112,7 +112,7 @@ class UserService implements UserContract
         $userData['user']['email'] = $data['emailAddress'];
         $userData['user']['organisation'] = $data['organisation'];
         $userData['user']['userType'] = $data['userType'];
-        $userData['user']['role'] = isset($data['role']) ? $data['role'] : '';
+        $userData['user']['role'] = $data['userType'];
 
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
@@ -136,6 +136,7 @@ class UserService implements UserContract
             return ['status_code' => '200', 'message' => 'This email already exists.'];
         }
         $userObj = $userRes['user'];
+       
         // $userObj->roles()->sync($data['userType'])
         // $userObj->attachRole($data['userType']);
         // Here we add code for Mobile Users to relate tournament to users
@@ -184,11 +185,10 @@ class UserService implements UserContract
             //  }
             Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
 
-            $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+            $user = User::leftjoin('roles', 'roles.id', '=', 'users.role')
                 ->leftjoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
-                ->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider')
+                ->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name1 as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider')
                 ->where('users.id', $userObj->id)->first();
 
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.', 'user' => $user];
@@ -297,7 +297,7 @@ class UserService implements UserContract
 
             $data['name'] = isset($data['first_name']) ? $data['first_name'] : '';
             $data['surname'] = isset($data['last_name']) ? $data['last_name'] : '';
-            $data['role'] = isset($data['role']) ? $data['role'] : '';
+            $data['sub_role'] = isset($data['sub_role']) ? $data['sub_role'] : '';
             $data['country_id'] = isset($data['country_id']) ? $data['country_id'] : '';
             // \Log::info('Update in password'.$data['password']);
             // $userData['user']['password'] = Hash::make(trim($data['password']));
@@ -326,20 +326,22 @@ class UserService implements UserContract
         $userData['user']['name'] = $data['name'].' '.$data['surname'];
         ($data['emailAddress'] != '') ? $userData['user']['email'] = $data['emailAddress'] : '';
         $userData['user']['organisation'] = $data['organisation'];
-        $userData['user']['role'] = $data['role'];
+        $userData['user']['sub_role'] = $data['sub_role'];
+        $userData['user']['role'] = $data['userType'];
         $userData['user']['country_id'] = $data['country_id'];
 
         (isset($data['locale']) && $data['locale'] != '') ? $userData['user']['locale'] = $data['locale'] : '';
-
+        
         $this->userRepoObj->update($userData['user'], $userId);
 
         if (isset($data['tournament_id'])) {
             $this->setDefaultFavourite(['user_id' => $userId, 'tournament_id' => $data['tournament_id']]);
         }
-
+        $role = Role::find($data['userType']);
         if (isset($data['userType'])) {
-           /* $userObj->detachAllRoles();
-            $userObj->assignRole($data['userType']);*/
+            //dd($userObj->roles[0]->name); exit;
+            $userObj->removeRole($userObj->roles[0]->name);
+            $userObj->assignRole($role->name);
         }
 
         $userData['people']['first_name'] = $data['name'];
