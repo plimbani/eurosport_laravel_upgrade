@@ -80,7 +80,7 @@ select.form-control {
 
 select.form-control[disabled=disabled]{
     opacity: .6;
-    background-color: #eceeef;
+    background-color: #eceeef !important;
   }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
