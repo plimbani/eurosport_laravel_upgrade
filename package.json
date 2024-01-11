@@ -7,7 +7,6 @@
     "production": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-pro": "^5.8.1",
     "laravel-mix": "^0.6.3",
     "postcss-custom-properties": "^9.1.1",
     "vue-axios": "^2.0.0",

@@ -63,7 +63,7 @@ class RefereeRepository
     public function getRefereeFromId($refereeId)
     {
         // dd(Referee::find($refereeId));
-        return Referee::find($refereeId);
+        return array('referee' => Referee::find($refereeId));
     }
 
     /*
@@ -73,11 +73,11 @@ class RefereeRepository
     */
     public function uploadRefereesExcel($data)
     {
-        $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data->refereeData['tournamentId'])->pluck('id')->toArray();
+        $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data['tournamentId'])->pluck('id')->toArray();
         $ageGroupsIds = implode(',', $ageGroups);
         if ($data['firstname'] && $data['lastname']) {
             return Referee::create([
-                'tournament_id' => $data->refereeData['tournamentId'],
+                'tournament_id' => $data['tournamentId'],
                 'first_name' => $data['firstname'],
                 'last_name' => $data['lastname'],
                 'telephone' => Arr::get($data, 'telephone', null),

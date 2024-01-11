@@ -26,12 +26,12 @@ class RefereeImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            '0' => [
+            /*'0' => [
                 'required',
             ],
             '1' => [
                 'required',
-            ],
+            ],*/
         ];
     }
 }
