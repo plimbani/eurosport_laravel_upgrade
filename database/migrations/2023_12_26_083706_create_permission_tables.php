@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-use Spatie\Permission\PermissionRegistrar;
 use Doctrine\DBAL\Types\Types;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Spatie\Permission\PermissionRegistrar;
 
 class CreatePermissionTables extends Migration
 {
@@ -19,33 +19,31 @@ class CreatePermissionTables extends Migration
         $columnNames = config('permission.column_names');
         $teams = config('permission.teams');
 
-
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
         if ($teams && empty($columnNames['team_foreign_key'] ?? null)) {
             throw new \Exception('Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
-       Schema::disableForeignKeyConstraints();
+        Schema::disableForeignKeyConstraints();
 
-        Schema::table('users', function(Blueprint $table) {
-        DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', Types::STRING);
-        DB::statement("ALTER TABLE `users` CHANGE `role` `sub_role` ENUM('Player', 'Coach/Manager/Trainer', 'Other');");
-           // $table->renameColumn('role', 'sub_role');
+        Schema::table('users', function (Blueprint $table) {
+            DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', Types::STRING);
+            DB::statement("ALTER TABLE `users` CHANGE `role` `sub_role` ENUM('Player', 'Coach/Manager/Trainer', 'Other');");
+            // $table->renameColumn('role', 'sub_role');
             $table->string('role');
         });
 
-        $roles=DB::table('role_user')->get();   
+        $roles = DB::table('role_user')->get();
         foreach ($roles as $role) {
-            DB::table('users')->Where('id' , $role->user_id)->update(['role' => $role->role_id]);
-           }
+            DB::table('users')->Where('id', $role->user_id)->update(['role' => $role->role_id]);
+        }
 
-
-       Schema::drop('role_user');
-       Schema::drop($tableNames['roles']);
-       Schema::drop('permission_role');
-       Schema::drop('permission_user');
-       Schema::drop($tableNames['permissions']);
+        Schema::drop('role_user');
+        Schema::drop($tableNames['roles']);
+        Schema::drop('permission_role');
+        Schema::drop('permission_user');
+        Schema::drop($tableNames['permissions']);
         Schema::enableForeignKeyConstraints();
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -62,7 +60,7 @@ class CreatePermissionTables extends Migration
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
             }
-            $table->string('name'); 
+            $table->string('name');
             $table->string('name1')->nullable();       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->string('slug')->nullable();

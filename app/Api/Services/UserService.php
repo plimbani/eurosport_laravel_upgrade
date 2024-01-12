@@ -136,7 +136,7 @@ class UserService implements UserContract
             return ['status_code' => '200', 'message' => 'This email already exists.'];
         }
         $userObj = $userRes['user'];
-       
+
         // $userObj->roles()->sync($data['userType'])
         // $userObj->attachRole($data['userType']);
         // Here we add code for Mobile Users to relate tournament to users
@@ -331,7 +331,7 @@ class UserService implements UserContract
         $userData['user']['country_id'] = $data['country_id'];
 
         (isset($data['locale']) && $data['locale'] != '') ? $userData['user']['locale'] = $data['locale'] : '';
-        
+
         $this->userRepoObj->update($userData['user'], $userId);
 
         if (isset($data['tournament_id'])) {

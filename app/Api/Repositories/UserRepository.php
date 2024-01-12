@@ -88,7 +88,7 @@ class UserRepository
                 ->where('slug', 'Results.administrator')
                 ->pluck('tournament_user.user_id')
                 ->toArray();
-                //dd($tournamentUserIds);
+            //dd($tournamentUserIds);
             $finalTournamentUnique = array_unique($tournamentUserIds);
             $user = $user->whereIn('users.id', $finalTournamentUnique);
         }
@@ -225,6 +225,7 @@ class UserRepository
         $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
 
         $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
+
         return json_encode($user);
     }
 

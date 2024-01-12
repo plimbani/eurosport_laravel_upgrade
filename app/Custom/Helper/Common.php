@@ -2,17 +2,17 @@
 
 namespace App\Custom\Helper;
 
+use App\Exports\ReportExport;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Exports\ReportExport;
 
 class Common
 {
     public static function toExcel($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = '')
     {
 
-         return \Excel::download(new ReportExport($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = ''),'report.xlsx');
+        return \Excel::download(new ReportExport($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = ''), 'report.xlsx');
 
         /*$excelCreateObj = \Excel::create(Str::slug($otherParams['sheetTitle']), function ($excel) use ($lableArray, $dataArray, $otherParams, $columnFormat) {
             $excel->setTitle($otherParams['sheetTitle']);
