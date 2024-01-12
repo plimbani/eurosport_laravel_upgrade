@@ -40,7 +40,8 @@
         "toin0u/geocoder-laravel": "^4.3",
         "torzer/awesome-landlord": "3.3.0",
         "tymon/jwt-auth": "^1.0.0",
-        "webpatser/laravel-uuid": "2.*"
+        "webpatser/laravel-uuid": "2.*",
+        "laravel/ui": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
