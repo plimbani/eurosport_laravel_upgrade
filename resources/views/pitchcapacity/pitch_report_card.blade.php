@@ -51,9 +51,12 @@
   <img  src="{{ secure_asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
   
 </center>
+
   <h4>{{ $pitchReport['pitch_number'] }} - Match Schedule</h4>
 
   @foreach($pitchRecord as $data)
+
+    {{ print_r($data) }}
     <table width="100%" class="mb-100 no-break">
       <tr>
         <td class="title" width="25%;">Date & Time</td>
@@ -78,7 +81,7 @@
       <tr>
         <td class="title">Referee</td>
         <td colspan="3" class="text-center">
-          @if($data['referee']['last_name'] && $data['referee']['first_name'])
+          @if(isset($data['referee']['last_name']) && isset($data['referee']['first_name']))
             {{ $data['referee']['last_name']}}, {{ $data['referee']['first_name']}}
           @endif
         </td>
