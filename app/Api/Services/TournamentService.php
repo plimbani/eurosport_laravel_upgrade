@@ -4,6 +4,7 @@ namespace App\Api\Services;
 
 use App\Api\Contracts\TournamentContract;
 use App\Api\Repositories\TournamentRepository;
+use App\Exports\ReportExport;
 use App\Jobs\DownloadAllTeams;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -20,7 +21,6 @@ use JWTAuth;
 use PDF;
 use Response;
 use View;
-use App\Exports\ReportExport;
 
 class TournamentService implements TournamentContract
 {
@@ -630,9 +630,9 @@ class TournamentService implements TournamentContract
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
 
-            return \Excel::download(new ReportExport($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = ''),'report.xlsx');
+            return \Excel::download(new ReportExport($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = ''), 'report.xlsx');
 
-           // \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
+            // \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
         if ($reportData) {

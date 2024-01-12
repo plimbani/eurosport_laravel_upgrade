@@ -20,8 +20,9 @@ trait AuthUserDetail
         }
         $authUser = JWTAuth::parseToken()->toUser();
         $userObj = User::with('roles', 'tournaments')->where('id', $authUser->id)->first();
-       // $authUser->assignRole('Super.administrator');
-       // dd($userObj->roles);
+
+        // $authUser->assignRole('Super.administrator');
+        // dd($userObj->roles);
         return $userObj;
     }
 

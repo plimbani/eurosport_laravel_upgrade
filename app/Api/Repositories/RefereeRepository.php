@@ -63,7 +63,7 @@ class RefereeRepository
     public function getRefereeFromId($refereeId)
     {
         // dd(Referee::find($refereeId));
-        return array('referee' => Referee::find($refereeId));
+        return ['referee' => Referee::find($refereeId)];
     }
 
     /*

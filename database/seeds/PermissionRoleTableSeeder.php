@@ -1,9 +1,6 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class PermissionRoleTableSeeder extends Seeder
 {

@@ -27,7 +27,7 @@ class DeleteRequest extends FormRequest
             return false;
         }
 
-        $user =User::findOrFail($id)->roles()->first();;
+        $user = User::findOrFail($id)->roles()->first();
         if ($user->slug == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
             return false;
         }

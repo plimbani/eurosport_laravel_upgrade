@@ -17,8 +17,9 @@ class RefereeService implements RefereeContract
 
     public function getAllReferees($tournamentData)
     {
-        $referees=$this->refereeRepoObj->getAllReferees($tournamentData);
-        return array('referees' => $referees);
+        $referees = $this->refereeRepoObj->getAllReferees($tournamentData);
+
+        return ['referees' => $referees];
     }
 
     /**
@@ -76,7 +77,7 @@ class RefereeService implements RefereeContract
      * @return response
      */
     public function uploadRefereesExcel($data)
-    {  
+    {
         $refereesData = $data->all();
         $file = $data->file('fileUpload');
         $excelDataCheck = false;
@@ -84,37 +85,35 @@ class RefereeService implements RefereeContract
         $reader = \Excel::toArray(new RefereeImport, $file);
         // Get the total rows of the file
         $sheets = $reader[0];
-        $totalRows = count($sheets); 
+        $totalRows = count($sheets);
         if (count($sheets) > 0) {
-            
-            $validationErrors=[];
+
+            $validationErrors = [];
             foreach ($sheets as $sheet) {
                 // dd($sheet['firstname']);
-                if(empty(trim($sheet['firstname']))) 
-                {
-                     $validationErrors['firstname'] = 'Please upload a sheet with valid firstname data.';
-                     break; // Exit
+                if (empty(trim($sheet['firstname']))) {
+                    $validationErrors['firstname'] = 'Please upload a sheet with valid firstname data.';
+                    break; // Exit
                 }
-                if(empty(trim($sheet['lastname']))) 
-                {
-                     $validationErrors['lastname'] = 'Please upload a sheet with valid lastname data.';
-                     break; // Exit
+                if (empty(trim($sheet['lastname']))) {
+                    $validationErrors['lastname'] = 'Please upload a sheet with valid lastname data.';
+                    break; // Exit
                 }
-               
+
                 $sheet['tournamentId'] = $refereesData['tournamentId'];
                 $allInSheet[] = $sheet;
-                
+
             }
 
-              // Check if there were any validation errors.
-                if (! empty($validationErrors)) {
-                    return ['status_code' => '422', 'message' => $validationErrors];
-                }else{
-                   foreach ($allInSheet as $sheet) {
-                         $this->refereeRepoObj->uploadRefereesExcel($sheet);
-                    }
-
+            // Check if there were any validation errors.
+            if (! empty($validationErrors)) {
+                return ['status_code' => '422', 'message' => $validationErrors];
+            } else {
+                foreach ($allInSheet as $sheet) {
+                    $this->refereeRepoObj->uploadRefereesExcel($sheet);
                 }
+
+            }
         }
-    }        
+    }
 }
