@@ -84,24 +84,37 @@ class RefereeService implements RefereeContract
         $reader = \Excel::toArray(new RefereeImport, $file);
         // Get the total rows of the file
         $sheets = $reader[0];
-        echo $totalRows = count($sheets); exit;
+        $totalRows = count($sheets); 
         if (count($sheets) > 0) {
-
+            
+            $validationErrors=[];
             foreach ($sheets as $sheet) {
                 // dd($sheet['firstname']);
-                if (isset($sheet['firstname']) && isset($sheet['lastname']) ) {
+                if(empty(trim($sheet['firstname']))) 
+                {
+                     $validationErrors['firstname'] = 'Please upload a sheet with valid firstname data.';
+                     break; // Exit
+                }
+                if(empty(trim($sheet['lastname']))) 
+                {
+                     $validationErrors['lastname'] = 'Please upload a sheet with valid lastname data.';
+                     break; // Exit
+                }
+               
+                $sheet['tournamentId'] = $refereesData['tournamentId'];
+                $allInSheet[] = $sheet;
+                
+            }
 
-                    $sheet['tournamentId'] = $refereesData['tournamentId'];
-                    return $this->refereeRepoObj->uploadRefereesExcel($sheet);
-                } else {
-
-                    $excelDataCheck = true;
-
-                    return ['status_code' => '500', 'message' => 'Please upload proper data'];
+              // Check if there were any validation errors.
+                if (! empty($validationErrors)) {
+                    return ['status_code' => '422', 'message' => $validationErrors];
+                }else{
+                   foreach ($allInSheet as $sheet) {
+                         $this->refereeRepoObj->uploadRefereesExcel($sheet);
+                    }
 
                 }
-            }
         }
-
     }        
 }
