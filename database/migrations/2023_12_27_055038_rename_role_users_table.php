@@ -14,7 +14,7 @@ class RenameRoleUsersTable extends Migration
      */
     public function up()
     {
-       /* Schema::disableForeignKeyConstraints();
+        Schema::disableForeignKeyConstraints();
         DB::table('permissions')->truncate();
         DB::table('permissions')->insert([
             ['name' => 'Create users','guard_name' => 'web'],
@@ -32,7 +32,7 @@ class RenameRoleUsersTable extends Migration
             ['name1' => 'Mobile user','guard_name' => 'web', 'slug' => 'mobile.user','name' => 'mobile.user', 'description' => 'Mobile User', 'level' => '1',],
             ['name1' => 'Results administrator','guard_name' => 'web', 'slug' => 'Results.administrator','name' => 'Results.administrator', 'description' => 'Results administrator', 'level' => '1'],
         ]);
-        Schema::enableForeignKeyConstraints();*/
+        Schema::enableForeignKeyConstraints();
 
         $users=User::get();   
         foreach ($users as $user) {

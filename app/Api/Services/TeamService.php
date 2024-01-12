@@ -14,6 +14,8 @@ use App\Models\TournamentTemplates;
 use App\Traits\TournamentAccess;
 use DB;
 use PDF;
+use App\Exports\ReportExport;
+
 
 class TeamService implements TeamContract
 {
@@ -443,7 +445,9 @@ class TeamService implements TeamContract
                 'TeamID', 'Team', 'Club', 'Country', 'Age category', 'Red cards', 'Yellow cards',
             ];
 
-            \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
+         return \Excel::download(new ReportExport($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = ''),'fair-paly-report.xlsx');  
+           
+          // return \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
         if ($reportData) {

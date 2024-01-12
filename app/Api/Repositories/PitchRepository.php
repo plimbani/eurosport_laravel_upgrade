@@ -18,7 +18,8 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-        return Pitch::with(['pitchAvailability', 'pitchAvailability.pitchBreaks', 'venue'])->where('tournament_id', $tournamentId)->orderBy('order')->get();
+        $pitches=Pitch::with(['pitchAvailability', 'pitchAvailability.pitchBreaks', 'venue'])->where('tournament_id', $tournamentId)->orderBy('order')->get();
+        return array('pitches'=>$pitches);
 
     }
 
@@ -177,7 +178,7 @@ class PitchRepository
                 });
         }
 
-        return $pitchSearchData->get();
+        return array('pitches' => $pitchSearchData->get());
     }
 
     public function getVenuesDropDownData($tournamentData)
@@ -186,7 +187,7 @@ class PitchRepository
             ->select('id', 'name')
             ->get();
 
-        return $pitchVenues;
+        return array('venues' => $pitchVenues);
     }
 
     public function updatePitchOrder($pitchId, $order)

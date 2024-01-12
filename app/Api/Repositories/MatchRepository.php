@@ -662,6 +662,9 @@ class MatchRepository
                         if ($rule['key'] == 'goal_ratio') {
                             $remain_head_to_head_with_key .= '|GoalRatio';
                         }
+                        if($rule['key'] == 'goals_conceded') {
+                            $remain_head_to_head_with_key .= '|goal_against';
+                        }
                     }
 
                     continue;
@@ -695,6 +698,10 @@ class MatchRepository
                 if ($rule['key'] == 'goal_ratio') {
                     $reportQuery = $reportQuery->orderBy('GoalRatio', 'desc');
                     $check_head_to_head_with_key .= '|GoalRatio';
+                }
+                if($rule['key'] == 'goals_conceded') {
+                    $reportQuery = $reportQuery->orderBy('match_standing.goal_against','asc');
+                    $check_head_to_head_with_key .= '|goals_conceded';
                 }
             }
         }

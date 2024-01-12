@@ -20,6 +20,7 @@ use JWTAuth;
 use PDF;
 use Response;
 use View;
+use App\Exports\ReportExport;
 
 class TournamentService implements TournamentContract
 {
@@ -628,7 +629,10 @@ class TournamentService implements TournamentContract
                 'Date and time', 'Age category', 'Venue', 'Pitch', 'Referee', 'Match Code', 'Team', 'Team', 'Placing',
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-            \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
+
+            return \Excel::download(new ReportExport($lableArray, $dataArray, $otherParams, $output = 'xlsx', $download = 'yes', $columnFormat = ''),'report.xlsx');
+
+           // \App\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
         if ($reportData) {
