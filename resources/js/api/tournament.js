@@ -24,6 +24,10 @@ export default {
     return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
   },
 
+  getSignedUrlForRefereeSampleDownload(tournamentData){
+    return api.post('getSignedUrlForRefereeSampleDownload', {'tournamentData': tournamentData})
+  },
+  
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
