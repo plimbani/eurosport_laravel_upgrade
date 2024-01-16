@@ -1817,13 +1817,14 @@ class MatchRepository
 
     public function getMatchDetail($matchId)
     {
-        return TempFixture::leftjoin('teams as home_team', function ($join) {
+        $data= TempFixture::leftjoin('teams as home_team', function ($join) {
             $join->on('home_team.id', '=', 'temp_fixtures.home_team');
         })
             ->leftjoin('teams as away_team', function ($join) {
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
             ->with('referee', 'pitch', 'competition', 'winnerTeam', 'categoryAge')->select('temp_fixtures.*', 'home_team.comments as hometeam_comment', 'away_team.comments as awayteam_comment', 'home_team.shirt_color as  hometeam_shirt_color', 'home_team.shorts_color as  hometeam_shorts_color', 'away_team.shirt_color as  awayteam_shirt_color', 'away_team.shorts_color as  awayteam_shorts_color')->find($matchId);
+           return $data;
     }
 
     public function getLastUpdateValue($tournamentId)
