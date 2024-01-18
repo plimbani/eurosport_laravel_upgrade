@@ -601,6 +601,7 @@ class MatchRepository
 
     public function getStanding($tournamentData)
     {
+
         $competition = Competition::find($tournamentData['competitionId']);
 
         $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id', $competition->tournament_competation_template_id)->first();
@@ -842,7 +843,6 @@ class MatchRepository
             $competitionStandings = collect($competitionStandings);
 
         }
-        // dd($competitionStandings);
         $mergedStandings = $competitionStandings->merge($holdingTeamStandings);
 
         // end

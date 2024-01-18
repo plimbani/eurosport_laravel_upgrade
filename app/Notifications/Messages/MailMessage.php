@@ -63,6 +63,12 @@ class MailMessage extends SimpleMessage
     public $priority;
 
     /**
+     * The callbacks for the message.
+     *
+     * @var array
+     */
+    public $callbacks = [];
+    /**
      * Set the view for the mail message.
      *
      * @param  array|string  $view

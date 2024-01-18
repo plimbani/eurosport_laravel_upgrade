@@ -136,9 +136,9 @@ class MatchService implements MatchContract
             }
         }
 
-        if ($standingResData) {
-            return ['status_code' => '200', 'data' => $standingResData, 'message' => 'Match Standing data'];
-        }
+        
+        return ['status_code' => '200', 'data' => $standingResData, 'message' => 'Match Standing data'];
+        
     }
 
     /**
@@ -1112,9 +1112,9 @@ class MatchService implements MatchContract
         }
 
         $standingResData = $this->matchRepoObj->getStanding($data);
-        if ($standingResData) {
-            return ['status_code' => '200', 'data' => $standingResData, 'message' => 'Match Standing data'];
-        }
+
+        return ['status_code' => '200', 'data' => $standingResData, 'message' => 'Match Standing data'];
+        
     }
 
     public function calculateCupLeagueTable($fixture, $isGenerateStandingRequired = true)

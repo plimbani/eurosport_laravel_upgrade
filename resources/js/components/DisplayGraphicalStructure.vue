@@ -62,7 +62,7 @@
               $("body .js-loader").addClass('d-none');
             },
             (error) => {
-              alert('Error in getting category competitionassss')
+              alert('Error in getting category competition')
             }
           );
         },
